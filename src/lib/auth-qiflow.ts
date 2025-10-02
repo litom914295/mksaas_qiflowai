@@ -1,5 +1,5 @@
-import { getDb } from '@/src/db'
-import { baziCalculations, fengshuiAnalysis, pdfAudit, copyrightAudit } from '@/src/db/schema-qiflow'
+import { getDb } from '@/db'
+import { baziCalculations, fengshuiAnalysis, pdfAudit, copyrightAudit } from '@/db/schema'
 import { addCredits } from '@/credits/credits'
 import { websiteConfig } from '@/config/website'
 import type { User } from 'better-auth'
@@ -33,13 +33,14 @@ export async function onQiflowUserCreated(user: User) {
 			// PDF 审计档案
 			db.insert(pdfAudit).values({
 				userId,
+				fileKey: `init-${userId}`,
 				meta: { init: true },
 				createdAt: new Date(),
 			}),
 			// 版权审计档案
 			db.insert(copyrightAudit).values({
 				userId,
-				meta: { init: true },
+				payload: { init: true },
 				createdAt: new Date(),
 			}),
 		])

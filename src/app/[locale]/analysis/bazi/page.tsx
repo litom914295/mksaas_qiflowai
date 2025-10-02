@@ -1,8 +1,10 @@
-import { calculateBaziAction } from '@/src/actions/qiflow/calculate-bazi'
-import { CreditsPrice } from '@/src/components/qiflow/credits-price'
-import { AgeVerification } from '@/src/components/qiflow/compliance/AgeVerification'
-import { DisclaimerBar } from '@/src/components/qiflow/compliance/DisclaimerBar'
-import { experimental_useFormState as useFormState } from 'react-dom'
+'use client'
+
+import { calculateBaziAction } from '@/actions/qiflow/calculate-bazi'
+import { CreditsPrice } from '@/components/qiflow/credits-price'
+import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification'
+import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar'
+import { useActionState } from 'react'
 
 function ResultPanel(props: { data: any }) {
 	const { data } = props
@@ -22,8 +24,7 @@ function ResultPanel(props: { data: any }) {
 }
 
 function BaziForm() {
-	'use client'
-	const [state, formAction] = useFormState(async (_prev: any, formData: FormData) => {
+	const [state, formAction] = useActionState(async (_prev: any, formData: FormData) => {
 		return await calculateBaziAction(formData)
 	}, null)
 	return (

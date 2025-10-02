@@ -116,7 +116,7 @@ function MotionHighlight<T extends string>({
     defaultValue,
     onValueChange,
     className,
-    transition = { type: 'spring', stiffness: 350, damping: 35 },
+    transition = { type: 'spring' as any, stiffness: 350, damping: 35 },
     hover = false,
     enabled = true,
     controlledItems,
@@ -241,7 +241,7 @@ function MotionHighlight<T extends string>({
                     opacity: 0,
                     transition: {
                       ...transition,
-                      delay: (transition?.delay ?? 0) + (exitDelay ?? 0),
+                      delay: ((transition as any)?.delay ?? 0) + (exitDelay ?? 0),
                     },
                   }}
                   transition={transition}

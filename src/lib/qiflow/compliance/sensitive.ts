@@ -1,17 +1,27 @@
-const SENSITIVE_WORDS = ['违法', '诈骗', '仇恨', '恐怖', '暴力']
+/**
+ * 敏感内容检测模块
+ */
 
-export function containsSensitive(input: unknown): boolean {
-	if (typeof input !== 'string') return false
-	const text = input.trim()
-	if (!text) return false
-	return SENSITIVE_WORDS.some((w) => text.includes(w))
+/**
+ * 检测敏感词汇
+ */
+export function assertNoSensitive(texts: string[]): void {
+  // 简化的敏感词检测
+  const sensitiveWords = ['政治', '敏感', '违法', '暴力', '色情']
+  
+  for (const text of texts) {
+    for (const word of sensitiveWords) {
+      if (text.includes(word)) {
+        throw new Error(`检测到敏感词汇: ${word}`)
+      }
+    }
+  }
 }
 
-export function assertNoSensitive(inputs: Array<unknown>) {
-	for (const v of inputs) {
-		if (containsSensitive(v)) {
-			throw new Error('SENSITIVE_CONTENT')
-		}
-	}
+/**
+ * 检查文本是否包含敏感内容
+ */
+export function hasSensitiveContent(text: string): boolean {
+  const sensitiveWords = ['政治', '敏感', '违法', '暴力', '色情']
+  return sensitiveWords.some(word => text.includes(word))
 }
-

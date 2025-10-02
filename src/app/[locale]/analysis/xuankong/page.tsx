@@ -1,10 +1,12 @@
-import { xuankongAnalysisAction } from '@/src/actions/qiflow/xuankong-analysis'
-import { CreditsPrice } from '@/src/components/qiflow/credits-price'
-import { ConfidenceBadge } from '@/src/components/qiflow/compass/ConfidenceBadge'
-import { getConfidenceLevel } from '@/src/lib/qiflow/compass/confidence'
-import { AgeVerification } from '@/src/components/qiflow/compliance/AgeVerification'
-import { DisclaimerBar } from '@/src/components/qiflow/compliance/DisclaimerBar'
-import { experimental_useFormState as useFormState } from 'react-dom'
+'use client'
+
+import { xuankongAnalysisAction } from '@/actions/qiflow/xuankong-analysis'
+import { CreditsPrice } from '@/components/qiflow/credits-price'
+import { ConfidenceBadge } from '@/components/qiflow/compass/ConfidenceBadge'
+import { getConfidenceLevel } from '@/lib/qiflow/compass/confidence'
+import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification'
+import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar'
+import { useActionState } from 'react'
 
 function ResultPanel(props: { data: any }) {
 	const { data } = props
@@ -49,7 +51,6 @@ function ResultPanel(props: { data: any }) {
 }
 
 function ManualFallbackForm() {
-	'use client'
 	return (
 		<form className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-2">
 			<input className="rounded border px-3 py-2" placeholder="坐山（度）" />
@@ -61,9 +62,8 @@ function ManualFallbackForm() {
 }
 
 function XuankongForm() {
-	'use client'
 	// initial state null; server action returns data object
-	const [state, formAction] = useFormState(async (_prev: any, formData: FormData) => {
+	const [state, formAction] = useActionState(async (_prev: any, formData: FormData) => {
 		return await xuankongAnalysisAction(formData)
 	}, null)
 	return (

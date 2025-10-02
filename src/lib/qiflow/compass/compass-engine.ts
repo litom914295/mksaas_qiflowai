@@ -42,16 +42,16 @@ export class CompassEngine {
         : magnetic;
       
       // 分析置信度
-      const confidence = this.confidenceAnalyzer.analyze(sensorData, fusedData);
+      const confidenceValue = this.confidenceAnalyzer.analyze(sensorData, fusedData);
       
       // 计算精度
-      const accuracy = this.calculateAccuracy(sensorData, confidence);
+      const accuracy = this.calculateAccuracy(sensorData, confidenceValue);
       
       return {
         reading: {
           magnetic,
           true: trueNorth,
-          confidence,
+          confidence: confidenceValue as any,
           accuracy,
           timestamp: Date.now(),
         },

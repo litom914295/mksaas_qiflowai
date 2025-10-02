@@ -81,7 +81,7 @@ export function ConfidenceDemo() {
         reading: {
           magnetic: 45.2,
           true: 47.1,
-          confidence: confidence > 0.7 ? 'high' : confidence > 0.4 ? 'medium' : 'low',
+          confidence: confidence > 0.7 ? 'high' : confidence > 0.4 ? 'medium' : 'low' as 'low' | 'medium' | 'high',
           accuracy: confidence,
         },
         calibration: {
@@ -178,7 +178,7 @@ export function ConfidenceDemo() {
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4">
             <ConfidenceIndicator confidence={confidence} />
-            <ConfidenceIcon confidence={confidence} size="lg" />
+            <ConfidenceIcon confidence={confidence} />
           </div>
           
           <ConfidenceProgress confidence={confidence} />

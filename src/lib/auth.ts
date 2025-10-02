@@ -3,7 +3,7 @@ import {
   addMonthlyFreeCredits,
   addRegisterGiftCredits,
 } from '@/credits/credits';
-import { getDb } from '@/db/index';
+import { getDb } from '@/db';
 import { defaultMessages } from '@/i18n/messages';
 import { LOCALE_COOKIE_NAME, routing } from '@/i18n/routing';
 import { sendEmail } from '@/mail';

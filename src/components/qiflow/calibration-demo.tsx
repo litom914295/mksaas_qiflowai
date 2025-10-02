@@ -98,7 +98,7 @@ export function CalibrationDemo() {
             />
           </div>
           
-          <ConfidenceIndicator confidence={confidence} showMessage={true} />
+          <ConfidenceIndicator confidence={confidence} />
         </CardContent>
       </Card>
 

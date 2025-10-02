@@ -17,8 +17,8 @@ import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
-import { AgeVerification } from '@/src/components/qiflow/compliance/AgeVerification'
-import { DisclaimerBar } from '@/src/components/qiflow/compliance/DisclaimerBar'
+import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification'
+import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar'
 
 /**
  * https://next-intl.dev/docs/environments/actions-metadata-route-handlers#metadata-api
