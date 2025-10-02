@@ -1,0 +1,319 @@
+# QiFlow AI Cost Alert Configuration
+# This file defines alerting rules for monitoring AI usage costs and preventing budget overruns
+
+apiVersion: monitoring/v1
+kind: AlertingRule
+
+metadata:
+  name: qiflow-ai-cost-alerts
+  namespace: qiflow-ai
+  labels:
+    app: qiflow-ai
+    component: cost-monitoring
+    tier: production
+
+spec:
+  # Alert evaluation interval
+  evaluationInterval: 5m
+
+  # Alert groups
+  groups:
+    - name: cost_alerts
+      interval: 5m
+      rules:
+        # Daily budget threshold alert
+        - alert: DailyBudgetExceeded
+          expr: sum(increase(ai_cost_total[24h])) > 20
+          for: 0m
+          labels:
+            severity: critical
+            service: qiflow-ai
+            team: platform
+            category: cost
+          annotations:
+            summary: 'Daily AI cost budget exceeded'
+            description: 'AI usage cost has exceeded $20 in the last 24 hours. Current cost: ${{ $value | printf "%.2f" }}'
+            runbook_url: 'https://docs.qiflow.ai/runbooks/cost-management'
+            dashboard_url: 'https://grafana.qiflow.ai/d/qiflow-ai-chat/cost-dashboard'
+
+        # Hourly cost spike alert
+        - alert: HourlyCostSpike
+          expr: sum(increase(ai_cost_total[1h])) > 5
+          for: 0m
+          labels:
+            severity: warning
+            service: qiflow-ai
+            team: platform
+            category: cost
+          annotations:
+            summary: 'Hourly AI cost spike detected'
+            description: 'AI usage cost has exceeded $5 in the last hour. Current hourly cost: ${{ $value | printf "%.2f" }}'
+            runbook_url: 'https://docs.qiflow.ai/runbooks/cost-spike-response'
+
+        # Cost growth rate alert
+        - alert: CostGrowthRate
+          expr: rate(ai_cost_total[1h]) * 24 > 30
+          for: 15m
+          labels:
+            severity: warning
+            service: qiflow-ai
+            team: platform
+            category: cost
+          annotations:
+            summary: 'High cost growth rate detected'
+            description: 'Current cost growth rate suggests daily spending could exceed $30. Projected daily cost: ${{ $value | printf "%.2f" }}'
+            runbook_url: 'https://docs.qiflow.ai/runbooks/cost-optimization'
+
+        # Provider cost imbalance alert
+        - alert: ProviderCostImbalance
+          expr: |
+            (
+              max(sum by (provider) (increase(ai_cost_total[1h]))) /
+              avg(sum by (provider) (increase(ai_cost_total[1h])))
+            ) > 3
+          for: 30m
+          labels:
+            severity: warning
+            service: qiflow-ai
+            team: platform
+            category: cost
+          annotations:
+            summary: 'AI provider cost imbalance detected'
+            description: 'One AI provider is consuming significantly more budget than others, indicating potential routing issues or cost optimization opportunities.'
+            runbook_url: 'https://docs.qiflow.ai/runbooks/provider-balancing'
+
+        # Token usage efficiency alert
+        - alert: LowTokenEfficiency
+          expr: |
+            (
+              sum(increase(ai_cost_total[1h])) /
+              sum(increase(ai_tokens_total[1h]))
+            ) > 0.0001
+          for: 1h
+          labels:
+            severity: info
+            service: qiflow-ai
+            team: platform
+            category: efficiency
+          annotations:
+            summary: 'Low token efficiency detected'
+            description: 'Cost per token is higher than expected, suggesting usage of expensive models or inefficient prompting.'
+            runbook_url: 'https://docs.qiflow.ai/runbooks/token-optimization'
+
+        # Budget utilization warning
+        - alert: BudgetUtilization80Percent
+          expr: (sum(increase(ai_cost_total[24h])) / 20) * 100 > 80
+          for: 5m
+          labels:
+            severity: warning
+            service: qiflow-ai
+            team: platform
+            category: budget
+          annotations:
+            summary: 'Budget utilization exceeds 80%'
+            description: 'Daily budget utilization is at {{ $value | printf "%.1f" }}%. Consider implementing cost controls.'
+            runbook_url: 'https://docs.qiflow.ai/runbooks/budget-management'
+
+        # Unused budget alert (end of day)
+        - alert: UnusedBudgetOpportunity
+          expr: |
+            (
+              sum(increase(ai_cost_total[24h])) < 5 and
+              hour() == 23
+            )
+          for: 0m
+          labels:
+            severity: info
+            service: qiflow-ai
+            team: product
+            category: opportunity
+          annotations:
+            summary: 'Low daily AI usage detected'
+            description: 'Daily AI cost is only ${{ $value | printf "%.2f" }}, indicating potential for increased feature usage or user engagement.'
+            runbook_url: 'https://docs.qiflow.ai/runbooks/usage-optimization'
+
+# Alert routing configuration
+alerting:
+  # Default notification channels
+  channels:
+    # Critical alerts - immediate notification
+    critical:
+      - type: slack
+        webhook_url: '${SLACK_CRITICAL_WEBHOOK_URL}'
+        channel: '#alerts-critical'
+        title: '🚨 Critical: {{ .GroupLabels.alertname }}'
+        text: |
+          **Alert**: {{ .GroupLabels.alertname }}
+          **Severity**: {{ .CommonLabels.severity }}
+          **Service**: {{ .CommonLabels.service }}
+          **Description**: {{ range .Alerts }}{{ .Annotations.description }}{{ end }}
+          **Runbook**: {{ range .Alerts }}{{ .Annotations.runbook_url }}{{ end }}
+          **Dashboard**: {{ range .Alerts }}{{ .Annotations.dashboard_url }}{{ end }}
+
+      - type: email
+        to: ['platform-team@qiflow.ai', 'cto@qiflow.ai']
+        subject: '🚨 QiFlow AI Critical Alert: {{ .GroupLabels.alertname }}'
+
+      - type: webhook
+        url: '${COST_ALERT_WEBHOOK_URL}'
+        method: POST
+        headers:
+          Content-Type: 'application/json'
+          Authorization: 'Bearer ${ALERT_WEBHOOK_TOKEN}'
+
+    # Warning alerts - standard notification
+    warning:
+      - type: slack
+        webhook_url: '${SLACK_WARNING_WEBHOOK_URL}'
+        channel: '#alerts-warning'
+        title: '⚠️ Warning: {{ .GroupLabels.alertname }}'
+        text: |
+          **Alert**: {{ .GroupLabels.alertname }}
+          **Severity**: {{ .CommonLabels.severity }}
+          **Description**: {{ range .Alerts }}{{ .Annotations.description }}{{ end }}
+          **Runbook**: {{ range .Alerts }}{{ .Annotations.runbook_url }}{{ end }}
+
+    # Info alerts - low priority notification
+    info:
+      - type: slack
+        webhook_url: '${SLACK_INFO_WEBHOOK_URL}'
+        channel: '#alerts-info'
+        title: 'ℹ️ Info: {{ .GroupLabels.alertname }}'
+        text: |
+          **Alert**: {{ .GroupLabels.alertname }}
+          **Description**: {{ range .Alerts }}{{ .Annotations.description }}{{ end }}
+
+  # Routing rules
+  routes:
+    - match:
+        severity: critical
+      receiver: critical
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+
+    - match:
+        severity: warning
+      receiver: warning
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+
+    - match:
+        severity: info
+      receiver: info
+      group_wait: 5m
+      group_interval: 15m
+      repeat_interval: 24h
+
+# Cost management automation
+automation:
+  # Auto-scaling rules based on cost
+  cost_controls:
+    # Reduce model complexity when budget threshold reached
+    - trigger:
+        condition: sum(increase(ai_cost_total[1h])) > 3
+        duration: 5m
+      action:
+        type: model_downgrade
+        config:
+          from_model: 'gpt-4'
+          to_model: 'gpt-3.5-turbo'
+          providers: ['openai']
+
+    # Enable rate limiting when approaching budget
+    - trigger:
+        condition: (sum(increase(ai_cost_total[24h])) / 20) * 100 > 90
+        duration: 0m
+      action:
+        type: rate_limit
+        config:
+          requests_per_minute: 10
+          requests_per_hour: 100
+
+    # Circuit breaker for cost overruns
+    - trigger:
+        condition: sum(increase(ai_cost_total[24h])) > 25
+        duration: 0m
+      action:
+        type: circuit_breaker
+        config:
+          duration: '1h'
+          fallback_response: '服务暂时不可用，请稍后重试。'
+          notify_users: true
+
+# Environment-specific overrides
+environments:
+  development:
+    threshold: 5 # $5 daily budget for dev
+    channels:
+      - type: slack
+        webhook_url: '${SLACK_DEV_WEBHOOK_URL}'
+        channel: '#dev-alerts'
+
+  staging:
+    threshold: 10 # $10 daily budget for staging
+    channels:
+      - type: slack
+        webhook_url: '${SLACK_STAGING_WEBHOOK_URL}'
+        channel: '#staging-alerts'
+
+  production:
+    threshold: 20 # $20 daily budget for production
+    channels:
+      - type: slack
+        webhook_url: '${SLACK_PROD_WEBHOOK_URL}'
+        channel: '#prod-alerts'
+      - type: pagerduty
+        service_key: '${PAGERDUTY_SERVICE_KEY}'
+
+# Monitoring configuration
+monitoring:
+  # Health check for cost monitoring system
+  health_check:
+    endpoint: '/api/health/cost-monitoring'
+    interval: '1m'
+    timeout: '10s'
+
+  # Metrics collection
+  metrics:
+    # Cost metrics retention
+    retention: '90d'
+
+    # High-resolution metrics for recent data
+    resolution:
+      - range: '24h'
+        interval: '1m'
+      - range: '7d'
+        interval: '5m'
+      - range: '30d'
+        interval: '1h'
+
+# Documentation and runbooks
+runbooks:
+  cost_management: |
+    # Cost Management Runbook
+
+    ## Immediate Actions (Critical Alerts)
+    1. Check current AI provider status and costs
+    2. Review recent high-cost operations in logs
+    3. Implement temporary rate limiting if needed
+    4. Escalate to CTO if daily budget exceeded by >50%
+
+    ## Investigation Steps
+    1. Query cost breakdown by provider and model
+    2. Identify unusual usage patterns or spike sources
+    3. Check for potential abuse or unexpected traffic
+    4. Review recent deployments or configuration changes
+
+    ## Mitigation Strategies
+    1. Temporarily downgrade to cheaper models
+    2. Implement stricter rate limiting
+    3. Enable circuit breaker for non-essential features
+    4. Contact AI providers about quota adjustments
+
+    ## Prevention
+    1. Implement pre-request cost estimation
+    2. Set up user-level spending limits
+    3. Regular cost optimization reviews
+    4. Monitor model performance vs cost ratios

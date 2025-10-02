@@ -1,0 +1,38 @@
+# Task ID: 8
+# Title: C7 营销/漏斗与合规模块接线
+# Status: in-progress
+# Dependencies: None
+# Priority: medium
+# Description: 确保营销页访问与合规模块接线
+# Details:
+- 营销 (marketing) 页面可访问
+- AgeVerification/DisclaimerBar/敏感词拒答接入
+
+# Test Strategy:
+未登录访问营销页正常；首次登录出现合规提示
+
+# Subtasks:
+## 1. 验证营销页面可访问性 [done]
+### Dependencies: None
+### Description: 确保营销页面(/)、定价(/pricing)、博客等可正常访问
+### Details:
+
+
+## 2. 在QiFlow分析页面添加合规组件 [pending]
+### Dependencies: None
+### Description: 在/analysis/bazi和/analysis/xuankong页面添加AgeVerification和DisclaimerBar
+### Details:
+
+
+## 3. 验证敏感词拒答接入完整性 [pending]
+### Dependencies: None
+### Description: 确认所有Server Actions(calculate-bazi, xuankong-analysis, compass-reading)都集成了敏感词检测
+### Details:
+
+
+## 4. 测试未登录访问和首次登录提示 [pending]
+### Dependencies: None
+### Description: 验证未登录用户可以访问营销页面，首次登录时显示合规提示
+### Details:
+
+

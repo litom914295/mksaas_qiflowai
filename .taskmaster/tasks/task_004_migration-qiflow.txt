@@ -1,0 +1,39 @@
+# Task ID: 4
+# Title: C3 数据库扩展（Drizzle 合并）
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 新增 qiflow 专属表并生成迁移
+# Details:
+- 新建 src/db/schema-qiflow.ts
+- 合并导出至 src/db/index.ts
+- 生成并执行迁移
+
+# Test Strategy:
+迁移成功，无 destructive；本地连接检查通过
+
+# Subtasks:
+## 1. 创建 schema-qiflow.ts 并定义 4 张表 [done]
+### Dependencies: None
+### Description: bazi_calculations/fengshui_analysis/pdf_audit/copyright_audit
+### Details:
+
+
+## 2. 合并导出到 src/db/index.ts [done]
+### Dependencies: None
+### Description: 保留现有导出，追加 * from './schema-qiflow'
+### Details:
+
+
+## 3. 生成迁移并执行 [done]
+### Dependencies: None
+### Description: pnpm db:generate && pnpm db:migrate；确保 .env 连接正确
+### Details:
+
+
+## 4. 连通性与回滚验证 [done]
+### Dependencies: None
+### Description: drizzle studio/简单插入验证；如失败，回滚迁移
+### Details:
+
+

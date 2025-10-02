@@ -1,0 +1,12 @@
+# Task ID: 7
+# Title: C6 罗盘置信度与降级链路
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 实现罗盘置信度算法与 UI 三色联动及降级
+# Details:
+- 新建 src/lib/qiflow/compass/confidence.ts
+- 置信度 <0.4 拒答并转手动输入；0.7~0.9 校准引导
+
+# Test Strategy:
+低置信度触发降级与文案指引

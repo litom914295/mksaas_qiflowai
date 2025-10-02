@@ -1,0 +1,215 @@
+{
+  "decision": "revise",
+  "doc_scope": "PRD",
+  "scorecard": [
+    {
+      "dimension": "value",
+      "score": 4,
+      "evidence": "ICP清晰定义4层用户(L79-116)，转化漏斗具体(L117-134)，LTV/CAC目标合理，北极星指标WAPU明确"
+    },
+    {
+      "dimension": "fengshui_correctness",
+      "score": 3,
+      "evidence": "双库融合算法概念良好(L141-177)，但缺乏准确率验证机制，置信度计算公式未明确，玄空飞星缺少专家验证细节"
+    },
+    {
+      "dimension": "rag_quality",
+      "score": 2,
+      "evidence": "仅提及传统命理典籍向量化存储(L259-262)，无具体数据源、版权说明、更新频率、幻觉控制策略"
+    },
+    {
+      "dimension": "multi_tenant_billing",
+      "score": 3,
+      "evidence": "积分消耗明确(L305-310)，Stripe集成清晰，但缺乏防刷机制、退款政策、争议处理流程"
+    },
+    {
+      "dimension": "compliance_safety",
+      "score": 2,
+      "evidence": "仅提及GDPR/CCPA(L493-498)，缺少算命服务免责声明、误导风险控制、敏感内容过滤、未成年人保护"
+    },
+    {
+      "dimension": "perf_cost",
+      "score": 3,
+      "evidence": "有技术指标(L509-513)和AI成本超支风险提及(L563)，但无具体预算上限、缓存策略、成本监控机制"
+    },
+    {
+      "dimension": "i18n",
+      "score": 3,
+      "evidence": "支持4语言(L454-481)包含天干地支翻译，但缺历法转换、时区处理、文化语义适配细节"
+    },
+    {
+      "dimension": "evaluation_plan",
+      "score": 2,
+      "evidence": "有成功标准(L577-594)但缺少A/B测试方案、用户满意度追踪、数据埋点计划"
+    },
+    {
+      "dimension": "ux",
+      "score": 3,
+      "evidence": "响应式设计和WCAG 2.1 AA标准(L414-415)，但缺少错误处理、loading态、空态设计、罗盘降级方案"
+    },
+    {
+      "dimension": "growth_ops",
+      "score": 2,
+      "evidence": "有获客渠道分布(L129)但缺少大师入驻机制、用户评价体系、反作弊策略、社区运营方案"
+    }
+  ],
+  "issues": [
+    {
+      "id": "PRD-001",
+      "title": "缺失免责声明与误导风险控制",
+      "severity": "blocker",
+      "cross_doc": false,
+      "evidence": "第7.2节隐私合规(L493-498)仅提及GDPR/CCPA，未涉及算命服务的法律免责",
+      "suggestion": "添加7.4节内容安全与免责声明，明确所有分析仅供参考，不构成决策建议，需用户确认年满18岁",
+      "owner": "product",
+      "eta_days": 2
+    },
+    {
+      "id": "PRD-002",
+      "title": "AI成本控制与防滥用机制缺失",
+      "severity": "high",
+      "cross_doc": false,
+      "evidence": "仅在风险管理提及AI成本超支(L563)，无具体预算控制和限流机制",
+      "suggestion": "设置月度预算$1000上限，配置分层限流规则(free: 5/day, pro: 100/day)",
+      "owner": "architect",
+      "eta_days": 3
+    },
+    {
+      "id": "PRD-003",
+      "title": "积分退款与争议处理流程缺失",
+      "severity": "high",
+      "cross_doc": false,
+      "evidence": "积分消耗明确(L305-310)但无退款政策和争议处理机制",
+      "suggestion": "增加7天无理由退款(首次用户)、技术故障自动补偿、客服处理流程",
+      "owner": "product",
+      "eta_days": 2
+    },
+    {
+      "id": "PRD-004",
+      "title": "RAG知识库数据源与质量控制不明",
+      "severity": "medium",
+      "cross_doc": false,
+      "evidence": "传统命理典籍向量化(L259)但未说明具体书目、版权、更新机制",
+      "suggestion": "明确引用《三命通会》《滴天髓》等公版书籍，建立月度审核和准确性评估机制",
+      "owner": "data",
+      "eta_days": 5
+    },
+    {
+      "id": "PRD-005",
+      "title": "罗盘校准成功率指标缺失",
+      "severity": "medium",
+      "cross_doc": false,
+      "evidence": "提及8字形校准(L273)但无成功率目标和降级方案",
+      "suggestion": "设定校准成功率>80%目标，iOS限制时提供手动输入备选",
+      "owner": "frontend",
+      "eta_days": 3
+    },
+    {
+      "id": "PRD-006",
+      "title": "多语言文化语义适配问题",
+      "severity": "medium",
+      "cross_doc": false,
+      "evidence": "天干地支翻译(L471-472)但未考虑文化理解差异",
+      "suggestion": "英文版增加tooltip解释，日文版采用音译+解释，建立文化术语词典",
+      "owner": "product",
+      "eta_days": 3
+    },
+    {
+      "id": "PRD-007",
+      "title": "缺少敏感时期内容策略",
+      "severity": "medium",
+      "cross_doc": false,
+      "evidence": "无敏感日期(清明、中元节)特殊处理策略",
+      "suggestion": "建立敏感日期库，调整AI回复温度，减少推送频率",
+      "owner": "product",
+      "eta_days": 2
+    },
+    {
+      "id": "PRD-008",
+      "title": "无障碍设计具体实施不明",
+      "severity": "low",
+      "cross_doc": false,
+      "evidence": "仅提及WCAG 2.1 AA(L415)无具体措施",
+      "suggestion": "罗盘提供语音播报，图表增加alt文字，键盘导航支持",
+      "owner": "frontend",
+      "eta_days": 3
+    },
+    {
+      "id": "PRD-009",
+      "title": "B2B API定价与SLA缺失",
+      "severity": "low",
+      "cross_doc": false,
+      "evidence": "API价格区间过大¥0.5-2/次(L114)，无SLA承诺",
+      "suggestion": "明确分级定价(基础¥0.5，高级¥1，企业¥2)，99.9% SLA协议",
+      "owner": "product",
+      "eta_days": 1
+    },
+    {
+      "id": "PRD-010",
+      "title": "缺少用户反馈与评价体系",
+      "severity": "low",
+      "cross_doc": false,
+      "evidence": "无用户对分析结果的评分和反馈机制",
+      "suggestion": "每次分析后收集1-5星评分，建立大师信用体系，月度NPS调研",
+      "owner": "product",
+      "eta_days": 2
+    }
+  ],
+  "quick_wins": [
+    {
+      "title": "添加免责声明模板",
+      "eta_days": 1,
+      "impact": "降低法律风险"
+    },
+    {
+      "title": "配置基础限流规则",
+      "eta_days": 2,
+      "impact": "防止AI预算超支"
+    },
+    {
+      "title": "明确积分有效期",
+      "eta_days": 1,
+      "impact": "避免财务纠纷"
+    },
+    {
+      "title": "添加错误提示文案",
+      "eta_days": 2,
+      "impact": "提升用户体验"
+    },
+    {
+      "title": "配置敏感词过滤",
+      "eta_days": 1,
+      "impact": "内容合规保障"
+    }
+  ],
+  "open_questions": [
+    {
+      "question": "终身会员$999是否过高？建议调整为$499",
+      "owner": "product",
+      "priority": "high"
+    },
+    {
+      "question": "是否支持订阅用户按比例退款？",
+      "owner": "product",
+      "priority": "medium"
+    },
+    {
+      "question": "是否引入第三方大师认证机构？",
+      "owner": "product",
+      "priority": "low"
+    },
+    {
+      "question": "AI生成内容是否需要人工复审？",
+      "owner": "product",
+      "priority": "medium"
+    },
+    {
+      "question": "用户八字数据删除后是否保留匿名统计？",
+      "owner": "product",
+      "priority": "medium"
+    }
+  ],
+  "prd_patch": "## 7.4 内容安全与免责声明（新增）\n\n### 7.4.1 免责声明\n- 所有命理分析仅供参考，不构成任何人生决策建议\n- 服务面向18岁以上成年人\n- 重大决策场景强制显示风险提示\n- 每个分析页面底部显示：\"本结果仅供娱乐参考\"\n\n### 7.4.2 敏感内容控制\n- 拒答清单：死亡预测、疾病诊断、赌博建议、政治倾向、自杀倾向\n- 敏感时期：清明节、中元节降低活动推送\n- 内容过滤：接入腾讯云内容安全API\n- 未成年人保护：注册时年龄验证\n\n## 8.3 AI成本控制（新增）\n\n### 8.3.1 预算上限\n- 月度AI预算：$1,000\n- 日预算上限：$50\n- 触达80%时邮件告警\n- 超额自动切换到低成本模型\n\n### 8.3.2 智能降级\n- 高峰期：GPT-4o → DeepSeek\n- 缓存策略：相似问题24小时缓存\n- 离线处理：非实时分析采用队列\n\n### 8.3.3 限流配置\n```typescript\nconst rateLimits = {\n  free: { daily: 5, hourly: 2, maxTokens: 500 },\n  pro: { daily: 100, hourly: 20, maxTokens: 2000 },\n  api: { rpm: 60, maxTokensPerRequest: 1000 }\n};\n```\n\n## 10.3 运营体系（新增）\n\n### 10.3.1 用户增长\n- 新用户：注册送100积分（有效期30天）\n- 推荐奖励：成功推荐获50积分\n- 会员日：每月8号积分双倍\n- 首充优惠：首次充值额外赠送30%\n\n### 10.3.2 质量控制\n- 分析评分：1-5星 + 文字反馈\n- 大师评级：准确率>85%获认证标识\n- 投诉处理：48小时内响应\n- 月度NPS调研：目标>40\n\n### 10.3.3 防作弊机制\n- IP限制：同IP每日最多3个账号\n- 设备指纹：防止积分套利\n- 行为分析：异常使用模式自动冻结\n- 批量注册检测：手机号段、邮箱域名监控",
+  "tech_patch": "",
+  "task_patch": ""
+}

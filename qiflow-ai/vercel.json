@@ -1,0 +1,137 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
+  "regions": ["hkg1", "sin1", "nrt1"],
+  "functions": {
+    "src/app/api/chat/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "src/app/api/chat/*/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "src/app/api/ai/*/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "src/app/api/analysis/*/route.ts": {
+      "memory": 512,
+      "maxDuration": 30
+    },
+    "src/app/api/webhooks/*/route.ts": {
+      "memory": 256,
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization, X-Requested-With"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/chat",
+      "destination": "/zh-CN/chat",
+      "permanent": false
+    },
+    {
+      "source": "/analysis",
+      "destination": "/zh-CN/analysis",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/health",
+      "destination": "/api/health/basic"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/cleanup-sessions",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/usage-summary",
+      "schedule": "0 0 * * *"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "build": {
+    "env": {
+      "ANALYZE": "false",
+      "SKIP_ENV_VALIDATION": "false"
+    }
+  },
+  "images": {
+    "domains": [
+      "avatars.githubusercontent.com",
+      "lh3.googleusercontent.com",
+      "images.unsplash.com"
+    ],
+    "formats": ["image/avif", "image/webp"],
+    "minimumCacheTTL": 31536000
+  }
+}

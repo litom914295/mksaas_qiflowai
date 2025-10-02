@@ -1,0 +1,215 @@
+{
+  "decision": "revise",
+  "doc_scope": "PRD+TECH+TASK+UI",
+  "scorecard": [
+    {
+      "dimension": "value",
+      "score": 4,
+      "evidence": "ICP定义清晰，转化漏斗完整(PRD §2)，但WAPU埋点未在TECH明确定义，激活率和留存率埋点缺失"
+    },
+    {
+      "dimension": "fengshui_correctness",
+      "score": 3,
+      "evidence": "算法架构完整(TECH §1.2)，但缺少专家验证机制和准确性基线"
+    },
+    {
+      "dimension": "rag_quality",
+      "score": 2,
+      "evidence": "RAG仅概念性提及(PRD §3.2.2)，无具体知识库来源、评测指标和幻觉控制策略"
+    },
+    {
+      "dimension": "multi_tenant_billing",
+      "score": 2,
+      "evidence": "AI深度解读积分冲突(PRD 30积分 vs TECH未定义)，免费用户权限边界模糊，积分不足降级策略缺失"
+    },
+    {
+      "dimension": "compliance_safety",
+      "score": 1,
+      "evidence": "算命服务免责声明完全缺失，内容审核机制缺失，未成年人保护缺失，GDPR/CCPA有定义但无实施闭环"
+    },
+    {
+      "dimension": "perf_cost",
+      "score": 3,
+      "evidence": "性能指标明确(PRD §8)，但AI成本控制和限流机制未定义"
+    },
+    {
+      "dimension": "i18n",
+      "score": 3,
+      "evidence": "i18n框架完整，但农历/时辰等文化概念的西方适配未考虑"
+    },
+    {
+      "dimension": "evaluation_plan",
+      "score": 2,
+      "evidence": "测试覆盖率要求明确(TASK §5.2)，但缺少合规验收、无障碍测试标准"
+    },
+    {
+      "dimension": "ux",
+      "score": 3,
+      "evidence": "UI设计系统完整(UI全文)，但错误状态、空状态、loading状态设计缺失，积分消耗未在UI体现"
+    },
+    {
+      "dimension": "growth_ops",
+      "score": 3,
+      "evidence": "增长指标定义清晰(PRD §2.2)，但用户反馈机制、评价体系、社区运营策略缺失"
+    }
+  ],
+  "issues": [
+    {
+      "id": "COMP-001",
+      "title": "算命服务免责声明完全缺失",
+      "severity": "blocker",
+      "cross_doc": true,
+      "evidence": "PRD/TECH/TASK/UI四文档均未涉及免责声明",
+      "suggestion": "PRD新增§7.4免责声明，UI所有分析页添加底部提示，TECH实现确认机制",
+      "owner": "product",
+      "eta_days": 1
+    },
+    {
+      "id": "BILL-001",
+      "title": "AI服务计费定义冲突",
+      "severity": "high",
+      "cross_doc": true,
+      "evidence": "PRD定义AI深度解读30积分(§3.4.2)，TECH只有aiChat:5(§7.1)，UI显示credits={30}",
+      "suggestion": "区分AI对话(5积分)和AI深度解读(30积分)两种服务",
+      "owner": "product",
+      "eta_days": 2
+    },
+    {
+      "id": "PERM-001",
+      "title": "积分不足降级策略缺失",
+      "severity": "high",
+      "cross_doc": true,
+      "evidence": "TECH仅throw Error，UI仅UnlockButton，无优雅降级",
+      "suggestion": "实现只读预览、试用体验、充值引导三级降级",
+      "owner": "backend",
+      "eta_days": 3
+    },
+    {
+      "id": "GDPR-001",
+      "title": "GDPR/CCPA合规功能断链",
+      "severity": "high",
+      "cross_doc": true,
+      "evidence": "PRD定义(§7.2)，TECH有流程(§17.4)，但TASK无任务，UI无入口",
+      "suggestion": "TASK补充数据导出/删除任务，UI在设置页添加'我的数据'模块",
+      "owner": "frontend",
+      "eta_days": 2
+    },
+    {
+      "id": "CONT-001",
+      "title": "内容审核机制完全缺失",
+      "severity": "high",
+      "cross_doc": true,
+      "evidence": "无拒答清单、无敏感词过滤、无用户举报机制",
+      "suggestion": "建立敏感话题拒答清单，实现内容过滤中间件",
+      "owner": "backend",
+      "eta_days": 3
+    },
+    {
+      "id": "METR-001",
+      "title": "北极星指标埋点不一致",
+      "severity": "medium",
+      "cross_doc": true,
+      "evidence": "WAPU定义明确但埋点缺失，激活率和留存率埋点未统一",
+      "suggestion": "TECH补充WAPU计算逻辑，统一埋点事件名称",
+      "owner": "backend",
+      "eta_days": 2
+    },
+    {
+      "id": "UI-001",
+      "title": "错误状态和空状态设计缺失",
+      "severity": "medium",
+      "cross_doc": true,
+      "evidence": "UI文档未涉及各种错误状态展示，TECH有错误码但无对应UI",
+      "suggestion": "UI设计统一错误组件，支持重试和降级",
+      "owner": "frontend",
+      "eta_days": 2
+    },
+    {
+      "id": "I18N-001",
+      "title": "文化适配策略不明确",
+      "severity": "low",
+      "cross_doc": true,
+      "evidence": "农历/时辰概念的英文适配未考虑",
+      "suggestion": "建立术语词典，提供文化背景说明",
+      "owner": "product",
+      "eta_days": 3
+    },
+    {
+      "id": "A11Y-001",
+      "title": "无障碍验收标准缺失",
+      "severity": "medium",
+      "cross_doc": true,
+      "evidence": "UI有示例但TASK无验收任务，色彩对比未检查",
+      "suggestion": "TASK添加WCAG 2.1 AA验收任务，进行对比度检查",
+      "owner": "qa",
+      "eta_days": 2
+    },
+    {
+      "id": "CREDIT-001",
+      "title": "积分消耗UI展示缺失",
+      "severity": "low",
+      "cross_doc": true,
+      "evidence": "各功能积分消耗定义明确但UI未展示",
+      "suggestion": "在操作按钮旁显示积分消耗，余额不足时禁用并提示",
+      "owner": "frontend",
+      "eta_days": 1
+    }
+  ],
+  "quick_wins": [
+    {
+      "title": "补充免责声明文案",
+      "eta_days": 1,
+      "impact": "规避法律风险"
+    },
+    {
+      "title": "统一AI服务计费",
+      "eta_days": 2,
+      "impact": "消除计费冲突"
+    },
+    {
+      "title": "完善积分不足提示",
+      "eta_days": 2,
+      "impact": "提升付费转化"
+    },
+    {
+      "title": "增加数据导出入口",
+      "eta_days": 2,
+      "impact": "满足合规要求"
+    },
+    {
+      "title": "优化错误提示文案",
+      "eta_days": 1,
+      "impact": "改善用户体验"
+    }
+  ],
+  "open_questions": [
+    {
+      "question": "是否需要实名认证以满足未成年人保护要求？",
+      "owner": "product",
+      "priority": "high"
+    },
+    {
+      "question": "AI深度解读是否使用更高级的模型？成本如何控制？",
+      "owner": "architect",
+      "priority": "high"
+    },
+    {
+      "question": "免费用户每月5次限制如何计算？按自然月还是滚动30天？",
+      "owner": "product",
+      "priority": "medium"
+    },
+    {
+      "question": "是否需要第三方无障碍认证？",
+      "owner": "product",
+      "priority": "low"
+    },
+    {
+      "question": "内容审核是否需要人工复审机制？",
+      "owner": "product",
+      "priority": "medium"
+    }
+  ],
+  "prd_patch": "## 7.4 内容安全与免责声明（新增）\n\n### 7.4.1 服务免责声明\n- 所有命理分析仅供娱乐参考，不构成人生决策建议\n- 用户需确认已满18周岁\n- 在每个分析结果页面底部显示：\"结果仅供参考，请理性对待\"\n\n### 7.4.2 内容审核机制\n- AI拒答清单：死亡预测、疾病诊断、赌博建议、政治内容\n- 敏感时期（清明、中元节）调整服务内容\n- 用户生成内容需通过敏感词过滤\n\n### 7.4.3 未成年人保护\n- 注册时需进行年龄验证\n- 18岁以下用户限制使用\n- 家长监护机制预留\n\n## 3.4.3 AI服务计费明细（新增）\n- AI对话（快速问答）：5积分/次\n- AI深度解读（详细报告）：30积分/次\n- 区分使用场景和模型成本",
+  "tech_patch": "// src/config/qiflow-pricing.ts 补充\nexport const qiflowPricing = {\n  credits: {\n    bazi: 10,\n    xuankong: 20,\n    aiChat: 5,           // 快速对话\n    aiDeepAnalysis: 30,  // 深度解读（新增）\n    pdfExport: 5\n  }\n}\n\n// src/middleware/disclaimer.ts 新增\nexport async function requireDisclaimer(userId: string) {\n  const accepted = await checkDisclaimerAcceptance(userId);\n  if (!accepted) {\n    return {\n      required: true,\n      message: \"请先阅读并接受服务免责声明\"\n    };\n  }\n}\n\n// src/lib/content-filter.ts 新增\nexport const sensitiveTopics = [\n  '死亡', '自杀', '疾病', '赌博', \n  '股票代码', '彩票号码'\n];\n\nexport function shouldRejectQuery(query: string): boolean {\n  return sensitiveTopics.some(topic => \n    query.includes(topic)\n  );\n}\n\n// src/lib/metrics.ts 新增WAPU计算\nexport async function calculateWAPU(weekStart: Date) {\n  return await db.select()\n    .from(payments)\n    .where(and(\n      gte(payments.createdAt, weekStart),\n      eq(payments.status, 'success')\n    ))\n    .groupBy(payments.userId)\n    .count();\n}",
+  "task_patch": "## Sprint 1 新增任务\n- [ ] 实现免责声明确认流程\n- [ ] 配置内容审核规则\n\n## Sprint 2 新增任务  \n- [ ] 开发数据导出功能（GDPR合规）\n- [ ] 实现用户数据删除功能（CCPA合规）\n- [ ] 设计并实现错误状态UI组件\n- [ ] 设计并实现空状态UI组件\n\n## Sprint 5 新增验收标准\n- [ ] 所有错误提示用户友好\n- [ ] 积分不足有明确引导\n- [ ] 免责声明100%展示率\n- [ ] WAPU指标正确统计\n\n## Sprint 7 新增任务\n- [ ] 无障碍测试（WCAG 2.1 AA）\n- [ ] 色彩对比度检查（最小4.5:1）\n- [ ] 键盘导航测试\n- [ ] 屏幕阅读器兼容性测试"
+}

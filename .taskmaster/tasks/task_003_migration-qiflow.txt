@@ -1,0 +1,13 @@
+# Task ID: 3
+# Title: C2 依赖与配置对齐（最小侵入）
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 收集依赖差异并仅迁移算法/可视化必要依赖
+# Details:
+- 生成 deps.diff
+- pnpm install 并解决 peer 冲突（若有）
+- 执行 typecheck 并保存输出
+
+# Test Strategy:
+安装成功无严重冲突；typecheck 输出记录 artifacts/C2/typecheck.txt

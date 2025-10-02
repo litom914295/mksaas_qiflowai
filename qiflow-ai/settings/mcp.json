@@ -1,0 +1,41 @@
+{
+    "mcpServers": {
+      "fetch": {
+        "command": "uvx",
+        "args": ["mcp-server-fetch"],
+        "env": {
+          "FASTMCP_LOG_LEVEL": "ERROR"
+        },
+        "disabled": false,
+        "autoApprove": ["fetch"]
+      },
+      "sqlite": {
+        "command": "uvx",
+        "args": ["mcp-server-sqlite", "--db-path", "./data/qiflow.db"],
+        "env": {
+          "FASTMCP_LOG_LEVEL": "ERROR"
+        },
+        "disabled": false,
+        "autoApprove": ["query", "schema", "list_tables", "describe_table", "create_table"]
+      },
+      "time": {
+        "command": "uvx",
+        "args": ["mcp-server-time", "--local-timezone", "Asia/Shanghai"],
+        "env": {
+          "FASTMCP_LOG_LEVEL": "ERROR"
+        },
+        "disabled": false,
+        "autoApprove": ["get_current_time", "convert_time"]
+      },
+      "mermaid": {
+        "command": "uvx",
+        "args": ["mermaid-mcp", "server"],
+        "env": {
+          "FASTMCP_LOG_LEVEL": "ERROR"
+        },
+        "disabled": false,
+        "autoApprove": ["create_diagram", "render_diagram"]
+      }
+    }
+  }
+  

@@ -1,0 +1,14 @@
+# Task ID: 1
+# Title: C0 预检与建分支
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 记录工具链版本、创建迁移分支、输出基础目录树
+# Details:
+- 输出 mksaas/artifacts/C0/{branch.txt, tooling.txt, tree.txt}
+- 创建分支 chore/migrate-qiflow-into-mksaas
+- 记录 pnpm/node 版本
+- 生成项目树概览
+
+# Test Strategy:
+检查 artifacts/C0 生成文件是否存在且非空；分支存在；命令可重复执行

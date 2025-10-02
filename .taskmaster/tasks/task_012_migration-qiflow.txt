@@ -1,0 +1,13 @@
+# Task ID: 12
+# Title: 回滚与风险验证
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: 验证回滚路径与兜底链路
+# Details:
+- 验证拒答与手动输入兜底
+- 验证分支回滚/撤销流程
+- 依赖冲突时的别名/局部锁版本策略
+
+# Test Strategy:
+手动验证回滚成功；兜底链路可用；依赖冲突可收敛

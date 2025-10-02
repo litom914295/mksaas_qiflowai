@@ -1,0 +1,1567 @@
+{
+  "metadata": {
+    "title": "QiFlow AI - 智能風水分析平台",
+    "description": "結合傳統風水智慧與現代AI技術的智能風水分析平台"
+  },
+  "common": {
+    "loading": "載入中...",
+    "error": "錯誤",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "確認",
+    "save": "儲存",
+    "delete": "刪除",
+    "edit": "編輯",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "submit": "提交",
+    "reset": "重設",
+    "search": "搜尋",
+    "filter": "篩選",
+    "sort": "排序",
+    "export": "匯出",
+    "import": "匯入",
+    "share": "分享",
+    "copy": "複製",
+    "download": "下載",
+    "upload": "上傳",
+    "close": "關閉",
+    "open": "開啟",
+    "view": "檢視",
+    "preview": "預覽",
+    "refresh": "重新整理",
+    "retry": "重試",
+    "switchLanguage": "切換語言",
+    "unknown": "未知",
+    "toBeCalculated": "待計算",
+    "stop": "停止"
+  },
+  "navigation": {
+    "home": "首頁",
+    "dashboard": "儀表板",
+    "analysis": "風水分析",
+    "compass": "數位羅盤",
+    "overlay": "戶型圖疊加",
+    "3d_viewer": "3D展示",
+    "reports": "分析報告",
+    "chat": "AI助理",
+    "subscription": "訂閱管理",
+    "profile": "個人資料",
+    "settings": "設定",
+    "help": "幫助",
+    "about": "關於我們"
+  },
+  "auth": {
+    "login": "登入",
+    "register": "註冊",
+    "logout": "登出",
+    "forgot_password": "忘記密碼",
+    "reset_password": "重設密碼",
+    "email": "電子郵件",
+    "password": "密碼",
+    "confirm_password": "確認密碼",
+    "remember_me": "記住我",
+    "guest_mode": "訪客模式",
+    "continue_as_guest": "以訪客身分繼續",
+    "register_to_save": "註冊以儲存您的資料",
+    "login_required": "需要登入",
+    "invalid_credentials": "使用者名稱或密碼錯誤",
+    "account_created": "帳戶建立成功",
+    "password_reset_sent": "密碼重設郵件已傳送",
+    "register": {
+      "title": "建立帳戶",
+      "subtitle": "開始您的風水分析之旅",
+      "signInLink": "已有帳戶？立即登入",
+      "displayName": "顯示名稱",
+      "displayNamePlaceholder": "請輸入您的顯示名稱",
+      "emailPlaceholder": "請輸入您的電子郵件地址",
+      "passwordPlaceholder": "請輸入密碼",
+      "confirmPasswordPlaceholder": "請再次確認密碼",
+      "acceptTerms": "我已閱讀並同意",
+      "termsLink": "服務條款",
+      "and": "和",
+      "privacyLink": "隱私權政策",
+      "submit": "建立帳戶",
+      "hasAccount": "已經有帳戶了？",
+      "signIn": "立即登入"
+    }
+  },
+  "bazi": {
+    "title": "八字命理",
+    "description": "基於專業八字演算法，為您提供個人化的人生洞察與運勢指引",
+    "analyzing": "正在進行深度分析...",
+    "analysis_description": "運用傳統命理智慧，為您解讀人生密碼",
+    "disclaimer": "本分析基於傳統命理學原理，僅供參考。重要決策請諮詢專業人士。",
+    "birth_info": "出生資訊",
+    "birth_date": "出生日期",
+    "birth_time": "出生時間",
+    "birth_place": "出生地點",
+    "gender": "性別",
+    "male": "男",
+    "female": "女",
+    "lunar_calendar": "農曆",
+    "solar_calendar": "陽曆",
+    "year_pillar": "年柱",
+    "month_pillar": "月柱",
+    "day_pillar": "日柱",
+    "hour_pillar": "時柱",
+    "heavenly_stem": "天干",
+    "earthly_branch": "地支",
+    "five_elements": "五行",
+    "wood": "木",
+    "fire": "火",
+    "earth": "土",
+    "metal": "金",
+    "water": "水",
+    "strong": "旺",
+    "weak": "弱",
+    "favorable_elements": "喜用神",
+    "unfavorable_elements": "忌神",
+    "element_analysis": "五行分析",
+    "personality_analysis": "性格分析",
+    "career_guidance": "事業指導",
+    "relationship_analysis": "感情分析",
+    "health_guidance": "健康指導",
+    "fortune_analysis": "運勢分析",
+    "tabs": {
+      "overview": "總覽",
+      "fourPillars": "四柱",
+      "patterns": "格局",
+      "fiveElements": "五行",
+      "godsEvils": "神煞",
+      "luckCycles": "大運",
+      "dailyFortune": "今日運勢",
+      "insights": "洞察"
+    },
+    "deepAnalysisTitle": "深度八字命理分析",
+    "deepAnalysisSubtitle": "基於專業算法的個人化命理洞察",
+    "labels": {
+      "name": "姓名",
+      "gender": "性別",
+      "birthTime": "出生時間",
+      "gregorian": "陽曆",
+      "lunar": "農曆"
+    },
+    "gender": {
+      "male": "男",
+      "female": "女"
+    }
+  },
+  "fengshui": {
+    "palace": {
+      "kan": "坎",
+      "kun": "坤",
+      "zhen": "震",
+      "xun": "巽",
+      "center": "中",
+      "qian": "乾",
+      "dui": "兌",
+      "gen": "艮",
+      "li": "離"
+    },
+    "details": "詳細分析",
+    "pattern_analysis": "格局分析",
+    "overall_pattern": "整體格局",
+    "pattern_type": "格局類型",
+    "key_positions": "關鍵位置",
+    "suitable_arrangements": "適宜佈置",
+    "layout_advice": "佈局建議",
+    "pattern_explanation": "格局說明",
+    "title": "風水分析",
+    "flying_stars": "玄空飛星",
+    "nine_palaces": "九宮",
+    "compass_direction": "羅盤方位",
+    "house_facing": "房屋朝向",
+    "house_sitting": "房屋坐向",
+    "period": "運",
+    "current_period": "當運",
+    "wenchangwei": "文昌位",
+    "caiwei": "財位",
+    "mountain_star": "山星",
+    "water_star": "水星",
+    "time_star": "時星",
+    "annual_star": "年星",
+    "monthly_star": "月星",
+    "daily_star": "日星",
+    "auspicious": "吉",
+    "inauspicious": "凶",
+    "neutral": "平",
+    "very_auspicious": "大吉",
+    "very_inauspicious": "大凶",
+    "room_analysis": "房間分析",
+    "bedroom": "臥室",
+    "living_room": "客廳",
+    "kitchen": "廚房",
+    "bathroom": "衛生間",
+    "study": "書房",
+    "dining_room": "餐廳",
+    "entrance": "玄關",
+    "balcony": "陽台",
+    "recommendations": "風水建議",
+    "color_recommendations": "顏色建議",
+    "furniture_placement": "家具擺放",
+    "decoration_suggestions": "裝飾建議",
+    "remedy_methods": "化解方法",
+    "tabs": {
+      "overview": "總覽",
+      "ninePalaces": "九宮格",
+      "patterns": "格局",
+      "advice": "建議",
+      "advanced": "高級"
+    }
+  },
+  "compass": {
+    "title": "數位羅盤",
+    "measuring": "測量中...",
+    "calibration": "校準",
+    "calibrate_device": "校準設備",
+    "calibration_instructions": "請依照提示校準您的設備",
+    "accuracy": "精度",
+    "confidence": "可信度",
+    "magnetic_declination": "磁偏角",
+    "true_north": "真北",
+    "magnetic_north": "磁北",
+    "direction": "方向",
+    "degree": "度",
+    "measurement_history": "測量歷史",
+    "save_measurement": "儲存測量",
+    "clear_history": "清除歷史",
+    "device_not_supported": "設備不支援羅盤功能",
+    "permission_required": "需要感測器權限",
+    "interference_detected": "偵測到磁場干擾",
+    "move_away_from_metal": "請遠離金屬物體",
+    "measurement_saved": "測量結果已儲存",
+    "high_accuracy": "高精度",
+    "medium_accuracy": "中等精度",
+    "low_accuracy": "低精度"
+  },
+  "overlay": {
+    "title": "戶型圖疊加",
+    "upload_floorplan": "上傳戶型圖",
+    "processing_image": "處理影像中...",
+    "room_detection": "房間識別",
+    "auto_alignment": "自動對齊",
+    "manual_adjustment": "手動調整",
+    "transparency": "透明度",
+    "overlay_opacity": "疊加透明度",
+    "show_grid": "顯示網格",
+    "show_labels": "顯示標籤",
+    "room_scores": "房間評分",
+    "click_room_for_details": "點擊房間檢視詳情",
+    "room_function": "房間功能",
+    "feng_shui_score": "風水評分",
+    "recommendations_for_room": "房間建議",
+    "image_upload_failed": "圖片上傳失敗",
+    "image_processing_failed": "圖片處理失敗",
+    "unsupported_format": "不支援的檔案格式",
+    "file_too_large": "檔案過大",
+    "drag_drop_image": "拖曳圖片到此處或點擊上傳",
+    "supported_formats": "支援 JPG, PNG, PDF 格式",
+    "max_file_size": "最大檔案大小: 10MB",
+    "processing_complete": "處理完成",
+    "alignment_accuracy": "對齊精度",
+    "rotation_angle": "旋轉角度",
+    "scale_factor": "縮放比例"
+  },
+  "3d_viewer": {
+    "title": "3D風水展示",
+    "loading_model": "載入3D模型中...",
+    "rotate_view": "旋轉視角",
+    "zoom_in": "放大",
+    "zoom_out": "縮小",
+    "reset_view": "重設視角",
+    "fullscreen": "全螢幕",
+    "vr_mode": "VR模式",
+    "animation_controls": "動畫控制",
+    "play": "播放",
+    "pause": "暫停",
+    "timeline": "時間軸",
+    "show_elements": "顯示五行",
+    "show_stars": "顯示飛星",
+    "show_recommendations": "顯示建議",
+    "lighting": "光照",
+    "shadows": "陰影",
+    "quality": "品質",
+    "high_quality": "高品質",
+    "medium_quality": "中等品質",
+    "low_quality": "低品質",
+    "performance_mode": "效能模式",
+    "webgl_not_supported": "您的瀏覽器不支援WebGL",
+    "model_load_failed": "3D模型載入失敗"
+  },
+  "reports": {
+    "title": "分析報告",
+    "generate_report": "產生報告",
+    "download_pdf": "下載PDF",
+    "share_report": "分享報告",
+    "report_summary": "報告摘要",
+    "detailed_analysis": "詳細分析",
+    "recommendations": "建議事項",
+    "charts_and_diagrams": "圖表圖解",
+    "report_date": "報告日期",
+    "analysis_type": "分析類型",
+    "comprehensive_analysis": "綜合分析",
+    "bazi_only": "僅八字分析",
+    "fengshui_only": "僅風水分析",
+    "report_generating": "報告產生中...",
+    "report_ready": "報告已準備就緒",
+    "report_failed": "報告產生失敗",
+    "watermark_guest": "訪客模式 - 註冊以獲得完整報告",
+    "upgrade_for_full_report": "升級訂閱以獲得完整報告",
+    "report_history": "歷史報告",
+    "no_reports": "暫無報告",
+    "delete_report": "刪除報告",
+    "report_deleted": "報告已刪除"
+  },
+  "chat": {
+    "title": "AI風水助理",
+    "ask_question": "詢問風水問題",
+    "type_message": "輸入您的問題...",
+    "send": "傳送",
+    "thinking": "思考中...",
+    "chat_history": "對話歷史",
+    "clear_chat": "清除對話",
+    "new_conversation": "新對話",
+    "suggested_questions": "推薦問題",
+    "daily_limit_reached": "今日對話次數已用完",
+    "upgrade_for_more": "升級訂閱以獲得更多對話次數",
+    "ai_disclaimer": "AI回覆僅供參考，不構成專業建議",
+    "conversation_saved": "對話已儲存",
+    "conversation_deleted": "對話已刪除",
+    "copy_message": "複製訊息",
+    "message_copied": "訊息已複製",
+    "regenerate_response": "重新產生回覆",
+    "rate_response": "評價回覆",
+    "helpful": "有幫助",
+    "not_helpful": "沒幫助"
+  },
+  "subscription": {
+    "title": "訂閱管理",
+    "current_plan": "目前套餐",
+    "free_plan": "免費版",
+    "standard_plan": "標準版",
+    "professional_plan": "專業版",
+    "upgrade": "升級",
+    "downgrade": "降級",
+    "cancel_subscription": "取消訂閱",
+    "renew_subscription": "續訂",
+    "billing_history": "帳單歷史",
+    "usage_statistics": "使用統計",
+    "quota_remaining": "剩餘配額",
+    "quota_used": "已使用配額",
+    "monthly_billing": "月付",
+    "yearly_billing": "年付",
+    "save_with_yearly": "年付可節省20%",
+    "payment_method": "支付方式",
+    "update_payment": "更新支付方式",
+    "next_billing_date": "下次扣款日期",
+    "subscription_active": "訂閱有效",
+    "subscription_expired": "訂閱已過期",
+    "subscription_cancelled": "訂閱已取消",
+    "auto_renewal": "自動續訂",
+    "manage_subscription": "管理訂閱",
+    "contact_support": "聯絡客服"
+  },
+  "profile": {
+    "title": "個人資料",
+    "personal_info": "個人資訊",
+    "name": "姓名",
+    "email": "電子郵件",
+    "phone": "電話",
+    "address": "地址",
+    "timezone": "時區",
+    "language": "語言",
+    "birth_info": "出生資訊",
+    "privacy_settings": "隱私設定",
+    "data_export": "資料匯出",
+    "delete_account": "刪除帳戶",
+    "account_security": "帳戶安全",
+    "change_password": "修改密碼",
+    "two_factor_auth": "雙因素認證",
+    "login_history": "登入歷史",
+    "profile_updated": "資料已更新",
+    "password_changed": "密碼已修改",
+    "account_deleted": "帳戶已刪除",
+    "data_exported": "資料已匯出",
+    "confirm_delete_account": "確認刪除帳戶？此操作不可撤銷。",
+    "display_name": "顯示名稱",
+    "gender": "性別",
+    "birth_date": "出生日期",
+    "birth_time": "出生時間",
+    "birth_place": "出生地點",
+    "calendar_type": "曆法類型",
+    "gregorian": "陽曆",
+    "lunar": "農曆",
+    "contact_info": "聯絡方式",
+    "optional": "選填",
+    "required": "必填",
+    "save_profile": "儲存資料",
+    "saving": "儲存中...",
+    "profile_saved": "資料儲存成功",
+    "validation_error": "驗證錯誤",
+    "invalid_email": "電子郵件格式不正確",
+    "invalid_phone": "電話號碼格式不正確",
+    "name_required": "姓名不能為空",
+    "email_required": "電子郵件不能為空",
+    "date_required": "日期不能為空",
+    "time_required": "時間不能為空",
+    "address_required": "地址不能為空"
+  },
+  "forms": {
+    "validation": {
+      "required": "此欄位為必填項",
+      "email": "請輸入有效的電子郵件地址",
+      "min_length": "最少需要 {{count}} 個字元",
+      "max_length": "最多只能 {{count}} 個字元",
+      "pattern": "格式不正確"
+    },
+    "placeholders": {
+      "display_name": "請輸入您的暱稱",
+      "email": "your@email.com",
+      "phone": "+886 912 345 678",
+      "birth_date": "選擇出生日期",
+      "birth_time": "選擇出生時間",
+      "address": "輸入出生地點",
+      "search_address": "搜尋地址..."
+    },
+    "tooltips": {
+      "display_name": "這是其他使用者看到的名稱，可以隨時修改",
+      "birth_date_lunar": "農曆日期，用於八字計算",
+      "birth_date_gregorian": "陽曆日期，用於八字計算",
+      "birth_time": "精確的出生時間有助於更準確的八字分析",
+      "birth_place": "出生地點用於真太陽時計算，提高八字分析精度",
+      "email": "用於接收重要通知和分析報告",
+      "phone": "用於接收簡訊通知和驗證",
+      "calendar_type": "選擇陽曆或農曆，影響八字計算的準確性"
+    },
+    "calendar": {
+      "select_date": "選擇日期",
+      "clear": "清除",
+      "today": "今天",
+      "cancel": "取消",
+      "confirm": "確定",
+      "lunar_note": "農曆模式下，系統會自動轉換為陽曆進行八字計算"
+    },
+    "time": {
+      "select_time": "選擇時間",
+      "hour": "小時",
+      "minute": "分鐘",
+      "period": "時段",
+      "am": "上午",
+      "pm": "下午",
+      "common_times": "常用時間"
+    },
+    "address": {
+      "select_location": "選擇位置",
+      "search_placeholder": "輸入地址，支援聯想搜尋",
+      "no_results": "未找到符合的地址，請嘗試其他關鍵詞",
+      "supported_formats": "支援輸入省市區縣、街道、社區名稱等",
+      "current_location": "目前位置",
+      "manual_entry": "手動輸入"
+    },
+    "map": {
+      "click_to_select": "點擊地圖選擇位置",
+      "drag_to_pan": "拖曳地圖移動",
+      "zoom_in": "放大",
+      "zoom_out": "縮小",
+      "reset_view": "重設視角",
+      "locate_me": "定位到目前位置",
+      "selected_location": "已選擇位置",
+      "latitude": "緯度",
+      "longitude": "經度",
+      "accuracy": "精度",
+      "address": "地址"
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "general": "通用",
+    "appearance": "外觀",
+    "notifications": "通知",
+    "privacy": "隱私",
+    "advanced": "進階",
+    "theme": "主題",
+    "light_theme": "淺色主題",
+    "dark_theme": "深色主題",
+    "auto_theme": "跟隨系統",
+    "font_size": "字體大小",
+    "small": "小",
+    "medium": "中",
+    "large": "大",
+    "email_notifications": "郵件通知",
+    "push_notifications": "推播通知",
+    "marketing_emails": "行銷郵件",
+    "data_collection": "資料收集",
+    "analytics": "分析統計",
+    "cookies": "Cookie設定",
+    "cache_management": "快取管理",
+    "clear_cache": "清除快取",
+    "export_settings": "匯出設定",
+    "import_settings": "匯入設定",
+    "reset_settings": "重設設定",
+    "settings_saved": "設定已儲存",
+    "cache_cleared": "快取已清除",
+    "settings_reset": "設定已重設"
+  },
+  "errors": {
+    "page_not_found": "頁面未找到",
+    "server_error": "伺服器錯誤",
+    "network_error": "網路錯誤",
+    "permission_denied": "權限不足",
+    "invalid_input": "輸入無效",
+    "file_not_found": "檔案未找到",
+    "upload_failed": "上傳失敗",
+    "processing_failed": "處理失敗",
+    "calculation_error": "計算錯誤",
+    "database_error": "資料庫錯誤",
+    "authentication_failed": "認證失敗",
+    "session_expired": "會話已過期",
+    "quota_exceeded": "配額已超出",
+    "feature_not_available": "功能不可用",
+    "maintenance_mode": "系統維護中",
+    "try_again_later": "請稍後重試",
+    "contact_support": "請聯絡客服",
+    "unknown_error": "未知錯誤"
+  },
+  "success": {
+    "operation_completed": "操作完成",
+    "data_saved": "資料已儲存",
+    "file_uploaded": "檔案已上傳",
+    "analysis_completed": "分析完成",
+    "report_generated": "報告已產生",
+    "settings_updated": "設定已更新",
+    "subscription_updated": "訂閱已更新",
+    "payment_successful": "支付成功",
+    "email_sent": "郵件已傳送",
+    "account_verified": "帳戶已驗證",
+    "password_reset": "密碼已重設",
+    "data_exported": "資料已匯出",
+    "backup_created": "備份已建立",
+    "sync_completed": "同步完成"
+  },
+  "guestAnalysis": {
+    "title": "智慧風水分析體驗",
+    "description": "體驗完整的八字命理和玄空飛星分析流程",
+    "steps": {
+      "personal": "個人資料",
+      "house": "房屋朝向",
+      "bazi": "八字分析",
+      "fengshui": "玄空飛星"
+    },
+    "personalData": {
+      "title": "填寫您的個人資訊",
+      "description": "請準確填寫出生資訊，這將直接影響八字分析的精度和準確性。",
+      "name": "姓名",
+      "gender": "性別",
+      "birthDate": "出生日期",
+      "birthTime": "出生時間",
+      "location": "出生地點",
+      "male": "男",
+      "female": "女",
+      "nextStep": "下一步：房屋朝向",
+      "fillSampleData": "一鍵填入範例資料"
+    },
+    "houseData": {
+      "title": "確定房屋朝向資訊",
+      "description": "您可以選擇手動輸入朝向角度，或使用數位羅盤進行精確測量。",
+      "compass": "數位羅盤測量",
+      "orientation": "朝向角度",
+      "floor": "樓層",
+      "address": "房屋地址",
+      "roomCount": "房間數量",
+      "currentOrientation": "目前朝向角度",
+      "previousStep": "上一步",
+      "nextStep": "下一步：開始分析",
+      "fillSampleData": "一鍵填入範例資料",
+      "selectFloorPlan": "選擇戶型圖",
+      "standardFloorPlans": "標準戶型圖",
+      "uploadFloorPlan": "上傳自訂戶型圖"
+    },
+    "analysis": {
+      "title": "準備開始分析",
+      "description": "我們將基於您提供的資訊，產生專業的八字命理和玄空飛星分析報告。",
+      "start": "開始分析",
+      "analyzing": "分析中...",
+      "baziTitle": "您的專屬八字命理分析",
+      "baziDescription": "基於您的出生資訊，經過專業演算法深度分析，呈現您的命理特徵和人生洞察。",
+      "fengshuiTitle": "玄空飛星風水分析",
+      "fengshuiDescription": "結合您的八字命理和房屋朝向，為您提供專業的風水佈局建議。"
+    }
+  },
+  "home": {
+    "title": "QiFlow AI - 智慧風水分析平台",
+    "subtitle": "結合傳統風水智慧與現代AI技術的智慧分析平台",
+    "features": {
+      "bazi": {
+        "title": "八字命理分析",
+        "description": "精確計算生辰八字，分析五行強弱，提供個人化命理指導"
+      },
+      "flyingStar": {
+        "title": "玄空飛星風水",
+        "description": "專業九宮飛星分析，結合房屋朝向，提供精準風水建議"
+      },
+      "compass": {
+        "title": "高精度數位羅盤",
+        "description": "±2°專業級精度，自動磁偏角修正，支援24山方位測量"
+      },
+      "floorPlan": {
+        "title": "戶型圖智慧疊加",
+        "description": "AI辨識房間佈局，自動疊加飛星圖，視覺化風水分析"
+      },
+      "visualization3d": {
+        "title": "3D風水展示",
+        "description": "立體化風水分析，VR模式支援，沉浸式體驗"
+      },
+      "aiAssistant": {
+        "title": "AI智慧助理",
+        "description": "專業風水諮詢，個人化建議，多輪對話記憶"
+      }
+    },
+    "actions": {
+      "continueAsGuest": "以訪客身分繼續",
+      "register": "立即註冊"
+    },
+    "highlights": {
+      "title": "核心特色",
+      "smartOverlay": {
+        "title": "智慧戶型疊加",
+        "description": "全球首創戶型圖與飛星圖智慧疊加技術"
+      },
+      "guestMode": {
+        "title": "訪客模式",
+        "description": "無需註冊即可體驗核心功能，資料24小時自動清理"
+      },
+      "precisionCompass": {
+        "title": "專業級羅盤",
+        "description": "±2°精度要求，支援多種感測器融合演算法"
+      },
+      "multilingual": {
+        "title": "多語言支援",
+        "description": "支援6種語言，全球化風水分析服務"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 QiFlow AI. 保留所有權利。",
+      "help": "幫助中心",
+      "about": "關於我們"
+    }
+  },
+  "analysis": {
+    "title": "準備開始分析",
+    "description": "我們將基於您提供的資訊，生成專業的八字命理和玄空飛星分析報告。",
+    "start": "開始分析",
+    "analyzing": "分析中...",
+    "baziTitle": "您的專屬八字命理分析",
+    "baziDescription": "基於您的出生資訊，經過專業算法深度分析，呈現您的命理特徵和人生洞察。",
+    "fengshuiTitle": "玄空飛星風水分析",
+    "fengshuiDescription": "結合您的八字命理和房屋朝向，為您提供專業的風水佈局建議。",
+    "aiEnhancedBazi": "AI增強八字命理分析",
+    "aiEnhancedBaziDescription": "基於專業算法深度解析您的八字命理，結合傳統十神理論與現代AI技術，為您提供個人化的人生洞察和運勢指引。",
+    "professionalTenGods": "專業十神分析",
+    "majorEventPrediction": "重大事件預測",
+    "yearlyInteraction": "流年互動分析",
+    "lifeFortuneCycle": "人生大運週期",
+    "previousStep": "上一步",
+    "nextStep": "下一步：開始分析",
+    "steps": {
+      "personalData": "個人資料",
+      "personalDataDesc": "填寫您的出生資訊",
+      "houseOrientation": "房屋朝向",
+      "houseOrientationDesc": "確定房屋朝向資訊",
+      "baziAnalysis": "八字分析",
+      "baziAnalysisDesc": "生成八字命理分析",
+      "flyingStar": "玄空飛星",
+      "flyingStarDesc": "生成風水分析報告"
+    }
+  },
+  "testGuest": {
+    "title": "測試遊客分析頁面",
+    "description": "測試遊客分析功能"
+  },
+  "guestAnalysis": {
+    "navigation": {
+      "back": "返回",
+      "title": "智能風水分析體驗"
+    },
+    "steps": {
+      "discoverDestiny": "發現您的命理密碼",
+      "determineLayout": "確定房屋風水佈局",
+      "professionalInsights": "基於專業八字算法，為您提供個人化的人生洞察和運勢指引。",
+      "preciseLayout": "通過精確的朝向測量，為您提供專業的風水佈局建議。"
+    },
+    "personalForm": {
+      "title": "填寫您的個人資訊",
+      "description": "請準確填寫出生資訊，這將直接影響八字分析的精度和準確性。",
+      "quickFill": "一鍵填入示例資料",
+      "name": "姓名",
+      "namePlaceholder": "請輸入您的姓名",
+      "nameRequired": "姓名 *",
+      "gender": "性別",
+      "genderRequired": "性別 *",
+      "genderPlaceholder": "請選擇性別",
+      "male": "男",
+      "female": "女",
+      "birthDate": "出生日期",
+      "birthDateRequired": "出生日期 *",
+      "birthTime": "出生時間",
+      "birthPlace": "出生地點",
+      "birthPlaceRequired": "出生地點 *",
+      "birthPlacePlaceholder": "請輸入出生城市",
+      "nextHouseOrientation": "下一步：房屋朝向"
+    },
+    "houseForm": {
+      "title": "確定房屋朝向資訊",
+      "description": "您可以選擇手動輸入朝向角度，或使用數字羅盤進行精確測量。",
+      "quickFill": "一鍵填入示例資料",
+      "selectFloorPlan": "選擇戶型圖",
+      "digitalCompass": "數字羅盤測量",
+      "currentOrientation": "當前朝向角度：",
+      "orientationAngle": "朝向角度",
+      "orientationRequired": "朝向角度 *",
+      "orientationPlaceholder": "0-360度",
+      "floor": "樓層",
+      "floorPlaceholder": "樓層數",
+      "address": "房屋地址",
+      "addressPlaceholder": "請輸入房屋地址",
+      "roomCount": "房間數量",
+      "roomCountPlaceholder": "房間數量"
+    },
+    "analysisReady": {
+      "title": "準備開始分析",
+      "description": "我們將基於您提供的資訊，生成專業的八字命理和玄空飛星分析報告。",
+      "startAnalysis": "開始分析"
+    },
+    "analyzing": "分析中...",
+    "sampleData": {
+      "name": "張三",
+      "location": "台北市",
+      "address": "台北市信義區",
+      "floorPlanName": "標準三室兩廳",
+      "floorPlanDescription": "坐北朝南，三室兩廳兩衛，面積約120㎡"
+    },
+    "disclaimer": "本分析僅供參考，不能替代專業諮詢。如有重要決策，請諮詢專業人士。"
+  },
+  "i18nTest": {
+    "currentLanguageInfo": "目前語言資訊",
+    "locale": "語言代碼",
+    "title": "標題",
+    "subtitle": "副標題",
+    "features": "功能特性",
+    "languageSwitchingTest": "語言切換測試",
+    "switchingInstructions": "嘗試使用上方的下拉選單切換語言，觀察內容變化。",
+    "commonTranslations": "常用翻譯",
+    "loading": "載入中",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "確認",
+    "search": "搜尋",
+    "save": "儲存"
+  },
+  "floorPlan": {
+    "standardListTitle": "選擇標準戶型圖",
+    "standard-3room": {
+      "name": "標準三室兩廳",
+      "description": "坐北朝南，三室兩廳兩衛，面積約120㎡"
+    },
+    "standard-2room": {
+      "name": "標準兩室一廳",
+      "description": "坐北朝南，兩室一廳一衛，面積約80㎡"
+    },
+    "standard-4room": {
+      "name": "標準四室兩廳",
+      "description": "坐北朝南，四室兩廳三衛，面積約150㎡"
+    },
+    "summary": "{count}個房間 | {area}㎡",
+    "upload": {
+      "title": "上傳自訂戶型圖",
+      "button": "上傳戶型圖檔案",
+      "clickToSelect": "點擊選擇戶型圖檔案",
+      "supportedFormats": "支援 JPG, PNG, PDF 格式",
+      "customName": "自訂戶型圖",
+      "customDescription": "使用者上傳的戶型圖"
+    },
+    "selected": "已選擇戶型圖"
+  }
+}
+    "calendar_type": "曆法類型",
+
+    "gregorian": "陽曆",
+
+    "lunar": "農曆",
+
+    "contact_info": "聯絡方式",
+
+    "optional": "選填",
+
+    "required": "必填",
+
+    "save_profile": "儲存資料",
+
+    "saving": "儲存中...",
+
+    "profile_saved": "資料儲存成功",
+
+    "validation_error": "驗證錯誤",
+
+    "invalid_email": "電子郵件格式不正確",
+
+    "invalid_phone": "電話號碼格式不正確",
+
+    "name_required": "姓名不能為空",
+
+    "email_required": "電子郵件不能為空",
+
+    "date_required": "日期不能為空",
+
+    "time_required": "時間不能為空",
+
+    "address_required": "地址不能為空"
+
+  },
+
+  "forms": {
+
+    "validation": {
+
+      "required": "此欄位為必填項",
+
+      "email": "請輸入有效的電子郵件地址",
+
+      "min_length": "最少需要 {{count}} 個字元",
+
+      "max_length": "最多只能 {{count}} 個字元",
+
+      "pattern": "格式不正確"
+
+    },
+
+    "placeholders": {
+
+      "display_name": "請輸入您的暱稱",
+
+      "email": "your@email.com",
+
+      "phone": "+886 912 345 678",
+
+      "birth_date": "選擇出生日期",
+
+      "birth_time": "選擇出生時間",
+
+      "address": "輸入出生地點",
+
+      "search_address": "搜尋地址..."
+
+    },
+
+    "tooltips": {
+
+      "display_name": "這是其他使用者看到的名稱，可以隨時修改",
+
+      "birth_date_lunar": "農曆日期，用於八字計算",
+
+      "birth_date_gregorian": "陽曆日期，用於八字計算",
+
+      "birth_time": "精確的出生時間有助於更準確的八字分析",
+
+      "birth_place": "出生地點用於真太陽時計算，提高八字分析精度",
+
+      "email": "用於接收重要通知和分析報告",
+
+      "phone": "用於接收簡訊通知和驗證",
+
+      "calendar_type": "選擇陽曆或農曆，影響八字計算的準確性"
+
+    },
+
+    "calendar": {
+
+      "select_date": "選擇日期",
+
+      "clear": "清除",
+
+      "today": "今天",
+
+      "cancel": "取消",
+
+      "confirm": "確定",
+
+      "lunar_note": "農曆模式下，系統會自動轉換為陽曆進行八字計算"
+
+    },
+
+    "time": {
+
+      "select_time": "選擇時間",
+
+      "hour": "小時",
+
+      "minute": "分鐘",
+
+      "period": "時段",
+
+      "am": "上午",
+
+      "pm": "下午",
+
+      "common_times": "常用時間"
+
+    },
+
+    "address": {
+
+      "select_location": "選擇位置",
+
+      "search_placeholder": "輸入地址，支援聯想搜尋",
+
+      "no_results": "未找到符合的地址，請嘗試其他關鍵詞",
+
+      "supported_formats": "支援輸入省市區縣、街道、社區名稱等",
+
+      "current_location": "目前位置",
+
+      "manual_entry": "手動輸入"
+
+    },
+
+    "map": {
+
+      "click_to_select": "點擊地圖選擇位置",
+
+      "drag_to_pan": "拖曳地圖移動",
+
+      "zoom_in": "放大",
+
+      "zoom_out": "縮小",
+
+      "reset_view": "重設視角",
+
+      "locate_me": "定位到目前位置",
+
+      "selected_location": "已選擇位置",
+
+      "latitude": "緯度",
+
+      "longitude": "經度",
+
+      "accuracy": "精度",
+
+      "address": "地址"
+
+    }
+
+  },
+
+  "settings": {
+
+    "title": "設定",
+
+    "general": "通用",
+
+    "appearance": "外觀",
+
+    "notifications": "通知",
+
+    "privacy": "隱私",
+
+    "advanced": "進階",
+
+    "theme": "主題",
+
+    "light_theme": "淺色主題",
+
+    "dark_theme": "深色主題",
+
+    "auto_theme": "跟隨系統",
+
+    "font_size": "字體大小",
+
+    "small": "小",
+
+    "medium": "中",
+
+    "large": "大",
+
+    "email_notifications": "郵件通知",
+
+    "push_notifications": "推播通知",
+
+    "marketing_emails": "行銷郵件",
+
+    "data_collection": "資料收集",
+
+    "analytics": "分析統計",
+
+    "cookies": "Cookie設定",
+
+    "cache_management": "快取管理",
+
+    "clear_cache": "清除快取",
+
+    "export_settings": "匯出設定",
+
+    "import_settings": "匯入設定",
+
+    "reset_settings": "重設設定",
+
+    "settings_saved": "設定已儲存",
+
+    "cache_cleared": "快取已清除",
+
+    "settings_reset": "設定已重設"
+
+  },
+
+  "errors": {
+
+    "page_not_found": "頁面未找到",
+
+    "server_error": "伺服器錯誤",
+
+    "network_error": "網路錯誤",
+
+    "permission_denied": "權限不足",
+
+    "invalid_input": "輸入無效",
+
+    "file_not_found": "檔案未找到",
+
+    "upload_failed": "上傳失敗",
+
+    "processing_failed": "處理失敗",
+
+    "calculation_error": "計算錯誤",
+
+    "database_error": "資料庫錯誤",
+
+    "authentication_failed": "認證失敗",
+
+    "session_expired": "會話已過期",
+
+    "quota_exceeded": "配額已超出",
+
+    "feature_not_available": "功能不可用",
+
+    "maintenance_mode": "系統維護中",
+
+    "try_again_later": "請稍後重試",
+
+    "contact_support": "請聯絡客服",
+
+    "unknown_error": "未知錯誤"
+
+  },
+
+  "success": {
+
+    "operation_completed": "操作完成",
+
+    "data_saved": "資料已儲存",
+
+    "file_uploaded": "檔案已上傳",
+
+    "analysis_completed": "分析完成",
+
+    "report_generated": "報告已產生",
+
+    "settings_updated": "設定已更新",
+
+    "subscription_updated": "訂閱已更新",
+
+    "payment_successful": "支付成功",
+
+    "email_sent": "郵件已傳送",
+
+    "account_verified": "帳戶已驗證",
+
+    "password_reset": "密碼已重設",
+
+    "data_exported": "資料已匯出",
+
+    "backup_created": "備份已建立",
+
+    "sync_completed": "同步完成"
+
+  },
+
+  "guestAnalysis": {
+
+    "title": "智慧風水分析體驗",
+
+    "description": "體驗完整的八字命理和玄空飛星分析流程",
+
+    "steps": {
+
+      "personal": "個人資料",
+
+      "house": "房屋朝向",
+
+      "bazi": "八字分析",
+
+      "fengshui": "玄空飛星"
+
+    },
+
+    "personalData": {
+
+      "title": "填寫您的個人資訊",
+
+      "description": "請準確填寫出生資訊，這將直接影響八字分析的精度和準確性。",
+
+      "name": "姓名",
+
+      "gender": "性別",
+
+      "birthDate": "出生日期",
+
+      "birthTime": "出生時間",
+
+      "location": "出生地點",
+
+      "male": "男",
+
+      "female": "女",
+
+      "nextStep": "下一步：房屋朝向",
+
+      "fillSampleData": "一鍵填入範例資料"
+
+    },
+
+    "houseData": {
+
+      "title": "確定房屋朝向資訊",
+
+      "description": "您可以選擇手動輸入朝向角度，或使用數位羅盤進行精確測量。",
+
+      "compass": "數位羅盤測量",
+
+      "orientation": "朝向角度",
+
+      "floor": "樓層",
+
+      "address": "房屋地址",
+
+      "roomCount": "房間數量",
+
+      "currentOrientation": "目前朝向角度",
+
+      "previousStep": "上一步",
+
+      "nextStep": "下一步：開始分析",
+
+      "fillSampleData": "一鍵填入範例資料",
+
+      "selectFloorPlan": "選擇戶型圖",
+
+      "standardFloorPlans": "標準戶型圖",
+
+      "uploadFloorPlan": "上傳自訂戶型圖"
+
+    },
+
+    "analysis": {
+
+      "title": "準備開始分析",
+
+      "description": "我們將基於您提供的資訊，產生專業的八字命理和玄空飛星分析報告。",
+
+      "start": "開始分析",
+
+      "analyzing": "分析中...",
+
+      "baziTitle": "您的專屬八字命理分析",
+
+      "baziDescription": "基於您的出生資訊，經過專業演算法深度分析，呈現您的命理特徵和人生洞察。",
+
+      "fengshuiTitle": "玄空飛星風水分析",
+
+      "fengshuiDescription": "結合您的八字命理和房屋朝向，為您提供專業的風水佈局建議。"
+
+    }
+
+  },
+
+  "home": {
+
+    "title": "QiFlow AI - 智慧風水分析平台",
+
+    "subtitle": "結合傳統風水智慧與現代AI技術的智慧分析平台",
+
+    "features": {
+
+      "bazi": {
+
+        "title": "八字命理分析",
+
+        "description": "精確計算生辰八字，分析五行強弱，提供個人化命理指導"
+
+      },
+
+      "flyingStar": {
+
+        "title": "玄空飛星風水",
+
+        "description": "專業九宮飛星分析，結合房屋朝向，提供精準風水建議"
+
+      },
+
+      
+
+      "floorPlan": {
+
+        "title": "戶型圖智慧疊加",
+
+        "description": "AI辨識房間佈局，自動疊加飛星圖，視覺化風水分析"
+
+      },
+
+      "visualization3d": {
+
+        "title": "3D風水展示",
+
+        "description": "立體化風水分析，VR模式支援，沉浸式體驗"
+
+      },
+
+      "aiAssistant": {
+
+        "title": "AI智慧助理",
+
+        "description": "專業風水諮詢，個人化建議，多輪對話記憶"
+
+      }
+
+    },
+
+    "actions": {
+
+      "continueAsGuest": "以訪客身分繼續",
+
+      "register": "立即註冊"
+
+    },
+
+    "highlights": {
+
+      "title": "核心特色",
+
+      "smartOverlay": {
+
+        "title": "智慧戶型疊加",
+
+        "description": "全球首創戶型圖與飛星圖智慧疊加技術"
+
+      },
+
+      "guestMode": {
+
+        "title": "訪客模式",
+
+        "description": "無需註冊即可體驗核心功能，資料24小時自動清理"
+
+      },
+
+      "precisionCompass": {
+
+        "title": "專業級羅盤",
+
+        "description": "±2°精度要求，支援多種感測器融合演算法"
+
+      },
+
+      "multilingual": {
+
+        "title": "多語言支援",
+
+        "description": "支援6種語言，全球化風水分析服務"
+
+      }
+
+    },
+
+    "footer": {
+
+      "copyright": "© 2024 QiFlow AI. 保留所有權利。",
+
+      "help": "幫助中心",
+
+      "about": "關於我們"
+
+    }
+
+  },
+
+  "analysis": {
+
+    "title": "準備開始分析",
+
+    "description": "我們將基於您提供的資訊，生成專業的八字命理和玄空飛星分析報告。",
+
+    "start": "開始分析",
+
+    "analyzing": "分析中...",
+
+    "baziTitle": "您的專屬八字命理分析",
+
+    "baziDescription": "基於您的出生資訊，經過專業算法深度分析，呈現您的命理特徵和人生洞察。",
+
+    "fengshuiTitle": "玄空飛星風水分析",
+
+    "fengshuiDescription": "結合您的八字命理和房屋朝向，為您提供專業的風水佈局建議。",
+
+    "aiEnhancedBazi": "AI增強八字命理分析",
+
+    "aiEnhancedBaziDescription": "基於專業算法深度解析您的八字命理，結合傳統十神理論與現代AI技術，為您提供個人化的人生洞察和運勢指引。",
+
+    "professionalTenGods": "專業十神分析",
+
+    "majorEventPrediction": "重大事件預測",
+
+    "yearlyInteraction": "流年互動分析",
+
+    "lifeFortuneCycle": "人生大運週期",
+
+    "previousStep": "上一步",
+
+    "nextStep": "下一步：開始分析",
+
+    "steps": {
+
+      "personalData": "個人資料",
+
+      "personalDataDesc": "填寫您的出生資訊",
+
+      "houseOrientation": "房屋朝向",
+
+      "houseOrientationDesc": "確定房屋朝向資訊",
+
+      "baziAnalysis": "八字分析",
+
+      "baziAnalysisDesc": "生成八字命理分析",
+
+      "flyingStar": "玄空飛星",
+
+      "flyingStarDesc": "生成風水分析報告"
+
+    }
+
+  },
+
+  "testGuest": {
+
+    "title": "測試遊客分析頁面",
+
+    "description": "測試遊客分析功能"
+
+  },
+
+  "guestAnalysis": {
+
+    "navigation": {
+
+      "back": "返回",
+
+      "title": "智能風水分析體驗"
+
+    },
+
+    "steps": {
+
+      "discoverDestiny": "發現您的命理密碼",
+
+      "determineLayout": "確定房屋風水佈局",
+
+      "professionalInsights": "基於專業八字算法，為您提供個人化的人生洞察和運勢指引。",
+
+      "preciseLayout": "通過精確的朝向測量，為您提供專業的風水佈局建議。"
+
+    },
+
+    "personalForm": {
+
+      "title": "填寫您的個人資訊",
+
+      "description": "請準確填寫出生資訊，這將直接影響八字分析的精度和準確性。",
+
+      "quickFill": "一鍵填入示例資料",
+
+      "name": "姓名",
+
+      "namePlaceholder": "請輸入您的姓名",
+
+      "nameRequired": "姓名 *",
+
+      "gender": "性別",
+
+      "genderRequired": "性別 *",
+
+      "genderPlaceholder": "請選擇性別",
+
+      "male": "男",
+
+      "female": "女",
+
+      "birthDate": "出生日期",
+
+      "birthDateRequired": "出生日期 *",
+
+      "birthTime": "出生時間",
+
+      "birthPlace": "出生地點",
+
+      "birthPlaceRequired": "出生地點 *",
+
+      "birthPlacePlaceholder": "請輸入出生城市",
+
+      "nextHouseOrientation": "下一步：房屋朝向"
+
+    },
+
+    "houseForm": {
+
+      "title": "確定房屋朝向資訊",
+
+      "description": "您可以選擇手動輸入朝向角度，或使用數字羅盤進行精確測量。",
+
+      "quickFill": "一鍵填入示例資料",
+
+      "selectFloorPlan": "選擇戶型圖",
+
+      "digitalCompass": "數字羅盤測量",
+
+      "currentOrientation": "當前朝向角度：",
+
+      "orientationAngle": "朝向角度",
+
+      "orientationRequired": "朝向角度 *",
+
+      "orientationPlaceholder": "0-360度",
+
+      "floor": "樓層",
+
+      "floorPlaceholder": "樓層數",
+
+      "address": "房屋地址",
+
+      "addressPlaceholder": "請輸入房屋地址",
+
+      "roomCount": "房間數量",
+
+      "roomCountPlaceholder": "房間數量"
+
+    },
+
+    "analysisReady": {
+
+      "title": "準備開始分析",
+
+      "description": "我們將基於您提供的資訊，生成專業的八字命理和玄空飛星分析報告。",
+
+      "startAnalysis": "開始分析"
+
+    },
+
+    "analyzing": "分析中...",
+
+    "sampleData": {
+
+      "name": "張三",
+
+      "location": "台北市",
+
+      "address": "台北市信義區",
+
+      "floorPlanName": "標準三室兩廳",
+
+      "floorPlanDescription": "坐北朝南，三室兩廳兩衛，面積約120㎡"
+
+    },
+
+    "disclaimer": "本分析僅供參考，不能替代專業諮詢。如有重要決策，請諮詢專業人士。"
+
+  },
+
+  "i18nTest": {
+
+    "currentLanguageInfo": "目前語言資訊",
+
+    "locale": "語言代碼",
+
+    "title": "標題",
+
+    "subtitle": "副標題",
+
+    "features": "功能特性",
+
+    "languageSwitchingTest": "語言切換測試",
+
+    "switchingInstructions": "嘗試使用上方的下拉選單切換語言，觀察內容變化。",
+
+    "commonTranslations": "常用翻譯",
+
+    "loading": "載入中",
+
+    "success": "成功",
+
+    "cancel": "取消",
+
+    "confirm": "確認",
+
+    "search": "搜尋",
+
+    "save": "儲存"
+
+  },
+
+  "floorPlan": {
+
+    "standardListTitle": "選擇標準戶型圖",
+
+    "standard-3room": {
+
+      "name": "標準三室兩廳",
+
+      "description": "坐北朝南，三室兩廳兩衛，面積約120㎡"
+
+    },
+
+    "standard-2room": {
+
+      "name": "標準兩室一廳",
+
+      "description": "坐北朝南，兩室一廳一衛，面積約80㎡"
+
+    },
+
+    "standard-4room": {
+
+      "name": "標準四室兩廳",
+
+      "description": "坐北朝南，四室兩廳三衛，面積約150㎡"
+
+    },
+
+    "summary": "{count}個房間 | {area}㎡",
+
+    "upload": {
+
+      "title": "上傳自訂戶型圖",
+
+      "button": "上傳戶型圖檔案",
+
+      "clickToSelect": "點擊選擇戶型圖檔案",
+
+      "supportedFormats": "支援 JPG, PNG, PDF 格式",
+
+      "customName": "自訂戶型圖",
+
+      "customDescription": "使用者上傳的戶型圖"
+
+    },
+
+    "selected": "已選擇戶型圖"
+
+  }
+
+}
