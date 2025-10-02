@@ -1,0 +1,70 @@
+{
+  "timestamp": "2025-10-02T05:48:19.273Z",
+  "testType": "manual",
+  "instructions": "请按照以下步骤手动测试",
+  "tests": [
+    {
+      "name": "Home页加载",
+      "url": "http://localhost:3000/zh",
+      "steps": [
+        "1. 打开浏览器访问 http://localhost:3000/zh",
+        "2. 检查页面是否正常加载",
+        "3. 检查是否有年龄验证弹窗",
+        "4. 检查是否有免责声明栏",
+        "5. 检查导航菜单是否正常"
+      ],
+      "expectedResult": "页面正常加载，无5xx错误",
+      "status": "pending"
+    },
+    {
+      "name": "八字分析页面",
+      "url": "http://localhost:3000/zh/analysis/bazi",
+      "steps": [
+        "1. 访问八字分析页面",
+        "2. 检查表单是否正常显示",
+        "3. 检查积分价格显示",
+        "4. 填写测试数据：姓名=测试用户，生日=1990-01-01 08:08，性别=男",
+        "5. 提交表单",
+        "6. 检查结果或错误提示"
+      ],
+      "expectedResult": "表单提交成功或显示合理的错误提示",
+      "status": "pending"
+    },
+    {
+      "name": "玄空风水分析页面",
+      "url": "http://localhost:3000/zh/analysis/xuankong",
+      "steps": [
+        "1. 访问玄空风水分析页面",
+        "2. 检查表单是否正常显示",
+        "3. 检查积分价格显示",
+        "4. 填写测试数据：地址=测试地址，朝向=180",
+        "5. 提交表单",
+        "6. 检查结果或错误提示"
+      ],
+      "expectedResult": "表单提交成功或显示合理的错误提示",
+      "status": "pending"
+    },
+    {
+      "name": "其他页面检查",
+      "urls": [
+        "http://localhost:3000/zh/pricing",
+        "http://localhost:3000/zh/dashboard",
+        "http://localhost:3000/zh/blog"
+      ],
+      "steps": [
+        "1. 依次访问各个页面",
+        "2. 检查页面是否正常加载",
+        "3. 检查是否有5xx错误",
+        "4. 检查页面内容是否完整"
+      ],
+      "expectedResult": "所有页面正常加载",
+      "status": "pending"
+    }
+  ],
+  "notes": [
+    "注意：由于需要用户登录和积分，表单提交可能会失败，这是正常的",
+    "主要验证目标是页面加载无5xx错误",
+    "如果看到合理的错误提示（如需要登录、积分不足等），说明功能正常",
+    "请截图保存测试结果"
+  ]
+}

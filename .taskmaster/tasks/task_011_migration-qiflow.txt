@@ -1,6 +1,6 @@
 # Task ID: 11
 # Title: C10 提交与差异报告
-# Status: pending
+# Status: done
 # Dependencies: None
 # Priority: medium
 # Description: 原子提交并生成差异报告

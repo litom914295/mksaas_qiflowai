@@ -1,6 +1,6 @@
 # Task ID: 12
 # Title: 回滚与风险验证
-# Status: pending
+# Status: in-progress
 # Dependencies: None
 # Priority: medium
 # Description: 验证回滚路径与兜底链路
@@ -11,3 +11,53 @@
 
 # Test Strategy:
 手动验证回滚成功；兜底链路可用；依赖冲突可收敛
+
+# Subtasks:
+## 1. 数据库迁移回滚验证 [pending]
+### Dependencies: None
+### Description: 验证Drizzle ORM数据库迁移的回滚路径
+### Details:
+- 测试 drizzle-kit drop 命令
+- 验证迁移文件的降级SQL
+- 检查数据完整性和外键约束
+- 文档化回滚步骤和注意事项
+
+## 2. Git分支回滚测试 [pending]
+### Dependencies: None
+### Description: 验证Git代码回滚和分支恢复流程
+### Details:
+- 测试 git revert 单个提交
+- 测试 git reset --hard 回滚到特定提交
+- 验证分支删除和重建
+- 文档化代码恢复的最佳实践
+
+## 3. 降级处理机制验证 [pending]
+### Dependencies: None
+### Description: 测试已实现的兜底链路和降级处理
+### Details:
+- 验证低置信度触发降级逻辑
+- 测试手动输入fallback功能
+- 检查拒答机制和错误提示
+- 验证校准引导UX流程
+- 确认所有降级路径可用
+
+## 4. 依赖冲突风险评估 [pending]
+### Dependencies: None
+### Description: 评估依赖版本冲突并制定解决策略
+### Details:
+- 分析当前依赖树和版本约束
+- 识别潜在的版本冲突点
+- 评估降级依赖版本的影响
+- 制定别名或局部锁版本策略
+- 文档化依赖冲突解决方案
+
+## 5. 回滚文档与应急预案 [pending]
+### Dependencies: None
+### Description: 生成完整的回滚文档和应急响应预案
+### Details:
+- 编写数据库回滚操作手册
+- 编写代码回滚SOP（标准操作流程）
+- 制定应急响应流程图
+- 识别关键风险点和应对措施
+- 创建回滚决策树和检查清单
+
