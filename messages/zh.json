@@ -1057,5 +1057,171 @@
   "AIAudioPage": {
     "title": "AI 音频",
     "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
+  },
+  "QiFlow": {
+    "Common": {
+      "invalidInput": "输入无效，请检查后重试。",
+      "confidenceLabel": "置信度：",
+      "fixOrFill": "前往补齐必填项"
+    },
+    "BaziPage": {
+      "title": "八字分析",
+      "form": {
+        "name": "姓名",
+        "birth": "出生日期 1990-01-01 08:08",
+        "gender": {
+          "male": "男",
+          "female": "女"
+        },
+        "submit": "开始计算",
+        "description": "请输入出生信息并选择性别",
+        "meta": {
+          "time": "预计耗时约 1-2 秒",
+          "save": "登录后可保存历史记录"
+        }
+      },
+      "result": {
+        "completed": "计算完成，已消耗积分：{credits}",
+        "user": "用户：{userId}",
+        "pillarsHint": "示例结果 pillars: {pillars}"
+      }
+    },
+    "XuankongPage": {
+      "title": "玄空飞星",
+      "form": {
+        "address": "地址",
+        "facing": "朝向（度）",
+        "notes": "户型/楼层/特殊说明",
+        "submit": "开始分析",
+        "description": "请输入地址与朝向（度）",
+        "meta": {
+          "time": "预计耗时约 1-2 秒",
+          "save": "登录后可保存历史记录"
+        }
+      },
+      "low": {
+        "title": "自动判定已拒绝（置信度过低）。",
+        "body": "请手动输入关键参数或尝试以下校准建议：",
+        "hints": [
+          "确保传感器权限已开启且稳定持握设备",
+          "远离强磁干扰与金属物体",
+          "缓慢旋转进行罗盘校准"
+        ]
+      },
+      "medium": {
+        "title": "置信度中等，建议进行校准以提升准确率（0.7~0.9）。",
+        "hints": ["在开阔环境重复采样", "轻微 8 字摇摆手机完成校准"]
+      },
+      "success": "分析完成，已生成建议。"
+    },
+    "States": {
+      "empty": {
+        "title": "暂无数据",
+        "desc": "请先填写必要信息后再开始分析。"
+      },
+      "error": {
+        "title": "输入无效",
+        "desc": "发生错误，请检查信息后重试。"
+      },
+      "limited": {
+        "title": "建议补充信息",
+        "desc": "请补全必要字段以继续。"
+      },
+      "timeout": {
+        "title": "请求超时",
+        "desc": "操作耗时过长，请稍后再试。"
+      }
+    }
+  },
+  "BaziHome": {
+    "hero": {
+      "title": "AI 八字风水 · 一键深度解读",
+      "subtitle": "融合东方智慧与现代 AI，让你更快看清当下与趋势。无需复杂术语，输入信息即可获得要点、建议与行动方向。",
+      "cta": {
+        "startBazi": "开始八字分析",
+        "tryCompass": "试用风水罗盘",
+        "askAi": "向 AI 提问"
+      }
+    },
+    "billing": {
+      "hint": "计费口径：aiChat=5、deepInterpretation=30、bazi=10、xuankong=20、pdfExport=5；余额不足将自动降级到简版结果。"
+    },
+    "trust": {
+      "professional": "专业方法",
+      "ai": "AI 加持",
+      "privacy": "隐私安全"
+    },
+    "features": {
+      "bazi": {
+        "title": "八字分析",
+        "desc": "一键生成命盘要点、十神关系与近期趋势。"
+      },
+      "compass": {
+        "title": "风水罗盘",
+        "desc": "预览关键方位与飞星九宫提示，辅助选址与优化。"
+      },
+      "ai": {
+        "title": "AI 咨询",
+        "desc": "自然语言问答，获得针对性的建议与解释。"
+      }
+    },
+    "how": {
+      "title": "3 步开始",
+      "steps": {
+        "s1": {
+          "title": "输入信息",
+          "desc": "填写出生日期时间，或授权定位获取坐标。"
+        },
+        "s2": {
+          "title": "AI 生成",
+          "desc": "自动生成命盘要点与空间方位提示。"
+        },
+        "s3": {
+          "title": "获得建议",
+          "desc": "阅读解读与行动要点，可继续向 AI 追问。"
+        }
+      }
+    },
+    "teaser": {
+      "title": "罗盘预览（可旋转）",
+      "clockwise": "顺时针 +15°",
+      "counterClockwise": "逆时针 -15°",
+      "currentDegreeLabel": "当前角度："
+    },
+    "cta": {
+      "title": "立即开始你的 AI 八字风水解读",
+      "subtitle": "透明计费 · 隐私保护 · 专家方法与 AI 双重校验",
+      "startBazi": "免费试用八字分析",
+      "askAi": "与 AI 沟通想法"
+    },
+    "states": {
+      "empty": {
+        "title": "还没有输入信息",
+        "desc": "尝试输入出生日期时间，或试试风水罗盘预览。"
+      },
+      "error": { "title": "出错了", "desc": "请检查信息格式或稍后再试。" },
+      "limited": {
+        "title": "已切换为简版结果",
+        "desc": "余额不足。稍后可充值或升级以解锁完整分析。"
+      },
+      "timeout": {
+        "title": "请求超时",
+        "desc": "网络波动或服务繁忙，请稍后重试。"
+      }
+    },
+    "seo": {
+      "keywords": [
+        "AI八字",
+        "八字分析",
+        "风水罗盘",
+        "玄空飞星",
+        "AI咨询",
+        "命盘",
+        "风水",
+        "Bazi",
+        "Feng Shui",
+        "Luopan"
+      ]
+    }
   }
 }

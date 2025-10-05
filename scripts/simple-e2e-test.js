@@ -20,10 +20,10 @@ const manualTestResults = {
         '2. 检查页面是否正常加载',
         '3. 检查是否有年龄验证弹窗',
         '4. 检查是否有免责声明栏',
-        '5. 检查导航菜单是否正常'
+        '5. 检查导航菜单是否正常',
       ],
       expectedResult: '页面正常加载，无5xx错误',
-      status: 'pending'
+      status: 'pending',
     },
     {
       name: '八字分析页面',
@@ -34,10 +34,10 @@ const manualTestResults = {
         '3. 检查积分价格显示',
         '4. 填写测试数据：姓名=测试用户，生日=1990-01-01 08:08，性别=男',
         '5. 提交表单',
-        '6. 检查结果或错误提示'
+        '6. 检查结果或错误提示',
       ],
       expectedResult: '表单提交成功或显示合理的错误提示',
-      status: 'pending'
+      status: 'pending',
     },
     {
       name: '玄空风水分析页面',
@@ -48,34 +48,34 @@ const manualTestResults = {
         '3. 检查积分价格显示',
         '4. 填写测试数据：地址=测试地址，朝向=180',
         '5. 提交表单',
-        '6. 检查结果或错误提示'
+        '6. 检查结果或错误提示',
       ],
       expectedResult: '表单提交成功或显示合理的错误提示',
-      status: 'pending'
+      status: 'pending',
     },
     {
       name: '其他页面检查',
       urls: [
         'http://localhost:3000/zh/pricing',
         'http://localhost:3000/zh/dashboard',
-        'http://localhost:3000/zh/blog'
+        'http://localhost:3000/zh/blog',
       ],
       steps: [
         '1. 依次访问各个页面',
         '2. 检查页面是否正常加载',
         '3. 检查是否有5xx错误',
-        '4. 检查页面内容是否完整'
+        '4. 检查页面内容是否完整',
       ],
       expectedResult: '所有页面正常加载',
-      status: 'pending'
-    }
+      status: 'pending',
+    },
   ],
   notes: [
     '注意：由于需要用户登录和积分，表单提交可能会失败，这是正常的',
     '主要验证目标是页面加载无5xx错误',
     '如果看到合理的错误提示（如需要登录、积分不足等），说明功能正常',
-    '请截图保存测试结果'
-  ]
+    '请截图保存测试结果',
+  ],
 };
 
 // 保存测试指南
@@ -95,7 +95,7 @@ manualTestResults.tests.forEach((test, index) => {
   console.log(`${index + 1}. ${test.name}`);
   console.log(`   URL: ${test.url || test.urls?.join(', ')}`);
   console.log('   步骤:');
-  test.steps.forEach(step => {
+  test.steps.forEach((step) => {
     console.log(`     ${step}`);
   });
   console.log(`   预期结果: ${test.expectedResult}`);
@@ -103,7 +103,7 @@ manualTestResults.tests.forEach((test, index) => {
 });
 
 console.log('📝 注意事项:');
-manualTestResults.notes.forEach(note => {
+manualTestResults.notes.forEach((note) => {
   console.log(`   - ${note}`);
 });
 
@@ -114,12 +114,12 @@ console.log('📸 请截图保存测试结果到 artifacts/C9/screenshots/ 目�
 const resultTemplate = {
   timestamp: new Date().toISOString(),
   tester: '请填写测试者姓名',
-  results: manualTestResults.tests.map(test => ({
+  results: manualTestResults.tests.map((test) => ({
     name: test.name,
     status: 'pending', // pending, passed, failed
     notes: '',
-    screenshots: []
-  }))
+    screenshots: [],
+  })),
 };
 
 const resultFile = path.join(outputDir, 'e2e-test-results-template.json');

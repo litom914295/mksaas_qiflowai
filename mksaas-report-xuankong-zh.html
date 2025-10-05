@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>玄空风水分析报告（示例）</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111827;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --primary: #111827;
+      --accent: #3c82e6;
+      --green: #10b981;
+      --danger: #ef4444;
+      --grid: #d1d5db;
+      --guide: #9ca3af;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px;
+      background: var(--bg); color: var(--fg);
+      font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+      line-height: 1.5;
+    }
+    .container { max-width: 920px; margin: 0 auto; }
+    h1 { font-size: 24px; margin: 0 0 12px; }
+    h2 { font-size: 18px; margin: 24px 0 8px; }
+    h3 { font-size: 16px; margin: 16px 0 8px; }
+    .muted { color: var(--muted); }
+    .tiny { font-size: 12px; color: #4b5563; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .toc ul { margin: 8px 0; padding-left: 20px; }
+    .list-disc { list-style: disc; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 12px; }
+    pre { background: #fafafa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; overflow: auto; }
+    .kv { display: grid; grid-template-columns: 120px 1fr; gap: 8px 12px; }
+    .kv .k { color: var(--muted); }
+
+    /* Lo Shu 九宫格 */
+    .loshu { position: relative; width: 360px; height: 360px; margin: 8px 0; }
+    .loshu-grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); border: 1px solid var(--grid); }
+    .loshu-cell { border: 1px solid var(--grid); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; color: var(--fg); }
+    .guide-v, .guide-h { position: absolute; background: var(--guide); opacity: .6; }
+    .guide-v { top: 0; bottom: 0; width: 1px; left: 50%; transform: translateX(-0.5px); }
+    .guide-h { left: 0; right: 0; height: 1px; top: 50%; transform: translateY(-0.5px); }
+    .loshu-label { position: absolute; font-size: 11px; color: #6b7280; line-height: 1.1; text-align: center; }
+    .l-nw { top: -28px; left: 6px; }
+    .l-n  { top: -28px; left: 50%; transform: translateX(-50%); }
+    .l-ne { top: -28px; right: 6px; }
+    .l-w  { top: 50%; left: -48px; transform: translateY(-50%); }
+    .l-e  { top: 50%; right: -48px; transform: translateY(-50%); }
+    .l-sw { bottom: -32px; left: 6px; }
+    .l-s  { bottom: -32px; left: 50%; transform: translateX(-50%); }
+    .l-se { bottom: -32px; right: 6px; }
+
+    .tip { color: #374151; background: #f9fafb; border: 1px dashed var(--border); padding: 10px; border-radius: 8px; }
+    .section { margin-top: 20px; }
+    .legend { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .legend .item { display: flex; align-items: center; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 2px; background: #ccc; display: inline-block; }
+    .dot-guide { background: var(--guide); }
+    .dot-grid { background: var(--grid); }
+    .dot-accent { background: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>玄空风水分析报告（示例）</h1>
+    <div class="muted">参考原项目的报告结构，带 Lo Shu 九宫格与注记。</div>
+
+    <div class="section card toc">
+      <h2>目录</h2>
+      <ul class="list-disc">
+        <li>要点摘要</li>
+        <li>概览</li>
+        <li>分析结果</li>
+        <li>图表（Lo Shu 九宫格）</li>
+      </ul>
+    </div>
+
+    <div class="section card">
+      <h2>要点摘要</h2>
+      <ul class="list-disc">
+        <li>格局强度：0.82</li>
+        <li>特征数：3</li>
+      </ul>
+      <div class="tip" style="margin-top:8px;">
+        <strong>阅读指引：</strong>
+        在置信度较高时给出建议；若设备校准不足或干扰较强，建议在开阔环境中重复采样与校准，再进行判断。
+      </div>
+    </div>
+
+    <div class="section card">
+      <h2>概览</h2>
+      <div class="kv">
+        <div class="k">地址</div><div>上海市示例路 88 号</div>
+        <div class="k">朝向</div><div>180°（南）</div>
+        <div class="k">观测时间</div><div>2025-10-03 10:00:00</div>
+      </div>
+    </div>
+
+    <div class="section card">
+      <h2>分析结果</h2>
+      <pre>{
+  "geju": { "strength": 0.82, "characteristics": ["旺财", "通风良好"] },
+  "plates": [ [4,9,2], [3,5,7], [8,1,6] ],
+  "meta": { "rulesApplied": ["正向九宫", "方位标注"] }
+}</pre>
+    </div>
+
+    <div class="section card">
+      <h2>图表 · Lo Shu 九宫格</h2>
+      <div class="loshu">
+        <div class="loshu-grid">
+          <div class="loshu-cell">4</div>
+          <div class="loshu-cell">9</div>
+          <div class="loshu-cell">2</div>
+          <div class="loshu-cell">3</div>
+          <div class="loshu-cell">5</div>
+          <div class="loshu-cell">7</div>
+          <div class="loshu-cell">8</div>
+          <div class="loshu-cell">1</div>
+          <div class="loshu-cell">6</div>
+        </div>
+        <div class="guide-v"></div>
+        <div class="guide-h"></div>
+        <!-- 两行小字号注记 -->
+        <div class="loshu-label l-nw"><div>西北</div><div>(乾)</div></div>
+        <div class="loshu-label l-n"><div>北</div><div>(坎)</div></div>
+        <div class="loshu-label l-ne"><div>东北</div><div>(艮)</div></div>
+        <div class="loshu-label l-w"><div>西</div><div>(兑)</div></div>
+        <div class="loshu-label l-e"><div>东</div><div>(震)</div></div>
+        <div class="loshu-label l-sw"><div>西南</div><div>(坤)</div></div>
+        <div class="loshu-label l-s"><div>南</div><div>(离)</div></div>
+        <div class="loshu-label l-se"><div>东南</div><div>(巽)</div></div>
+      </div>
+      <div class="legend" style="margin-top:12px;">
+        <div class="item"><span class="dot dot-grid"></span> 网格线</div>
+        <div class="item"><span class="dot dot-guide"></span> 中轴定位线</div>
+        <div class="item"><span class="dot dot-accent"></span> 示例强调色</div>
+      </div>
+      <div class="tiny" style="margin-top:8px;">
+        注：宫位注记采用两行（宫位名 / 卦名）与浅灰定位线，仅作阅读辅助。
+      </div>
+    </div>
+
+    <div class="section card">
+      <h2>解读（示例）</h2>
+      <p class="muted" style="margin: 0 0 6px;">根据运盘与格局生成的结构化提示。</p>
+      <ul class="list-disc" style="margin-top: 0; padding-left: 18px;">
+        <li>格局强度较高，建议把握有利期进行关键决策。</li>
+        <li>注意室内通风与采光，提升舒适度与气场流动。</li>
+      </ul>
+      <div class="tiny">建议：在开阔环境中完成设备校准后再次测量，以提升置信度。</div>
+    </div>
+
+    <div class="section muted tiny">
+      说明：本 HTML 仅用于预览/自助转换，与真实后端数据存在差异时以实际接口返回为准。
+    </div>
+  </div>
+</body>
+</html>

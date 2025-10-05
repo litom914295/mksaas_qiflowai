@@ -1,30 +1,53 @@
 'use client';
 
 import Container from '@/components/layout/container';
-import { Logo } from '@/components/layout/logo';
 import { ModeSwitcherHorizontal } from '@/components/layout/mode-switcher-horizontal';
+import { BrandLogo } from '@/components/qiflow/homepage/BrandLogo';
 import BuiltWithButton from '@/components/shared/built-with-button';
 import { getFooterLinks } from '@/config/footer-config';
 import { getSocialLinks } from '@/config/social-config';
-import { LocaleLink } from '@/i18n/navigation';
+import { LocaleLink, useLocalePathname } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import type React from 'react';
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   const t = useTranslations();
   const footerLinks = getFooterLinks();
   const socialLinks = getSocialLinks();
+  const searchParams = useSearchParams();
+  const abParam = searchParams?.get('ab');
+  const getAbFromClient = () => {
+    try {
+      const m = document.cookie.match(/(?:^|; )ab_variant=([^;]+)/);
+      if (m) return decodeURIComponent(m[1]);
+    } catch {}
+    try {
+      return window.localStorage.getItem('ab_variant');
+    } catch {}
+    return null;
+  };
+  const ab = abParam ?? getAbFromClient();
+  const variantB = ab === 'B';
+  const pathname = useLocalePathname?.() ?? '/';
+  const isHome = pathname === '/';
 
   return (
-    <footer className={cn('border-t', className)}>
+    <footer
+      className={cn(
+        'border-t',
+        variantB && 'shadow-[0_0_0_1px_rgba(255,255,255,.06)]',
+        className
+      )}
+    >
       <Container className="px-4">
         <div className="grid grid-cols-2 gap-8 py-16 md:grid-cols-6">
           <div className="flex flex-col items-start col-span-full md:col-span-2">
             <div className="space-y-4">
               {/* logo and name */}
               <div className="items-center space-x-2 flex">
-                <Logo />
+                <BrandLogo size={128} />
                 <span className="text-xl font-semibold">
                   {t('Metadata.name')}
                 </span>
@@ -32,7 +55,9 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
 
               {/* tagline */}
               <p className="text-muted-foreground text-base py-2 md:pr-12">
-                {t('Marketing.footer.tagline')}
+                {isHome
+                  ? t('BaziHome.cta.subtitle')
+                  : t('Marketing.footer.tagline')}
               </p>
 
               {/* social links */}

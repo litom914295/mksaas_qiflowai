@@ -23,4 +23,3 @@ export class ExtendedKalmanFilter {
     return this.state;
   }
 }
-

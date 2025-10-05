@@ -51,8 +51,18 @@ export function getUrlWithLocaleInCallbackUrl(
     return url;
   }
 
+  // If the URL is a relative path (doesn't start with http/https)
+  // just add the locale prefix directly
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    // Check if locale is already in the URL
+    if (!url.match(new RegExp(`^/${locale}(/|$)`))) {
+      return url.startsWith('/') ? `/${locale}${url}` : `/${locale}/${url}`;
+    }
+    return url;
+  }
+
   try {
-    // Parse the URL
+    // Parse the URL (only for absolute URLs)
     const urlObj = new URL(url);
 
     // Check if there's a callbackURL parameter

@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
+import { useState } from 'react';
 
 export function AgeVerification() {
-  const [isVerified, setIsVerified] = useState(false)
+  const [isVerified, setIsVerified] = useState(false);
 
   if (isVerified) {
-    return null
+    return null;
   }
 
   return (
@@ -24,7 +24,7 @@ export function AgeVerification() {
             我已年满18岁
           </button>
           <button
-            onClick={() => window.location.href = '/'}
+            onClick={() => (window.location.href = '/')}
             className="flex-1 rounded border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
           >
             返回首页
@@ -32,5 +32,5 @@ export function AgeVerification() {
         </div>
       </div>
     </div>
-  )
+  );
 }

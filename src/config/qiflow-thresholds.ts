@@ -13,24 +13,24 @@ export const CONFIDENCE_THRESHOLDS = {
   WARNING: 0.7,
   // 绿色正常阈值
   NORMAL: 0.7,
-} as const
+} as const;
 
 /**
  * UI状态类型
  */
-export type ConfidenceLevel = 'reject' | 'warning' | 'normal'
+export type ConfidenceLevel = 'reject' | 'warning' | 'normal';
 
 /**
  * 根据置信度获取UI状态
  */
 export function getConfidenceLevel(confidence: number): ConfidenceLevel {
   if (confidence < CONFIDENCE_THRESHOLDS.REJECT) {
-    return 'reject'
-  } else if (confidence < CONFIDENCE_THRESHOLDS.WARNING) {
-    return 'warning'
-  } else {
-    return 'normal'
+    return 'reject';
   }
+  if (confidence < CONFIDENCE_THRESHOLDS.WARNING) {
+    return 'warning';
+  }
+  return 'normal';
 }
 
 /**
@@ -67,7 +67,7 @@ export const CONFIDENCE_STATES = {
     message: '分析结果置信度良好，可以放心参考',
     action: 'normal',
   },
-} as const
+} as const;
 
 /**
  * 算法特定阈值配置
@@ -93,13 +93,15 @@ export const ALGORITHM_THRESHOLDS = {
     requiredFields: ['accelerometer', 'magnetometer', 'gyroscope'],
     calibrationRequired: true,
   },
-} as const
+} as const;
 
 /**
  * 获取算法特定阈值
  */
-export function getAlgorithmThresholds(algorithm: keyof typeof ALGORITHM_THRESHOLDS) {
-  return ALGORITHM_THRESHOLDS[algorithm]
+export function getAlgorithmThresholds(
+  algorithm: keyof typeof ALGORITHM_THRESHOLDS
+) {
+  return ALGORITHM_THRESHOLDS[algorithm];
 }
 
 /**
@@ -109,13 +111,15 @@ export function validateAlgorithmInput(
   algorithm: keyof typeof ALGORITHM_THRESHOLDS,
   input: Record<string, any>
 ): { valid: boolean; missingFields: string[] } {
-  const thresholds = getAlgorithmThresholds(algorithm)
-  const missingFields = thresholds.requiredFields.filter(field => !input[field])
-  
+  const thresholds = getAlgorithmThresholds(algorithm);
+  const missingFields = thresholds.requiredFields.filter(
+    (field) => !input[field]
+  );
+
   return {
     valid: missingFields.length === 0,
     missingFields,
-  }
+  };
 }
 
 /**
@@ -125,38 +129,37 @@ export function checkProcessingTimeout(
   algorithm: keyof typeof ALGORITHM_THRESHOLDS,
   processingTime: number
 ): boolean {
-  const thresholds = getAlgorithmThresholds(algorithm)
-  return processingTime > thresholds.maxProcessingTime
+  const thresholds = getAlgorithmThresholds(algorithm);
+  return processingTime > thresholds.maxProcessingTime;
 }
 
 /**
  * 获取置信度百分比显示
  */
 export function getConfidencePercentage(confidence: number): string {
-  return `${Math.round(confidence * 100)}%`
+  return `${Math.round(confidence * 100)}%`;
 }
 
 /**
  * 获取置信度颜色类名
  */
 export function getConfidenceColorClass(confidence: number): string {
-  const level = getConfidenceLevel(confidence)
-  return CONFIDENCE_STATES[level].textColor
+  const level = getConfidenceLevel(confidence);
+  return CONFIDENCE_STATES[level].textColor;
 }
 
 /**
  * 获取置信度背景色类名
  */
 export function getConfidenceBgClass(confidence: number): string {
-  const level = getConfidenceLevel(confidence)
-  return CONFIDENCE_STATES[level].bgColor
+  const level = getConfidenceLevel(confidence);
+  return CONFIDENCE_STATES[level].bgColor;
 }
 
 /**
  * 获取置信度边框色类名
  */
 export function getConfidenceBorderClass(confidence: number): string {
-  const level = getConfidenceLevel(confidence)
-  return CONFIDENCE_STATES[level].borderColor
+  const level = getConfidenceLevel(confidence);
+  return CONFIDENCE_STATES[level].borderColor;
 }
-

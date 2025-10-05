@@ -26,6 +26,7 @@ import { useRef, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import * as z from 'zod';
 import { Captcha } from '../shared/captcha';
+import { PasswordStrengthIndicator } from './password-strength-indicator';
 import { SocialLoginButton } from './social-login-button';
 
 interface RegisterFormProps {
@@ -90,6 +91,12 @@ export const RegisterForm = ({
   const captchaToken = useWatch({
     control: form.control,
     name: 'captchaToken',
+  });
+
+  // Watch password for strength indicator
+  const password = useWatch({
+    control: form.control,
+    name: 'password',
   });
 
   // Function to reset captcha
@@ -159,7 +166,36 @@ export const RegisterForm = ({
         onError: (ctx) => {
           // sign up fail, display the error message
           console.error('register, error:', ctx.error);
-          setError(`${ctx.error.status}: ${ctx.error.message}`);
+
+          // 健壮的错误处理，支持常见错误码的国际化
+          let errorMessage = t('signUpFailed');
+
+          if (ctx.error) {
+            // 检查是否有错误码，使用国际化消息
+            if (ctx.error.code) {
+              switch (ctx.error.code) {
+                case 'USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL':
+                  errorMessage = t('userAlreadyExists');
+                  break;
+                case 'INVALID_EMAIL':
+                  errorMessage = t('invalidEmail');
+                  break;
+                case 'WEAK_PASSWORD':
+                  errorMessage = t('weakPassword');
+                  break;
+                default:
+                  // 如果有消息但没有匹配的错误码，使用原始消息
+                  errorMessage = ctx.error.message || t('signUpFailed');
+              }
+            } else if (typeof ctx.error === 'string') {
+              errorMessage = ctx.error;
+            } else if (ctx.error.message) {
+              errorMessage = ctx.error.message;
+            }
+          }
+
+          setError(errorMessage);
+
           // Reset captcha on registration error
           if (captchaConfigured) {
             resetCaptcha();
@@ -254,6 +290,11 @@ export const RegisterForm = ({
                         </Button>
                       </div>
                     </FormControl>
+                    {/* Password Strength Indicator */}
+                    <PasswordStrengthIndicator
+                      password={password || ''}
+                      className="mt-2"
+                    />
                     <FormMessage />
                   </FormItem>
                 )}

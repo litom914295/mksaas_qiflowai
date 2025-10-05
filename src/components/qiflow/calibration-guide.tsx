@@ -3,23 +3,29 @@
  * 为置信度0.7~0.9的情况提供校准和环境检查引导
  */
 
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
-import { getConfidenceLevel } from '@/config/qiflow-thresholds'
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { getConfidenceLevel } from '@/config/qiflow-thresholds';
+import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 interface CalibrationGuideProps {
-  algorithm: 'bazi' | 'xuankong' | 'compass'
-  confidence: number
-  onCalibrationComplete?: () => void
-  onSkip?: () => void
-  className?: string
+  algorithm: 'bazi' | 'xuankong' | 'compass';
+  confidence: number;
+  onCalibrationComplete?: () => void;
+  onSkip?: () => void;
+  className?: string;
 }
 
 export function CalibrationGuide({
@@ -29,51 +35,51 @@ export function CalibrationGuide({
   onSkip,
   className,
 }: CalibrationGuideProps) {
-  const [currentStep, setCurrentStep] = useState(0)
-  const [isCalibrating, setIsCalibrating] = useState(false)
-  const [calibrationProgress, setCalibrationProgress] = useState(0)
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isCalibrating, setIsCalibrating] = useState(false);
+  const [calibrationProgress, setCalibrationProgress] = useState(0);
 
-  const level = getConfidenceLevel(confidence)
+  const level = getConfidenceLevel(confidence);
 
   // 只在置信度0.4~0.7时显示校准引导
   if (level !== 'warning') {
-    return null
+    return null;
   }
 
-  const calibrationSteps = getCalibrationSteps(algorithm)
+  const calibrationSteps = getCalibrationSteps(algorithm);
 
   const handleNextStep = () => {
     if (currentStep < calibrationSteps.length - 1) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   const handlePrevStep = () => {
     if (currentStep > 0) {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
-  }
+  };
 
   const handleStartCalibration = () => {
-    setIsCalibrating(true)
-    setCalibrationProgress(0)
+    setIsCalibrating(true);
+    setCalibrationProgress(0);
 
     // 模拟校准过程
     const interval = setInterval(() => {
-      setCalibrationProgress(prev => {
+      setCalibrationProgress((prev) => {
         if (prev >= 100) {
-          clearInterval(interval)
-          setIsCalibrating(false)
-          return 100
+          clearInterval(interval);
+          setIsCalibrating(false);
+          return 100;
         }
-        return prev + 10
-      })
-    }, 300)
-  }
+        return prev + 10;
+      });
+    }, 300);
+  };
 
   const handleComplete = () => {
-    onCalibrationComplete?.()
-  }
+    onCalibrationComplete?.();
+  };
 
   return (
     <Card className={cn('w-full max-w-2xl mx-auto', className)}>
@@ -83,7 +89,8 @@ export function CalibrationGuide({
           建议进行校准
         </CardTitle>
         <CardDescription>
-          当前置信度为 {Math.round(confidence * 100)}%，建议进行校准和环境检查以获得更准确的结果
+          当前置信度为 {Math.round(confidence * 100)}
+          %，建议进行校准和环境检查以获得更准确的结果
         </CardDescription>
       </CardHeader>
 
@@ -119,7 +126,9 @@ export function CalibrationGuide({
             <div className="absolute top-6 left-4 right-4 h-0.5 bg-gray-200">
               <div
                 className="h-full bg-blue-500 transition-all duration-300"
-                style={{ width: `${(currentStep / (calibrationSteps.length - 1)) * 100}%` }}
+                style={{
+                  width: `${(currentStep / (calibrationSteps.length - 1)) * 100}%`,
+                }}
               />
             </div>
 
@@ -155,14 +164,19 @@ export function CalibrationGuide({
                     {/* 步骤内容 */}
                     <div className="flex-1">
                       <h4 className="font-medium mb-1">{step.title}</h4>
-                      <p className="text-sm text-gray-600">{step.description}</p>
+                      <p className="text-sm text-gray-600">
+                        {step.description}
+                      </p>
 
                       {/* 当前步骤的详细说明 */}
                       {index === currentStep && step.details && (
                         <div className="mt-3 p-3 bg-white rounded border">
                           <div className="text-sm space-y-2">
                             {step.details.map((detail, detailIndex) => (
-                              <div key={detailIndex} className="flex items-start gap-2">
+                              <div
+                                key={detailIndex}
+                                className="flex items-start gap-2"
+                              >
                                 <span className="text-blue-500 mt-0.5">•</span>
                                 <span>{detail}</span>
                               </div>
@@ -178,9 +192,9 @@ export function CalibrationGuide({
                             size="sm"
                             onClick={() => {
                               if (step.action?.type === 'calibrate') {
-                                handleStartCalibration()
+                                handleStartCalibration();
                               } else {
-                                handleNextStep()
+                                handleNextStep();
                               }
                             }}
                             disabled={isCalibrating}
@@ -218,11 +232,17 @@ export function CalibrationGuide({
               上一步
             </Button>
             <Button
-              onClick={currentStep === calibrationSteps.length - 1 ? handleComplete : handleNextStep}
+              onClick={
+                currentStep === calibrationSteps.length - 1
+                  ? handleComplete
+                  : handleNextStep
+              }
               disabled={isCalibrating}
               className="flex-1"
             >
-              {currentStep === calibrationSteps.length - 1 ? '完成校准' : '下一步'}
+              {currentStep === calibrationSteps.length - 1
+                ? '完成校准'
+                : '下一步'}
             </Button>
           </div>
 
@@ -235,7 +255,7 @@ export function CalibrationGuide({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 /**
@@ -258,10 +278,7 @@ function getCalibrationSteps(algorithm: 'bazi' | 'xuankong' | 'compass') {
         {
           title: '确认性别信息',
           description: '性别信息对八字分析很重要',
-          details: [
-            '确认性别选择是否正确',
-            '性别会影响大运排盘方向',
-          ],
+          details: ['确认性别选择是否正确', '性别会影响大运排盘方向'],
         },
         {
           title: '检查环境因素',
@@ -280,7 +297,7 @@ function getCalibrationSteps(algorithm: 'bazi' | 'xuankong' | 'compass') {
             label: '重新计算八字',
           },
         },
-      ]
+      ];
 
     case 'xuankong':
       return [
@@ -325,7 +342,7 @@ function getCalibrationSteps(algorithm: 'bazi' | 'xuankong' | 'compass') {
             label: '重新分析风水',
           },
         },
-      ]
+      ];
 
     case 'compass':
       return [
@@ -380,6 +397,6 @@ function getCalibrationSteps(algorithm: 'bazi' | 'xuankong' | 'compass') {
             label: '重新测量方向',
           },
         },
-      ]
+      ];
   }
 }

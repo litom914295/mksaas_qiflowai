@@ -55,16 +55,29 @@ export default async function middleware(req: NextRequest) {
 
   // do not use getSession() here, it will cause error related to edge runtime
   // const session = await getSession();
-  const { data: session } = await betterFetch<Session>(
-    '/api/auth/get-session',
-    {
+  let session: Session | null = null;
+  let isLoggedIn = false;
+
+  try {
+    const response = await betterFetch<Session>('/api/auth/get-session', {
       baseURL: getBaseUrl(),
       headers: {
         cookie: req.headers.get('cookie') || '', // Forward the cookies from the request
       },
-    }
-  );
-  const isLoggedIn = !!session;
+    });
+    session = response.data;
+    isLoggedIn = !!session;
+  } catch (error) {
+    // 如果获取 session 失败，记录错误但允许请求继续
+    // 这通常发生在数据库未初始化或 Better Auth 配置问题时
+    console.error('❌ Middleware: Failed to fetch session:', {
+      error: error instanceof Error ? error.message : String(error),
+      pathname: nextUrl.pathname,
+      baseURL: getBaseUrl(),
+    });
+    // 降级处理：假设用户未登录，让请求继续
+    isLoggedIn = false;
+  }
   // console.log('middleware, isLoggedIn', isLoggedIn);
 
   // Get the pathname of the request (e.g. /zh/dashboard to /dashboard)

@@ -12,12 +12,14 @@ export function constructMetadata({
   canonicalUrl,
   image,
   noIndex = false,
+  keywords,
 }: {
   title?: string;
   description?: string;
   canonicalUrl?: string;
   image?: string;
   noIndex?: boolean;
+  keywords?: string[];
 } = {}): Metadata {
   title = title || defaultMessages.Metadata.title;
   description = description || defaultMessages.Metadata.description;
@@ -26,6 +28,7 @@ export function constructMetadata({
   return {
     title,
     description,
+    keywords,
     alternates: canonicalUrl
       ? {
           canonical: canonicalUrl,

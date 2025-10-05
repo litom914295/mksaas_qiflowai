@@ -1,6 +1,7 @@
 import { createMDX } from 'fumadocs-mdx/next';
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
+import bundleAnalyzer from '@next/bundle-analyzer';
 
 /**
  * https://nextjs.org/docs/app/api-reference/config/next-config-js
@@ -69,4 +70,12 @@ const withNextIntl = createNextIntlPlugin();
  */
 const withMDX = createMDX();
 
-export default withMDX(withNextIntl(nextConfig));
+/**
+ * Webpack Bundle Analyzer
+ * Run with: ANALYZE=true npm run build
+ */
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+export default withBundleAnalyzer(withMDX(withNextIntl(nextConfig)));

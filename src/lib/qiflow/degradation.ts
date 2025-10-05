@@ -3,28 +3,31 @@
  * 处理置信度<0.4时的拒答和降级策略
  */
 
-import { getConfidenceLevel, CONFIDENCE_STATES } from '@/config/qiflow-thresholds'
+import {
+  CONFIDENCE_STATES,
+  getConfidenceLevel,
+} from '@/config/qiflow-thresholds';
 
 export interface DegradationReason {
-  code: string
-  message: string
-  suggestions: string[]
-  severity: 'low' | 'medium' | 'high'
+  code: string;
+  message: string;
+  suggestions: string[];
+  severity: 'low' | 'medium' | 'high';
 }
 
 export interface DegradationResult {
-  shouldReject: boolean
-  reason?: DegradationReason
-  fallbackOptions: FallbackOption[]
-  manualInputRequired: boolean
+  shouldReject: boolean;
+  reason?: DegradationReason;
+  fallbackOptions: FallbackOption[];
+  manualInputRequired: boolean;
 }
 
 export interface FallbackOption {
-  id: string
-  name: string
-  description: string
-  confidence: number
-  requiresManualInput: boolean
+  id: string;
+  name: string;
+  description: string;
+  confidence: number;
+  requiresManualInput: boolean;
 }
 
 /**
@@ -36,7 +39,7 @@ export function analyzeDegradationReason(
   input: Record<string, any>,
   errors?: string[]
 ): DegradationReason {
-  const reasons: DegradationReason[] = []
+  const reasons: DegradationReason[] = [];
 
   // 基础置信度检查
   if (confidence < 0.4) {
@@ -49,7 +52,7 @@ export function analyzeDegradationReason(
         '考虑使用手动输入模式',
       ],
       severity: 'high',
-    })
+    });
   }
 
   // 算法特定检查
@@ -64,19 +67,16 @@ export function analyzeDegradationReason(
           '使用手动输入模式输入八字信息',
         ],
         severity: 'high',
-      })
+      });
     }
-    
+
     if (!input.gender) {
       reasons.push({
         code: 'MISSING_GENDER',
         message: '缺少性别信息',
-        suggestions: [
-          '请选择性别',
-          '性别信息对八字分析很重要',
-        ],
+        suggestions: ['请选择性别', '性别信息对八字分析很重要'],
         severity: 'medium',
-      })
+      });
     }
   }
 
@@ -91,7 +91,7 @@ export function analyzeDegradationReason(
           '手动输入朝向信息',
         ],
         severity: 'high',
-      })
+      });
     }
   }
 
@@ -106,7 +106,7 @@ export function analyzeDegradationReason(
           '使用手动输入模式',
         ],
         severity: 'high',
-      })
+      });
     }
   }
 
@@ -115,27 +115,25 @@ export function analyzeDegradationReason(
     reasons.push({
       code: 'PROCESSING_ERRORS',
       message: '处理过程中出现错误',
-      suggestions: [
-        '请检查输入信息格式',
-        '尝试重新提交',
-        '联系技术支持',
-      ],
+      suggestions: ['请检查输入信息格式', '尝试重新提交', '联系技术支持'],
       severity: 'high',
-    })
+    });
   }
 
   // 返回最严重的原因
   const sortedReasons = reasons.sort((a, b) => {
-    const severityOrder = { high: 3, medium: 2, low: 1 }
-    return severityOrder[b.severity] - severityOrder[a.severity]
-  })
+    const severityOrder = { high: 3, medium: 2, low: 1 };
+    return severityOrder[b.severity] - severityOrder[a.severity];
+  });
 
-  return sortedReasons[0] || {
-    code: 'UNKNOWN',
-    message: '未知错误',
-    suggestions: ['请重试或联系技术支持'],
-    severity: 'medium',
-  }
+  return (
+    sortedReasons[0] || {
+      code: 'UNKNOWN',
+      message: '未知错误',
+      suggestions: ['请重试或联系技术支持'],
+      severity: 'medium',
+    }
+  );
 }
 
 /**
@@ -147,27 +145,29 @@ export function getDegradationResult(
   input: Record<string, any>,
   errors?: string[]
 ): DegradationResult {
-  const level = getConfidenceLevel(confidence)
-  const shouldReject = level === 'reject'
-  
+  const level = getConfidenceLevel(confidence);
+  const shouldReject = level === 'reject';
+
   if (!shouldReject) {
     return {
       shouldReject: false,
       fallbackOptions: [],
       manualInputRequired: false,
-    }
+    };
   }
 
-  const reason = analyzeDegradationReason(confidence, algorithm, input, errors)
-  const fallbackOptions = getFallbackOptions(algorithm, reason)
-  const manualInputRequired = fallbackOptions.some(option => option.requiresManualInput)
+  const reason = analyzeDegradationReason(confidence, algorithm, input, errors);
+  const fallbackOptions = getFallbackOptions(algorithm, reason);
+  const manualInputRequired = fallbackOptions.some(
+    (option) => option.requiresManualInput
+  );
 
   return {
     shouldReject: true,
     reason,
     fallbackOptions,
     manualInputRequired,
-  }
+  };
 }
 
 /**
@@ -177,7 +177,7 @@ function getFallbackOptions(
   algorithm: 'bazi' | 'xuankong' | 'compass',
   reason: DegradationReason
 ): FallbackOption[] {
-  const options: FallbackOption[] = []
+  const options: FallbackOption[] = [];
 
   switch (algorithm) {
     case 'bazi':
@@ -203,8 +203,8 @@ function getFallbackOptions(
           confidence: 0.7,
           requiresManualInput: false,
         }
-      )
-      break
+      );
+      break;
 
     case 'xuankong':
       options.push(
@@ -229,8 +229,8 @@ function getFallbackOptions(
           confidence: 0.7,
           requiresManualInput: false,
         }
-      )
-      break
+      );
+      break;
 
     case 'compass':
       options.push(
@@ -255,11 +255,11 @@ function getFallbackOptions(
           confidence: 0.7,
           requiresManualInput: false,
         }
-      )
-      break
+      );
+      break;
   }
 
-  return options
+  return options;
 }
 
 /**
@@ -269,18 +269,18 @@ export function canDegrade(
   confidence: number,
   algorithm: 'bazi' | 'xuankong' | 'compass'
 ): boolean {
-  const level = getConfidenceLevel(confidence)
-  
+  const level = getConfidenceLevel(confidence);
+
   // 只有低置信度时才考虑降级
   if (level !== 'reject') {
-    return false
+    return false;
   }
 
   // 检查是否有可用的降级选项
-  const reason = analyzeDegradationReason(confidence, algorithm, {})
-  const options = getFallbackOptions(algorithm, reason)
-  
-  return options.length > 0
+  const reason = analyzeDegradationReason(confidence, algorithm, {});
+  const options = getFallbackOptions(algorithm, reason);
+
+  return options.length > 0;
 }
 
 /**
@@ -291,25 +291,24 @@ export function getDegradationSuggestions(
   algorithm: 'bazi' | 'xuankong' | 'compass',
   input: Record<string, any>
 ): string[] {
-  const result = getDegradationResult(confidence, algorithm, input)
-  
+  const result = getDegradationResult(confidence, algorithm, input);
+
   if (!result.shouldReject) {
-    return []
+    return [];
   }
 
-  const suggestions: string[] = []
-  
+  const suggestions: string[] = [];
+
   if (result.reason) {
-    suggestions.push(...result.reason.suggestions)
+    suggestions.push(...result.reason.suggestions);
   }
 
   if (result.fallbackOptions.length > 0) {
-    suggestions.push('您可以选择以下替代方案：')
-    result.fallbackOptions.forEach(option => {
-      suggestions.push(`• ${option.name}: ${option.description}`)
-    })
+    suggestions.push('您可以选择以下替代方案：');
+    result.fallbackOptions.forEach((option) => {
+      suggestions.push(`• ${option.name}: ${option.description}`);
+    });
   }
 
-  return suggestions
+  return suggestions;
 }
-

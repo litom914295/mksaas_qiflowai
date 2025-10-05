@@ -3,28 +3,38 @@
  * 展示低置信度降级与手动输入兜底机制
  */
 
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { ManualInputForm } from './manual-input-form'
-import { ResultDisplay } from './result-display'
-import { ConfidenceIndicator } from './confidence-indicator'
-import { 
-  getDegradationResult, 
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
   type DegradationResult,
-  type FallbackOption 
-} from '@/lib/qiflow/degradation'
+  type FallbackOption,
+  getDegradationResult,
+} from '@/lib/qiflow/degradation';
+import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { ConfidenceIndicator } from './confidence-indicator';
+import { ManualInputForm } from './manual-input-form';
+import { ResultDisplay } from './result-display';
 
 export function DegradationDemo() {
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<'bazi' | 'xuankong' | 'compass'>('bazi')
-  const [confidence, setConfidence] = useState(0.3) // 低置信度
-  const [showManualForm, setShowManualForm] = useState(false)
-  const [selectedOption, setSelectedOption] = useState<FallbackOption | null>(null)
-  const [manualResult, setManualResult] = useState<any>(null)
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<
+    'bazi' | 'xuankong' | 'compass'
+  >('bazi');
+  const [confidence, setConfidence] = useState(0.3); // 低置信度
+  const [showManualForm, setShowManualForm] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<FallbackOption | null>(
+    null
+  );
+  const [manualResult, setManualResult] = useState<any>(null);
 
   // 模拟输入数据
   const mockInputs = {
@@ -43,13 +53,13 @@ export function DegradationDemo() {
       magnetometer: { x: 20, y: 0, z: 0 },
       gyroscope: { x: 0, y: 0, z: 0 },
     },
-  }
+  };
 
   const degradationResult = getDegradationResult(
-    confidence, 
-    selectedAlgorithm, 
+    confidence,
+    selectedAlgorithm,
     mockInputs[selectedAlgorithm]
-  )
+  );
 
   const handleManualInput = (data: Record<string, any>) => {
     // 模拟手动输入处理结果
@@ -114,8 +124,8 @@ export function DegradationDemo() {
         confidence: 0.95,
         data: {
           reading: {
-            magnetic: parseFloat(data.magnetic || '45.2'),
-            true: parseFloat(data.trueNorth || '47.1'),
+            magnetic: Number.parseFloat(data.magnetic || '45.2'),
+            true: Number.parseFloat(data.trueNorth || '47.1'),
             confidence: 'high' as const,
             accuracy: 0.95,
           },
@@ -135,16 +145,16 @@ export function DegradationDemo() {
           processingTime: 100,
         },
       },
-    }
+    };
 
-    setManualResult(mockManualResults[selectedAlgorithm])
-    setShowManualForm(false)
-  }
+    setManualResult(mockManualResults[selectedAlgorithm]);
+    setShowManualForm(false);
+  };
 
   const handleFallbackSelect = (option: FallbackOption) => {
-    setSelectedOption(option)
+    setSelectedOption(option);
     if (option.requiresManualInput) {
-      setShowManualForm(true)
+      setShowManualForm(true);
     } else {
       // 模拟非手动输入的降级处理
       setManualResult({
@@ -152,9 +162,9 @@ export function DegradationDemo() {
         confidence: option.confidence,
         data: { message: `使用${option.name}进行处理` },
         meta: { algorithm: option.id, version: '1.0.0' },
-      })
+      });
     }
-  }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -201,18 +211,20 @@ export function DegradationDemo() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">置信度: {Math.round(confidence * 100)}%</span>
+            <span className="text-sm font-medium">
+              置信度: {Math.round(confidence * 100)}%
+            </span>
             <input
               type="range"
               min="0"
               max="1"
               step="0.01"
               value={confidence}
-              onChange={(e) => setConfidence(parseFloat(e.target.value))}
+              onChange={(e) => setConfidence(Number.parseFloat(e.target.value))}
               className="flex-1"
             />
           </div>
-          
+
           <ConfidenceIndicator confidence={confidence} />
         </CardContent>
       </Card>
@@ -244,9 +256,11 @@ export function DegradationDemo() {
                   <div className="text-sm text-yellow-700">
                     <div className="font-medium mb-1">建议:</div>
                     <ul className="list-disc list-inside space-y-1">
-                      {degradationResult.reason.suggestions.map((suggestion, index) => (
-                        <li key={index}>{suggestion}</li>
-                      ))}
+                      {degradationResult.reason.suggestions.map(
+                        (suggestion, index) => (
+                          <li key={index}>{suggestion}</li>
+                        )
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -263,7 +277,9 @@ export function DegradationDemo() {
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="font-medium">{option.name}</div>
-                        <div className="text-sm text-gray-600">{option.description}</div>
+                        <div className="text-sm text-gray-600">
+                          {option.description}
+                        </div>
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge variant="outline">
@@ -285,7 +301,8 @@ export function DegradationDemo() {
                 <span className="font-medium text-green-800">置信度正常</span>
               </div>
               <p className="text-sm text-green-700 mt-1">
-                当前置信度 {Math.round(confidence * 100)}% 满足要求，无需降级处理
+                当前置信度 {Math.round(confidence * 100)}%
+                满足要求，无需降级处理
               </p>
             </div>
           )}
@@ -336,7 +353,7 @@ export function DegradationDemo() {
                   当置信度 &lt; 40% 时，系统自动触发降级处理
                 </div>
               </div>
-              
+
               <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <div className="text-2xl mb-2">2️⃣</div>
                 <div className="font-medium text-yellow-800">分析降级原因</div>
@@ -344,7 +361,7 @@ export function DegradationDemo() {
                   分析输入完整性、数据质量等因素，提供具体建议
                 </div>
               </div>
-              
+
               <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                 <div className="text-2xl mb-2">3️⃣</div>
                 <div className="font-medium text-green-800">提供降级选项</div>
@@ -353,20 +370,27 @@ export function DegradationDemo() {
                 </div>
               </div>
             </div>
-            
+
             <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="font-medium text-blue-800 mb-2">降级策略</div>
               <ul className="text-sm text-blue-700 space-y-1">
-                <li>• <strong>强制拒答</strong>: 置信度过低时拒绝显示结果</li>
-                <li>• <strong>手动输入兜底</strong>: 提供手动输入表单作为替代方案</li>
-                <li>• <strong>重新校准</strong>: 引导用户重新输入或校准设备</li>
-                <li>• <strong>简化分析</strong>: 基于现有信息进行简化分析</li>
+                <li>
+                  • <strong>强制拒答</strong>: 置信度过低时拒绝显示结果
+                </li>
+                <li>
+                  • <strong>手动输入兜底</strong>: 提供手动输入表单作为替代方案
+                </li>
+                <li>
+                  • <strong>重新校准</strong>: 引导用户重新输入或校准设备
+                </li>
+                <li>
+                  • <strong>简化分析</strong>: 基于现有信息进行简化分析
+                </li>
               </ul>
             </div>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

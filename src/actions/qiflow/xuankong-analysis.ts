@@ -1,70 +1,97 @@
-'use server'
+'use server';
 
-import { z } from 'zod'
-import { getDb } from '@/db'
-import { fengshuiAnalysis } from '@/db/schema'
-import { QIFLOW_PRICING } from '@/config/qiflow-pricing'
-import { getSession } from '@/lib/server'
-import { assertNoSensitive } from '@/lib/qiflow/compliance/sensitive'
-import { generateFlyingStar, type GenerateFlyingStarInput } from '@/lib/qiflow/xuankong'
-import { consumeCredits } from '@/credits/credits'
-import { PerformanceTimer, qiflowLogger } from '@/lib/qiflow/logger'
+import { QIFLOW_PRICING } from '@/config/qiflow-pricing';
+import { websiteConfig } from '@/config/website';
+import { consumeCredits } from '@/credits/credits';
+import { getDb } from '@/db';
+import { fengshuiAnalysis } from '@/db/schema';
+import { assertNoSensitive } from '@/lib/qiflow/compliance/sensitive';
+import { PerformanceTimer, qiflowLogger } from '@/lib/qiflow/logger';
+import {
+  type GenerateFlyingStarInput,
+  generateFlyingStar,
+} from '@/lib/qiflow/xuankong';
+import { getSession } from '@/lib/server';
+import { z } from 'zod';
 
 const InputSchema = z.object({
   address: z.string().min(1).max(200),
   facing: z.coerce.number().min(0).max(359),
   observedAt: z.string().optional().default(new Date().toISOString()),
-  config: z.object({
-    toleranceDeg: z.number().min(1).max(10).optional().default(3),
-    applyTiGua: z.boolean().optional().default(true),
-    applyFanGua: z.boolean().optional().default(true),
-    enableAdvancedAnalysis: z.boolean().optional().default(true),
-  }).optional(),
-})
+  config: z
+    .object({
+      toleranceDeg: z.number().min(1).max(10).optional().default(3),
+      applyTiGua: z.boolean().optional().default(true),
+      applyFanGua: z.boolean().optional().default(true),
+      enableAdvancedAnalysis: z.boolean().optional().default(true),
+    })
+    .optional(),
+});
 
 export async function xuankongAnalysisAction(formData: FormData) {
-  const timer = new PerformanceTimer()
-  const traceId = timer.getTraceId()
+  const timer = new PerformanceTimer();
+  const traceId = timer.getTraceId();
 
   const parsed = InputSchema.safeParse({
     address: formData.get('address'),
     facing: formData.get('facing'),
     observedAt: formData.get('observedAt') ?? new Date().toISOString(),
-    config: formData.get('config') ? JSON.parse(formData.get('config') as string) : undefined,
-  })
+    config: formData.get('config')
+      ? JSON.parse(formData.get('config') as string)
+      : undefined,
+  });
   if (!parsed.success) {
-    qiflowLogger.warn('Xuankong analysis - invalid input', { traceId, action: 'xuankong-analysis' })
-    return { ok: false as const, error: 'INVALID_INPUT', issues: parsed.error.issues }
+    qiflowLogger.warn('Xuankong analysis - invalid input', {
+      traceId,
+      action: 'xuankong-analysis',
+    });
+    return {
+      ok: false as const,
+      error: 'INVALID_INPUT',
+      issues: parsed.error.issues,
+    };
   }
-  const input = parsed.data
+  const input = parsed.data;
 
   // 合规：敏感词拒答
   try {
-    assertNoSensitive([input.address])
+    assertNoSensitive([input.address]);
   } catch {
-    qiflowLogger.warn('Xuankong analysis - sensitive content detected', { traceId, action: 'xuankong-analysis', inputAddress: input.address })
-    return { ok: false as const, error: 'SENSITIVE_CONTENT' }
+    qiflowLogger.warn('Xuankong analysis - sensitive content detected', {
+      traceId,
+      action: 'xuankong-analysis',
+      inputAddress: input.address,
+    });
+    return { ok: false as const, error: 'SENSITIVE_CONTENT' };
   }
 
-  const session = await getSession()
-  const userId = session?.user?.id ?? 'anonymous'
+  const session = await getSession();
+  const userId = session?.user?.id ?? 'anonymous';
 
-  // 检查用户积分
-  const creditsUsed = QIFLOW_PRICING.xuankong
-  try {
-    await consumeCredits({
-      userId,
-      amount: creditsUsed,
-      description: `玄空风水分析 - ${input.address}`,
-    })
-  } catch (error) {
-    qiflowLogger.error('Xuankong analysis - insufficient credits', { traceId, action: 'xuankong-analysis', userId, creditsNeeded: creditsUsed, error: error instanceof Error ? error.message : String(error) })
-    return { ok: false as const, error: 'INSUFFICIENT_CREDITS' }
+  // 检查用户积分（仅在积分系统启用时）
+  const creditsUsed = QIFLOW_PRICING.xuankong;
+  if (websiteConfig.credits.enableCredits) {
+    try {
+      await consumeCredits({
+        userId,
+        amount: creditsUsed,
+        description: `玄空风水分析 - ${input.address}`,
+      });
+    } catch (error) {
+      qiflowLogger.error('Xuankong analysis - insufficient credits', {
+        traceId,
+        action: 'xuankong-analysis',
+        userId,
+        creditsNeeded: creditsUsed,
+        error: error instanceof Error ? error.message : String(error),
+      });
+      return { ok: false as const, error: 'INSUFFICIENT_CREDITS' };
+    }
   }
 
   // 使用真实的玄空风水算法
-  let result
-  let confidence
+  let result;
+  let confidence;
   try {
     const analysisInput: GenerateFlyingStarInput = {
       observedAt: new Date(input.observedAt),
@@ -72,39 +99,49 @@ export async function xuankongAnalysisAction(formData: FormData) {
         degrees: input.facing,
       },
       config: input.config,
-    }
+    };
 
-    result = await generateFlyingStar(analysisInput)
+    result = await generateFlyingStar(analysisInput);
 
     // 计算置信度（基于格局强度和规则应用情况）
-    const gejuStrength = result.geju?.strength || 0.5
-    const rulesCount = result.meta.rulesApplied.length
-    confidence = Math.min(0.95, gejuStrength + (rulesCount * 0.1)).toFixed(2)
-
+    // GejuAnalysis没有strength属性，使用isFavorable判断基础置信度
+    const gejuStrength = result.geju?.isFavorable ? 0.7 : 0.4;
+    const rulesCount = result.meta.rulesApplied.length;
+    confidence = Math.min(0.95, gejuStrength + rulesCount * 0.1).toFixed(2);
   } catch (error) {
-    console.error('玄空风水分析错误:', error)
-    qiflowLogger.error('Xuankong analysis - algorithm error', { traceId, action: 'xuankong-analysis', userId, error: error instanceof Error ? error.message : String(error) })
-    return { ok: false as const, error: 'CALCULATION_FAILED' }
+    console.error('玄空风水分析错误:', error);
+    qiflowLogger.error('Xuankong analysis - algorithm error', {
+      traceId,
+      action: 'xuankong-analysis',
+      userId,
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return { ok: false as const, error: 'CALCULATION_FAILED' };
   }
 
-	// 保存到数据库
-	try {
-		const db = await getDb()
-		await db.insert(fengshuiAnalysis).values({
-			userId,
-			input: {
-				address: input.address,
-				facing: input.facing,
-				observedAt: input.observedAt,
-				config: input.config,
-			},
-			result: result as unknown as Record<string, unknown>,
-			confidence,
-			creditsUsed,
-		})
+  // 保存到数据库
+  try {
+    const db = await getDb();
+    await db.insert(fengshuiAnalysis).values({
+      userId,
+      input: {
+        address: input.address,
+        facing: input.facing,
+        observedAt: input.observedAt,
+        config: input.config,
+      },
+      result: result as unknown as Record<string, unknown>,
+      confidence,
+      creditsUsed,
+    });
   } catch (e) {
-    console.warn('[xuankong] skip insert (db not ready?):', e)
-    qiflowLogger.error('Xuankong analysis - database insert failed', { traceId, action: 'xuankong-analysis', userId, error: e instanceof Error ? e.message : String(e) })
+    console.warn('[xuankong] skip insert (db not ready?):', e);
+    qiflowLogger.error('Xuankong analysis - database insert failed', {
+      traceId,
+      action: 'xuankong-analysis',
+      userId,
+      error: e instanceof Error ? e.message : String(e),
+    });
   }
 
   // 记录成功日志
@@ -114,7 +151,7 @@ export async function xuankongAnalysisAction(formData: FormData) {
     coins: creditsUsed,
     status: 'success',
     metadata: { confidence },
-  })
+  });
 
-  return { ok: true as const, result, confidence, creditsUsed, userId }
+  return { ok: true as const, result, confidence, creditsUsed, userId };
 }

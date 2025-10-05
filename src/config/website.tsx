@@ -62,9 +62,25 @@ export const websiteConfig: WebsiteConfig = {
         flag: '🇺🇸',
         name: 'English',
       },
-      zh: {
+      'zh-CN': {
         flag: '🇨🇳',
-        name: '中文',
+        name: '简体中文',
+      },
+      'zh-TW': {
+        flag: '🇹🇼',
+        name: '繁體中文',
+      },
+      ja: {
+        flag: '🇯🇵',
+        name: '日本語',
+      },
+      ko: {
+        flag: '🇰🇷',
+        name: '한국어',
+      },
+      'ms-MY': {
+        flag: '🇲🇾',
+        name: 'Bahasa Melayu',
       },
     },
   },
@@ -155,11 +171,11 @@ export const websiteConfig: WebsiteConfig = {
     },
   },
   credits: {
-    enableCredits: process.env.NEXT_PUBLIC_DEMO_WEBSITE === 'true',
+    enableCredits: true, // 始终启用积分系统，确保用户体验
     enablePackagesForFreePlan: false,
     registerGiftCredits: {
       enable: true,
-      amount: 50,
+      amount: 100, // 增加到100积分，足够体验所有功能
       expireDays: 30,
     },
     packages: {

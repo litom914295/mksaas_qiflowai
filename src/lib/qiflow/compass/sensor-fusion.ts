@@ -2,7 +2,7 @@
  * 传感器融合算法
  */
 
-import { SensorData } from './types';
+import type { SensorData } from './types';
 
 export class SensorFusion {
   process(sensorData: SensorData): any {
@@ -26,4 +26,3 @@ export class SensorFusion {
     };
   }
 }
-

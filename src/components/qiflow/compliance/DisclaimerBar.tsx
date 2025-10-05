@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 export function DisclaimerBar() {
   return (
@@ -10,5 +10,5 @@ export function DisclaimerBar() {
         </p>
       </div>
     </div>
-  )
+  );
 }

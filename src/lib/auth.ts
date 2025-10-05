@@ -13,9 +13,9 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin } from 'better-auth/plugins';
 import { parse as parseCookies } from 'cookie';
 import type { Locale } from 'next-intl';
+import { onQiflowUserCreated } from './auth-qiflow';
 import { getAllPricePlans } from './price-plan';
 import { getBaseUrl, getUrlWithLocaleInCallbackUrl } from './urls/urls';
-import { onQiflowUserCreated } from './auth-qiflow';
 
 /**
  * Better Auth configuration
@@ -47,21 +47,30 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     // https://www.better-auth.com/docs/concepts/email#2-require-email-verification
-    requireEmailVerification: true,
+    // Temporarily disabled to avoid blocking registration when mail provider is unavailable
+    requireEmailVerification: false,
     // https://www.better-auth.com/docs/authentication/email-password#forget-password
     async sendResetPassword({ user, url }, request) {
       const locale = getLocaleFromRequest(request);
       const localizedUrl = getUrlWithLocaleInCallbackUrl(url, locale);
-
-      await sendEmail({
-        to: user.email,
-        template: 'forgotPassword',
-        context: {
-          url: localizedUrl,
-          name: user.name,
-        },
-        locale,
-      });
+      try {
+        await sendEmail({
+          to: user.email,
+          template: 'forgotPassword',
+          context: {
+            url: localizedUrl,
+            name: user.name,
+          },
+          locale,
+        });
+      } catch (error) {
+        console.error('❌ sendResetPassword email error:', {
+          userId: user.id,
+          email: user.email,
+          error: error instanceof Error ? error.message : String(error),
+        });
+        // Do not block password reset flow due to email provider issues
+      }
     },
   },
   emailVerification: {
@@ -71,16 +80,24 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url, token }, request) => {
       const locale = getLocaleFromRequest(request);
       const localizedUrl = getUrlWithLocaleInCallbackUrl(url, locale);
-
-      await sendEmail({
-        to: user.email,
-        template: 'verifyEmail',
-        context: {
-          url: localizedUrl,
-          name: user.name,
-        },
-        locale,
-      });
+      try {
+        await sendEmail({
+          to: user.email,
+          template: 'verifyEmail',
+          context: {
+            url: localizedUrl,
+            name: user.name,
+          },
+          locale,
+        });
+      } catch (error) {
+        console.error('❌ sendVerificationEmail error:', {
+          userId: user.id,
+          email: user.email,
+          error: error instanceof Error ? error.message : String(error),
+        });
+        // Do not block registration when email provider is misconfigured
+      }
     },
   },
   socialProviders: {
@@ -120,7 +137,18 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
-          await onCreateUser(user);
+          try {
+            await onCreateUser(user);
+          } catch (error) {
+            // 记录错误但不影响注册流程
+            console.error('❌ onCreateUser hook failed:', {
+              userId: user.id,
+              email: user.email,
+              error: error instanceof Error ? error.message : String(error),
+              stack: error instanceof Error ? error.stack : undefined,
+            });
+            // 不抛出错误，允许注册继续
+          }
         },
       },
     },
@@ -195,9 +223,13 @@ async function onCreateUser(user: User) {
   ) {
     try {
       await addRegisterGiftCredits(user.id);
-      console.log(`added register gift credits for user ${user.id}`);
+      console.log(`✅ Added register gift credits for user ${user.id}`);
     } catch (error) {
-      console.error('Register gift credits error:', error);
+      console.error('❌ Register gift credits error:', {
+        userId: user.id,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      });
     }
   }
 
@@ -211,9 +243,14 @@ async function onCreateUser(user: User) {
     if (freePlan) {
       try {
         await addMonthlyFreeCredits(user.id, freePlan.id);
-        console.log(`added Free monthly credits for user ${user.id}`);
+        console.log(`✅ Added Free monthly credits for user ${user.id}`);
       } catch (error) {
-        console.error('Free monthly credits error:', error);
+        console.error('❌ Free monthly credits error:', {
+          userId: user.id,
+          planId: freePlan.id,
+          error: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : undefined,
+        });
       }
     }
   }
@@ -221,8 +258,12 @@ async function onCreateUser(user: User) {
   // Initialize QiFlow profiles for the user
   try {
     await onQiflowUserCreated(user);
-    console.log(`QiFlow profiles initialized for user ${user.id}`);
+    console.log(`✅ QiFlow profiles initialized for user ${user.id}`);
   } catch (error) {
-    console.error('QiFlow profile initialization error:', error);
+    console.error('❌ QiFlow profile initialization error:', {
+      userId: user.id,
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
   }
 }

@@ -14,4 +14,3 @@ export class TrueNorthCalculator {
     return 0; // 实际应该根据地理位置计算
   }
 }
-

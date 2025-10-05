@@ -3,23 +3,23 @@
  */
 
 export interface SensorData {
-  accelerometer: { x: number; y: number; z: number }
-  magnetometer?: { x: number; y: number; z: number }
-  gyroscope?: { x: number; y: number; z: number }
-  timestamp: number
+  accelerometer: { x: number; y: number; z: number };
+  magnetometer?: { x: number; y: number; z: number };
+  gyroscope?: { x: number; y: number; z: number };
+  timestamp: number;
 }
 
 export interface CompassConfig {
-  calibrationData?: number[]
-  enableFiltering?: boolean
-  enableTrueNorth?: boolean
+  calibrationData?: number[];
+  enableFiltering?: boolean;
+  enableTrueNorth?: boolean;
 }
 
 export interface CompassResult {
-  heading: number
-  trueNorthHeading: number
-  calibrationStatus: boolean
-  confidence: string
+  heading: number;
+  trueNorthHeading: number;
+  calibrationStatus: boolean;
+  confidence: string;
 }
 
 /**
@@ -34,6 +34,6 @@ export async function readCompassSmart(
     heading: 180,
     trueNorthHeading: 182,
     calibrationStatus: true,
-    confidence: '0.75'
-  }
+    confidence: '0.75',
+  };
 }

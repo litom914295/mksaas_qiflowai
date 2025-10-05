@@ -1,24 +1,22 @@
-import CallToActionSection from '@/components/blocks/calltoaction/calltoaction';
-import FaqSection from '@/components/blocks/faqs/faqs';
-import FeaturesSection from '@/components/blocks/features/features';
-import Features2Section from '@/components/blocks/features/features2';
-import Features3Section from '@/components/blocks/features/features3';
-import HeroSection from '@/components/blocks/hero/hero';
-import IntegrationSection from '@/components/blocks/integration/integration';
-import Integration2Section from '@/components/blocks/integration/integration2';
-import LogoCloud from '@/components/blocks/logo-cloud/logo-cloud';
-import PricingSection from '@/components/blocks/pricing/pricing';
-import StatsSection from '@/components/blocks/stats/stats';
-import TestimonialsSection from '@/components/blocks/testimonials/testimonials';
 import CrispChat from '@/components/layout/crisp-chat';
-import { NewsletterCard } from '@/components/newsletter/newsletter-card';
+import { AbPersist } from '@/components/qiflow/ab/AbPersist';
+import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification';
+import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar';
+import { CTASection } from '@/components/qiflow/homepage/CTASection';
+import { FAQ } from '@/components/qiflow/homepage/FAQ';
+import { FeatureGrid } from '@/components/qiflow/homepage/FeatureGrid';
+import { FourStates } from '@/components/qiflow/homepage/FourStates';
+import { Hero } from '@/components/qiflow/homepage/Hero';
+import { HowItWorks } from '@/components/qiflow/homepage/HowItWorks';
+import { InteractiveCompassTeaser } from '@/components/qiflow/homepage/InteractiveCompassTeaser';
+import { Testimonials } from '@/components/qiflow/homepage/Testimonials';
+import { TrustBar } from '@/components/qiflow/homepage/TrustBar';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
-import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification'
-import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar'
+import { cookies } from 'next/headers';
 
 /**
  * https://next-intl.dev/docs/environments/actions-metadata-route-handlers#metadata-api
@@ -35,46 +33,72 @@ export async function generateMetadata({
     title: t('title'),
     description: t('description'),
     canonicalUrl: getUrlWithLocale('', locale),
+    keywords: [
+      'AI八字',
+      '八字分析',
+      '风水罗盘',
+      '玄空飞星',
+      'AI咨询',
+      '命盘',
+      '风水',
+      'Bazi',
+      'Feng Shui',
+      'Luopan',
+    ],
   });
 }
 
 interface HomePageProps {
   params: Promise<{ locale: Locale }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export default async function HomePage(props: HomePageProps) {
   const params = await props.params;
+  const searchParams: Record<string, string | string[] | undefined> =
+    await (props.searchParams ?? Promise.resolve({}));
   const { locale } = params;
-  const t = await getTranslations('HomePage');
+
+  const t = await getTranslations('BaziHome');
+  const abParam = (
+    typeof searchParams.ab === 'string'
+      ? searchParams.ab
+      : Array.isArray(searchParams.ab)
+        ? searchParams.ab[0]
+        : undefined
+  ) as 'A' | 'B' | undefined;
+  const cookieStore = await cookies();
+  const abCookie = cookieStore.get('ab_variant')?.value as
+    | 'A'
+    | 'B'
+    | undefined;
+  const variant =
+    abParam === 'B' || abParam === 'A'
+      ? abParam
+      : abCookie === 'B' || abCookie === 'A'
+        ? abCookie
+        : 'A';
+  const shouldPersist = abParam ? true : !abCookie;
 
   return (
     <>
       <div className="flex flex-col">
-        <HeroSection />
-
-        <LogoCloud />
-
-        <StatsSection />
-
-        <IntegrationSection />
-
-        <FeaturesSection />
-
-        <Features2Section />
-
-        <Features3Section />
-
-        <Integration2Section />
-
-        <PricingSection />
-
-        <FaqSection />
-
-        <CallToActionSection />
-
-        <TestimonialsSection />
-
-        <NewsletterCard />
+        <Hero variant={variant} />
+        <TrustBar variant={variant} />
+        <FeatureGrid variant={variant} />
+        <HowItWorks variant={variant} />
+        <Testimonials variant={variant} />
+        <FAQ variant={variant} />
+        <InteractiveCompassTeaser
+          title={t('teaser.title')}
+          clockwise={t('teaser.clockwise')}
+          counterClockwise={t('teaser.counterClockwise')}
+          currentDegreeLabel={t('teaser.currentDegreeLabel')}
+          variant={variant}
+        />
+        {/* 可按开关展示四态：<FourStates state="limited" variant={variant} /> */}
+        <CTASection variant={variant} />
+        <AbPersist variant={variant} persist={shouldPersist} />
 
         <CrispChat />
         <AgeVerification />

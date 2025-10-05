@@ -3,28 +3,34 @@
  * 检查测量环境是否符合要求
  */
 
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { cn } from '@/lib/utils'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
 interface EnvironmentCheckProps {
-  algorithm: 'bazi' | 'xuankong' | 'compass'
-  onCheckComplete?: (passed: boolean, issues: string[]) => void
-  className?: string
+  algorithm: 'bazi' | 'xuankong' | 'compass';
+  onCheckComplete?: (passed: boolean, issues: string[]) => void;
+  className?: string;
 }
 
 interface CheckItem {
-  id: string
-  name: string
-  description: string
-  status: 'pending' | 'checking' | 'passed' | 'warning' | 'failed'
-  message?: string
-  severity: 'info' | 'warning' | 'error'
+  id: string;
+  name: string;
+  description: string;
+  status: 'pending' | 'checking' | 'passed' | 'warning' | 'failed';
+  message?: string;
+  severity: 'info' | 'warning' | 'error';
 }
 
 export function EnvironmentCheck({
@@ -32,80 +38,96 @@ export function EnvironmentCheck({
   onCheckComplete,
   className,
 }: EnvironmentCheckProps) {
-  const [checks, setChecks] = useState<CheckItem[]>([])
-  const [isChecking, setIsChecking] = useState(false)
-  const [overallStatus, setOverallStatus] = useState<'idle' | 'checking' | 'complete'>('idle')
+  const [checks, setChecks] = useState<CheckItem[]>([]);
+  const [isChecking, setIsChecking] = useState(false);
+  const [overallStatus, setOverallStatus] = useState<
+    'idle' | 'checking' | 'complete'
+  >('idle');
 
   useEffect(() => {
-    setChecks(getEnvironmentChecks(algorithm))
-  }, [algorithm])
+    setChecks(getEnvironmentChecks(algorithm));
+  }, [algorithm]);
 
   const handleStartCheck = async () => {
-    setIsChecking(true)
-    setOverallStatus('checking')
+    setIsChecking(true);
+    setOverallStatus('checking');
 
     // 逐个执行检查
     for (let i = 0; i < checks.length; i++) {
-      setChecks(prev => prev.map((check, index) => 
-        index === i ? { ...check, status: 'checking' as const } : check
-      ))
+      setChecks((prev) =>
+        prev.map((check, index) =>
+          index === i ? { ...check, status: 'checking' as const } : check
+        )
+      );
 
       // 模拟检查过程
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // 模拟检查结果（实际应该调用真实的检查函数）
-      const result = await performCheck(checks[i], algorithm)
-      
-      setChecks(prev => prev.map((check, index) => 
-        index === i ? { ...check, ...result } : check
-      ))
+      const result = await performCheck(checks[i], algorithm);
+
+      setChecks((prev) =>
+        prev.map((check, index) =>
+          index === i ? { ...check, ...result } : check
+        )
+      );
     }
 
-    setIsChecking(false)
-    setOverallStatus('complete')
+    setIsChecking(false);
+    setOverallStatus('complete');
 
     // 收集问题
     const issues = checks
-      .filter(check => check.status === 'warning' || check.status === 'failed')
-      .map(check => check.message || check.name)
+      .filter(
+        (check) => check.status === 'warning' || check.status === 'failed'
+      )
+      .map((check) => check.message || check.name);
 
-    const passed = checks.every(check => check.status === 'passed' || check.status === 'warning')
-    onCheckComplete?.(passed, issues)
-  }
+    const passed = checks.every(
+      (check) => check.status === 'passed' || check.status === 'warning'
+    );
+    onCheckComplete?.(passed, issues);
+  };
 
   const getStatusIcon = (status: CheckItem['status']) => {
     switch (status) {
       case 'pending':
-        return '⏸️'
+        return '⏸️';
       case 'checking':
-        return '🔄'
+        return '🔄';
       case 'passed':
-        return '✅'
+        return '✅';
       case 'warning':
-        return '⚠️'
+        return '⚠️';
       case 'failed':
-        return '❌'
+        return '❌';
     }
-  }
+  };
 
   const getStatusColor = (status: CheckItem['status']) => {
     switch (status) {
       case 'pending':
-        return 'text-gray-500'
+        return 'text-gray-500';
       case 'checking':
-        return 'text-blue-500'
+        return 'text-blue-500';
       case 'passed':
-        return 'text-green-500'
+        return 'text-green-500';
       case 'warning':
-        return 'text-yellow-500'
+        return 'text-yellow-500';
       case 'failed':
-        return 'text-red-500'
+        return 'text-red-500';
     }
-  }
+  };
 
-  const passedCount = checks.filter(check => check.status === 'passed').length
-  const warningCount = checks.filter(check => check.status === 'warning').length
-  const failedCount = checks.filter(check => check.status === 'failed').length
+  const passedCount = checks.filter(
+    (check) => check.status === 'passed'
+  ).length;
+  const warningCount = checks.filter(
+    (check) => check.status === 'warning'
+  ).length;
+  const failedCount = checks.filter(
+    (check) => check.status === 'failed'
+  ).length;
 
   return (
     <Card className={cn('w-full', className)}>
@@ -138,11 +160,13 @@ export function EnvironmentCheck({
                 <span className={cn('text-xl', getStatusColor(check.status))}>
                   {getStatusIcon(check.status)}
                 </span>
-                
+
                 <div className="flex-1">
                   <div className="font-medium">{check.name}</div>
-                  <div className="text-sm text-gray-600 mt-1">{check.description}</div>
-                  
+                  <div className="text-sm text-gray-600 mt-1">
+                    {check.description}
+                  </div>
+
                   {check.message && check.status !== 'pending' && (
                     <Alert className="mt-2">
                       <AlertDescription className="text-sm">
@@ -155,14 +179,18 @@ export function EnvironmentCheck({
                 {check.status !== 'pending' && check.status !== 'checking' && (
                   <Badge
                     variant={
-                      check.status === 'passed' ? 'default' :
-                      check.status === 'warning' ? 'secondary' :
-                      'destructive'
+                      check.status === 'passed'
+                        ? 'default'
+                        : check.status === 'warning'
+                          ? 'secondary'
+                          : 'destructive'
                     }
                   >
-                    {check.status === 'passed' ? '通过' :
-                     check.status === 'warning' ? '警告' :
-                     '失败'}
+                    {check.status === 'passed'
+                      ? '通过'
+                      : check.status === 'warning'
+                        ? '警告'
+                        : '失败'}
                   </Badge>
                 )}
               </div>
@@ -176,15 +204,21 @@ export function EnvironmentCheck({
             <div className="font-medium mb-2">检查结果摘要</div>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="p-2 bg-green-100 rounded">
-                <div className="text-2xl font-bold text-green-700">{passedCount}</div>
+                <div className="text-2xl font-bold text-green-700">
+                  {passedCount}
+                </div>
                 <div className="text-sm text-green-600">通过</div>
               </div>
               <div className="p-2 bg-yellow-100 rounded">
-                <div className="text-2xl font-bold text-yellow-700">{warningCount}</div>
+                <div className="text-2xl font-bold text-yellow-700">
+                  {warningCount}
+                </div>
                 <div className="text-sm text-yellow-600">警告</div>
               </div>
               <div className="p-2 bg-red-100 rounded">
-                <div className="text-2xl font-bold text-red-700">{failedCount}</div>
+                <div className="text-2xl font-bold text-red-700">
+                  {failedCount}
+                </div>
                 <div className="text-sm text-red-600">失败</div>
               </div>
             </div>
@@ -198,48 +232,57 @@ export function EnvironmentCheck({
               开始检查
             </Button>
           )}
-          
+
           {overallStatus === 'checking' && (
             <Button disabled className="flex-1">
               检查中...
             </Button>
           )}
-          
+
           {overallStatus === 'complete' && (
-            <Button onClick={handleStartCheck} variant="outline" className="flex-1">
+            <Button
+              onClick={handleStartCheck}
+              variant="outline"
+              className="flex-1"
+            >
               重新检查
             </Button>
           )}
         </div>
 
         {/* 建议 */}
-        {overallStatus === 'complete' && (warningCount > 0 || failedCount > 0) && (
-          <Alert>
-            <AlertDescription>
-              <div className="space-y-2">
-                <div className="font-medium">建议：</div>
-                <ul className="list-disc list-inside text-sm space-y-1">
-                  {failedCount > 0 && (
-                    <li>请先解决失败的检查项，这些问题会严重影响结果准确性</li>
-                  )}
-                  {warningCount > 0 && (
-                    <li>建议关注警告项，改善这些条件可以提高结果质量</li>
-                  )}
-                  <li>所有检查项通过后再进行测量，可获得最佳结果</li>
-                </ul>
-              </div>
-            </AlertDescription>
-          </Alert>
-        )}
+        {overallStatus === 'complete' &&
+          (warningCount > 0 || failedCount > 0) && (
+            <Alert>
+              <AlertDescription>
+                <div className="space-y-2">
+                  <div className="font-medium">建议：</div>
+                  <ul className="list-disc list-inside text-sm space-y-1">
+                    {failedCount > 0 && (
+                      <li>
+                        请先解决失败的检查项，这些问题会严重影响结果准确性
+                      </li>
+                    )}
+                    {warningCount > 0 && (
+                      <li>建议关注警告项，改善这些条件可以提高结果质量</li>
+                    )}
+                    <li>所有检查项通过后再进行测量，可获得最佳结果</li>
+                  </ul>
+                </div>
+              </AlertDescription>
+            </Alert>
+          )}
       </CardContent>
     </Card>
-  )
+  );
 }
 
 /**
  * 获取算法特定的环境检查项
  */
-function getEnvironmentChecks(algorithm: 'bazi' | 'xuankong' | 'compass'): CheckItem[] {
+function getEnvironmentChecks(
+  algorithm: 'bazi' | 'xuankong' | 'compass'
+): CheckItem[] {
   switch (algorithm) {
     case 'bazi':
       return [
@@ -264,7 +307,7 @@ function getEnvironmentChecks(algorithm: 'bazi' | 'xuankong' | 'compass'): Check
           status: 'pending',
           severity: 'error',
         },
-      ]
+      ];
 
     case 'xuankong':
       return [
@@ -296,7 +339,7 @@ function getEnvironmentChecks(algorithm: 'bazi' | 'xuankong' | 'compass'): Check
           status: 'pending',
           severity: 'error',
         },
-      ]
+      ];
 
     case 'compass':
       return [
@@ -335,7 +378,7 @@ function getEnvironmentChecks(algorithm: 'bazi' | 'xuankong' | 'compass'): Check
           status: 'pending',
           severity: 'warning',
         },
-      ]
+      ];
   }
 }
 
@@ -347,22 +390,22 @@ async function performCheck(
   algorithm: 'bazi' | 'xuankong' | 'compass'
 ): Promise<Partial<CheckItem>> {
   // 模拟检查逻辑（实际应该调用真实的检查函数）
-  const random = Math.random()
-  
+  const random = Math.random();
+
   if (random > 0.8) {
     return {
       status: 'passed',
       message: '检查通过，环境条件良好',
-    }
-  } else if (random > 0.5) {
+    };
+  }
+  if (random > 0.5) {
     return {
       status: 'warning',
       message: '检测到轻微问题，建议改善环境条件',
-    }
-  } else {
-    return {
-      status: 'failed',
-      message: '检测到严重问题，请先解决后再继续',
-    }
+    };
   }
+  return {
+    status: 'failed',
+    message: '检测到严重问题，请先解决后再继续',
+  };
 }

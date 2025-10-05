@@ -1,0 +1,153 @@
+# Warp 项目迁移配置文件
+# 保存为 ~/.warp/launch_configurations/migration-profiles.yaml
+# 启动：warp launch migration-profiles
+
+name: 项目迁移配置文件  # Project Migration Profiles
+active_window_index: 0
+windows:
+  # Dev 角色标签
+  - tabs:
+      - title: Dev-UI-阶段1  # Dev-UI-Stage1
+        layout:
+          cwd: ~/projects/mksaas
+          commands:
+            - exec: "git diff --name-only | grep -E '(form|result|button)' && code ."
+            - exec: "npm run i18n-check -- --langs=zh,en"
+            - exec: "stylelint '**/*.css' --fix"
+            - exec: "playwright test ui-flows.spec.ts"
+            - exec: "grep -r 'dataLayer.push' src/"
+        color: blue
+      - title: Dev-逻辑-阶段2  # Dev-Logic-Stage2
+        layout:
+          cwd: ~/projects/mksaas
+          commands:
+            - exec: "curl -H 'Authorization: Bearer $MKS_TOKEN' /api/calculate-bazi"
+            - exec: "next-auth check --provider mksaas"
+            - exec: "stripe test --webhook /payment/callback"
+            - exec: "npm test -- --grep='persist-state'"
+            - exec: "eslint --fix src/logic/*.js"
+        color: green
+      - title: Dev-API-阶段3  # Dev-API-Stage3
+        layout:
+          cwd: ~/projects/mksaas
+          commands:
+            - exec: "postman collection run api-mapping.postman_collection"
+            - exec: "supertest(app).get('/api/bazi').expect(401)"
+            - exec: "npm run analytics-test"
+            - exec: "i18next-scanner --config i18n.config.js"
+            - exec: "git log --grep='legacy-api'"
+        color: yellow
+      - title: Dev-数据-阶段4  # Dev-Data-Stage4
+        layout:
+          cwd: ~/projects/mksaas
+          commands:
+            - exec: "prisma db pull && diff schema.prisma mksaas-schema.prisma"
+            - exec: "prisma migrate dev --name add-i18n-fields"
+            - exec: "knex migrate:latest"
+            - exec: "test-query 'JOIN users ON bazi.user_id'"
+        color: magenta
+      - title: Dev-安全-阶段5  # Dev-Sec-Stage5
+        layout:
+          cwd: ~/projects/mksaas
+          commands:
+            - exec: "npm audit --fix"
+            - exec: "rate-limiter flex --config security.js"
+            - exec: "crypto.encrypt --field birthdate"
+            - exec: "jest security.spec.js"
+        color: cyan
+      - title: Dev-性能-阶段6  # Dev-Perf-Stage6
+        layout:
+          cwd: ~/projects/mksaas
+          commands:
+            - exec: "lighthouse . --view"
+            - exec: "webpack-bundle-analyzer"
+            - exec: "async-queue payment-calls"
+            - exec: "redis cache --key i18n:zh"
+        color: red
+      - title: Dev-测试-阶段7  # Dev-Test-Stage7
+        layout:
+          cwd: ~/projects/mksaas
+          commands:
+            - exec: "jest --coverage --testPathPattern='bazi|fengshui'"
+            - exec: "npm run integration -- --full-flow"
+            - exec: "cypress run --spec 'user-journey.spec.js'"
+            - exec: "browserstack local --start"
+            - exec: "jest --watchAll"
+        color: blue
+  # QA 角色标签
+  - tabs:
+      - title: QA-验证1  # QA-Verify1
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "playwright test --project=ui"]
+        color: green
+      - title: QA-会话2  # QA-Session2
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "puppeteer session-simulate --user-flow bazi-login-pay"]
+        color: yellow
+      - title: QA-模糊3  # QA-Fuzz3
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "ffuf -u http://api/bazi/FUZZ -w wordlist.txt"]
+        color: magenta
+      - title: QA-数据4  # QA-Data4
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "data-validator --schema bazi.json --sample 100"]
+        color: cyan
+      - title: QA-扫描5  # QA-Scan5
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "snyk test"]
+        color: red
+      - title: QA-压力6  # QA-Stress6
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "artillery run perf.yml"]
+        color: blue
+      - title: QA-覆盖7  # QA-Cov7
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "nyc report --reporter=html"]
+        color: green
+  # AI 角色标签
+  - tabs:
+      - title: AI-检查点1  # AI-CP1
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "gpt5-run --tool playwright --report visual-diff"]
+        color: yellow
+      - title: AI-检查点2  # AI-CP2
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "gpt5-simulate --script user-session"]
+        color: magenta
+      - title: AI-检查点3  # AI-CP3
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "gpt5-fuzz --api /bazi"]
+        color: cyan
+      - title: AI-检查点4  # AI-CP4
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "gpt5-schema-diff --output migrate.sql"]
+        color: red
+      - title: AI-检查点5  # AI-CP5
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "gpt5-scan --type vuln"]
+        color: blue
+      - title: AI-检查点6  # AI-CP6
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "gpt5-bench --suggest opts"]
+        color: green
+      - title: AI-检查点7  # AI-CP7
+        layout:
+          cwd: ~/projects/mksaas
+          commands: [exec: "gpt5-test-gen --coverage 95"]
+        color: yellow
+#  env:
+  MKS_TOKEN: "{{env.MKS_TOKEN}}"
+  GPT5_API: "https://api.gpt5.xai"

@@ -1,4 +1,5 @@
 import { XTwitterIcon } from '@/components/icons/x';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { Logo } from '@/components/layout/logo';
 import { ModeSwitcher } from '@/components/layout/mode-switcher';
 import { websiteConfig } from '@/config/website';
@@ -73,6 +74,10 @@ export default async function DocsRootLayout({
             },
           ]
         : []),
+      {
+        type: 'custom' as const,
+        children: <LanguageSwitcher />,
+      },
     ],
     themeSwitch: {
       enabled: true,

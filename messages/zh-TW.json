@@ -1,0 +1,2411 @@
+{
+  "3d_viewer": {
+    "title": "3D風水展示",
+    "loading_model": "載入 3D 模型中...",
+    "rotate_view": "旋轉視角",
+    "zoom_in": "放大",
+    "zoom_out": "縮小",
+    "reset_view": "重置視角",
+    "fullscreen": "全螢幕",
+    "vr_mode": "VR 模式",
+    "animation_controls": "動畫控制",
+    "play": "播放",
+    "pause": "暫停",
+    "timeline": "時間軸",
+    "show_elements": "顯示五行",
+    "show_stars": "顯示飛星",
+    "show_recommendations": "顯示建議",
+    "lighting": "光照",
+    "shadows": "陰影",
+    "quality": "品質",
+    "high_quality": "高品質",
+    "medium_quality": "中等品質",
+    "low_quality": "低品質",
+    "performance_mode": "效能模式",
+    "webgl_not_supported": "您的瀏覽器不支援 WebGL",
+    "model_load_failed": "3D 模型載入失敗"
+  },
+  "AIAudioPage": {
+    "title": "AI Audio",
+    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+  },
+  "AIChatPage": {
+    "title": "AI Chat",
+    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+  },
+  "AIImagePage": {
+    "title": "AI Image",
+    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+  },
+  "AITextPage": {
+    "title": "AI Text Demo",
+    "description": "Analyze web content with AI to extract key information, features, and insights",
+    "content": "Web Content Analyzer",
+    "subtitle": "Enter a website URL to get AI-powered analysis of its content",
+    "analyzer": {
+      "title": "Web Content Analyzer",
+      "description": "Analyze any website content using AI to extract structured information",
+      "placeholder": "Enter website URL (e.g., https://example.com)",
+      "button": "Analyze Website",
+      "loading": {
+        "scraping": "Scraping website content...",
+        "analyzing": "Analyzing content with AI..."
+      },
+      "results": {
+        "title": "Analysis Results",
+        "newAnalysis": "Analyze Another Website",
+        "sections": {
+          "title": "Title",
+          "description": "Description",
+          "introduction": "Introduction",
+          "features": "Features",
+          "pricing": "Pricing",
+          "useCases": "Use Cases",
+          "screenshot": "Website Screenshot"
+        }
+      },
+      "errors": {
+        "invalidUrl": "Please enter a valid URL starting with http:// or https://",
+        "analysisError": "Failed to analyze website. Please try again.",
+        "networkError": "Network error. Please check your connection and try again.",
+        "insufficientCredits": "Insufficient credits. Please purchase more credits to continue."
+      }
+    },
+    "features": {
+      "scraping": {
+        "title": "Smart Web Scraping",
+        "description": "Advanced web scraping technology extracts clean, structured content from any website"
+      },
+      "analysis": {
+        "title": "AI-Powered Analysis",
+        "description": "Intelligent AI analysis extracts key insights, features, and structured information"
+      },
+      "results": {
+        "title": "Structured Results",
+        "description": "Get organized, easy-to-read results with clear sections and actionable insights"
+      }
+    }
+  },
+  "AIVideoPage": {
+    "title": "AI Video",
+    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+  },
+  "AboutPage": {
+    "title": "About",
+    "description": "This is MkSaaS, an AI SaaS template built with modern technologies, helping you build your SaaS faster and better.",
+    "authorName": "MkSaaS",
+    "authorBio": "AI SaaS Boilerplate",
+    "introduction": "👋 Hi there! This is MkSaaS, an AI SaaS template built with modern technologies, helping you build your SaaS faster and better. If you have any questions, welcome to contact me.",
+    "talkWithMe": "Talk with me",
+    "followMe": "Follow me on X"
+  },
+  "Analysis": {
+    "title": "準備開始分析",
+    "description": "我們將基於您提供的資訊，生成專業的八字命理和玄空飛星分析報告。",
+    "start": "開始分析",
+    "analyzing": "分析中...",
+    "baziTitle": "您的專屬八字命理分析",
+    "baziDescription": "基於您的出生資訊，經過專業算法深度分析，呈現您的命理特徵和人生洞察。",
+    "fengshuiTitle": "玄空飛星風水分析",
+    "fengshuiDescription": "結合您的八字命理和房屋朝向，為您提供專業的風水佈局建議。",
+    "aiEnhancedBazi": "AI 增強八字命理分析",
+    "aiEnhancedBaziDescription": "基於專業算法深度解析您的八字命理，結合傳統十神理論與現代 AI 技術，為您提供個人化的人生洞察和運勢指引。",
+    "professionalTenGods": "專業十神分析",
+    "majorEventPrediction": "重大事件預測",
+    "yearlyInteraction": "流年互動分析",
+    "lifeFortuneCycle": "人生大運週期",
+    "previousStep": "上一步",
+    "nextStep": "下一步：開始分析",
+    "steps": {
+      "personalData": "个人资料",
+      "personalDataDesc": "填写您的出生信息",
+      "houseOrientation": "房屋朝向",
+      "houseOrientationDesc": "确定房屋朝向信息",
+      "baziAnalysis": "八字分析",
+      "baziAnalysisDesc": "生成八字命理分析",
+      "flyingStar": "玄空飞星",
+      "flyingStarDesc": "生成风水分析报告"
+    }
+  },
+  "Auth": {
+    "login": "登入",
+    "logout": "退出登入",
+    "forgot_password": "忘記密碼",
+    "reset_password": "重設密碼",
+    "email": "邮箱",
+    "password": "密碼",
+    "confirm_password": "確認密碼",
+    "remember_me": "記住我",
+    "guest_mode": "遊客模式",
+    "continue_as_guest": "以遊客身分繼續",
+    "register_to_save": "註冊以保存資料",
+    "login_required": "需要登入",
+    "invalid_credentials": "用戶名或密碼錯誤",
+    "account_created": "帳戶建立成功",
+    "password_reset_sent": "密碼重設郵件已發送",
+    "register": {
+      "title": "建立帳戶",
+      "subtitle": "開始您的風水分析之旅",
+      "signInLink": "已有帳戶？立即登入",
+      "displayName": "顯示名稱",
+      "displayNamePlaceholder": "請輸入您的顯示名稱",
+      "emailPlaceholder": "請輸入您的郵箱地址",
+      "passwordPlaceholder": "請輸入密碼",
+      "confirmPasswordPlaceholder": "請再次確認密碼",
+      "acceptTerms": "我已閱讀並同意",
+      "termsLink": "服務條款",
+      "and": "和",
+      "privacyLink": "隱私政策",
+      "submit": "建立帳戶",
+      "hasAccount": "已經有帳戶了？",
+      "signIn": "立即登入"
+    }
+  },
+  "AuthPage": {
+    "login": {
+      "title": "Login",
+      "welcomeBack": "Welcome back",
+      "email": "Email",
+      "password": "Password",
+      "signIn": "Sign In",
+      "signUpHint": "Don't have an account? Sign up",
+      "forgotPassword": "Forgot Password?",
+      "signInWithGoogle": "Sign In with Google",
+      "signInWithGitHub": "Sign In with GitHub",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "or": "Or continue with",
+      "emailRequired": "Please enter your email",
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Captcha verification failed",
+      "captchaError": "Captcha verification error"
+    },
+    "register": {
+      "title": "Register",
+      "createAccount": "Create an account",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "signUp": "Sign Up",
+      "signInHint": "Already have an account? Sign in",
+      "checkEmail": "Please check your email inbox",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter your email",
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Captcha verification failed",
+      "captchaError": "Captcha verification error"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "email": "Email",
+      "send": "Send reset link",
+      "backToLogin": "Back to login",
+      "checkEmail": "Please check your email inbox",
+      "emailRequired": "Please enter your email"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "password": "Password",
+      "reset": "Reset password",
+      "backToLogin": "Back to login",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "minLength": "Password must be at least 8 characters"
+    },
+    "error": {
+      "title": "Oops! Something went wrong!",
+      "tryAgain": "Please try again.",
+      "backToLogin": "Back to login",
+      "checkEmail": "Please check your email inbox"
+    },
+    "common": {
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "byClickingContinue": "By clicking continue, you agree to our ",
+      "and": " and "
+    }
+  },
+  "Bazi": {
+    "title": "八字命理",
+    "description": "基於專業八字算法，為您提供個人化的人生洞察和運勢指引",
+    "analyzing": "正在進行深度分析...",
+    "analysis_description": "運用傳統命理智慧，為您解讀人生密碼",
+    "disclaimer": "本分析基於傳統命理學原理，僅供參考。重要決策請諮詢專業人士。",
+    "analysis": {
+      "sampleAnalysis": "您的八字顯示..."
+    },
+    "fourPillars": {
+      "year": "甲子",
+      "month": "乙丑",
+      "day": "丙寅",
+      "hour": "丁卯"
+    },
+    "birth_info": "出生資訊",
+    "birth_date": "出生日期",
+    "birth_time": "出生時間",
+    "birth_place": "出生地點",
+    "lunar_calendar": "農曆",
+    "solar_calendar": "公曆",
+    "year_pillar": "年柱",
+    "month_pillar": "月柱",
+    "day_pillar": "日柱",
+    "hour_pillar": "時柱",
+    "heavenly_stem": "天干",
+    "earthly_branch": "地支",
+    "five_elements": "五行",
+    "wood": "木",
+    "fire": "火",
+    "earth": "土",
+    "metal": "金",
+    "water": "水",
+    "strong": "旺",
+    "weak": "弱",
+    "favorable_elements": "喜用神",
+    "unfavorable_elements": "忌神",
+    "element_analysis": "五行分析",
+    "personality_analysis": "性格分析",
+    "career_guidance": "事業指導",
+    "relationship_analysis": "感情分析",
+    "health_guidance": "健康指導",
+    "fortune_analysis": "運勢分析",
+    "tabs": {
+      "overview": "總覽",
+      "fourPillars": "四柱",
+      "patterns": "格局",
+      "fiveElements": "五行",
+      "godsEvils": "神煞",
+      "luckCycles": "大運",
+      "dailyFortune": "今日運勢",
+      "insights": "洞察"
+    },
+    "deepAnalysisTitle": "深度八字命理分析",
+    "deepAnalysisSubtitle": "基於專業算法的個人化命理洞察",
+    "labels": {
+      "name": "姓名",
+      "gender": "性别",
+      "birthTime": "出生時間",
+      "gregorian": "公曆",
+      "lunar": "農曆"
+    },
+    "gender": {
+      "male": "男",
+      "female": "女"
+    },
+    "male": "TODO: translate Bazi.male",
+    "female": "TODO: translate Bazi.female"
+  },
+  "BaziHome": {
+    "hero": {
+      "title": "AI 八字 · 玄空風水，一鍵深度洞察",
+      "subtitle": "結合傳統命理與現代 AI，快速產出關鍵結論、建議與可執行行動。",
+      "cta": {
+        "startBazi": "開始八字分析",
+        "tryCompass": "試用玄空羅盤",
+        "askAi": "向 AI 提問"
+      }
+    },
+    "billing": {
+      "hint": "計費口徑：aiChat=5、deepInterpretation=30、bazi=10、xuankong=20、pdfExport=5；餘額不足將自動降級為精簡結果。"
+    },
+    "trust": {
+      "professional": "Professional Method",
+      "ai": "AI Assisted",
+      "privacy": "Privacy & Safety"
+    },
+    "features": {
+      "bazi": {
+        "title": "八字分析",
+        "desc": "一鍵提煉四柱要點、十神關係與近期趨勢。"
+      },
+      "compass": {
+        "title": "玄空羅盤",
+        "desc": "快速預覽方位與九宮提示，輔助選址與優化。"
+      },
+      "ai": {
+        "title": "AI 諮詢",
+        "desc": "自然語言問答，獲得針對性的建議與說明。"
+      }
+    },
+    "how": {
+      "title": "3 步開始",
+      "steps": {
+        "s1": {
+          "title": "錄入資訊",
+          "desc": "填寫出生日期時間或允許定位以計算座標。"
+        },
+        "s2": {
+          "title": "AI 生成",
+          "desc": "自動生成關鍵要點與空間提示。"
+        },
+        "s3": {
+          "title": "取得建議",
+          "desc": "閱讀洞察與行動建議，必要時持續向 AI 追問。"
+        }
+      }
+    },
+    "testimonials": {
+      "title": "用戶見證",
+      "items": {
+        "0": {
+          "quote": "體驗流暢、重點清晰，新手也能很快上手。",
+          "author": "L. Zhang",
+          "role": "室內設計師"
+        },
+        "1": {
+          "quote": "AI 解釋淺顯易懂，配合羅盤預覽更直觀。",
+          "author": "Y. Chen",
+          "role": "產品經理"
+        },
+        "2": {
+          "quote": "計費透明、重視隱私，報告也方便與家人溝通。",
+          "author": "H. Wang",
+          "role": "自由工作者"
+        }
+      }
+    },
+    "faq": {
+      "title": "常見問題",
+      "items": {
+        "0": {
+          "q": "需要精確到分鐘的出生時間嗎？",
+          "a": "建議越精確越好；若不確定，可先填寫大致時間，AI 會提示可能影響。"
+        },
+        "1": {
+          "q": "資料會被用於其他用途嗎？",
+          "a": "不會。資料僅用於計算與產生報告，並遵循隱私與 DSAR 規範。"
+        },
+        "2": {
+          "q": "餘額不足會怎樣？",
+          "a": "系統會自動降級為精簡結果，儲值後可解鎖完整分析與匯出。"
+        },
+        "3": {
+          "q": "AI 回答是否權威？",
+          "a": "AI 用於輔助與說明，不構成專業建議；重要決策請諮詢專業人士。"
+        }
+      }
+    },
+    "teaser": {
+      "title": "羅盤預覽（可旋轉）",
+      "clockwise": "+15° 順時針",
+      "counterClockwise": "-15° 逆時針",
+      "currentDegreeLabel": "當前角度："
+    },
+    "cta": {
+      "title": "開啟你的 AI 八字 · 風水解讀",
+      "subtitle": "透明計費 · 隱私優先 · 專家方法 + AI 交叉校驗",
+      "startBazi": "免費試用八字",
+      "askAi": "與 AI 對話"
+    },
+    "states": {
+      "empty": {
+        "title": "暫無輸入",
+        "desc": "請輸入出生資訊或先試用羅盤預覽。"
+      },
+      "error": {
+        "title": "發生錯誤",
+        "desc": "請檢查格式或稍後重試。"
+      },
+      "limited": {
+        "title": "已啟用精簡結果",
+        "desc": "餘額不足，儲值後可解鎖完整分析。"
+      },
+      "timeout": {
+        "title": "請求逾時",
+        "desc": "可能是網路波動或服務忙碌，請重試。"
+      }
+    },
+    "seo": {
+      "keywords": [
+        "AI 八字",
+        "八字分析",
+        "玄空風水羅盤",
+        "飛星",
+        "AI 諮詢",
+        "四柱",
+        "風水",
+        "Bazi",
+        "Feng Shui",
+        "Luopan"
+      ]
+    }
+  },
+  "BlogPage": {
+    "title": "Blog",
+    "description": "Latest news and updates from our team",
+    "subtitle": "Latest news and updates from our team",
+    "author": "Author",
+    "categories": "Categories",
+    "tableOfContents": "Table of Contents",
+    "readTime": "{minutes} min read",
+    "all": "All",
+    "noPostsFound": "No posts found",
+    "allPosts": "All Posts",
+    "morePosts": "More Posts"
+  },
+  "ChangelogPage": {
+    "title": "Changelog",
+    "description": "Stay up to date with the latest changes in our product",
+    "subtitle": "Stay up to date with the latest changes in our product"
+  },
+  "Chat": {
+    "title": "AI 風水助手",
+    "ask_question": "詢問風水問題",
+    "type_message": "輸入您的問題...",
+    "send": "发送",
+    "thinking": "思考中...",
+    "chat_history": "對話歷史",
+    "clear_chat": "清除對話",
+    "new_conversation": "新對話",
+    "suggested_questions": "推薦問題",
+    "daily_limit_reached": "今日對話次數已用完",
+    "upgrade_for_more": "升級訂閱以獲得更多對話次數",
+    "ai_disclaimer": "AI 回答僅供參考， 不構成專業建議",
+    "conversation_saved": "對話已保存",
+    "conversation_deleted": "對話已刪除",
+    "copy_message": "複製訊息",
+    "message_copied": "訊息已複製",
+    "regenerate_response": "重新生成回答",
+    "rate_response": "評價回答",
+    "helpful": "有幫助",
+    "not_helpful": "沒幫助"
+  },
+  "Common": {
+    "login": "Log in",
+    "logout": "Log out",
+    "signUp": "Sign up",
+    "language": "Switch language",
+    "mode": {
+      "label": "Toggle mode",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "theme": {
+      "label": "Toggle theme",
+      "default": "Default",
+      "blue": "Blue",
+      "green": "Green",
+      "amber": "Amber",
+      "neutral": "Neutral"
+    },
+    "copy": "複製",
+    "saving": "Saving...",
+    "save": "儲存",
+    "loading": "載入中...",
+    "cancel": "取消",
+    "logoutFailed": "Failed to log out",
+    "table": {
+      "totalRecords": "Total {count} records",
+      "noResults": "No results",
+      "loading": "Loading...",
+      "columns": "Columns",
+      "rowsPerPage": "Rows per page",
+      "page": "Page",
+      "firstPage": "First Page",
+      "lastPage": "Last Page",
+      "nextPage": "Next Page",
+      "previousPage": "Previous Page",
+      "ascending": "Asc",
+      "descending": "Desc"
+    },
+    "error": "錯誤",
+    "success": "成功",
+    "confirm": "確認",
+    "delete": "刪除",
+    "edit": "編輯",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "submit": "提交",
+    "reset": "重置",
+    "search": "搜尋",
+    "filter": "篩選",
+    "sort": "排序",
+    "export": "匯出",
+    "import": "匯入",
+    "share": "分享",
+    "download": "下載",
+    "upload": "上傳",
+    "close": "關閉",
+    "open": "打開",
+    "view": "查看",
+    "preview": "預覽",
+    "refresh": "重新整理",
+    "retry": "重試",
+    "switchLanguage": "切換語言",
+    "unknown": "未知",
+    "toBeCalculated": "待計算"
+  },
+  "Compass": {
+    "title": "數字羅盤",
+    "calibration": "校準",
+    "calibrating": "Calibrating...",
+    "start_measurement": "開始測量",
+    "stop_measurement": "停止測量",
+    "current_direction": "當前方向",
+    "accuracy": "精度",
+    "confidence": "置信度",
+    "status": "狀態",
+    "stable": "穩定",
+    "unstable": "不穩定",
+    "calibration_step": "校準步驟 {step}/{total}",
+    "good_pattern": "吉格",
+    "bad_pattern": "凶格",
+    "wenchang_desc": "智慧學業運勢方位",
+    "caiwei_desc": "財運事業發展方位",
+    "items": {
+      "desk_and_bookcase": "書桌、書櫃",
+      "stationery": "文房四寶",
+      "study_area": "學習工作區域",
+      "safe_and_cashier": "保險箱、收銀台",
+      "money_plant": "招財植物",
+      "business_area": "辦公商談區域"
+    },
+    "key_points": "關鍵要點",
+    "specific_recommendations": "具體建議",
+    "pattern_explanation_text": "玄空飛星格局是風水分析的核心，通過分析天盤、山盤、向盤三盤之間的關係，可以判斷房屋的吉凶狀況，並影響居住者的運勢、健康與財運。",
+    "measuring": "TODO: translate Compass.measuring",
+    "calibrate_device": "TODO: translate Compass.calibrate_device",
+    "calibration_instructions": "TODO: translate Compass.calibration_instructions",
+    "magnetic_declination": "TODO: translate Compass.magnetic_declination",
+    "true_north": "TODO: translate Compass.true_north",
+    "magnetic_north": "TODO: translate Compass.magnetic_north",
+    "direction": "TODO: translate Compass.direction",
+    "degree": "TODO: translate Compass.degree",
+    "measurement_history": "TODO: translate Compass.measurement_history",
+    "save_measurement": "TODO: translate Compass.save_measurement",
+    "clear_history": "TODO: translate Compass.clear_history",
+    "device_not_supported": "TODO: translate Compass.device_not_supported",
+    "permission_required": "TODO: translate Compass.permission_required",
+    "interference_detected": "TODO: translate Compass.interference_detected",
+    "move_away_from_metal": "TODO: translate Compass.move_away_from_metal",
+    "measurement_saved": "TODO: translate Compass.measurement_saved",
+    "high_accuracy": "TODO: translate Compass.high_accuracy",
+    "medium_accuracy": "TODO: translate Compass.medium_accuracy",
+    "low_accuracy": "TODO: translate Compass.low_accuracy"
+  },
+  "Compass_legacy": {
+    "title": "數字羅盤",
+    "measuring": "測量中...",
+    "calibration": "校準",
+    "calibrate_device": "校準設備",
+    "calibration_instructions": "請按照提示校準您的設備",
+    "accuracy": "精度",
+    "confidence": "置信度",
+    "magnetic_declination": "磁偏角",
+    "true_north": "真北",
+    "magnetic_north": "磁北",
+    "direction": "方向",
+    "degree": "度",
+    "measurement_history": "測量歷史",
+    "save_measurement": "保存測量",
+    "clear_history": "清除歷史",
+    "device_not_supported": "設備不支援羅盤功能",
+    "permission_required": "需要感測器權限",
+    "interference_detected": "檢測到磁場干擾",
+    "move_away_from_metal": "請遠離金屬物體",
+    "measurement_saved": "測量結果已保存",
+    "high_accuracy": "高精度",
+    "medium_accuracy": "中等精度",
+    "low_accuracy": "低精度"
+  },
+  "Compliance": {
+    "ageVerification": {
+      "title": "TODO: 18+ 年龄验证",
+      "description": "TODO: 本平台仅限 18 岁及以上用户使用，请确认您已满 18 周岁：",
+      "reason1": "TODO: 重要人生决策需要成熟的判断力",
+      "reason2": "TODO: 个人命理分析涉及隐私信息",
+      "reason3": "TODO: 遵循相关法律法规要求",
+      "confirmPrompt": "TODO: 点击「确认」表示您已满 18 周岁，同意使用本平台服务。",
+      "confirmButton": "TODO: 确认，我已满 18 周岁",
+      "rejectButton": "TODO: 不，我还未满 18 岁",
+      "underageMessage": "TODO: 很抱歉，本平台仅限 18 岁及以上用户使用。"
+    },
+    "disclaimer": {
+      "title": "TODO: 免责声明",
+      "content": "TODO: 本平台提供的八字命理、风水分析等服务，基于传统命理学理论与 AI 算法，仅供参考和娱乐用途。",
+      "points": [
+        "本服务不能替代专业咨询，也不应作为重要决策的唯一依据。",
+        "分析结果受多种因素影响，不保证结果的绝对准确性。",
+        "用户自行承担使用本服务的所有风险。",
+        "如有重大决策（婚姻、投资、就业等），请咨询专业人士。"
+      ],
+      "acceptButton": "TODO: 我已阅读并理解"
+    },
+    "privacy": {
+      "title": "TODO: 隐私政策",
+      "lastUpdated": "TODO: 最后更新：2025-01-03",
+      "sections": {
+        "dataCollection": {
+          "title": "TODO: 我们收集的信息",
+          "content": "TODO: 我们仅收集必要的个人信息，包括姓名、出生日期/时间、出生地点、房屋朝向等。"
+        },
+        "dataUsage": {
+          "title": "TODO: 信息使用目的",
+          "content": "TODO: 您的信息仅用于八字命理和风水分析计算，不会用于其他商业目的。"
+        },
+        "dataProtection": {
+          "title": "TODO: 数据安全",
+          "content": "TODO: 所有数据采用 AES-256 加密存储，传输过程使用 HTTPS 协议。"
+        },
+        "userRights": {
+          "title": "TODO: 您的权利",
+          "content": "TODO: 您有权随时查看、修改、导出或删除您的个人信息。"
+        }
+      }
+    },
+    "dsar": {
+      "title": "TODO: 数据主体访问请求（DSAR）",
+      "description": "TODO: 根据相关法律法规，您有权请求查看、修改、导出或删除您的个人数据。",
+      "requestType": "TODO: 请求类型",
+      "types": {
+        "access": "TODO: 查看我的数据",
+        "export": "TODO: 导出我的数据",
+        "delete": "TODO: 删除我的数据",
+        "rectify": "TODO: 修改我的数据"
+      },
+      "reasonLabel": "TODO: 请求理由",
+      "reasonPlaceholder": "TODO: 请简述您的请求理由（可选）",
+      "submitButton": "TODO: 提交请求",
+      "successMessage": "TODO: 您的 DSAR 请求已提交，我们将在 30 个工作日内处理。",
+      "pendingRequests": "TODO: 待处理请求",
+      "noRequests": "TODO: 暂无 DSAR 请求"
+    },
+    "sensitiveContent": {
+      "title": "TODO: 敏感内容过滤",
+      "warning": "TODO: 检测到敏感关键词，该问题可能涉及以下敏感主题：",
+      "categories": {
+        "politics": "TODO: 政治敏感话题",
+        "violence": "TODO: 暴力或伤害",
+        "illegal": "TODO: 非法活动",
+        "adult": "TODO: 成人内容",
+        "discrimination": "TODO: 歧视性内容"
+      },
+      "refusalMessage": "TODO: 很抱歉，我们无法回答涉及敏感主题的问题。请提问与命理、风水相关的合法问题。"
+    }
+  },
+  "ContactPage": {
+    "title": "Contact",
+    "description": "We'll help you find the right plan for your business",
+    "subtitle": "We'll help you find the right plan for your business",
+    "form": {
+      "title": "Contact Us",
+      "description": "If you have any questions or feedback, please reach out to our team",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Submit",
+      "submitting": "Submitting...",
+      "success": "Message sent successfully",
+      "fail": "Failed to send message",
+      "nameMinLength": "Name must be at least 3 characters",
+      "nameMaxLength": "Name must not exceed 30 characters",
+      "emailValidation": "Please enter a valid email address",
+      "messageMinLength": "Message must be at least 10 characters",
+      "messageMaxLength": "Message must not exceed 500 characters"
+    }
+  },
+  "CreditPackages": {
+    "basic": {
+      "name": "Basic",
+      "description": "Basic credits package description"
+    },
+    "standard": {
+      "name": "Standard",
+      "description": "Standard credits package description"
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "Premium credits package description"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "description": "Enterprise credits package description"
+    }
+  },
+  "Dashboard": {
+    "dashboard": {
+      "title": "Dashboard"
+    },
+    "admin": {
+      "title": "Admin",
+      "users": {
+        "title": "Users",
+        "fakeData": "Note: Faked data for demonstration, some features are disabled",
+        "error": "Failed to get users",
+        "search": "Search users...",
+        "columns": {
+          "columns": "Columns",
+          "name": "Name",
+          "email": "Email",
+          "role": "Role",
+          "createdAt": "Created At",
+          "customerId": "Customer ID",
+          "status": "Status",
+          "banReason": "Ban Reason",
+          "banExpires": "Ban Expires"
+        },
+        "admin": "Admin",
+        "user": "User",
+        "email": {
+          "verified": "Email Verified",
+          "unverified": "Email Unverified"
+        },
+        "emailCopied": "Email copied to clipboard",
+        "banned": "Banned",
+        "active": "Active",
+        "joined": "Joined at",
+        "updated": "Updated at",
+        "ban": {
+          "reason": "Ban Reason",
+          "reasonPlaceholder": "Enter the reason for banning this user",
+          "defaultReason": "Spamming",
+          "never": "Never",
+          "expires": "Ban Expires",
+          "selectDate": "Select Date",
+          "button": "Ban User",
+          "success": "User has been banned",
+          "error": "Failed to ban user"
+        },
+        "unban": {
+          "button": "Unban User",
+          "success": "User has been unbanned",
+          "error": "Failed to unban user"
+        },
+        "close": "Close"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "profile": {
+        "title": "Profile",
+        "description": "Manage your account information",
+        "avatar": {
+          "title": "Avatar",
+          "description": "Click upload button to upload a custom one",
+          "recommendation": "An avatar is optional but strongly recommended",
+          "uploading": "Uploading...",
+          "uploadAvatar": "Upload Avatar",
+          "success": "Avatar updated successfully",
+          "fail": "Failed to update avatar"
+        },
+        "name": {
+          "title": "Name",
+          "description": "Please enter your display name",
+          "placeholder": "Enter your name",
+          "minLength": "Please use 3 characters at minimum",
+          "maxLength": "Please use 30 characters at maximum",
+          "hint": "Please use 3-30 characters for your name",
+          "success": "Name updated successfully",
+          "fail": "Failed to update name",
+          "saving": "Saving...",
+          "save": "Save"
+        }
+      },
+      "billing": {
+        "title": "Billing",
+        "description": "Manage your subscription and billing details",
+        "status": {
+          "active": "Active",
+          "trial": "Trial",
+          "free": "Free",
+          "lifetime": "Lifetime"
+        },
+        "interval": {
+          "month": "month",
+          "year": "year",
+          "oneTime": "one-time"
+        },
+        "currentPlan": {
+          "title": "Current Plan",
+          "description": "Your current plan details",
+          "noPlan": "You have no active plan"
+        },
+        "CustomerPortalButton": {
+          "loading": "Loading...",
+          "createCustomerPortalFailed": "Failed to open Stripe customer portal"
+        },
+        "price": "Price:",
+        "periodStartDate": "Period start date:",
+        "nextBillingDate": "Next billing date:",
+        "trialEnds": "Trial ends:",
+        "freePlanMessage": "You are currently on the free plan with limited features",
+        "lifetimeMessage": "You have lifetime access to all premium features",
+        "manageSubscription": "Manage Subscription and Billing",
+        "manageBilling": "Manage Billing",
+        "upgradePlan": "Upgrade Plan",
+        "retry": "Retry",
+        "errorMessage": "Failed to get data",
+        "paymentSuccess": "Payment successful"
+      },
+      "credits": {
+        "title": "Credits",
+        "description": "Manage your credit transactions",
+        "tabs": {
+          "balance": "Balance",
+          "transactions": "Transactions"
+        },
+        "balance": {
+          "title": "Credit Balance",
+          "description": "Your credit balance",
+          "credits": "Credits",
+          "creditsDescription": "You have {credits} credits",
+          "creditsExpired": "Credits expired",
+          "creditsAdded": "Credits have been added to your account",
+          "viewTransactions": "View Credit Transactions",
+          "retry": "Retry",
+          "expiringCredits": "{credits} credits expiring in the next {days} days"
+        },
+        "packages": {
+          "title": "Credit Packages",
+          "description": "Purchase additional credits to use our services",
+          "purchase": "Purchase",
+          "processing": "Processing...",
+          "popular": "Popular",
+          "completePurchase": "Complete Your Purchase",
+          "failedToFetchCredits": "Failed to fetch credits",
+          "failedToCreatePaymentIntent": "Failed to create payment intent",
+          "failedToInitiatePayment": "Failed to initiate payment",
+          "cancel": "Cancel",
+          "purchaseFailed": "Purchase credits failed",
+          "checkoutFailed": "Failed to create checkout session",
+          "loading": "Loading...",
+          "pay": "Pay"
+        },
+        "transactions": {
+          "title": "Credit Transactions",
+          "error": "Failed to get credit transactions",
+          "search": "Search credit transactions...",
+          "paymentIdCopied": "Payment ID copied to clipboard",
+          "columns": {
+            "columns": "Columns",
+            "id": "ID",
+            "type": "Type",
+            "description": "Description",
+            "amount": "Amount",
+            "remainingAmount": "Remaining Amount",
+            "paymentId": "Payment ID",
+            "expirationDate": "Expiration Date",
+            "expirationDateProcessedAt": "Expiration Date Processed At",
+            "createdAt": "Created At",
+            "updatedAt": "Updated At"
+          },
+          "types": {
+            "MONTHLY_REFRESH": "Monthly Refresh",
+            "REGISTER_GIFT": "Register Gift",
+            "PURCHASE": "Purchased Credits",
+            "USAGE": "Consumed Credits",
+            "EXPIRE": "Expired Credits",
+            "SUBSCRIPTION_RENEWAL": "Subscription Renewal",
+            "LIFETIME_MONTHLY": "Lifetime Monthly"
+          },
+          "detailViewer": {
+            "title": "Credit Transaction Detail",
+            "close": "Close"
+          },
+          "expired": "Expired",
+          "never": "Never"
+        }
+      },
+      "notification": {
+        "title": "Notification",
+        "description": "Manage your notification preferences",
+        "newsletter": {
+          "title": "Newsletter Subscription",
+          "description": "Manage your newsletter subscription preferences",
+          "label": "Subscribe to newsletter",
+          "hint": "You can change your subscription preferences at any time",
+          "emailRequired": "Email is required to subscribe to the newsletter",
+          "subscribeSuccess": "Successfully subscribed to the newsletter",
+          "subscribeFail": "Failed to subscribe to the newsletter",
+          "unsubscribeSuccess": "Successfully unsubscribed from the newsletter",
+          "unsubscribeFail": "Failed to unsubscribe from the newsletter",
+          "error": "An error occurred while updating your subscription"
+        }
+      },
+      "security": {
+        "title": "Security",
+        "description": "Manage your security settings",
+        "updatePassword": {
+          "title": "Change Password",
+          "description": "Enter your current password and a new password",
+          "currentPassword": "Current Password",
+          "currentRequired": "Current password is required",
+          "newPassword": "New Password",
+          "newMinLength": "Password must be at least 8 characters",
+          "hint": "Please use at least 8 characters for password",
+          "showPassword": "Show password",
+          "hidePassword": "Hide password",
+          "success": "Password updated successfully",
+          "fail": "Failed to update password",
+          "saving": "Saving...",
+          "save": "Save"
+        },
+        "resetPassword": {
+          "title": "Reset Password",
+          "description": "Reset password to enable email login",
+          "info": "Resetting your password will allow you to sign in using your email and password in addition to your social login methods. You will receive an email with instructions to reset your password",
+          "button": "Reset Password"
+        },
+        "deleteAccount": {
+          "title": "Delete Account",
+          "description": "Permanently remove your account and all of its contents",
+          "warning": "This action is not reversible, so please continue with caution",
+          "button": "Delete Account",
+          "confirmTitle": "Delete Account",
+          "confirmDescription": "Are you sure you want to delete your account? This action cannot be undone.",
+          "confirm": "Delete",
+          "cancel": "Cancel",
+          "deleting": "Deleting...",
+          "success": "Account deleted successfully",
+          "fail": "Failed to delete account"
+        }
+      }
+    },
+    "upgrade": {
+      "title": "Upgrade",
+      "description": "Upgrade to Pro to access all features",
+      "button": "Upgrade"
+    }
+  },
+  "DocsPage": {
+    "toc": "Table of Contents",
+    "search": "Search docs",
+    "lastUpdate": "Last updated on",
+    "searchNoResult": "No results",
+    "previousPage": "Previous",
+    "nextPage": "Next",
+    "chooseLanguage": "Select language",
+    "title": "MkSaaS Docs",
+    "homepage": "Homepage",
+    "blog": "Blog"
+  },
+  "ErrorPage": {
+    "title": "Oops! Something went wrong!",
+    "tryAgain": "Try again",
+    "backToHome": "Back to home"
+  },
+  "Errors": {
+    "page_not_found": "頁面未找到",
+    "server_error": "伺服器錯誤",
+    "network_error": "網路錯誤",
+    "permission_denied": "權限不足",
+    "invalid_input": "輸入無效",
+    "file_not_found": "檔案未找到",
+    "upload_failed": "上傳失敗",
+    "processing_failed": "處理失敗",
+    "calculation_error": "計算錯誤",
+    "database_error": "資料庫錯誤",
+    "authentication_failed": "認證失敗",
+    "session_expired": "會話已過期",
+    "quota_exceeded": "配額已超出",
+    "feature_not_available": "功能不可用",
+    "maintenance_mode": "系統維護中",
+    "try_again_later": "請稍後重試",
+    "contact_support": "請聯繫客服",
+    "unknown_error": "未知錯誤"
+  },
+  "Fengshui": {
+    "palace": {
+      "kan": "坎",
+      "kun": "坤",
+      "zhen": "震",
+      "xun": "巽",
+      "center": "中",
+      "qian": "乾",
+      "dui": "兑",
+      "gen": "艮",
+      "li": "离"
+    },
+    "palace_suffix": "宫",
+    "period_desc": "代表当前运势",
+    "mountain_star_desc": "代表坐山方位",
+    "water_star_desc": "代表朝向方位",
+    "details": "详细分析",
+    "pattern_analysis": "格局分析",
+    "overall_pattern": "整体格局",
+    "pattern_type": "格局类型",
+    "key_positions": "关键位置",
+    "suitable_arrangements": "适宜布置",
+    "layout_advice": "布局建议",
+    "pattern_explanation": "格局说明",
+    "title": "风水分析",
+    "flying_stars": "玄空飞星",
+    "nine_palaces": "九宫",
+    "compass_direction": "罗盘方位",
+    "house_facing": "房屋朝向",
+    "house_sitting": "房屋坐向",
+    "period": "运",
+    "current_period": "当运",
+    "wenchangwei": "文昌位",
+    "caiwei": "财位",
+    "mountain_star": "山星",
+    "water_star": "水星",
+    "time_star": "时星",
+    "annual_star": "年星",
+    "monthly_star": "月星",
+    "daily_star": "日星",
+    "auspicious": "吉",
+    "inauspicious": "凶",
+    "neutral": "平",
+    "very_auspicious": "大吉",
+    "very_inauspicious": "大凶",
+    "room_analysis": "房间分析",
+    "bedroom": "卧室",
+    "living_room": "客厅",
+    "kitchen": "厨房",
+    "bathroom": "卫生间",
+    "study": "书房",
+    "dining_room": "餐厅",
+    "entrance": "玄关",
+    "balcony": "阳台",
+    "recommendations": "风水建议",
+    "color_recommendations": "颜色建议",
+    "furniture_placement": "家具摆放",
+    "decoration_suggestions": "装饰建议",
+    "remedy_methods": "化解方法",
+    "tabs": {
+      "overview": "总览",
+      "ninePalaces": "九宫格",
+      "patterns": "格局",
+      "advice": "建议",
+      "advanced": "高级"
+    }
+  },
+  "FloorPlan": {
+    "standardListTitle": "選擇標準戶型圖",
+    "roomFallback": "房間{index}",
+    "standard-3room": {
+      "name": "標準三室兩廳",
+      "description": "坐北朝南，三室兩廳兩衛，面積約120㎡"
+    },
+    "standard-2room": {
+      "name": "標準兩室一廳",
+      "description": "坐北朝南，兩室一廳一衛，面積約80㎡"
+    },
+    "standard-4room": {
+      "name": "標準四室兩廳",
+      "description": "坐北朝南，四室兩廳三衛，面積約150㎡"
+    },
+    "summary": "{count}個房間 | {area}㎡",
+    "upload": {
+      "title": "上傳自定義戶型圖",
+      "button": "上傳戶型圖文件",
+      "clickToSelect": "點擊選擇戶型圖文件",
+      "supportedFormats": "支援 JPG, PNG, PDF 格式",
+      "customName": "自定義戶型圖",
+      "customDescription": "使用者上傳的戶型圖"
+    },
+    "selected": "已選擇戶型圖"
+  },
+  "Forms": {
+    "validation": {
+      "required": "此欄位為必填項",
+      "email": "請輸入有效的郵箱地址",
+      "min_length": "最少需要 {{count}} 個字元",
+      "max_length": "最多只能 {{count}} 個字元",
+      "pattern": "格式不正確"
+    },
+    "placeholders": {
+      "display_name": "請輸入您的暱稱",
+      "email": "your@email.com",
+      "phone": "+86 138 0000 0000",
+      "birth_date": "選擇出生日期",
+      "birth_time": "選擇出生時間",
+      "address": "輸入出生地點",
+      "search_address": "搜尋地址..."
+    },
+    "tooltips": {
+      "display_name": "這是其他使用者看到的名稱，可以隨時修改",
+      "birth_date_lunar": "農曆日期，用於八字計算",
+      "birth_date_gregorian": "公曆日期，用於八字計算",
+      "birth_time": "精確的出生時間有助於更準確的八字分析",
+      "birth_place": "出生地點用於真太陽時計算，提升八字分析精度",
+      "email": "用於接收重要通知和分析報告",
+      "phone": "用於接收簡訊通知和驗證",
+      "calendar_type": "選擇公曆或農曆，影響八字計算的準確性"
+    },
+    "calendar": {
+      "select_date": "選擇日期",
+      "clear": "清除",
+      "today": "今天",
+      "cancel": "取消",
+      "confirm": "確定",
+      "lunar_note": "農曆模式下，系統會自動轉換為公曆進行八字計算"
+    },
+    "time": {
+      "select_time": "選擇時間",
+      "hour": "小時",
+      "minute": "分鐘",
+      "period": "時段",
+      "am": "上午",
+      "pm": "下午",
+      "common_times": "常用時間"
+    },
+    "address": {
+      "select_location": "選擇位置",
+      "search_placeholder": "輸入地址，支援聯想搜尋",
+      "no_results": "未找到匹配的地址，請嘗試其他關鍵詞",
+      "supported_formats": "支援輸入省市區縣、街道、小區名稱等",
+      "current_location": "當前位置",
+      "manual_entry": "手動輸入"
+    },
+    "map": {
+      "click_to_select": "點擊地圖選擇位置",
+      "drag_to_pan": "拖曳地圖移動",
+      "zoom_in": "放大",
+      "zoom_out": "縮小",
+      "reset_view": "重置視角",
+      "locate_me": "定位到當前位置",
+      "selected_location": "已選擇位置",
+      "latitude": "緯度",
+      "longitude": "經度",
+      "accuracy": "精度",
+      "address": "地址"
+    }
+  },
+  "GuestAnalysis": {
+    "floorPlan": {
+      "noSelectionNote": "未選擇戶型圖，已跳過九宮房間映射，僅展示基礎飛星分析。",
+      "sectionTitle": "戶型圖風水分析"
+    },
+    "navigation": {
+      "back": "返回",
+      "title": "智能風水分析體驗"
+    },
+    "steps": {
+      "discoverDestiny": "發現您的命理密碼",
+      "determineLayout": "確定房屋風水佈局",
+      "professionalInsights": "基於專業八字算法，為您提供個人化的人生洞察和運勢指引。",
+      "preciseLayout": "通過精確的朝向測量，為您提供專業的風水佈局建議。"
+    },
+    "personalForm": {
+      "title": "填寫您的個人資訊",
+      "description": "請準確填寫出生資訊，這將直接影響八字分析的精度和準確性。",
+      "quickFill": "一鍵填入示例數據",
+      "name": "姓名",
+      "namePlaceholder": "請輸入您的姓名",
+      "nameRequired": "姓名 *",
+      "gender": "性別",
+      "genderRequired": "性別 *",
+      "genderPlaceholder": "請選擇性別",
+      "male": "男",
+      "female": "女",
+      "birthDate": "出生日期",
+      "birthDateRequired": "出生日期 *",
+      "birthTime": "出生時間",
+      "birthPlace": "出生地點",
+      "birthPlaceRequired": "出生地點 *",
+      "birthPlacePlaceholder": "請輸入出生城市",
+      "nextHouseOrientation": "下一步：房屋朝向"
+    },
+    "houseForm": {
+      "title": "確定房屋朝向資訊",
+      "description": "您可以選擇手動輸入朝向角度，或使用數字羅盤進行精確測量。",
+      "quickFill": "一鍵填入示例數據",
+      "selectFloorPlan": "選擇戶型圖",
+      "digitalCompass": "數字羅盤測量",
+      "currentOrientation": "當前朝向角度：",
+      "orientationAngle": "朝向角度",
+      "orientationRequired": "朝向角度 *",
+      "orientationPlaceholder": "0-360度",
+      "floor": "樓層",
+      "floorPlaceholder": "樓層數",
+      "address": "房屋地址",
+      "addressPlaceholder": "請輸入房屋地址",
+      "roomCount": "房間數量",
+      "roomCountPlaceholder": "房間數量"
+    },
+    "analysisReady": {
+      "title": "準備開始分析",
+      "description": "我們將基於您提供的資訊，生成專業的八字命理和玄空飛星分析報告。",
+      "startAnalysis": "開始分析"
+    },
+    "analyzing": "分析中...",
+    "analysis": {
+      "title": "準備開始分析",
+      "description": "我們將根據您提供的資訊，生成專業的八字命理和飛星風水分析報告。",
+      "start": "開始分析"
+    },
+    "sampleData": {
+      "name": "張三",
+      "location": "北京市",
+      "address": "北京市朝陽區望京街道",
+      "floorPlanName": "標準三室兩廳",
+      "floorPlanDescription": "坐北朝南，三室兩廳兩衛，面積約120㎡"
+    },
+    "disclaimer": "本分析僅供參考，不能替代專業諮詢。如有重要決策，請諮詢專業人士。"
+  },
+  "Home": {
+    "title": "QiFlow AI - 智能風水分析平台",
+    "subtitle": "結合傳統風水智慧與現代AI技術的智能分析平台",
+    "features": {
+      "bazi": {
+        "title": "八字命理分析",
+        "description": "精確計算生辰八字，分析五行強弱，提供個人化命理指導"
+      },
+      "flyingStar": {
+        "title": "玄空飛星風水",
+        "description": "專業九宮飛星分析，結合房屋朝向，提供精準風水建議"
+      },
+      "compass": {
+        "title": "高精度數字羅盤",
+        "description": "±2°專業級精度，自動磁偏角修正，支援24山方位測量"
+      },
+      "floorPlan": {
+        "title": "戶型圖智能疊加",
+        "description": "AI識別房間佈局，自動疊加飛星圖，可視化風水分析"
+      },
+      "visualization3d": {
+        "title": "3D風水展示",
+        "description": "立體化風水分析，VR模式支援，沉浸式體驗"
+      },
+      "aiAssistant": {
+        "title": "AI智能助手",
+        "description": "專業風水諮詢，個人化建議，多輪對話記憶"
+      }
+    },
+    "actions": {
+      "continueAsGuest": "以遊客身份繼續",
+      "register": "立即註冊",
+      "viewBaziAnalysis": "立即查看八字命理分析",
+      "testAnalysis": "測試完整分析流程"
+    },
+    "guestEntry": {
+      "creatingSession": "創建遊客會話中...",
+      "continueAsGuest": "以遊客身份繼續",
+      "registerNow": "立即註冊",
+      "alreadyHaveAccount": "已有帳戶？立即登入",
+      "guestModeDescription": "遊客模式：最多3次分析，數據不保存",
+      "sessionCreationFailed": "遊客會話創建失敗"
+    },
+    "highlights": {
+      "title": "核心特色",
+      "smartOverlay": {
+        "title": "智能戶型疊加",
+        "description": "全球首創戶型圖與飛星圖智能疊加技術"
+      },
+      "guestMode": {
+        "title": "遊客模式",
+        "description": "無需註冊即可體驗核心功能，數據24小時自動清理"
+      },
+      "precisionCompass": {
+        "title": "專業級羅盤",
+        "description": "±2°精度要求，支援多種感應器融合算法"
+      },
+      "multilingual": {
+        "title": "多語言支援",
+        "description": "支援6種語言，全球化風水分析服務"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 QiFlow AI. 保留所有權利。",
+      "help": "幫助中心",
+      "about": "關於我們"
+    }
+  },
+  "HomePage": {
+    "title": "QiFlow AI - 智能風水分析平台",
+    "description": "Make AI SaaS in days, simply and effortlessly",
+    "hero": {
+      "title": "Make AI SaaS in days, simply and effortlessly",
+      "description": "The is a demo website built with MkSaaS, a Next.js SaaS boilerplate to help you build your AI SaaS faster and better.",
+      "introduction": "Introducing MkSaaS Boilerplate",
+      "primary": "Get Started",
+      "secondary": "See Demo"
+    },
+    "logocloud": {
+      "title": "Your favorite companies are our partners"
+    },
+    "integration": {
+      "title": "Integrations",
+      "subtitle": "Integrate with your favorite tools",
+      "description": "Connect seamlessly with popular platforms and services to enhance your workflow.",
+      "learnMore": "Learn More",
+      "items": {
+        "item-1": {
+          "title": "Google Gemini",
+          "description": "Amet praesentium deserunt ex commodi tempore fuga voluptatem."
+        },
+        "item-2": {
+          "title": "Replit",
+          "description": "Amet praesentium deserunt ex commodi tempore fuga voluptatem."
+        },
+        "item-3": {
+          "title": "MagicUI",
+          "description": "Amet praesentium deserunt ex commodi tempore fuga voluptatem."
+        },
+        "item-4": {
+          "title": "VSCodium",
+          "description": "Amet praesentium deserunt ex commodi tempore fuga voluptatem."
+        },
+        "item-5": {
+          "title": "MediaWiki",
+          "description": "Amet praesentium deserunt ex commodi tempore fuga voluptatem."
+        },
+        "item-6": {
+          "title": "Google PaLM",
+          "description": "Amet praesentium deserunt ex commodi tempore fuga voluptatem."
+        }
+      }
+    },
+    "integration2": {
+      "title": "Integrate with your favorite tools",
+      "description": "Connect seamlessly with popular platforms and services to enhance your workflow.",
+      "primaryButton": "Get Started",
+      "secondaryButton": "See Demo"
+    },
+    "features": {
+      "title": "Features",
+      "subtitle": "The features of your product",
+      "description": "Write the description of your product here",
+      "items": {
+        "item-1": {
+          "title": "Product Feature One",
+          "description": "Please write the detailed description of feature one here, make it as detailed as possible, make it more attractive to users"
+        },
+        "item-2": {
+          "title": "Product Feature Two",
+          "description": "Please write the detailed description of feature two here, make it as detailed as possible, make it more attractive to users"
+        },
+        "item-3": {
+          "title": "Product Feature Three",
+          "description": "Please write the detailed description of feature three here, make it as detailed as possible, make it more attractive to users"
+        },
+        "item-4": {
+          "title": "Product Feature Four",
+          "description": "Please write the detailed description of feature four here, make it as detailed as possible, make it more attractive to users"
+        }
+      },
+      "fengshui": {
+        "title": "風水分析",
+        "description": "專業的玄空飛星風水分析，為您提供詳細的風水評估和建議"
+      },
+      "bazi": {
+        "title": "八字分析",
+        "description": "基於傳統八字理論的個人運勢分析，助您了解自身命理"
+      },
+      "guest": {
+        "title": "訪客分析",
+        "description": "智能訪客分析系統，為您的客人提供個人化的風水建議"
+      }
+    },
+    "features2": {
+      "title": "Features2",
+      "subtitle": "The features of your product",
+      "description": "Write the description of your product here",
+      "feature-1": "Product Feature One",
+      "feature-2": "Product Feature Two",
+      "feature-3": "Product Feature Three",
+      "feature-4": "Product Feature Four"
+    },
+    "features3": {
+      "title": "Features3",
+      "subtitle": "The features of your product",
+      "description": "Write the description of your product here",
+      "items": {
+        "item-1": {
+          "title": "Product Feature One",
+          "description": "Please write the detailed description of feature one here"
+        },
+        "item-2": {
+          "title": "Product Feature Two",
+          "description": "Please write the detailed description of feature two here"
+        },
+        "item-3": {
+          "title": "Product Feature Three",
+          "description": "Please write the detailed description of feature three here"
+        },
+        "item-4": {
+          "title": "Product Feature Four",
+          "description": "Please write the detailed description of feature four here"
+        },
+        "item-5": {
+          "title": "Product Feature Five",
+          "description": "Please write the detailed description of feature five here"
+        },
+        "item-6": {
+          "title": "Product Feature Six",
+          "description": "Please write the detailed description of feature six here"
+        }
+      }
+    },
+    "pricing": {
+      "title": "Pricing",
+      "subtitle": "Pricing",
+      "description": "Choose the plan that works best for you"
+    },
+    "faqs": {
+      "title": "FAQ",
+      "subtitle": "Frequently Asked Questions",
+      "items": {
+        "item-1": {
+          "question": "Do you offer a free trial?",
+          "answer": "Yes, we offer a 7-day free trial."
+        },
+        "item-2": {
+          "question": "How do I cancel my subscription?",
+          "answer": "You can cancel your subscription by visiting the billing page."
+        },
+        "item-3": {
+          "question": "Can I change my plan?",
+          "answer": "Yes, you can change your plan at any time by visiting the billing page."
+        },
+        "item-4": {
+          "question": "What is the refund policy?",
+          "answer": "We offer a 30-day money-back guarantee if you are not happy with our product."
+        },
+        "item-5": {
+          "question": "Can't find what you're looking for?",
+          "answer": "Please contact our customer support team at support@mksaas.com"
+        }
+      }
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "subtitle": "What our customers are saying",
+      "items": {
+        "item-1": {
+          "name": "Jonathan Yombo",
+          "role": "Software Engineer",
+          "image": "https://randomuser.me/api/portraits/men/1.jpg",
+          "quote": "MkSaaS is really extraordinary and very practical, no need to break your head. A real gold mine."
+        },
+        "item-2": {
+          "name": "Yves Kalume",
+          "role": "GDE - Android",
+          "image": "https://randomuser.me/api/portraits/men/6.jpg",
+          "quote": "With no experience in webdesign I just redesigned my entire website in a few minutes with tailwindcss thanks to MkSaaS."
+        },
+        "item-3": {
+          "name": "Yucel Faruksahan",
+          "role": "Tailkits Creator",
+          "image": "https://randomuser.me/api/portraits/men/7.jpg",
+          "quote": "Great work on MkSaaS template. This is one of the best personal website that I have seen so far :)"
+        },
+        "item-4": {
+          "name": "Anonymous author",
+          "role": "Product Manager",
+          "image": "https://randomuser.me/api/portraits/men/8.jpg",
+          "quote": "I downloaded the one of MkSaaS template which is very clear to understand at the start and you could modify the codes/blocks to fit perfectly on your purpose of the page."
+        },
+        "item-5": {
+          "name": "Shekinah Tshiokufila",
+          "role": "Senior Software Engineer",
+          "image": "https://randomuser.me/api/portraits/men/4.jpg",
+          "quote": "MkSaaS is redefining the standard of web design, with these blocks it provides an easy and efficient way for those who love beauty but may lack the time to implement it."
+        },
+        "item-6": {
+          "name": "Oketa Fred",
+          "role": "Fullstack Developer",
+          "image": "https://randomuser.me/api/portraits/men/2.jpg",
+          "quote": "I absolutely love MkSaaS! The component blocks are beautifully designed and easy to use, which makes creating a great-looking website a breeze."
+        },
+        "item-7": {
+          "name": "Zeki",
+          "role": "Founder of ChatExtend",
+          "image": "https://randomuser.me/api/portraits/men/5.jpg",
+          "quote": "MkSaaS is the perfect fusion of simplicity and versatility, enabling us to create UIs that are as stunning as they are user-friendly."
+        },
+        "item-8": {
+          "name": "Joseph Kitheka",
+          "role": "Fullstack Developer",
+          "image": "https://randomuser.me/api/portraits/men/9.jpg",
+          "quote": "MkSaaS has transformed the way I develop web applications. Their extensive collection of UI components, blocks, and templates has significantly accelerated my workflow."
+        },
+        "item-9": {
+          "name": "Khatab Wedaa",
+          "role": "MerakiUI Creator",
+          "image": "https://randomuser.me/api/portraits/men/10.jpg",
+          "quote": "MkSaaS is an elegant, clean, and responsive tailwind css components it's very helpful to start fast with your project."
+        },
+        "item-10": {
+          "name": "Rodrigo Aguilar",
+          "role": "TailwindAwesome Creator",
+          "image": "https://randomuser.me/api/portraits/men/11.jpg",
+          "quote": "I love MkSaaS ❤️. The component blocks are well-structured, simple to use, and beautifully designed. It makes it really easy to have a good-looking website in no time."
+        },
+        "item-11": {
+          "name": "Eric Ampire",
+          "role": "@GoogleDevExpert for Android",
+          "image": "https://randomuser.me/api/portraits/men/12.jpg",
+          "quote": "MkSaaS templates are the perfect solution for anyone who wants to create a beautiful and functional website without any web design experience."
+        },
+        "item-12": {
+          "name": "Roland Tubonge",
+          "role": "Software Engineer",
+          "image": "https://randomuser.me/api/portraits/men/13.jpg",
+          "quote": "MkSaaS is so well designed that even with a very poor knowledge of web design you can do miracles. Let yourself be seduced!"
+        }
+      }
+    },
+    "stats": {
+      "title": "Stats",
+      "subtitle": "MkSaaS in numbers",
+      "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
+      "items": {
+        "item-1": {
+          "title": "Stars on GitHub"
+        },
+        "item-2": {
+          "title": "Active Users"
+        },
+        "item-3": {
+          "title": "Powered Apps"
+        }
+      }
+    },
+    "calltoaction": {
+      "title": "Start Building",
+      "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
+      "primaryButton": "Get Started",
+      "secondaryButton": "See Demo"
+    },
+    "subtitle": "結合傳統風水智慧與現代AI技術的智能分析平台",
+    "actions": {
+      "login": "登入",
+      "register": "註冊"
+    }
+  },
+  "HomeV2": {
+    "hero": {
+      "titleLine1": "Uniting millennia-old wisdom with AI",
+      "titleLine2": "A new era of destiny insight",
+      "subtitle": "Accurate BaZi analysis · Intelligent compass · AI deep consulting",
+      "ctaPrimary": "Try for Free",
+      "ctaSecondary": "AI Consulting"
+    },
+    "trust": {
+      "dataSecurity": "Encrypted data security",
+      "realtimeAI": "Real-time AI analysis",
+      "traditionFusion": "Tradition meets innovation"
+    },
+    "features": {
+      "heading": "Three Core Features",
+      "subtitle": "Blending traditional metaphysics with modern AI for comprehensive personalized services",
+      "ctaHover": "Click to experience →",
+      "items": {
+        "bazi": {
+          "title": "AI BaZi Analysis",
+          "desc": "Enter birth info to get Five Elements, Ten Gods, and annual insights",
+          "credits": "Free 10 credits"
+        },
+        "compass": {
+          "title": "Feng Shui Compass Test",
+          "desc": "Input address to receive orientation and layout suggestions",
+          "credits": "Free 20 credits"
+        },
+        "chat": {
+          "title": "AI Deep Consulting",
+          "desc": "Real-time multi-turn conversations for professional advice",
+          "credits": "5 credits / session"
+        }
+      }
+    },
+    "shell": {
+      "empty": {
+        "title": "Not started yet",
+        "desc": "Provide required info to begin intelligent analysis"
+      },
+      "error": {
+        "title": "Service unavailable",
+        "desc": "Please retry later or contact support"
+      },
+      "limited": {
+        "title": "Access limited",
+        "desc": "Insufficient credits or permissions. Top up or upgrade to unlock"
+      },
+      "timeout": {
+        "title": "Analysis timeout",
+        "desc": "AI is still working. Please retry later"
+      },
+      "retry": "Retry",
+      "upgrade": "Top up / Upgrade"
+    },
+    "guidance": {
+      "bazi": "Enter birth details to start your personalized BaZi analysis",
+      "compass": "Input address or use digital compass for orientation-based advice",
+      "chat": "Ask your specific questions for real-time AI consulting"
+    },
+    "howItWorks": {
+      "heading": "How It Works",
+      "subtitle": "Four steps to your intelligent destiny journey",
+      "steps": {
+        "step1": {
+          "title": "Register",
+          "desc": "Get free credits"
+        },
+        "step2": {
+          "title": "Select Feature",
+          "desc": "Enter relevant info"
+        },
+        "step3": {
+          "title": "AI Analysis",
+          "desc": "Generate personalized report"
+        },
+        "step4": {
+          "title": "Get Results",
+          "desc": "Download PDF or continue consulting"
+        }
+      }
+    },
+    "pricing": {
+      "heading": "Credit Packages",
+      "subtitle": "Flexible plans, pay as you go",
+      "popularBadge": "Most Popular",
+      "creditsLabel": "Credits",
+      "buyNow": "Buy Now",
+      "packages": {
+        "small": {
+          "price": "$4.99"
+        },
+        "medium": {
+          "price": "$14.99"
+        },
+        "large": {
+          "price": "$29.99"
+        }
+      },
+      "costTable": {
+        "heading": "Feature Pricing",
+        "items": {
+          "chat": {
+            "name": "AI Chat",
+            "cost": "5 credits/session",
+            "desc": "Multi-turn deep conversation"
+          },
+          "deep": {
+            "name": "Deep Reading",
+            "cost": "30 credits/session",
+            "desc": "Complete destiny analysis"
+          },
+          "bazi": {
+            "name": "BaZi Analysis",
+            "cost": "10 credits/session",
+            "desc": "Five Elements & Ten Gods"
+          },
+          "compass": {
+            "name": "Feng Shui Compass",
+            "cost": "20 credits/session",
+            "desc": "Orientation & layout advice"
+          },
+          "pdf": {
+            "name": "PDF Export",
+            "cost": "5 credits/export",
+            "desc": "Download full report"
+          }
+        }
+      }
+    },
+    "compliance": {
+      "heading": "Security & Compliance Commitment",
+      "items": {
+        "age": {
+          "title": "18+ Age Restriction",
+          "desc": "This platform is for users 18 years and older only"
+        },
+        "privacy": {
+          "title": "Privacy Protection",
+          "desc": "Your data is encrypted and never shared"
+        },
+        "disclaimer": {
+          "title": "Disclaimer",
+          "desc": "AI-based service for reference only, not professional advice"
+        },
+        "dsar": {
+          "title": "DSAR Support",
+          "desc": "Request data access, deletion, or export anytime"
+        }
+      }
+    },
+    "footer": {
+      "about": {
+        "heading": "About Us",
+        "desc": "QiFlow AI blends traditional metaphysics with modern AI technology, offering professional and trusted personalized analysis services."
+      },
+      "quickLinks": {
+        "heading": "Quick Links",
+        "terms": "Terms of Service",
+        "privacy": "Privacy Policy",
+        "contact": "Contact Us"
+      },
+      "coreFeatures": {
+        "heading": "Core Features",
+        "bazi": "BaZi Analysis",
+        "compass": "Feng Shui Compass",
+        "chat": "AI Consulting"
+      },
+      "followUs": {
+        "heading": "Follow Us",
+        "wechat": "WeChat",
+        "weibo": "Weibo"
+      },
+      "copyright": "© 2025 QiFlow AI. All Rights Reserved."
+    }
+  },
+  "I18nTest": {
+    "currentLanguageInfo": "當前語言資訊",
+    "locale": "語言代碼",
+    "title": "標題",
+    "subtitle": "副標題",
+    "features": "功能特性",
+    "languageSwitchingTest": "語言切換測試",
+    "switchingInstructions": "嘗試使用上方的下拉選單切換語言，觀察內容變化。",
+    "commonTranslations": "常用翻譯",
+    "loading": "載入中",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "確認",
+    "search": "搜尋",
+    "save": "儲存",
+    "good_pattern": "TODO: translate I18nTest.good_pattern",
+    "bad_pattern": "TODO: translate I18nTest.bad_pattern",
+    "wenchang_desc": "TODO: translate I18nTest.wenchang_desc",
+    "caiwei_desc": "TODO: translate I18nTest.caiwei_desc",
+    "items": {
+      "desk_and_bookcase": "TODO: translate I18nTest.items.desk_and_bookcase",
+      "stationery": "TODO: translate I18nTest.items.stationery",
+      "study_area": "TODO: translate I18nTest.items.study_area",
+      "safe_and_cashier": "TODO: translate I18nTest.items.safe_and_cashier",
+      "money_plant": "TODO: translate I18nTest.items.money_plant",
+      "business_area": "TODO: translate I18nTest.items.business_area"
+    },
+    "key_points": "TODO: translate I18nTest.key_points",
+    "specific_recommendations": "TODO: translate I18nTest.specific_recommendations",
+    "pattern_explanation_text": "TODO: translate I18nTest.pattern_explanation_text"
+  },
+  "Mail": {
+    "common": {
+      "team": "{name} Team",
+      "copyright": "©️ {year} All Rights Reserved."
+    },
+    "verifyEmail": {
+      "title": "Hi, {name}.",
+      "body": "Please click the link below to verify your email address.",
+      "confirmEmail": "Confirm email",
+      "subject": "Verify your email"
+    },
+    "forgotPassword": {
+      "title": "Hi, {name}.",
+      "body": "Please click the link below to reset your password.",
+      "resetPassword": "Reset password",
+      "subject": "Reset your password"
+    },
+    "subscribeNewsletter": {
+      "body": "Thank you for subscribing to the newsletter. We will keep you updated with the latest news and updates.",
+      "subject": "Thanks for subscribing"
+    },
+    "contactMessage": {
+      "name": "Name: {name}",
+      "email": "Email: {email}",
+      "message": "Message: {message}",
+      "subject": "Contact Message from Website"
+    }
+  },
+  "Marketing": {
+    "navbar": {
+      "features": {
+        "title": "Features"
+      },
+      "pricing": {
+        "title": "Pricing"
+      },
+      "blog": {
+        "title": "Blog"
+      },
+      "docs": {
+        "title": "Docs"
+      },
+      "ai": {
+        "title": "AI Tools",
+        "items": {
+          "text": {
+            "title": "AI Text",
+            "description": "Show how to use AI to write stunning text"
+          },
+          "image": {
+            "title": "AI Image",
+            "description": "Show how to use AI to generate beautiful images"
+          },
+          "chat": {
+            "title": "AI Chat",
+            "description": "Show how to use AI to chat with your customers"
+          },
+          "video": {
+            "title": "AI Video",
+            "description": "Show how to use AI to generate amazing videos"
+          },
+          "audio": {
+            "title": "AI Audio",
+            "description": "Show how to use AI to generate wonderful audio"
+          }
+        }
+      },
+      "pages": {
+        "title": "Pages",
+        "items": {
+          "about": {
+            "title": "About",
+            "description": "Learn more about our company, mission, and values"
+          },
+          "contact": {
+            "title": "Contact",
+            "description": "Get in touch with our team for support or inquiries"
+          },
+          "waitlist": {
+            "title": "Waitlist",
+            "description": "Join our waitlist for latest news and updates"
+          },
+          "changelog": {
+            "title": "Changelog",
+            "description": "See the latest updates to our products"
+          },
+          "roadmap": {
+            "title": "Roadmap",
+            "description": "Explore our future plans and upcoming features"
+          },
+          "cookiePolicy": {
+            "title": "Cookie Policy",
+            "description": "How we use the cookies on our website"
+          },
+          "privacyPolicy": {
+            "title": "Privacy Policy",
+            "description": "How we protect and handle your data"
+          },
+          "termsOfService": {
+            "title": "Terms of Service",
+            "description": "The legal agreement between you and our company"
+          }
+        }
+      },
+      "blocks": {
+        "title": "Blocks",
+        "items": {
+          "magicui": {
+            "title": "MagicUI Blocks"
+          },
+          "hero-section": {
+            "title": "Hero Blocks"
+          },
+          "logo-cloud": {
+            "title": "Logo Cloud Blocks"
+          },
+          "integrations": {
+            "title": "Integrations Blocks"
+          },
+          "features": {
+            "title": "Features Blocks"
+          },
+          "content": {
+            "title": "Content Blocks"
+          },
+          "stats": {
+            "title": "Stats Blocks"
+          },
+          "team": {
+            "title": "Team Blocks"
+          },
+          "testimonials": {
+            "title": "Testimonials Blocks"
+          },
+          "callToAction": {
+            "title": "Call to Action Blocks"
+          },
+          "footer": {
+            "title": "Footer Blocks"
+          },
+          "pricing": {
+            "title": "Pricing Blocks"
+          },
+          "comparator": {
+            "title": "Comparator Blocks"
+          },
+          "faq": {
+            "title": "FAQ Blocks"
+          },
+          "login": {
+            "title": "Login Blocks"
+          },
+          "signup": {
+            "title": "Signup Blocks"
+          },
+          "forgot-password": {
+            "title": "Forgot Password Blocks"
+          },
+          "contact": {
+            "title": "Contact Blocks"
+          }
+        }
+      }
+    },
+    "footer": {
+      "tagline": "AI 讓東方智慧觸手可及 · 更快更簡單",
+      "product": {
+        "title": "Product",
+        "items": {
+          "features": "Features",
+          "pricing": "Pricing",
+          "faq": "FAQ"
+        }
+      },
+      "resources": {
+        "title": "Resources",
+        "items": {
+          "blog": "Blog",
+          "docs": "Documentation",
+          "changelog": "Changelog",
+          "roadmap": "Roadmap"
+        }
+      },
+      "company": {
+        "title": "Company",
+        "items": {
+          "about": "About",
+          "contact": "Contact",
+          "waitlist": "Waitlist"
+        }
+      },
+      "legal": {
+        "title": "Legal",
+        "items": {
+          "cookiePolicy": "Cookie Policy",
+          "privacyPolicy": "Privacy Policy",
+          "termsOfService": "Terms of Service"
+        }
+      }
+    },
+    "avatar": {
+      "dashboard": "Dashboard",
+      "billing": "Billing",
+      "credits": "Credits",
+      "settings": "Settings"
+    }
+  },
+  "Metadata": {
+    "name": "QiFlow AI",
+    "title": "QiFlow AI — 智能八字 · 玄空風水分析",
+    "description": "結合傳統命理與現代 AI，一鍵生成關鍵洞察與建議，隱私優先、透明計費。"
+  },
+  "Navigation": {
+    "home": "首頁",
+    "dashboard": "儀表板",
+    "analysis": "風水分析",
+    "compass": "數字羅盤",
+    "overlay": "戶型疊加",
+    "3d_viewer": "3D展示",
+    "reports": "分析報告",
+    "chat": "AI助手",
+    "subscription": "訂閱管理",
+    "profile": "個人資料",
+    "settings": "設定",
+    "help": "幫助",
+    "about": "關於我們"
+  },
+  "Newsletter": {
+    "title": "Newsletter",
+    "subtitle": "Join the community",
+    "description": "Subscribe to our newsletter for the latest news and updates",
+    "form": {
+      "email": "Email",
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "success": "Subscribed successfully",
+      "fail": "Failed to subscribe",
+      "emailValidation": "Please enter a valid email address"
+    }
+  },
+  "NotFoundPage": {
+    "title": "404",
+    "message": "Sorry, the page you are looking for does not exist.",
+    "backToHome": "Back to home"
+  },
+  "Overlay": {
+    "title": "戶型圖疊加",
+    "upload_floorplan": "上傳戶型圖",
+    "processing_image": "處理圖像中...",
+    "room_detection": "房間識別",
+    "auto_alignment": "自動對齊",
+    "manual_adjustment": "手動調整",
+    "transparency": "透明度",
+    "overlay_opacity": "疊加透明度",
+    "show_grid": "顯示網格",
+    "show_labels": "顯示標籤",
+    "room_scores": "房間評分",
+    "click_room_for_details": "點擊房間查看詳情",
+    "room_function": "房間功能",
+    "feng_shui_score": "風水評分",
+    "recommendations_for_room": "房間建議",
+    "image_upload_failed": "圖片上傳失敗",
+    "image_processing_failed": "圖片處理失敗",
+    "unsupported_format": "不支援的檔案格式",
+    "file_too_large": "檔案過大",
+    "drag_drop_image": "拖曳圖片到此處或點擊上傳",
+    "supported_formats": "支援 JPG, PNG, PDF 格式",
+    "max_file_size": "最大檔案大小: 10MB",
+    "processing_complete": "處理完成",
+    "alignment_accuracy": "對齊精度",
+    "rotation_angle": "旋轉角度",
+    "scale_factor": "縮放比例"
+  },
+  "PricePlans": {
+    "free": {
+      "name": "Free",
+      "description": "Basic features for personal use",
+      "features": {
+        "feature-1": "Up to 3 projects",
+        "feature-2": "1 GB storage",
+        "feature-3": "Basic analytics",
+        "feature-4": "Community support"
+      },
+      "limits": {
+        "limit-1": "Custom domains",
+        "limit-2": "Custom branding",
+        "limit-3": "Lifetime updates"
+      }
+    },
+    "pro": {
+      "name": "Pro",
+      "description": "Advanced features for professionals",
+      "features": {
+        "feature-1": "Unlimited projects",
+        "feature-2": "10 GB storage",
+        "feature-3": "Advanced analytics",
+        "feature-4": "Priority support",
+        "feature-5": "Custom domains"
+      },
+      "limits": {
+        "limit-1": "Custom branding",
+        "limit-2": "Lifetime updates"
+      }
+    },
+    "lifetime": {
+      "name": "Lifetime",
+      "description": "Premium features with one-time payment",
+      "features": {
+        "feature-1": "All Pro features",
+        "feature-2": "100 GB storage",
+        "feature-3": "Dedicated support",
+        "feature-4": "Enterprise-grade security",
+        "feature-5": "Advanced integrations",
+        "feature-6": "Custom branding",
+        "feature-7": "Lifetime updates"
+      }
+    }
+  },
+  "PricingPage": {
+    "title": "Pricing",
+    "description": "Choose the plan that works best for you",
+    "subtitle": "Choose the plan that works best for you",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "PricingCard": {
+      "freePrice": "$0",
+      "perMonth": "/month",
+      "perYear": "/year",
+      "popular": "Popular",
+      "currentPlan": "Current Plan",
+      "yourCurrentPlan": "Your Current Plan",
+      "getStartedForFree": "Get Started For Free",
+      "getLifetimeAccess": "Get Lifetime Access",
+      "getStarted": "Get Started",
+      "notAvailable": "Not Available",
+      "daysTrial": "{days}-day free trial"
+    },
+    "CheckoutButton": {
+      "loading": "Loading...",
+      "checkoutFailed": "Failed to open checkout page"
+    }
+  },
+  "Profile": {
+    "title": "個人資料",
+    "personal_info": "個人資訊",
+    "name": "姓名",
+    "email": "郵箱",
+    "phone": "電話",
+    "address": "地址",
+    "timezone": "時區",
+    "language": "語言",
+    "birth_info": "出生資訊",
+    "privacy_settings": "隱私設定",
+    "data_export": "資料匯出",
+    "delete_account": "刪除帳戶",
+    "account_security": "帳戶安全",
+    "change_password": "修改密碼",
+    "two_factor_auth": "雙因素認證",
+    "login_history": "登入歷史",
+    "profile_updated": "資料已更新",
+    "password_changed": "密碼已修改",
+    "account_deleted": "帳戶已刪除",
+    "data_exported": "資料已匯出",
+    "confirm_delete_account": "確認刪除帳戶？此操作不可撤銷。",
+    "display_name": "顯示名稱",
+    "gender": "性别",
+    "birth_date": "出生日期",
+    "birth_time": "出生時間",
+    "birth_place": "出生地點",
+    "calendar_type": "曆法類型",
+    "gregorian": "公曆",
+    "lunar": "農曆",
+    "contact_info": "聯絡方式",
+    "optional": "可選",
+    "required": "必填",
+    "save_profile": "儲存資料",
+    "saving": "儲存中...",
+    "profile_saved": "資料儲存成功",
+    "validation_error": "驗證錯誤",
+    "invalid_email": "郵箱格式不正確",
+    "invalid_phone": "電話號碼格式不正確",
+    "name_required": "姓名不能為空",
+    "email_required": "郵箱不能為空",
+    "date_required": "日期不能為空",
+    "time_required": "時間不能為空",
+    "address_required": "地址不能為空"
+  },
+  "QiFlow": {
+    "Common": {
+      "invalidInput": "Invalid input, please check and try again.",
+      "confidenceLabel": "Confidence: ",
+      "fixOrFill": "Go to fill required fields"
+    },
+    "BaziPage": {
+      "title": "Bazi Analysis",
+      "form": {
+        "name": "Name",
+        "birth": "Birth Datetime 1990-01-01 08:08",
+        "gender": {
+          "male": "Male",
+          "female": "Female"
+        },
+        "submit": "Calculate",
+        "description": "Please enter birth information and select gender",
+        "meta": {
+          "time": "Estimated time ~ 1-2s",
+          "save": "Sign in to save history"
+        }
+      },
+      "result": {
+        "completed": "Calculation completed, credits used: {credits}",
+        "user": "User: {userId}",
+        "pillarsHint": "Pillars: {pillars}"
+      }
+    },
+    "XuankongPage": {
+      "title": "Xuan Kong Flying Stars",
+      "form": {
+        "address": "Address",
+        "facing": "Facing (deg)",
+        "notes": "Notes / Floor / Special",
+        "submit": "Analyze",
+        "description": "Please enter address and facing degrees",
+        "meta": {
+          "time": "Estimated time ~ 1-2s",
+          "save": "Sign in to save history"
+        }
+      },
+      "low": {
+        "title": "Auto decision rejected (confidence too low).",
+        "body": "Please enter key parameters manually or try the following calibration suggestions:",
+        "hints": [
+          "Ensure sensor permission is granted and hold the device steadily",
+          "Keep away from magnetic interference and metal objects",
+          "Slowly rotate to calibrate the compass"
+        ]
+      },
+      "medium": {
+        "title": "Medium confidence, please calibrate to improve accuracy (0.7~0.9).",
+        "hints": [
+          "Repeat sampling in an open environment",
+          "Make a gentle figure-8 motion for calibration"
+        ]
+      },
+      "success": "Analysis completed, recommendations generated."
+    },
+    "States": {
+      "empty": {
+        "title": "No data yet",
+        "desc": "Please complete the required fields to start analysis."
+      },
+      "error": {
+        "title": "Invalid input",
+        "desc": "Something went wrong. Please check the information and try again."
+      },
+      "limited": {
+        "title": "More information recommended",
+        "desc": "Please provide the required fields to proceed."
+      },
+      "timeout": {
+        "title": "Request timeout",
+        "desc": "The operation took too long. Please try again later."
+      }
+    }
+  },
+  "Reports": {
+    "title": "分析報告",
+    "generate_report": "生成報告",
+    "download_pdf": "下載 PDF",
+    "share_report": "分享報告",
+    "report_summary": "報告摘要",
+    "detailed_analysis": "詳細分析",
+    "recommendations": "建議事項",
+    "charts_and_diagrams": "圖表圖解",
+    "report_date": "報告日期",
+    "analysis_type": "分析類型",
+    "comprehensive_analysis": "綜合分析",
+    "bazi_only": "僅八字分析",
+    "fengshui_only": "僅風水分析",
+    "report_generating": "報告生成中...",
+    "report_ready": "報告已準備就緒",
+    "report_failed": "報告生成失敗",
+    "watermark_guest": "遊客模式 - 註冊以獲得完整報告",
+    "upgrade_for_full_report": "升級訂閱以獲得完整報告",
+    "report_history": "歷史報告",
+    "no_reports": "暫無報告",
+    "delete_report": "刪除報告",
+    "report_deleted": "報告已刪除"
+  },
+  "Settings": {
+    "title": "設定",
+    "general": "一般",
+    "appearance": "外觀",
+    "notifications": "通知",
+    "privacy": "隱私",
+    "advanced": "高級",
+    "theme": "主題",
+    "light_theme": "淺色主題",
+    "dark_theme": "深色主題",
+    "auto_theme": "跟隨系統",
+    "font_size": "字體大小",
+    "small": "小",
+    "medium": "中",
+    "large": "大",
+    "email_notifications": "郵件通知",
+    "push_notifications": "推送通知",
+    "marketing_emails": "行銷郵件",
+    "data_collection": "資料收集",
+    "analytics": "分析統計",
+    "cookies": "Cookie 設定",
+    "cache_management": "快取管理",
+    "clear_cache": "清除快取",
+    "export_settings": "匯出設定",
+    "import_settings": "匯入設定",
+    "reset_settings": "重設設定",
+    "settings_saved": "設定已儲存",
+    "cache_cleared": "快取已清除",
+    "settings_reset": "設定已重設"
+  },
+  "Subscription": {
+    "title": "訂閱管理",
+    "current_plan": "當前方案",
+    "free_plan": "免費版",
+    "standard_plan": "標準版",
+    "professional_plan": "專業版",
+    "upgrade": "升級",
+    "downgrade": "降級",
+    "cancel_subscription": "取消訂閱",
+    "renew_subscription": "續費訂閱",
+    "billing_history": "帳單歷史",
+    "usage_statistics": "使用統計",
+    "quota_remaining": "剩餘配額",
+    "quota_used": "已使用配額",
+    "monthly_billing": "月付",
+    "yearly_billing": "年付",
+    "save_with_yearly": "年付可節省 20%",
+    "payment_method": "支付方式",
+    "update_payment": "更新支付方式",
+    "next_billing_date": "下次扣費日期",
+    "subscription_active": "訂閱有效",
+    "subscription_expired": "訂閱已過期",
+    "subscription_cancelled": "訂閱已取消",
+    "auto_renewal": "自動續費",
+    "manage_subscription": "管理訂閱",
+    "contact_support": "聯繫客服"
+  },
+  "Success": {
+    "operation_completed": "操作完成",
+    "data_saved": "資料已儲存",
+    "file_uploaded": "檔案已上傳",
+    "analysis_completed": "分析完成",
+    "report_generated": "報告已生成",
+    "settings_updated": "設定已更新",
+    "subscription_updated": "訂閱已更新",
+    "payment_successful": "支付成功",
+    "email_sent": "郵件已發送",
+    "account_verified": "帳戶已驗證",
+    "password_reset": "密碼已重置",
+    "data_exported": "資料已匯出",
+    "backup_created": "備份已建立",
+    "sync_completed": "同步完成"
+  },
+  "TestGuest": {
+    "title": "测试游客分析页面",
+    "description": "测试游客分析功能"
+  },
+  "TestPages": {
+    "simpleLangTest": {
+      "title": "簡化語言切換測試",
+      "currentStatus": "當前狀態",
+      "currentLanguage": "當前語言",
+      "currentPath": "當前路徑",
+      "pageTitle": "頁面標題",
+      "subtitle": "副標題",
+      "languageSwitch": "語言切換",
+      "translationTest": "翻譯內容測試",
+      "features": "功能特色",
+      "commonText": "通用文本",
+      "debugInfo": "調試信息",
+      "currentTime": "當前時間",
+      "browserLanguage": "瀏覽器語言"
+    },
+    "langTest": {
+      "title": "語言切換測試頁面",
+      "currentStatus": "當前狀態",
+      "currentLanguage": "當前語言",
+      "currentPath": "當前路徑",
+      "pageTitle": "頁面標題",
+      "subtitle": "副標題",
+      "languageSwitch": "語言切換",
+      "translationTest": "翻譯內容測試",
+      "features": "功能特色",
+      "commonText": "通用文本",
+      "debugLogs": "調試日誌",
+      "clearLogs": "清除日誌",
+      "noLogs": "暫無日誌",
+      "instructions": "使用說明",
+      "instruction1": "點擊語言按鈕切換語言",
+      "instruction2": "觀察URL變化和頁面內容",
+      "instruction3": "檢查調試日誌中的路徑變化",
+      "instruction4": "驗證翻譯內容是否正確顯示",
+      "instruction5": "如果語言切換不生效，檢查瀏覽器控制台錯誤",
+      "pageLoaded": "頁面加載",
+      "path": "路徑",
+      "startSwitchTo": "開始切換到語言",
+      "cleanedPath": "清理後路徑",
+      "newPath": "新路徑",
+      "navigatedTo": "已跳轉到"
+    },
+    "minimalTest": {
+      "title": "最小化語言測試",
+      "serverInfo": "服務器端信息",
+      "features": "功能特色",
+      "testDescription": "測試說明",
+      "description": "這是一個服務器端渲染的頁面，用於測試翻譯是否正確加載。請嘗試訪問不同語言的版本："
+    }
+  },
+  "WaitlistPage": {
+    "title": "Waitlist",
+    "description": "Join our waitlist for the launch of our product",
+    "subtitle": "Join our waitlist for the launch of our product",
+    "form": {
+      "title": "Join Our Waitlist",
+      "description": "We will notify you when we launch our product",
+      "email": "Email",
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "success": "Subscribed successfully",
+      "fail": "Failed to subscribe",
+      "emailValidation": "Please enter a valid email address"
+    }
+  }
+}

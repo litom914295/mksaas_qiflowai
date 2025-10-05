@@ -1,6 +1,4 @@
-'use client';
-
-import Error from 'next/error';
+import { redirect } from 'next/navigation';
 
 /**
  * Catching non-localized requests
@@ -12,11 +10,6 @@ import Error from 'next/error';
  * https://next-intl.dev/docs/environments/error-files#catching-non-localized-requests
  */
 export default function GlobalNotFound() {
-  return (
-    <html lang="en">
-      <body>
-        <Error statusCode={404} />
-      </body>
-    </html>
-  );
+  // Redirect to the default locale's not found page
+  redirect('/en');
 }

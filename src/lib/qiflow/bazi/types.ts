@@ -1,101 +1,63 @@
-/**
- * 八字算法类型定义
- */
+export type CalendarType = 'gregorian' | 'lunar';
 
-export interface EnhancedBirthData {
-  datetime: string;
-  gender: 'male' | 'female';
-  timezone: string;
-  isTimeKnown: boolean;
-  location?: {
-    latitude: number;
-    longitude: number;
-  };
-}
+export type Location = {
+  latitude: number; // degrees
+  longitude: number; // degrees
+  timezone: string; // IANA TZ
+};
 
-export interface EnhancedBaziResult {
-  // 基本信息
-  birthInfo: {
-    datetime: string;
-    gender: string;
-    timezone: string;
-    isTimeKnown: boolean;
-  };
-  
-  // 八字四柱
-  pillars: {
-    year: BaziPillar;
-    month: BaziPillar;
-    day: BaziPillar;
-    hour: BaziPillar;
-  };
-  
-  // 十神分析
-  tenGods: TenGodsAnalysis;
-  
-  // 用神分析
-  yongshen: YongshenAnalysis;
-  
-  // 大运流年
-  luckPillars: LuckPillar[];
-  
-  // 格局分析
-  pattern: PatternAnalysis;
-  
-  // 综合评分
-  score: {
-    overall: number;
-    wealth: number;
-    career: number;
-    health: number;
-    relationship: number;
-  };
-  
-  // 建议
-  suggestions: string[];
-  
-  // 元数据
-  meta: {
-    calculationTime: number;
-    algorithm: string;
-    version: string;
-  };
-}
+export type BirthInput = {
+  calendar: CalendarType;
+  date: string; // YYYY-MM-DD
+  time?: string; // HH:mm or HH:mm:ss
+  useTrueSolarTime?: boolean;
+  location?: Location;
+};
 
-export interface BaziPillar {
-  heavenly: string;
-  earthly: string;
-  element: string;
-  yinYang: 'yin' | 'yang';
-}
+export type Stem =
+  | '甲'
+  | '乙'
+  | '丙'
+  | '丁'
+  | '戊'
+  | '己'
+  | '庚'
+  | '辛'
+  | '壬'
+  | '癸';
+export type Branch =
+  | '子'
+  | '丑'
+  | '寅'
+  | '卯'
+  | '辰'
+  | '巳'
+  | '午'
+  | '未'
+  | '申'
+  | '酉'
+  | '戌'
+  | '亥';
 
-export interface TenGodsAnalysis {
-  [key: string]: {
-    name: string;
-    strength: number;
-    influence: string;
-  };
-}
+export type Pillars = {
+  year: { stem: Stem; branch: Branch };
+  month: { stem: Stem; branch: Branch };
+  day: { stem: Stem; branch: Branch };
+  hour: { stem: Stem; branch: Branch };
+};
 
-export interface YongshenAnalysis {
-  primary: string;
-  secondary: string[];
-  strength: number;
-  balance: number;
-}
+export type FiveElement = '木' | '火' | '土' | '金' | '水';
 
-export interface LuckPillar {
-  age: number;
-  pillar: BaziPillar;
-  element: string;
-  influence: string;
-}
+export type FiveElementStrength = Record<FiveElement, number>; // 0..100 scale
 
-export interface PatternAnalysis {
-  type: string;
-  strength: number;
-  characteristics: string[];
-  advantages: string[];
-  disadvantages: string[];
-}
+export type YongShen = {
+  favorable: FiveElement[];
+  unfavorable: FiveElement[];
+  commentary?: string;
+};
 
+export type BaziResult = {
+  pillars: Pillars;
+  elements: FiveElementStrength;
+  yongshen: YongShen;
+};

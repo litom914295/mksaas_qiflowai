@@ -2,10 +2,15 @@
  * 罗盘引擎核心类
  */
 
-import { SensorData, CompassResult, CompassConfig, HealthStatus } from './types';
+import { CompassConfidenceAnalyzer } from './confidence';
 import { SensorFusion } from './sensor-fusion';
 import { TrueNorthCalculator } from './true-north';
-import { CompassConfidenceAnalyzer } from './confidence';
+import type {
+  CompassConfig,
+  CompassResult,
+  HealthStatus,
+  SensorData,
+} from './types';
 
 export class CompassEngine {
   private config: CompassConfig;
@@ -22,7 +27,7 @@ export class CompassEngine {
       calibrationRequired: true,
       ...config,
     };
-    
+
     this.sensorFusion = new SensorFusion();
     this.trueNorthCalculator = new TrueNorthCalculator();
     this.confidenceAnalyzer = new CompassConfidenceAnalyzer();
@@ -32,21 +37,24 @@ export class CompassEngine {
     try {
       // 传感器融合处理
       const fusedData = this.sensorFusion.process(sensorData);
-      
+
       // 计算磁北方向
       const magnetic = this.calculateMagnetic(fusedData);
-      
+
       // 计算真北方向
-      const trueNorth = this.config.enableTrueNorth 
+      const trueNorth = this.config.enableTrueNorth
         ? this.trueNorthCalculator.calculate(magnetic, sensorData)
         : magnetic;
-      
+
       // 分析置信度
-      const confidenceValue = this.confidenceAnalyzer.analyze(sensorData, fusedData);
-      
+      const confidenceValue = this.confidenceAnalyzer.analyze(
+        sensorData,
+        fusedData
+      );
+
       // 计算精度
       const accuracy = this.calculateAccuracy(sensorData, confidenceValue);
-      
+
       return {
         reading: {
           magnetic,
@@ -78,7 +86,10 @@ export class CompassEngine {
 
   private calculateMagnetic(fusedData: any): number {
     // 简化的磁北计算
-    return Math.atan2(fusedData.magnetometer.y, fusedData.magnetometer.x) * 180 / Math.PI;
+    return (
+      (Math.atan2(fusedData.magnetometer.y, fusedData.magnetometer.x) * 180) /
+      Math.PI
+    );
   }
 
   private calculateAccuracy(sensorData: SensorData, confidence: any): number {
@@ -95,7 +106,12 @@ export class CompassEngine {
   }
 
   private isSensorValid(sensor: any): boolean {
-    return sensor && typeof sensor.x === 'number' && typeof sensor.y === 'number' && typeof sensor.z === 'number';
+    return (
+      sensor &&
+      typeof sensor.x === 'number' &&
+      typeof sensor.y === 'number' &&
+      typeof sensor.z === 'number'
+    );
   }
 
   async checkHealth(): Promise<HealthStatus> {
@@ -133,4 +149,3 @@ export class CompassEngine {
     }
   }
 }
-

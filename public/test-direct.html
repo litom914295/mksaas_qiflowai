@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飞星网格测试 - 直接加载版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .palace-cell {
+            aspect-ratio: 1;
+            min-height: 100px;
+            transition: all 0.2s;
+        }
+        .palace-cell:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .star-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- 标题 -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">玄空飞星网格测试</h1>
+            <p class="text-gray-600">这是一个快速加载的测试版本，无需等待服务器编译</p>
+            <div class="mt-4 text-sm text-blue-600">
+                ✓ 立即加载 | ✓ 无需等待 | ✓ 功能完整
+            </div>
+        </div>
+
+        <!-- 说明卡片 -->
+        <div class="bg-white rounded-lg shadow p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4">测试说明</h2>
+            <ul class="space-y-2 text-gray-700">
+                <li>✓ 九宫格布局采用3x3网格</li>
+                <li>✓ 每宫显示：运星（中）、山星（左上）、向星（右上）</li>
+                <li>✓ 点击任意宫位查看详细信息</li>
+                <li>✓ 响应式设计，支持手机/平板/桌面</li>
+            </ul>
+        </div>
+
+        <!-- 飞星网格 -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+            <!-- 巽宫（东南）-->
+            <div class="palace-cell bg-red-50 border-2 border-red-200 rounded-lg p-4 cursor-pointer" onclick="showDetails('巽宫', 4, 5, 9, 1)">
+                <div class="text-xs text-gray-600 mb-1">巽宫（东南）</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山5</span>
+                    <span class="text-sm font-semibold text-blue-600">向1</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">9</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+
+            <!-- 离宫（南）-->
+            <div class="palace-cell bg-green-50 border-2 border-green-200 rounded-lg p-4 cursor-pointer" onclick="showDetails('离宫', 9, 1, 5, 6)">
+                <div class="text-xs text-gray-600 mb-1">离宫（南）</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山5</span>
+                    <span class="text-sm font-semibold text-blue-600">向6</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">1</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+
+            <!-- 坤宫（西南）-->
+            <div class="palace-cell bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 cursor-pointer" onclick="showDetails('坤宫', 2, 3, 7, 8)">
+                <div class="text-xs text-gray-600 mb-1">坤宫（西南）</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山7</span>
+                    <span class="text-sm font-semibold text-blue-600">向8</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">3</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+
+            <!-- 震宫（东）-->
+            <div class="palace-cell bg-purple-50 border-2 border-purple-200 rounded-lg p-4 cursor-pointer" onclick="showDetails('震宫', 3, 4, 8, 2)">
+                <div class="text-xs text-gray-600 mb-1">震宫（东）</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山8</span>
+                    <span class="text-sm font-semibold text-blue-600">向2</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">4</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+
+            <!-- 中宫 -->
+            <div class="palace-cell bg-gray-100 border-2 border-gray-300 rounded-lg p-4 cursor-pointer" onclick="showDetails('中宫', 5, 9, 4, 4)">
+                <div class="text-xs text-gray-600 mb-1">中宫</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山4</span>
+                    <span class="text-sm font-semibold text-blue-600">向4</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">9</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+
+            <!-- 兑宫（西）-->
+            <div class="palace-cell bg-pink-50 border-2 border-pink-200 rounded-lg p-4 cursor-pointer" onclick="showDetails('兑宫', 7, 2, 6, 9)">
+                <div class="text-xs text-gray-600 mb-1">兑宫（西）</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山6</span>
+                    <span class="text-sm font-semibold text-blue-600">向9</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">2</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+
+            <!-- 艮宫（东北）-->
+            <div class="palace-cell bg-indigo-50 border-2 border-indigo-200 rounded-lg p-4 cursor-pointer" onclick="showDetails('艮宫', 8, 6, 1, 3)">
+                <div class="text-xs text-gray-600 mb-1">艮宫（东北）</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山1</span>
+                    <span class="text-sm font-semibold text-blue-600">向3</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">6</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+
+            <!-- 坎宫（北）-->
+            <div class="palace-cell bg-blue-50 border-2 border-blue-200 rounded-lg p-4 cursor-pointer" onclick="showDetails('坎宫', 1, 8, 3, 7)">
+                <div class="text-xs text-gray-600 mb-1">坎宫（北）</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山3</span>
+                    <span class="text-sm font-semibold text-blue-600">向7</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">8</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+
+            <!-- 乾宫（西北）-->
+            <div class="palace-cell bg-orange-50 border-2 border-orange-200 rounded-lg p-4 cursor-pointer" onclick="showDetails('乾宫', 6, 7, 2, 5)">
+                <div class="text-xs text-gray-600 mb-1">乾宫（西北）</div>
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-red-600">山2</span>
+                    <span class="text-sm font-semibold text-blue-600">向5</span>
+                </div>
+                <div class="text-center">
+                    <div class="star-number text-gray-800">7</div>
+                    <div class="text-xs text-gray-500">运星</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 详情面板 -->
+        <div id="detailPanel" class="hidden bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-2xl font-bold mb-4" id="palaceName"></h3>
+            <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-red-600" id="mountainStar"></div>
+                    <div class="text-sm text-gray-600">山星</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-800" id="periodStar"></div>
+                    <div class="text-sm text-gray-600">运星</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600" id="facingStar"></div>
+                    <div class="text-sm text-gray-600">向星</div>
+                </div>
+            </div>
+            <div id="interpretation" class="mt-4 p-4 bg-gray-50 rounded-lg"></div>
+            <button onclick="hideDetails()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                关闭
+            </button>
+        </div>
+
+        <!-- 测试checklist -->
+        <div class="bg-white rounded-lg shadow p-6 mt-8">
+            <h2 class="text-xl font-semibold mb-4">测试清单</h2>
+            <div class="space-y-2">
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>九宫格布局正确显示</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>每宫显示三个星数（运星、山星、向星）</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>点击宫位可以展开详情面板</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>颜色区分清晰（不同宫位不同颜色）</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>鼠标悬停有缩放效果</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>移动端响应式布局（F12设备模式测试）</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const interpretations = {
+            '5-9-1': { rating: '大凶', desc: '五黄廉贞，主疾病灾祸。九紫右弼助凶，一白贪狼难解。', advice: '建议：摆放铜器化解，避免动土。' },
+            '1-5-6': { rating: '吉', desc: '一六共宗，主文昌科名。五黄虽凶但受制。', advice: '建议：可作为书房或办公区域。' },
+            '3-7-8': { rating: '平', desc: '三碧禄存遇七赤破军，主口舌是非。八白左辅调和。', advice: '建议：注意邻里关系，避免争执。' },
+            '4-8-2': { rating: '吉', desc: '四绿文昌遇八白财星，主学业事业双旺。', advice: '建议：适合作为办公或学习空间。' },
+            '9-4-4': { rating: '大吉', desc: '九紫右弼遇四绿文昌，双星汇聚，主功名显达。', advice: '建议：中宫位置重要，保持整洁明亮。' },
+            '2-6-9': { rating: '平', desc: '二黑病符遇六白武曲，九紫调和。', advice: '建议：注意健康，可摆放葫芦化解。' },
+            '6-1-3': { rating: '吉', desc: '六一桃花，主文昌智慧。三碧禄存旺财运。', advice: '建议：适合从事创意或文化工作者。' },
+            '8-3-7': { rating: '大吉', desc: '八白财星当运，三七合十，主财运亨通。', advice: '建议：可作为财位使用，摆放聚宝盆。' },
+            '7-2-5': { rating: '凶', desc: '七赤破军遇二五病符交加，主病灾盗劫。', advice: '建议：务必化解，摆放六帝钱或铜葫芦。' }
+        };
+
+        function showDetails(name, palace, period, mountain, facing) {
+            document.getElementById('palaceName').textContent = name;
+            document.getElementById('periodStar').textContent = period;
+            document.getElementById('mountainStar').textContent = mountain;
+            document.getElementById('facingStar').textContent = facing;
+            
+            const key = `${mountain}-${period}-${facing}`;
+            const interp = interpretations[key] || { 
+                rating: '平', 
+                desc: '飞星组合一般，无特别吉凶。', 
+                advice: '建议：保持环境整洁，气场流通。' 
+            };
+            
+            const colors = {
+                '大吉': 'bg-green-100 border-green-300',
+                '吉': 'bg-blue-100 border-blue-300',
+                '平': 'bg-gray-100 border-gray-300',
+                '凶': 'bg-orange-100 border-orange-300',
+                '大凶': 'bg-red-100 border-red-300'
+            };
+            
+            document.getElementById('interpretation').innerHTML = `
+                <div class="mb-3">
+                    <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${colors[interp.rating] || colors['平']}">
+                        ${interp.rating}
+                    </span>
+                </div>
+                <p class="text-gray-700 mb-2">${interp.desc}</p>
+                <p class="text-sm text-gray-600 italic">${interp.advice}</p>
+            `;
+            
+            document.getElementById('detailPanel').classList.remove('hidden');
+            document.getElementById('detailPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideDetails() {
+            document.getElementById('detailPanel').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

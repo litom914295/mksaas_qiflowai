@@ -3,30 +3,42 @@
  * 提供低置信度情况下的手动输入兜底机制
  */
 
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Badge } from '@/components/ui/badge'
-import { 
-  getDegradationResult, 
-  type FallbackOption, 
-  type DegradationResult 
-} from '@/lib/qiflow/degradation'
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  type DegradationResult,
+  type FallbackOption,
+  getDegradationResult,
+} from '@/lib/qiflow/degradation';
+import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 interface ManualInputFormProps {
-  algorithm: 'bazi' | 'xuankong' | 'compass'
-  confidence: number
-  input: Record<string, any>
-  onManualInput: (data: Record<string, any>) => void
-  onFallbackSelect: (option: FallbackOption) => void
-  className?: string
+  algorithm: 'bazi' | 'xuankong' | 'compass';
+  confidence: number;
+  input: Record<string, any>;
+  onManualInput: (data: Record<string, any>) => void;
+  onFallbackSelect: (option: FallbackOption) => void;
+  className?: string;
 }
 
 export function ManualInputForm({
@@ -37,65 +49,70 @@ export function ManualInputForm({
   onFallbackSelect,
   className,
 }: ManualInputFormProps) {
-  const [selectedOption, setSelectedOption] = useState<FallbackOption | null>(null)
-  const [manualData, setManualData] = useState<Record<string, any>>({})
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [selectedOption, setSelectedOption] = useState<FallbackOption | null>(
+    null
+  );
+  const [manualData, setManualData] = useState<Record<string, any>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const degradationResult = getDegradationResult(confidence, algorithm, input)
+  const degradationResult = getDegradationResult(confidence, algorithm, input);
 
   const handleOptionSelect = (option: FallbackOption) => {
-    setSelectedOption(option)
-    setErrors({})
-    
+    setSelectedOption(option);
+    setErrors({});
+
     if (!option.requiresManualInput) {
-      onFallbackSelect(option)
+      onFallbackSelect(option);
     }
-  }
+  };
 
   const handleManualSubmit = () => {
-    if (!selectedOption) return
+    if (!selectedOption) return;
 
-    const validationErrors = validateManualInput(selectedOption.id, manualData)
+    const validationErrors = validateManualInput(selectedOption.id, manualData);
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors)
-      return
+      setErrors(validationErrors);
+      return;
     }
 
-    onManualInput(manualData)
-  }
+    onManualInput(manualData);
+  };
 
-  const validateManualInput = (optionId: string, data: Record<string, any>): Record<string, string> => {
-    const errors: Record<string, string> = {}
+  const validateManualInput = (
+    optionId: string,
+    data: Record<string, any>
+  ): Record<string, string> => {
+    const errors: Record<string, string> = {};
 
     switch (optionId) {
       case 'manual-bazi':
-        if (!data.yearPillar) errors.yearPillar = '请输入年柱'
-        if (!data.monthPillar) errors.monthPillar = '请输入月柱'
-        if (!data.dayPillar) errors.dayPillar = '请输入日柱'
-        if (!data.hourPillar) errors.hourPillar = '请输入时柱'
-        break
+        if (!data.yearPillar) errors.yearPillar = '请输入年柱';
+        if (!data.monthPillar) errors.monthPillar = '请输入月柱';
+        if (!data.dayPillar) errors.dayPillar = '请输入日柱';
+        if (!data.hourPillar) errors.hourPillar = '请输入时柱';
+        break;
 
       case 'manual-xuankong':
         if (!data.facing || data.facing < 0 || data.facing > 359) {
-          errors.facing = '请输入0-359度之间的朝向角度'
+          errors.facing = '请输入0-359度之间的朝向角度';
         }
-        break
+        break;
 
       case 'manual-compass':
         if (!data.magnetic || data.magnetic < 0 || data.magnetic > 360) {
-          errors.magnetic = '请输入0-360度之间的磁北角度'
+          errors.magnetic = '请输入0-360度之间的磁北角度';
         }
         if (!data.trueNorth || data.trueNorth < 0 || data.trueNorth > 360) {
-          errors.trueNorth = '请输入0-360度之间的真北角度'
+          errors.trueNorth = '请输入0-360度之间的真北角度';
         }
-        break
+        break;
     }
 
-    return errors
-  }
+    return errors;
+  };
 
   if (!degradationResult.shouldReject) {
-    return null
+    return null;
   }
 
   return (
@@ -117,13 +134,17 @@ export function ManualInputForm({
           <Alert>
             <AlertDescription>
               <div className="space-y-2">
-                <div className="font-medium">{degradationResult.reason.message}</div>
+                <div className="font-medium">
+                  {degradationResult.reason.message}
+                </div>
                 <div className="text-sm">
                   <div className="font-medium mb-1">建议：</div>
                   <ul className="list-disc list-inside space-y-1">
-                    {degradationResult.reason.suggestions.map((suggestion, index) => (
-                      <li key={index}>{suggestion}</li>
-                    ))}
+                    {degradationResult.reason.suggestions.map(
+                      (suggestion, index) => (
+                        <li key={index}>{suggestion}</li>
+                      )
+                    )}
                   </ul>
                 </div>
               </div>
@@ -148,7 +169,9 @@ export function ManualInputForm({
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">{option.name}</div>
-                  <div className="text-sm text-gray-600">{option.description}</div>
+                  <div className="text-sm text-gray-600">
+                    {option.description}
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge variant="outline">
@@ -167,7 +190,7 @@ export function ManualInputForm({
         {selectedOption?.requiresManualInput && (
           <div className="space-y-4">
             <h3 className="font-medium">手动输入信息：</h3>
-            
+
             {selectedOption.id === 'manual-bazi' && (
               <BaziManualInput
                 data={manualData}
@@ -204,7 +227,7 @@ export function ManualInputForm({
         )}
       </CardContent>
     </Card>
-  )
+  );
 }
 
 /**
@@ -215,13 +238,13 @@ function BaziManualInput({
   onChange,
   errors,
 }: {
-  data: Record<string, any>
-  onChange: (data: Record<string, any>) => void
-  errors: Record<string, string>
+  data: Record<string, any>;
+  onChange: (data: Record<string, any>) => void;
+  errors: Record<string, string>;
 }) {
   const handleChange = (field: string, value: string) => {
-    onChange({ ...data, [field]: value })
-  }
+    onChange({ ...data, [field]: value });
+  };
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -281,7 +304,7 @@ function BaziManualInput({
         )}
       </div>
     </div>
-  )
+  );
 }
 
 /**
@@ -292,13 +315,13 @@ function XuankongManualInput({
   onChange,
   errors,
 }: {
-  data: Record<string, any>
-  onChange: (data: Record<string, any>) => void
-  errors: Record<string, string>
+  data: Record<string, any>;
+  onChange: (data: Record<string, any>) => void;
+  errors: Record<string, string>;
 }) {
   const handleChange = (field: string, value: string) => {
-    onChange({ ...data, [field]: value })
-  }
+    onChange({ ...data, [field]: value });
+  };
 
   return (
     <div className="space-y-4">
@@ -322,7 +345,7 @@ function XuankongManualInput({
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 /**
@@ -333,13 +356,13 @@ function CompassManualInput({
   onChange,
   errors,
 }: {
-  data: Record<string, any>
-  onChange: (data: Record<string, any>) => void
-  errors: Record<string, string>
+  data: Record<string, any>;
+  onChange: (data: Record<string, any>) => void;
+  errors: Record<string, string>;
 }) {
   const handleChange = (field: string, value: string) => {
-    onChange({ ...data, [field]: value })
-  }
+    onChange({ ...data, [field]: value });
+  };
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -377,6 +400,5 @@ function CompassManualInput({
         )}
       </div>
     </div>
-  )
+  );
 }
-

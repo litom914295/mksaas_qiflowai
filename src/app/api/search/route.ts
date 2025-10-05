@@ -32,7 +32,7 @@ const searchAPI = createI18nSearchAPI('advanced', {
   // Configure special language tokenizers and search options
   localeMap: {
     // Chinese configuration with Mandarin tokenizer
-    zh: {
+    'zh-CN': {
       components: {
         tokenizer: createTokenizer(),
       },
@@ -43,7 +43,21 @@ const searchAPI = createI18nSearchAPI('advanced', {
         tolerance: 0,
       },
     },
-
+    'zh-TW': {
+      components: {
+        tokenizer: createTokenizer(),
+      },
+      search: {
+        threshold: 0,
+        tolerance: 0,
+      },
+    },
+    // Japanese uses English tokenizer as fallback
+    ja: 'english',
+    // Korean uses English tokenizer as fallback
+    ko: 'english',
+    // Malaysian uses English tokenizer as fallback
+    'ms-MY': 'english',
     // Use the default English tokenizer for English content
     en: 'english',
   },

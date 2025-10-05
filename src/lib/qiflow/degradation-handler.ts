@@ -4,12 +4,12 @@
  */
 
 export interface DegradationResponse {
-  success: boolean
-  shouldReject: boolean
-  confidence: number
-  degradationResult?: any
-  fallbackData?: any
-  error?: string
+  success: boolean;
+  shouldReject: boolean;
+  confidence: number;
+  degradationResult?: any;
+  fallbackData?: any;
+  error?: string;
 }
 
 /**
@@ -30,17 +30,17 @@ export async function handleDegradation(
       confidence,
       degradationResult: {
         reason: '置信度过低',
-        suggestions: ['请检查输入参数', '尝试重新校准']
-      }
-    }
+        suggestions: ['请检查输入参数', '尝试重新校准'],
+      },
+    };
   }
 
   return {
     success: true,
     shouldReject: false,
     confidence,
-    fallbackData: result
-  }
+    fallbackData: result,
+  };
 }
 
 /**
@@ -50,11 +50,16 @@ export async function handleManualInput(
   algorithm: 'bazi' | 'xuankong' | 'compass',
   manualData: Record<string, any>,
   context: Record<string, any>
-): Promise<{ success: boolean; fallbackData?: any; confidence: number; error?: string }> {
+): Promise<{
+  success: boolean;
+  fallbackData?: any;
+  confidence: number;
+  error?: string;
+}> {
   // 简化的手动输入处理
   return {
     success: true,
     fallbackData: manualData,
-    confidence: 0.8
-  }
+    confidence: 0.8,
+  };
 }

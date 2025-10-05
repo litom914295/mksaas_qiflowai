@@ -2,10 +2,10 @@
 
 import { LoginWrapper } from '@/components/auth/login-wrapper';
 import Container from '@/components/layout/container';
-import { Logo } from '@/components/layout/logo';
 import { ModeSwitcher } from '@/components/layout/mode-switcher';
 import { NavbarMobile } from '@/components/layout/navbar-mobile';
 import { UserButton } from '@/components/layout/user-button';
+import { BrandLogo } from '@/components/qiflow/homepage/BrandLogo';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -24,9 +24,10 @@ import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
 import { ArrowUpRightIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { LanguageSwitcher } from '../language-switcher';
 import { Skeleton } from '../ui/skeleton';
-import LocaleSwitcher from './locale-switcher';
 
 interface NavBarProps {
   scroll?: boolean;
@@ -49,6 +50,20 @@ export function Navbar({ scroll }: NavBarProps) {
   const [mounted, setMounted] = useState(false);
   const { data: session, isPending } = authClient.useSession();
   const currentUser = session?.user;
+  const searchParams = useSearchParams();
+  const abParam = searchParams?.get('ab');
+  const getAbFromClient = () => {
+    try {
+      const m = document.cookie.match(/(?:^|; )ab_variant=([^;]+)/);
+      if (m) return decodeURIComponent(m[1]);
+    } catch {}
+    try {
+      return window.localStorage.getItem('ab_variant');
+    } catch {}
+    return null;
+  };
+  const ab = abParam ?? getAbFromClient();
+  const variantB = ab === 'B';
   // console.log(`Navbar, user:`, user);
 
   useEffect(() => {
@@ -59,11 +74,15 @@ export function Navbar({ scroll }: NavBarProps) {
     <section
       className={cn(
         'sticky inset-x-0 top-0 z-40 py-4 transition-all duration-300',
+        variantB && 'shadow-[0_0_0_1px_rgba(255,255,255,.06)]',
         scroll
           ? scrolled
-            ? 'bg-muted/50 backdrop-blur-md border-b supports-backdrop-filter:bg-muted/50'
+            ? cn(
+                'backdrop-blur-md border-b supports-backdrop-filter:bg-muted/50',
+                variantB ? 'bg-muted/40' : 'bg-muted/50'
+              )
             : 'bg-transparent'
-          : 'border-b bg-muted/50'
+          : cn('border-b', variantB ? 'bg-muted/40' : 'bg-muted/50')
       )}
     >
       <Container className="px-4">
@@ -72,7 +91,7 @@ export function Navbar({ scroll }: NavBarProps) {
           {/* logo and name */}
           <div className="flex items-center">
             <LocaleLink href="/" className="flex items-center space-x-2">
-              <Logo />
+              <BrandLogo size={128} />
               <span className="text-xl font-semibold">
                 {t('Metadata.name')}
               </span>
@@ -251,7 +270,7 @@ export function Navbar({ scroll }: NavBarProps) {
             )}
 
             <ModeSwitcher />
-            <LocaleSwitcher />
+            <LanguageSwitcher />
           </div>
         </nav>
 

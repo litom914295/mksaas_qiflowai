@@ -3,19 +3,31 @@
  * 展示不同置信度下的UI状态
  */
 
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { ConfidenceIndicator, ConfidenceProgress, ConfidenceIcon } from './confidence-indicator'
-import { ResultDisplay } from './result-display'
-import { FormValidator } from './form-validator'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Slider } from '@/components/ui/slider'
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Slider } from '@/components/ui/slider';
+import { useState } from 'react';
+import {
+  ConfidenceIcon,
+  ConfidenceIndicator,
+  ConfidenceProgress,
+} from './confidence-indicator';
+import { FormValidator } from './form-validator';
+import { ResultDisplay } from './result-display';
 
 export function ConfidenceDemo() {
-  const [confidence, setConfidence] = useState(0.5)
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<'bazi' | 'xuankong' | 'compass'>('bazi')
+  const [confidence, setConfidence] = useState(0.5);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<
+    'bazi' | 'xuankong' | 'compass'
+  >('bazi');
 
   // 模拟算法结果
   const mockResults = {
@@ -81,7 +93,12 @@ export function ConfidenceDemo() {
         reading: {
           magnetic: 45.2,
           true: 47.1,
-          confidence: confidence > 0.7 ? 'high' : confidence > 0.4 ? 'medium' : 'low' as 'low' | 'medium' | 'high',
+          confidence:
+            confidence > 0.7
+              ? 'high'
+              : confidence > 0.4
+                ? 'medium'
+                : ('low' as 'low' | 'medium' | 'high'),
           accuracy: confidence,
         },
         calibration: {
@@ -100,7 +117,7 @@ export function ConfidenceDemo() {
         processingTime: 300,
       },
     },
-  }
+  };
 
   const mockInput = {
     bazi: {
@@ -118,7 +135,7 @@ export function ConfidenceDemo() {
       magnetometer: { x: 20, y: 0, z: 0 },
       gyroscope: { x: 0, y: 0, z: 0 },
     },
-  }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -135,7 +152,9 @@ export function ConfidenceDemo() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">置信度: {Math.round(confidence * 100)}%</label>
+            <label className="text-sm font-medium">
+              置信度: {Math.round(confidence * 100)}%
+            </label>
             <Slider
               value={[confidence]}
               onValueChange={([value]) => setConfidence(value)}
@@ -145,7 +164,7 @@ export function ConfidenceDemo() {
               className="w-full"
             />
           </div>
-          
+
           <div className="flex gap-2">
             <Button
               variant={selectedAlgorithm === 'bazi' ? 'default' : 'outline'}
@@ -180,7 +199,7 @@ export function ConfidenceDemo() {
             <ConfidenceIndicator confidence={confidence} />
             <ConfidenceIcon confidence={confidence} />
           </div>
-          
+
           <ConfidenceProgress confidence={confidence} />
         </CardContent>
       </Card>
@@ -226,26 +245,31 @@ export function ConfidenceDemo() {
               <div className="text-2xl mb-2">❌</div>
               <div className="font-semibold text-red-800">红色拒答</div>
               <div className="text-sm text-red-600">置信度 &lt; 40%</div>
-              <div className="text-xs text-red-500 mt-1">分析结果不可信，拒绝显示</div>
+              <div className="text-xs text-red-500 mt-1">
+                分析结果不可信，拒绝显示
+              </div>
             </div>
-            
+
             <div className="text-center p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
               <div className="text-2xl mb-2">⚠️</div>
               <div className="font-semibold text-yellow-800">黄色提示</div>
               <div className="text-sm text-yellow-600">置信度 40% - 70%</div>
-              <div className="text-xs text-yellow-500 mt-1">分析结果一般，谨慎参考</div>
+              <div className="text-xs text-yellow-500 mt-1">
+                分析结果一般，谨慎参考
+              </div>
             </div>
-            
+
             <div className="text-center p-4 bg-green-50 border border-green-200 rounded-lg">
               <div className="text-2xl mb-2">✅</div>
               <div className="font-semibold text-green-800">绿色正常</div>
               <div className="text-sm text-green-600">置信度 ≥ 70%</div>
-              <div className="text-xs text-green-500 mt-1">分析结果可信，可以放心参考</div>
+              <div className="text-xs text-green-500 mt-1">
+                分析结果可信，可以放心参考
+              </div>
             </div>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-
