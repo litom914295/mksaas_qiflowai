@@ -4,10 +4,10 @@
 
 import { describe, expect, it } from '@jest/globals';
 import {
-  checkBaziSystemHealth,
-  computeBaziSmart,
-  configureBaziSystem,
-  createBaziCalculator,
+    checkBaziSystemHealth,
+    computeBaziSmart,
+    configureBaziSystem,
+    createBaziCalculator,
 } from '../index';
 
 describe('增强型八字计算系统集成测试', () => {
@@ -157,7 +157,7 @@ describe('增强型八字计算系统集成测试', () => {
       'Australia/Sydney',
     ];
 
-    it.each(timezones)('应该支持 %s 时区', async (timezone) => {
+    it.each(timezones)('应该支持 %s 时区', async timezone => {
       const birthData = {
         datetime: '1990-05-10T12:30:00',
         gender: 'male' as const,
@@ -235,7 +235,7 @@ describe('增强型八字计算系统集成测试', () => {
       const results = await Promise.all(promises);
 
       expect(results.length).toBe(5);
-      results.forEach((result) => {
+      results.forEach(result => {
         expect(result).toBeDefined();
       });
     });

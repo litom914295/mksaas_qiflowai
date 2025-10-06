@@ -67,7 +67,7 @@ export function SimpleHeader({
             className="flex items-center gap-2"
             aria-label={t('name')}
           >
-            <BrandLogo size={96} className="h-7 w-auto" />
+            <BrandLogo href="" size={96} className="h-7 w-auto" />
             <span className="hidden font-semibold sm:inline-block">
               {t('name')}
             </span>

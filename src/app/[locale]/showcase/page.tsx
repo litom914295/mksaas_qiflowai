@@ -12,14 +12,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  ArrowLeft,
+import { ArrowLeft,
   BarChart3,
   Compass,
   MessageSquare,
   Sparkles,
 } from 'lucide-react';
 import type { Metadata } from 'next';
+import { LocaleLink } from '@/i18n/navigation';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export default function ShowcasePage() {
       icon: <Sparkles className="h-8 w-8" />,
       title: '八字命理分析',
       description: '基于专业算法的个人化命理洞察，结合传统十神理论与现代AI技术',
-      href: '/bazi-analysis',
+      href: '/analysis/bazi',
       badge: '新上线',
       color: 'from-purple-500 to-pink-500',
     },
@@ -42,7 +42,7 @@ export default function ShowcasePage() {
       icon: <Compass className="h-8 w-8" />,
       title: '玄空飞星罗盘',
       description: '精确测量方位，智能生成风水布局建议，助力优化居住与工作空间',
-      href: '/compass-analysis',
+      href: '/analysis/xuankong',
       badge: '热门',
       color: 'from-blue-500 to-cyan-500',
     },
@@ -50,7 +50,7 @@ export default function ShowcasePage() {
       icon: <MessageSquare className="h-8 w-8" />,
       title: 'AI智能咨询',
       description: '实时多轮对话，专业命理风水问题解答，个性化建议推荐',
-      href: '/chat',
+      href: '/ai-chat',
       badge: '推荐',
       color: 'from-green-500 to-emerald-500',
     },
@@ -92,12 +92,12 @@ export default function ShowcasePage() {
       {/* Header */}
       <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4">
-          <Link href="/">
+          <LocaleLink href="/">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="mr-2 h-4 w-4" />
               返回首页
             </Button>
-          </Link>
+          </LocaleLink>
         </div>
       </div>
 
@@ -149,11 +149,11 @@ export default function ShowcasePage() {
                   {feature.description}
                 </CardDescription>
                 {feature.href !== '#' ? (
-                  <Link href={feature.href}>
+                  <LocaleLink href={feature.href}>
                     <Button variant="ghost" className="w-full">
                       立即体验
                     </Button>
-                  </Link>
+                  </LocaleLink>
                 ) : (
                   <Button variant="ghost" className="w-full" disabled>
                     敬请期待
@@ -226,16 +226,16 @@ export default function ShowcasePage() {
             立即体验QiFlow AI，获取专业的命理风水分析
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <Link href="/bazi-analysis">
+            <LocaleLink href="/analysis/bazi">
               <Button size="lg" className="w-full sm:w-auto">
                 开始八字分析
               </Button>
-            </Link>
-            <Link href="/compass-analysis">
+            </LocaleLink>
+            <LocaleLink href="/analysis/xuankong">
               <Button size="lg" variant="outline" className="w-full sm:w-auto">
                 使用风水罗盘
               </Button>
-            </Link>
+            </LocaleLink>
           </div>
         </div>
       </section>

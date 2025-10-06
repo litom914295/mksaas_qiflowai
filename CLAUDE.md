@@ -702,3 +702,7 @@ TRUST the tech-lead's expertise in agent selection
 > "Hi Claude，我想先了解一下这个项目的整体结构，然后开始添加八字排盘功能。"
 
 祝你开发顺利！🎉
+
+## Task Master AI Instructions
+**Import Task Master's development workflow commands and guidelines, treat as if import is in the main CLAUDE.md file.**
+@./.taskmaster/CLAUDE.md

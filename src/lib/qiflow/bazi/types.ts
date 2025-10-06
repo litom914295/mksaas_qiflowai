@@ -14,30 +14,8 @@ export type BirthInput = {
   location?: Location;
 };
 
-export type Stem =
-  | '甲'
-  | '乙'
-  | '丙'
-  | '丁'
-  | '戊'
-  | '己'
-  | '庚'
-  | '辛'
-  | '壬'
-  | '癸';
-export type Branch =
-  | '子'
-  | '丑'
-  | '寅'
-  | '卯'
-  | '辰'
-  | '巳'
-  | '午'
-  | '未'
-  | '申'
-  | '酉'
-  | '戌'
-  | '亥';
+export type Stem = '甲'|'乙'|'丙'|'丁'|'戊'|'己'|'庚'|'辛'|'壬'|'癸';
+export type Branch = '子'|'丑'|'寅'|'卯'|'辰'|'巳'|'午'|'未'|'申'|'酉'|'戌'|'亥';
 
 export type Pillars = {
   year: { stem: Stem; branch: Branch };
@@ -46,7 +24,7 @@ export type Pillars = {
   hour: { stem: Stem; branch: Branch };
 };
 
-export type FiveElement = '木' | '火' | '土' | '金' | '水';
+export type FiveElement = '木'|'火'|'土'|'金'|'水';
 
 export type FiveElementStrength = Record<FiveElement, number>; // 0..100 scale
 
@@ -61,3 +39,5 @@ export type BaziResult = {
   elements: FiveElementStrength;
   yongshen: YongShen;
 };
+
+

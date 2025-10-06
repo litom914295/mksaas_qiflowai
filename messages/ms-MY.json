@@ -27,77 +27,77 @@
   },
   "AIAudioPage": {
     "title": "AI Audio",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "description": "MkSaaS membolehkan anda membuat AI SaaS dalam beberapa hari, dengan mudah dan tanpa usaha"
   },
   "AIChatPage": {
     "title": "AI Chat",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "description": "MkSaaS membolehkan anda membuat AI SaaS dalam beberapa hari, dengan mudah dan tanpa usaha"
   },
   "AIImagePage": {
-    "title": "AI Image",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "title": "AI Imej",
+    "description": "MkSaaS membolehkan anda membuat AI SaaS dalam beberapa hari, dengan mudah dan tanpa usaha"
   },
   "AITextPage": {
-    "title": "AI Text Demo",
-    "description": "Analyze web content with AI to extract key information, features, and insights",
-    "content": "Web Content Analyzer",
-    "subtitle": "Enter a website URL to get AI-powered analysis of its content",
+    "title": "Demo Teks AI",
+    "description": "Analisis kandungan web dengan AI untuk mengekstrak maklumat utama, ciri dan pandangan",
+    "content": "Penganalisis Kandungan Web",
+    "subtitle": "Masukkan URL laman web untuk mendapatkan analisis kandungan berkuasa AI",
     "analyzer": {
-      "title": "Web Content Analyzer",
-      "description": "Analyze any website content using AI to extract structured information",
-      "placeholder": "Enter website URL (e.g., https://example.com)",
-      "button": "Analyze Website",
+      "title": "Penganalisis Kandungan Web",
+      "description": "Analisis sebarang kandungan laman web menggunakan AI untuk mengekstrak maklumat berstruktur",
+      "placeholder": "Masukkan URL laman web (cth., https://example.com)",
+      "button": "Analisis Laman Web",
       "loading": {
-        "scraping": "Scraping website content...",
-        "analyzing": "Analyzing content with AI..."
+        "scraping": "Mengikis kandungan laman web...",
+        "analyzing": "Menganalisis kandungan dengan AI..."
       },
       "results": {
-        "title": "Analysis Results",
-        "newAnalysis": "Analyze Another Website",
+        "title": "Keputusan Analisis",
+        "newAnalysis": "Analisis Laman Web Lain",
         "sections": {
-          "title": "Title",
-          "description": "Description",
-          "introduction": "Introduction",
-          "features": "Features",
-          "pricing": "Pricing",
-          "useCases": "Use Cases",
-          "screenshot": "Website Screenshot"
+          "title": "Tajuk",
+          "description": "Penerangan",
+          "introduction": "Pengenalan",
+          "features": "Ciri-ciri",
+          "pricing": "Harga",
+          "useCases": "Kes Penggunaan",
+          "screenshot": "Tangkapan Skrin Laman Web"
         }
       },
       "errors": {
-        "invalidUrl": "Please enter a valid URL starting with http:// or https://",
-        "analysisError": "Failed to analyze website. Please try again.",
-        "networkError": "Network error. Please check your connection and try again.",
-        "insufficientCredits": "Insufficient credits. Please purchase more credits to continue."
+        "invalidUrl": "Sila masukkan URL yang sah bermula dengan http:// atau https://",
+        "analysisError": "Gagal menganalisis laman web. Sila cuba lagi",
+        "networkError": "Ralat rangkaian. Sila periksa sambungan anda dan cuba lagi",
+        "insufficientCredits": "Kredit tidak mencukupi. Sila beli lebih banyak kredit untuk meneruskan"
       }
     },
     "features": {
       "scraping": {
-        "title": "Smart Web Scraping",
-        "description": "Advanced web scraping technology extracts clean, structured content from any website"
+        "title": "Pengikisan Web Pintar",
+        "description": "Teknologi pengikisan web termaju mengekstrak kandungan bersih dan berstruktur dari mana-mana laman web"
       },
       "analysis": {
-        "title": "AI-Powered Analysis",
-        "description": "Intelligent AI analysis extracts key insights, features, and structured information"
+        "title": "Analisis Berkuasa AI",
+        "description": "Analisis AI pintar mengekstrak pandangan utama, ciri dan maklumat berstruktur"
       },
       "results": {
-        "title": "Structured Results",
-        "description": "Get organized, easy-to-read results with clear sections and actionable insights"
+        "title": "Keputusan Berstruktur",
+        "description": "Dapatkan keputusan yang teratur dan mudah dibaca dengan bahagian yang jelas dan pandangan yang boleh dilaksanakan"
       }
     }
   },
   "AIVideoPage": {
     "title": "AI Video",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "description": "MkSaaS membolehkan anda membuat AI SaaS dalam beberapa hari, dengan mudah dan tanpa usaha"
   },
   "AboutPage": {
-    "title": "About",
-    "description": "This is MkSaaS, an AI SaaS template built with modern technologies, helping you build your SaaS faster and better.",
+    "title": "Tentang",
+    "description": "Ini adalah MkSaaS, templat AI SaaS yang dibina dengan teknologi moden, membantu anda membina SaaS anda dengan lebih cepat dan lebih baik",
     "authorName": "MkSaaS",
-    "authorBio": "AI SaaS Boilerplate",
-    "introduction": "👋 Hi there! This is MkSaaS, an AI SaaS template built with modern technologies, helping you build your SaaS faster and better. If you have any questions, welcome to contact me.",
-    "talkWithMe": "Talk with me",
-    "followMe": "Follow me on X"
+    "authorBio": "Templat Asas AI SaaS",
+    "introduction": "👋 Hi! Ini adalah MkSaaS, templat AI SaaS yang dibina dengan teknologi moden, membantu anda membina SaaS anda dengan lebih cepat dan lebih baik. Jika anda mempunyai sebarang soalan, sila hubungi saya",
+    "talkWithMe": "Bercakap dengan saya",
+    "followMe": "Ikuti saya di X"
   },
   "Analysis": {
     "title": "Sedia untuk memulakan analisis",
@@ -128,7 +128,7 @@
     }
   },
   "Auth": {
-    "login": "Login",
+    "login": "Log Masuk",
     "logout": "Log keluar",
     "forgot_password": "Lupa kata laluan",
     "reset_password": "Set semula kata laluan",
@@ -163,18 +163,18 @@
   },
   "AuthPage": {
     "login": {
-      "title": "Login",
-      "welcomeBack": "Welcome back",
-      "email": "Email",
-      "password": "Password",
-      "signIn": "Sign In",
-      "signUpHint": "Don't have an account? Sign up",
-      "forgotPassword": "Forgot Password?",
-      "signInWithGoogle": "Sign In with Google",
-      "signInWithGitHub": "Sign In with GitHub",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
-      "or": "Or continue with",
+      "title": "Log Masuk",
+      "welcomeBack": "Selamat kembali",
+      "email": "E-mel",
+      "password": "Kata Laluan",
+      "signIn": "Log Masuk",
+      "signUpHint": "Tidak mempunyai akaun? Daftar",
+      "forgotPassword": "Lupa Kata Laluan?",
+      "signInWithGoogle": "Log Masuk dengan Google",
+      "signInWithGitHub": "Log Masuk dengan GitHub",
+      "showPassword": "Tunjukkan kata laluan",
+      "hidePassword": "Sembunyikan kata laluan",
+      "or": "Atau teruskan dengan",
       "emailRequired": "Please enter your email",
       "passwordRequired": "Please enter your password",
       "captchaInvalid": "Captcha verification failed",
@@ -184,22 +184,38 @@
       "title": "Register",
       "createAccount": "Create an account",
       "name": "Name",
-      "email": "Email",
-      "password": "Password",
+      "email": "E-mel",
+      "password": "Kata Laluan",
       "signUp": "Sign Up",
       "signInHint": "Already have an account? Sign in",
       "checkEmail": "Please check your email inbox",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
+      "showPassword": "Tunjukkan kata laluan",
+      "hidePassword": "Sembunyikan kata laluan",
       "nameRequired": "Please enter your name",
       "emailRequired": "Please enter your email",
       "passwordRequired": "Please enter your password",
       "captchaInvalid": "Captcha verification failed",
-      "captchaError": "Captcha verification error"
+      "captchaError": "Captcha verification error",
+      "signUpFailed": "Registration failed. Please try again.",
+      "passwordStrength": {
+        "fair": "Fair",
+        "strong": "Strong",
+        "atLeast8Chars": "Use at least 8 characters",
+        "addLowercase": "Add lowercase letters",
+        "label": "Password Strength",
+        "addUppercase": "Add uppercase letters",
+        "addNumber": "Add numbers",
+        "good": "Good",
+        "weak": "Weak",
+        "addSpecialChar": "Add special characters (!@#$%^&*)"
+      },
+      "userAlreadyExists": "This email is already registered. Please use another email or try logging in.",
+      "invalidEmail": "Invalid email address.",
+      "weakPassword": "Password is too weak. Please create a stronger password."
     },
     "forgotPassword": {
       "title": "Forgot Password",
-      "email": "Email",
+      "email": "E-mel",
       "send": "Send reset link",
       "backToLogin": "Back to login",
       "checkEmail": "Please check your email inbox",
@@ -207,11 +223,11 @@
     },
     "resetPassword": {
       "title": "Reset Password",
-      "password": "Password",
+      "password": "Kata Laluan",
       "reset": "Reset password",
       "backToLogin": "Back to login",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
+      "showPassword": "Tunjukkan kata laluan",
+      "hidePassword": "Sembunyikan kata laluan",
       "minLength": "Password must be at least 8 characters"
     },
     "error": {
@@ -293,8 +309,8 @@
       "male": "Lelaki",
       "female": "Perempuan"
     },
-    "male": "TODO: translate Bazi.male",
-    "female": "TODO: translate Bazi.female"
+    "male": "lelaki",
+    "female": "perempuan"
   },
   "BaziHome": {
     "hero": {
@@ -304,7 +320,13 @@
         "startBazi": "Start Bazi Analysis",
         "tryCompass": "Try Feng Shui Compass",
         "askAi": "Ask AI"
-      }
+      },
+      "features": {
+        "algorithm": "Algoritma Tepat",
+        "privacy": "Privasi Dilindungi",
+        "instant": "Analisis Segera"
+      },
+      "trust": "Dipercayai oleh 10,000+ pengguna"
     },
     "billing": {
       "hint": "Pricing units: aiChat=5, deepInterpretation=30, bazi=10, xuankong=20, pdfExport=5; if balance is low we auto downgrade to a lite result."
@@ -384,10 +406,16 @@
         "AI Consultation",
         "Pillars",
         "Feng Shui",
-        "Bazi",
-        "Feng Shui",
-        "Luopan"
+        "Bazi"
       ]
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "items": []
+    },
+    "faq": {
+      "title": "FAQ",
+      "items": []
     }
   },
   "BlogPage": {
@@ -437,9 +465,9 @@
     "language": "Switch language",
     "mode": {
       "label": "Toggle mode",
-      "light": "Light",
-      "dark": "Dark",
-      "system": "System"
+      "light": "Terang",
+      "dark": "Gelap",
+      "system": "Sistem"
     },
     "theme": {
       "label": "Toggle theme",
@@ -525,14 +553,14 @@
     "key_points": "Titik kunci",
     "specific_recommendations": "Cadangan khusus",
     "pattern_explanation_text": "Pola Bintang yang terbang adalah inti analisis Feng Shui, melalui analisis hubungan antara tiga piringan (Tingkat, Gunung, Arah), dapat menentukan keadaan feng shui rumah dan mempengaruhi kesejahteraan, kesihatan dan kewangan penghuninya.",
-    "measuring": "TODO: translate Compass.measuring",
-    "calibrate_device": "TODO: translate Compass.calibrate_device",
+    "measuring": "Mengukur",
+    "calibrate_device": "Tentukur Peranti",
     "calibration_instructions": "TODO: translate Compass.calibration_instructions",
     "magnetic_declination": "TODO: translate Compass.magnetic_declination",
     "true_north": "TODO: translate Compass.true_north",
     "magnetic_north": "TODO: translate Compass.magnetic_north",
-    "direction": "TODO: translate Compass.direction",
-    "degree": "TODO: translate Compass.degree",
+    "direction": "Arah",
+    "degree": "Darjah",
     "measurement_history": "TODO: translate Compass.measurement_history",
     "save_measurement": "TODO: translate Compass.save_measurement",
     "clear_history": "TODO: translate Compass.clear_history",
@@ -653,7 +681,7 @@
       "title": "Contact Us",
       "description": "If you have any questions or feedback, please reach out to our team",
       "name": "Name",
-      "email": "Email",
+      "email": "E-mel",
       "message": "Message",
       "submit": "Submit",
       "submitting": "Submitting...",
@@ -698,7 +726,7 @@
         "columns": {
           "columns": "Columns",
           "name": "Name",
-          "email": "Email",
+          "email": "E-mel",
           "role": "Role",
           "createdAt": "Created At",
           "customerId": "Customer ID",
@@ -842,7 +870,7 @@
             "columns": "Columns",
             "id": "ID",
             "type": "Type",
-            "description": "Description",
+            "description": "Penerangan",
             "amount": "Amount",
             "remainingAmount": "Remaining Amount",
             "paymentId": "Payment ID",
@@ -895,8 +923,8 @@
           "newPassword": "New Password",
           "newMinLength": "Password must be at least 8 characters",
           "hint": "Please use at least 8 characters for password",
-          "showPassword": "Show password",
-          "hidePassword": "Hide password",
+          "showPassword": "Tunjukkan kata laluan",
+          "hidePassword": "Sembunyikan kata laluan",
           "success": "Password updated successfully",
           "fail": "Failed to update password",
           "saving": "Saving...",
@@ -1272,7 +1300,7 @@
       "title": "Make AI SaaS in days, simply and effortlessly",
       "description": "The is a demo website built with MkSaaS, a Next.js SaaS boilerplate to help you build your AI SaaS faster and better.",
       "introduction": "Introducing MkSaaS Boilerplate",
-      "primary": "Get Started",
+      "primary": "Mulakan",
       "secondary": "See Demo"
     },
     "logocloud": {
@@ -1313,11 +1341,11 @@
     "integration2": {
       "title": "Integrate with your favorite tools",
       "description": "Connect seamlessly with popular platforms and services to enhance your workflow.",
-      "primaryButton": "Get Started",
+      "primaryButton": "Mulakan",
       "secondaryButton": "See Demo"
     },
     "features": {
-      "title": "Features",
+      "title": "Ciri-ciri",
       "subtitle": "The features of your product",
       "description": "Write the description of your product here",
       "items": {
@@ -1392,8 +1420,8 @@
       }
     },
     "pricing": {
-      "title": "Pricing",
-      "subtitle": "Pricing",
+      "title": "Harga",
+      "subtitle": "Harga",
       "description": "Choose the plan that works best for you"
     },
     "faqs": {
@@ -1503,7 +1531,7 @@
     "stats": {
       "title": "Stats",
       "subtitle": "MkSaaS in numbers",
-      "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
+      "description": "MkSaaS membolehkan anda membuat AI SaaS dalam beberapa hari, dengan mudah dan tanpa usaha",
       "items": {
         "item-1": {
           "title": "Stars on GitHub"
@@ -1518,8 +1546,8 @@
     },
     "calltoaction": {
       "title": "Start Building",
-      "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
-      "primaryButton": "Get Started",
+      "description": "MkSaaS membolehkan anda membuat AI SaaS dalam beberapa hari, dengan mudah dan tanpa usaha",
+      "primaryButton": "Mulakan",
       "secondaryButton": "See Demo"
     },
     "subtitle": "Platform analisis pintar yang menggabungkan kebijaksanaan feng shui tradisional dengan teknologi AI moden",
@@ -1766,10 +1794,10 @@
   "Marketing": {
     "navbar": {
       "features": {
-        "title": "Features"
+        "title": "Ciri-ciri"
       },
       "pricing": {
-        "title": "Pricing"
+        "title": "Harga"
       },
       "blog": {
         "title": "Blog"
@@ -1785,7 +1813,7 @@
             "description": "Show how to use AI to write stunning text"
           },
           "image": {
-            "title": "AI Image",
+            "title": "AI Imej",
             "description": "Show how to use AI to generate beautiful images"
           },
           "chat": {
@@ -1806,7 +1834,7 @@
         "title": "Pages",
         "items": {
           "about": {
-            "title": "About",
+            "title": "Tentang",
             "description": "Learn more about our company, mission, and values"
           },
           "contact": {
@@ -1904,8 +1932,8 @@
       "product": {
         "title": "Product",
         "items": {
-          "features": "Features",
-          "pricing": "Pricing",
+          "features": "Ciri-ciri",
+          "pricing": "Harga",
           "faq": "FAQ"
         }
       },
@@ -1921,7 +1949,7 @@
       "company": {
         "title": "Company",
         "items": {
-          "about": "About",
+          "about": "Tentang",
           "contact": "Contact",
           "waitlist": "Waitlist"
         }
@@ -1967,7 +1995,7 @@
     "subtitle": "Join the community",
     "description": "Subscribe to our newsletter for the latest news and updates",
     "form": {
-      "email": "Email",
+      "email": "E-mel",
       "subscribe": "Subscribe",
       "subscribing": "Subscribing...",
       "success": "Subscribed successfully",
@@ -2054,7 +2082,7 @@
     }
   },
   "PricingPage": {
-    "title": "Pricing",
+    "title": "Harga",
     "description": "Choose the plan that works best for you",
     "subtitle": "Choose the plan that works best for you",
     "monthly": "Monthly",
@@ -2068,7 +2096,7 @@
       "yourCurrentPlan": "Your Current Plan",
       "getStartedForFree": "Get Started For Free",
       "getLifetimeAccess": "Get Lifetime Access",
-      "getStarted": "Get Started",
+      "getStarted": "Mulakan",
       "notAvailable": "Not Available",
       "daysTrial": "{days}-day free trial"
     },
@@ -2165,19 +2193,10 @@
       },
       "low": {
         "title": "Auto decision rejected (confidence too low).",
-        "body": "Please enter key parameters manually or try the following calibration suggestions:",
-        "hints": [
-          "Ensure sensor permission is granted and hold the device steadily",
-          "Keep away from magnetic interference and metal objects",
-          "Slowly rotate to calibrate the compass"
-        ]
+        "body": "Please enter key parameters manually or try the following calibration suggestions:"
       },
       "medium": {
-        "title": "Medium confidence, please calibrate to improve accuracy (0.7~0.9).",
-        "hints": [
-          "Repeat sampling in an open environment",
-          "Make a gentle figure-8 motion for calibration"
-        ]
+        "title": "Medium confidence, please calibrate to improve accuracy (0.7~0.9)."
       },
       "success": "Analysis completed, recommendations generated."
     },
@@ -2359,12 +2378,660 @@
     "form": {
       "title": "Join Our Waitlist",
       "description": "We will notify you when we launch our product",
-      "email": "Email",
+      "email": "E-mel",
       "subscribe": "Subscribe",
       "subscribing": "Subscribing...",
       "success": "Subscribed successfully",
       "fail": "Failed to subscribe",
       "emailValidation": "Please enter a valid email address"
     }
+  },
+  "metadata": {
+    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
+    "description": "An intelligent feng shui analysis platform that combines traditional Chinese metaphysics with modern AI technology"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "share": "Share",
+    "copy": "Copy",
+    "download": "Download",
+    "upload": "Upload",
+    "close": "Close",
+    "open": "Open",
+    "view": "View",
+    "preview": "Preview",
+    "refresh": "Refresh",
+    "retry": "Retry",
+    "switchLanguage": "Switch Language",
+    "unknown": "Unknown",
+    "toBeCalculated": "To be calculated"
+  },
+  "home": {
+    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
+    "subtitle": "An intelligent analysis platform combining traditional Feng Shui wisdom with modern AI technology",
+    "features": {
+      "bazi": {
+        "title": "Bazi Analysis",
+        "description": "Accurately calculate Four Pillars, analyze Five Elements, and provide personalized guidance"
+      },
+      "flyingStar": {
+        "title": "Flying Star Feng Shui",
+        "description": "Professional Nine Palaces analysis with house orientation for precise advice"
+      },
+      "compass": {
+        "title": "High-precision Digital Compass",
+        "description": "±2° professional accuracy with auto declination correction and 24 directions"
+      },
+      "floorPlan": {
+        "title": "Smart Floor Plan Overlay",
+        "description": "AI detects rooms and overlays flying stars for visual analysis"
+      },
+      "visualization3d": {
+        "title": "3D Visualization",
+        "description": "Immersive VR-ready 3D Feng Shui analysis"
+      },
+      "aiAssistant": {
+        "title": "AI Assistant",
+        "description": "Professional consultation with personalized suggestions and memory"
+      }
+    },
+    "actions": {
+      "continueAsGuest": "Continue as Guest",
+      "register": "Register Now",
+      "viewBaziAnalysis": "View Bazi Analysis",
+      "testAnalysis": "Test Complete Analysis"
+    },
+    "guestEntry": {
+      "creatingSession": "Creating guest session...",
+      "continueAsGuest": "Continue as Guest",
+      "registerNow": "Register Now",
+      "alreadyHaveAccount": "Already have an account? Sign in",
+      "guestModeDescription": "Guest mode: up to 3 analyses, data not saved",
+      "sessionCreationFailed": "Failed to create guest session"
+    },
+    "highlights": {
+      "title": "Highlights",
+      "smartOverlay": {
+        "title": "Smart Overlay",
+        "description": "First-of-its-kind overlay of floor plans with flying stars"
+      },
+      "guestMode": {
+        "title": "Guest Mode",
+        "description": "Experience core features without registration; data auto-clears in 24h"
+      },
+      "precisionCompass": {
+        "title": "Precision Compass",
+        "description": "±2° accuracy with multi-sensor fusion"
+      },
+      "multilingual": {
+        "title": "Multilingual",
+        "description": "Support 6 languages for global service"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 QiFlow AI. All rights reserved.",
+      "help": "Help Center",
+      "about": "About Us"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "analysis": "Feng Shui Analysis",
+    "compass": "Digital Compass",
+    "overlay": "Floor Plan Overlay",
+    "3d_viewer": "3D Viewer",
+    "reports": "Analysis Reports",
+    "chat": "AI Assistant",
+    "subscription": "Subscription Management",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About Us"
+  },
+  "auth": {
+    "login": "Log Masuk",
+    "logout": "Logout",
+    "forgot_password": "Forgot Password",
+    "reset_password": "Reset Password",
+    "email": "E-mel",
+    "password": "Kata Laluan",
+    "confirm_password": "Confirm Password",
+    "remember_me": "Remember Me",
+    "guest_mode": "Guest Mode",
+    "continue_as_guest": "Continue as Guest",
+    "register_to_save": "Register to save your data",
+    "login_required": "Login Required",
+    "invalid_credentials": "Invalid credentials",
+    "account_created": "Account created successfully",
+    "password_reset_sent": "Password reset email sent",
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Start your Feng Shui analysis journey",
+      "signInLink": "Already have an account? Sign in",
+      "displayName": "Display Name",
+      "displayNamePlaceholder": "Enter your display name",
+      "emailPlaceholder": "Enter your email address",
+      "passwordPlaceholder": "Enter your password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Service",
+      "and": "and",
+      "privacyLink": "Privacy Policy",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Log Masuk"
+    }
+  },
+  "analysis": {
+    "title": "Ready to Begin Analysis",
+    "description": "Based on the information you provided, we will generate professional BaZi astrology and Flying Star feng shui analysis reports.",
+    "start": "Start Analysis",
+    "analyzing": "Analyzing...",
+    "baziTitle": "Your Personal BaZi Astrology Analysis",
+    "baziDescription": "Based on your birth information, through professional algorithmic deep analysis, presenting your destiny characteristics and life insights.",
+    "fengshuiTitle": "Flying Star Feng Shui Analysis",
+    "fengshuiDescription": "Combining your BaZi astrology and house orientation to provide professional feng shui layout recommendations.",
+    "aiEnhancedBazi": "AI-Enhanced BaZi Astrology Analysis",
+    "aiEnhancedBaziDescription": "Based on professional algorithms to deeply analyze your BaZi astrology, combining traditional Ten Gods theory with modern AI technology to provide personalized life insights and fortune guidance.",
+    "professionalTenGods": "Professional Ten Gods Analysis",
+    "majorEventPrediction": "Major Event Prediction",
+    "yearlyInteraction": "Annual Interaction Analysis",
+    "lifeFortuneCycle": "Life Fortune Cycle",
+    "previousStep": "Previous Step",
+    "nextStep": "Next Step: Start Analysis",
+    "steps": {
+      "personalData": "Personal Information",
+      "personalDataDesc": "Fill in your birth information",
+      "houseOrientation": "House Orientation",
+      "houseOrientationDesc": "Determine house orientation information",
+      "baziAnalysis": "BaZi Analysis",
+      "baziAnalysisDesc": "Generate BaZi astrology analysis",
+      "flyingStar": "Flying Star",
+      "flyingStarDesc": "Generate feng shui analysis report"
+    }
+  },
+  "bazi": {
+    "title": "BaZi Analysis",
+    "description": "Professional BaZi algorithms provide personalized life insights and fortune guidance",
+    "analyzing": "Conducting deep analysis...",
+    "analysis_description": "Using traditional destiny wisdom to decode your life patterns",
+    "disclaimer": "This analysis is based on traditional BaZi principles and is for reference only. Please consult professionals for important decisions.",
+    "analysis": {
+      "sampleAnalysis": "Your Bazi shows..."
+    },
+    "fourPillars": {
+      "year": "Jia Zi",
+      "month": "Yi Chou",
+      "day": "Bing Yin",
+      "hour": "Ding Mao"
+    },
+    "birth_info": "Birth Information",
+    "birth_date": "Birth Date",
+    "birth_time": "Birth Time",
+    "birth_place": "Birth Place",
+    "lunar_calendar": "Lunar Calendar",
+    "solar_calendar": "Solar Calendar",
+    "year_pillar": "Year Pillar",
+    "month_pillar": "Month Pillar",
+    "day_pillar": "Day Pillar",
+    "hour_pillar": "Hour Pillar",
+    "heavenly_stem": "Heavenly Stem",
+    "earthly_branch": "Earthly Branch",
+    "five_elements": "Five Elements",
+    "wood": "Wood",
+    "fire": "Fire",
+    "earth": "Earth",
+    "metal": "Metal",
+    "water": "Water",
+    "strong": "Strong",
+    "weak": "Weak",
+    "favorable_elements": "Favorable Elements",
+    "unfavorable_elements": "Unfavorable Elements",
+    "element_analysis": "Five Elements Analysis",
+    "personality_analysis": "Personality Analysis",
+    "career_guidance": "Career Guidance",
+    "relationship_analysis": "Relationship Analysis",
+    "health_guidance": "Health Guidance",
+    "fortune_analysis": "Fortune Analysis",
+    "tabs": {
+      "overview": "Overview",
+      "fourPillars": "Four Pillars",
+      "patterns": "Patterns",
+      "fiveElements": "Five Elements",
+      "godsEvils": "Gods & Evils",
+      "luckCycles": "Luck Cycles",
+      "dailyFortune": "Daily Fortune",
+      "insights": "Insights"
+    },
+    "deepAnalysisTitle": "Deep Bazi Analysis",
+    "deepAnalysisSubtitle": "Personalized insights based on professional algorithms",
+    "labels": {
+      "name": "Name",
+      "gender": "Gender",
+      "birthTime": "Birth Time",
+      "gregorian": "Gregorian",
+      "lunar": "Lunar"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female"
+    }
+  },
+  "fengshui": {
+    "palace": {
+      "kan": "Kan",
+      "kun": "Kun",
+      "zhen": "Zhen",
+      "xun": "Xun",
+      "center": "Center",
+      "qian": "Qian",
+      "dui": "Dui",
+      "gen": "Gen",
+      "li": "Li"
+    },
+    "palace_suffix": " Palace",
+    "period_desc": "represents current fortune",
+    "mountain_star_desc": "represents sitting direction",
+    "water_star_desc": "represents facing direction",
+    "details": "Details",
+    "pattern_analysis": "Pattern Analysis",
+    "overall_pattern": "Overall Pattern",
+    "pattern_type": "Pattern Type",
+    "key_positions": "Key Positions",
+    "suitable_arrangements": "Suitable Arrangements",
+    "layout_advice": "Layout Advice",
+    "pattern_explanation": "Pattern Explanation",
+    "title": "Feng Shui Analysis",
+    "flying_stars": "Flying Star Feng Shui",
+    "nine_palaces": "Nine Palaces",
+    "compass_direction": "Compass Direction",
+    "house_facing": "House Facing",
+    "house_sitting": "House Sitting",
+    "period": "Period",
+    "current_period": "Current Period",
+    "wenchangwei": "Wenchang Position",
+    "caiwei": "Wealth Position",
+    "mountain_star": "Mountain Star",
+    "water_star": "Water Star",
+    "time_star": "Time Star",
+    "annual_star": "Annual Star",
+    "monthly_star": "Monthly Star",
+    "daily_star": "Daily Star",
+    "auspicious": "Auspicious",
+    "inauspicious": "Inauspicious",
+    "neutral": "Neutral",
+    "very_auspicious": "Very Auspicious",
+    "very_inauspicious": "Very Inauspicious",
+    "room_analysis": "Room Analysis",
+    "bedroom": "Bedroom",
+    "living_room": "Living Room",
+    "kitchen": "Kitchen",
+    "bathroom": "Bathroom",
+    "study": "Study",
+    "dining_room": "Dining Room",
+    "entrance": "Entrance",
+    "balcony": "Balcony",
+    "recommendations": "Feng Shui Recommendations",
+    "color_recommendations": "Color Recommendations",
+    "furniture_placement": "Furniture Placement",
+    "decoration_suggestions": "Decoration Suggestions",
+    "remedy_methods": "Remedy Methods",
+    "tabs": {
+      "overview": "Overview",
+      "ninePalaces": "Nine Palaces",
+      "patterns": "Patterns",
+      "advice": "Advice",
+      "advanced": "Advanced"
+    }
+  },
+  "compass_legacy": {
+    "title": "Digital Compass",
+    "measuring": "Measuring...",
+    "calibration": "Calibration",
+    "calibrate_device": "Calibrate Device",
+    "calibration_instructions": "Please follow the prompts to calibrate your device",
+    "accuracy": "Accuracy",
+    "confidence": "Confidence",
+    "magnetic_declination": "Magnetic Declination",
+    "true_north": "True North",
+    "magnetic_north": "Magnetic North",
+    "direction": "Direction",
+    "degree": "Degree",
+    "measurement_history": "Measurement History",
+    "save_measurement": "Save Measurement",
+    "clear_history": "Clear History",
+    "device_not_supported": "Device does not support compass functionality",
+    "permission_required": "Sensor permission required",
+    "interference_detected": "Magnetic field interference detected",
+    "move_away_from_metal": "Please move away from metal objects",
+    "measurement_saved": "Measurement saved",
+    "high_accuracy": "High Accuracy",
+    "medium_accuracy": "Medium Accuracy",
+    "low_accuracy": "Low Accuracy"
+  },
+  "overlay": {
+    "title": "Floor Plan Overlay",
+    "upload_floorplan": "Upload Floor Plan",
+    "processing_image": "Processing image...",
+    "room_detection": "Room Detection",
+    "auto_alignment": "Auto Alignment",
+    "manual_adjustment": "Manual Adjustment",
+    "transparency": "Transparency",
+    "overlay_opacity": "Overlay Opacity",
+    "show_grid": "Show Grid",
+    "show_labels": "Show Labels",
+    "room_scores": "Room Scores",
+    "click_room_for_details": "Click room for details",
+    "room_function": "Room Function",
+    "feng_shui_score": "Feng Shui Score",
+    "recommendations_for_room": "Recommendations for Room",
+    "image_upload_failed": "Image upload failed",
+    "image_processing_failed": "Image processing failed",
+    "unsupported_format": "Unsupported file format",
+    "file_too_large": "File too large",
+    "drag_drop_image": "Drag & drop image here or click to upload",
+    "supported_formats": "Supports JPG, PNG, PDF formats",
+    "max_file_size": "Maximum file size: 10MB",
+    "processing_complete": "Processing complete",
+    "alignment_accuracy": "Alignment Accuracy",
+    "rotation_angle": "Rotation Angle",
+    "scale_factor": "Scale Factor"
+  },
+  "reports": {
+    "title": "Analysis Reports",
+    "generate_report": "Generate Report",
+    "download_pdf": "Download PDF",
+    "share_report": "Share Report",
+    "report_summary": "Report Summary",
+    "detailed_analysis": "Detailed Analysis",
+    "recommendations": "Recommendations",
+    "charts_and_diagrams": "Charts and Diagrams",
+    "report_date": "Report Date",
+    "analysis_type": "Analysis Type",
+    "comprehensive_analysis": "Comprehensive Analysis",
+    "bazi_only": "BaZi Analysis Only",
+    "fengshui_only": "Feng Shui Analysis Only",
+    "report_generating": "Generating report...",
+    "report_ready": "Report ready",
+    "report_failed": "Report generation failed",
+    "watermark_guest": "Guest Mode - Register for full report",
+    "upgrade_for_full_report": "Upgrade subscription for full report",
+    "report_history": "Report History",
+    "no_reports": "No reports yet",
+    "delete_report": "Delete Report",
+    "report_deleted": "Report deleted"
+  },
+  "chat": {
+    "title": "AI Feng Shui Assistant",
+    "ask_question": "Ask Feng Shui Questions",
+    "type_message": "Type your question...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "chat_history": "Chat History",
+    "clear_chat": "Clear Chat",
+    "new_conversation": "New Conversation",
+    "suggested_questions": "Suggested Questions",
+    "daily_limit_reached": "Daily chat limit reached",
+    "upgrade_for_more": "Upgrade subscription for more chats",
+    "ai_disclaimer": "AI responses are for reference only and do not constitute professional advice",
+    "conversation_saved": "Conversation saved",
+    "conversation_deleted": "Conversation deleted",
+    "copy_message": "Copy Message",
+    "message_copied": "Message copied",
+    "regenerate_response": "Regenerate Response",
+    "rate_response": "Rate Response",
+    "helpful": "Helpful",
+    "not_helpful": "Not Helpful"
+  },
+  "subscription": {
+    "title": "Subscription Management",
+    "current_plan": "Current Plan",
+    "free_plan": "Free Plan",
+    "standard_plan": "Standard Plan",
+    "professional_plan": "Professional Plan",
+    "upgrade": "Upgrade",
+    "downgrade": "Downgrade",
+    "cancel_subscription": "Cancel Subscription",
+    "renew_subscription": "Renew Subscription",
+    "billing_history": "Billing History",
+    "usage_statistics": "Usage Statistics",
+    "quota_remaining": "Quota Remaining",
+    "quota_used": "Quota Used",
+    "monthly_billing": "Monthly Billing",
+    "yearly_billing": "Yearly Billing",
+    "save_with_yearly": "Save 20% with yearly billing",
+    "payment_method": "Payment Method",
+    "update_payment": "Update Payment Method",
+    "next_billing_date": "Next Billing Date",
+    "subscription_active": "Subscription Active",
+    "subscription_expired": "Subscription Expired",
+    "subscription_cancelled": "Subscription Cancelled",
+    "auto_renewal": "Auto Renewal",
+    "manage_subscription": "Manage Subscription",
+    "contact_support": "Contact Support"
+  },
+  "profile": {
+    "title": "Profile",
+    "personal_info": "Personal Information",
+    "name": "Name",
+    "email": "E-mel",
+    "phone": "Phone",
+    "address": "Address",
+    "timezone": "Timezone",
+    "language": "Language",
+    "birth_info": "Birth Information",
+    "privacy_settings": "Privacy Settings",
+    "data_export": "Data Export",
+    "delete_account": "Delete Account",
+    "account_security": "Account Security",
+    "change_password": "Change Password",
+    "two_factor_auth": "Two-Factor Authentication",
+    "login_history": "Login History",
+    "profile_updated": "Profile updated",
+    "password_changed": "Password changed",
+    "account_deleted": "Account deleted",
+    "data_exported": "Data exported",
+    "confirm_delete_account": "Confirm delete account? This action cannot be undone.",
+    "display_name": "Display Name",
+    "gender": "Gender",
+    "birth_date": "Birth Date",
+    "birth_time": "Birth Time",
+    "birth_place": "Birth Place",
+    "calendar_type": "Calendar Type",
+    "gregorian": "Gregorian",
+    "lunar": "Lunar",
+    "contact_info": "Contact Information",
+    "optional": "Optional",
+    "required": "Required",
+    "save_profile": "Save Profile",
+    "saving": "Saving...",
+    "profile_saved": "Profile saved successfully",
+    "validation_error": "Validation Error",
+    "invalid_email": "Invalid email format",
+    "invalid_phone": "Invalid phone number format",
+    "name_required": "Name is required",
+    "email_required": "Email is required",
+    "date_required": "Date is required",
+    "time_required": "Time is required",
+    "address_required": "Address is required"
+  },
+  "forms": {
+    "validation": {
+      "required": "This field is required",
+      "email": "Please enter a valid email address",
+      "min_length": "At least {{count}} characters required",
+      "max_length": "Maximum {{count}} characters allowed",
+      "pattern": "Invalid format"
+    },
+    "placeholders": {
+      "display_name": "Enter your nickname",
+      "email": "your@email.com",
+      "phone": "+1 (555) 123-4567",
+      "birth_date": "Select birth date",
+      "birth_time": "Select birth time",
+      "address": "Enter birth place",
+      "search_address": "Search address..."
+    },
+    "tooltips": {
+      "display_name": "This is the name other users will see. You can change it anytime.",
+      "birth_date_lunar": "Lunar date, used for BaZi calculations",
+      "birth_date_gregorian": "Gregorian date, used for BaZi calculations",
+      "birth_time": "Accurate birth time helps with more precise BaZi analysis",
+      "birth_place": "Birth place is used for true solar time calculation, improving BaZi analysis accuracy",
+      "email": "Used for receiving important notifications and analysis reports",
+      "phone": "Used for receiving SMS notifications and verification",
+      "calendar_type": "Choose Gregorian or Lunar, affects BaZi calculation accuracy"
+    },
+    "calendar": {
+      "select_date": "Select Date",
+      "clear": "Clear",
+      "today": "Today",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "lunar_note": "In Lunar mode, the system automatically converts to Gregorian for BaZi calculations"
+    },
+    "time": {
+      "select_time": "Select Time",
+      "hour": "Hour",
+      "minute": "Minute",
+      "period": "Period",
+      "am": "AM",
+      "pm": "PM",
+      "common_times": "Common Times"
+    },
+    "address": {
+      "select_location": "Select Location",
+      "search_placeholder": "Enter address, supports autocomplete search",
+      "no_results": "No matching addresses found, please try other keywords",
+      "supported_formats": "Supports entering state, city, street, community names, etc.",
+      "current_location": "Current Location",
+      "manual_entry": "Manual Entry"
+    },
+    "map": {
+      "click_to_select": "Click on map to select location",
+      "drag_to_pan": "Drag map to move",
+      "zoom_in": "Zoom In",
+      "zoom_out": "Zoom Out",
+      "reset_view": "Reset View",
+      "locate_me": "Locate Me",
+      "selected_location": "Selected Location",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "accuracy": "Accuracy",
+      "address": "Address"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "appearance": "Appearance",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "advanced": "Advanced",
+    "theme": "Theme",
+    "light_theme": "Light Theme",
+    "dark_theme": "Dark Theme",
+    "auto_theme": "System Default",
+    "font_size": "Font Size",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "email_notifications": "Email Notifications",
+    "push_notifications": "Push Notifications",
+    "marketing_emails": "Marketing Emails",
+    "data_collection": "Data Collection",
+    "analytics": "Analytics",
+    "cookies": "Cookie Settings",
+    "cache_management": "Cache Management",
+    "clear_cache": "Clear Cache",
+    "export_settings": "Export Settings",
+    "import_settings": "Import Settings",
+    "reset_settings": "Reset Settings",
+    "settings_saved": "Settings saved",
+    "cache_cleared": "Cache cleared",
+    "settings_reset": "Settings reset"
+  },
+  "errors": {
+    "page_not_found": "Page Not Found",
+    "server_error": "Server Error",
+    "network_error": "Network Error",
+    "permission_denied": "Permission Denied",
+    "invalid_input": "Invalid Input",
+    "file_not_found": "File Not Found",
+    "upload_failed": "Upload Failed",
+    "processing_failed": "Processing Failed",
+    "calculation_error": "Calculation Error",
+    "database_error": "Database Error",
+    "authentication_failed": "Authentication Failed",
+    "session_expired": "Session Expired",
+    "quota_exceeded": "Quota Exceeded",
+    "feature_not_available": "Feature Not Available",
+    "maintenance_mode": "System Maintenance",
+    "try_again_later": "Please try again later",
+    "contact_support": "Please contact support",
+    "unknown_error": "Unknown Error"
+  },
+  "success": {
+    "operation_completed": "Operation Completed",
+    "data_saved": "Data Saved",
+    "file_uploaded": "File Uploaded",
+    "analysis_completed": "Analysis Completed",
+    "report_generated": "Report Generated",
+    "settings_updated": "Settings Updated",
+    "subscription_updated": "Subscription Updated",
+    "payment_successful": "Payment Successful",
+    "email_sent": "Email Sent",
+    "account_verified": "Account Verified",
+    "password_reset": "Password Reset",
+    "data_exported": "Data Exported",
+    "backup_created": "Backup Created",
+    "sync_completed": "Sync Completed"
+  },
+  "compass": {
+    "title": "Digital Compass",
+    "calibration": "Calibration",
+    "calibrating": "Menentukur...",
+    "start_measurement": "Start Measurement",
+    "stop_measurement": "Stop Measurement",
+    "current_direction": "Current Direction",
+    "accuracy": "Accuracy",
+    "confidence": "Confidence",
+    "status": "Status",
+    "stable": "Stable",
+    "unstable": "Unstable",
+    "calibration_step": "Calibration Step {step}/{total}",
+    "good_pattern": "Auspicious",
+    "bad_pattern": "Inauspicious",
+    "wenchang_desc": "Wisdom and academic fortune position",
+    "caiwei_desc": "Wealth and career development position",
+    "items": {
+      "desk_and_bookcase": "Desk, bookcase",
+      "stationery": "Stationery set",
+      "study_area": "Study/work area",
+      "safe_and_cashier": "Safe, cashier",
+      "money_plant": "Money plants",
+      "business_area": "Business meeting area"
+    },
+    "key_points": "Key Points",
+    "specific_recommendations": "Specific Recommendations",
+    "pattern_explanation_text": "Flying Star patterns are central to feng shui analysis. By examining the relationships among Period, Mountain, and Water stars, we can assess auspiciousness and influences on fortune, health, and wealth."
   }
 }

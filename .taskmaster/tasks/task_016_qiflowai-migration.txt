@@ -1,0 +1,16 @@
+# Task ID: 16
+# Title: 上线演练、回滚与验收
+# Status: pending
+# Dependencies: 10, 11, 15
+# Priority: high
+# Description: 预发演练、灰度、回滚脚本与完整验收清单。
+# Details:
+上线与验收
+- Feature flag/灰度策略；故障注入演练。
+- 回滚：自动/手动回滚脚本与数据回滚预案。
+- 验收：功能/性能/安全/合规联合验收。
+成功标准
+- 演练通过；具备 0 人工介入的快速回滚能力；无 P0。
+
+# Test Strategy:
+演练剧本执行记录与复盘；验收清单逐项签字。

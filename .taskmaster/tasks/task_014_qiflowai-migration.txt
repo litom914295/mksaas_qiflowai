@@ -1,0 +1,15 @@
+# Task ID: 14
+# Title: 支付流程联动与访问控制
+# Status: pending
+# Dependencies: 7, 8
+# Priority: high
+# Description: SKU（bazi/xuankong/pdfExport）配置、支付后权益下发与功能解锁、未付费限制。
+# Details:
+支付与权限
+- SKU 与计费口径映射；支付完成后写入权益并解锁功能。
+- 未付费路径：软/硬门槛与引导。
+成功标准
+- 订单-权益-功能闭环；异常订单有补偿机制。
+
+# Test Strategy:
+沙箱支付回放、异常订单补偿演练、功能访问控制回归。

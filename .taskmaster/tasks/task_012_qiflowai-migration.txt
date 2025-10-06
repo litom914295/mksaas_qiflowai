@@ -1,0 +1,15 @@
+# Task ID: 12
+# Title: 国际化（i18n）集成
+# Status: pending
+# Dependencies: 3
+# Priority: medium
+# Description: 与现有 i18n 系统一致，覆盖文案、日期/数值本地化与 locale 路由。
+# Details:
+i18n
+- 语言资源：按模块拆分；缺省回退与占位。
+- 路由与 SEO：多语言路由与元信息。
+成功标准
+- 主要语言覆盖率 100%；缺省回退正确；页面切换无错位。
+
+# Test Strategy:
+多语言 E2E（切换/刷新/直达 URL）、文案快照。

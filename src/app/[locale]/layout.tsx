@@ -8,6 +8,7 @@ import {
 import AffonsoScript from '@/components/affiliate/affonso';
 import PromotekitScript from '@/components/affiliate/promotekit';
 import { TailwindIndicator } from '@/components/layout/tailwind-indicator';
+import { WebVitals } from '@/components/qiflow/performance/WebVitals';
 import { routing } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
 import { type Locale, NextIntlClientProvider, hasLocale } from 'next-intl';
@@ -16,6 +17,9 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import { Providers } from './providers';
+import { ErrorBoundaryEnhanced } from '@/components/providers/error-boundary-enhanced';
+// 初始化环境变量验证（在服务器启动时执行）
+import '@/lib/env';
 
 import '@/styles/globals.css';
 
@@ -60,13 +64,16 @@ export default async function LocaleLayout({
       >
         <NuqsAdapter>
           <NextIntlClientProvider>
-            <Providers locale={locale}>
-              {children}
+            <ErrorBoundaryEnhanced>
+              <Providers locale={locale}>
+                {children}
 
-              <Toaster richColors position="top-right" offset={64} />
-              <TailwindIndicator />
-              <Analytics />
-            </Providers>
+                <Toaster richColors position="top-right" offset={64} />
+                <TailwindIndicator />
+                <WebVitals />
+                <Analytics />
+              </Providers>
+            </ErrorBoundaryEnhanced>
           </NextIntlClientProvider>
         </NuqsAdapter>
       </body>

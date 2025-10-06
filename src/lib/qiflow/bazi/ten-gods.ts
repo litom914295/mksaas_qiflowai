@@ -1,23 +1,23 @@
 /**
  * QiFlow AI - 十神系统 (Ten Gods System)
- *
+ * 
  * 八字命理中的十神系统，用于分析命格特征、性格倾向、运势变化等
  * 十神：比肩、劫财、食神、伤官、偏财、正财、七杀、正官、偏印、正印
  */
 
 import type { Branch, FiveElement, Pillars, Stem } from './types';
 
-export type TenGod =
-  | '比肩' // 劫财 (Rob Wealth) - 与日干同阴阳的同五行
-  | '劫财' // 比肩 (Equal)      - 与日干异阴阳的同五行
-  | '食神' // 食神 (Food God)   - 日干生且同阴阳
-  | '伤官' // 伤官 (Hurting Officer) - 日干生且异阴阳
-  | '偏财' // 偏财 (Indirect Wealth) - 日干克且同阴阳
-  | '正财' // 正财 (Direct Wealth)   - 日干克且异阴阳
-  | '七杀' // 七杀 (Seven Killings)  - 克日干且同阴阳
-  | '正官' // 正官 (Direct Officer)   - 克日干且异阴阳
-  | '偏印' // 偏印 (Indirect Seal)   - 生日干且同阴阳
-  | '正印'; // 正印 (Direct Seal)     - 生日干且异阴阳
+export type TenGod = 
+  | '比肩'   // 劫财 (Rob Wealth) - 与日干同阴阳的同五行
+  | '劫财'   // 比肩 (Equal)      - 与日干异阴阳的同五行
+  | '食神'   // 食神 (Food God)   - 日干生且同阴阳
+  | '伤官'   // 伤官 (Hurting Officer) - 日干生且异阴阳
+  | '偏财'   // 偏财 (Indirect Wealth) - 日干克且同阴阳  
+  | '正财'   // 正财 (Direct Wealth)   - 日干克且异阴阳
+  | '七杀'   // 七杀 (Seven Killings)  - 克日干且同阴阳
+  | '正官'   // 正官 (Direct Officer)   - 克日干且异阴阳
+  | '偏印'   // 偏印 (Indirect Seal)   - 生日干且同阴阳
+  | '正印';  // 正印 (Direct Seal)     - 生日干且异阴阳
 
 export interface TenGodRelationship {
   god: TenGod;
@@ -63,58 +63,39 @@ export interface TenGodAnalysis {
  * 十神计算器
  */
 export class TenGodsCalculator {
+  
   /**
    * 天干阴阳属性映射
    */
   private readonly stemPolarity: Record<Stem, 'yang' | 'yin'> = {
-    甲: 'yang',
-    乙: 'yin', // 木
-    丙: 'yang',
-    丁: 'yin', // 火
-    戊: 'yang',
-    己: 'yin', // 土
-    庚: 'yang',
-    辛: 'yin', // 金
-    壬: 'yang',
-    癸: 'yin', // 水
+    '甲': 'yang', '乙': 'yin',   // 木
+    '丙': 'yang', '丁': 'yin',   // 火
+    '戊': 'yang', '己': 'yin',   // 土
+    '庚': 'yang', '辛': 'yin',   // 金
+    '壬': 'yang', '癸': 'yin'    // 水
   };
 
   /**
    * 天干五行属性映射
    */
   private readonly stemElement: Record<Stem, FiveElement> = {
-    甲: '木',
-    乙: '木',
-    丙: '火',
-    丁: '火',
-    戊: '土',
-    己: '土',
-    庚: '金',
-    辛: '金',
-    壬: '水',
-    癸: '水',
+    '甲': '木', '乙': '木',
+    '丙': '火', '丁': '火', 
+    '戊': '土', '己': '土',
+    '庚': '金', '辛': '金',
+    '壬': '水', '癸': '水'
   };
 
   /**
    * 五行相生相克关系
    */
   private readonly elementRelations = {
-    generate: {
-      // 相生
-      木: '火',
-      火: '土',
-      土: '金',
-      金: '水',
-      水: '木',
+    generate: { // 相生
+      '木': '火', '火': '土', '土': '金', '金': '水', '水': '木'
     },
-    control: {
-      // 相克
-      木: '土',
-      火: '金',
-      土: '水',
-      金: '木',
-      水: '火',
-    },
+    control: { // 相克
+      '木': '土', '火': '金', '土': '水', '金': '木', '水': '火'
+    }
   };
 
   /**
@@ -126,22 +107,18 @@ export class TenGodsCalculator {
 
     // 分析年柱、月柱、时柱的天干与日干的关系
     const pillarNames = ['year', 'month', 'hour'] as const;
-
+    
     for (const pillarName of pillarNames) {
       const pillar = pillars[pillarName];
       const god = this.calculateTenGod(dayMaster, pillar.stem);
-      const strength = this.calculateInfluenceStrength(
-        pillarName,
-        pillar.stem,
-        pillars
-      );
-
+      const strength = this.calculateInfluenceStrength(pillarName, pillar.stem, pillars);
+      
       relationships.push({
         god,
         stem: pillar.stem,
         pillar: pillarName,
         strength,
-        influence: this.getInfluenceLevel(strength),
+        influence: this.getInfluenceLevel(strength)
       });
     }
 
@@ -154,7 +131,7 @@ export class TenGodsCalculator {
         stem: hidden.stem,
         pillar: hidden.pillar,
         strength: hidden.strength * 0.6, // 藏干影响力打折
-        influence: this.getInfluenceLevel(hidden.strength * 0.6),
+        influence: this.getInfluenceLevel(hidden.strength * 0.6)
       });
     }
 
@@ -169,7 +146,7 @@ export class TenGodsCalculator {
       career: this.analyzeCareer(relationships, dominantGods),
       relationships: this.analyzeRelationships(relationships, dominantGods),
       health: this.analyzeHealth(relationships, dominantGods),
-      wealth: this.analyzeWealth(relationships, dominantGods),
+      wealth: this.analyzeWealth(relationships, dominantGods)
     };
   }
 
@@ -263,18 +240,18 @@ export class TenGodsCalculator {
   }> {
     // 简化的地支藏干映射
     const hiddenStemsMap: Record<Branch, { main: Stem; others?: Stem[] }> = {
-      子: { main: '癸' },
-      丑: { main: '己', others: ['癸', '辛'] },
-      寅: { main: '甲', others: ['丙', '戊'] },
-      卯: { main: '乙' },
-      辰: { main: '戊', others: ['乙', '癸'] },
-      巳: { main: '丙', others: ['庚', '戊'] },
-      午: { main: '丁', others: ['己'] },
-      未: { main: '己', others: ['丁', '乙'] },
-      申: { main: '庚', others: ['壬', '戊'] },
-      酉: { main: '辛' },
-      戌: { main: '戊', others: ['辛', '丁'] },
-      亥: { main: '壬', others: ['甲'] },
+      '子': { main: '癸' },
+      '丑': { main: '己', others: ['癸', '辛'] },
+      '寅': { main: '甲', others: ['丙', '戊'] },
+      '卯': { main: '乙' },
+      '辰': { main: '戊', others: ['乙', '癸'] },
+      '巳': { main: '丙', others: ['庚', '戊'] },
+      '午': { main: '丁', others: ['己'] },
+      '未': { main: '己', others: ['丁', '乙'] },
+      '申': { main: '庚', others: ['壬', '戊'] },
+      '酉': { main: '辛' },
+      '戌': { main: '戊', others: ['辛', '丁'] },
+      '亥': { main: '壬', others: ['甲'] }
     };
 
     const result: Array<{
@@ -284,26 +261,26 @@ export class TenGodsCalculator {
     }> = [];
 
     const pillarNames = ['year', 'month', 'day', 'hour'] as const;
-
+    
     for (const pillarName of pillarNames) {
       const branch = pillars[pillarName].branch;
       const hiddenInfo = hiddenStemsMap[branch];
-
+      
       if (hiddenInfo) {
         // 主气
         result.push({
           stem: hiddenInfo.main,
           pillar: pillarName,
-          strength: 70,
+          strength: 70
         });
 
         // 余气（如果存在）
         if (hiddenInfo.others) {
-          hiddenInfo.others.forEach((stem) => {
+          hiddenInfo.others.forEach(stem => {
             result.push({
               stem,
               pillar: pillarName,
-              strength: 30,
+              strength: 30
             });
           });
         }
@@ -318,18 +295,10 @@ export class TenGodsCalculator {
    */
   private branchSupportsElement(branch: Branch, element: FiveElement): boolean {
     const branchElements: Record<Branch, FiveElement[]> = {
-      子: ['水'],
-      丑: ['土', '金', '水'],
-      寅: ['木', '火', '土'],
-      卯: ['木'],
-      辰: ['土', '木', '水'],
-      巳: ['火', '金', '土'],
-      午: ['火', '土'],
-      未: ['土', '火', '木'],
-      申: ['金', '水', '土'],
-      酉: ['金'],
-      戌: ['土', '金', '火'],
-      亥: ['水', '木'],
+      '子': ['水'], '丑': ['土', '金', '水'], '寅': ['木', '火', '土'],
+      '卯': ['木'], '辰': ['土', '木', '水'], '巳': ['火', '金', '土'],
+      '午': ['火', '土'], '未': ['土', '火', '木'], '申': ['金', '水', '土'],
+      '酉': ['金'], '戌': ['土', '金', '火'], '亥': ['水', '木']
     };
 
     return branchElements[branch]?.includes(element) || false;
@@ -339,10 +308,9 @@ export class TenGodsCalculator {
    * 找出主导十神
    */
   private findDominantGods(relationships: TenGodRelationship[]): TenGod[] {
-    const godCounts: Record<TenGod, { count: number; totalStrength: number }> =
-      {} as any;
+    const godCounts: Record<TenGod, { count: number; totalStrength: number }> = {} as any;
 
-    relationships.forEach((rel) => {
+    relationships.forEach(rel => {
       if (!godCounts[rel.god]) {
         godCounts[rel.god] = { count: 0, totalStrength: 0 };
       }
@@ -354,20 +322,17 @@ export class TenGodsCalculator {
     const sorted = Object.entries(godCounts)
       .map(([god, data]) => ({
         god: god as TenGod,
-        influence: data.count * 10 + data.totalStrength / data.count,
+        influence: data.count * 10 + data.totalStrength / data.count
       }))
       .sort((a, b) => b.influence - a.influence);
 
-    return sorted.slice(0, 3).map((item) => item.god);
+    return sorted.slice(0, 3).map(item => item.god);
   }
 
   /**
    * 分析性格特征
    */
-  private analyzePersonality(
-    relationships: TenGodRelationship[],
-    dominantGods: TenGod[]
-  ) {
+  private analyzePersonality(relationships: TenGodRelationship[], dominantGods: TenGod[]) {
     const strengths: string[] = [];
     const weaknesses: string[] = [];
     const talents: string[] = [];
@@ -451,17 +416,14 @@ export class TenGodsCalculator {
       strengths: [...new Set(strengths)],
       weaknesses: [...new Set(weaknesses)],
       talents: [...new Set(talents)],
-      challenges: [...new Set(challenges)],
+      challenges: [...new Set(challenges)]
     };
   }
 
   /**
    * 分析职业倾向
    */
-  private analyzeCareer(
-    relationships: TenGodRelationship[],
-    dominantGods: TenGod[]
-  ) {
+  private analyzeCareer(relationships: TenGodRelationship[], dominantGods: TenGod[]) {
     const suitable: string[] = [];
     const unsuitable: string[] = [];
     const advice: string[] = [];
@@ -508,30 +470,27 @@ export class TenGodsCalculator {
     return {
       suitable: [...new Set(suitable)],
       unsuitable: [...new Set(unsuitable)],
-      advice: [...new Set(advice)],
+      advice: [...new Set(advice)]
     };
   }
 
   /**
    * 分析人际关系
    */
-  private analyzeRelationships(
-    relationships: TenGodRelationship[],
-    dominantGods: TenGod[]
-  ) {
+  private analyzeRelationships(relationships: TenGodRelationship[], dominantGods: TenGod[]) {
     const marriage: string[] = [];
     const friendship: string[] = [];
     const family: string[] = [];
 
     // 查找具体的十神关系
-    const hasStrongWealth = relationships.some(
-      (r) => (r.god === '正财' || r.god === '偏财') && r.influence === 'strong'
+    const hasStrongWealth = relationships.some(r => 
+      (r.god === '正财' || r.god === '偏财') && r.influence === 'strong'
     );
-    const hasStrongOfficer = relationships.some(
-      (r) => (r.god === '正官' || r.god === '七杀') && r.influence === 'strong'
+    const hasStrongOfficer = relationships.some(r => 
+      (r.god === '正官' || r.god === '七杀') && r.influence === 'strong'
     );
-    const hasStrongSeal = relationships.some(
-      (r) => (r.god === '正印' || r.god === '偏印') && r.influence === 'strong'
+    const hasStrongSeal = relationships.some(r => 
+      (r.god === '正印' || r.god === '偏印') && r.influence === 'strong'
     );
 
     // 婚姻分析
@@ -566,10 +525,7 @@ export class TenGodsCalculator {
   /**
    * 分析健康状况
    */
-  private analyzeHealth(
-    relationships: TenGodRelationship[],
-    dominantGods: TenGod[]
-  ) {
+  private analyzeHealth(relationships: TenGodRelationship[], dominantGods: TenGod[]) {
     const strongAspects: string[] = [];
     const weakAspects: string[] = [];
     const advice: string[] = [];
@@ -605,27 +561,24 @@ export class TenGodsCalculator {
     return {
       strongAspects: [...new Set(strongAspects)],
       weakAspects: [...new Set(weakAspects)],
-      advice: [...new Set(advice)],
+      advice: [...new Set(advice)]
     };
   }
 
   /**
    * 分析财富运势
    */
-  private analyzeWealth(
-    relationships: TenGodRelationship[],
-    dominantGods: TenGod[]
-  ) {
+  private analyzeWealth(relationships: TenGodRelationship[], dominantGods: TenGod[]) {
     let potential: 'high' | 'medium' | 'low' = 'medium';
     const sources: string[] = [];
     const advice: string[] = [];
 
     // 检查财星强弱
-    const wealthGods = relationships.filter(
-      (r) => r.god === '正财' || r.god === '偏财'
+    const wealthGods = relationships.filter(r => 
+      r.god === '正财' || r.god === '偏财'
     );
-    const strongWealth = wealthGods.some((r) => r.influence === 'strong');
-    const weakWealth = wealthGods.every((r) => r.influence === 'weak');
+    const strongWealth = wealthGods.some(r => r.influence === 'strong');
+    const weakWealth = wealthGods.every(r => r.influence === 'weak');
 
     if (strongWealth) {
       potential = 'high';
@@ -665,7 +618,7 @@ export class TenGodsCalculator {
     return {
       potential,
       sources: [...new Set(sources)],
-      advice: [...new Set(advice)],
+      advice: [...new Set(advice)]
     };
   }
 }

@@ -1,4 +1,4 @@
-import CrispChat from '@/components/layout/crisp-chat';
+import { Suspense } from 'react';
 import { AbPersist } from '@/components/qiflow/ab/AbPersist';
 import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification';
 import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar';
@@ -8,7 +8,6 @@ import { FeatureGrid } from '@/components/qiflow/homepage/FeatureGrid';
 import { FourStates } from '@/components/qiflow/homepage/FourStates';
 import { Hero } from '@/components/qiflow/homepage/Hero';
 import { HowItWorks } from '@/components/qiflow/homepage/HowItWorks';
-import { InteractiveCompassTeaser } from '@/components/qiflow/homepage/InteractiveCompassTeaser';
 import { Testimonials } from '@/components/qiflow/homepage/Testimonials';
 import { TrustBar } from '@/components/qiflow/homepage/TrustBar';
 import { constructMetadata } from '@/lib/metadata';
@@ -17,6 +16,7 @@ import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { cookies } from 'next/headers';
+import { CrispChat, InteractiveCompassTeaser } from './ClientComponents';
 
 /**
  * https://next-intl.dev/docs/environments/actions-metadata-route-handlers#metadata-api
@@ -89,13 +89,19 @@ export default async function HomePage(props: HomePageProps) {
         <HowItWorks variant={variant} />
         <Testimonials variant={variant} />
         <FAQ variant={variant} />
-        <InteractiveCompassTeaser
-          title={t('teaser.title')}
-          clockwise={t('teaser.clockwise')}
-          counterClockwise={t('teaser.counterClockwise')}
-          currentDegreeLabel={t('teaser.currentDegreeLabel')}
-          variant={variant}
-        />
+        <Suspense
+          fallback={
+            <div className="mx-auto my-8 h-40 w-full max-w-3xl animate-pulse rounded-xl bg-muted" />
+          }
+        >
+          <InteractiveCompassTeaser
+            title={t('teaser.title')}
+            clockwise={t('teaser.clockwise')}
+            counterClockwise={t('teaser.counterClockwise')}
+            currentDegreeLabel={t('teaser.currentDegreeLabel')}
+            variant={variant}
+          />
+        </Suspense>
         {/* 可按开关展示四态：<FourStates state="limited" variant={variant} /> */}
         <CTASection variant={variant} />
         <AbPersist variant={variant} persist={shouldPersist} />

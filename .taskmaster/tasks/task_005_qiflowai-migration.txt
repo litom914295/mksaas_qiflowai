@@ -1,0 +1,84 @@
+# Task ID: 5
+# Title: 玄空风水表单迁移与适配
+# Status: pending
+# Dependencies: 1, 2, 3
+# Priority: high
+# Description: 迁移并适配玄空风水输入与提交流转，覆盖坐向/入伙日期/户型等字段与验证。
+# Details:
+表单与验证
+- 字段：坐向度数/卦象、入伙日期、户型面积、楼层、（可选）平面图上传。
+- 校验：范围/枚举/组合校验；文件类型/大小限制；i18n 文案覆盖。
+- 提交：Server Action/API；错误与限流态；上传进度反馈（如有）。
+成功标准
+- 端到端流程稳定；结果展示正确并与输入约束一致。
+
+# Test Strategy:
+单元/集成/E2E 与文件上传分支覆盖（如启用）。
+
+# Subtasks:
+## 1. 路由与页面占位（/fengshui） [pending]
+### Dependencies: 5.2, 5.3
+### Description: 创建 RSC 页面与布局；边界页接入。
+### Details:
+/fengshui 入口；layout.tsx 复用；地图/上传占位。
+
+## 2. 表单字段与 Zod Schema 草案 [pending]
+### Dependencies: 5.3
+### Description: 定义坐向/卦象/入伙日期/户型/楼层/上传等字段与校验。
+### Details:
+度数范围与枚举映射；文件类型与大小限制；i18n 错误文案。
+
+## 3. UI 组件映射与文件上传 [pending]
+### Dependencies: 5.3
+### Description: 组合选择器、数值输入、文件上传与进度反馈。
+### Details:
+Radix 组件 + 上传进度条；移动端交互优化。
+
+## 4. 提交与 Server Action [pending]
+### Dependencies: 5.2, 5.3
+### Description: 处理上传/参数与结果引用 ID 返回。
+### Details:
+异常与超时处理；文件安全检查。
+
+## 5. 四态实现（Empty/Error/Limited/Timeout） [pending]
+### Dependencies: 5.3
+### Description: 表单与结果页态。
+### Details:
+上传场景限流与重试提示。
+
+## 6. 营销事件与活动追踪 [pending]
+### Dependencies: 5.13
+### Description: 开始/提交/成功/失败/查看/导出等。
+### Details:
+统一事件 Hook 与渠道参数。
+
+## 7. i18n 资源与本地化 [pending]
+### Dependencies: 5.12
+### Description: 文案键、错误消息与单位本地化。
+### Details:
+多语言路由/元信息覆盖。
+
+## 8. 访问控制与付费引导 [pending]
+### Dependencies: 5.14
+### Description: SKU xuankong 权益判断与引导。
+### Details:
+未付费门槛；跳转支付。
+
+## 9. 单元测试（校验/纯函数） [pending]
+### Dependencies: 5.15
+### Description: 覆盖度数/文件校验与异常分支。
+### Details:
+快照固定错误文案。
+
+## 10. 集成测试（表单→Server Action） [pending]
+### Dependencies: 5.15
+### Description: 覆盖提交与上传链路。
+### Details:
+mock AI/存储；重试与超时分支。
+
+## 11. E2E（主要路径与四态） [pending]
+### Dependencies: 5.15
+### Description: 端到端验证登录→填写→上传→提交→结果。
+### Details:
+移动端与桌面断言。
+

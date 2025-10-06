@@ -5,15 +5,15 @@
  */
 
 import {
-  baziCache,
-  checkBaziSystemHealth,
-  computeBaziSmart,
-  configureBaziSystem,
-  createEnhancedBaziCalculator,
-  createTimezoneAwareDate,
-  getBaziAdapter,
-  getRecommendedTimezone,
-  performanceMonitor,
+    baziCache,
+    checkBaziSystemHealth,
+    computeBaziSmart,
+    configureBaziSystem,
+    createEnhancedBaziCalculator,
+    createTimezoneAwareDate,
+    getBaziAdapter,
+    getRecommendedTimezone,
+    performanceMonitor,
 } from './index';
 
 /**
@@ -135,10 +135,7 @@ export async function timezoneHandlingExample() {
       });
 
       if (result) {
-        console.log(
-          `${timezone}:`,
-          `${result.pillars.year?.stem}${result.pillars.year?.branch}`
-        );
+        console.log(`${timezone}:`, `${result.pillars.year?.stem}${result.pillars.year?.branch}`);
       }
     } catch (error) {
       console.error(`${timezone} 计算失败:`, error);
@@ -175,9 +172,7 @@ export async function performanceAndCacheExample() {
     const result = await computeBaziSmart(birthData);
 
     if (result) {
-      console.log(
-        `  结果: ${result.pillars.day?.stem}${result.pillars.day?.branch}`
-      );
+      console.log(`  结果: ${result.pillars.day?.stem}${result.pillars.day?.branch}`);
     }
   }
 
@@ -397,7 +392,7 @@ export async function batchProcessingExample() {
 
     const startTime = Date.now();
     const results = await Promise.allSettled(
-      birthDataList.map((data) => computeBaziSmart(data))
+      birthDataList.map(data => computeBaziSmart(data))
     );
     const endTime = Date.now();
 

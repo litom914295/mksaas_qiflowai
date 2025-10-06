@@ -1,0 +1,16 @@
+# Task ID: 6
+# Title: 前端业务逻辑重构（RSC 优先）
+# Status: pending
+# Dependencies: 2, 3
+# Priority: high
+# Description: 拆分 Server/Client，纯计算上收服务端；客户端仅保留交互；URL 状态用 nuqs。
+# Details:
+重构要点
+- 纯计算与数据整形移入 server utils 或 Server Actions。
+- 客户端组件瘦身；减少 hydration 风险与体积。
+- 营销事件：统一事件总线 Hook 接入。
+成功标准
+- 首屏 JS 体积下降（相较原模块）；无 hydration 警告；交互无回归。
+
+# Test Strategy:
+Bundle 体积分析、交互回归脚本与关键路径手测。

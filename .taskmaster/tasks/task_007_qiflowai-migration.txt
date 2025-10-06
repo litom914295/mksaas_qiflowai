@@ -1,0 +1,48 @@
+# Task ID: 7
+# Title: 后端 API 接口与服务编排
+# Status: pending
+# Dependencies: 1, 2, 3
+# Priority: high
+# Description: 对接 mksaas API 路由/Server Actions，明确合约、缓存与错误语义。
+# Details:
+接口与缓存
+- 合约：Zod 校验请求/响应；错误码与错误文案定义。
+- 缓存：Next 扩展 fetch 的 revalidate/tags 策略；避免重复计算。
+- 结果：AI 结果入库/回显与溯源 ID。
+成功标准
+- API 合约冻结；负载与延时在目标阈值内；重复调用命中缓存。
+
+# Test Strategy:
+合约测试（请求/响应/错误）；负载与并发基准；缓存命中率观察。
+
+# Subtasks:
+## 1. 接口合约与错误码冻结 [pending]
+### Dependencies: 7.1
+### Description: 明确 /api/bazi/evaluate 与 /api/fengshui/evaluate（或对应 Server Action）的请求/响应与错误码。
+### Details:
+请求/响应 Zod；错误码：E_BAD_INPUT、E_RATE_LIMIT、E_TIMEOUT、E_NO_ENTITLEMENT、E_INTERNAL。
+
+## 2. Zod 校验中间层与错误归一化 [pending]
+### Dependencies: 7.1
+### Description: 统一请求/响应校验与错误归一化输出；服务端与边界页一致。
+### Details:
+Zod 解析中间层；错误 mapping→文案键；日志字段标准化。
+
+## 3. AI 调用封装与超时/重试 [pending]
+### Dependencies: 7.1
+### Description: 封装 AI 提供方调用；注入超时/重试/熔断；返回成本与 token 计数。
+### Details:
+支持多模型/版本配置；统一返回体与日志；可插拔成本计算。
+
+## 4. 结果持久化与溯源 ID [pending]
+### Dependencies: 7.1
+### Description: 保存结果快照与上下文；生成 resultId；查询接口用于结果页回显。
+### Details:
+模型响应与输入参数脱敏入库；resultId 与用户关联；TTL 与删除策略。
+
+## 5. 缓存与标签策略 [pending]
+### Dependencies: 7.1
+### Description: 使用扩展 fetch 的 revalidate 与 tags；控制重复计算；定义失效策略。
+### Details:
+tags=['bazi'|'fengshui', userId, hash(params)]；命中直接返回；对齐性能目标。
+

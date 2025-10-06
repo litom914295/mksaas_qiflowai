@@ -1,202 +1,221 @@
 /**
- * 风水罗盘相关类型定义
+ * 风水罗盘类型定义
+ * 
+ * 基于FengShuiCompass项目移植，适配React + TypeScript + Konva.js
+ * 提供完整的风水罗盘类型系统
  */
 
-/**
- * 传感器数据
- */
+// 基础类型定义
+export interface Point {
+  x: number;
+  y: number;
+}
+
+export interface CompassConfig {
+  radius: number;
+  centralPoint: Point;
+  defaultFontSize: number;
+  layerPadding: number;
+  borderWidth: number;
+  borderColor: string;
+  tianChiRadius: number;
+  scaleHeight: number;
+}
+
+// 刻度样式配置
+export interface ScaleStyle {
+  minLineHeight: number;
+  midLineHeight: number;
+  maxLineHeight: number;
+  numberFontSize: number;
+}
+
+// 层数据样式类型
+export type TogetherStyle = 'empty' | 'equally' | 'son';
+
+// 单层数据结构
+export interface LayerData {
+  name: string | string[];
+  startAngle: number;
+  fontSize?: number;
+  textColor: string | string[];
+  vertical?: boolean;
+  togetherStyle?: TogetherStyle;
+  data: string[] | string[][];
+}
+
+// 罗盘主题配置
+export interface CompassTheme {
+  name: string;
+  backgroundColor: string;
+  borderColor: string;
+  textColor: string;
+  scaleColor: string;
+  tianxinCrossColor: string;
+  layerColors: readonly string[];
+}
+
+// 天心十字配置
+export interface TianxinCrossConfig {
+  show: boolean;
+  color: string;
+  lineWidth: number;
+}
+
+// 传感器数据
 export interface SensorData {
-  magneticHeading: number; // 磁北方向角度 (0-360)
-  trueHeading?: number; // 真北方向角度 (0-360)
-  accuracy: number; // 精度 (度)
-  timestamp: number; // 时间戳
-  calibration?: CalibrationStatus;
-}
-
-/**
- * 校准状态
- */
-export interface CalibrationStatus {
-  isCalibrated: boolean;
-  level: 'low' | 'medium' | 'high';
-  message?: string;
-}
-
-/**
- * 罗盘事件
- */
-export interface CompassEvent {
-  type: 'heading' | 'calibration' | 'error' | 'permission';
-  data?: SensorData | CalibrationStatus | Error | PermissionState;
+  direction: number;
+  accuracy: number;
   timestamp: number;
+  source: 'device' | 'manual' | 'gps';
 }
 
-/**
- * AI 分析结果
- */
+// 设备方向事件扩展
+export interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
+  webkitCompassAccuracy?: number;
+  webkitCompassHeading?: number;
+}
+
+// 权限状态
+export type PermissionState = 'granted' | 'denied' | 'prompt' | 'unsupported';
+
+// AI分析结果 - 兼容现有组件的完整接口
 export interface AIAnalysisResult {
-  direction: number; // 方向角度
-  element: string; // 五行元素
-  trigram: string; // 八卦
-  mountain: string; // 二十四山
-  favorable: boolean; // 是否吉利
-  interpretation: string; // 解释说明
-  suggestions: string[]; // 建议事项
-  confidence: number; // 置信度 (0-1)
+  // 原有属性
+  direction: number;
+  mountain: string;
+  bagua: string;
+  confidence: number;
+  analysis: string;
+  suggestions: string[];
+  timestamp: number;
+  // 新增属性，兼容现有组件
+  score: number;
+  recommendations: string[];
+  summary?: string;
+  areas?: any[];
 }
 
-/**
- * 风水罗盘属性
- */
+// 罗盘事件类型
+export type CompassEventType = 
+  | 'direction_change'
+  | 'calibration_start'
+  | 'calibration_complete'
+  | 'sensor_error'
+  | 'ai_analysis_complete'
+  | 'layer_click'
+  | 'scale_click';
+
+export interface CompassEvent {
+  type: CompassEventType;
+  timestamp: number;
+  data?: any;
+}
+
+// 罗盘组件属性
 export interface FengShuiCompassProps {
-  className?: string;
-  onHeadingChange?: (heading: number) => void;
-  onAnalysis?: (result: AIAnalysisResult) => void;
-  onError?: (error: Error) => void;
-  theme?: 'traditional' | 'modern' | 'dark';
-  showGrid?: boolean;
-  showRings?: boolean;
-  showMountains?: boolean;
-  showBagua?: boolean;
-  autoCalibrate?: boolean;
-  language?: 'zh' | 'en';
+  width: number;
+  height: number;
+  theme?: keyof typeof COMPASS_THEMES;
+  showTianxinCross?: boolean;
+  showScale?: boolean;
+  enableSensor?: boolean;
+  enableAI?: boolean;
+  customData?: LayerData[];
+  onEvent?: (event: CompassEvent) => void;
+  onDirectionChange?: (direction: number, accuracy: number) => void;
+  onAnalysisResult?: (result: AIAnalysisResult) => void;
 }
 
-/**
- * 二十四山数据
- */
-export const TWENTY_FOUR_MOUNTAINS = [
-  { name: '壬', angle: 337.5, element: '水' },
-  { name: '子', angle: 352.5, element: '水' },
-  { name: '癸', angle: 7.5, element: '水' },
-  { name: '丑', angle: 22.5, element: '土' },
-  { name: '艮', angle: 37.5, element: '土' },
-  { name: '寅', angle: 52.5, element: '木' },
-  { name: '甲', angle: 67.5, element: '木' },
-  { name: '卯', angle: 82.5, element: '木' },
-  { name: '乙', angle: 97.5, element: '木' },
-  { name: '辰', angle: 112.5, element: '土' },
-  { name: '巽', angle: 127.5, element: '木' },
-  { name: '巳', angle: 142.5, element: '火' },
-  { name: '丙', angle: 157.5, element: '火' },
-  { name: '午', angle: 172.5, element: '火' },
-  { name: '丁', angle: 187.5, element: '火' },
-  { name: '未', angle: 202.5, element: '土' },
-  { name: '坤', angle: 217.5, element: '土' },
-  { name: '申', angle: 232.5, element: '金' },
-  { name: '庚', angle: 247.5, element: '金' },
-  { name: '酉', angle: 262.5, element: '金' },
-  { name: '辛', angle: 277.5, element: '金' },
-  { name: '戌', angle: 292.5, element: '土' },
-  { name: '乾', angle: 307.5, element: '金' },
-  { name: '亥', angle: 322.5, element: '水' },
-] as const;
+// 罗盘渲染器配置
+export interface RendererConfig {
+  canvas: HTMLCanvasElement;
+  width: number;
+  height: number;
+  pixelRatio: number;
+}
 
-/**
- * 八卦数据
- */
-export const EIGHT_TRIGRAMS = [
-  { name: '坎', angle: 0, element: '水', symbol: '☵' },
-  { name: '艮', angle: 45, element: '土', symbol: '☶' },
-  { name: '震', angle: 90, element: '木', symbol: '☳' },
-  { name: '巽', angle: 135, element: '木', symbol: '☴' },
-  { name: '离', angle: 180, element: '火', symbol: '☲' },
-  { name: '坤', angle: 225, element: '土', symbol: '☷' },
-  { name: '兑', angle: 270, element: '金', symbol: '☱' },
-  { name: '乾', angle: 315, element: '金', symbol: '☰' },
-] as const;
+// 填充配置
+export interface LayerFill {
+  layerIndex: number;
+  color: string;
+}
 
-/**
- * 山的类型
- */
-export type Mountain = (typeof TWENTY_FOUR_MOUNTAINS)[number];
+export interface LatticeFill {
+  latticeIndex: number;
+  layerIndex: number;
+  color: string;
+}
 
-/**
- * 获取方向对应的二十四山
- */
-export function getMountainByAngle(angle: number): Mountain {
-  // 规范化角度到 0-360
-  const normalizedAngle = ((angle % 360) + 360) % 360;
-
-  // 每个山占 15 度
-  const mountainWidth = 15;
-
-  // 找到最接近的山
-  let closestMountain: Mountain = TWENTY_FOUR_MOUNTAINS[0];
-  let minDiff = 360;
-
-  for (const mountain of TWENTY_FOUR_MOUNTAINS) {
-    // 计算角度差
-    let diff = Math.abs(mountain.angle - normalizedAngle);
-    if (diff > 180) diff = 360 - diff;
-
-    if (diff < minDiff) {
-      minDiff = diff;
-      closestMountain = mountain;
-    }
+// 预定义主题
+export const COMPASS_THEMES = {
+  classic: {
+    name: '经典',
+    backgroundColor: '#1a1a1a',
+    borderColor: '#00ffff',
+    textColor: '#ffffff',
+    scaleColor: '#ff0000',
+    tianxinCrossColor: '#ff0000',
+    layerColors: ['#2a2a2a', '#3a3a3a', '#4a4a4a']
+  },
+  modern: {
+    name: '现代',
+    backgroundColor: '#0f172a',
+    borderColor: '#3b82f6',
+    textColor: '#f1f5f9',
+    scaleColor: '#ef4444',
+    tianxinCrossColor: '#ef4444',
+    layerColors: ['#1e293b', '#334155', '#475569']
+  },
+  traditional: {
+    name: '传统',
+    backgroundColor: '#7c2d12',
+    borderColor: '#fbbf24',
+    textColor: '#fef3c7',
+    scaleColor: '#dc2626',
+    tianxinCrossColor: '#dc2626',
+    layerColors: ['#92400e', '#a16207', '#ca8a04']
+  },
+  elegant: {
+    name: '优雅紫韵',
+    backgroundColor: '#1e1b4b',
+    borderColor: '#8b5cf6',
+    textColor: '#e0e7ff',
+    scaleColor: '#f59e0b',
+    tianxinCrossColor: '#f59e0b',
+    layerColors: ['#312e81', '#3730a3', '#4338ca']
+  },
+  nature: {
+    name: '自然翠绿',
+    backgroundColor: '#064e3b',
+    borderColor: '#10b981',
+    textColor: '#ecfdf5',
+    scaleColor: '#f59e0b',
+    tianxinCrossColor: '#f59e0b',
+    layerColors: ['#065f46', '#047857', '#059669']
+  },
+  golden: {
+    name: '金辉典雅',
+    backgroundColor: '#7c2d12',
+    borderColor: '#fbbf24',
+    textColor: '#fef3c7',
+    scaleColor: '#dc2626',
+    tianxinCrossColor: '#dc2626',
+    layerColors: ['#92400e', '#a16207', '#ca8a04']
+  },
+  ocean: {
+    name: '深海蓝韵',
+    backgroundColor: '#0c4a6e',
+    borderColor: '#0ea5e9',
+    textColor: '#e0f2fe',
+    scaleColor: '#f97316',
+    tianxinCrossColor: '#f97316',
+    layerColors: ['#075985', '#0369a1', '#0284c7']
   }
+} as const;
 
-  return closestMountain;
-}
-
-/**
- * 卦的类型
- */
-export type Trigram = (typeof EIGHT_TRIGRAMS)[number];
-
-/**
- * 获取方向对应的八卦
- */
-export function getTrigramByAngle(angle: number): Trigram {
-  // 规范化角度到 0-360
-  const normalizedAngle = ((angle % 360) + 360) % 360;
-
-  // 每个卦占 45 度
-  const trigramWidth = 45;
-
-  // 找到最接近的卦
-  let closestTrigram: Trigram = EIGHT_TRIGRAMS[0];
-  let minDiff = 360;
-
-  for (const trigram of EIGHT_TRIGRAMS) {
-    // 计算角度差
-    let diff = Math.abs(trigram.angle - normalizedAngle);
-    if (diff > 180) diff = 360 - diff;
-
-    if (diff < minDiff) {
-      minDiff = diff;
-      closestTrigram = trigram;
-    }
-  }
-
-  return closestTrigram;
-}
-
-/**
- * 分析风水方向
- */
-export function analyzeFengShuiDirection(angle: number): AIAnalysisResult {
-  const mountain = getMountainByAngle(angle);
-  const trigram = getTrigramByAngle(angle);
-
-  // 简单的吉凶判断逻辑（实际应该更复杂）
-  const favorable = ['子', '午', '卯', '酉', '乾', '坤', '巽', '艮'].includes(
-    mountain.name
-  );
-
-  return {
-    direction: angle,
-    element: mountain.element,
-    trigram: trigram.name,
-    mountain: mountain.name,
-    favorable,
-    interpretation: `坐向${mountain.name}山，属${mountain.element}，卦象${trigram.name}${trigram.symbol}`,
-    suggestions: favorable
-      ? [
-          `${mountain.name}山方向吉利，适合居住或办公`,
-          `五行属${mountain.element}，可以加强${mountain.element}元素的布置`,
-        ]
-      : [`${mountain.name}山方向需要化解`, '建议调整朝向或加强风水布局'],
-    confidence: 0.85,
-  };
-}
+// 导出常量
+export const CORRECTION_ANGLE = -90;
+export const TOGETHER_STYLE_EMPTY = 'empty';
+export const TOGETHER_STYLE_EQUALLY = 'equally';
+export const TOGETHER_STYLE_SON = 'son';

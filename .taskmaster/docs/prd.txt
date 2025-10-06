@@ -1,85 +1,124 @@
-QiFlow AI八字风水网站改造项目需求文档
+# 八字算法迁移项目需求文档 (PRD)
 
-项目概述：
-对现有的基于mksaas模板的AI八字风水网站进行全面改造和优化，提升代码质量、性能表现和用户体验。项目已有基础功能完成，需要进行架构优化、代码清理和功能完善。
+## 项目概述
+从 qiflow-ai 原项目（D:\test\mksaas_qiflowai\qiflow-ai）迁移完整的八字算法和相关功能到 mksaas 模板项目根目录（D:\test\mksaas_qiflowai），替换当前不完整的八字实现。
 
-核心目标：
-1. 清理项目结构，提高代码可维护性
-2. 优化性能，充分利用Next.js 15的RSC特性
-3. 完善核心功能（八字分析、玄空风水、AI对话）
-4. 建立规范的开发流程和代码标准
+## 项目目标
+1. 完整迁移八字核心算法库（lib/bazi）
+2. 迁移八字分析组件（components）
+3. 迁移八字相关 API 路由
+4. 迁移八字分析页面和路由
+5. 删除根目录现有的不完整八字实现
+6. 确保迁移后功能正常运行
 
-功能需求：
+## 核心功能模块
 
-第一阶段 - 项目清理和结构优化：
-- 清理根目录的24个临时文档文件，归档到docs/archive目录
-- 删除备份文件（page-backup.tsx、page-simple.tsx等）
-- 整理测试文件到专门的tests目录
-- 建立清晰的文件命名和组织规范
+### 1. 八字核心算法库（lib/bazi）
+源路径：qiflow-ai/src/lib/bazi/
+目标路径：src/lib/qiflow/bazi/
 
-第二阶段 - 代码质量提升：
-- 修复300+个lint错误，主要处理硬编码中文字符串
-- 将所有中文文案迁移到i18n国际化系统
-- 清理未使用的依赖包（fabric、konva等）
-- 统一代码风格，使用biome进行格式化
+包含文件：
+- adapter.ts - 适配器
+- authoritative-reference.ts - 权威参考
+- cache.ts - 缓存机制
+- enhanced-calculator.ts - 增强计算器
+- enhanced-ten-gods.ts - 增强十神系统
+- enhanced-yongshen.ts - 增强用神系统
+- examples.ts - 示例数据
+- index.ts - 导出入口
+- luck-pillars.ts - 大运计算
+- optimized-calculator.ts - 优化计算器
+- pattern-analysis.ts - 格局分析
+- ten-gods.ts - 十神系统
+- timezone.ts - 时区处理
+- types.ts - 类型定义
+- yongshen.ts - 用神系统
+- __tests__/ - 测试文件目录
 
-第三阶段 - 性能优化：
-- 将非交互组件改造为React Server Components
-- 移除不必要的'use client'指令（当前有20+个）
-- 对大型组件实施动态导入和代码分割
-- 优化图片加载，使用next/image组件
-- 实现适当的缓存策略
+### 2. AI 处理器
+源路径：qiflow-ai/src/lib/ai/
+包含文件：
+- bazi-master-processor.ts
+- qiflow-bazi-master.ts
 
-第四阶段 - 核心功能完善：
-- 完善AI对话系统的后端集成
-- 实现完整的计费系统（包含三级降级策略）
-- 优化八字分析页面的用户体验
-- 增强玄空风水的展示效果
-- 实现用户认证和权限管理
+### 3. 报告生成器
+源路径：qiflow-ai/src/lib/reports/
+包含文件：
+- bazi-report-generator.ts
 
-第五阶段 - 用户体验优化：
-- 优化首页加载速度和转化率
-- 改进移动端交互体验
-- 实现更好的错误处理和用户反馈
-- 添加骨架屏和加载状态
-- 优化表单验证和提交流程
+### 4. 分析组件
+源路径：qiflow-ai/src/components/analysis/
+目标路径：src/components/qiflow/bazi/
 
-第六阶段 - 监控和分析：
-- 集成性能监控工具
-- 实现用户行为追踪
-- 建立错误日志系统
-- 创建数据分析仪表板
+包含文件：
+- bazi-analysis-page.tsx
+- bazi-analysis-result.tsx
+- enhanced-bazi-analysis-result.tsx
+- optimized-bazi-analysis-result.tsx
 
-技术要求：
-- 框架：Next.js 15.5.2
-- 语言：TypeScript
-- UI：Tailwind CSS + Shadcn UI
-- 数据库：PostgreSQL + Drizzle ORM
-- AI集成：支持多模型（OpenAI、DeepSeek等）
+### 5. API 路由
+源路径：qiflow-ai/src/app/api/（需要查找具体的八字相关 API）
+目标路径：src/app/api/qiflow/bazi/
 
-非功能性要求：
-- 首屏加载时间 < 2秒
-- Lighthouse性能分数 > 90
-- TypeScript类型覆盖率 > 95%
-- 代码测试覆盖率 > 80%
-- 支持SEO优化和社交分享
+### 6. 页面路由
+源路径：qiflow-ai/src/app/[locale]/
+包含：
+- bazi-analysis/
+- test-bazi/
+- test-bazi-fixed/
 
-验收标准：
-- 所有lint错误修复完成
-- 构建无错误通过
-- 核心功能正常运行
-- 性能指标达标
-- 用户体验流畅
+目标路径：src/app/[locale]/(marketing)/analysis/bazi/
 
-项目约束：
-- 保持现有功能不受影响
-- 分阶段实施，避免大规模重构
-- 优先保证生产环境稳定
-- 遵循Next.js最佳实践
+## 技术要求
+1. 保持原有代码结构和命名
+2. 更新所有 import 路径以适应新的目录结构
+3. 确保类型定义完整
+4. 保留所有测试文件
+5. 维护代码风格一致性
 
-交付物：
-- 清理后的项目代码
-- 优化后的组件库
-- 完整的文档说明
-- 自动化测试套件
-- 部署和维护指南
+## 迁移前清理
+1. 删除 src/lib/qiflow/bazi/ 下现有不完整实现
+2. 删除 src/components/qiflow/bazi/ 下的旧组件
+3. 删除 src/app/api/bazi/ 和 src/app/api/qiflow/bazi/ 下的旧 API
+4. 清理 src/actions/qiflow/calculate-bazi.ts
+
+## 验收标准
+1. 所有文件成功迁移到目标目录
+2. import 路径全部正确更新
+3. TypeScript 编译无错误
+4. 保留原有功能完整性
+5. 测试用例可以正常运行
+6. API 端点响应正常
+7. 前端页面渲染正常
+
+## 依赖项
+- Next.js App Router
+- TypeScript
+- React
+- 原项目的依赖包（需要检查 package.json）
+
+## 风险与注意事项
+1. 确保不遗漏任何依赖文件
+2. 注意环境变量配置
+3. 数据库模型可能需要同步
+4. 注意时区处理的正确性
+5. 缓存机制需要正确配置
+
+## 迁移步骤概览
+1. 分析源项目结构和依赖关系
+2. 清理目标项目中的旧实现
+3. 按模块迁移核心算法
+4. 迁移 AI 处理和报告生成
+5. 迁移组件和页面
+6. 迁移 API 路由
+7. 更新所有 import 路径
+8. 测试和验证
+9. 文档更新
+
+## 优先级
+高优先级：核心算法库、类型定义
+中优先级：组件、API 路由
+低优先级：测试文件、示例代码
+
+## 项目复杂度
+本项目涉及大量文件迁移和路径更新，建议分解为 15-20 个子任务，每个任务专注于一个特定模块或功能区域。

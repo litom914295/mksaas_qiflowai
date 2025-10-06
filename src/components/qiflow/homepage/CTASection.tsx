@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { LocaleLink } from '@/i18n/navigation';
 
 export type CTASectionProps = { variant?: 'A' | 'B' };
 
@@ -15,18 +16,18 @@ export const CTASection = async ({ variant = 'A' }: CTASectionProps) => {
         </h2>
         <p className="mt-2 text-sm text-slate-300">{t('cta.subtitle')}</p>
         <div className="mt-6 flex justify-center gap-3">
-          <a
+          <LocaleLink
             href="/analysis/bazi"
             className="rounded-md bg-amber-400 px-5 py-2.5 text-sm font-medium text-black"
           >
             {t('cta.startBazi')}
-          </a>
-          <a
-            href="/ai/chat"
+          </LocaleLink>
+          <LocaleLink
+            href="/ai-chat"
             className="rounded-md border border-white/15 px-5 py-2.5 text-sm text-white/90"
           >
             {t('cta.askAi')}
-          </a>
+          </LocaleLink>
         </div>
       </div>
     </section>

@@ -1,0 +1,34 @@
+import { unstable_cache } from 'next/cache';
+import { stableHash } from '@/lib/qiflow/hash';
+
+/**
+ * 通用缓存包装器
+ * @param fn 需要缓存的异步函数
+ * @param namespace 唯一命名空间（用于区分不同业务）
+ */
+export function withCache<I extends object, O>(
+  fn: (input: I) => Promise<O>,
+  namespace: string
+) {
+  const cached = unstable_cache(
+    async (input: I) => fn(input),
+    [namespace],
+    { revalidate: false }
+  );
+
+  return async function cachedFn(input: I, extraTags: string[] = []) {
+    const tag = `${namespace}:${stableHash(input)}`;
+    return cached(input, { tags: [tag, ...extraTags] });
+  };
+}
+
+/**
+ * 示例：将昂贵的计算包装为缓存函数
+ */
+export function exampleExpensiveCached() {
+  return withCache(async (input: { value: number }) => {
+    // 模拟耗时计算
+    await new Promise((r) => setTimeout(r, 50));
+    return { doubled: input.value * 2 };
+  }, 'expensive-calc');
+}

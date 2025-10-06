@@ -7,16 +7,16 @@
 export const AUTHORITATIVE_DAY_PILLARS = {
   // 基准日期 - 已确认的权威基准
   '2000-01-01': '戊午', // Y2K年新年 - 已确认
-  '2000-01-02': '己未', // 戊午日的下一天
-  '2000-01-03': '庚申', // 庚申日
-
+  '2000-01-02': '己未', // 戊午日的下一天 
+  '2000-01-03': '庚申', // 庚申日 
+  
   // 常见出生年份测试点 - 基于搜索验证更新
   '1990-05-10': '乙亥', // 1990年5月10日 - 搜索确认为乙亥日而非乙酉日
-
+  
   // 传统基准日期（需要用新算法验证）
   '1900-01-31': '甲子', // 传统甲子日基准 - 待验证
   '1900-02-01': '乙丑', // 甲子日的下一天 - 待验证
-
+  
   // 其他日期（需要通过在线工具验证）
   '1985-12-25': '甲申', // 1985年12月25日 - 待验证
   '1995-03-15': '壬申', // 1995年3月15日 - 待验证
@@ -31,45 +31,21 @@ export const AUTHORITATIVE_DAY_PILLARS = {
 /**
  * 天干地支基础数据
  */
-export const HEAVENLY_STEMS = [
-  '甲',
-  '乙',
-  '丙',
-  '丁',
-  '戊',
-  '己',
-  '庚',
-  '辛',
-  '壬',
-  '癸',
-] as const;
-export const EARTHLY_BRANCHES = [
-  '子',
-  '丑',
-  '寅',
-  '卯',
-  '辰',
-  '巳',
-  '午',
-  '未',
-  '申',
-  '酉',
-  '戌',
-  '亥',
-] as const;
+export const HEAVENLY_STEMS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'] as const;
+export const EARTHLY_BRANCHES = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'] as const;
 
 /**
  * 生成60甲子表
  */
 export function generateSixtyJiazi(): string[] {
   const jiazi: string[] = [];
-
+  
   for (let i = 0; i < 60; i++) {
     const stem = HEAVENLY_STEMS[i % 10];
     const branch = EARTHLY_BRANCHES[i % 12];
     jiazi.push(`${stem}${branch}`);
   }
-
+  
   return jiazi;
 }
 
@@ -95,48 +71,42 @@ export function calculateAuthoritativeDayPillar(targetDate: Date): string {
   const referenceDate = new Date(2000, 0, 1); // 2000年1月1日
   referenceDate.setHours(0, 0, 0, 0);
   const referencePillar = '戊午'; // 已确认的正确日柱
-
+  
   const normalizedTarget = new Date(targetDate);
   normalizedTarget.setHours(0, 0, 0, 0);
-
+  
   const daysDiff = calculateDaysDiff(referenceDate, normalizedTarget);
   const jiazi = generateSixtyJiazi();
-
+  
   // 找到戊午在60甲子中的索引
   const referenceIndex = jiazi.indexOf(referencePillar); // 戊午的索引
-
+  
   // 计算目标日期的索引
-  const targetIndex = (((referenceIndex + daysDiff) % 60) + 60) % 60; // 确保结果为正数
-
+  const targetIndex = ((referenceIndex + daysDiff) % 60 + 60) % 60; // 确保结果为正数
+  
   return jiazi[targetIndex];
 }
 
 /**
  * 验证权威数据准确性
  */
-export function validateAuthoritativeData(): {
-  [date: string]: { expected: string; calculated: string; match: boolean };
-} {
-  const results: {
-    [date: string]: { expected: string; calculated: string; match: boolean };
-  } = {};
-
-  for (const [dateStr, expectedPillar] of Object.entries(
-    AUTHORITATIVE_DAY_PILLARS
-  )) {
+export function validateAuthoritativeData(): { [date: string]: { expected: string; calculated: string; match: boolean } } {
+  const results: { [date: string]: { expected: string; calculated: string; match: boolean } } = {};
+  
+  for (const [dateStr, expectedPillar] of Object.entries(AUTHORITATIVE_DAY_PILLARS)) {
     const [year, month, day] = dateStr.split('-').map(Number);
     const targetDate = new Date(year, month - 1, day); // 月份从0开始
-
+    
     const calculated = calculateAuthoritativeDayPillar(targetDate);
     const match = calculated === expectedPillar;
-
+    
     results[dateStr] = {
       expected: expectedPillar,
       calculated,
-      match,
+      match
     };
   }
-
+  
   return results;
 }
 
@@ -146,17 +116,14 @@ export function validateAuthoritativeData(): {
  * @param useZiBoundary 是否使用子时跨日规则
  * @returns 调整后的日期
  */
-export function adjustDateForZiHour(
-  originalDate: Date,
-  useZiBoundary = true
-): Date {
+export function adjustDateForZiHour(originalDate: Date, useZiBoundary: boolean = true): Date {
   if (!useZiBoundary) {
     return new Date(originalDate);
   }
-
+  
   const adjusted = new Date(originalDate);
   const hour = adjusted.getHours();
-
+  
   // 23:00-23:59 按传统子时跨日规则算作次日
   if (hour >= 23) {
     adjusted.setDate(adjusted.getDate() + 1);
@@ -164,6 +131,6 @@ export function adjustDateForZiHour(
   } else {
     adjusted.setHours(0, 0, 0, 0);
   }
-
+  
   return adjusted;
 }

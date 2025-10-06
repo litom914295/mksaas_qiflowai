@@ -125,14 +125,14 @@ export class TimezoneAwareDate {
   /**
    * 格式化为本地时间字符串
    */
-  formatLocal(pattern = 'yyyy-MM-dd HH:mm:ss'): string {
+  formatLocal(pattern: string = 'yyyy-MM-dd HH:mm:ss'): string {
     return formatInTimeZone(this.date, this.timezone, pattern);
   }
 
   /**
    * 格式化为UTC时间字符串
    */
-  formatUTC(pattern = 'yyyy-MM-dd HH:mm:ss'): string {
+  formatUTC(pattern: string = 'yyyy-MM-dd HH:mm:ss'): string {
     return format(this.date, pattern) + ' UTC';
   }
 
@@ -193,8 +193,7 @@ export class TimezoneDetector {
     ) {
       // 中国大陆
       return 'Asia/Shanghai';
-    }
-    if (
+    } else if (
       longitude >= -125 &&
       longitude <= -65 &&
       latitude >= 25 &&
@@ -202,8 +201,7 @@ export class TimezoneDetector {
     ) {
       // 美国东部
       return longitude <= -100 ? 'America/New_York' : 'America/Chicago';
-    }
-    if (
+    } else if (
       longitude >= -10 &&
       longitude <= 30 &&
       latitude >= 35 &&
@@ -211,8 +209,7 @@ export class TimezoneDetector {
     ) {
       // 欧洲
       return 'Europe/Paris';
-    }
-    if (
+    } else if (
       longitude >= 139 &&
       longitude <= 146 &&
       latitude >= 35 &&
@@ -220,8 +217,7 @@ export class TimezoneDetector {
     ) {
       // 日本
       return 'Asia/Tokyo';
-    }
-    if (
+    } else if (
       longitude >= 126 &&
       longitude <= 130 &&
       latitude >= 37 &&
@@ -272,7 +268,7 @@ export class TimezoneDetector {
     try {
       // 这里可以集成IP地理位置服务
       // 暂时返回浏览器时区
-      return TimezoneDetector.detectBrowserTimezone();
+      return this.detectBrowserTimezone();
     } catch (error) {
       console.warn('[TimezoneDetector] IP时区检测失败:', error);
       return 'UTC';

@@ -5,12 +5,14 @@ export type BrandLogoProps = {
   href?: string;
   className?: string;
   size?: number;
+  asLink?: boolean; // 新增参数控制是否渲染为链接
 };
 
 export const BrandLogo = ({
   href = '/',
   className = '',
   size = 160,
+  asLink = true, // 默认渲染为链接
 }: BrandLogoProps) => {
   const img = (
     <Image
@@ -21,7 +23,8 @@ export const BrandLogo = ({
       priority
     />
   );
-  return href ? (
+  // 只有当 asLink 为 true 且 href 存在时才生成链接
+  return asLink && href && href !== '' ? (
     <Link href={href} aria-label="返回首页" className={className}>
       {img}
     </Link>

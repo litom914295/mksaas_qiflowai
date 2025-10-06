@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
-import Link from 'next/link';
+import { LocaleLink } from '@/i18n/navigation';
 
 export type FeatureGridProps = { variant?: 'A' | 'B' };
 
@@ -23,7 +23,7 @@ export const FeatureGrid = async ({ variant = 'A' }: FeatureGridProps) => {
       title: t('features.ai.title'),
       desc: t('features.ai.desc'),
       icon: '/brand/icon-ai.svg',
-      href: '/ai/chat',
+      href: '/ai-chat',
     },
   ];
   const card =
@@ -44,12 +44,12 @@ export const FeatureGrid = async ({ variant = 'A' }: FeatureGridProps) => {
             </div>
             <p className="mt-2 text-sm text-slate-300">{f.desc}</p>
             <div className="mt-4">
-              <Link
+              <LocaleLink
                 href={f.href}
                 className="text-sm text-amber-400 hover:underline"
               >
                 →
-              </Link>
+              </LocaleLink>
             </div>
           </div>
         ))}

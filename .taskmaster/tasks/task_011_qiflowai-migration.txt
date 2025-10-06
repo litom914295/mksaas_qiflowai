@@ -1,0 +1,16 @@
+# Task ID: 11
+# Title: 性能优化与观测
+# Status: pending
+# Dependencies: 6, 7
+# Priority: high
+# Description: 针对 LCP/CLS/INP 优化（RSC/Suspense/流式/缓存/图片），建立观测面板。
+# Details:
+优化与观测
+- 渲染：RSC + Suspense/流式；next/image 参数与懒加载。
+- 缓存：结果级/接口级缓存策略与失效。
+- 观测：核心指标采集、仪表盘与告警。
+成功标准
+- 目标页面 CWV 达标；回归无明显退化。
+
+# Test Strategy:
+CWV 采样、性能回归基线与对比、告警联调。

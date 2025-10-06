@@ -1,0 +1,1425 @@
+{
+  "version": "1.0.0",
+  "tags": {
+    "master": {
+      "name": "master",
+      "description": "qiflow-ai迁移到mksaas主任务线",
+      "createdAt": "2025-01-01T15:40:00Z",
+      "updatedAt": "2025-01-02T12:00:00Z",
+      "tasks": [
+        {
+          "id": "1",
+          "title": "架构分析阶段",
+          "description": "分析现有系统架构和制定迁移策略",
+          "details": "全面分析qiflow-ai和mksaas的技术架构，制定详细的迁移计划",
+          "status": "done",
+          "priority": "high",
+          "subtasks": [
+            {
+              "id": "1.1",
+              "title": "分析qiflow-ai现有架构",
+              "description": "深入分析qiflow-ai的架构和功能模块",
+              "details": "1. 扫描qiflow-ai目录结构\n2. 识别核心功能模块（八字计算、风水分析、AI解读等）\n3. 分析技术栈和依赖包\n4. 记录API接口和数据模型\n5. 创建架构文档",
+              "status": "done"
+            },
+            {
+              "id": "1.2",
+              "title": "分析mksaas模版结构",
+              "description": "理解mksaas框架和集成点",
+              "details": "1. 分析mksaas的目录结构\n2. 理解认证系统集成方式\n3. 研究支付系统接口\n4. 了解营销模块功能\n5. 记录可复用的组件和服务",
+              "status": "done"
+            },
+            {
+              "id": "1.3",
+              "title": "制定文件映射计划",
+              "description": "创建详细的文件迁移映射表",
+              "details": "1. 创建源文件到目标文件的映射表\n2. 识别需要合并的文件\n3. 标记需要重构的模块\n4. 制定命名规范转换规则",
+              "status": "done"
+            },
+            {
+              "id": "1.4",
+              "title": "识别技术冲突点",
+              "description": "发现并记录潜在的技术问题",
+              "details": "1. 依赖包版本冲突分析\n2. 路由系统兼容性检查\n3. 状态管理方案对比\n4. API规范差异分析\n5. 创建风险清单",
+              "status": "done"
+            }
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "2",
+          "title": "基础设施准备",
+          "description": "准备迁移所需的基础环境和备份",
+          "details": "设置迁移环境，备份重要数据，准备必要的配置",
+          "status": "done",
+          "priority": "high",
+          "subtasks": [
+            {
+              "id": "2.1",
+              "title": "备份现有代码",
+              "description": "创建完整的代码备份",
+              "details": "1. 创建qiflow-ai完整备份\n2. 导出数据库快照\n3. 保存环境变量配置\n4. 记录当前版本号",
+              "status": "done"
+            },
+            {
+              "id": "2.2",
+              "title": "创建迁移分支",
+              "description": "设置Git分支策略",
+              "details": "1. 创建migration分支\n2. 设置分支保护规则\n3. 配置CI/CD暂停\n4. 创建回滚点标记",
+              "status": "done"
+            },
+            {
+              "id": "2.3",
+              "title": "准备环境变量",
+              "description": "整合和配置环境变量",
+              "details": "1. 合并两个项目的.env文件\n2. 解决变量名冲突\n3. 添加新的集成配置\n4. 创建.env.example模板",
+              "status": "done"
+            },
+            {
+              "id": "2.4",
+              "title": "数据库迁移准备",
+              "description": "准备数据库迁移方案",
+              "details": "1. 设计统一的数据库schema\n2. 创建迁移脚本\n3. 准备数据转换规则\n4. 设置测试数据库",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "1"
+          ]
+        },
+        {
+          "id": "3",
+          "title": "核心功能迁移",
+          "description": "迁移八字风水的核心业务逻辑",
+          "details": "将所有核心算法和业务逻辑迁移到新架构",
+          "status": "done",
+          "priority": "high",
+          "subtasks": [
+            {
+              "id": "3.1",
+              "title": "迁移八字计算引擎",
+              "description": "迁移八字排盘和计算逻辑",
+              "details": "1. 迁移八字排盘算法\n2. 迁移天干地支计算\n3. 迁移五行生克逻辑\n4. 迁移大运流年算法\n5. 创建单元测试",
+              "status": "done"
+            },
+            {
+              "id": "3.2",
+              "title": "迁移风水分析模块",
+              "description": "迁移玄空风水分析功能",
+              "details": "1. 迁移飞星计算逻辑\n2. 迁移宫位分析算法\n3. 迁移风水布局建议\n4. 迁移罗盘功能\n5. 验证计算准确性",
+              "status": "done"
+            },
+            {
+              "id": "3.3",
+              "title": "迁移AI解读功能",
+              "description": "集成AI分析和解读服务",
+              "details": "1. 迁移AI提示词模板\n2. 适配新的API调用方式\n3. 迁移解读结果处理\n4. 优化响应速度\n5. 添加错误处理",
+              "status": "done"
+            },
+            {
+              "id": "3.4",
+              "title": "迁移PDF导出功能",
+              "description": "迁移报告生成和导出功能",
+              "details": "1. 迁移PDF模板\n2. 适配新的样式系统\n3. 迁移图表生成逻辑\n4. 测试导出功能\n5. 优化文件大小",
+              "status": "done"
+            },
+            {
+              "id": "3.5",
+              "title": "迁移API接口",
+              "description": "迁移所有API端点",
+              "details": "1. 迁移到app/api目录\n2. 适配新的路由规范\n3. 统一错误处理\n4. 添加请求验证\n5. 更新API文档",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "2"
+          ]
+        },
+        {
+          "id": "4",
+          "title": "UI组件迁移",
+          "description": "迁移和适配所有前端组件",
+          "details": "将UI组件迁移到新架构并统一设计风格",
+          "status": "done",
+          "priority": "medium",
+          "subtasks": [
+            {
+              "id": "4.1",
+              "title": "迁移页面组件",
+              "description": "迁移所有页面到app目录",
+              "details": "1. 迁移首页\n2. 迁移八字分析页\n3. 迁移风水分析页\n4. 迁移个人中心页\n5. 迁移支付页面",
+              "status": "done"
+            },
+            {
+              "id": "4.2",
+              "title": "适配布局系统",
+              "description": "集成到mksaas布局框架",
+              "details": "1. 适配导航栏\n2. 适配侧边栏\n3. 适配页脚\n4. 统一页面容器\n5. 响应式适配",
+              "status": "done"
+            },
+            {
+              "id": "4.3",
+              "title": "统一设计风格",
+              "description": "统一UI风格和主题",
+              "details": "1. 迁移到Shadcn UI\n2. 统一颜色方案\n3. 统一字体样式\n4. 统一间距规范\n5. 创建主题配置",
+              "status": "done"
+            },
+            {
+              "id": "4.4",
+              "title": "迁移自定义组件",
+              "description": "迁移特定的八字风水组件",
+              "details": "1. 迁移八字盘组件\n2. 迁移罗盘组件\n3. 迁移运势图表\n4. 迁移飞星图组件\n5. 优化组件性能",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "3"
+          ]
+        },
+        {
+          "id": "5",
+          "title": "系统集成",
+          "description": "集成mksaas的核心系统功能",
+          "details": "将八字风水功能与mksaas基础设施深度集成",
+          "status": "done",
+          "priority": "high",
+          "subtasks": [
+            {
+              "id": "5.1",
+              "title": "集成认证系统",
+              "description": "接入mksaas用户认证",
+              "details": "1. 集成登录注册流程\n2. 适配会话管理\n3. 迁移用户数据\n4. 设置权限控制\n5. 添加SSO支持",
+              "status": "done"
+            },
+            {
+              "id": "5.2",
+              "title": "集成支付系统",
+              "description": "接入支付和计费功能",
+              "details": "1. 配置支付网关\n2. 设置计费规则（aiChat=5,deepInterpretation=30,bazi=10,xuankong=20,pdfExport=5）\n3. 创建订单系统\n4. 添加余额管理\n5. 实现三级降级策略",
+              "status": "done"
+            },
+            {
+              "id": "5.3",
+              "title": "集成营销功能",
+              "description": "接入营销推广系统",
+              "details": "1. 集成优惠券系统\n2. 添加推荐奖励\n3. 配置活动管理\n4. 集成数据分析\n5. 设置A/B测试",
+              "status": "done"
+            },
+            {
+              "id": "5.4",
+              "title": "集成权限管理",
+              "description": "设置细粒度权限控制",
+              "details": "1. 定义权限模型\n2. 设置功能权限\n3. 配置数据权限\n4. 添加角色管理\n5. 实现权限中间件",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "4"
+          ]
+        },
+        {
+          "id": "6",
+          "title": "数据迁移",
+          "description": "迁移所有业务数据",
+          "details": "安全地迁移用户数据和业务数据",
+          "status": "done",
+          "priority": "medium",
+          "subtasks": [
+            {
+              "id": "6.1",
+              "title": "用户数据迁移",
+              "description": "迁移用户账户信息",
+              "details": "1. 导出用户数据\n2. 数据格式转换\n3. 批量导入新库\n4. 验证数据完整性\n5. 处理重复数据",
+              "status": "done"
+            },
+            {
+              "id": "6.2",
+              "title": "订单数据迁移",
+              "description": "迁移历史订单记录",
+              "details": "1. 导出订单数据\n2. 映射订单状态\n3. 转换支付记录\n4. 导入新系统\n5. 对账验证",
+              "status": "done"
+            },
+            {
+              "id": "6.3",
+              "title": "配置数据迁移",
+              "description": "迁移系统配置",
+              "details": "1. 导出配置数据\n2. 合并配置项\n3. 更新配置格式\n4. 导入新系统\n5. 验证配置生效",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "5"
+          ]
+        },
+        {
+          "id": "7",
+          "title": "测试验证",
+          "description": "全面测试迁移后的系统",
+          "details": "确保所有功能正常运行，性能达标",
+          "status": "done",
+          "priority": "high",
+          "subtasks": [
+            {
+              "id": "7.1",
+              "title": "功能测试",
+              "description": "测试所有业务功能",
+              "details": "1. 测试八字计算\n2. 测试风水分析\n3. 测试AI解读\n4. 测试PDF导出\n5. 测试支付流程",
+              "status": "done"
+            },
+            {
+              "id": "7.2",
+              "title": "集成测试",
+              "description": "测试系统集成点",
+              "details": "1. 测试用户认证流程\n2. 测试支付集成\n3. 测试数据同步\n4. 测试权限控制\n5. 测试营销功能",
+              "status": "done"
+            },
+            {
+              "id": "7.3",
+              "title": "性能测试",
+              "description": "验证系统性能指标",
+              "details": "1. 负载测试\n2. 压力测试\n3. 页面加载速度测试（<2秒）\n4. API响应时间测试\n5. 数据库查询优化",
+              "status": "done"
+            },
+            {
+              "id": "7.4",
+              "title": "安全测试",
+              "description": "进行安全漏洞扫描",
+              "details": "1. SQL注入测试\n2. XSS测试\n3. CSRF测试\n4. 权限越权测试\n5. 敏感信息泄露检查",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "6"
+          ]
+        },
+        {
+          "id": "8",
+          "title": "部署上线",
+          "description": "将迁移后的系统部署到生产环境",
+          "details": "安全地部署新系统并监控运行状态",
+          "status": "done",
+          "priority": "high",
+          "subtasks": [
+            {
+              "id": "8.1",
+              "title": "配置生产环境",
+              "description": "准备生产环境配置",
+              "details": "1. 配置服务器\n2. 设置域名\n3. 配置CDN\n4. 设置SSL证书\n5. 配置防火墙",
+              "status": "done"
+            },
+            {
+              "id": "8.2",
+              "title": "灰度发布",
+              "description": "实施灰度发布策略",
+              "details": "1. 部署到预发布环境\n2. 5%流量切换\n3. 监控错误率\n4. 逐步增加流量\n5. 全量切换",
+              "status": "done"
+            },
+            {
+              "id": "8.3",
+              "title": "监控配置",
+              "description": "设置监控和告警",
+              "details": "1. 配置日志收集\n2. 设置性能监控\n3. 配置错误告警\n4. 设置业务监控\n5. 创建监控面板",
+              "status": "done"
+            },
+            {
+              "id": "8.4",
+              "title": "回滚方案",
+              "description": "准备应急回滚计划",
+              "details": "1. 创建回滚脚本\n2. 准备数据恢复方案\n3. 设置快速切换开关\n4. 制定回滚决策标准\n5. 演练回滚流程",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "7"
+          ]
+        },
+        {
+          "id": "9",
+          "title": "合规性检查",
+          "description": "确保系统符合所有合规要求",
+          "details": "实施必要的合规措施，保护用户隐私和数据安全",
+          "status": "done",
+          "priority": "high",
+          "subtasks": [
+            {
+              "id": "9.1",
+              "title": "实施18+年龄验证",
+              "description": "添加年龄验证机制",
+              "details": "1. 创建年龄验证页面\n2. 实施年龄检查中间件\n3. 添加年龄声明弹窗\n4. 记录验证日志",
+              "status": "done"
+            },
+            {
+              "id": "9.2",
+              "title": "添加免责声明",
+              "description": "完善法律免责声明",
+              "details": "1. 创建服务条款页面\n2. 添加免责声明弹窗\n3. 强制用户同意流程\n4. 记录同意记录",
+              "status": "done"
+            },
+            {
+              "id": "9.3",
+              "title": "隐私保护实施",
+              "description": "实施GDPR和隐私保护",
+              "details": "1. 创建隐私政策页面\n2. 实施数据最小化原则\n3. 添加Cookie同意管理\n4. 实施数据加密\n5. 创建DSAR处理流程",
+              "status": "done"
+            },
+            {
+              "id": "9.4",
+              "title": "敏感主题过滤",
+              "description": "实施内容审核机制",
+              "details": "1. 创建敏感词库\n2. 实施内容过滤器\n3. 添加人工审核流程\n4. 设置拒答规则\n5. 记录审核日志",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "5"
+          ]
+        },
+        {
+          "id": "10",
+          "title": "文档和培训",
+          "description": "创建完整的文档并进行知识传递",
+          "details": "确保团队能够维护和运营新系统",
+          "status": "done",
+          "priority": "medium",
+          "subtasks": [
+            {
+              "id": "10.1",
+              "title": "技术文档编写",
+              "description": "创建技术文档",
+              "details": "1. 架构文档\n2. API文档\n3. 部署文档\n4. 运维手册\n5. 故障排查指南",
+              "status": "done"
+            },
+            {
+              "id": "10.2",
+              "title": "用户手册编写",
+              "description": "创建用户使用文档",
+              "details": "1. 功能说明书\n2. 操作指南\n3. FAQ文档\n4. 视频教程\n5. 快速入门指南",
+              "status": "done"
+            },
+            {
+              "id": "10.3",
+              "title": "团队培训",
+              "description": "进行团队知识传递",
+              "details": "1. 技术架构培训\n2. 运维培训\n3. 客服培训\n4. 营销团队培训\n5. 创建知识库",
+              "status": "done"
+            }
+          ],
+          "dependencies": [
+            "8"
+          ]
+        }
+      ]
+    }
+  },
+  "migration-qiflow": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "C0 预检与建分支",
+        "description": "记录工具链版本、创建迁移分支、输出基础目录树",
+        "details": "- 输出 mksaas/artifacts/C0/{branch.txt, tooling.txt, tree.txt}\n- 创建分支 chore/migrate-qiflow-into-mksaas\n- 记录 pnpm/node 版本\n- 生成项目树概览",
+        "testStrategy": "检查 artifacts/C0 生成文件是否存在且非空；分支存在；命令可重复执行",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "C1 结构盘点与映射",
+        "description": "生成源/目标清单与 mapping.md",
+        "details": "- 列出 qiflow-ai 源文件清单\n- 列出 src 目标目录结构\n- 生成静态映射表 mapping.md",
+        "testStrategy": "确认 artifacts/C1/{source_files.txt,target_dirs.txt,mapping.md} 均存在且非空",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "C2 依赖与配置对齐（最小侵入）",
+        "description": "收集依赖差异并仅迁移算法/可视化必要依赖",
+        "details": "- 生成 deps.diff\n- pnpm install 并解决 peer 冲突（若有）\n- 执行 typecheck 并保存输出",
+        "testStrategy": "安装成功无严重冲突；typecheck 输出记录 artifacts/C2/typecheck.txt",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "C3 数据库扩展（Drizzle 合并）",
+        "description": "新增 qiflow 专属表并生成迁移",
+        "details": "- 新建 src/db/schema-qiflow.ts\n- 合并导出至 src/db/index.ts\n- 生成并执行迁移",
+        "testStrategy": "迁移成功，无 destructive；本地连接检查通过",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "创建 schema-qiflow.ts 并定义 4 张表",
+            "description": "bazi_calculations/fengshui_analysis/pdf_audit/copyright_audit",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          },
+          {
+            "id": 2,
+            "title": "合并导出到 src/db/index.ts",
+            "description": "保留现有导出，追加 * from './schema-qiflow'",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          },
+          {
+            "id": 3,
+            "title": "生成迁移并执行",
+            "description": "pnpm db:generate && pnpm db:migrate；确保 .env 连接正确",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          },
+          {
+            "id": 4,
+            "title": "连通性与回滚验证",
+            "description": "drizzle studio/简单插入验证；如失败，回滚迁移",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "C4 认证/支付/i18n 接入点",
+        "description": "扩展 Better Auth 钩子与定价常量，确认 i18n 目录",
+        "details": "- 新建 src/lib/auth-qiflow.ts\n- 新建 src/config/qiflow-pricing.ts\n- 确认并创建 src/app/[locale] 路由节点",
+        "testStrategy": "登录→Dashboard 可加载；Credits 组件可读取定价常量",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "新增定价常量 qiflow-pricing.ts",
+            "description": "统一 aiChat/bazi/xuankong/deepInterpretation/pdfExport",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          },
+          {
+            "id": 2,
+            "title": "认证扩展钩子 auth-qiflow.ts",
+            "description": "onUserCreated 初始化档案与可选注册送分",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          },
+          {
+            "id": 3,
+            "title": "确认 i18n [locale] 路由与 Dashboard",
+            "description": "新页面归位到 src/app/[locale]/...；Dashboard 可加载",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          },
+          {
+            "id": 4,
+            "title": "Credits 读取定价常量联调",
+            "description": "展示与扣减入口读取 QIFLOW_PRICING",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "C5 核心业务迁移（算法/Actions/UI）",
+        "description": "迁移八字/玄空算法、Server Actions、i18n 页面",
+        "details": "- 拆分 qiflow-ai/lib → src/lib/qiflow/{bazi,xuankong,compass}\n- 新建 Actions：calculate-bazi/xuankong-analysis/compass-reading\n- 新建页面：/[locale]/analysis/{bazi,xuankong}",
+        "testStrategy": "/zh/analysis/bazi 与 /zh/analysis/xuankong 200；触发一次计算入库",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "创建算法目录骨架",
+            "description": "src/lib/qiflow/{bazi,xuankong,compass}/**",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 6
+          },
+          {
+            "id": 2,
+            "title": "实现 Server Actions",
+            "description": "calculate-bazi/xuankong-analysis/compass-reading（含最小 Zod 校验与入库）",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 6
+          },
+          {
+            "id": 3,
+            "title": "前端 UI 三色联动与阈值常量",
+            "description": "<0.4=红色拒答，0.4~0.7=黄色提示，≥0.7=绿色；常量集中管理",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 6
+          },
+          {
+            "id": 4,
+            "title": "低置信度降级与手动输入兜底",
+            "description": "置信度<0.4 强制拒答+原因；提供手动输入表单",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 6
+          },
+          {
+            "id": 5,
+            "title": "校准引导 UX",
+            "description": "0.7~0.9 提示用户进行罗盘校准与环境检查",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 6
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "C6 罗盘置信度与降级链路",
+        "description": "实现罗盘置信度算法与 UI 三色联动及降级",
+        "details": "- 新建 src/lib/qiflow/compass/confidence.ts\n- 置信度 <0.4 拒答并转手动输入；0.7~0.9 校准引导",
+        "testStrategy": "低置信度触发降级与文案指引",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "C7 营销/漏斗与合规模块接线",
+        "description": "确保营销页访问与合规模块接线",
+        "details": "- 营销 (marketing) 页面可访问\n- AgeVerification/DisclaimerBar/敏感词拒答接入",
+        "testStrategy": "未登录访问营销页正常；首次登录出现合规提示",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "验证营销页面可访问性",
+            "description": "确保营销页面(/)、定价(/pricing)、博客等可正常访问",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          },
+          {
+            "id": 2,
+            "title": "在QiFlow分析页面添加合规组件",
+            "description": "在/analysis/bazi和/analysis/xuankong页面添加AgeVerification和DisclaimerBar",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          },
+          {
+            "id": 3,
+            "title": "验证敏感词拒答接入完整性",
+            "description": "确认所有Server Actions(calculate-bazi, xuankong-analysis, compass-reading)都集成了敏感词检测",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          },
+          {
+            "id": 4,
+            "title": "测试未登录访问和首次登录提示",
+            "description": "验证未登录用户可以访问营销页面，首次登录时显示合规提示",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "C8 观测/限流与计费一致性",
+        "description": "埋点 trace 与启用速率限制/熔断；校验计费一致性",
+        "details": "- 中间件或包装器埋点 traceId/latency/cost/coins\n- 开启速率限制/熔断策略\n- 抽查积分扣减与 UI 展示一致性",
+        "testStrategy": "触发一次八字→日志含 trace/cost；余额正确扣减",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "中间件埋点与日志格式",
+            "description": "traceId/latency/cost/coins 统一 JSON 输出与采样",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 9
+          },
+          {
+            "id": 2,
+            "title": "速率限制与熔断配置",
+            "description": "按 MKSaaS 既有策略启用限流与熔断，阈值可配",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 9
+          },
+          {
+            "id": 3,
+            "title": "积分扣减一致性抽查",
+            "description": "触发八字→检查 ledger/余额/前端显示一致性",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 9
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "C9 测试与冒烟",
+        "description": "单测最小集与 E2E 冒烟、性能 Trace 与优化建议",
+        "details": "- pnpm test:unit（bazi/xuankong/pricing）\n- E2E 冒烟：home→analysis→report→billing\n- 10s 性能 trace + 3~5 条建议",
+        "testStrategy": "单测通过 & 冒烟无 5xx；生成 artifacts/C9/{trace, screenshots, suggestions}.md",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "单元测试最小集",
+            "description": "bazi/xuankong/pricing 最小单测",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 10
+          },
+          {
+            "id": 2,
+            "title": "E2E 冒烟脚本/手测 + 截图",
+            "description": "home→analysis→report→billing，保存 screenshots",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 10
+          },
+          {
+            "id": 3,
+            "title": "10s 性能 Trace 与 3~5 条建议",
+            "description": "收集 10s trace 并给出优化建议清单",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 10
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "C10 提交与差异报告",
+        "description": "原子提交并生成差异报告",
+        "details": "- git add/commit 分支提交\n- 输出 git diff --stat main...HEAD",
+        "testStrategy": "分支提交完成，生成 artifacts/C10/diff.txt",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "回滚与风险验证",
+        "description": "验证回滚路径与兜底链路",
+        "details": "- 验证拒答与手动输入兜底\n- 验证分支回滚/撤销流程\n- 依赖冲突时的别名/局部锁版本策略",
+        "testStrategy": "手动验证回滚成功；兜底链路可用；依赖冲突可收敛",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "数据库迁移回滚验证",
+            "description": "验证Drizzle ORM数据库迁移的回滚路径",
+            "details": "- 测试 drizzle-kit drop 命令\n- 验证迁移文件的降级SQL\n- 检查数据完整性和外键约束\n- 文档化回滚步骤和注意事项",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 12
+          },
+          {
+            "id": 2,
+            "title": "Git分支回滚测试",
+            "description": "验证Git代码回滚和分支恢复流程",
+            "details": "- 测试 git revert 单个提交\n- 测试 git reset --hard 回滚到特定提交\n- 验证分支删除和重建\n- 文档化代码恢复的最佳实践",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 12
+          },
+          {
+            "id": 3,
+            "title": "降级处理机制验证",
+            "description": "测试已实现的兜底链路和降级处理",
+            "details": "- 验证低置信度触发降级逻辑\n- 测试手动输入fallback功能\n- 检查拒答机制和错误提示\n- 验证校准引导UX流程\n- 确认所有降级路径可用",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 12
+          },
+          {
+            "id": 4,
+            "title": "依赖冲突风险评估",
+            "description": "评估依赖版本冲突并制定解决策略",
+            "details": "- 分析当前依赖树和版本约束\n- 识别潜在的版本冲突点\n- 评估降级依赖版本的影响\n- 制定别名或局部锁版本策略\n- 文档化依赖冲突解决方案",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 12
+          },
+          {
+            "id": 5,
+            "title": "回滚文档与应急预案",
+            "description": "生成完整的回滚文档和应急响应预案",
+            "details": "- 编写数据库回滚操作手册\n- 编写代码回滚SOP（标准操作流程）\n- 制定应急响应流程图\n- 识别关键风险点和应对措施\n- 创建回滚决策树和检查清单",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 12
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-01T17:01:54.730Z",
+      "updated": "2025-10-02T05:29:59.420Z",
+      "description": "qiflow→MKSaaS 迁移专用任务上下文"
+    }
+  },
+  "qiflowai-migration": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "迁移基线与范围界定",
+        "description": "清点 qiflow-ai 八字与玄空风水模块与 mksaas 模版能力，定义目标边界与验收口径。",
+        "details": "范围与现状评估\n- 产物清单：八字表单、玄空风水表单、结果展示、AI 调用与计费、支付联动、营销埋点、i18n、UI 组件与样式、路由与目录结构。\n- 差异矩阵：pages 与 app router、状态管理、表单验证方案、组件库与样式体系、API 路由、缓存与标签、认证与访问控制。\n- 输出：模块清单、依赖图（前后端与第三方）、迁移边界与不在范围。\n成功标准\n- 完成《迁移范围与差异评估》V1 文档并评审通过（产品/前端/后端/测试参与）。\n- 明确验收口径（功能/性能/安全/合规的定量阈值）。",
+        "testStrategy": "评审与走查：基于清单逐项确认；在 PR 合并前由跨职能团队签字确认。",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "目录与路由结构对齐",
+        "description": "将 qiflow-ai 模块路由与目录调整为符合 mksaas 的 Next.js App Router 规范。",
+        "details": "结构与路由\n- 规划最终路由：/bazi（八字）、/fengshui（玄空风水）、/results（结果）、/billing（计费/套餐）等。\n- 组件归档：components/bazi/*、components/fengshui/*、app/(routes)/*、src/server/*。\n- 约束：RSC 优先；客户端仅保留交互叶子；错误与 404 边界使用 error.tsx/not-found。\n成功标准\n- 路由树、目录方案评审通过；本地开发可正常访问占位页。",
+        "testStrategy": "路由可达性检查；not-found/error 边界页行为校验。",
+        "status": "done",
+        "dependencies": [
+          "1"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "UI/UX 组件适配总览",
+        "description": "统一到 Shadcn UI、Radix UI 与 Tailwind 的设计系统，落实四态（Empty/Error/Limited/Timeout）。",
+        "details": "设计与组件\n- 设计令牌统一：颜色、间距、字号、暗色模式，遵循 mksaas 规范。\n- 四态骨架：通用空态/限流/超时/错误组件与态文案；结果展示卡片组件。\n- 可访问性：语义标签与可聚焦顺序，键盘可用。\n成功标准\n- UI 基线库合并并通过视觉回归；重要页面均具备四态组件与示例。",
+        "testStrategy": "截图回归与可访问性（a11y）检查；关键组件快照测试。",
+        "status": "pending",
+        "dependencies": [
+          "1"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "八字表单迁移与适配",
+        "description": "迁移并适配八字输入、校验与提交流转，复用 i18n 与表单验证。",
+        "details": "表单与验证\n- 字段：公历/农历、出生日期、时间、时区、性别、（可选）出生地。\n- 校验：Zod schema；跨时区换算；i18n 文案；前后端一致性校验。\n- 提交：Server Action/API；防抖与重复提交防护；错误态与限流态可见。\n成功标准\n- 端到端：输入→提交→结果展示全链路稳定；错误/限流/超时态可复现且可理解。",
+        "testStrategy": "单元（解析与校验纯函数）；集成（表单到 API）；E2E（主要用户路径）。",
+        "status": "pending",
+        "dependencies": [
+          "1",
+          "2",
+          "3"
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "路由与页面占位（/bazi）",
+            "description": "创建 RSC 页面与布局、面包屑与国际化占位；接入 not-found/error 边界。",
+            "details": "采用 app 路由；/bazi 入口；layout.tsx 提供 i18n 切换与 auth guard 占位。",
+            "status": "pending",
+            "dependencies": [
+              2,
+              3
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 2,
+            "title": "表单字段与 Zod Schema 草案",
+            "description": "定义八字字段与跨字段校验；前后端一致。",
+            "details": "字段：calendarType、birthDate、birthTime、timezone、gender、birthplace?；跨时区换算与边界值；错误消息 i18n。",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 3,
+            "title": "UI 组件映射（Shadcn/Radix/Tailwind）",
+            "description": "将所有字段绑定至通用表单组件；无障碍与移动端优先。",
+            "details": "DatePicker、TimePicker、Select、Input、Toggle；键盘可达与 aria。",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 4,
+            "title": "提交与 Server Action",
+            "description": "使用 Server Action 处理提交与返回结果引用 ID。",
+            "details": "去重与防抖；支持超时与错误语义；返回 resultId 用于结果页查询。",
+            "status": "pending",
+            "dependencies": [
+              2,
+              3
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 5,
+            "title": "四态实现（Empty/Error/Limited/Timeout）",
+            "description": "表单与结果四态组件与文案对齐。",
+            "details": "限流/余额不足态提示与引导；错误诊断信息可理解。",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 6,
+            "title": "营销事件与A/B埋点",
+            "description": "表单开始/提交/成功/失败、结果查看等事件。",
+            "details": "接入统一事件 Hook；携带渠道与活动参数；可切流 A/B。",
+            "status": "pending",
+            "dependencies": [
+              13
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 7,
+            "title": "i18n 资源与本地化",
+            "description": "补齐文案键与错误消息多语言；日期/数值本地化。",
+            "details": "将表单与结果文案拆分模块化资源；提供缺省回退。",
+            "status": "pending",
+            "dependencies": [
+              12
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 8,
+            "title": "访问控制与付费引导",
+            "description": "未登录/未付费限制与权益引导。",
+            "details": "根据 SKU bazi 与账户权益展示门槛 UI；跳转支付与开通页。",
+            "status": "pending",
+            "dependencies": [
+              14
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 9,
+            "title": "单元测试（校验/纯函数）",
+            "description": "覆盖 Zod 与时区换算等纯逻辑。",
+            "details": "边界与异常分支；快照用例固定错误文案。",
+            "status": "pending",
+            "dependencies": [
+              15
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 10,
+            "title": "集成测试（表单→Server Action）",
+            "description": "覆盖提交链路与错误/超时/限流分支。",
+            "details": "mock 接口/AI；断言缓存与重试行为。",
+            "status": "pending",
+            "dependencies": [
+              15
+            ],
+            "parentTaskId": 4
+          },
+          {
+            "id": 11,
+            "title": "E2E（主要路径与四态）",
+            "description": "端到端验证登录→填写→提交→结果路径。",
+            "details": "Playwright/Cypress 任一；稳定可复现。",
+            "status": "pending",
+            "dependencies": [
+              15
+            ],
+            "parentTaskId": 4
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "玄空风水表单迁移与适配",
+        "description": "迁移并适配玄空风水输入与提交流转，覆盖坐向/入伙日期/户型等字段与验证。",
+        "details": "表单与验证\n- 字段：坐向度数/卦象、入伙日期、户型面积、楼层、（可选）平面图上传。\n- 校验：范围/枚举/组合校验；文件类型/大小限制；i18n 文案覆盖。\n- 提交：Server Action/API；错误与限流态；上传进度反馈（如有）。\n成功标准\n- 端到端流程稳定；结果展示正确并与输入约束一致。",
+        "testStrategy": "单元/集成/E2E 与文件上传分支覆盖（如启用）。",
+        "status": "pending",
+        "dependencies": [
+          "1",
+          "2",
+          "3"
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "路由与页面占位（/fengshui）",
+            "description": "创建 RSC 页面与布局；边界页接入。",
+            "details": "/fengshui 入口；layout.tsx 复用；地图/上传占位。",
+            "status": "pending",
+            "dependencies": [
+              2,
+              3
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 2,
+            "title": "表单字段与 Zod Schema 草案",
+            "description": "定义坐向/卦象/入伙日期/户型/楼层/上传等字段与校验。",
+            "details": "度数范围与枚举映射；文件类型与大小限制；i18n 错误文案。",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 3,
+            "title": "UI 组件映射与文件上传",
+            "description": "组合选择器、数值输入、文件上传与进度反馈。",
+            "details": "Radix 组件 + 上传进度条；移动端交互优化。",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 4,
+            "title": "提交与 Server Action",
+            "description": "处理上传/参数与结果引用 ID 返回。",
+            "details": "异常与超时处理；文件安全检查。",
+            "status": "pending",
+            "dependencies": [
+              2,
+              3
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 5,
+            "title": "四态实现（Empty/Error/Limited/Timeout）",
+            "description": "表单与结果页态。",
+            "details": "上传场景限流与重试提示。",
+            "status": "pending",
+            "dependencies": [
+              3
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 6,
+            "title": "营销事件与活动追踪",
+            "description": "开始/提交/成功/失败/查看/导出等。",
+            "details": "统一事件 Hook 与渠道参数。",
+            "status": "pending",
+            "dependencies": [
+              13
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 7,
+            "title": "i18n 资源与本地化",
+            "description": "文案键、错误消息与单位本地化。",
+            "details": "多语言路由/元信息覆盖。",
+            "status": "pending",
+            "dependencies": [
+              12
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 8,
+            "title": "访问控制与付费引导",
+            "description": "SKU xuankong 权益判断与引导。",
+            "details": "未付费门槛；跳转支付。",
+            "status": "pending",
+            "dependencies": [
+              14
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 9,
+            "title": "单元测试（校验/纯函数）",
+            "description": "覆盖度数/文件校验与异常分支。",
+            "details": "快照固定错误文案。",
+            "status": "pending",
+            "dependencies": [
+              15
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 10,
+            "title": "集成测试（表单→Server Action）",
+            "description": "覆盖提交与上传链路。",
+            "details": "mock AI/存储；重试与超时分支。",
+            "status": "pending",
+            "dependencies": [
+              15
+            ],
+            "parentTaskId": 5
+          },
+          {
+            "id": 11,
+            "title": "E2E（主要路径与四态）",
+            "description": "端到端验证登录→填写→上传→提交→结果。",
+            "details": "移动端与桌面断言。",
+            "status": "pending",
+            "dependencies": [
+              15
+            ],
+            "parentTaskId": 5
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "前端业务逻辑重构（RSC 优先）",
+        "description": "拆分 Server/Client，纯计算上收服务端；客户端仅保留交互；URL 状态用 nuqs。",
+        "details": "重构要点\n- 纯计算与数据整形移入 server utils 或 Server Actions。\n- 客户端组件瘦身；减少 hydration 风险与体积。\n- 营销事件：统一事件总线 Hook 接入。\n成功标准\n- 首屏 JS 体积下降（相较原模块）；无 hydration 警告；交互无回归。",
+        "testStrategy": "Bundle 体积分析、交互回归脚本与关键路径手测。",
+        "status": "pending",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "后端 API 接口与服务编排",
+        "description": "对接 mksaas API 路由/Server Actions，明确合约、缓存与错误语义。",
+        "details": "接口与缓存\n- 合约：Zod 校验请求/响应；错误码与错误文案定义。\n- 缓存：Next 扩展 fetch 的 revalidate/tags 策略；避免重复计算。\n- 结果：AI 结果入库/回显与溯源 ID。\n成功标准\n- API 合约冻结；负载与延时在目标阈值内；重复调用命中缓存。",
+        "testStrategy": "合约测试（请求/响应/错误）；负载与并发基准；缓存命中率观察。",
+        "status": "pending",
+        "dependencies": [
+          "1",
+          "2",
+          "3"
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "接口合约与错误码冻结",
+            "description": "明确 /api/bazi/evaluate 与 /api/fengshui/evaluate（或对应 Server Action）的请求/响应与错误码。",
+            "details": "请求/响应 Zod；错误码：E_BAD_INPUT、E_RATE_LIMIT、E_TIMEOUT、E_NO_ENTITLEMENT、E_INTERNAL。",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "parentTaskId": 7
+          },
+          {
+            "id": 2,
+            "title": "Zod 校验中间层与错误归一化",
+            "description": "统一请求/响应校验与错误归一化输出；服务端与边界页一致。",
+            "details": "Zod 解析中间层；错误 mapping→文案键；日志字段标准化。",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "parentTaskId": 7
+          },
+          {
+            "id": 3,
+            "title": "AI 调用封装与超时/重试",
+            "description": "封装 AI 提供方调用；注入超时/重试/熔断；返回成本与 token 计数。",
+            "details": "支持多模型/版本配置；统一返回体与日志；可插拔成本计算。",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "parentTaskId": 7
+          },
+          {
+            "id": 4,
+            "title": "结果持久化与溯源 ID",
+            "description": "保存结果快照与上下文；生成 resultId；查询接口用于结果页回显。",
+            "details": "模型响应与输入参数脱敏入库；resultId 与用户关联；TTL 与删除策略。",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "parentTaskId": 7
+          },
+          {
+            "id": 5,
+            "title": "缓存与标签策略",
+            "description": "使用扩展 fetch 的 revalidate 与 tags；控制重复计算；定义失效策略。",
+            "details": "tags=['bazi'|'fengshui', userId, hash(params)]；命中直接返回；对齐性能目标。",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "parentTaskId": 7
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "AI 计算与计费/降级策略接入",
+        "description": "封装 AI 调用并接入计费口径与余额不足时的三级降级。",
+        "details": "计费与降级\n- 计费口径：aiChat=5、deepInterpretation=30、bazi=10、xuankong=20、pdfExport=5。\n- 流控与降级：余额充足→完整；中级→限制深度/并发；最低→排队/提示充值。\n- 计费日志：与订单/权益对账一致。\n成功标准\n- 计费与调用一致；余额阈值触发降级生效，用户反馈清晰。",
+        "testStrategy": "计费模拟测试、降级场景回归、日志与对账抽查。",
+        "status": "pending",
+        "dependencies": [
+          "7"
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "SKU/权益映射与额度模型",
+            "description": "建立 SKU→口径→额度（配额/并发）映射；与订单/权益表对齐。",
+            "details": "SKU: bazi, xuankong, pdfExport；额度单位、计次/计时与有效期；边界值。",
+            "status": "pending",
+            "dependencies": [
+              7
+            ],
+            "parentTaskId": 8
+          },
+          {
+            "id": 2,
+            "title": "费用计算器与计费日志",
+            "description": "统一费用计算器；写入计费日志用于对账与审计。",
+            "details": "按口径计费：aiChat=5, deepInterpretation=30, bazi=10, xuankong=20, pdfExport=5；输出成本与余额。",
+            "status": "pending",
+            "dependencies": [
+              7
+            ],
+            "parentTaskId": 8
+          },
+          {
+            "id": 3,
+            "title": "降级策略实现与 UI 钩子",
+            "description": "余额不足策略：完整→限制（深度/并发）→排队与充值提示；前端四态联动。",
+            "details": "服务端判定降级级别并回传；前端态文案与 CTA 一致；可配置阈值。",
+            "status": "pending",
+            "dependencies": [
+              7
+            ],
+            "parentTaskId": 8
+          },
+          {
+            "id": 4,
+            "title": "异常订单补偿与对账",
+            "description": "订单-权益-功能闭环异常补偿（幂等重放、补扣/退款）；与对账一致。",
+            "details": "支付回调幂等；失败重试队列；对账差异报警。",
+            "status": "pending",
+            "dependencies": [
+              14
+            ],
+            "parentTaskId": 8
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "数据模型兼容性与迁移脚本",
+        "description": "对齐/扩展数据模型（用户、订单/配额、占卜记录、风水评估），编写可回滚迁移。",
+        "details": "模型与迁移\n- 模型：用户→记录→结果 与 权益/配额 关联。\n- 迁移脚本：向前兼容、幂等；必要索引与约束补齐。\n成功标准\n- 迁移干跑与回滚演练通过；零数据丢失；写入性能达标。",
+        "testStrategy": "迁移/回滚演练、结构与索引检查、数据抽样校验。",
+        "status": "pending",
+        "dependencies": [
+          "1"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "安全与合规",
+        "description": "鉴权/速率限制/输入清洗/日志脱敏与合规文案（18+、免责声明、隐私与 DSAR）。",
+        "details": "安全与合规\n- 鉴权：鉴别登录态与付费权限；API 限流与防重放。\n- 日志：不输出敏感信息（PII、支付详情）。\n- 合规：18+、免责声明、隐私与 DSAR。\n成功标准\n- 安全基线通过；风控与审计检查通过；外露信息合规。",
+        "testStrategy": "安全基线脚本、灰盒测试、日志抽查与策略验证。",
+        "status": "pending",
+        "dependencies": [
+          "1",
+          "7"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "性能优化与观测",
+        "description": "针对 LCP/CLS/INP 优化（RSC/Suspense/流式/缓存/图片），建立观测面板。",
+        "details": "优化与观测\n- 渲染：RSC + Suspense/流式；next/image 参数与懒加载。\n- 缓存：结果级/接口级缓存策略与失效。\n- 观测：核心指标采集、仪表盘与告警。\n成功标准\n- 目标页面 CWV 达标；回归无明显退化。",
+        "testStrategy": "CWV 采样、性能回归基线与对比、告警联调。",
+        "status": "pending",
+        "dependencies": [
+          "6",
+          "7"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "国际化（i18n）集成",
+        "description": "与现有 i18n 系统一致，覆盖文案、日期/数值本地化与 locale 路由。",
+        "details": "i18n\n- 语言资源：按模块拆分；缺省回退与占位。\n- 路由与 SEO：多语言路由与元信息。\n成功标准\n- 主要语言覆盖率 100%；缺省回退正确；页面切换无错位。",
+        "testStrategy": "多语言 E2E（切换/刷新/直达 URL）、文案快照。",
+        "status": "pending",
+        "dependencies": [
+          "3"
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "营销/埋点/活动追踪对接",
+        "description": "接入统一事件规范，覆盖关键路径事件与转化追踪，支持 A/B。",
+        "details": "埋点\n- 事件 schema：表单开始/提交/成功/失败、结果查看、分享/导出、购买/续费。\n- 数据：与活动/渠道参数打通。\n成功标准\n- 主漏斗数据完整可用；与后台看板数据一致。",
+        "testStrategy": "事件回放、抽样比对报表、关键链路监控。",
+        "status": "pending",
+        "dependencies": [
+          "6"
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "支付流程联动与访问控制",
+        "description": "SKU（bazi/xuankong/pdfExport）配置、支付后权益下发与功能解锁、未付费限制。",
+        "details": "支付与权限\n- SKU 与计费口径映射；支付完成后写入权益并解锁功能。\n- 未付费路径：软/硬门槛与引导。\n成功标准\n- 订单-权益-功能闭环；异常订单有补偿机制。",
+        "testStrategy": "沙箱支付回放、异常订单补偿演练、功能访问控制回归。",
+        "status": "pending",
+        "dependencies": [
+          "7",
+          "8"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "测试策略与落地",
+        "description": "制定并落地单元/集成/端到端测试矩阵与覆盖阈值；集成到 CI。",
+        "details": "测试\n- 单元：校验与纯函数；覆盖边界与异常分支。\n- 集成：表单→API→存储；并发/重试/超时。\n- E2E：主要用户路径与四态；可重复稳定。\n成功标准\n- 覆盖率达既定阈值；主路径 E2E 稳定通过。",
+        "testStrategy": "CI 集成（失败即阻断）；报告归档与基线对比。",
+        "status": "pending",
+        "dependencies": [
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "14"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 16,
+        "title": "上线演练、回滚与验收",
+        "description": "预发演练、灰度、回滚脚本与完整验收清单。",
+        "details": "上线与验收\n- Feature flag/灰度策略；故障注入演练。\n- 回滚：自动/手动回滚脚本与数据回滚预案。\n- 验收：功能/性能/安全/合规联合验收。\n成功标准\n- 演练通过；具备 0 人工介入的快速回滚能力；无 P0。",
+        "testStrategy": "演练剧本执行记录与复盘；验收清单逐项签字。",
+        "status": "pending",
+        "dependencies": [
+          "10",
+          "11",
+          "15"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 17,
+        "title": "结果展示与报告导出适配",
+        "description": "统一结果视图（卡片/图表/解释文案）与 PDF 导出能力接入。",
+        "details": "结果与导出\n- 结果组件：八字/风水结果卡片、解释与建议；图片与图表（懒加载）。\n- 导出：PDF 导出（计费口径 pdfExport=5）；i18n 文案与水印。\n成功标准\n- 结果渲染稳定；PDF 导出一致且可追溯。",
+        "testStrategy": "结果快照测试、导出比对与文件校验、长文/多图兼容性。",
+        "status": "pending",
+        "dependencies": [
+          "4",
+          "5",
+          "7",
+          "8"
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 18,
+        "title": "灰度监控与回归基线建立",
+        "description": "建立关键指标/错误率/性能回归基线，灰度期间自动监控与告警。",
+        "details": "监控与基线\n- 指标：转化率、提交成功率、错误率、P95 延时、缓存命中率。\n- 基线：迁移前/后对比；自动告警阈值。\n成功标准\n- 指标面板齐备；灰度期异常可快速定位。",
+        "testStrategy": "合成监控脚本、基线回归图对比、告警演练。",
+        "status": "pending",
+        "dependencies": [
+          "11",
+          "13"
+        ],
+        "priority": "medium",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-02T10:27:11.215Z",
+      "updated": "2025-10-02T12:53:51.258Z",
+      "description": "将 qiflow-ai 八字与玄空风水模块完整迁移并适配到 mksaas 根目录模版的专项标签"
+    }
+  }
+}

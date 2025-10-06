@@ -52,9 +52,9 @@ const MONTH_SEASONAL_WEIGHTS: Record<
     weights[dominant] = 0.45;
     const hidden =
       BRANCH_HIDDEN_ELEMENTS[b as keyof typeof BRANCH_HIDDEN_ELEMENTS] || [];
-    const rest = all.filter((e) => e !== dominant);
+    const rest = all.filter(e => e !== dominant);
     // 分配0.55给藏干中出现的余气，按出现次数平均
-    const present = rest.filter((e) => hidden.includes(e));
+    const present = rest.filter(e => hidden.includes(e));
     const share = present.length > 0 ? 0.55 / present.length : 0;
     for (const e of present) weights[e] = share;
     base[b] = weights;
@@ -117,7 +117,7 @@ function estimateDayMasterStrength(pillars: Pillars): {
 
   // 藏干同气助力（当月藏干包含同五行）
   const hidden = BRANCH_HIDDEN_ELEMENTS[pillars.month.branch] || [];
-  const sameCount = hidden.filter((e) => e === dm).length;
+  const sameCount = hidden.filter(e => e === dm).length;
   if (sameCount > 0) {
     const hiddenBoost = sameCount * 8;
     score += hiddenBoost;
@@ -126,8 +126,8 @@ function estimateDayMasterStrength(pillars: Pillars): {
 
   // 透干助力：年/月/时天干与日主同五行
   const helpers = [pillars.year.stem, pillars.month.stem, pillars.hour.stem]
-    .map((s) => STEM_TO_ELEMENT[s])
-    .filter((e) => e === dm).length;
+    .map(s => STEM_TO_ELEMENT[s])
+    .filter(e => e === dm).length;
   if (helpers > 0) {
     const helperBoost = helpers * 6;
     score += helperBoost;
@@ -137,8 +137,8 @@ function estimateDayMasterStrength(pillars: Pillars): {
   // 克耗抑制：当月藏干中克日主或泄日主者偏多
   const controller = CONTROL[dm];
   const drain = PRODUCTION[dm];
-  const controlCount = hidden.filter((e) => e === controller).length;
-  const drainCount = hidden.filter((e) => e === drain).length;
+  const controlCount = hidden.filter(e => e === controller).length;
+  const drainCount = hidden.filter(e => e === drain).length;
   const penalty = controlCount * 8 + drainCount * 5;
   if (penalty) {
     score -= penalty;
