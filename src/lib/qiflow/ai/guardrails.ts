@@ -350,15 +350,7 @@ export class AuditLogger {
     // 实际项目中应该发送到日志服务
     console.log('[AUDIT]', JSON.stringify(entry));
     
-    // 可以发送到后端API记录
-    try {
-      await fetch('/api/audit/log', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(entry),
-      });
-    } catch (error) {
-      console.error('Failed to send audit log:', error);
-    }
+    // Edge Runtime 不支持相对 URL，暂时只使用 console.log
+    // TODO: 如需持久化，请实现外部日志服务（如 Sentry, Datadog 等）
   }
 }

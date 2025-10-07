@@ -186,6 +186,35 @@ export function getLocaleFromRequest(request?: Request): Locale {
 }
 
 /**
+ * Verifies authentication from a request
+ * 
+ * @param request - The incoming request
+ * @returns Authentication result with user ID if authenticated
+ */
+export async function verifyAuth(request: Request): Promise<{
+  authenticated: boolean;
+  userId: string | null;
+}> {
+  try {
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
+
+    if (!session || !session.session || !session.user) {
+      return { authenticated: false, userId: null };
+    }
+
+    return {
+      authenticated: true,
+      userId: session.user.id,
+    };
+  } catch (error) {
+    console.error('verifyAuth error:', error);
+    return { authenticated: false, userId: null };
+  }
+}
+
+/**
  * On create user hook
  *
  * @param user - The user to create

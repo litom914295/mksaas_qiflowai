@@ -35,3 +35,4 @@ async function checkTables() {
 }
 
 checkTables();
+

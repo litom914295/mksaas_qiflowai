@@ -20,6 +20,13 @@ interface Message {
 interface ChatContext {
   baziData?: any;
   fengshuiData?: any;
+  birthInfo?: {
+    date: string;
+    time: string | null;
+    gender: string | null;
+    hasComplete: boolean;
+  };
+  calculatedBazi?: any;  // 计算的八字数据
 }
 
 export function AIChatDemo({ context }: { context?: ChatContext }) {
@@ -34,6 +41,10 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId] = useState(() => `demo_${Date.now()}`);
+  // 会话记忆：保存识别到的生辰信息
+  const [birthInfo, setBirthInfo] = useState<ChatContext['birthInfo']>(context?.birthInfo);
+  // 保存计算的八字数据
+  const [calculatedBazi, setCalculatedBazi] = useState<any>(context?.calculatedBazi);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -50,6 +61,13 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
     setIsLoading(true);
 
     try {
+      // 合并 context 和会话记忆
+      const requestContext: ChatContext = {
+        ...context,
+        birthInfo: birthInfo || context?.birthInfo,
+        calculatedBazi: calculatedBazi || context?.calculatedBazi,
+      };
+      
       const response = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: {
@@ -58,13 +76,25 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
         body: JSON.stringify({
           message: userMessage.content,
           sessionId,
-          context,
+          context: requestContext,
         }),
       });
 
       const data = await response.json();
 
       if (data.success && data.data) {
+        // 保存 API 返回的 birthInfo（如果有）
+        if (data.data.birthInfo) {
+          setBirthInfo(data.data.birthInfo);
+          console.log('💾 Saved birthInfo to session memory:', data.data.birthInfo);
+        }
+        
+        // 保存计算的八字数据
+        if (data.data.calculatedBazi) {
+          setCalculatedBazi(data.data.calculatedBazi);
+          console.log('🎯 Saved calculated Bazi to session memory');
+        }
+        
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
@@ -190,8 +220,18 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
           )}
         </div>
 
+        {/* 生辰信息记忆提示 */}
+        {birthInfo?.hasComplete && (
+          <Alert className="mb-4 bg-green-50 border-green-200">
+            <Sparkles className="h-4 w-4 text-green-600" />
+            <AlertDescription className="text-green-800">
+              ✅ 已记住您的出生信息：{birthInfo.date} {birthInfo.time} {birthInfo.gender}
+            </AlertDescription>
+          </Alert>
+        )}
+        
         {/* 数据状态提示 */}
-        {(!context?.baziData && !context?.fengshuiData) && (
+        {(!context?.baziData && !context?.fengshuiData && !birthInfo?.hasComplete) && (
           <Alert className="mb-4">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>

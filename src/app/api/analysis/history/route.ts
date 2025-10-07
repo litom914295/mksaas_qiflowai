@@ -1,0 +1,58 @@
+/**
+ * API: 查询分析历史
+ * GET /api/analysis/history
+ */
+
+import { auth } from '@/lib/auth';
+import { db } from '@/db';
+import { analysisHistory } from '@/db/schema/analysis';
+import { eq, desc } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
+import { headers } from 'next/headers';
+
+export async function GET(req: Request) {
+  try {
+    // 获取用户session
+    const session = await auth.api.getSession({
+      headers: await headers()
+    });
+
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // 获取查询参数
+    const { searchParams } = new URL(req.url);
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const offset = parseInt(searchParams.get('offset') || '0');
+
+    // 查询用户的分析历史
+    const history = await db
+      .select()
+      .from(analysisHistory)
+      .where(eq(analysisHistory.userId, session.user.id))
+      .orderBy(desc(analysisHistory.createdAt))
+      .limit(limit)
+      .offset(offset);
+
+    return NextResponse.json({
+      success: true,
+      data: history,
+      pagination: {
+        limit,
+        offset,
+        hasMore: history.length === limit
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching analysis history:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

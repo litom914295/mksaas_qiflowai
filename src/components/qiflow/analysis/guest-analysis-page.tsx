@@ -22,48 +22,49 @@ import type {
     RoomMappingResult,
     SpaceMappingResult,
 } from '@/lib/space-mapping/types';
-import { ArrowLeft, Calendar, Clock, Compass, Home, Sparkles, Star, Target, TrendingUp, User } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Home, Sparkles, Star, Target, TrendingUp, User } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
-import { BaziAnalysisResult } from './bazi-analysis-result';
-import { FengshuiDisplay } from './fengshui-display';
-import { FlyingStarAnalysis } from './flying-star-analysis';
-import { StandardFloorPlan } from './standard-floor-plan';
+import { useCallback, useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
+import type { CompassThemeKey } from '@/lib/compass/themes';
 
-// 导入新的罗盘组件
-import CompassThemeSelector from '@/components/compass/compass-theme-selector';
-import SimpleCompass from '@/components/compass/simple-compass';
-import { type CompassThemeKey } from '@/lib/compass/themes';
+// 使用动态导入优化性能
+const BaziAnalysisResult = dynamic(() => import('./bazi-analysis-result').then(mod => ({ default: mod.BaziAnalysisResult })), {
+  ssr: false,
+  loading: () => <div className='animate-pulse bg-gray-200 rounded-lg h-96'></div>
+});
 
-interface PersonalData {
-  name: string;
-  birthDate: string;
-  birthTime: string;
-  gender: 'male' | 'female';
-  location: string;
-}
+const FengshuiDisplay = dynamic(() => import('./fengshui-display').then(mod => ({ default: mod.FengshuiDisplay })), {
+  ssr: false
+});
 
-interface HouseData {
-  orientation: number; // Orientation angle (0-360 degrees)
-  address: string;
-  floor: number;
-  roomCount: number;
-  compassMethod: 'manual' | 'compass';
-}
+const FlyingStarAnalysis = dynamic(() => import('./flying-star-analysis').then(mod => ({ default: mod.FlyingStarAnalysis })), {
+  ssr: false
+});
 
-interface AnalysisData {
-  personal: PersonalData;
-  house: HouseData;
-  floorPlan?: any;
-  baziResult?: any;
-  fengshuiResult?: GenerateFlyingStarOutput;
-  fengshuiExplanation?: FlyingStarExplanation;
-}
+const PersonalDataForm = dynamic(() => import('./personal-data-form').then(mod => ({ default: mod.PersonalDataForm })), {
+  ssr: false
+});
 
-interface GuestAnalysisPageProps {
-  locale?: string;
-}
+const HouseDataForm = dynamic(() => import('./house-data-form').then(mod => ({ default: mod.HouseDataForm })), {
+  ssr: false
+});
+
+const StepIndicator = dynamic(() => import('./step-indicator').then(mod => ({ default: mod.StepIndicator })), {
+  ssr: false
+});
+
+// 导入类型定义
+import type {
+  PersonalData,
+  HouseData,
+  FloorPlan,
+  BaziResult,
+  AnalysisData,
+  Step,
+  GuestAnalysisPageProps
+} from './types';
 
 export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
   const t = useTranslations();
@@ -74,7 +75,7 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
   const [compassOrientation, setCompassOrientation] = useState<number | null>(
     null
   );
-  const [selectedFloorPlan, setSelectedFloorPlan] = useState<any>(null);
+  const [selectedFloorPlan, setSelectedFloorPlan] = useState<FloorPlan | null>(null);
   const [selectedCompassTheme, setSelectedCompassTheme] = useState<CompassThemeKey>('compass');
   
   // Complete report data state
@@ -82,7 +83,7 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
   const [luckPillarsData] = useState<LuckPillarAnalysis[]>([]);
 
   // Bazi analysis completion callback
-  const handleBaziAnalysisComplete = useCallback((result: any) => {
+  const handleBaziAnalysisComplete = useCallback((result: BaziResult) => {
     console.log('Enhanced Bazi analysis completed:', result);
     
     // Build complete report data
@@ -106,7 +107,7 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
   }, [analysisData, luckPillarsData, setCompleteReportData]);
 
   // Step configuration
-  const steps = [
+  const steps: Step[] = [
     { id: 1, title: t('analysis.steps.personalData'), icon: User, description: t('analysis.steps.personalDataDesc') },
     { id: 2, title: t('analysis.steps.houseOrientation'), icon: Home, description: t('analysis.steps.houseOrientationDesc') },
     { id: 3, title: t('analysis.steps.baziAnalysis'), icon: Star, description: t('analysis.steps.baziAnalysisDesc') },
@@ -148,7 +149,7 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
   };
 
   // Handle floor plan selection
-  const handleFloorPlanSelect = (floorPlan: any) => {
+  const handleFloorPlanSelect = (floorPlan: FloorPlan) => {
     setSelectedFloorPlan(floorPlan);
     setAnalysisData(prev => prev ? ({
       ...prev,
@@ -818,12 +819,13 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
                 variant='ghost'
                 size='sm'
                 className='flex items-center gap-2'
+                aria-label={t('guestAnalysis.navigation.back')}
               >
                 <ArrowLeft className='w-4 h-4' />
                 {t('guestAnalysis.navigation.back')}
               </Button>
               <div className='flex items-center gap-2'>
-                <Sparkles className='w-6 h-6 text-purple-600' />
+                <Sparkles className='w-6 h-6 text-purple-600' aria-hidden='true' />
                 <h1 className='text-xl font-bold text-gray-900'>
                   {t('guestAnalysis.navigation.title')}
                 </h1>

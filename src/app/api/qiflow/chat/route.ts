@@ -10,6 +10,8 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
+import { InputParser } from '@/lib/qiflow/ai/input-parser';
+import { calculateBazi } from '@/lib/services/bazi-calculator-service';
 
 // 请求验证schema
 const chatRequestSchema = z.object({
@@ -19,6 +21,65 @@ const chatRequestSchema = z.object({
     data: z.record(z.string(), z.any()).optional(),
   }).optional(),
 });
+
+// 智能解析用户输入并自动触发分析
+async function intelligentParse(message: string) {
+  const parsed = InputParser.parseInput(message);
+  
+  // 识别到八字信息且置信度>0.6
+  if (parsed.type === 'bazi' && parsed.confidence > 0.6 && parsed.data) {
+    const birthInfo = parsed.data as any;
+    
+    // 检查是否缺少必要信息
+    if (parsed.missingFields.length > 0) {
+      return {
+        type: 'need_more_info',
+        response: InputParser.generateSupplementPrompt(parsed),
+        parsedData: birthInfo,
+      };
+    }
+    
+    // 信息完整，自动触发八字分析
+    try {
+      const baziResult = await calculateBazi(
+        birthInfo.date,
+        birthInfo.time,
+        birthInfo.gender || 'male'  // 默认男性
+      );
+      
+      return {
+        type: 'auto_analysis',
+        analysisType: 'bazi',
+        data: baziResult,
+        response: `✨ 已为您自动完成八字分析！\n\n` +
+          `📅 **出生时间**：${birthInfo.date} ${birthInfo.time}\n` +
+          `👤 **性别**：${birthInfo.gender === 'male' ? '男' : '女'}\n` +
+          (birthInfo.location ? `📍 **地点**：${birthInfo.location}\n` : '') +
+          `\n**四柱命盘**\n` +
+          `年柱：${baziResult.fourPillars.year.heavenlyStem}${baziResult.fourPillars.year.earthlyBranch}\n` +
+          `月柱：${baziResult.fourPillars.month.heavenlyStem}${baziResult.fourPillars.month.earthlyBranch}\n` +
+          `日柱：${baziResult.fourPillars.day.heavenlyStem}${baziResult.fourPillars.day.earthlyBranch}\n` +
+          `时柱：${baziResult.fourPillars.hour.heavenlyStem}${baziResult.fourPillars.hour.earthlyBranch}\n\n` +
+          `**五行分析**\n` +
+          `木：${baziResult.fiveElements.wood} | 火：${baziResult.fiveElements.fire} | ` +
+          `土：${baziResult.fiveElements.earth} | 金：${baziResult.fiveElements.metal} | ` +
+          `水：${baziResult.fiveElements.water}\n\n` +
+          `**日主**：${baziResult.dayMaster}\n` +
+          `**喜用神**：${baziResult.favorableElements.join('、')}\n` +
+          `**忌神**：${baziResult.unfavorableElements.join('、')}\n\n` +
+          `💡 现在您可以继续询问关于性格、事业、财运、感情等问题，我将基于这份八字为您详细解答！`,
+      };
+    } catch (error) {
+      console.error('Auto bazi analysis error:', error);
+      return {
+        type: 'analysis_error',
+        response: '抱歉，自动分析出现问题。请尝试手动输入完整信息或使用八字分析页面。',
+      };
+    }
+  }
+  
+  return null;
+}
 
 // 算法数据检查
 async function checkAlgorithmData(message: string, context?: any) {
@@ -122,7 +183,61 @@ export async function POST(request: NextRequest) {
     const validatedData = chatRequestSchema.parse(body);
     const { message, context } = validatedData;
 
-    // 3. 算法优先策略
+    // 3. 【优化】智能解析用户输入，自动触发分析
+    const parseResult = await intelligentParse(message);
+    if (parseResult) {
+      if (parseResult.type === 'need_more_info') {
+        // 需要补充信息，不扣费
+        return NextResponse.json({
+          response: parseResult.response,
+          creditsUsed: 0,
+          type: 'guidance',
+          parsedData: parseResult.parsedData,
+        });
+      }
+      
+      if (parseResult.type === 'auto_analysis') {
+        // 自动分析完成，扣除分析费用
+        const analysisType = parseResult.analysisType === 'bazi' ? 'bazi' : 'xuankong';
+        const result = await creditsManager.executeWithCredits(
+          session.user.id,
+          analysisType,
+          async () => ({
+            analysis: parseResult.response,
+            data: parseResult.data,
+          })
+        );
+
+        if (result.type === 'insufficient') {
+          return NextResponse.json(
+            { 
+              error: result.message,
+              required: result.required,
+              balance: result.balance,
+            },
+            { status: 402 }
+          );
+        }
+
+        return NextResponse.json({
+          response: result.result.analysis,
+          analysisData: result.result.data,
+          creditsUsed: result.creditsUsed,
+          type: 'auto_analysis',
+          analysisType: parseResult.analysisType,
+        });
+      }
+      
+      if (parseResult.type === 'analysis_error') {
+        return NextResponse.json({
+          response: parseResult.response,
+          creditsUsed: 0,
+          type: 'error',
+        });
+      }
+    }
+
+    // 4. 算法优先策略（如果智能解析没有结果）
     const algorithmResult = await checkAlgorithmData(message, context);
     if (algorithmResult) {
       if (algorithmResult.type === 'need_data') {
