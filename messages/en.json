@@ -308,79 +308,6 @@
     "gender": {
       "male": "Male",
       "female": "Female"
-    },
-    "male": "Male",
-    "female": "Female"
-  },
-  "QiFlow": {
-    "Common": {
-      "invalidInput": "Invalid input, please check and try again.",
-      "confidenceLabel": "Confidence: ",
-      "fixOrFill": "Go to fill required fields"
-    },
-    "BaziPage": {
-      "title": "Bazi Analysis",
-      "form": {
-        "name": "Name",
-        "birth": "Birth Datetime 1990-01-01 08:08",
-        "gender": {
-          "male": "Male",
-          "female": "Female"
-        },
-        "submit": "Calculate",
-        "description": "Please enter birth information and select gender",
-        "meta": {
-          "time": "Estimated time ~ 1-2s",
-          "save": "Sign in to save history"
-        }
-      },
-      "result": {
-        "completed": "Calculation completed, credits used: {credits}",
-        "user": "User: {userId}",
-        "pillarsHint": "Pillars: {pillars}"
-      }
-    },
-    "XuankongPage": {
-      "title": "Xuan Kong Flying Stars",
-      "form": {
-        "address": "Address",
-        "facing": "Facing (deg)",
-        "notes": "Notes / Floor / Special",
-        "submit": "Analyze",
-        "description": "Please enter address and facing degrees",
-        "meta": {
-          "time": "Estimated time ~ 1-2s",
-          "save": "Sign in to save history"
-        }
-      },
-      "low": {
-        "title": "Auto decision rejected (confidence too low).",
-        "body": "Please enter key parameters manually or try the following calibration suggestions:",
-        "hints": []
-      },
-      "medium": {
-        "title": "Medium confidence, please calibrate to improve accuracy (0.7~0.9).",
-        "hints": []
-      },
-      "success": "Analysis completed, recommendations generated."
-    },
-    "States": {
-      "empty": {
-        "title": "No data yet",
-        "desc": "Please complete the required fields to start analysis."
-      },
-      "error": {
-        "title": "Invalid input",
-        "desc": "Something went wrong. Please check the information and try again."
-      },
-      "limited": {
-        "title": "More information recommended",
-        "desc": "Please provide the required fields to proceed."
-      },
-      "timeout": {
-        "title": "Request timeout",
-        "desc": "The operation took too long. Please try again later."
-      }
     }
   },
   "BaziHome": {
@@ -530,71 +457,68 @@
     "not_helpful": "Not Helpful"
   },
   "Common": {
-    "login": "Log in",
-    "logout": "Log out",
-    "signUp": "Sign up",
-    "language": "Switch language",
-    "mode": {
-      "label": "Toggle mode",
-      "light": "Light",
-      "dark": "Dark",
-      "system": "System"
-    },
-    "theme": {
-      "label": "Toggle theme",
-      "default": "Default",
-      "blue": "Blue",
-      "green": "Green",
-      "amber": "Amber",
-      "neutral": "Neutral"
-    },
-    "copy": "Copy",
-    "saving": "Saving...",
-    "save": "Save",
+    "retry": "Retry",
     "loading": "Loading...",
-    "cancel": "Cancel",
-    "logoutFailed": "Failed to log out",
-    "table": {
-      "totalRecords": "Total {count} records",
-      "noResults": "No results",
-      "loading": "Loading...",
-      "columns": "Columns",
-      "rowsPerPage": "Rows per page",
-      "page": "Page",
-      "firstPage": "First Page",
-      "lastPage": "Last Page",
-      "nextPage": "Next Page",
-      "previousPage": "Previous Page",
-      "ascending": "Asc",
-      "descending": "Desc"
-    },
     "error": "Error",
     "success": "Success",
+    "cancel": "Cancel",
     "confirm": "Confirm",
+    "save": "Save",
     "delete": "Delete",
     "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "actions": "Actions",
+    "status": "Status",
+    "date": "Date",
+    "name": "Name",
+    "description": "Description",
     "back": "Back",
     "next": "Next",
     "previous": "Previous",
     "submit": "Submit",
     "reset": "Reset",
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
+    "close": "Close",
+    "refresh": "Refresh",
     "export": "Export",
     "import": "Import",
     "share": "Share",
+    "copy": "Copy",
     "download": "Download",
     "upload": "Upload",
-    "close": "Close",
     "open": "Open",
     "view": "View",
     "preview": "Preview",
-    "refresh": "Refresh",
-    "retry": "Retry",
     "switchLanguage": "Switch Language",
     "unknown": "Unknown",
-    "toBeCalculated": "To be calculated"
+    "toBeCalculated": "To be calculated",
+    "table": {
+      "columns": "Columns",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "mode": {
+      "label": "Theme Mode",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": "Language",
+    "login": "Login",
+    "logout": "Logout",
+    "signUp": "Sign Up",
+    "logoutFailed": "Logout failed. Please try again."
   },
   "Compass": {
     "title": "Digital Compass",
@@ -623,26 +547,7 @@
     },
     "key_points": "Key Points",
     "specific_recommendations": "Specific Recommendations",
-    "pattern_explanation_text": "Flying Star patterns are central to feng shui analysis. By examining the relationships among Period, Mountain, and Water stars, we can assess auspiciousness and influences on fortune, health, and wealth.",
-    "measuring": "Measuring...",
-    "calibrate_device": "Calibrate Device",
-    "calibration_instructions": "Please follow the instructions to calibrate your device",
-    "magnetic_declination": "Magnetic Declination",
-    "true_north": "True North",
-    "magnetic_north": "Magnetic North",
-    "direction": "Direction",
-    "degree": "Degree",
-    "measurement_history": "Measurement History",
-    "save_measurement": "Save Measurement",
-    "clear_history": "Clear History",
-    "device_not_supported": "Device does not support compass function",
-    "permission_required": "Sensor permission required",
-    "interference_detected": "Magnetic interference detected",
-    "move_away_from_metal": "Please move away from metal objects",
-    "measurement_saved": "Measurement saved",
-    "high_accuracy": "High Accuracy",
-    "medium_accuracy": "Medium Accuracy",
-    "low_accuracy": "Low Accuracy"
+    "pattern_explanation_text": "Flying Star patterns are central to feng shui analysis. By examining the relationships among Period, Mountain, and Water stars, we can assess auspiciousness and influences on fortune, health, and wealth."
   },
   "Compass_legacy": {
     "title": "Digital Compass",
@@ -1310,7 +1215,7 @@
       },
       "compass": {
         "title": "High-precision Digital Compass",
-        "description": "Â±2Â° professional accuracy with auto declination correction and 24 directions"
+        "description": "±2° professional accuracy with auto declination correction and 24 directions"
       },
       "floorPlan": {
         "title": "Smart Floor Plan Overlay",
@@ -1351,7 +1256,7 @@
       },
       "precisionCompass": {
         "title": "Precision Compass",
-        "description": "Â±2Â° accuracy with multi-sensor fusion"
+        "description": "±2° accuracy with multi-sensor fusion"
       },
       "multilingual": {
         "title": "Multilingual",
@@ -1359,7 +1264,7 @@
       }
     },
     "footer": {
-      "copyright": "Â© 2024 QiFlow AI. All rights reserved.",
+      "copyright": "© 2024 QiFlow AI. All rights reserved.",
       "help": "Help Center",
       "about": "About Us"
     }
@@ -2042,9 +1947,8 @@
     }
   },
   "Metadata": {
-    "name": "QiFlow AI",
-    "title": "QiFlow AI — Intelligent BaZi · Feng Shui",
-    "description": "Blend traditional metaphysics with modern AI to deliver key insights and clear actions with privacy-first design and transparent pricing."
+    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
+    "description": "An intelligent feng shui analysis platform that combines traditional Chinese metaphysics with modern AI technology"
   },
   "Navigation": {
     "home": "Home",
@@ -2220,6 +2124,77 @@
     "date_required": "Date is required",
     "time_required": "Time is required",
     "address_required": "Address is required"
+  },
+  "QiFlow": {
+    "Common": {
+      "invalidInput": "Invalid input, please check and try again.",
+      "confidenceLabel": "Confidence: ",
+      "fixOrFill": "Go to fill required fields"
+    },
+    "BaziPage": {
+      "title": "Bazi Analysis",
+      "form": {
+        "name": "Name",
+        "birth": "Birth Datetime 1990-01-01 08:08",
+        "gender": {
+          "male": "Male",
+          "female": "Female"
+        },
+        "submit": "Calculate",
+        "description": "Please enter birth information and select gender",
+        "meta": {
+          "time": "Estimated time ~ 1-2s",
+          "save": "Sign in to save history"
+        }
+      },
+      "result": {
+        "completed": "Calculation completed, credits used: {credits}",
+        "user": "User: {userId}",
+        "pillarsHint": "Pillars: {pillars}"
+      }
+    },
+    "XuankongPage": {
+      "title": "Xuan Kong Flying Stars",
+      "form": {
+        "address": "Address",
+        "facing": "Facing (deg)",
+        "notes": "Notes / Floor / Special",
+        "submit": "Analyze",
+        "description": "Please enter address and facing degrees",
+        "meta": {
+          "time": "Estimated time ~ 1-2s",
+          "save": "Sign in to save history"
+        }
+      },
+      "low": {
+        "title": "Auto decision rejected (confidence too low).",
+        "body": "Please enter key parameters manually or try the following calibration suggestions:",
+        "hints": []
+      },
+      "medium": {
+        "title": "Medium confidence, please calibrate to improve accuracy (0.7~0.9).",
+        "hints": []
+      },
+      "success": "Analysis completed, recommendations generated."
+    },
+    "States": {
+      "empty": {
+        "title": "No data yet",
+        "desc": "Please complete the required fields to start analysis."
+      },
+      "error": {
+        "title": "Invalid input",
+        "desc": "Something went wrong. Please check the information and try again."
+      },
+      "limited": {
+        "title": "More information recommended",
+        "desc": "Please provide the required fields to proceed."
+      },
+      "timeout": {
+        "title": "Request timeout",
+        "desc": "The operation took too long. Please try again later."
+      }
+    }
   },
   "Reports": {
     "title": "Analysis Reports",
@@ -2425,6 +2400,57 @@
     "unknown": "Unknown",
     "toBeCalculated": "To be calculated"
   },
+  "testPages": {
+    "simpleLangTest": {
+      "title": "Simple Language Switch Test",
+      "currentStatus": "Current Status",
+      "currentLanguage": "Current Language",
+      "currentPath": "Current Path",
+      "pageTitle": "Page Title",
+      "subtitle": "Subtitle",
+      "languageSwitch": "Language Switch",
+      "translationTest": "Translation Content Test",
+      "features": "Features",
+      "commonText": "Common Text",
+      "debugInfo": "Debug Information",
+      "currentTime": "Current Time",
+      "browserLanguage": "Browser Language"
+    },
+    "langTest": {
+      "title": "Language Switch Test Page",
+      "currentStatus": "Current Status",
+      "currentLanguage": "Current Language",
+      "currentPath": "Current Path",
+      "pageTitle": "Page Title",
+      "subtitle": "Subtitle",
+      "languageSwitch": "Language Switch",
+      "translationTest": "Translation Content Test",
+      "features": "Features",
+      "commonText": "Common Text",
+      "debugLogs": "Debug Logs",
+      "clearLogs": "Clear Logs",
+      "noLogs": "No logs available",
+      "instructions": "Instructions",
+      "instruction1": "Click language buttons to switch languages",
+      "instruction2": "Observe URL changes and page content",
+      "instruction3": "Check path changes in debug logs",
+      "instruction4": "Verify translation content displays correctly",
+      "instruction5": "If language switching doesn't work, check browser console errors",
+      "pageLoaded": "Page loaded",
+      "path": "Path",
+      "startSwitchTo": "Starting switch to language",
+      "cleanedPath": "Cleaned path",
+      "newPath": "New path",
+      "navigatedTo": "Navigated to"
+    },
+    "minimalTest": {
+      "title": "Minimal Language Test",
+      "serverInfo": "Server-side Information",
+      "features": "Features",
+      "testDescription": "Test Description",
+      "description": "This is a server-side rendered page for testing if translations load correctly. Please try accessing different language versions:"
+    }
+  },
   "home": {
     "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
     "subtitle": "An intelligent analysis platform combining traditional Feng Shui wisdom with modern AI technology",
@@ -2569,6 +2595,82 @@
       "flyingStar": "Flying Star",
       "flyingStarDesc": "Generate feng shui analysis report"
     }
+  },
+  "testGuest": {
+    "title": "Test Guest Analysis Page",
+    "description": "Test guest analysis functionality"
+  },
+  "guestAnalysis": {
+    "floorPlan": {
+      "noSelectionNote": "No floor plan selected. Skipped nine-palace room mapping and showing basic Flying Star analysis only.",
+      "sectionTitle": "Floor Plan Feng Shui Analysis"
+    },
+    "navigation": {
+      "back": "Back",
+      "title": "Intelligent Feng Shui Analysis Experience"
+    },
+    "steps": {
+      "discoverDestiny": "Discover Your Destiny Code",
+      "determineLayout": "Determine House Feng Shui Layout",
+      "professionalInsights": "Based on professional BaZi algorithms, providing personalized life insights and fortune guidance.",
+      "preciseLayout": "Through precise orientation measurement, providing professional feng shui layout recommendations."
+    },
+    "personalForm": {
+      "title": "Fill in Your Personal Information",
+      "description": "Please accurately fill in birth information, which will directly affect the precision and accuracy of BaZi analysis.",
+      "quickFill": "Quick Fill Sample Data",
+      "name": "Name",
+      "namePlaceholder": "Please enter your name",
+      "nameRequired": "Name *",
+      "gender": "Gender",
+      "genderRequired": "Gender *",
+      "genderPlaceholder": "Please select gender",
+      "male": "Male",
+      "female": "Female",
+      "birthDate": "Birth Date",
+      "birthDateRequired": "Birth Date *",
+      "birthTime": "Birth Time",
+      "birthPlace": "Birth Place",
+      "birthPlaceRequired": "Birth Place *",
+      "birthPlacePlaceholder": "Please enter birth city",
+      "nextHouseOrientation": "Next: House Orientation"
+    },
+    "houseForm": {
+      "title": "Determine House Orientation Information",
+      "description": "You can choose to manually input orientation angle or use digital compass for precise measurement.",
+      "quickFill": "Quick Fill Sample Data",
+      "selectFloorPlan": "Select Floor Plan",
+      "digitalCompass": "Digital Compass Measurement",
+      "currentOrientation": "Current orientation angle:",
+      "orientationAngle": "Orientation Angle",
+      "orientationRequired": "Orientation Angle *",
+      "orientationPlaceholder": "0-360 degrees",
+      "floor": "Floor",
+      "floorPlaceholder": "Floor number",
+      "address": "House Address",
+      "addressPlaceholder": "Please enter house address",
+      "roomCount": "Number of Rooms",
+      "roomCountPlaceholder": "Number of rooms"
+    },
+    "analysisReady": {
+      "title": "Ready to Begin Analysis",
+      "description": "We will generate professional BaZi astrology and Flying Star feng shui analysis reports based on the information you provided.",
+      "startAnalysis": "Start Analysis"
+    },
+    "analyzing": "Analyzing...",
+    "analysis": {
+      "title": "Ready to Begin Analysis",
+      "description": "We will generate professional BaZi astrology and Flying Star feng shui analysis reports based on the information you provided.",
+      "start": "Start Analysis"
+    },
+    "sampleData": {
+      "name": "John Smith",
+      "location": "Beijing",
+      "address": "Wangjing Street, Chaoyang District, Beijing",
+      "floorPlanName": "Standard Three Bedroom Two Living Room",
+      "floorPlanDescription": "Facing south, three bedrooms two living rooms two bathrooms, area about 120㎡"
+    },
+    "disclaimer": "This analysis is for reference only and cannot replace professional consultation. Please consult professionals for important decisions."
   },
   "bazi": {
     "title": "BaZi Analysis",
@@ -2972,24 +3074,24 @@
     "settings_reset": "Settings reset"
   },
   "errors": {
+    "calculation_error": "Calculation Error",
+    "try_again_later": "Please try again later",
+    "network_error": "Network Error",
+    "unknown_error": "Unknown Error",
     "page_not_found": "Page Not Found",
     "server_error": "Server Error",
-    "network_error": "Network Error",
     "permission_denied": "Permission Denied",
     "invalid_input": "Invalid Input",
     "file_not_found": "File Not Found",
     "upload_failed": "Upload Failed",
     "processing_failed": "Processing Failed",
-    "calculation_error": "Calculation Error",
     "database_error": "Database Error",
     "authentication_failed": "Authentication Failed",
     "session_expired": "Session Expired",
     "quota_exceeded": "Quota Exceeded",
     "feature_not_available": "Feature Not Available",
     "maintenance_mode": "System Maintenance",
-    "try_again_later": "Please try again later",
-    "contact_support": "Please contact support",
-    "unknown_error": "Unknown Error"
+    "contact_support": "Please contact support"
   },
   "success": {
     "operation_completed": "Operation Completed",
@@ -3006,6 +3108,48 @@
     "data_exported": "Data Exported",
     "backup_created": "Backup Created",
     "sync_completed": "Sync Completed"
+  },
+  "i18nTest": {
+    "currentLanguageInfo": "Current Language Info",
+    "locale": "Locale",
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "features": "Features",
+    "languageSwitchingTest": "Language Switching Test",
+    "switchingInstructions": "Try switching languages using the dropdown above to see the content change.",
+    "commonTranslations": "Common Translations",
+    "loading": "Loading",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "search": "Search",
+    "save": "Save"
+  },
+  "floorPlan": {
+    "standardListTitle": "Select Standard Floor Plan",
+    "roomFallback": "Room {index}",
+    "standard-3room": {
+      "name": "Standard Three Bedrooms Two Living Rooms",
+      "description": "South-facing, 3 bedrooms, 2 living rooms, 2 bathrooms, about 120㎡"
+    },
+    "standard-2room": {
+      "name": "Standard Two Bedrooms One Living Room",
+      "description": "South-facing, 2 bedrooms, 1 living room, 1 bathroom, about 80㎡"
+    },
+    "standard-4room": {
+      "name": "Standard Four Bedrooms Two Living Rooms",
+      "description": "South-facing, 4 bedrooms, 2 living rooms, 3 bathrooms, about 150㎡"
+    },
+    "summary": "{count} rooms | {area}㎡",
+    "upload": {
+      "title": "Upload Custom Floor Plan",
+      "button": "Upload Floor Plan File",
+      "clickToSelect": "Click to select floor plan file",
+      "supportedFormats": "Supports JPG, PNG, PDF formats",
+      "customName": "Custom Floor Plan",
+      "customDescription": "User uploaded floor plan"
+    },
+    "selected": "Selected Floor Plan"
   },
   "compass": {
     "title": "Digital Compass",
@@ -3035,5 +3179,19 @@
     "key_points": "Key Points",
     "specific_recommendations": "Specific Recommendations",
     "pattern_explanation_text": "Flying Star patterns are central to feng shui analysis. By examining the relationships among Period, Mountain, and Water stars, we can assess auspiciousness and influences on fortune, health, and wealth."
+  },
+  "Table": {
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "noResults": "No results",
+    "rowsPerPage": "Rows per page",
+    "page": "Page",
+    "firstPage": "First page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "lastPage": "Last page",
+    "of": "of",
+    "rows": "rows",
+    "totalRecords": "Total"
   }
 }

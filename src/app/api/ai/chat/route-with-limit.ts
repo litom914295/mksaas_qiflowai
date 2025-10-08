@@ -242,8 +242,7 @@ export async function POST(request: NextRequest) {
             response: guidanceMessage,
             questionType,
             hasData: false,
-            needsAction: validation.suggestedAction,
-            actionUrl: validation.actionUrl,
+            needsAction: validation.action,
             sessionId,
             confidence: 0.8,
           },
@@ -253,7 +252,7 @@ export async function POST(request: NextRequest) {
     }
     
     // 构建AI提示词
-    const systemPrompt = generateSystemPrompt(questionType, validation.hasData);
+    const systemPrompt = generateSystemPrompt(questionType, validation.hasData || false);
     const contextPrompt = AlgorithmFirstGuard.buildContextPrompt(validation.availableData, questionType);
     const fullPrompt = `${contextPrompt}\n\n用户问题：${message}`;
     
@@ -261,15 +260,15 @@ export async function POST(request: NextRequest) {
     const aiResponse = await callAIModel(fullPrompt, systemPrompt);
     
     // 记录审计日志
-    await AuditLogger.log({
-      timestamp: new Date().toISOString(),
-      sessionId,
-      userId: validationResult.data.userId,
-      questionType,
-      hasValidData: validation.hasData,
-      responseType: 'AI_ANSWER',
-      responseConfidence: validation.confidence,
-    });
+      await AuditLogger.log({
+        timestamp: new Date().toISOString(),
+        sessionId,
+        userId: validationResult.data.userId,
+        questionType,
+        hasValidData: validation.hasData || false,
+        responseType: 'AI_ANSWER' as const,
+        confidenceLevel: validation.confidence,
+      });
     
     // 返回响应
     return NextResponse.json<ChatResponse>(
@@ -278,9 +277,9 @@ export async function POST(request: NextRequest) {
         data: {
           response: aiResponse,
           questionType,
-          hasData: validation.hasData,
+          hasData: validation.hasData || false,
           sessionId,
-          confidence: validation.confidence,
+          confidence: validation.confidence || 0.8,
         },
       },
       { headers }

@@ -47,7 +47,7 @@ export function AIChatInterface({ context, onRequestData }: Props) {
       id: '1',
       role: 'system',
       content:
-        '您好！我是气流AI助手，可以基于您的八字、房屋风水数据为您提供专业分析和建议。请问有什么可以帮您的？',
+        '您好！我是气流AI助手。\n\n🌟 **核心优势**：所有风水分析都基于您的个人八字定制\n• 财位根据您的日主确定\n• 颜色基于您的用神选择\n• 方位依据您的五行喜忌\n\n请先提供您的出生信息，让我为您提供真正个性化的命理风水建议。',
       timestamp: new Date(),
     },
   ]);
@@ -104,12 +104,25 @@ export function AIChatInterface({ context, onRequestData }: Props) {
       answer += '从五行来看，建议注意...\n\n';
     }
 
-    // 风水相关回答
-    if (analysis.needsXuankong && ctx.xuankong) {
-      usedData.push('风水数据');
-      answer += `根据您提供的房屋朝向（${ctx.xuankong.facing}度）和运数（${ctx.xuankong.period}运），`;
-      answer += '从玄空飞星角度分析...\n\n';
-      answer += '建议优化布局...\n\n';
+    // 风水相关回答 - 必须结合八字
+    if (analysis.needsXuankong) {
+      if (!ctx.bazi) {
+        answer = '🔔 **重要提示**：风水分析必须基于您的八字命理\n\n';
+        answer += '我们的风水服务与众不同：\n';
+        answer += '• 不是通用的风水建议\n';
+        answer += '• 完全基于您的八字定制\n';
+        answer += '• 财位、文昌位都因人而异\n\n';
+        answer += '请先提供您的出生信息（年月日时、性别），让我为您进行个性化分析。';
+        return answer;
+      }
+      
+      if (ctx.xuankong) {
+        usedData.push('八字+风水数据');
+        answer += `基于您的八字（日主特质）和房屋朝向（${ctx.xuankong.facing}度），`;
+        answer += '我为您定制的风水建议如下...\n\n';
+        answer += '您的个人财位：根据日主确定...\n';
+        answer += '您的用神方位：最需要加强...\n\n';
+      }
     }
 
     // 房屋相关回答
@@ -182,10 +195,10 @@ export function AIChatInterface({ context, onRequestData }: Props) {
 
   // 快捷问题
   const quickQuestions = [
-    '我的八字五行如何？',
-    '这个房屋朝向好吗？',
-    '如何改善财运？',
-    '卧室应该布置在哪个方位？',
+    '我的八字用神是什么？',
+    '基于我的八字，家里如何布置风水？',
+    '我的命理财位在哪里？',
+    '什么颜色最适合我的命理？',
   ];
 
   return (

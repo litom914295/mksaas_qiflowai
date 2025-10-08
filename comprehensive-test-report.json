@@ -1,0 +1,803 @@
+{
+  "timestamp": "2025-10-08T05:40:25.353Z",
+  "systemName": "AI风水大师系统",
+  "version": "2.0.0",
+  "healthScore": 71,
+  "statistics": {
+    "total": 43,
+    "passed": 31,
+    "failed": 0,
+    "warnings": 12,
+    "skipped": 0
+  },
+  "severityBreakdown": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "testResults": [
+    {
+      "category": "核心原则",
+      "subcategory": "系统配置",
+      "test": "八字定制风水原则声明",
+      "status": "PASS",
+      "details": "系统提示词包含核心原则",
+      "severity": "CRITICAL"
+    },
+    {
+      "category": "核心原则",
+      "subcategory": "API实现",
+      "test": "风水前置八字验证",
+      "status": "PASS",
+      "details": "API层风水分析前的八字数据验证",
+      "severity": "CRITICAL"
+    },
+    {
+      "category": "核心原则",
+      "subcategory": "服务整合",
+      "test": "八字风水整合服务",
+      "status": "PASS",
+      "details": "整合服务已实现",
+      "severity": "HIGH"
+    },
+    {
+      "category": "八字算法",
+      "subcategory": "核心文件",
+      "test": "index.ts",
+      "status": "PASS",
+      "details": "文件存在",
+      "severity": "HIGH"
+    },
+    {
+      "category": "八字算法",
+      "subcategory": "核心文件",
+      "test": "types.ts",
+      "status": "PASS",
+      "details": "文件存在",
+      "severity": "HIGH"
+    },
+    {
+      "category": "八字算法",
+      "subcategory": "核心文件",
+      "test": "solar-lunar.ts",
+      "status": "PASS",
+      "details": "文件存在",
+      "severity": "HIGH"
+    },
+    {
+      "category": "八字算法",
+      "subcategory": "核心文件",
+      "test": "calculator.ts",
+      "status": "PASS",
+      "details": "文件存在",
+      "severity": "HIGH"
+    },
+    {
+      "category": "八字算法",
+      "subcategory": "核心函数",
+      "test": "computeBaziSmart",
+      "status": "PASS",
+      "details": "函数已定义",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "八字算法",
+      "subcategory": "核心函数",
+      "test": "calculateYongShen",
+      "status": "WARNING",
+      "details": "函数未找到",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "八字算法",
+      "subcategory": "核心函数",
+      "test": "analyzeFiveElements",
+      "status": "WARNING",
+      "details": "函数未找到",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "风水算法",
+      "subcategory": "核心文件",
+      "test": "index.ts",
+      "status": "PASS",
+      "details": "文件存在",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "风水算法",
+      "subcategory": "核心文件",
+      "test": "types.ts",
+      "status": "PASS",
+      "details": "文件存在",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "风水算法",
+      "subcategory": "核心文件",
+      "test": "flying-stars.ts",
+      "status": "WARNING",
+      "details": "文件缺失",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "API接口",
+      "subcategory": "路由定义",
+      "test": "chat",
+      "status": "PASS",
+      "details": "API路由已定义",
+      "severity": "LOW"
+    },
+    {
+      "category": "API接口",
+      "subcategory": "安全防护",
+      "test": "chat - 输入验证",
+      "status": "PASS",
+      "details": "使用Zod进行输入验证",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "API接口",
+      "subcategory": "路由定义",
+      "test": "bazi",
+      "status": "PASS",
+      "details": "API路由已定义",
+      "severity": "LOW"
+    },
+    {
+      "category": "API接口",
+      "subcategory": "安全防护",
+      "test": "bazi - 输入验证",
+      "status": "PASS",
+      "details": "使用Zod进行输入验证",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "API接口",
+      "subcategory": "路由定义",
+      "test": "xuankong",
+      "status": "PASS",
+      "details": "API路由已定义",
+      "severity": "LOW"
+    },
+    {
+      "category": "API接口",
+      "subcategory": "安全防护",
+      "test": "xuankong - 输入验证",
+      "status": "PASS",
+      "details": "使用Zod进行输入验证",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "前端组件",
+      "subcategory": "UI组件",
+      "test": "ai-chat-interface",
+      "status": "PASS",
+      "details": "组件已定义",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "前端组件",
+      "subcategory": "用户引导",
+      "test": "AI聊天 - 核心优势提示",
+      "status": "PASS",
+      "details": "组件包含核心竞争力说明",
+      "severity": "LOW"
+    },
+    {
+      "category": "前端组件",
+      "subcategory": "UI组件",
+      "test": "bazi-form",
+      "status": "WARNING",
+      "details": "组件缺失",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "前端组件",
+      "subcategory": "UI组件",
+      "test": "xuankong-form",
+      "status": "WARNING",
+      "details": "组件缺失",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "数据流",
+      "subcategory": "流程节点",
+      "test": "用户输入收集",
+      "status": "PASS",
+      "details": "数据流正常",
+      "severity": "HIGH"
+    },
+    {
+      "category": "数据流",
+      "subcategory": "流程节点",
+      "test": "八字数据计算",
+      "status": "PASS",
+      "details": "数据流正常",
+      "severity": "HIGH"
+    },
+    {
+      "category": "数据流",
+      "subcategory": "流程节点",
+      "test": "风水数据整合",
+      "status": "PASS",
+      "details": "数据流正常",
+      "severity": "HIGH"
+    },
+    {
+      "category": "数据流",
+      "subcategory": "流程节点",
+      "test": "个性化结果生成",
+      "status": "PASS",
+      "details": "数据流正常",
+      "severity": "HIGH"
+    },
+    {
+      "category": "数据流",
+      "subcategory": "流程节点",
+      "test": "前端展示渲染",
+      "status": "PASS",
+      "details": "数据流正常",
+      "severity": "HIGH"
+    },
+    {
+      "category": "性能优化",
+      "subcategory": "代码优化",
+      "test": "React组件优化",
+      "status": "WARNING",
+      "details": "建议使用React.memo和useMemo优化",
+      "severity": "LOW",
+      "suggestion": "对频繁渲染的组件使用性能优化"
+    },
+    {
+      "category": "性能优化",
+      "subcategory": "算法优化",
+      "test": "计算缓存",
+      "status": "WARNING",
+      "details": "建议缓存重复计算结果",
+      "severity": "MEDIUM",
+      "suggestion": "实现八字计算结果缓存机制"
+    },
+    {
+      "category": "安全防护",
+      "subcategory": "安全措施",
+      "test": "输入验证",
+      "status": "PASS",
+      "details": "使用Zod进行输入验证",
+      "severity": "LOW"
+    },
+    {
+      "category": "安全防护",
+      "subcategory": "安全措施",
+      "test": "敏感信息过滤",
+      "status": "PASS",
+      "details": "SensitiveTopicFilter已实现",
+      "severity": "LOW"
+    },
+    {
+      "category": "安全防护",
+      "subcategory": "安全措施",
+      "test": "API密钥保护",
+      "status": "PASS",
+      "details": "使用环境变量管理密钥",
+      "severity": "LOW"
+    },
+    {
+      "category": "安全防护",
+      "subcategory": "安全措施",
+      "test": "XSS防护",
+      "status": "PASS",
+      "details": "React默认防XSS",
+      "severity": "LOW"
+    },
+    {
+      "category": "安全防护",
+      "subcategory": "安全措施",
+      "test": "审计日志",
+      "status": "PASS",
+      "details": "AuditLogger记录操作",
+      "severity": "LOW"
+    },
+    {
+      "category": "国际化",
+      "subcategory": "语言文件",
+      "test": "config",
+      "status": "WARNING",
+      "details": "语言文件缺失",
+      "severity": "LOW"
+    },
+    {
+      "category": "国际化",
+      "subcategory": "语言文件",
+      "test": "zh",
+      "status": "WARNING",
+      "details": "语言文件缺失",
+      "severity": "LOW"
+    },
+    {
+      "category": "国际化",
+      "subcategory": "语言文件",
+      "test": "en",
+      "status": "WARNING",
+      "details": "语言文件缺失",
+      "severity": "LOW"
+    },
+    {
+      "category": "用户体验",
+      "subcategory": "UX设计",
+      "test": "新用户引导",
+      "status": "PASS",
+      "details": "清晰的核心价值说明",
+      "severity": "LOW"
+    },
+    {
+      "category": "用户体验",
+      "subcategory": "UX设计",
+      "test": "错误提示友好性",
+      "status": "PASS",
+      "details": "友好的错误提示信息",
+      "severity": "LOW"
+    },
+    {
+      "category": "用户体验",
+      "subcategory": "UX设计",
+      "test": "加载状态反馈",
+      "status": "WARNING",
+      "details": "建议添加更多加载动画",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "用户体验",
+      "subcategory": "UX设计",
+      "test": "移动端适配",
+      "status": "WARNING",
+      "details": "需要进一步优化移动端体验",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "用户体验",
+      "subcategory": "UX设计",
+      "test": "操作反馈及时性",
+      "status": "PASS",
+      "details": "用户操作有即时反馈",
+      "severity": "LOW"
+    }
+  ],
+  "improvements": [
+    "⚡ 实施性能优化建议，提升系统响应速度",
+    "🎨 优化用户体验，特别是移动端适配",
+    "📚 完善文档和代码注释，提高可维护性",
+    "🧪 增加单元测试和集成测试覆盖率",
+    "📊 建立监控系统，实时追踪系统健康状态",
+    "🚀 探索AI能力边界，开发更多创新功能"
+  ],
+  "categories": {
+    "核心原则": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "warnings": 0,
+      "tests": [
+        {
+          "category": "核心原则",
+          "subcategory": "系统配置",
+          "test": "八字定制风水原则声明",
+          "status": "PASS",
+          "details": "系统提示词包含核心原则",
+          "severity": "CRITICAL"
+        },
+        {
+          "category": "核心原则",
+          "subcategory": "API实现",
+          "test": "风水前置八字验证",
+          "status": "PASS",
+          "details": "API层风水分析前的八字数据验证",
+          "severity": "CRITICAL"
+        },
+        {
+          "category": "核心原则",
+          "subcategory": "服务整合",
+          "test": "八字风水整合服务",
+          "status": "PASS",
+          "details": "整合服务已实现",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    "八字算法": {
+      "total": 7,
+      "passed": 5,
+      "failed": 0,
+      "warnings": 2,
+      "tests": [
+        {
+          "category": "八字算法",
+          "subcategory": "核心文件",
+          "test": "index.ts",
+          "status": "PASS",
+          "details": "文件存在",
+          "severity": "HIGH"
+        },
+        {
+          "category": "八字算法",
+          "subcategory": "核心文件",
+          "test": "types.ts",
+          "status": "PASS",
+          "details": "文件存在",
+          "severity": "HIGH"
+        },
+        {
+          "category": "八字算法",
+          "subcategory": "核心文件",
+          "test": "solar-lunar.ts",
+          "status": "PASS",
+          "details": "文件存在",
+          "severity": "HIGH"
+        },
+        {
+          "category": "八字算法",
+          "subcategory": "核心文件",
+          "test": "calculator.ts",
+          "status": "PASS",
+          "details": "文件存在",
+          "severity": "HIGH"
+        },
+        {
+          "category": "八字算法",
+          "subcategory": "核心函数",
+          "test": "computeBaziSmart",
+          "status": "PASS",
+          "details": "函数已定义",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "八字算法",
+          "subcategory": "核心函数",
+          "test": "calculateYongShen",
+          "status": "WARNING",
+          "details": "函数未找到",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "八字算法",
+          "subcategory": "核心函数",
+          "test": "analyzeFiveElements",
+          "status": "WARNING",
+          "details": "函数未找到",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    "风水算法": {
+      "total": 3,
+      "passed": 2,
+      "failed": 0,
+      "warnings": 1,
+      "tests": [
+        {
+          "category": "风水算法",
+          "subcategory": "核心文件",
+          "test": "index.ts",
+          "status": "PASS",
+          "details": "文件存在",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "风水算法",
+          "subcategory": "核心文件",
+          "test": "types.ts",
+          "status": "PASS",
+          "details": "文件存在",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "风水算法",
+          "subcategory": "核心文件",
+          "test": "flying-stars.ts",
+          "status": "WARNING",
+          "details": "文件缺失",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    "API接口": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "warnings": 0,
+      "tests": [
+        {
+          "category": "API接口",
+          "subcategory": "路由定义",
+          "test": "chat",
+          "status": "PASS",
+          "details": "API路由已定义",
+          "severity": "LOW"
+        },
+        {
+          "category": "API接口",
+          "subcategory": "安全防护",
+          "test": "chat - 输入验证",
+          "status": "PASS",
+          "details": "使用Zod进行输入验证",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "API接口",
+          "subcategory": "路由定义",
+          "test": "bazi",
+          "status": "PASS",
+          "details": "API路由已定义",
+          "severity": "LOW"
+        },
+        {
+          "category": "API接口",
+          "subcategory": "安全防护",
+          "test": "bazi - 输入验证",
+          "status": "PASS",
+          "details": "使用Zod进行输入验证",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "API接口",
+          "subcategory": "路由定义",
+          "test": "xuankong",
+          "status": "PASS",
+          "details": "API路由已定义",
+          "severity": "LOW"
+        },
+        {
+          "category": "API接口",
+          "subcategory": "安全防护",
+          "test": "xuankong - 输入验证",
+          "status": "PASS",
+          "details": "使用Zod进行输入验证",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    "前端组件": {
+      "total": 4,
+      "passed": 2,
+      "failed": 0,
+      "warnings": 2,
+      "tests": [
+        {
+          "category": "前端组件",
+          "subcategory": "UI组件",
+          "test": "ai-chat-interface",
+          "status": "PASS",
+          "details": "组件已定义",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "前端组件",
+          "subcategory": "用户引导",
+          "test": "AI聊天 - 核心优势提示",
+          "status": "PASS",
+          "details": "组件包含核心竞争力说明",
+          "severity": "LOW"
+        },
+        {
+          "category": "前端组件",
+          "subcategory": "UI组件",
+          "test": "bazi-form",
+          "status": "WARNING",
+          "details": "组件缺失",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "前端组件",
+          "subcategory": "UI组件",
+          "test": "xuankong-form",
+          "status": "WARNING",
+          "details": "组件缺失",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    "数据流": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "warnings": 0,
+      "tests": [
+        {
+          "category": "数据流",
+          "subcategory": "流程节点",
+          "test": "用户输入收集",
+          "status": "PASS",
+          "details": "数据流正常",
+          "severity": "HIGH"
+        },
+        {
+          "category": "数据流",
+          "subcategory": "流程节点",
+          "test": "八字数据计算",
+          "status": "PASS",
+          "details": "数据流正常",
+          "severity": "HIGH"
+        },
+        {
+          "category": "数据流",
+          "subcategory": "流程节点",
+          "test": "风水数据整合",
+          "status": "PASS",
+          "details": "数据流正常",
+          "severity": "HIGH"
+        },
+        {
+          "category": "数据流",
+          "subcategory": "流程节点",
+          "test": "个性化结果生成",
+          "status": "PASS",
+          "details": "数据流正常",
+          "severity": "HIGH"
+        },
+        {
+          "category": "数据流",
+          "subcategory": "流程节点",
+          "test": "前端展示渲染",
+          "status": "PASS",
+          "details": "数据流正常",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    "性能优化": {
+      "total": 2,
+      "passed": 0,
+      "failed": 0,
+      "warnings": 2,
+      "tests": [
+        {
+          "category": "性能优化",
+          "subcategory": "代码优化",
+          "test": "React组件优化",
+          "status": "WARNING",
+          "details": "建议使用React.memo和useMemo优化",
+          "severity": "LOW",
+          "suggestion": "对频繁渲染的组件使用性能优化"
+        },
+        {
+          "category": "性能优化",
+          "subcategory": "算法优化",
+          "test": "计算缓存",
+          "status": "WARNING",
+          "details": "建议缓存重复计算结果",
+          "severity": "MEDIUM",
+          "suggestion": "实现八字计算结果缓存机制"
+        }
+      ]
+    },
+    "安全防护": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "warnings": 0,
+      "tests": [
+        {
+          "category": "安全防护",
+          "subcategory": "安全措施",
+          "test": "输入验证",
+          "status": "PASS",
+          "details": "使用Zod进行输入验证",
+          "severity": "LOW"
+        },
+        {
+          "category": "安全防护",
+          "subcategory": "安全措施",
+          "test": "敏感信息过滤",
+          "status": "PASS",
+          "details": "SensitiveTopicFilter已实现",
+          "severity": "LOW"
+        },
+        {
+          "category": "安全防护",
+          "subcategory": "安全措施",
+          "test": "API密钥保护",
+          "status": "PASS",
+          "details": "使用环境变量管理密钥",
+          "severity": "LOW"
+        },
+        {
+          "category": "安全防护",
+          "subcategory": "安全措施",
+          "test": "XSS防护",
+          "status": "PASS",
+          "details": "React默认防XSS",
+          "severity": "LOW"
+        },
+        {
+          "category": "安全防护",
+          "subcategory": "安全措施",
+          "test": "审计日志",
+          "status": "PASS",
+          "details": "AuditLogger记录操作",
+          "severity": "LOW"
+        }
+      ]
+    },
+    "国际化": {
+      "total": 3,
+      "passed": 0,
+      "failed": 0,
+      "warnings": 3,
+      "tests": [
+        {
+          "category": "国际化",
+          "subcategory": "语言文件",
+          "test": "config",
+          "status": "WARNING",
+          "details": "语言文件缺失",
+          "severity": "LOW"
+        },
+        {
+          "category": "国际化",
+          "subcategory": "语言文件",
+          "test": "zh",
+          "status": "WARNING",
+          "details": "语言文件缺失",
+          "severity": "LOW"
+        },
+        {
+          "category": "国际化",
+          "subcategory": "语言文件",
+          "test": "en",
+          "status": "WARNING",
+          "details": "语言文件缺失",
+          "severity": "LOW"
+        }
+      ]
+    },
+    "用户体验": {
+      "total": 5,
+      "passed": 3,
+      "failed": 0,
+      "warnings": 2,
+      "tests": [
+        {
+          "category": "用户体验",
+          "subcategory": "UX设计",
+          "test": "新用户引导",
+          "status": "PASS",
+          "details": "清晰的核心价值说明",
+          "severity": "LOW"
+        },
+        {
+          "category": "用户体验",
+          "subcategory": "UX设计",
+          "test": "错误提示友好性",
+          "status": "PASS",
+          "details": "友好的错误提示信息",
+          "severity": "LOW"
+        },
+        {
+          "category": "用户体验",
+          "subcategory": "UX设计",
+          "test": "加载状态反馈",
+          "status": "WARNING",
+          "details": "建议添加更多加载动画",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "用户体验",
+          "subcategory": "UX设计",
+          "test": "移动端适配",
+          "status": "WARNING",
+          "details": "需要进一步优化移动端体验",
+          "severity": "MEDIUM"
+        },
+        {
+          "category": "用户体验",
+          "subcategory": "UX设计",
+          "test": "操作反馈及时性",
+          "status": "PASS",
+          "details": "用户操作有即时反馈",
+          "severity": "LOW"
+        }
+      ]
+    }
+  }
+}

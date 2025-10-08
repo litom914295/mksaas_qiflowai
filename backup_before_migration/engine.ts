@@ -332,7 +332,8 @@ export function calculateBazi(input: BaziInput): BaziOutput {
   const birthHour = parseInt(input.birthTime.split(':')[0]);
   
   // 计算四柱
-  const fourPillars = calculateFourPillars(birthDate, birthHour, input.gender);
+  const genderConverted = input.gender === 'male' ? 'M' : 'F';
+  const fourPillars = calculateFourPillars(birthDate, birthHour, genderConverted);
   
   // 计算五行
   const elements = calculateElements(fourPillars);
@@ -357,7 +358,7 @@ export function calculateBazi(input: BaziInput): BaziOutput {
   const yongShen = calculateYongShen(dayMaster, elements);
   
   // 计算大运
-  const majorFortunes = calculateMajorFortunes(fourPillars, input.gender, birthDate);
+  const majorFortunes = calculateMajorFortunes(fourPillars, genderConverted, birthDate);
   
   // 性格分析
   const personality = generatePersonalityAnalysis(dayMaster, elements, tenGods);
@@ -370,7 +371,7 @@ export function calculateBazi(input: BaziInput): BaziOutput {
     
     basicInfo: {
       name: input.name,
-      gender: input.gender === 'M' ? '男' : '女',
+      gender: input.gender === 'male' ? '男' : '女',
       birthDate: input.birthDate,
       birthTime: input.birthTime,
       age: new Date().getFullYear() - birthDate.getFullYear(),

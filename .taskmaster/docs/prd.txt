@@ -1,124 +1,82 @@
-# 八字算法迁移项目需求文档 (PRD)
+# PRD: 修复项目 i18n 翻译键问题
 
-## 项目概述
-从 qiflow-ai 原项目（D:\test\mksaas_qiflowai\qiflow-ai）迁移完整的八字算法和相关功能到 mksaas 模板项目根目录（D:\test\mksaas_qiflowai），替换当前不完整的八字实现。
+## 1. 项目背景
+当前项目从 qiflow-ai 迁移过来，存在大量 i18n 翻译键缺失或不匹配的问题，导致 TypeScript 编译错误达 458 个。需要系统地修复这些翻译相关的问题。
 
-## 项目目标
-1. 完整迁移八字核心算法库（lib/bazi）
-2. 迁移八字分析组件（components）
-3. 迁移八字相关 API 路由
-4. 迁移八字分析页面和路由
-5. 删除根目录现有的不完整八字实现
-6. 确保迁移后功能正常运行
+## 2. 目标
+- 修复所有 i18n 相关的 TypeScript 类型错误
+- 确保所有组件使用的翻译键都存在于翻译文件中
+- 统一翻译键的命名规范
+- 支持中英文双语
 
-## 核心功能模块
+## 3. 核心功能需求
 
-### 1. 八字核心算法库（lib/bazi）
-源路径：qiflow-ai/src/lib/bazi/
-目标路径：src/lib/qiflow/bazi/
+### 3.1 翻译文件审计
+- 扫描所有 .tsx 和 .ts 文件，提取所有使用 t() 函数的翻译键
+- 对比翻译文件 (messages/zh-CN.json, messages/en.json)
+- 生成缺失翻译键的报告
 
-包含文件：
-- adapter.ts - 适配器
-- authoritative-reference.ts - 权威参考
-- cache.ts - 缓存机制
-- enhanced-calculator.ts - 增强计算器
-- enhanced-ten-gods.ts - 增强十神系统
-- enhanced-yongshen.ts - 增强用神系统
-- examples.ts - 示例数据
-- index.ts - 导出入口
-- luck-pillars.ts - 大运计算
-- optimized-calculator.ts - 优化计算器
-- pattern-analysis.ts - 格局分析
-- ten-gods.ts - 十神系统
-- timezone.ts - 时区处理
-- types.ts - 类型定义
-- yongshen.ts - 用神系统
-- __tests__/ - 测试文件目录
+### 3.2 翻译键补全
+- 为缺失的翻译键添加默认值
+- 从原项目 qiflow-ai/src/locales 中查找对应的翻译
+- 对于找不到的键，生成占位符翻译
 
-### 2. AI 处理器
-源路径：qiflow-ai/src/lib/ai/
-包含文件：
-- bazi-master-processor.ts
-- qiflow-bazi-master.ts
+### 3.3 类型定义修复
+- 修复 i18n 类型定义，确保所有翻译键都被正确识别
+- 处理命名空间相关的类型错误
+- 修复 useTranslations hook 的类型问题
 
-### 3. 报告生成器
-源路径：qiflow-ai/src/lib/reports/
-包含文件：
-- bazi-report-generator.ts
+### 3.4 组件翻译修复
+优先级排序：
+1. guest-analysis 相关组件（已部分完成）
+2. admin 组件（users-table 等）
+3. settings 组件（credit-transactions-table 等）
+4. layout 组件（theme-selector 等）
+5. 其他业务组件
 
-### 4. 分析组件
-源路径：qiflow-ai/src/components/analysis/
-目标路径：src/components/qiflow/bazi/
+### 3.5 测试文件处理
+- 测试文件中的翻译键错误可以暂时忽略或使用 mock
+- 但主要业务代码必须完全修复
 
-包含文件：
-- bazi-analysis-page.tsx
-- bazi-analysis-result.tsx
-- enhanced-bazi-analysis-result.tsx
-- optimized-bazi-analysis-result.tsx
+## 4. 技术要求
 
-### 5. API 路由
-源路径：qiflow-ai/src/app/api/（需要查找具体的八字相关 API）
-目标路径：src/app/api/qiflow/bazi/
+### 4.1 翻译文件格式
+```json
+{
+  "namespace": {
+    "key": "翻译文本",
+    "nested": {
+      "subkey": "嵌套翻译"
+    }
+  }
+}
+```
 
-### 6. 页面路由
-源路径：qiflow-ai/src/app/[locale]/
-包含：
-- bazi-analysis/
-- test-bazi/
-- test-bazi-fixed/
+### 4.2 使用方式
+```typescript
+const t = useTranslations();
+t('namespace.key');
+t('namespace.nested.subkey');
+```
 
-目标路径：src/app/[locale]/(marketing)/analysis/bazi/
+### 4.3 支持的语言
+- zh-CN (简体中文) - 主要语言
+- en (英语) - 次要语言
 
-## 技术要求
-1. 保持原有代码结构和命名
-2. 更新所有 import 路径以适应新的目录结构
-3. 确保类型定义完整
-4. 保留所有测试文件
-5. 维护代码风格一致性
+## 5. 验收标准
+- [ ] TypeScript 编译无 i18n 相关错误
+- [ ] 所有组件中使用的翻译键都存在
+- [ ] 中英文翻译完整
+- [ ] 开发服务器可以正常启动
+- [ ] guest-analysis 页面功能正常
 
-## 迁移前清理
-1. 删除 src/lib/qiflow/bazi/ 下现有不完整实现
-2. 删除 src/components/qiflow/bazi/ 下的旧组件
-3. 删除 src/app/api/bazi/ 和 src/app/api/qiflow/bazi/ 下的旧 API
-4. 清理 src/actions/qiflow/calculate-bazi.ts
-
-## 验收标准
-1. 所有文件成功迁移到目标目录
-2. import 路径全部正确更新
-3. TypeScript 编译无错误
-4. 保留原有功能完整性
-5. 测试用例可以正常运行
-6. API 端点响应正常
-7. 前端页面渲染正常
-
-## 依赖项
-- Next.js App Router
+## 6. 技术栈
+- next-intl for i18n
 - TypeScript
+- Next.js App Router
 - React
-- 原项目的依赖包（需要检查 package.json）
 
-## 风险与注意事项
-1. 确保不遗漏任何依赖文件
-2. 注意环境变量配置
-3. 数据库模型可能需要同步
-4. 注意时区处理的正确性
-5. 缓存机制需要正确配置
-
-## 迁移步骤概览
-1. 分析源项目结构和依赖关系
-2. 清理目标项目中的旧实现
-3. 按模块迁移核心算法
-4. 迁移 AI 处理和报告生成
-5. 迁移组件和页面
-6. 迁移 API 路由
-7. 更新所有 import 路径
-8. 测试和验证
-9. 文档更新
-
-## 优先级
-高优先级：核心算法库、类型定义
-中优先级：组件、API 路由
-低优先级：测试文件、示例代码
-
-## 项目复杂度
-本项目涉及大量文件迁移和路径更新，建议分解为 15-20 个子任务，每个任务专注于一个特定模块或功能区域。
+## 7. 约束条件
+- 不修改组件逻辑，只修复翻译相关问题
+- 保持原有的翻译键命名规范
+- 优先从原项目复制翻译，其次才是创建新翻译

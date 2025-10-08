@@ -72,7 +72,7 @@ function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
-  const tTable = useTranslations('Common.table');
+  const tTable = useTranslations('Table');
   if (!column.getCanSort()) {
     return <div className={className}>{title}</div>;
   }
@@ -162,7 +162,7 @@ export function UsersTable({
   onSortingChange,
 }: UsersTableProps) {
   const t = useTranslations('Dashboard.admin.users');
-  const tTable = useTranslations('Common.table');
+  const tTable = useTranslations('Table');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
@@ -508,8 +508,7 @@ export function UsersTable({
                 }}
               >
                 <SelectTrigger
-                  size="sm"
-                  className="w-20 cursor-pointer"
+                  className="w-20 cursor-pointer h-8"
                   id="rows-per-page"
                 >
                   <SelectValue placeholder={pageSize} />

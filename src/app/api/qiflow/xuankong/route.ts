@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         toleranceDeg: 3,
         applyTiGua: true,
         applyFanGua: true,
-        enableAdvancedAnalysis: true,
+        evaluationProfile: 'standard',
       },
     };
 

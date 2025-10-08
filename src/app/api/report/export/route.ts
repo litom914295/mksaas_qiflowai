@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
         { 
           success: false, 
           error: '请求参数无效',
-          details: validationResult.error.errors 
+          details: validationResult.error.issues 
         },
         { status: 400 }
       );

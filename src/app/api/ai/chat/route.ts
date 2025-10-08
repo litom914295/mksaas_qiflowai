@@ -1,3 +1,13 @@
+/**
+ * AI Chat API Route
+ * 
+ * 核心原则：风水判断必须基于用户的八字命理
+ * - 所有风水分析都基于用户八字定制
+ * - 财位根据日主确定，不是通用位置
+ * - 颜色基于用神选择，不是一般配色
+ * - 方位依据五行喜忌，完全个性化
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { 
@@ -526,13 +536,7 @@ export async function POST(request: NextRequest) {
             datetime: isoDateTime,  // 使用datetime字段（注意：小写）
             gender: birthInfoToUse.gender === '男' ? 'male' : 'female',
             timezone: 'Asia/Shanghai',  // 中国时区
-            isTimeKnown: !!birthInfoToUse.time,  // 是否知道出生时间
-            name: '用户',
-            location: {
-              name: '岳阳',
-              longitude: 113.0919,
-              latitude: 29.3714
-            }
+            isTimeKnown: !!birthInfoToUse.time  // 是否知道出生时间
           });
           console.log('✅ [DEBUG] 八字计算完成');
           
@@ -541,11 +545,9 @@ export async function POST(request: NextRequest) {
           
           // 映射数据结构以兼容我们的代码
           if (rawBaziResult) {
-            baziResult = {
-              ...rawBaziResult,
-              // 映射 pillars 到 fourPillars（处理多种可能的数据结构）
-              fourPillars: (() => {
-                const pillars = rawBaziResult.pillars || rawBaziResult.fourPillars || rawBaziResult.mainPillars;
+            // 创建一个新对象，保留原始数据并添加fourPillars作为一个属性
+            const fourPillarsData = (() => {
+                const pillars = rawBaziResult.pillars || (rawBaziResult as any).fourPillars || (rawBaziResult as any).mainPillars;
                 if (!pillars) return null;
                 
                 // 确保每个柱子都有 stem 和 branch
@@ -589,11 +591,15 @@ export async function POST(request: NextRequest) {
                   year: ensurePillar(pillars.year),
                   month: ensurePillar(pillars.month),
                   day: ensurePillar(pillars.day),
-                  hour: ensurePillar(pillars.hour || pillars.time)
+                  hour: ensurePillar(pillars.hour || (pillars as any).time)
                 };
-              })(),
+              })();
+            
+            // 创建一个带有fourPillars属性的新对象，但不修改类型
+            baziResult = {
+              ...rawBaziResult,
               // 映射 yongshen 到 yongShen（处理英文到中文的转换）
-              yongShen: (() => {
+              yongshen: (() => {
                 // 五行英中文映射
                 const elementMap: Record<string, string> = {
                   'METAL': '金', 'WOOD': '木', 'WATER': '水', 'FIRE': '火', 'EARTH': '土',
@@ -615,42 +621,45 @@ export async function POST(request: NextRequest) {
                 };
                 
                 // 获取喜用五行
-                let favorable = rawBaziResult.yongshen?.favorable || 
-                               rawBaziResult.favorableElements?.primary || 
-                               rawBaziResult.basicAnalysis?.favorableElements?.primary || [];
+                let favorable: any[] = rawBaziResult.yongshen?.favorable || 
+                               (rawBaziResult as any).favorableElements?.primary || 
+                               (rawBaziResult as any).basicAnalysis?.favorableElements?.primary || [];
                 // 确保是数组
                 if (!Array.isArray(favorable)) favorable = [favorable];
-                favorable = favorable.map((e: string) => elementMap[e] || e).filter(Boolean);
+                const favorableMapped = favorable.map((e: string) => elementMap[e] || e).filter(Boolean);
                 
                 // 获取忌用五行
-                let unfavorable = rawBaziResult.yongshen?.unfavorable || 
-                                 rawBaziResult.favorableElements?.unfavorable || 
-                                 rawBaziResult.basicAnalysis?.favorableElements?.unfavorable || [];
+                let unfavorable: any[] = rawBaziResult.yongshen?.unfavorable || 
+                                 (rawBaziResult as any).favorableElements?.unfavorable || 
+                                 (rawBaziResult as any).basicAnalysis?.favorableElements?.unfavorable || [];
                 // 确保是数组
                 if (!Array.isArray(unfavorable)) unfavorable = [unfavorable];
-                unfavorable = unfavorable.map((e: string) => elementMap[e] || e).filter(Boolean);
+                const unfavorableMapped = unfavorable.map((e: string) => elementMap[e] || e).filter(Boolean);
                 
                 // 获取用神
-                const primaryElement = favorable[0] || '火';
+                const primaryElement = favorableMapped[0] || '火';
                 
                 return {
                   primary: primaryElement,
-                  favorable: favorable,
-                  unfavorable: unfavorable,
-                  colors: favorable.flatMap((e: string) => colorMap[e] || []),
-                  directions: favorable.map((e: string) => directionMap[e]).filter(Boolean),
+                  favorable: favorableMapped as any,
+                  unfavorable: unfavorableMapped as any,
+                  colors: favorableMapped.flatMap((e: string) => colorMap[e] || []),
+                  directions: favorableMapped.map((e: string) => directionMap[e]).filter(Boolean),
                   numbers: primaryElement === '火' ? ['2', '7'] : 
                           primaryElement === '水' ? ['1', '6'] :
                           primaryElement === '木' ? ['3', '8'] :
                           primaryElement === '金' ? ['4', '9'] : ['5', '0'],
-                  suggestions: `根据您的八字，用神为${primaryElement}，建议多接触${favorable.join('、')}属性的事物。`
+                  suggestions: `根据您的八字，用神为${primaryElement}，建议多接触${favorableMapped.join('、')}属性的事物。`
                 };
               })(),
               // 映射五行统计
-              fiveElements: rawBaziResult.elements || rawBaziResult.fiveElements || rawBaziResult.basicAnalysis?.fiveFactors,
+              fiveElements: rawBaziResult.elements || (rawBaziResult as any).fiveElements || (rawBaziResult as any).basicAnalysis?.fiveFactors,
               // 映射日主元素
-              dayMasterElement: rawBaziResult.basicAnalysis?.dayMaster?.element || '水'
-            };
+              dayMasterElement: (rawBaziResult as any).basicAnalysis?.dayMaster?.element || '水'
+            } as EnhancedBaziResult & { fourPillars?: any; fiveElements?: any; dayMasterElement?: any };  // 使用交叉类型
+            
+            // 在baziResult上添加fourPillars属性，但不改变类型
+            (baziResult as any).fourPillars = fourPillarsData;
             console.log('🔄 [DEBUG] 数据结构映射完成');
           }
           savedBaziData = baziResult;  // 更新保存的数据
@@ -731,20 +740,21 @@ export async function POST(request: NextRequest) {
           // 如果AI调用失败，使用备用的简单回复
           response += `📊 **您的八字命盘**\n\n`;
           
-          if (baziResult.fourPillars) {
+          const baziWithPillars = baziResult as any;
+          if (baziWithPillars.fourPillars) {
             response += `**四柱八字：**\n`;
-            response += `- 年柱：${baziResult.fourPillars.year.stem}${baziResult.fourPillars.year.branch}\n`;
-            response += `- 月柱：${baziResult.fourPillars.month.stem}${baziResult.fourPillars.month.branch}\n`;
-            response += `- 日柱：${baziResult.fourPillars.day.stem}${baziResult.fourPillars.day.branch}\n`;
-            response += `- 时柱：${baziResult.fourPillars.hour.stem}${baziResult.fourPillars.hour.branch}\n\n`;
+            response += `- 年柱：${baziWithPillars.fourPillars.year.stem}${baziWithPillars.fourPillars.year.branch}\n`;
+            response += `- 月柱：${baziWithPillars.fourPillars.month.stem}${baziWithPillars.fourPillars.month.branch}\n`;
+            response += `- 日柱：${baziWithPillars.fourPillars.day.stem}${baziWithPillars.fourPillars.day.branch}\n`;
+            response += `- 时柱：${baziWithPillars.fourPillars.hour.stem}${baziWithPillars.fourPillars.hour.branch}\n\n`;
           }
           
-          if (baziResult.yongShen) {
+          if (baziResult.yongshen) {
             response += `**用神分析：**\n`;
-            response += `- 日主：${baziResult.fourPillars?.day?.stem || ''}属${baziResult.dayMasterElement || ''}\n`;
-            response += `- 用神：${baziResult.yongShen.primary}\n`;
-            response += `- 喜用五行：${baziResult.yongShen.favorable?.join('、') || ''}\n`;
-            response += `- 忌用五行：${baziResult.yongShen.unfavorable?.join('、') || ''}\n\n`;
+            response += `- 日主：${baziWithPillars.fourPillars?.day?.stem || ''}属${baziWithPillars.dayMasterElement || ''}\n`;
+            response += `- 用神：${(baziResult.yongshen as any).primary || baziResult.yongshen.favorable?.[0] || ''}\n`;
+            response += `- 喜用五行：${baziResult.yongshen.favorable?.join('、') || ''}\n`;
+            response += `- 忌用五行：${baziResult.yongshen.unfavorable?.join('、') || ''}\n\n`;
           }
           
           response += `\n关于您的问题“${message}”，我建议您参考以上八字数据进行分析。`;
@@ -791,11 +801,43 @@ export async function POST(request: NextRequest) {
       });
     }
     
+    // 【重要】风水分析前置验证
+    const isFengShuiQuestion = message.includes('风水') || 
+                              message.includes('财位') || 
+                              message.includes('文昌位') || 
+                              message.includes('布局') ||
+                              message.includes('朝向') ||
+                              message.includes('方位') ||
+                              message.includes('玄空') ||
+                              message.includes('飞星');
+    
+    const hasBaziData = providedContext?.baziData || savedBaziData || baziResult;
+    
+    // 核心原则：风水必须基于八字
+    if (isFengShuiQuestion && !hasBaziData) {
+      return NextResponse.json<ChatResponse>({
+        success: true,
+        data: {
+          response: '🌟 **核心原则：风水分析必须基于您的八字命理**\n\n' +
+            '我们的风水服务与众不同：\n' +
+            '• 不提供千篇一律的通用建议\n' + 
+            '• 财位根据您的日主确定\n' +
+            '• 颜色基于您的用神选择\n' +
+            '• 方位依据您的五行喜忌\n\n' +
+            '请先提供您的出生信息（年月日时、性别、出生地），让我为您进行真正个性化的风水分析。',
+          questionType: 'fengshui',
+          hasData: false,
+          sessionId,
+          confidence: 1,
+        },
+      });
+    }
+
     // 构建分析上下文 - 包含计算的八字数据
     const analysisContext: AnalysisContext = {
       sessionId,
       userId: validationResult.data.userId,
-      baziData: providedContext?.baziData || savedBaziData || baziResult || null,  // 包含计算的八字数据
+      baziData: hasBaziData,  // 使用验证后的数据
       fengshuiData: providedContext?.fengshuiData || null,
       timestamp: new Date().toISOString(),
     };

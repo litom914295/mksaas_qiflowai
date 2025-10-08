@@ -1,98 +1,29 @@
 {
-  "QiFlow": {
-    "Common": {
-      "invalidInput": "输入无效，请检查后重试。",
-      "confidenceLabel": "置信度：",
-      "fixOrFill": "前往补齐必填项"
-    },
-    "States": {
-      "error": {
-        "title": "输入无效",
-        "desc": "发生错误，请检查信息后重试。"
-      },
-      "empty": {
-        "title": "暂无数据",
-        "desc": "请先填写必要信息后再开始分析。"
-      },
-      "limited": {
-        "title": "建议补充信息",
-        "desc": "请补全必要字段以继续。"
-      },
-      "timeout": {
-        "title": "请求超时",
-        "desc": "操作耗时过长，请稍后再试。"
-      }
-    },
-    "BaziPage": {
-      "result": {
-        "completed": "计算完成，已消耗积分：{credits}",
-        "user": "用户：{userId}",
-        "pillarsHint": "示例结果 pillars: {pillars}"
-      },
-      "title": "八字分析",
-      "form": {
-        "name": "姓名",
-        "birth": "出生日期 1990-01-01 08:08",
-        "gender": {
-          "male": "男",
-          "female": "女"
-        },
-        "submit": "开始计算",
-        "description": "请输入出生信息并选择性别",
-        "meta": {
-          "time": "预计耗时约 1-2 秒",
-          "save": "登录后可保存历史记录"
-        }
-      }
-    },
-    "XuankongPage": {
-      "success": "分析完成，已生成建议。",
-      "low": {
-        "title": "自动判定已拒绝（置信度过低）。",
-        "body": "请手动输入关键参数或尝试以下校准建议："
-      },
-      "medium": {
-        "title": "置信度中等，建议进行校准以提升准确率（0.7~0.9）。"
-      },
-      "form": {
-        "facing": "朝向（度）",
-        "notes": "户型/楼层/特殊说明",
-        "address": "地址",
-        "submit": "开始分析",
-        "description": "请输入地址与朝向（度）",
-        "meta": {
-          "time": "预计耗时约 1-2 秒",
-          "save": "登录后可保存历史记录"
-        }
-      },
-      "title": "玄空飞星"
-    }
-  },
   "3d_viewer": {
-    "title": "3Dé£Žæ°´å±•ç¤º",
-    "loading_model": "åŠ è½½3Dæ¨¡åž‹ä¸­...",
-    "rotate_view": "æ—‹è½¬è§†è§’",
-    "zoom_in": "æ”¾å¤§",
-    "zoom_out": "ç¼©å°",
-    "reset_view": "é‡ç½®è§†è§’",
-    "fullscreen": "å…¨å±",
-    "vr_mode": "VRæ¨¡å¼",
-    "animation_controls": "åŠ¨ç”»æŽ§åˆ¶",
-    "play": "æ’­æ”¾",
-    "pause": "æš‚åœ",
-    "timeline": "æ—¶é—´è½´",
-    "show_elements": "æ˜¾ç¤ºäº”è¡Œ",
-    "show_stars": "æ˜¾ç¤ºé£žæ˜Ÿ",
-    "show_recommendations": "æ˜¾ç¤ºå»ºè®®",
-    "lighting": "å…‰ç…§",
-    "shadows": "é˜´å½±",
-    "quality": "è´¨é‡",
-    "high_quality": "é«˜è´¨é‡",
-    "medium_quality": "ä¸­ç­‰è´¨é‡",
-    "low_quality": "ä½Žè´¨é‡",
-    "performance_mode": "æ€§èƒ½æ¨¡å¼",
-    "webgl_not_supported": "æ‚¨çš„æµè§ˆå™¨ä¸æ”¯æŒWebGL",
-    "model_load_failed": "3Dæ¨¡åž‹åŠ è½½å¤±è´¥"
+    "title": "3D风水展示",
+    "loading_model": "加载3D模型中...",
+    "rotate_view": "旋转视角",
+    "zoom_in": "放大",
+    "zoom_out": "缩小",
+    "reset_view": "重置视角",
+    "fullscreen": "全屏",
+    "vr_mode": "VR模式",
+    "animation_controls": "动画控制",
+    "play": "播放",
+    "pause": "暂停",
+    "timeline": "时间轴",
+    "show_elements": "显示五行",
+    "show_stars": "显示飞星",
+    "show_recommendations": "显示建议",
+    "lighting": "光照",
+    "shadows": "阴影",
+    "quality": "质量",
+    "high_quality": "高质量",
+    "medium_quality": "中等质量",
+    "low_quality": "低质量",
+    "performance_mode": "性能模式",
+    "webgl_not_supported": "您的浏览器不支持WebGL",
+    "model_load_failed": "3D模型加载失败"
   },
   "AIAudioPage": {
     "title": "AI 音频",
@@ -169,65 +100,65 @@
     "followMe": "关注我"
   },
   "Analysis": {
-    "title": "å‡†å¤‡å¼€å§‹åˆ†æž",
-    "description": "æˆ‘ä»¬å°†åŸºäºŽæ‚¨æä¾›çš„ä¿¡æ¯ï¼Œç”Ÿæˆä¸“ä¸šçš„å…«å­—å‘½ç†å’ŒçŽ„ç©ºé£žæ˜Ÿåˆ†æžæŠ¥å‘Šã€‚",
-    "start": "å¼€å§‹åˆ†æž",
-    "analyzing": "åˆ†æžä¸­...",
-    "baziTitle": "æ‚¨çš„ä¸“å±žå…«å­—å‘½ç†åˆ†æž",
-    "baziDescription": "åŸºäºŽæ‚¨çš„å‡ºç”Ÿä¿¡æ¯ï¼Œç»è¿‡ä¸“ä¸šç®—æ³•æ·±åº¦åˆ†æžï¼Œå‘ˆçŽ°æ‚¨çš„å‘½ç†ç‰¹å¾å’Œäººç”Ÿæ´žå¯Ÿã€‚",
-    "fengshuiTitle": "çŽ„ç©ºé£žæ˜Ÿé£Žæ°´åˆ†æž",
-    "fengshuiDescription": "ç»“åˆæ‚¨çš„å…«å­—å‘½ç†å’Œæˆ¿å±‹æœå‘ï¼Œä¸ºæ‚¨æä¾›ä¸“ä¸šçš„é£Žæ°´å¸ƒå±€å»ºè®®ã€‚",
-    "aiEnhancedBazi": "AIå¢žå¼ºå…«å­—å‘½ç†åˆ†æž",
-    "aiEnhancedBaziDescription": "åŸºäºŽä¸“ä¸šç®—æ³•æ·±åº¦è§£æžæ‚¨çš„å…«å­—å‘½ç†ï¼Œç»“åˆä¼ ç»Ÿåç¥žç†è®ºä¸ŽçŽ°ä»£AIæŠ€æœ¯ï¼Œä¸ºæ‚¨æä¾›ä¸ªæ€§åŒ–çš„äººç”Ÿæ´žå¯Ÿå’Œè¿åŠ¿æŒ‡å¼•ã€‚",
-    "professionalTenGods": "ä¸“ä¸šåç¥žåˆ†æž",
-    "majorEventPrediction": "é‡å¤§äº‹ä»¶é¢„æµ‹",
-    "yearlyInteraction": "æµå¹´äº’åŠ¨åˆ†æž",
-    "lifeFortuneCycle": "äººç”Ÿå¤§è¿å‘¨æœŸ",
-    "previousStep": "ä¸Šä¸€æ­¥",
-    "nextStep": "ä¸‹ä¸€æ­¥ï¼šå¼€å§‹åˆ†æž",
+    "title": "Ready to Begin Analysis",
+    "description": "Based on the information you provided, we will generate professional BaZi astrology and Flying Star feng shui analysis reports.",
+    "start": "Start Analysis",
+    "analyzing": "Analyzing...",
+    "baziTitle": "Your Personal BaZi Astrology Analysis",
+    "baziDescription": "Based on your birth information, through professional algorithmic deep analysis, presenting your destiny characteristics and life insights.",
+    "fengshuiTitle": "Flying Star Feng Shui Analysis",
+    "fengshuiDescription": "Combining your BaZi astrology and house orientation to provide professional feng shui layout recommendations.",
+    "aiEnhancedBazi": "AI-Enhanced BaZi Astrology Analysis",
+    "aiEnhancedBaziDescription": "Based on professional algorithms to deeply analyze your BaZi astrology, combining traditional Ten Gods theory with modern AI technology to provide personalized life insights and fortune guidance.",
+    "professionalTenGods": "Professional Ten Gods Analysis",
+    "majorEventPrediction": "Major Event Prediction",
+    "yearlyInteraction": "Annual Interaction Analysis",
+    "lifeFortuneCycle": "Life Fortune Cycle",
+    "previousStep": "Previous Step",
+    "nextStep": "Next Step: Start Analysis",
     "steps": {
-      "personalData": "ä¸ªäººèµ„æ–™",
-      "personalDataDesc": "å¡«å†™æ‚¨çš„å‡ºç”Ÿä¿¡æ¯",
-      "houseOrientation": "æˆ¿å±‹æœå‘",
-      "houseOrientationDesc": "ç¡®å®šæˆ¿å±‹æœå‘ä¿¡æ¯",
-      "baziAnalysis": "å…«å­—åˆ†æž",
-      "baziAnalysisDesc": "ç”Ÿæˆå…«å­—å‘½ç†åˆ†æž",
-      "flyingStar": "çŽ„ç©ºé£žæ˜Ÿ",
-      "flyingStarDesc": "ç”Ÿæˆé£Žæ°´åˆ†æžæŠ¥å‘Š"
+      "personalData": "Personal Information",
+      "personalDataDesc": "Fill in your birth information",
+      "houseOrientation": "House Orientation",
+      "houseOrientationDesc": "Determine house orientation information",
+      "baziAnalysis": "BaZi Analysis",
+      "baziAnalysisDesc": "Generate BaZi astrology analysis",
+      "flyingStar": "Flying Star",
+      "flyingStarDesc": "Generate feng shui analysis report"
     }
   },
   "Auth": {
-    "login": "ç™»å½•",
-    "logout": "é€€å‡ºç™»å½•",
-    "forgot_password": "å¿˜è®°å¯†ç ",
-    "reset_password": "é‡ç½®å¯†ç ",
-    "email": "é‚®ç®±",
-    "password": "å¯†ç ",
-    "confirm_password": "ç¡®è®¤å¯†ç ",
-    "remember_me": "è®°ä½æˆ‘",
-    "guest_mode": "æ¸¸å®¢æ¨¡å¼",
-    "continue_as_guest": "ä»¥æ¸¸å®¢èº«ä»½ç»§ç»­",
-    "register_to_save": "æ³¨å†Œä»¥ä¿å­˜æ•°æ®",
-    "login_required": "éœ€è¦ç™»å½•",
-    "invalid_credentials": "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯",
-    "account_created": "è´¦æˆ·åˆ›å»ºæˆåŠŸ",
-    "password_reset_sent": "å¯†ç é‡ç½®é‚®ä»¶å·²å‘é€",
+    "login": "Login",
+    "logout": "Logout",
+    "forgot_password": "Forgot Password",
+    "reset_password": "Reset Password",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "remember_me": "Remember Me",
+    "guest_mode": "Guest Mode",
+    "continue_as_guest": "Continue as Guest",
+    "register_to_save": "Register to save your data",
+    "login_required": "Login Required",
+    "invalid_credentials": "Invalid credentials",
+    "account_created": "Account created successfully",
+    "password_reset_sent": "Password reset email sent",
     "register": {
-      "title": "åˆ›å»ºè´¦æˆ·",
-      "subtitle": "å¼€å§‹æ‚¨çš„é£Žæ°´åˆ†æžä¹‹æ—…",
-      "signInLink": "å·²æœ‰è´¦æˆ·ï¼Ÿç«‹å³ç™»å½•",
-      "displayName": "æ˜¾ç¤ºåç§°",
-      "displayNamePlaceholder": "è¯·è¾“å…¥æ‚¨çš„æ˜¾ç¤ºåç§°",
-      "emailPlaceholder": "è¯·è¾“å…¥æ‚¨çš„é‚®ç®±åœ°å€",
-      "passwordPlaceholder": "è¯·è¾“å…¥å¯†ç ",
-      "confirmPasswordPlaceholder": "è¯·å†æ¬¡ç¡®è®¤å¯†ç ",
-      "acceptTerms": "æˆ‘å·²é˜…è¯»å¹¶åŒæ„",
-      "termsLink": "æœåŠ¡æ¡æ¬¾",
-      "and": "å’Œ",
-      "privacyLink": "éšç§æ”¿ç­–",
-      "submit": "åˆ›å»ºè´¦æˆ·",
-      "hasAccount": "å·²ç»æœ‰è´¦æˆ·äº†ï¼Ÿ",
-      "signIn": "ç«‹å³ç™»å½•"
+      "title": "Create Account",
+      "subtitle": "Start your Feng Shui analysis journey",
+      "signInLink": "Already have an account? Sign in",
+      "displayName": "Display Name",
+      "displayNamePlaceholder": "Enter your display name",
+      "emailPlaceholder": "Enter your email address",
+      "passwordPlaceholder": "Enter your password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Service",
+      "and": "and",
+      "privacyLink": "Privacy Policy",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign In"
     }
   },
   "AuthPage": {
@@ -313,87 +244,85 @@
     }
   },
   "Bazi": {
-    "title": "å…«å­—å‘½ç†",
-    "description": "åŸºäºŽä¸“ä¸šå…«å­—ç®—æ³•ï¼Œä¸ºæ‚¨æä¾›ä¸ªæ€§åŒ–çš„äººç”Ÿæ´žå¯Ÿå’Œè¿åŠ¿æŒ‡å¼•",
-    "analyzing": "æ­£åœ¨è¿›è¡Œæ·±åº¦åˆ†æž...",
-    "analysis_description": "è¿ç”¨ä¼ ç»Ÿå‘½ç†æ™ºæ…§ï¼Œä¸ºæ‚¨è§£è¯»äººç”Ÿå¯†ç ",
-    "disclaimer": "æœ¬åˆ†æžåŸºäºŽä¼ ç»Ÿå‘½ç†å­¦åŽŸç†ï¼Œä»…ä¾›å‚è€ƒã€‚é‡è¦å†³ç­–è¯·å’¨è¯¢ä¸“ä¸šäººå£«ã€‚",
+    "title": "BaZi Analysis",
+    "description": "Professional BaZi algorithms provide personalized life insights and fortune guidance",
+    "analyzing": "Conducting deep analysis...",
+    "analysis_description": "Using traditional destiny wisdom to decode your life patterns",
+    "disclaimer": "This analysis is based on traditional BaZi principles and is for reference only. Please consult professionals for important decisions.",
     "analysis": {
-      "sampleAnalysis": "æ‚¨çš„å…«å­—æ˜¾ç¤º..."
+      "sampleAnalysis": "Your Bazi shows..."
     },
     "fourPillars": {
-      "year": "ç”²å­",
-      "month": "ä¹™ä¸‘",
-      "day": "ä¸™å¯…",
-      "hour": "ä¸å¯"
+      "year": "Jia Zi",
+      "month": "Yi Chou",
+      "day": "Bing Yin",
+      "hour": "Ding Mao"
     },
-    "birth_info": "å‡ºç”Ÿä¿¡æ¯",
-    "birth_date": "å‡ºç”Ÿæ—¥æœŸ",
-    "birth_time": "å‡ºç”Ÿæ—¶é—´",
-    "birth_place": "å‡ºç”Ÿåœ°ç‚¹",
-    "lunar_calendar": "å†œåŽ†",
-    "solar_calendar": "å…¬åŽ†",
-    "year_pillar": "å¹´æŸ±",
-    "month_pillar": "æœˆæŸ±",
-    "day_pillar": "æ—¥æŸ±",
-    "hour_pillar": "æ—¶æŸ±",
-    "heavenly_stem": "å¤©å¹²",
-    "earthly_branch": "åœ°æ”¯",
-    "five_elements": "äº”è¡Œ",
-    "wood": "æœ¨",
-    "fire": "ç«",
-    "earth": "åœŸ",
-    "metal": "é‡‘",
-    "water": "æ°´",
-    "strong": "æ—º",
-    "weak": "å¼±",
-    "favorable_elements": "å–œç”¨ç¥ž",
-    "unfavorable_elements": "å¿Œç¥ž",
-    "element_analysis": "äº”è¡Œåˆ†æž",
-    "personality_analysis": "æ€§æ ¼åˆ†æž",
-    "career_guidance": "äº‹ä¸šæŒ‡å¯¼",
-    "relationship_analysis": "æ„Ÿæƒ…åˆ†æž",
-    "health_guidance": "å¥åº·æŒ‡å¯¼",
-    "fortune_analysis": "è¿åŠ¿åˆ†æž",
+    "birth_info": "Birth Information",
+    "birth_date": "Birth Date",
+    "birth_time": "Birth Time",
+    "birth_place": "Birth Place",
+    "lunar_calendar": "Lunar Calendar",
+    "solar_calendar": "Solar Calendar",
+    "year_pillar": "Year Pillar",
+    "month_pillar": "Month Pillar",
+    "day_pillar": "Day Pillar",
+    "hour_pillar": "Hour Pillar",
+    "heavenly_stem": "Heavenly Stem",
+    "earthly_branch": "Earthly Branch",
+    "five_elements": "Five Elements",
+    "wood": "Wood",
+    "fire": "Fire",
+    "earth": "Earth",
+    "metal": "Metal",
+    "water": "Water",
+    "strong": "Strong",
+    "weak": "Weak",
+    "favorable_elements": "Favorable Elements",
+    "unfavorable_elements": "Unfavorable Elements",
+    "element_analysis": "Five Elements Analysis",
+    "personality_analysis": "Personality Analysis",
+    "career_guidance": "Career Guidance",
+    "relationship_analysis": "Relationship Analysis",
+    "health_guidance": "Health Guidance",
+    "fortune_analysis": "Fortune Analysis",
     "tabs": {
-      "overview": "æ€»è§ˆ",
-      "fourPillars": "å››æŸ±",
-      "patterns": "æ ¼å±€",
-      "fiveElements": "äº”è¡Œ",
-      "godsEvils": "ç¥žç…ž",
-      "luckCycles": "å¤§è¿",
-      "dailyFortune": "ä»Šæ—¥è¿åŠ¿",
-      "insights": "æ´žå¯Ÿ"
+      "overview": "Overview",
+      "fourPillars": "Four Pillars",
+      "patterns": "Patterns",
+      "fiveElements": "Five Elements",
+      "godsEvils": "Gods & Evils",
+      "luckCycles": "Luck Cycles",
+      "dailyFortune": "Daily Fortune",
+      "insights": "Insights"
     },
-    "deepAnalysisTitle": "æ·±åº¦å…«å­—å‘½ç†åˆ†æž",
-    "deepAnalysisSubtitle": "åŸºäºŽä¸“ä¸šç®—æ³•çš„ä¸ªæ€§åŒ–å‘½ç†æ´žå¯Ÿ",
+    "deepAnalysisTitle": "Deep Bazi Analysis",
+    "deepAnalysisSubtitle": "Personalized insights based on professional algorithms",
     "labels": {
-      "name": "å§“å",
-      "gender": "æ€§åˆ«",
-      "birthTime": "å‡ºç”Ÿæ—¶é—´",
-      "gregorian": "å…¬åŽ†",
-      "lunar": "å†œåŽ†"
+      "name": "Name",
+      "gender": "Gender",
+      "birthTime": "Birth Time",
+      "gregorian": "Gregorian",
+      "lunar": "Lunar"
     },
     "gender": {
-      "male": "ç”·",
-      "female": "å¥³"
-    },
-    "male": "男",
-    "female": "女"
+      "male": "Male",
+      "female": "Female"
+    }
   },
   "BaziHome": {
     "hero": {
       "title": "AI 八字风水 · 一键深度解读",
       "subtitle": "融合东方智慧与现代 AI，让你更快看清当下与趋势。无需复杂术语，输入信息即可获得要点、建议与行动方向。",
-      "cta": {
-        "startBazi": "开始八字分析",
-        "tryCompass": "试用风水罗盘",
-        "askAi": "向 AI 提问"
-      },
       "features": {
         "algorithm": "精准算法",
         "privacy": "隐私保护",
         "instant": "即时分析"
+      },
+      "cta": {
+        "startBazi": "开始八字分析",
+        "tryCompass": "试用风水罗盘",
+        "askAi": "向 AI 提问"
       },
       "trust": "超过 10,000 名用户的信赖"
     },
@@ -539,166 +468,144 @@
     "subtitle": "查看我们产品的最新动态"
   },
   "Chat": {
-    "title": "AIé£Žæ°´åŠ©æ‰‹",
-    "ask_question": "è¯¢é—®é£Žæ°´é—®é¢˜",
-    "type_message": "è¾“å…¥æ‚¨çš„é—®é¢˜...",
-    "send": "å‘é€",
-    "thinking": "æ€è€ƒä¸­...",
-    "chat_history": "å¯¹è¯åŽ†å²",
-    "clear_chat": "æ¸…é™¤å¯¹è¯",
-    "new_conversation": "æ–°å¯¹è¯",
-    "suggested_questions": "æŽ¨èé—®é¢˜",
-    "daily_limit_reached": "ä»Šæ—¥å¯¹è¯æ¬¡æ•°å·²ç”¨å®Œ",
-    "upgrade_for_more": "å‡çº§è®¢é˜…ä»¥èŽ·å¾—æ›´å¤šå¯¹è¯æ¬¡æ•°",
-    "ai_disclaimer": "AIå›žç­”ä»…ä¾›å‚è€ƒï¼Œä¸æž„æˆä¸“ä¸šå»ºè®®",
-    "conversation_saved": "å¯¹è¯å·²ä¿å­˜",
-    "conversation_deleted": "å¯¹è¯å·²åˆ é™¤",
-    "copy_message": "å¤åˆ¶æ¶ˆæ¯",
-    "message_copied": "æ¶ˆæ¯å·²å¤åˆ¶",
-    "regenerate_response": "é‡æ–°ç”Ÿæˆå›žç­”",
-    "rate_response": "è¯„ä»·å›žç­”",
-    "helpful": "æœ‰å¸®åŠ©",
-    "not_helpful": "æ²¡å¸®åŠ©"
+    "title": "AI Feng Shui Assistant",
+    "ask_question": "Ask Feng Shui Questions",
+    "type_message": "Type your question...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "chat_history": "Chat History",
+    "clear_chat": "Clear Chat",
+    "new_conversation": "New Conversation",
+    "suggested_questions": "Suggested Questions",
+    "daily_limit_reached": "Daily chat limit reached",
+    "upgrade_for_more": "Upgrade subscription for more chats",
+    "ai_disclaimer": "AI responses are for reference only and do not constitute professional advice",
+    "conversation_saved": "Conversation saved",
+    "conversation_deleted": "Conversation deleted",
+    "copy_message": "Copy Message",
+    "message_copied": "Message copied",
+    "regenerate_response": "Regenerate Response",
+    "rate_response": "Rate Response",
+    "helpful": "Helpful",
+    "not_helpful": "Not Helpful"
   },
   "Common": {
-    "login": "登录",
-    "logout": "退出",
-    "signUp": "注册",
-    "language": "切换语言",
+    "retry": "Retry",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "添加",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "actions": "操作",
+    "status": "状态",
+    "date": "日期",
+    "name": "名称",
+    "description": "描述",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset",
+    "close": "Close",
+    "refresh": "Refresh",
+    "export": "Export",
+    "import": "Import",
+    "share": "Share",
+    "copy": "Copy",
+    "download": "Download",
+    "upload": "Upload",
+    "open": "Open",
+    "view": "View",
+    "preview": "Preview",
+    "switchLanguage": "Switch Language",
+    "unknown": "Unknown",
+    "toBeCalculated": "To be calculated",
+    "table": {
+      "columns": "Columns",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "actions": "Actions"
+    },
     "mode": {
-      "label": "切换模式",
-      "light": "浅色模式",
-      "dark": "深色模式",
-      "system": "跟随系统"
+      "label": "Theme Mode",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
     },
     "theme": {
-      "label": "切换主题",
-      "default": "默认",
-      "blue": "蓝色",
-      "green": "绿色",
-      "amber": "橙色",
-      "neutral": "中性"
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
     },
-    "copy": "复制",
-    "saving": "保存中...",
-    "save": "保存",
-    "loading": "加载中...",
-    "cancel": "取消",
-    "logoutFailed": "退出失败",
-    "table": {
-      "totalRecords": "总共 {count} 条记录",
-      "noResults": "无结果",
-      "loading": "加载中...",
-      "columns": "列",
-      "rowsPerPage": "每页行数",
-      "page": "页",
-      "firstPage": "第一页",
-      "lastPage": "最后一页",
-      "nextPage": "下一页",
-      "previousPage": "上一页",
-      "ascending": "升序",
-      "descending": "降序"
-    },
-    "error": "é”™è¯¯",
-    "success": "æˆåŠŸ",
-    "confirm": "ç¡®è®¤",
-    "delete": "åˆ é™¤",
-    "edit": "ç¼–è¾‘",
-    "back": "è¿”å›ž",
-    "next": "ä¸‹ä¸€æ­¥",
-    "previous": "ä¸Šä¸€æ­¥",
-    "submit": "æäº¤",
-    "reset": "é‡ç½®",
-    "search": "æœç´¢",
-    "filter": "ç­›é€‰",
-    "sort": "æŽ’åº",
-    "export": "å¯¼å‡º",
-    "import": "å¯¼å…¥",
-    "share": "åˆ†äº«",
-    "download": "ä¸‹è½½",
-    "upload": "ä¸Šä¼ ",
-    "close": "å…³é—­",
-    "open": "æ‰“å¼€",
-    "view": "æŸ¥çœ‹",
-    "preview": "é¢„è§ˆ",
-    "refresh": "åˆ·æ–°",
-    "retry": "é‡è¯•",
-    "switchLanguage": "åˆ‡æ¢è¯­è¨€",
-    "unknown": "æœªçŸ¥",
-    "toBeCalculated": "å¾…è®¡ç®—"
+    "language": "Language",
+    "login": "Login",
+    "logout": "Logout",
+    "signUp": "Sign Up",
+    "logoutFailed": "Logout failed. Please try again."
   },
   "Compass": {
-    "title": "æ•°å­—ç½—ç›˜",
-    "calibration": "æ ¡å‡†",
-    "calibrating": "校准中...",
-    "start_measurement": "å¼€å§‹æµ‹é‡",
-    "stop_measurement": "åœæ­¢æµ‹é‡",
-    "current_direction": "å½“å‰æ–¹å‘",
-    "accuracy": "ç²¾åº¦",
-    "confidence": "ç½®ä¿¡åº¦",
-    "status": "çŠ¶æ€",
-    "stable": "ç¨³å®š",
-    "unstable": "ä¸ç¨³å®š",
-    "calibration_step": "æ ¡å‡†æ­¥éª¤ {step}/{total}",
-    "good_pattern": "å‰æ ¼",
-    "bad_pattern": "å‡¶æ ¼",
-    "wenchang_desc": "æ™ºæ…§å­¦ä¸šè¿åŠ¿æ–¹ä½",
-    "caiwei_desc": "è´¢è¿äº‹ä¸šå‘å±•æ–¹ä½",
+    "title": "Digital Compass",
+    "calibration": "Calibration",
+    "calibrating": "Calibrating...",
+    "start_measurement": "Start Measurement",
+    "stop_measurement": "Stop Measurement",
+    "current_direction": "Current Direction",
+    "accuracy": "Accuracy",
+    "confidence": "Confidence",
+    "status": "Status",
+    "stable": "Stable",
+    "unstable": "Unstable",
+    "calibration_step": "Calibration Step {step}/{total}",
+    "good_pattern": "Auspicious",
+    "bad_pattern": "Inauspicious",
+    "wenchang_desc": "Wisdom and academic fortune position",
+    "caiwei_desc": "Wealth and career development position",
     "items": {
-      "desk_and_bookcase": "ä¹¦æ¡Œã€ä¹¦æŸœ",
-      "stationery": "æ–‡æˆ¿å››å®",
-      "study_area": "å­¦ä¹ å·¥ä½œåŒºåŸŸ",
-      "safe_and_cashier": "ä¿é™©ç®±ã€æ”¶é“¶å°",
-      "money_plant": "æ‹›è´¢æ¤ç‰©",
-      "business_area": "åŠžå…¬å•†è°ˆåŒºåŸŸ"
+      "desk_and_bookcase": "Desk, bookcase",
+      "stationery": "Stationery set",
+      "study_area": "Study/work area",
+      "safe_and_cashier": "Safe, cashier",
+      "money_plant": "Money plants",
+      "business_area": "Business meeting area"
     },
-    "key_points": "å…³é”®è¦ç‚¹",
-    "specific_recommendations": "å…·ä½“å»ºè®®",
-    "pattern_explanation_text": "çŽ„ç©ºé£žæ˜Ÿæ ¼å±€æ˜¯é£Žæ°´åˆ†æžçš„æ ¸å¿ƒï¼Œé€šè¿‡åˆ†æžå¤©ç›˜ã€å±±ç›˜ã€å‘ç›˜ä¸‰ç›˜ä¹‹é—´çš„å…³ç³»ï¼Œå¯ä»¥åˆ¤æ–­æˆ¿å±‹çš„å‰å‡¶çŠ¶å†µï¼Œå¹¶å½±å“å±…ä½è€…çš„è¿åŠ¿ã€å¥åº·ä¸Žè´¢è¿ã€‚",
-    "measuring": "测量中",
-    "calibrate_device": "校准设备",
-    "calibration_instructions": "校准说明",
-    "magnetic_declination": "磁偏角",
-    "true_north": "真北",
-    "magnetic_north": "磁北",
-    "direction": "方向",
-    "degree": "度数",
-    "measurement_history": "测量历史",
-    "save_measurement": "保存测量",
-    "clear_history": "清除历史",
-    "device_not_supported": "设备不支持",
-    "permission_required": "需要权限",
-    "interference_detected": "检测到干扰",
-    "move_away_from_metal": "请远离金属物体",
-    "measurement_saved": "测量已保存",
-    "high_accuracy": "高精度",
-    "medium_accuracy": "中等精度",
-    "low_accuracy": "低精度"
+    "key_points": "Key Points",
+    "specific_recommendations": "Specific Recommendations",
+    "pattern_explanation_text": "Flying Star patterns are central to feng shui analysis. By examining the relationships among Period, Mountain, and Water stars, we can assess auspiciousness and influences on fortune, health, and wealth."
   },
   "Compass_legacy": {
-    "title": "æ•°å­—ç½—ç›˜",
-    "measuring": "æµ‹é‡ä¸­...",
-    "calibration": "æ ¡å‡†",
-    "calibrate_device": "æ ¡å‡†è®¾å¤‡",
-    "calibration_instructions": "è¯·æŒ‰ç…§æç¤ºæ ¡å‡†æ‚¨çš„è®¾å¤‡",
-    "accuracy": "ç²¾åº¦",
-    "confidence": "ç½®ä¿¡åº¦",
-    "magnetic_declination": "ç£åè§’",
-    "true_north": "çœŸåŒ—",
-    "magnetic_north": "ç£åŒ—",
-    "direction": "æ–¹å‘",
-    "degree": "åº¦",
-    "measurement_history": "æµ‹é‡åŽ†å²",
-    "save_measurement": "ä¿å­˜æµ‹é‡",
-    "clear_history": "æ¸…é™¤åŽ†å²",
-    "device_not_supported": "è®¾å¤‡ä¸æ”¯æŒç½—ç›˜åŠŸèƒ½",
-    "permission_required": "éœ€è¦ä¼ æ„Ÿå™¨æƒé™",
-    "interference_detected": "æ£€æµ‹åˆ°ç£åœºå¹²æ‰°",
-    "move_away_from_metal": "è¯·è¿œç¦»é‡‘å±žç‰©ä½“",
-    "measurement_saved": "æµ‹é‡ç»“æžœå·²ä¿å­˜",
-    "high_accuracy": "é«˜ç²¾åº¦",
-    "medium_accuracy": "ä¸­ç­‰ç²¾åº¦",
-    "low_accuracy": "ä½Žç²¾åº¦"
+    "title": "Digital Compass",
+    "measuring": "Measuring...",
+    "calibration": "Calibration",
+    "calibrate_device": "Calibrate Device",
+    "calibration_instructions": "Please follow the prompts to calibrate your device",
+    "accuracy": "Accuracy",
+    "confidence": "Confidence",
+    "magnetic_declination": "Magnetic Declination",
+    "true_north": "True North",
+    "magnetic_north": "Magnetic North",
+    "direction": "Direction",
+    "degree": "Degree",
+    "measurement_history": "Measurement History",
+    "save_measurement": "Save Measurement",
+    "clear_history": "Clear History",
+    "device_not_supported": "Device does not support compass functionality",
+    "permission_required": "Sensor permission required",
+    "interference_detected": "Magnetic field interference detected",
+    "move_away_from_metal": "Please move away from metal objects",
+    "measurement_saved": "Measurement saved",
+    "high_accuracy": "High Accuracy",
+    "medium_accuracy": "Medium Accuracy",
+    "low_accuracy": "Low Accuracy"
   },
   "Compliance": {
     "ageVerification": {
@@ -1077,326 +984,326 @@
     "backToHome": "返回首页"
   },
   "Errors": {
-    "page_not_found": "é¡µé¢æœªæ‰¾åˆ°",
-    "server_error": "æœåŠ¡å™¨é”™è¯¯",
-    "network_error": "ç½‘ç»œé”™è¯¯",
-    "permission_denied": "æƒé™ä¸è¶³",
-    "invalid_input": "è¾“å…¥æ— æ•ˆ",
-    "file_not_found": "æ–‡ä»¶æœªæ‰¾åˆ°",
-    "upload_failed": "ä¸Šä¼ å¤±è´¥",
-    "processing_failed": "å¤„ç†å¤±è´¥",
-    "calculation_error": "è®¡ç®—é”™è¯¯",
-    "database_error": "æ•°æ®åº“é”™è¯¯",
-    "authentication_failed": "è®¤è¯å¤±è´¥",
-    "session_expired": "ä¼šè¯å·²è¿‡æœŸ",
-    "quota_exceeded": "é…é¢å·²è¶…å‡º",
-    "feature_not_available": "åŠŸèƒ½ä¸å¯ç”¨",
-    "maintenance_mode": "ç³»ç»Ÿç»´æŠ¤ä¸­",
-    "try_again_later": "è¯·ç¨åŽé‡è¯•",
-    "contact_support": "è¯·è”ç³»å®¢æœ",
-    "unknown_error": "æœªçŸ¥é”™è¯¯"
+    "page_not_found": "Page Not Found",
+    "server_error": "Server Error",
+    "network_error": "Network Error",
+    "permission_denied": "Permission Denied",
+    "invalid_input": "Invalid Input",
+    "file_not_found": "File Not Found",
+    "upload_failed": "Upload Failed",
+    "processing_failed": "Processing Failed",
+    "calculation_error": "Calculation Error",
+    "database_error": "Database Error",
+    "authentication_failed": "Authentication Failed",
+    "session_expired": "Session Expired",
+    "quota_exceeded": "Quota Exceeded",
+    "feature_not_available": "Feature Not Available",
+    "maintenance_mode": "System Maintenance",
+    "try_again_later": "Please try again later",
+    "contact_support": "Please contact support",
+    "unknown_error": "Unknown Error"
   },
   "Fengshui": {
     "palace": {
-      "kan": "åŽ",
-      "kun": "å¤",
-      "zhen": "éœ‡",
-      "xun": "å·½",
-      "center": "ä¸­",
-      "qian": "ä¹¾",
-      "dui": "å…‘",
-      "gen": "è‰®",
-      "li": "ç¦»"
+      "kan": "Kan",
+      "kun": "Kun",
+      "zhen": "Zhen",
+      "xun": "Xun",
+      "center": "Center",
+      "qian": "Qian",
+      "dui": "Dui",
+      "gen": "Gen",
+      "li": "Li"
     },
-    "palace_suffix": "å®«",
-    "period_desc": "ä»£è¡¨å½“å‰è¿åŠ¿",
-    "mountain_star_desc": "ä»£è¡¨åå±±æ–¹ä½",
-    "water_star_desc": "ä»£è¡¨æœå‘æ–¹ä½",
-    "details": "è¯¦ç»†åˆ†æž",
-    "pattern_analysis": "æ ¼å±€åˆ†æž",
-    "overall_pattern": "æ•´ä½“æ ¼å±€",
-    "pattern_type": "æ ¼å±€ç±»åž‹",
-    "key_positions": "å…³é”®ä½ç½®",
-    "suitable_arrangements": "é€‚å®œå¸ƒç½®",
-    "layout_advice": "å¸ƒå±€å»ºè®®",
-    "pattern_explanation": "æ ¼å±€è¯´æ˜Ž",
-    "title": "é£Žæ°´åˆ†æž",
-    "flying_stars": "çŽ„ç©ºé£žæ˜Ÿ",
-    "nine_palaces": "ä¹å®«",
-    "compass_direction": "ç½—ç›˜æ–¹ä½",
-    "house_facing": "æˆ¿å±‹æœå‘",
-    "house_sitting": "æˆ¿å±‹åå‘",
-    "period": "è¿",
-    "current_period": "å½“è¿",
-    "wenchangwei": "æ–‡æ˜Œä½",
-    "caiwei": "è´¢ä½",
-    "mountain_star": "å±±æ˜Ÿ",
-    "water_star": "æ°´æ˜Ÿ",
-    "time_star": "æ—¶æ˜Ÿ",
-    "annual_star": "å¹´æ˜Ÿ",
-    "monthly_star": "æœˆæ˜Ÿ",
-    "daily_star": "æ—¥æ˜Ÿ",
-    "auspicious": "å‰",
-    "inauspicious": "å‡¶",
-    "neutral": "å¹³",
-    "very_auspicious": "å¤§å‰",
-    "very_inauspicious": "å¤§å‡¶",
-    "room_analysis": "æˆ¿é—´åˆ†æž",
-    "bedroom": "å§å®¤",
-    "living_room": "å®¢åŽ…",
-    "kitchen": "åŽ¨æˆ¿",
-    "bathroom": "å«ç”Ÿé—´",
-    "study": "ä¹¦æˆ¿",
-    "dining_room": "é¤åŽ…",
-    "entrance": "çŽ„å…³",
-    "balcony": "é˜³å°",
-    "recommendations": "é£Žæ°´å»ºè®®",
-    "color_recommendations": "é¢œè‰²å»ºè®®",
-    "furniture_placement": "å®¶å…·æ‘†æ”¾",
-    "decoration_suggestions": "è£…é¥°å»ºè®®",
-    "remedy_methods": "åŒ–è§£æ–¹æ³•",
+    "palace_suffix": " Palace",
+    "period_desc": "represents current fortune",
+    "mountain_star_desc": "represents sitting direction",
+    "water_star_desc": "represents facing direction",
+    "details": "Details",
+    "pattern_analysis": "Pattern Analysis",
+    "overall_pattern": "Overall Pattern",
+    "pattern_type": "Pattern Type",
+    "key_positions": "Key Positions",
+    "suitable_arrangements": "Suitable Arrangements",
+    "layout_advice": "Layout Advice",
+    "pattern_explanation": "Pattern Explanation",
+    "title": "Feng Shui Analysis",
+    "flying_stars": "Flying Star Feng Shui",
+    "nine_palaces": "Nine Palaces",
+    "compass_direction": "Compass Direction",
+    "house_facing": "House Facing",
+    "house_sitting": "House Sitting",
+    "period": "Period",
+    "current_period": "Current Period",
+    "wenchangwei": "Wenchang Position",
+    "caiwei": "Wealth Position",
+    "mountain_star": "Mountain Star",
+    "water_star": "Water Star",
+    "time_star": "Time Star",
+    "annual_star": "Annual Star",
+    "monthly_star": "Monthly Star",
+    "daily_star": "Daily Star",
+    "auspicious": "Auspicious",
+    "inauspicious": "Inauspicious",
+    "neutral": "Neutral",
+    "very_auspicious": "Very Auspicious",
+    "very_inauspicious": "Very Inauspicious",
+    "room_analysis": "Room Analysis",
+    "bedroom": "Bedroom",
+    "living_room": "Living Room",
+    "kitchen": "Kitchen",
+    "bathroom": "Bathroom",
+    "study": "Study",
+    "dining_room": "Dining Room",
+    "entrance": "Entrance",
+    "balcony": "Balcony",
+    "recommendations": "Feng Shui Recommendations",
+    "color_recommendations": "Color Recommendations",
+    "furniture_placement": "Furniture Placement",
+    "decoration_suggestions": "Decoration Suggestions",
+    "remedy_methods": "Remedy Methods",
     "tabs": {
-      "overview": "æ€»è§ˆ",
-      "ninePalaces": "ä¹å®«æ ¼",
-      "patterns": "æ ¼å±€",
-      "advice": "å»ºè®®",
-      "advanced": "é«˜çº§"
+      "overview": "Overview",
+      "ninePalaces": "Nine Palaces",
+      "patterns": "Patterns",
+      "advice": "Advice",
+      "advanced": "Advanced"
     }
   },
   "FloorPlan": {
-    "standardListTitle": "é€‰æ‹©æ ‡å‡†æˆ·åž‹å›¾",
-    "roomFallback": "æˆ¿é—´{index}",
+    "standardListTitle": "Select Standard Floor Plan",
+    "roomFallback": "Room {index}",
     "standard-3room": {
-      "name": "æ ‡å‡†ä¸‰å®¤ä¸¤åŽ…",
-      "description": "ååŒ—æœå—ï¼Œä¸‰å®¤ä¸¤åŽ…ä¸¤å«ï¼Œé¢ç§¯çº¦120ãŽ¡"
+      "name": "Standard Three Bedrooms Two Living Rooms",
+      "description": "South-facing, 3 bedrooms, 2 living rooms, 2 bathrooms, about 120㎡"
     },
     "standard-2room": {
-      "name": "æ ‡å‡†ä¸¤å®¤ä¸€åŽ…",
-      "description": "ååŒ—æœå—ï¼Œä¸¤å®¤ä¸€åŽ…ä¸€å«ï¼Œé¢ç§¯çº¦80ãŽ¡"
+      "name": "Standard Two Bedrooms One Living Room",
+      "description": "South-facing, 2 bedrooms, 1 living room, 1 bathroom, about 80㎡"
     },
     "standard-4room": {
-      "name": "æ ‡å‡†å››å®¤ä¸¤åŽ…",
-      "description": "ååŒ—æœå—ï¼Œå››å®¤ä¸¤åŽ…ä¸‰å«ï¼Œé¢ç§¯çº¦150ãŽ¡"
+      "name": "Standard Four Bedrooms Two Living Rooms",
+      "description": "South-facing, 4 bedrooms, 2 living rooms, 3 bathrooms, about 150㎡"
     },
-    "summary": "{count}ä¸ªæˆ¿é—´ | {area}ãŽ¡",
+    "summary": "{count} rooms | {area}㎡",
     "upload": {
-      "title": "ä¸Šä¼ è‡ªå®šä¹‰æˆ·åž‹å›¾",
-      "button": "ä¸Šä¼ æˆ·åž‹å›¾æ–‡ä»¶",
-      "clickToSelect": "ç‚¹å‡»é€‰æ‹©æˆ·åž‹å›¾æ–‡ä»¶",
-      "supportedFormats": "æ”¯æŒ JPG, PNG, PDF æ ¼å¼",
-      "customName": "è‡ªå®šä¹‰æˆ·åž‹å›¾",
-      "customDescription": "ç”¨æˆ·ä¸Šä¼ çš„æˆ·åž‹å›¾"
+      "title": "Upload Custom Floor Plan",
+      "button": "Upload Floor Plan File",
+      "clickToSelect": "Click to select floor plan file",
+      "supportedFormats": "Supports JPG, PNG, PDF formats",
+      "customName": "Custom Floor Plan",
+      "customDescription": "User uploaded floor plan"
     },
-    "selected": "å·²é€‰æ‹©æˆ·åž‹å›¾"
+    "selected": "Selected Floor Plan"
   },
   "Forms": {
     "validation": {
-      "required": "æ­¤å­—æ®µä¸ºå¿…å¡«é¡¹",
-      "email": "è¯·è¾“å…¥æœ‰æ•ˆçš„é‚®ç®±åœ°å€",
-      "min_length": "æœ€å°‘éœ€è¦ {{count}} ä¸ªå­—ç¬¦",
-      "max_length": "æœ€å¤šåªèƒ½ {{count}} ä¸ªå­—ç¬¦",
-      "pattern": "æ ¼å¼ä¸æ­£ç¡®"
+      "required": "This field is required",
+      "email": "Please enter a valid email address",
+      "min_length": "At least {{count}} characters required",
+      "max_length": "Maximum {{count}} characters allowed",
+      "pattern": "Invalid format"
     },
     "placeholders": {
-      "display_name": "è¯·è¾“å…¥æ‚¨çš„æ˜µç§°",
+      "display_name": "Enter your nickname",
       "email": "your@email.com",
-      "phone": "+86 138 0000 0000",
-      "birth_date": "é€‰æ‹©å‡ºç”Ÿæ—¥æœŸ",
-      "birth_time": "é€‰æ‹©å‡ºç”Ÿæ—¶é—´",
-      "address": "è¾“å…¥å‡ºç”Ÿåœ°ç‚¹",
-      "search_address": "æœç´¢åœ°å€..."
+      "phone": "+1 (555) 123-4567",
+      "birth_date": "Select birth date",
+      "birth_time": "Select birth time",
+      "address": "Enter birth place",
+      "search_address": "Search address..."
     },
     "tooltips": {
-      "display_name": "è¿™æ˜¯å…¶ä»–ç”¨æˆ·çœ‹åˆ°çš„åç§°ï¼Œå¯ä»¥éšæ—¶ä¿®æ”¹",
-      "birth_date_lunar": "å†œåŽ†æ—¥æœŸï¼Œç”¨äºŽå…«å­—è®¡ç®—",
-      "birth_date_gregorian": "å…¬åŽ†æ—¥æœŸï¼Œç”¨äºŽå…«å­—è®¡ç®—",
-      "birth_time": "ç²¾ç¡®çš„å‡ºç”Ÿæ—¶é—´æœ‰åŠ©äºŽæ›´å‡†ç¡®çš„å…«å­—åˆ†æž",
-      "birth_place": "å‡ºç”Ÿåœ°ç‚¹ç”¨äºŽçœŸå¤ªé˜³æ—¶è®¡ç®—ï¼Œæé«˜å…«å­—åˆ†æžç²¾åº¦",
-      "email": "ç”¨äºŽæŽ¥æ”¶é‡è¦é€šçŸ¥å’Œåˆ†æžæŠ¥å‘Š",
-      "phone": "ç”¨äºŽæŽ¥æ”¶çŸ­ä¿¡é€šçŸ¥å’ŒéªŒè¯",
-      "calendar_type": "é€‰æ‹©å…¬åŽ†æˆ–å†œåŽ†ï¼Œå½±å“å…«å­—è®¡ç®—çš„å‡†ç¡®æ€§"
+      "display_name": "This is the name other users will see. You can change it anytime.",
+      "birth_date_lunar": "Lunar date, used for BaZi calculations",
+      "birth_date_gregorian": "Gregorian date, used for BaZi calculations",
+      "birth_time": "Accurate birth time helps with more precise BaZi analysis",
+      "birth_place": "Birth place is used for true solar time calculation, improving BaZi analysis accuracy",
+      "email": "Used for receiving important notifications and analysis reports",
+      "phone": "Used for receiving SMS notifications and verification",
+      "calendar_type": "Choose Gregorian or Lunar, affects BaZi calculation accuracy"
     },
     "calendar": {
-      "select_date": "é€‰æ‹©æ—¥æœŸ",
-      "clear": "æ¸…é™¤",
-      "today": "ä»Šå¤©",
-      "cancel": "å–æ¶ˆ",
-      "confirm": "ç¡®å®š",
-      "lunar_note": "å†œåŽ†æ¨¡å¼ä¸‹ï¼Œç³»ç»Ÿä¼šè‡ªåŠ¨è½¬æ¢ä¸ºå…¬åŽ†è¿›è¡Œå…«å­—è®¡ç®—"
+      "select_date": "Select Date",
+      "clear": "Clear",
+      "today": "Today",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "lunar_note": "In Lunar mode, the system automatically converts to Gregorian for BaZi calculations"
     },
     "time": {
-      "select_time": "é€‰æ‹©æ—¶é—´",
-      "hour": "å°æ—¶",
-      "minute": "åˆ†é’Ÿ",
-      "period": "æ—¶æ®µ",
-      "am": "ä¸Šåˆ",
-      "pm": "ä¸‹åˆ",
-      "common_times": "å¸¸ç”¨æ—¶é—´"
+      "select_time": "Select Time",
+      "hour": "Hour",
+      "minute": "Minute",
+      "period": "Period",
+      "am": "AM",
+      "pm": "PM",
+      "common_times": "Common Times"
     },
     "address": {
-      "select_location": "é€‰æ‹©ä½ç½®",
-      "search_placeholder": "è¾“å…¥åœ°å€ï¼Œæ”¯æŒè”æƒ³æœç´¢",
-      "no_results": "æœªæ‰¾åˆ°åŒ¹é…çš„åœ°å€ï¼Œè¯·å°è¯•å…¶ä»–å…³é”®è¯",
-      "supported_formats": "æ”¯æŒè¾“å…¥çœå¸‚åŒºåŽ¿ã€è¡—é“ã€å°åŒºåç§°ç­‰",
-      "current_location": "å½“å‰ä½ç½®",
-      "manual_entry": "æ‰‹åŠ¨è¾“å…¥"
+      "select_location": "Select Location",
+      "search_placeholder": "Enter address, supports autocomplete search",
+      "no_results": "No matching addresses found, please try other keywords",
+      "supported_formats": "Supports entering state, city, street, community names, etc.",
+      "current_location": "Current Location",
+      "manual_entry": "Manual Entry"
     },
     "map": {
-      "click_to_select": "ç‚¹å‡»åœ°å›¾é€‰æ‹©ä½ç½®",
-      "drag_to_pan": "æ‹–æ‹½åœ°å›¾ç§»åŠ¨",
-      "zoom_in": "æ”¾å¤§",
-      "zoom_out": "ç¼©å°",
-      "reset_view": "é‡ç½®è§†è§’",
-      "locate_me": "å®šä½åˆ°å½“å‰ä½ç½®",
-      "selected_location": "å·²é€‰æ‹©ä½ç½®",
-      "latitude": "çº¬åº¦",
-      "longitude": "ç»åº¦",
-      "accuracy": "ç²¾åº¦",
-      "address": "åœ°å€"
+      "click_to_select": "Click on map to select location",
+      "drag_to_pan": "Drag map to move",
+      "zoom_in": "Zoom In",
+      "zoom_out": "Zoom Out",
+      "reset_view": "Reset View",
+      "locate_me": "Locate Me",
+      "selected_location": "Selected Location",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "accuracy": "Accuracy",
+      "address": "Address"
     }
   },
   "GuestAnalysis": {
     "floorPlan": {
-      "noSelectionNote": "æœªé€‰æ‹©æˆ·åž‹å›¾ï¼Œå·²è·³è¿‡ä¹å®«æˆ¿é—´æ˜ å°„ï¼Œä»…å±•ç¤ºåŸºç¡€é£žæ˜Ÿåˆ†æžã€‚",
-      "sectionTitle": "æˆ·åž‹å›¾é£Žæ°´åˆ†æž"
+      "noSelectionNote": "No floor plan selected. Skipped nine-palace room mapping and showing basic Flying Star analysis only.",
+      "sectionTitle": "Floor Plan Feng Shui Analysis"
     },
     "navigation": {
-      "back": "è¿”å›ž",
-      "title": "æ™ºèƒ½é£Žæ°´åˆ†æžä½“éªŒ"
+      "back": "Back",
+      "title": "Intelligent Feng Shui Analysis Experience"
     },
     "steps": {
-      "discoverDestiny": "å‘çŽ°æ‚¨çš„å‘½ç†å¯†ç ",
-      "determineLayout": "ç¡®å®šæˆ¿å±‹é£Žæ°´å¸ƒå±€",
-      "professionalInsights": "åŸºäºŽä¸“ä¸šå…«å­—ç®—æ³•ï¼Œä¸ºæ‚¨æä¾›ä¸ªæ€§åŒ–çš„äººç”Ÿæ´žå¯Ÿå’Œè¿åŠ¿æŒ‡å¼•ã€‚",
-      "preciseLayout": "é€šè¿‡ç²¾ç¡®çš„æœå‘æµ‹é‡ï¼Œä¸ºæ‚¨æä¾›ä¸“ä¸šçš„é£Žæ°´å¸ƒå±€å»ºè®®ã€‚"
+      "discoverDestiny": "Discover Your Destiny Code",
+      "determineLayout": "Determine House Feng Shui Layout",
+      "professionalInsights": "Based on professional BaZi algorithms, providing personalized life insights and fortune guidance.",
+      "preciseLayout": "Through precise orientation measurement, providing professional feng shui layout recommendations."
     },
     "personalForm": {
-      "title": "å¡«å†™æ‚¨çš„ä¸ªäººä¿¡æ¯",
-      "description": "è¯·å‡†ç¡®å¡«å†™å‡ºç”Ÿä¿¡æ¯ï¼Œè¿™å°†ç›´æŽ¥å½±å“å…«å­—åˆ†æžçš„ç²¾åº¦å’Œå‡†ç¡®æ€§ã€‚",
-      "quickFill": "ä¸€é”®å¡«å…¥ç¤ºä¾‹æ•°æ®",
-      "name": "å§“å",
-      "namePlaceholder": "è¯·è¾“å…¥æ‚¨çš„å§“å",
-      "nameRequired": "å§“å *",
-      "gender": "æ€§åˆ«",
-      "genderRequired": "æ€§åˆ« *",
-      "genderPlaceholder": "è¯·é€‰æ‹©æ€§åˆ«",
-      "male": "ç”·",
-      "female": "å¥³",
-      "birthDate": "å‡ºç”Ÿæ—¥æœŸ",
-      "birthDateRequired": "å‡ºç”Ÿæ—¥æœŸ *",
-      "birthTime": "å‡ºç”Ÿæ—¶é—´",
-      "birthPlace": "å‡ºç”Ÿåœ°ç‚¹",
-      "birthPlaceRequired": "å‡ºç”Ÿåœ°ç‚¹ *",
-      "birthPlacePlaceholder": "è¯·è¾“å…¥å‡ºç”ŸåŸŽå¸‚",
-      "nextHouseOrientation": "ä¸‹ä¸€æ­¥ï¼šæˆ¿å±‹æœå‘"
+      "title": "Fill in Your Personal Information",
+      "description": "Please accurately fill in birth information, which will directly affect the precision and accuracy of BaZi analysis.",
+      "quickFill": "Quick Fill Sample Data",
+      "name": "Name",
+      "namePlaceholder": "Please enter your name",
+      "nameRequired": "Name *",
+      "gender": "Gender",
+      "genderRequired": "Gender *",
+      "genderPlaceholder": "Please select gender",
+      "male": "Male",
+      "female": "Female",
+      "birthDate": "Birth Date",
+      "birthDateRequired": "Birth Date *",
+      "birthTime": "Birth Time",
+      "birthPlace": "Birth Place",
+      "birthPlaceRequired": "Birth Place *",
+      "birthPlacePlaceholder": "Please enter birth city",
+      "nextHouseOrientation": "Next: House Orientation"
     },
     "houseForm": {
-      "title": "ç¡®å®šæˆ¿å±‹æœå‘ä¿¡æ¯",
-      "description": "æ‚¨å¯ä»¥é€‰æ‹©æ‰‹åŠ¨è¾“å…¥æœå‘è§’åº¦ï¼Œæˆ–ä½¿ç”¨æ•°å­—ç½—ç›˜è¿›è¡Œç²¾ç¡®æµ‹é‡ã€‚",
-      "quickFill": "ä¸€é”®å¡«å…¥ç¤ºä¾‹æ•°æ®",
-      "selectFloorPlan": "é€‰æ‹©æˆ·åž‹å›¾",
-      "digitalCompass": "æ•°å­—ç½—ç›˜æµ‹é‡",
-      "currentOrientation": "å½“å‰æœå‘è§’åº¦ï¼š",
-      "orientationAngle": "æœå‘è§’åº¦",
-      "orientationRequired": "æœå‘è§’åº¦ *",
-      "orientationPlaceholder": "0-360åº¦",
-      "floor": "æ¥¼å±‚",
-      "floorPlaceholder": "æ¥¼å±‚æ•°",
-      "address": "æˆ¿å±‹åœ°å€",
-      "addressPlaceholder": "è¯·è¾“å…¥æˆ¿å±‹åœ°å€",
-      "roomCount": "æˆ¿é—´æ•°é‡",
-      "roomCountPlaceholder": "æˆ¿é—´æ•°é‡"
+      "title": "Determine House Orientation Information",
+      "description": "You can choose to manually input orientation angle or use digital compass for precise measurement.",
+      "quickFill": "Quick Fill Sample Data",
+      "selectFloorPlan": "Select Floor Plan",
+      "digitalCompass": "Digital Compass Measurement",
+      "currentOrientation": "Current orientation angle:",
+      "orientationAngle": "Orientation Angle",
+      "orientationRequired": "Orientation Angle *",
+      "orientationPlaceholder": "0-360 degrees",
+      "floor": "Floor",
+      "floorPlaceholder": "Floor number",
+      "address": "House Address",
+      "addressPlaceholder": "Please enter house address",
+      "roomCount": "Number of Rooms",
+      "roomCountPlaceholder": "Number of rooms"
     },
     "analysisReady": {
-      "title": "å‡†å¤‡å¼€å§‹åˆ†æž",
-      "description": "æˆ‘ä»¬å°†åŸºäºŽæ‚¨æä¾›çš„ä¿¡æ¯ï¼Œç”Ÿæˆä¸“ä¸šçš„å…«å­—å‘½ç†å’ŒçŽ„ç©ºé£žæ˜Ÿåˆ†æžæŠ¥å‘Šã€‚",
-      "startAnalysis": "å¼€å§‹åˆ†æž"
+      "title": "Ready to Begin Analysis",
+      "description": "We will generate professional BaZi astrology and Flying Star feng shui analysis reports based on the information you provided.",
+      "startAnalysis": "Start Analysis"
     },
-    "analyzing": "åˆ†æžä¸­...",
+    "analyzing": "Analyzing...",
     "analysis": {
-      "title": "å‡†å¤‡å¼€å§‹åˆ†æž",
-      "description": "æˆ‘ä»¬å°†æ ¹æ®æ‚¨æä¾›çš„ä¿¡æ¯ï¼Œç”Ÿæˆä¸“ä¸šçš„å…«å­—å‘½ç†å’Œé£žæ˜Ÿé£Žæ°´åˆ†æžæŠ¥å‘Šã€‚",
-      "start": "å¼€å§‹åˆ†æž"
+      "title": "Ready to Begin Analysis",
+      "description": "We will generate professional BaZi astrology and Flying Star feng shui analysis reports based on the information you provided.",
+      "start": "Start Analysis"
     },
     "sampleData": {
-      "name": "å¼ ä¸‰",
-      "location": "åŒ—äº¬å¸‚",
-      "address": "åŒ—äº¬å¸‚æœé˜³åŒºæœ›äº¬è¡—é“",
-      "floorPlanName": "æ ‡å‡†ä¸‰å®¤ä¸¤åŽ…",
-      "floorPlanDescription": "ååŒ—æœå—ï¼Œä¸‰å®¤ä¸¤åŽ…ä¸¤å«ï¼Œé¢ç§¯çº¦120ãŽ¡"
+      "name": "John Smith",
+      "location": "Beijing",
+      "address": "Wangjing Street, Chaoyang District, Beijing",
+      "floorPlanName": "Standard Three Bedroom Two Living Room",
+      "floorPlanDescription": "Facing south, three bedrooms two living rooms two bathrooms, area about 120㎡"
     },
-    "disclaimer": "æœ¬åˆ†æžä»…ä¾›å‚è€ƒï¼Œä¸èƒ½æ›¿ä»£ä¸“ä¸šå’¨è¯¢ã€‚å¦‚æœ‰é‡è¦å†³ç­–ï¼Œè¯·å’¨è¯¢ä¸“ä¸šäººå£«ã€‚"
+    "disclaimer": "This analysis is for reference only and cannot replace professional consultation. Please consult professionals for important decisions."
   },
   "Home": {
-    "title": "QiFlow AI - æ™ºèƒ½é£Žæ°´åˆ†æžå¹³å°",
-    "subtitle": "ç»“åˆä¼ ç»Ÿé£Žæ°´æ™ºæ…§ä¸ŽçŽ°ä»£AIæŠ€æœ¯çš„æ™ºèƒ½åˆ†æžå¹³å°",
+    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
+    "subtitle": "An intelligent analysis platform combining traditional Feng Shui wisdom with modern AI technology",
     "features": {
       "bazi": {
-        "title": "å…«å­—å‘½ç†åˆ†æž",
-        "description": "ç²¾ç¡®è®¡ç®—ç”Ÿè¾°å…«å­—ï¼Œåˆ†æžäº”è¡Œå¼ºå¼±ï¼Œæä¾›ä¸ªæ€§åŒ–å‘½ç†æŒ‡å¯¼"
+        "title": "Bazi Analysis",
+        "description": "Accurately calculate Four Pillars, analyze Five Elements, and provide personalized guidance"
       },
       "flyingStar": {
-        "title": "çŽ„ç©ºé£žæ˜Ÿé£Žæ°´",
-        "description": "ä¸“ä¸šä¹å®«é£žæ˜Ÿåˆ†æžï¼Œç»“åˆæˆ¿å±‹æœå‘ï¼Œæä¾›ç²¾å‡†é£Žæ°´å»ºè®®"
+        "title": "Flying Star Feng Shui",
+        "description": "Professional Nine Palaces analysis with house orientation for precise advice"
       },
       "compass": {
-        "title": "é«˜ç²¾åº¦æ•°å­—ç½—ç›˜",
-        "description": "Â±2Â°ä¸“ä¸šçº§ç²¾åº¦ï¼Œè‡ªåŠ¨ç£åè§’ä¿®æ­£ï¼Œæ”¯æŒ24å±±æ–¹ä½æµ‹é‡"
+        "title": "High-precision Digital Compass",
+        "description": "±2° professional accuracy with auto declination correction and 24 directions"
       },
       "floorPlan": {
-        "title": "æˆ·åž‹å›¾æ™ºèƒ½å åŠ ",
-        "description": "AIè¯†åˆ«æˆ¿é—´å¸ƒå±€ï¼Œè‡ªåŠ¨å åŠ é£žæ˜Ÿå›¾ï¼Œå¯è§†åŒ–é£Žæ°´åˆ†æž"
+        "title": "Smart Floor Plan Overlay",
+        "description": "AI detects rooms and overlays flying stars for visual analysis"
       },
       "visualization3d": {
-        "title": "3Dé£Žæ°´å±•ç¤º",
-        "description": "ç«‹ä½“åŒ–é£Žæ°´åˆ†æžï¼ŒVRæ¨¡å¼æ”¯æŒï¼Œæ²‰æµ¸å¼ä½“éªŒ"
+        "title": "3D Visualization",
+        "description": "Immersive VR-ready 3D Feng Shui analysis"
       },
       "aiAssistant": {
-        "title": "AIæ™ºèƒ½åŠ©æ‰‹",
-        "description": "ä¸“ä¸šé£Žæ°´å’¨è¯¢ï¼Œä¸ªæ€§åŒ–å»ºè®®ï¼Œå¤šè½®å¯¹è¯è®°å¿†"
+        "title": "AI Assistant",
+        "description": "Professional consultation with personalized suggestions and memory"
       }
     },
     "actions": {
-      "continueAsGuest": "ä»¥æ¸¸å®¢èº«ä»½ç»§ç»­",
-      "register": "ç«‹å³æ³¨å†Œ",
-      "viewBaziAnalysis": "ç«‹å³æŸ¥çœ‹å…«å­—å‘½ç†åˆ†æž",
-      "testAnalysis": "æµ‹è¯•å®Œæ•´åˆ†æžæµç¨‹"
+      "continueAsGuest": "Continue as Guest",
+      "register": "Register Now",
+      "viewBaziAnalysis": "View Bazi Analysis",
+      "testAnalysis": "Test Complete Analysis"
     },
     "guestEntry": {
-      "creatingSession": "åˆ›å»ºæ¸¸å®¢ä¼šè¯ä¸­...",
-      "continueAsGuest": "ä»¥æ¸¸å®¢èº«ä»½ç»§ç»­",
-      "registerNow": "ç«‹å³æ³¨å†Œ",
-      "alreadyHaveAccount": "å·²æœ‰è´¦æˆ·ï¼Ÿç«‹å³ç™»å½•",
-      "guestModeDescription": "æ¸¸å®¢æ¨¡å¼ï¼šæœ€å¤š3æ¬¡åˆ†æžï¼Œæ•°æ®ä¸ä¿å­˜",
-      "sessionCreationFailed": "æ¸¸å®¢ä¼šè¯åˆ›å»ºå¤±è´¥"
+      "creatingSession": "Creating guest session...",
+      "continueAsGuest": "Continue as Guest",
+      "registerNow": "Register Now",
+      "alreadyHaveAccount": "Already have an account? Sign in",
+      "guestModeDescription": "Guest mode: up to 3 analyses, data not saved",
+      "sessionCreationFailed": "Failed to create guest session"
     },
     "highlights": {
-      "title": "æ ¸å¿ƒç‰¹è‰²",
+      "title": "Highlights",
       "smartOverlay": {
-        "title": "æ™ºèƒ½æˆ·åž‹å åŠ ",
-        "description": "å…¨çƒé¦–åˆ›æˆ·åž‹å›¾ä¸Žé£žæ˜Ÿå›¾æ™ºèƒ½å åŠ æŠ€æœ¯"
+        "title": "Smart Overlay",
+        "description": "First-of-its-kind overlay of floor plans with flying stars"
       },
       "guestMode": {
-        "title": "æ¸¸å®¢æ¨¡å¼",
-        "description": "æ— éœ€æ³¨å†Œå³å¯ä½“éªŒæ ¸å¿ƒåŠŸèƒ½ï¼Œæ•°æ®24å°æ—¶è‡ªåŠ¨æ¸…ç†"
+        "title": "Guest Mode",
+        "description": "Experience core features without registration; data auto-clears in 24h"
       },
       "precisionCompass": {
-        "title": "ä¸“ä¸šçº§ç½—ç›˜",
-        "description": "Â±2Â°ç²¾åº¦è¦æ±‚ï¼Œæ”¯æŒå¤šç§ä¼ æ„Ÿå™¨èžåˆç®—æ³•"
+        "title": "Precision Compass",
+        "description": "±2° accuracy with multi-sensor fusion"
       },
       "multilingual": {
-        "title": "å¤šè¯­è¨€æ”¯æŒ",
-        "description": "æ”¯æŒ6ç§è¯­è¨€ï¼Œå…¨çƒåŒ–é£Žæ°´åˆ†æžæœåŠ¡"
+        "title": "Multilingual",
+        "description": "Support 6 languages for global service"
       }
     },
     "footer": {
-      "copyright": "Â© 2024 QiFlow AI. ä¿ç•™æ‰€æœ‰æƒåˆ©ã€‚",
-      "help": "å¸®åŠ©ä¸­å¿ƒ",
-      "about": "å…³äºŽæˆ‘ä»¬"
+      "copyright": "© 2024 QiFlow AI. All rights reserved.",
+      "help": "Help Center",
+      "about": "About Us"
     }
   },
   "HomePage": {
-    "title": "MkSaaS",
+    "title": "QiFlow AI - 智能风水分析平台",
     "description": "使用 MkSaaS 在几天内轻松构建您的 AI SaaS 产品",
     "hero": {
       "title": "使用 MkSaaS 轻松构建您的 AI SaaS 产品",
@@ -1469,16 +1376,16 @@
         }
       },
       "fengshui": {
-        "title": "é£Žæ°´åˆ†æž",
-        "description": "ä¸“ä¸šçš„çŽ„ç©ºé£žæ˜Ÿé£Žæ°´åˆ†æžï¼Œä¸ºæ‚¨æä¾›è¯¦ç»†çš„é£Žæ°´è¯„ä¼°å’Œå»ºè®®"
+        "title": "风水分析",
+        "description": "专业的玄空飞星风水分析，为您提供详细的风水评估和建议"
       },
       "bazi": {
-        "title": "å…«å­—åˆ†æž",
-        "description": "åŸºäºŽä¼ ç»Ÿå…«å­—ç†è®ºçš„ä¸ªäººè¿åŠ¿åˆ†æžï¼ŒåŠ©æ‚¨äº†è§£è‡ªèº«å‘½ç†"
+        "title": "八字分析",
+        "description": "基于传统八字理论的个人运势分析，助您了解自身命理"
       },
       "guest": {
-        "title": "è®¿å®¢åˆ†æž",
-        "description": "æ™ºèƒ½è®¿å®¢åˆ†æžç³»ç»Ÿï¼Œä¸ºæ‚¨çš„å®¢äººæä¾›ä¸ªæ€§åŒ–çš„é£Žæ°´å»ºè®®"
+        "title": "访客分析",
+        "description": "智能访客分析系统，为您的客人提供个性化的风水建议"
       }
     },
     "features2": {
@@ -1652,218 +1559,218 @@
       "primaryButton": "开始使用",
       "secondaryButton": "查看演示"
     },
-    "subtitle": "ç»“åˆä¼ ç»Ÿé£Žæ°´æ™ºæ…§ä¸ŽçŽ°ä»£AIæŠ€æœ¯çš„æ™ºèƒ½åˆ†æžå¹³å°",
+    "subtitle": "结合传统风水智慧与现代AI技术的智能分析平台",
     "actions": {
-      "login": "ç™»å½•",
-      "register": "æ³¨å†Œ"
+      "login": "登录",
+      "register": "注册"
     }
   },
   "HomeV2": {
     "hero": {
-      "titleLine1": "èžåˆåƒå¹´æ™ºæ…§ä¸Ž AI ç§‘æŠ€",
-      "titleLine2": "å¼€å¯å‘½ç†æ–°çºªå…ƒ",
-      "subtitle": "ç²¾å‡†å…«å­—åˆ†æž Â· æ™ºèƒ½é£Žæ°´ç½—ç›˜ Â· AI æ·±åº¦å’¨è¯¢",
-      "ctaPrimary": "ç«‹å³å…è´¹ä½“éªŒ",
-      "ctaSecondary": "AI æ™ºèƒ½å’¨è¯¢"
+      "titleLine1": "Uniting millennia-old wisdom with AI",
+      "titleLine2": "A new era of destiny insight",
+      "subtitle": "Accurate BaZi analysis · Intelligent compass · AI deep consulting",
+      "ctaPrimary": "Try for Free",
+      "ctaSecondary": "AI Consulting"
     },
     "trust": {
-      "dataSecurity": "æ•°æ®å®‰å…¨åŠ å¯†",
-      "realtimeAI": "å®žæ—¶ AI åˆ†æž",
-      "traditionFusion": "ä¼ ç»Ÿæ™ºæ…§èžåˆ"
+      "dataSecurity": "Encrypted data security",
+      "realtimeAI": "Real-time AI analysis",
+      "traditionFusion": "Tradition meets innovation"
     },
     "features": {
-      "heading": "ä¸‰å¤§æ ¸å¿ƒåŠŸèƒ½",
-      "subtitle": "èžåˆä¼ ç»Ÿå‘½ç†å­¦ä¸ŽçŽ°ä»£ AI æŠ€æœ¯ï¼Œä¸ºæ‚¨æä¾›å…¨æ–¹ä½çš„ä¸ªæ€§åŒ–åˆ†æžä¸Žå’¨è¯¢æœåŠ¡",
-      "ctaHover": "ç‚¹å‡»ç«‹å³ä½“éªŒ â†’",
+      "heading": "Three Core Features",
+      "subtitle": "Blending traditional metaphysics with modern AI for comprehensive personalized services",
+      "ctaHover": "Click to experience →",
       "items": {
         "bazi": {
-          "title": "AI å…«å­—åˆ†æž",
-          "desc": "ä¸Šä¼ å‡ºç”Ÿä¿¡æ¯ï¼ŒèŽ·å¾—äº”è¡Œã€åç¥žã€æµå¹´åˆ†æžï¼Œç²¾å‡†è§£è¯»å‘½ç†ç‰¹å¾",
-          "credits": "å…è´¹èµ é€ 10 ç§¯åˆ†"
+          "title": "AI BaZi Analysis",
+          "desc": "Enter birth info to get Five Elements, Ten Gods, and annual insights",
+          "credits": "Free 10 credits"
         },
         "compass": {
-          "title": "é£Žæ°´ç½—ç›˜æµ‹è¯•",
-          "desc": "è¾“å…¥å®¶å®…/åŠžå…¬åœ°å€ï¼ŒèŽ·å¾—æ–¹ä½å¸ƒå±€å»ºè®®ï¼Œè°ƒæ•´èƒ½é‡åœº",
-          "credits": "å…è´¹èµ é€ 20 ç§¯åˆ†"
+          "title": "Feng Shui Compass Test",
+          "desc": "Input address to receive orientation and layout suggestions",
+          "credits": "Free 20 credits"
         },
         "chat": {
-          "title": "AI æ·±åº¦å’¨è¯¢",
-          "desc": "å®žæ—¶å¤šè½®å¯¹è¯ï¼Œé’ˆå¯¹å…·ä½“é—®é¢˜ç»™å‡ºä¸“ä¸šå»ºè®®ï¼Œæä¾›ä¸ªæ€§åŒ–æŒ‡å¼•",
-          "credits": "5 ç§¯åˆ†/æ¬¡"
+          "title": "AI Deep Consulting",
+          "desc": "Real-time multi-turn conversations for professional advice",
+          "credits": "5 credits / session"
         }
       }
     },
     "shell": {
       "empty": {
-        "title": "è¿˜æ²¡æœ‰å¼€å§‹",
-        "desc": "å¡«å†™å¿…è¦ä¿¡æ¯åŽå³å¯å¼€å§‹æ™ºèƒ½åˆ†æž"
+        "title": "Not started yet",
+        "desc": "Provide required info to begin intelligent analysis"
       },
       "error": {
-        "title": "æœåŠ¡æš‚ä¸å¯ç”¨",
-        "desc": "è¯·ç¨åŽé‡è¯•æˆ–è”ç³»æ”¯æŒ"
+        "title": "Service unavailable",
+        "desc": "Please retry later or contact support"
       },
       "limited": {
-        "title": "åŠŸèƒ½å—é™",
-        "desc": "æ‚¨çš„ç§¯åˆ†ä¸è¶³æˆ–æƒé™å—é™ï¼Œå……å€¼æˆ–å‡çº§å³å¯è§£é”"
+        "title": "Access limited",
+        "desc": "Insufficient credits or permissions. Top up or upgrade to unlock"
       },
       "timeout": {
-        "title": "åˆ†æžè¶…æ—¶",
-        "desc": "AI æ­£åœ¨åŠªåŠ›è®¡ç®—ï¼Œè¯·é‡è¯•æˆ–ç¨åŽå†è¯•"
+        "title": "Analysis timeout",
+        "desc": "AI is still working. Please retry later"
       },
-      "retry": "é‡è¯•",
-      "upgrade": "åŽ»å……å€¼/å‡çº§"
+      "retry": "Retry",
+      "upgrade": "Top up / Upgrade"
     },
     "guidance": {
-      "bazi": "å¡«å†™å‡ºç”Ÿä¿¡æ¯ï¼Œå¼€å¯ä¸“å±žå…«å­—å‘½ç†åˆ†æž",
-      "compass": "è¾“å…¥åœ°å€æˆ–ä½¿ç”¨æ•°å­—ç½—ç›˜ï¼ŒèŽ·å–æ–¹ä½ä¸Žå¸ƒå±€å»ºè®®",
-      "chat": "é’ˆå¯¹å…·ä½“é—®é¢˜è¿›è¡Œå®žæ—¶ AI å’¨è¯¢"
+      "bazi": "Enter birth details to start your personalized BaZi analysis",
+      "compass": "Input address or use digital compass for orientation-based advice",
+      "chat": "Ask your specific questions for real-time AI consulting"
     },
     "howItWorks": {
-      "heading": "å¦‚ä½•è¿ä½œ",
-      "subtitle": "å››æ­¥å¼€å¯æ‚¨çš„æ™ºèƒ½å‘½ç†ä¹‹æ—…",
+      "heading": "How It Works",
+      "subtitle": "Four steps to your intelligent destiny journey",
       "steps": {
         "step1": {
-          "title": "æ³¨å†Œè´¦æˆ·",
-          "desc": "èŽ·å¾—å…è´¹ç§¯åˆ†"
+          "title": "Register",
+          "desc": "Get free credits"
         },
         "step2": {
-          "title": "é€‰æ‹©åŠŸèƒ½",
-          "desc": "è¾“å…¥ç›¸å…³ä¿¡æ¯"
+          "title": "Select Feature",
+          "desc": "Enter relevant info"
         },
         "step3": {
-          "title": "AI è®¡ç®—",
-          "desc": "ç”Ÿæˆä¸ªæ€§åŒ–æŠ¥å‘Š"
+          "title": "AI Analysis",
+          "desc": "Generate personalized report"
         },
         "step4": {
-          "title": "èŽ·å–ç»“æžœ",
-          "desc": "ä¸‹è½½ PDF æˆ–ç»§ç»­å’¨è¯¢"
+          "title": "Get Results",
+          "desc": "Download PDF or continue consulting"
         }
       }
     },
     "pricing": {
-      "heading": "ç§¯åˆ†å¥—é¤",
-      "subtitle": "çµæ´»é€‰æ‹©ï¼ŒæŒ‰éœ€ä»˜è´¹",
-      "popularBadge": "æœ€å—æ¬¢è¿Ž",
-      "creditsLabel": "ç§¯åˆ†",
-      "buyNow": "ç«‹å³è´­ä¹°",
+      "heading": "Credit Packages",
+      "subtitle": "Flexible plans, pay as you go",
+      "popularBadge": "Most Popular",
+      "creditsLabel": "Credits",
+      "buyNow": "Buy Now",
       "packages": {
         "small": {
-          "price": "Â¥29"
+          "price": "$4.99"
         },
         "medium": {
-          "price": "Â¥99"
+          "price": "$14.99"
         },
         "large": {
-          "price": "Â¥199"
+          "price": "$29.99"
         }
       },
       "costTable": {
-        "heading": "åŠŸèƒ½è®¡è´¹è¯´æ˜Ž",
+        "heading": "Feature Pricing",
         "items": {
           "chat": {
-            "name": "AI èŠå¤©",
-            "cost": "5 ç§¯åˆ†/æ¬¡",
-            "desc": "æ”¯æŒå¤šè½®æ·±åº¦å¯¹è¯"
+            "name": "AI Chat",
+            "cost": "5 credits/session",
+            "desc": "Multi-turn deep conversation"
           },
           "deep": {
-            "name": "æ·±åº¦è§£è¯»",
-            "cost": "30 ç§¯åˆ†/æ¬¡",
-            "desc": "å®Œæ•´å‘½ç›˜åˆ†æžæŠ¥å‘Š"
+            "name": "Deep Reading",
+            "cost": "30 credits/session",
+            "desc": "Complete destiny analysis"
           },
           "bazi": {
-            "name": "å…«å­—åˆ†æž",
-            "cost": "10 ç§¯åˆ†/æ¬¡",
-            "desc": "åŸºç¡€äº”è¡Œåç¥žåˆ†æž"
+            "name": "BaZi Analysis",
+            "cost": "10 credits/session",
+            "desc": "Five Elements & Ten Gods"
           },
           "compass": {
-            "name": "é£Žæ°´ç½—ç›˜",
-            "cost": "20 ç§¯åˆ†/æ¬¡",
-            "desc": "åœ°å€æ–¹ä½èƒ½é‡åœºåˆ†æž"
+            "name": "Feng Shui Compass",
+            "cost": "20 credits/session",
+            "desc": "Orientation & layout advice"
           },
           "pdf": {
-            "name": "PDF å¯¼å‡º",
-            "cost": "5 ç§¯åˆ†/æ¬¡",
-            "desc": "ä¸‹è½½å®Œæ•´æŠ¥å‘Š"
+            "name": "PDF Export",
+            "cost": "5 credits/export",
+            "desc": "Download full report"
           }
         }
       }
     },
     "compliance": {
-      "heading": "å®‰å…¨ä¸Žåˆè§„æ‰¿è¯º",
+      "heading": "Security & Compliance Commitment",
       "items": {
         "age": {
-          "title": "18+ å¹´é¾„é™åˆ¶",
-          "desc": "æœ¬å¹³å°ä»…ä¾› 18 å²ä»¥ä¸Šç”¨æˆ·ä½¿ç”¨"
+          "title": "18+ Age Restriction",
+          "desc": "This platform is for users 18 years and older only"
         },
         "privacy": {
-          "title": "éšç§ä¿æŠ¤",
-          "desc": "æ‚¨çš„ä¿¡æ¯ç»åŠ å¯†å­˜å‚¨ï¼Œç»ä¸å¤–æ³„"
+          "title": "Privacy Protection",
+          "desc": "Your data is encrypted and never shared"
         },
         "disclaimer": {
-          "title": "å…è´£å£°æ˜Ž",
-          "desc": "æœ¬æœåŠ¡åŸºäºŽ AI ç®—æ³•ä¸Žä¼ ç»Ÿå‘½ç†ç†è®ºï¼Œä»…ä¾›å‚è€ƒ"
+          "title": "Disclaimer",
+          "desc": "AI-based service for reference only, not professional advice"
         },
         "dsar": {
-          "title": "DSAR æ”¯æŒ",
-          "desc": "ç”¨æˆ·å¯ç”³è¯·æ•°æ®æŸ¥è¯¢ã€åˆ é™¤ã€å¯¼å‡º"
+          "title": "DSAR Support",
+          "desc": "Request data access, deletion, or export anytime"
         }
       }
     },
     "footer": {
       "about": {
-        "heading": "å…³äºŽæˆ‘ä»¬",
-        "desc": "QiFlow AI è‡´åŠ›äºŽå°†ä¼ ç»Ÿå‘½ç†æ™ºæ…§ä¸ŽçŽ°ä»£ AI æŠ€æœ¯ç›¸ç»“åˆï¼Œä¸ºç”¨æˆ·æä¾›ä¸“ä¸šã€å¯ä¿¡çš„ä¸ªæ€§åŒ–åˆ†æžæœåŠ¡ã€‚"
+        "heading": "About Us",
+        "desc": "QiFlow AI blends traditional metaphysics with modern AI technology, offering professional and trusted personalized analysis services."
       },
       "quickLinks": {
-        "heading": "å¿«é€Ÿé“¾æŽ¥",
-        "terms": "ä½¿ç”¨æ¡æ¬¾",
-        "privacy": "éšç§æ”¿ç­–",
-        "contact": "è”ç³»æˆ‘ä»¬"
+        "heading": "Quick Links",
+        "terms": "Terms of Service",
+        "privacy": "Privacy Policy",
+        "contact": "Contact Us"
       },
       "coreFeatures": {
-        "heading": "æ ¸å¿ƒåŠŸèƒ½",
-        "bazi": "å…«å­—åˆ†æž",
-        "compass": "é£Žæ°´ç½—ç›˜",
-        "chat": "AI å’¨è¯¢"
+        "heading": "Core Features",
+        "bazi": "BaZi Analysis",
+        "compass": "Feng Shui Compass",
+        "chat": "AI Consulting"
       },
       "followUs": {
-        "heading": "å…³æ³¨æˆ‘ä»¬",
-        "wechat": "å¾®ä¿¡",
-        "weibo": "å¾®åš"
+        "heading": "Follow Us",
+        "wechat": "WeChat",
+        "weibo": "Weibo"
       },
-      "copyright": "Â© 2025 QiFlow AI. All Rights Reserved."
+      "copyright": "© 2025 QiFlow AI. All Rights Reserved."
     }
   },
   "I18nTest": {
-    "currentLanguageInfo": "å½“å‰è¯­è¨€ä¿¡æ¯",
-    "locale": "è¯­è¨€ä»£ç ",
-    "title": "æ ‡é¢˜",
-    "subtitle": "å‰¯æ ‡é¢˜",
-    "features": "åŠŸèƒ½ç‰¹æ€§",
-    "languageSwitchingTest": "è¯­è¨€åˆ‡æ¢æµ‹è¯•",
-    "switchingInstructions": "å°è¯•ä½¿ç”¨ä¸Šæ–¹çš„ä¸‹æ‹‰èœå•åˆ‡æ¢è¯­è¨€ï¼Œè§‚å¯Ÿå†…å®¹å˜åŒ–ã€‚",
-    "commonTranslations": "å¸¸ç”¨ç¿»è¯‘",
-    "loading": "åŠ è½½ä¸­",
-    "success": "æˆåŠŸ",
-    "cancel": "å–æ¶ˆ",
-    "confirm": "ç¡®è®¤",
-    "search": "æœç´¢",
-    "save": "ä¿å­˜",
-    "good_pattern": "TODO: translate I18nTest.good_pattern",
-    "bad_pattern": "TODO: translate I18nTest.bad_pattern",
-    "wenchang_desc": "TODO: translate I18nTest.wenchang_desc",
-    "caiwei_desc": "TODO: translate I18nTest.caiwei_desc",
+    "currentLanguageInfo": "Current Language Info",
+    "locale": "Locale",
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "features": "Features",
+    "languageSwitchingTest": "Language Switching Test",
+    "switchingInstructions": "Try switching languages using the dropdown above to see the content change.",
+    "commonTranslations": "Common Translations",
+    "loading": "Loading",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "search": "Search",
+    "save": "Save",
+    "good_pattern": "Auspicious Pattern",
+    "bad_pattern": "Inauspicious Pattern",
+    "wenchang_desc": "Intelligence and Academic Fortune Direction",
+    "caiwei_desc": "Wealth and Career Development Direction",
     "items": {
-      "desk_and_bookcase": "TODO: translate I18nTest.items.desk_and_bookcase",
-      "stationery": "TODO: translate I18nTest.items.stationery",
-      "study_area": "TODO: translate I18nTest.items.study_area",
-      "safe_and_cashier": "TODO: translate I18nTest.items.safe_and_cashier",
-      "money_plant": "TODO: translate I18nTest.items.money_plant",
-      "business_area": "TODO: translate I18nTest.items.business_area"
+      "desk_and_bookcase": "Desk and Bookcase",
+      "stationery": "Stationery (Four Treasures of Study)",
+      "study_area": "Study and Work Area",
+      "safe_and_cashier": "Safe and Cashier Counter",
+      "money_plant": "Lucky Money Plants",
+      "business_area": "Office and Business Discussion Area"
     },
-    "key_points": "TODO: translate I18nTest.key_points",
-    "specific_recommendations": "TODO: translate I18nTest.specific_recommendations",
-    "pattern_explanation_text": "TODO: translate I18nTest.pattern_explanation_text"
+    "key_points": "Key Points",
+    "specific_recommendations": "Specific Recommendations",
+    "pattern_explanation_text": "Xuankong Feixing patterns are the core of Feng Shui analysis. By analyzing the relationships between the Heaven, Mountain, and Facing plates, one can determine the fortune of a house and its impact on the occupants' luck, health, and wealth."
   },
   "Mail": {
     "common": {
@@ -2073,24 +1980,24 @@
     }
   },
   "Metadata": {
-    "name": "MkSaaS Demo",
-    "title": "MkSaaS - 最好的 AI SaaS 模板",
-    "description": "MkSaaS 是构建 AI SaaS 的最佳模板，使用 MkSaaS 可以在几天内轻松构建您的 AI SaaS，简单且毫不费力。"
+    "name": "QiFlow AI",
+    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
+    "description": "An intelligent feng shui analysis platform that combines traditional Chinese metaphysics with modern AI technology"
   },
   "Navigation": {
-    "home": "é¦–é¡µ",
-    "dashboard": "ä»ªè¡¨æ¿",
-    "analysis": "é£Žæ°´åˆ†æž",
-    "compass": "æ•°å­—ç½—ç›˜",
-    "overlay": "æˆ·åž‹å åŠ ",
-    "3d_viewer": "3Då±•ç¤º",
-    "reports": "åˆ†æžæŠ¥å‘Š",
-    "chat": "AIåŠ©æ‰‹",
-    "subscription": "è®¢é˜…ç®¡ç†",
-    "profile": "ä¸ªäººèµ„æ–™",
-    "settings": "è®¾ç½®",
-    "help": "å¸®åŠ©",
-    "about": "å…³äºŽæˆ‘ä»¬"
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "analysis": "Feng Shui Analysis",
+    "compass": "Digital Compass",
+    "overlay": "Floor Plan Overlay",
+    "3d_viewer": "3D Viewer",
+    "reports": "Analysis Reports",
+    "chat": "AI Assistant",
+    "subscription": "Subscription Management",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About Us"
   },
   "Newsletter": {
     "title": "邮件列表",
@@ -2111,32 +2018,32 @@
     "backToHome": "返回首页"
   },
   "Overlay": {
-    "title": "æˆ·åž‹å›¾å åŠ ",
-    "upload_floorplan": "ä¸Šä¼ æˆ·åž‹å›¾",
-    "processing_image": "å¤„ç†å›¾åƒä¸­...",
-    "room_detection": "æˆ¿é—´è¯†åˆ«",
-    "auto_alignment": "è‡ªåŠ¨å¯¹é½",
-    "manual_adjustment": "æ‰‹åŠ¨è°ƒæ•´",
-    "transparency": "é€æ˜Žåº¦",
-    "overlay_opacity": "å åŠ é€æ˜Žåº¦",
-    "show_grid": "æ˜¾ç¤ºç½‘æ ¼",
-    "show_labels": "æ˜¾ç¤ºæ ‡ç­¾",
-    "room_scores": "æˆ¿é—´è¯„åˆ†",
-    "click_room_for_details": "ç‚¹å‡»æˆ¿é—´æŸ¥çœ‹è¯¦æƒ…",
-    "room_function": "æˆ¿é—´åŠŸèƒ½",
-    "feng_shui_score": "é£Žæ°´è¯„åˆ†",
-    "recommendations_for_room": "æˆ¿é—´å»ºè®®",
-    "image_upload_failed": "å›¾ç‰‡ä¸Šä¼ å¤±è´¥",
-    "image_processing_failed": "å›¾ç‰‡å¤„ç†å¤±è´¥",
-    "unsupported_format": "ä¸æ”¯æŒçš„æ–‡ä»¶æ ¼å¼",
-    "file_too_large": "æ–‡ä»¶è¿‡å¤§",
-    "drag_drop_image": "æ‹–æ‹½å›¾ç‰‡åˆ°æ­¤å¤„æˆ–ç‚¹å‡»ä¸Šä¼ ",
-    "supported_formats": "æ”¯æŒ JPG, PNG, PDF æ ¼å¼",
-    "max_file_size": "æœ€å¤§æ–‡ä»¶å¤§å°: 10MB",
-    "processing_complete": "å¤„ç†å®Œæˆ",
-    "alignment_accuracy": "å¯¹é½ç²¾åº¦",
-    "rotation_angle": "æ—‹è½¬è§’åº¦",
-    "scale_factor": "ç¼©æ”¾æ¯”ä¾‹"
+    "title": "Floor Plan Overlay",
+    "upload_floorplan": "Upload Floor Plan",
+    "processing_image": "Processing image...",
+    "room_detection": "Room Detection",
+    "auto_alignment": "Auto Alignment",
+    "manual_adjustment": "Manual Adjustment",
+    "transparency": "Transparency",
+    "overlay_opacity": "Overlay Opacity",
+    "show_grid": "Show Grid",
+    "show_labels": "Show Labels",
+    "room_scores": "Room Scores",
+    "click_room_for_details": "Click room for details",
+    "room_function": "Room Function",
+    "feng_shui_score": "Feng Shui Score",
+    "recommendations_for_room": "Recommendations for Room",
+    "image_upload_failed": "Image upload failed",
+    "image_processing_failed": "Image processing failed",
+    "unsupported_format": "Unsupported file format",
+    "file_too_large": "File too large",
+    "drag_drop_image": "Drag & drop image here or click to upload",
+    "supported_formats": "Supports JPG, PNG, PDF formats",
+    "max_file_size": "Maximum file size: 10MB",
+    "processing_complete": "Processing complete",
+    "alignment_accuracy": "Alignment Accuracy",
+    "rotation_angle": "Rotation Angle",
+    "scale_factor": "Scale Factor"
   },
   "PricePlans": {
     "free": {
@@ -2208,255 +2115,223 @@
     }
   },
   "Profile": {
-    "title": "ä¸ªäººèµ„æ–™",
-    "personal_info": "ä¸ªäººä¿¡æ¯",
-    "name": "å§“å",
-    "email": "é‚®ç®±",
-    "phone": "ç”µè¯",
-    "address": "åœ°å€",
-    "timezone": "æ—¶åŒº",
-    "language": "è¯­è¨€",
-    "birth_info": "å‡ºç”Ÿä¿¡æ¯",
-    "privacy_settings": "éšç§è®¾ç½®",
-    "data_export": "æ•°æ®å¯¼å‡º",
-    "delete_account": "åˆ é™¤è´¦æˆ·",
-    "account_security": "è´¦æˆ·å®‰å…¨",
-    "change_password": "ä¿®æ”¹å¯†ç ",
-    "two_factor_auth": "åŒå› ç´ è®¤è¯",
-    "login_history": "ç™»å½•åŽ†å²",
-    "profile_updated": "èµ„æ–™å·²æ›´æ–°",
-    "password_changed": "å¯†ç å·²ä¿®æ”¹",
-    "account_deleted": "è´¦æˆ·å·²åˆ é™¤",
-    "data_exported": "æ•°æ®å·²å¯¼å‡º",
-    "confirm_delete_account": "ç¡®è®¤åˆ é™¤è´¦æˆ·ï¼Ÿæ­¤æ“ä½œä¸å¯æ’¤é”€ã€‚",
-    "display_name": "æ˜¾ç¤ºåç§°",
-    "gender": "æ€§åˆ«",
-    "birth_date": "å‡ºç”Ÿæ—¥æœŸ",
-    "birth_time": "å‡ºç”Ÿæ—¶é—´",
-    "birth_place": "å‡ºç”Ÿåœ°ç‚¹",
-    "calendar_type": "åŽ†æ³•ç±»åž‹",
-    "gregorian": "å…¬åŽ†",
-    "lunar": "å†œåŽ†",
-    "contact_info": "è”ç³»æ–¹å¼",
-    "optional": "å¯é€‰",
-    "required": "å¿…å¡«",
-    "save_profile": "ä¿å­˜èµ„æ–™",
-    "saving": "ä¿å­˜ä¸­...",
-    "profile_saved": "èµ„æ–™ä¿å­˜æˆåŠŸ",
-    "validation_error": "éªŒè¯é”™è¯¯",
-    "invalid_email": "é‚®ç®±æ ¼å¼ä¸æ­£ç¡®",
-    "invalid_phone": "ç”µè¯å·ç æ ¼å¼ä¸æ­£ç¡®",
-    "name_required": "å§“åä¸èƒ½ä¸ºç©º",
-    "email_required": "é‚®ç®±ä¸èƒ½ä¸ºç©º",
-    "date_required": "æ—¥æœŸä¸èƒ½ä¸ºç©º",
-    "time_required": "æ—¶é—´ä¸èƒ½ä¸ºç©º",
-    "address_required": "åœ°å€ä¸èƒ½ä¸ºç©º"
+    "title": "Profile",
+    "personal_info": "Personal Information",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "timezone": "Timezone",
+    "language": "Language",
+    "birth_info": "Birth Information",
+    "privacy_settings": "Privacy Settings",
+    "data_export": "Data Export",
+    "delete_account": "Delete Account",
+    "account_security": "Account Security",
+    "change_password": "Change Password",
+    "two_factor_auth": "Two-Factor Authentication",
+    "login_history": "Login History",
+    "profile_updated": "Profile updated",
+    "password_changed": "Password changed",
+    "account_deleted": "Account deleted",
+    "data_exported": "Data exported",
+    "confirm_delete_account": "Confirm delete account? This action cannot be undone.",
+    "display_name": "Display Name",
+    "gender": "Gender",
+    "birth_date": "Birth Date",
+    "birth_time": "Birth Time",
+    "birth_place": "Birth Place",
+    "calendar_type": "Calendar Type",
+    "gregorian": "Gregorian",
+    "lunar": "Lunar",
+    "contact_info": "Contact Information",
+    "optional": "Optional",
+    "required": "Required",
+    "save_profile": "Save Profile",
+    "saving": "Saving...",
+    "profile_saved": "Profile saved successfully",
+    "validation_error": "Validation Error",
+    "invalid_email": "Invalid email format",
+    "invalid_phone": "Invalid phone number format",
+    "name_required": "Name is required",
+    "email_required": "Email is required",
+    "date_required": "Date is required",
+    "time_required": "Time is required",
+    "address_required": "Address is required"
+  },
+  "QiFlow": {
+    "Common": {
+      "invalidInput": "输入无效，请检查后重试。",
+      "confidenceLabel": "置信度：",
+      "fixOrFill": "前往补齐必填项"
+    },
+    "BaziPage": {
+      "title": "八字分析",
+      "form": {
+        "name": "姓名",
+        "birth": "出生日期 1990-01-01 08:08",
+        "gender": {
+          "male": "男",
+          "female": "女"
+        },
+        "submit": "开始计算",
+        "description": "请输入出生信息并选择性别",
+        "meta": {
+          "time": "预计耗时约 1-2 秒",
+          "save": "登录后可保存历史记录"
+        }
+      },
+      "result": {
+        "completed": "计算完成，已消耗积分：{credits}",
+        "user": "用户：{userId}",
+        "pillarsHint": "示例结果 pillars: {pillars}"
+      }
+    },
+    "XuankongPage": {
+      "title": "玄空飞星",
+      "form": {
+        "address": "地址",
+        "facing": "朝向（度）",
+        "notes": "户型/楼层/特殊说明",
+        "submit": "开始分析",
+        "description": "请输入地址与朝向（度）",
+        "meta": {
+          "time": "预计耗时约 1-2 秒",
+          "save": "登录后可保存历史记录"
+        }
+      },
+      "low": {
+        "title": "自动判定已拒绝（置信度过低）。",
+        "body": "请手动输入关键参数或尝试以下校准建议：",
+        "hints": []
+      },
+      "medium": {
+        "title": "置信度中等，建议进行校准以提升准确率（0.7~0.9）。",
+        "hints": []
+      },
+      "success": "分析完成，已生成建议。"
+    },
+    "States": {
+      "empty": {
+        "title": "暂无数据",
+        "desc": "请先填写必要信息后再开始分析。"
+      },
+      "error": {
+        "title": "输入无效",
+        "desc": "发生错误，请检查信息后重试。"
+      },
+      "limited": {
+        "title": "建议补充信息",
+        "desc": "请补全必要字段以继续。"
+      },
+      "timeout": {
+        "title": "请求超时",
+        "desc": "操作耗时过长，请稍后再试。"
+      }
+    }
   },
   "Reports": {
-    "title": "åˆ†æžæŠ¥å‘Š",
-    "generate_report": "ç”ŸæˆæŠ¥å‘Š",
-    "download_pdf": "ä¸‹è½½PDF",
-    "share_report": "åˆ†äº«æŠ¥å‘Š",
-    "report_summary": "æŠ¥å‘Šæ‘˜è¦",
-    "detailed_analysis": "è¯¦ç»†åˆ†æž",
-    "recommendations": "å»ºè®®äº‹é¡¹",
-    "charts_and_diagrams": "å›¾è¡¨å›¾è§£",
-    "report_date": "æŠ¥å‘Šæ—¥æœŸ",
-    "analysis_type": "åˆ†æžç±»åž‹",
-    "comprehensive_analysis": "ç»¼åˆåˆ†æž",
-    "bazi_only": "ä»…å…«å­—åˆ†æž",
-    "fengshui_only": "ä»…é£Žæ°´åˆ†æž",
-    "report_generating": "æŠ¥å‘Šç”Ÿæˆä¸­...",
-    "report_ready": "æŠ¥å‘Šå·²å‡†å¤‡å°±ç»ª",
-    "report_failed": "æŠ¥å‘Šç”Ÿæˆå¤±è´¥",
-    "watermark_guest": "æ¸¸å®¢æ¨¡å¼ - æ³¨å†Œä»¥èŽ·å¾—å®Œæ•´æŠ¥å‘Š",
-    "upgrade_for_full_report": "å‡çº§è®¢é˜…ä»¥èŽ·å¾—å®Œæ•´æŠ¥å‘Š",
-    "report_history": "åŽ†å²æŠ¥å‘Š",
-    "no_reports": "æš‚æ— æŠ¥å‘Š",
-    "delete_report": "åˆ é™¤æŠ¥å‘Š",
-    "report_deleted": "æŠ¥å‘Šå·²åˆ é™¤"
+    "title": "Analysis Reports",
+    "generate_report": "Generate Report",
+    "download_pdf": "Download PDF",
+    "share_report": "Share Report",
+    "report_summary": "Report Summary",
+    "detailed_analysis": "Detailed Analysis",
+    "recommendations": "Recommendations",
+    "charts_and_diagrams": "Charts and Diagrams",
+    "report_date": "Report Date",
+    "analysis_type": "Analysis Type",
+    "comprehensive_analysis": "Comprehensive Analysis",
+    "bazi_only": "BaZi Analysis Only",
+    "fengshui_only": "Feng Shui Analysis Only",
+    "report_generating": "Generating report...",
+    "report_ready": "Report ready",
+    "report_failed": "Report generation failed",
+    "watermark_guest": "Guest Mode - Register for full report",
+    "upgrade_for_full_report": "Upgrade subscription for full report",
+    "report_history": "Report History",
+    "no_reports": "No reports yet",
+    "delete_report": "Delete Report",
+    "report_deleted": "Report deleted"
   },
   "Settings": {
-    "title": "è®¾ç½®",
-    "general": "é€šç”¨",
-    "appearance": "å¤–è§‚",
-    "notifications": "é€šçŸ¥",
-    "privacy": "éšç§",
-    "advanced": "é«˜çº§",
-    "theme": "ä¸»é¢˜",
-    "light_theme": "æµ…è‰²ä¸»é¢˜",
-    "dark_theme": "æ·±è‰²ä¸»é¢˜",
-    "auto_theme": "è·Ÿéšç³»ç»Ÿ",
-    "font_size": "å­—ä½“å¤§å°",
-    "small": "å°",
-    "medium": "ä¸­",
-    "large": "å¤§",
-    "email_notifications": "é‚®ä»¶é€šçŸ¥",
-    "push_notifications": "æŽ¨é€é€šçŸ¥",
-    "marketing_emails": "è¥é”€é‚®ä»¶",
-    "data_collection": "æ•°æ®æ”¶é›†",
-    "analytics": "åˆ†æžç»Ÿè®¡",
-    "cookies": "Cookieè®¾ç½®",
-    "cache_management": "ç¼“å­˜ç®¡ç†",
-    "clear_cache": "æ¸…é™¤ç¼“å­˜",
-    "export_settings": "å¯¼å‡ºè®¾ç½®",
-    "import_settings": "å¯¼å…¥è®¾ç½®",
-    "reset_settings": "é‡ç½®è®¾ç½®",
-    "settings_saved": "è®¾ç½®å·²ä¿å­˜",
-    "cache_cleared": "ç¼“å­˜å·²æ¸…é™¤",
-    "settings_reset": "è®¾ç½®å·²é‡ç½®"
+    "title": "Settings",
+    "general": "General",
+    "appearance": "Appearance",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "advanced": "Advanced",
+    "theme": "Theme",
+    "light_theme": "Light Theme",
+    "dark_theme": "Dark Theme",
+    "auto_theme": "System Default",
+    "font_size": "Font Size",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "email_notifications": "Email Notifications",
+    "push_notifications": "Push Notifications",
+    "marketing_emails": "Marketing Emails",
+    "data_collection": "Data Collection",
+    "analytics": "Analytics",
+    "cookies": "Cookie Settings",
+    "cache_management": "Cache Management",
+    "clear_cache": "Clear Cache",
+    "export_settings": "Export Settings",
+    "import_settings": "Import Settings",
+    "reset_settings": "Reset Settings",
+    "settings_saved": "Settings saved",
+    "cache_cleared": "Cache cleared",
+    "settings_reset": "Settings reset"
   },
   "Subscription": {
-    "title": "è®¢é˜…ç®¡ç†",
-    "current_plan": "å½“å‰å¥—é¤",
-    "free_plan": "å…è´¹ç‰ˆ",
-    "standard_plan": "æ ‡å‡†ç‰ˆ",
-    "professional_plan": "ä¸“ä¸šç‰ˆ",
-    "upgrade": "å‡çº§",
-    "downgrade": "é™çº§",
-    "cancel_subscription": "å–æ¶ˆè®¢é˜…",
-    "renew_subscription": "ç»­è´¹è®¢é˜…",
-    "billing_history": "è´¦å•åŽ†å²",
-    "usage_statistics": "ä½¿ç”¨ç»Ÿè®¡",
-    "quota_remaining": "å‰©ä½™é…é¢",
-    "quota_used": "å·²ä½¿ç”¨é…é¢",
-    "monthly_billing": "æœˆä»˜",
-    "yearly_billing": "å¹´ä»˜",
-    "save_with_yearly": "å¹´ä»˜å¯èŠ‚çœ20%",
-    "payment_method": "æ”¯ä»˜æ–¹å¼",
-    "update_payment": "æ›´æ–°æ”¯ä»˜æ–¹å¼",
-    "next_billing_date": "ä¸‹æ¬¡æ‰£è´¹æ—¥æœŸ",
-    "subscription_active": "è®¢é˜…æœ‰æ•ˆ",
-    "subscription_expired": "è®¢é˜…å·²è¿‡æœŸ",
-    "subscription_cancelled": "è®¢é˜…å·²å–æ¶ˆ",
-    "auto_renewal": "è‡ªåŠ¨ç»­è´¹",
-    "manage_subscription": "ç®¡ç†è®¢é˜…",
-    "contact_support": "è”ç³»å®¢æœ"
+    "title": "Subscription Management",
+    "current_plan": "Current Plan",
+    "free_plan": "Free Plan",
+    "standard_plan": "Standard Plan",
+    "professional_plan": "Professional Plan",
+    "upgrade": "Upgrade",
+    "downgrade": "Downgrade",
+    "cancel_subscription": "Cancel Subscription",
+    "renew_subscription": "Renew Subscription",
+    "billing_history": "Billing History",
+    "usage_statistics": "Usage Statistics",
+    "quota_remaining": "Quota Remaining",
+    "quota_used": "Quota Used",
+    "monthly_billing": "Monthly Billing",
+    "yearly_billing": "Yearly Billing",
+    "save_with_yearly": "Save 20% with yearly billing",
+    "payment_method": "Payment Method",
+    "update_payment": "Update Payment Method",
+    "next_billing_date": "Next Billing Date",
+    "subscription_active": "Subscription Active",
+    "subscription_expired": "Subscription Expired",
+    "subscription_cancelled": "Subscription Cancelled",
+    "auto_renewal": "Auto Renewal",
+    "manage_subscription": "Manage Subscription",
+    "contact_support": "Contact Support"
   },
   "Success": {
-    "operation_completed": "æ“ä½œå®Œæˆ",
-    "data_saved": "æ•°æ®å·²ä¿å­˜",
-    "file_uploaded": "æ–‡ä»¶å·²ä¸Šä¼ ",
-    "analysis_completed": "åˆ†æžå®Œæˆ",
-    "report_generated": "æŠ¥å‘Šå·²ç”Ÿæˆ",
-    "settings_updated": "è®¾ç½®å·²æ›´æ–°",
-    "subscription_updated": "è®¢é˜…å·²æ›´æ–°",
-    "payment_successful": "æ”¯ä»˜æˆåŠŸ",
-    "email_sent": "é‚®ä»¶å·²å‘é€",
-    "account_verified": "è´¦æˆ·å·²éªŒè¯",
-    "password_reset": "å¯†ç å·²é‡ç½®",
-    "data_exported": "æ•°æ®å·²å¯¼å‡º",
-    "backup_created": "å¤‡ä»½å·²åˆ›å»º",
-    "sync_completed": "åŒæ­¥å®Œæˆ"
+    "operation_completed": "Operation Completed",
+    "data_saved": "Data Saved",
+    "file_uploaded": "File Uploaded",
+    "analysis_completed": "Analysis Completed",
+    "report_generated": "Report Generated",
+    "settings_updated": "Settings Updated",
+    "subscription_updated": "Subscription Updated",
+    "payment_successful": "Payment Successful",
+    "email_sent": "Email Sent",
+    "account_verified": "Account Verified",
+    "password_reset": "Password Reset",
+    "data_exported": "Data Exported",
+    "backup_created": "Backup Created",
+    "sync_completed": "Sync Completed"
   },
   "TestGuest": {
-    "title": "æµ‹è¯•æ¸¸å®¢åˆ†æžé¡µé¢",
-    "description": "æµ‹è¯•æ¸¸å®¢åˆ†æžåŠŸèƒ½"
+    "title": "Test Guest Analysis Page",
+    "description": "Test guest analysis functionality"
   },
   "TestPages": {
-    "simpleLangTest": {
-      "title": "ç®€åŒ–è¯­è¨€åˆ‡æ¢æµ‹è¯•",
-      "currentStatus": "å½“å‰çŠ¶æ€",
-      "currentLanguage": "å½“å‰è¯­è¨€",
-      "currentPath": "å½“å‰è·¯å¾„",
-      "pageTitle": "é¡µé¢æ ‡é¢˜",
-      "subtitle": "å‰¯æ ‡é¢˜",
-      "languageSwitch": "è¯­è¨€åˆ‡æ¢",
-      "translationTest": "ç¿»è¯‘å†…å®¹æµ‹è¯•",
-      "features": "åŠŸèƒ½ç‰¹è‰²",
-      "commonText": "é€šç”¨æ–‡æœ¬",
-      "debugInfo": "è°ƒè¯•ä¿¡æ¯",
-      "currentTime": "å½“å‰æ—¶é—´",
-      "browserLanguage": "æµè§ˆå™¨è¯­è¨€"
-    },
-    "langTest": {
-      "title": "è¯­è¨€åˆ‡æ¢æµ‹è¯•é¡µé¢",
-      "currentStatus": "å½“å‰çŠ¶æ€",
-      "currentLanguage": "å½“å‰è¯­è¨€",
-      "currentPath": "å½“å‰è·¯å¾„",
-      "pageTitle": "é¡µé¢æ ‡é¢˜",
-      "subtitle": "å‰¯æ ‡é¢˜",
-      "languageSwitch": "è¯­è¨€åˆ‡æ¢",
-      "translationTest": "ç¿»è¯‘å†…å®¹æµ‹è¯•",
-      "features": "åŠŸèƒ½ç‰¹è‰²",
-      "commonText": "é€šç”¨æ–‡æœ¬",
-      "debugLogs": "è°ƒè¯•æ—¥å¿—",
-      "clearLogs": "æ¸…é™¤æ—¥å¿—",
-      "noLogs": "æš‚æ— æ—¥å¿—",
-      "instructions": "ä½¿ç”¨è¯´æ˜Ž",
-      "instruction1": "ç‚¹å‡»è¯­è¨€æŒ‰é’®åˆ‡æ¢è¯­è¨€",
-      "instruction2": "è§‚å¯ŸURLå˜åŒ–å’Œé¡µé¢å†…å®¹",
-      "instruction3": "æ£€æŸ¥è°ƒè¯•æ—¥å¿—ä¸­çš„è·¯å¾„å˜åŒ–",
-      "instruction4": "éªŒè¯ç¿»è¯‘å†…å®¹æ˜¯å¦æ­£ç¡®æ˜¾ç¤º",
-      "instruction5": "å¦‚æžœè¯­è¨€åˆ‡æ¢ä¸ç”Ÿæ•ˆï¼Œæ£€æŸ¥æµè§ˆå™¨æŽ§åˆ¶å°é”™è¯¯",
-      "pageLoaded": "é¡µé¢åŠ è½½",
-      "path": "è·¯å¾„",
-      "startSwitchTo": "å¼€å§‹åˆ‡æ¢åˆ°è¯­è¨€",
-      "cleanedPath": "æ¸…ç†åŽè·¯å¾„",
-      "newPath": "æ–°è·¯å¾„",
-      "navigatedTo": "å·²è·³è½¬åˆ°"
-    },
-    "minimalTest": {
-      "title": "æœ€å°åŒ–è¯­è¨€æµ‹è¯•",
-      "serverInfo": "æœåŠ¡å™¨ç«¯ä¿¡æ¯",
-      "features": "åŠŸèƒ½ç‰¹è‰²",
-      "testDescription": "æµ‹è¯•è¯´æ˜Ž",
-      "description": "è¿™æ˜¯ä¸€ä¸ªæœåŠ¡å™¨ç«¯æ¸²æŸ“çš„é¡µé¢ï¼Œç”¨äºŽæµ‹è¯•ç¿»è¯‘æ˜¯å¦æ­£ç¡®åŠ è½½ã€‚è¯·å°è¯•è®¿é—®ä¸åŒè¯­è¨€çš„ç‰ˆæœ¬ï¼š"
-    }
-  },
-  "WaitlistPage": {
-    "title": "等待队列",
-    "description": "加入等待队列，及时获取最新消息和更新",
-    "subtitle": "加入等待队列，及时获取最新消息和更新",
-    "form": {
-      "title": "加入等待队列",
-      "description": "我们将在产品发布时及时通知您",
-      "email": "邮箱",
-      "subscribe": "加入等待队列",
-      "subscribing": "加入等待队列中...",
-      "success": "加入等待队列成功",
-      "fail": "加入等待队列失败",
-      "emailValidation": "请输入有效的邮箱地址"
-    }
-  },
-  "metadata": {
-    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
-    "description": "An intelligent feng shui analysis platform that combines traditional Chinese metaphysics with modern AI technology"
-  },
-  "common": {
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "save": "Save",
-    "delete": "Delete",
-    "edit": "Edit",
-    "back": "Back",
-    "next": "Next",
-    "previous": "Previous",
-    "submit": "Submit",
-    "reset": "Reset",
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
-    "export": "Export",
-    "import": "Import",
-    "share": "Share",
-    "copy": "Copy",
-    "download": "Download",
-    "upload": "Upload",
-    "close": "Close",
-    "open": "Open",
-    "view": "View",
-    "preview": "Preview",
-    "refresh": "Refresh",
-    "retry": "Retry",
-    "switchLanguage": "切换语言",
-    "unknown": "Unknown",
-    "toBeCalculated": "To be calculated"
-  },
-  "testPages": {
     "simpleLangTest": {
       "title": "Simple Language Switch Test",
       "currentStatus": "Current Status",
@@ -2507,909 +2382,849 @@
       "description": "This is a server-side rendered page for testing if translations load correctly. Please try accessing different language versions:"
     }
   },
-  "home": {
-    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
-    "subtitle": "An intelligent analysis platform combining traditional Feng Shui wisdom with modern AI technology",
-    "features": {
-      "bazi": {
-        "title": "Bazi Analysis",
-        "description": "Accurately calculate Four Pillars, analyze Five Elements, and provide personalized guidance"
-      },
-      "flyingStar": {
-        "title": "Flying Star Feng Shui",
-        "description": "Professional Nine Palaces analysis with house orientation for precise advice"
-      },
-      "compass": {
-        "title": "High-precision Digital Compass",
-        "description": "±2° professional accuracy with auto declination correction and 24 directions"
-      },
-      "floorPlan": {
-        "title": "Smart Floor Plan Overlay",
-        "description": "AI detects rooms and overlays flying stars for visual analysis"
-      },
-      "visualization3d": {
-        "title": "3D Visualization",
-        "description": "Immersive VR-ready 3D Feng Shui analysis"
-      },
-      "aiAssistant": {
-        "title": "AI Assistant",
-        "description": "Professional consultation with personalized suggestions and memory"
-      }
+  "WaitlistPage": {
+    "title": "等待队列",
+    "description": "加入等待队列，及时获取最新消息和更新",
+    "subtitle": "加入等待队列，及时获取最新消息和更新",
+    "form": {
+      "title": "加入等待队列",
+      "description": "我们将在产品发布时及时通知您",
+      "email": "邮箱",
+      "subscribe": "加入等待队列",
+      "subscribing": "加入等待队列中...",
+      "success": "加入等待队列成功",
+      "fail": "加入等待队列失败",
+      "emailValidation": "请输入有效的邮箱地址"
+    }
+  },
+  "metadata": {
+    "title": "QiFlow AI - 智能风水分析平台",
+    "description": "结合传统风水智慧与现代AI技术的智能风水分析平台"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "submit": "提交",
+    "reset": "重置",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "export": "导出",
+    "import": "导入",
+    "share": "分享",
+    "copy": "复制",
+    "download": "下载",
+    "upload": "上传",
+    "close": "关闭",
+    "open": "打开",
+    "view": "查看",
+    "preview": "预览",
+    "refresh": "刷新",
+    "retry": "重试",
+    "switchLanguage": "切换语言",
+    "unknown": "未知",
+    "toBeCalculated": "待计算"
+  },
+  "testPages": {
+    "simpleLangTest": {
+      "title": "简化语言切换测试",
+      "currentStatus": "当前状态",
+      "currentLanguage": "当前语言",
+      "currentPath": "当前路径",
+      "pageTitle": "页面标题",
+      "subtitle": "副标题",
+      "languageSwitch": "语言切换",
+      "translationTest": "翻译内容测试",
+      "features": "功能特色",
+      "commonText": "通用文本",
+      "debugInfo": "调试信息",
+      "currentTime": "当前时间",
+      "browserLanguage": "浏览器语言"
     },
-    "actions": {
-      "continueAsGuest": "Continue as Guest",
-      "register": "Register Now",
-      "viewBaziAnalysis": "View Bazi Analysis",
-      "testAnalysis": "Test Complete Analysis"
+    "langTest": {
+      "title": "语言切换测试页面",
+      "currentStatus": "当前状态",
+      "currentLanguage": "当前语言",
+      "currentPath": "当前路径",
+      "pageTitle": "页面标题",
+      "subtitle": "副标题",
+      "languageSwitch": "语言切换",
+      "translationTest": "翻译内容测试",
+      "features": "功能特色",
+      "commonText": "通用文本",
+      "debugLogs": "调试日志",
+      "clearLogs": "清除日志",
+      "noLogs": "暂无日志",
+      "instructions": "使用说明",
+      "instruction1": "点击语言按钮切换语言",
+      "instruction2": "观察URL变化和页面内容",
+      "instruction3": "检查调试日志中的路径变化",
+      "instruction4": "验证翻译内容是否正确显示",
+      "instruction5": "如果语言切换不生效，检查浏览器控制台错误",
+      "pageLoaded": "页面加载",
+      "path": "路径",
+      "startSwitchTo": "开始切换到语言",
+      "cleanedPath": "清理后路径",
+      "newPath": "新路径",
+      "navigatedTo": "已跳转到"
     },
-    "guestEntry": {
-      "creatingSession": "Creating guest session...",
-      "continueAsGuest": "Continue as Guest",
-      "registerNow": "Register Now",
-      "alreadyHaveAccount": "Already have an account? Sign in",
-      "guestModeDescription": "Guest mode: up to 3 analyses, data not saved",
-      "sessionCreationFailed": "Failed to create guest session"
-    },
-    "highlights": {
-      "title": "Highlights",
-      "smartOverlay": {
-        "title": "Smart Overlay",
-        "description": "First-of-its-kind overlay of floor plans with flying stars"
-      },
-      "guestMode": {
-        "title": "Guest Mode",
-        "description": "Experience core features without registration; data auto-clears in 24h"
-      },
-      "precisionCompass": {
-        "title": "Precision Compass",
-        "description": "±2° accuracy with multi-sensor fusion"
-      },
-      "multilingual": {
-        "title": "Multilingual",
-        "description": "Support 6 languages for global service"
-      }
-    },
-    "footer": {
-      "copyright": "© 2024 QiFlow AI. All rights reserved.",
-      "help": "Help Center",
-      "about": "About Us"
+    "minimalTest": {
+      "title": "最小化语言测试",
+      "serverInfo": "服务器端信息",
+      "features": "功能特色",
+      "testDescription": "测试说明",
+      "description": "这是一个服务器端渲染的页面，用于测试翻译是否正确加载。请尝试访问不同语言的版本："
     }
   },
   "navigation": {
-    "home": "Home",
-    "dashboard": "Dashboard",
-    "analysis": "Feng Shui Analysis",
-    "compass": "Digital Compass",
-    "overlay": "Floor Plan Overlay",
-    "3d_viewer": "3D Viewer",
-    "reports": "Analysis Reports",
-    "chat": "AI Assistant",
-    "subscription": "Subscription Management",
-    "profile": "Profile",
-    "settings": "Settings",
-    "help": "Help",
-    "about": "About Us"
+    "home": "首页",
+    "dashboard": "仪表板",
+    "analysis": "风水分析",
+    "compass": "数字罗盘",
+    "overlay": "户型叠加",
+    "3d_viewer": "3D展示",
+    "reports": "分析报告",
+    "chat": "AI助手",
+    "subscription": "订阅管理",
+    "profile": "个人资料",
+    "settings": "设置",
+    "help": "帮助",
+    "about": "关于我们"
   },
   "auth": {
-    "login": "Login",
-    "logout": "Logout",
-    "forgot_password": "Forgot Password",
-    "reset_password": "Reset Password",
-    "email": "Email",
-    "password": "Password",
-    "confirm_password": "Confirm Password",
-    "remember_me": "Remember Me",
-    "guest_mode": "Guest Mode",
-    "continue_as_guest": "Continue as Guest",
-    "register_to_save": "Register to save your data",
-    "login_required": "Login Required",
-    "invalid_credentials": "Invalid credentials",
-    "account_created": "Account created successfully",
-    "password_reset_sent": "Password reset email sent",
+    "login": "登录",
+    "logout": "退出登录",
+    "forgot_password": "忘记密码",
+    "reset_password": "重置密码",
+    "email": "邮箱",
+    "password": "密码",
+    "confirm_password": "确认密码",
+    "remember_me": "记住我",
+    "guest_mode": "游客模式",
+    "continue_as_guest": "以游客身份继续",
+    "register_to_save": "注册以保存数据",
+    "login_required": "需要登录",
+    "invalid_credentials": "用户名或密码错误",
+    "account_created": "账户创建成功",
+    "password_reset_sent": "密码重置邮件已发送",
     "register": {
-      "title": "Create Account",
-      "subtitle": "Start your Feng Shui analysis journey",
-      "signInLink": "Already have an account? Sign in",
-      "displayName": "Display Name",
-      "displayNamePlaceholder": "Enter your display name",
-      "emailPlaceholder": "Enter your email address",
-      "passwordPlaceholder": "Enter your password",
-      "confirmPasswordPlaceholder": "Confirm your password",
-      "acceptTerms": "I have read and agree to the",
-      "termsLink": "Terms of Service",
-      "and": "and",
-      "privacyLink": "Privacy Policy",
-      "submit": "Create Account",
-      "hasAccount": "Already have an account?",
-      "signIn": "Sign In"
+      "title": "创建账户",
+      "subtitle": "开始您的风水分析之旅",
+      "signInLink": "已有账户？立即登录",
+      "displayName": "显示名称",
+      "displayNamePlaceholder": "请输入您的显示名称",
+      "emailPlaceholder": "请输入您的邮箱地址",
+      "passwordPlaceholder": "请输入密码",
+      "confirmPasswordPlaceholder": "请再次确认密码",
+      "acceptTerms": "我已阅读并同意",
+      "termsLink": "服务条款",
+      "and": "和",
+      "privacyLink": "隐私政策",
+      "submit": "创建账户",
+      "hasAccount": "已经有账户了？",
+      "signIn": "立即登录"
     }
-  },
-  "analysis": {
-    "title": "Ready to Begin Analysis",
-    "description": "Based on the information you provided, we will generate professional BaZi astrology and Flying Star feng shui analysis reports.",
-    "start": "Start Analysis",
-    "analyzing": "Analyzing...",
-    "baziTitle": "Your Personal BaZi Astrology Analysis",
-    "baziDescription": "Based on your birth information, through professional algorithmic deep analysis, presenting your destiny characteristics and life insights.",
-    "fengshuiTitle": "Flying Star Feng Shui Analysis",
-    "fengshuiDescription": "Combining your BaZi astrology and house orientation to provide professional feng shui layout recommendations.",
-    "aiEnhancedBazi": "AI-Enhanced BaZi Astrology Analysis",
-    "aiEnhancedBaziDescription": "Based on professional algorithms to deeply analyze your BaZi astrology, combining traditional Ten Gods theory with modern AI technology to provide personalized life insights and fortune guidance.",
-    "professionalTenGods": "Professional Ten Gods Analysis",
-    "majorEventPrediction": "Major Event Prediction",
-    "yearlyInteraction": "Annual Interaction Analysis",
-    "lifeFortuneCycle": "Life Fortune Cycle",
-    "previousStep": "Previous Step",
-    "nextStep": "Next Step: Start Analysis",
-    "steps": {
-      "personalData": "Personal Information",
-      "personalDataDesc": "Fill in your birth information",
-      "houseOrientation": "House Orientation",
-      "houseOrientationDesc": "Determine house orientation information",
-      "baziAnalysis": "BaZi Analysis",
-      "baziAnalysisDesc": "Generate BaZi astrology analysis",
-      "flyingStar": "Flying Star",
-      "flyingStarDesc": "Generate feng shui analysis report"
-    }
-  },
-  "testGuest": {
-    "title": "Test Guest Analysis Page",
-    "description": "Test guest analysis functionality"
-  },
-  "guestAnalysis": {
-    "floorPlan": {
-      "noSelectionNote": "No floor plan selected. Skipped nine-palace room mapping and showing basic Flying Star analysis only.",
-      "sectionTitle": "Floor Plan Feng Shui Analysis"
-    },
-    "navigation": {
-      "back": "Back",
-      "title": "Intelligent Feng Shui Analysis Experience"
-    },
-    "steps": {
-      "discoverDestiny": "Discover Your Destiny Code",
-      "determineLayout": "Determine House Feng Shui Layout",
-      "professionalInsights": "Based on professional BaZi algorithms, providing personalized life insights and fortune guidance.",
-      "preciseLayout": "Through precise orientation measurement, providing professional feng shui layout recommendations."
-    },
-    "personalForm": {
-      "title": "Fill in Your Personal Information",
-      "description": "Please accurately fill in birth information, which will directly affect the precision and accuracy of BaZi analysis.",
-      "quickFill": "Quick Fill Sample Data",
-      "name": "Name",
-      "namePlaceholder": "Please enter your name",
-      "nameRequired": "Name *",
-      "gender": "Gender",
-      "genderRequired": "Gender *",
-      "genderPlaceholder": "Please select gender",
-      "male": "Male",
-      "female": "Female",
-      "birthDate": "Birth Date",
-      "birthDateRequired": "Birth Date *",
-      "birthTime": "Birth Time",
-      "birthPlace": "Birth Place",
-      "birthPlaceRequired": "Birth Place *",
-      "birthPlacePlaceholder": "Please enter birth city",
-      "nextHouseOrientation": "Next: House Orientation"
-    },
-    "houseForm": {
-      "title": "Determine House Orientation Information",
-      "description": "You can choose to manually input orientation angle or use digital compass for precise measurement.",
-      "quickFill": "Quick Fill Sample Data",
-      "selectFloorPlan": "Select Floor Plan",
-      "digitalCompass": "Digital Compass Measurement",
-      "currentOrientation": "Current orientation angle:",
-      "orientationAngle": "Orientation Angle",
-      "orientationRequired": "Orientation Angle *",
-      "orientationPlaceholder": "0-360 degrees",
-      "floor": "Floor",
-      "floorPlaceholder": "Floor number",
-      "address": "House Address",
-      "addressPlaceholder": "Please enter house address",
-      "roomCount": "Number of Rooms",
-      "roomCountPlaceholder": "Number of rooms"
-    },
-    "analysisReady": {
-      "title": "Ready to Begin Analysis",
-      "description": "We will generate professional BaZi astrology and Flying Star feng shui analysis reports based on the information you provided.",
-      "startAnalysis": "Start Analysis"
-    },
-    "analyzing": "Analyzing...",
-    "analysis": {
-      "title": "Ready to Begin Analysis",
-      "description": "We will generate professional BaZi astrology and Flying Star feng shui analysis reports based on the information you provided.",
-      "start": "Start Analysis"
-    },
-    "sampleData": {
-      "name": "John Smith",
-      "location": "Beijing",
-      "address": "Wangjing Street, Chaoyang District, Beijing",
-      "floorPlanName": "Standard Three Bedroom Two Living Room",
-      "floorPlanDescription": "Facing south, three bedrooms two living rooms two bathrooms, area about 120㎡"
-    },
-    "disclaimer": "This analysis is for reference only and cannot replace professional consultation. Please consult professionals for important decisions."
   },
   "bazi": {
-    "title": "BaZi Analysis",
-    "description": "Professional BaZi algorithms provide personalized life insights and fortune guidance",
-    "analyzing": "Conducting deep analysis...",
-    "analysis_description": "Using traditional destiny wisdom to decode your life patterns",
-    "disclaimer": "This analysis is based on traditional BaZi principles and is for reference only. Please consult professionals for important decisions.",
+    "title": "八字命理",
+    "description": "基于专业八字算法，为您提供个性化的人生洞察和运势指引",
+    "analyzing": "正在进行深度分析...",
     "analysis": {
-      "sampleAnalysis": "Your Bazi shows..."
+      "sampleAnalysis": "您的八字显示..."
     },
     "fourPillars": {
-      "year": "Jia Zi",
-      "month": "Yi Chou",
-      "day": "Bing Yin",
-      "hour": "Ding Mao"
+      "year": "甲子",
+      "month": "乙丑",
+      "day": "丙寅",
+      "hour": "丁卯"
     },
-    "birth_info": "Birth Information",
-    "birth_date": "Birth Date",
-    "birth_time": "Birth Time",
-    "birth_place": "Birth Place",
-    "lunar_calendar": "Lunar Calendar",
-    "solar_calendar": "Solar Calendar",
-    "year_pillar": "Year Pillar",
-    "month_pillar": "Month Pillar",
-    "day_pillar": "Day Pillar",
-    "hour_pillar": "Hour Pillar",
-    "heavenly_stem": "Heavenly Stem",
-    "earthly_branch": "Earthly Branch",
-    "five_elements": "Five Elements",
-    "wood": "Wood",
-    "fire": "Fire",
-    "earth": "Earth",
-    "metal": "Metal",
-    "water": "Water",
-    "strong": "Strong",
-    "weak": "Weak",
-    "favorable_elements": "Favorable Elements",
-    "unfavorable_elements": "Unfavorable Elements",
-    "element_analysis": "Five Elements Analysis",
-    "personality_analysis": "Personality Analysis",
-    "career_guidance": "Career Guidance",
-    "relationship_analysis": "Relationship Analysis",
-    "health_guidance": "Health Guidance",
-    "fortune_analysis": "Fortune Analysis",
+    "analysis_description": "运用传统命理智慧，为您解读人生密码",
+    "disclaimer": "本分析基于传统命理学原理，仅供参考。重要决策请咨询专业人士。",
+    "birth_info": "出生信息",
+    "birth_date": "出生日期",
+    "birth_time": "出生时间",
+    "birth_place": "出生地点",
+    "lunar_calendar": "农历",
+    "solar_calendar": "公历",
+    "year_pillar": "年柱",
+    "month_pillar": "月柱",
+    "day_pillar": "日柱",
+    "hour_pillar": "时柱",
+    "heavenly_stem": "天干",
+    "earthly_branch": "地支",
+    "five_elements": "五行",
+    "wood": "木",
+    "fire": "火",
+    "earth": "土",
+    "metal": "金",
+    "water": "水",
+    "strong": "旺",
+    "weak": "弱",
+    "favorable_elements": "喜用神",
+    "unfavorable_elements": "忌神",
+    "element_analysis": "五行分析",
+    "personality_analysis": "性格分析",
+    "career_guidance": "事业指导",
+    "relationship_analysis": "感情分析",
+    "health_guidance": "健康指导",
+    "fortune_analysis": "运势分析",
     "tabs": {
-      "overview": "Overview",
-      "fourPillars": "Four Pillars",
-      "patterns": "Patterns",
-      "fiveElements": "Five Elements",
-      "godsEvils": "Gods & Evils",
-      "luckCycles": "Luck Cycles",
-      "dailyFortune": "Daily Fortune",
-      "insights": "Insights"
+      "overview": "总览",
+      "fourPillars": "四柱",
+      "patterns": "格局",
+      "fiveElements": "五行",
+      "godsEvils": "神煞",
+      "luckCycles": "大运",
+      "dailyFortune": "今日运势",
+      "insights": "洞察"
     },
-    "deepAnalysisTitle": "Deep Bazi Analysis",
-    "deepAnalysisSubtitle": "Personalized insights based on professional algorithms",
+    "deepAnalysisTitle": "深度八字命理分析",
+    "deepAnalysisSubtitle": "基于专业算法的个性化命理洞察",
     "labels": {
-      "name": "Name",
-      "gender": "Gender",
-      "birthTime": "Birth Time",
-      "gregorian": "Gregorian",
-      "lunar": "Lunar"
+      "name": "姓名",
+      "gender": "性别",
+      "birthTime": "出生时间",
+      "gregorian": "公历",
+      "lunar": "农历"
     },
     "gender": {
-      "male": "Male",
-      "female": "Female"
+      "male": "男",
+      "female": "女"
     }
   },
   "fengshui": {
     "palace": {
-      "kan": "Kan",
-      "kun": "Kun",
-      "zhen": "Zhen",
-      "xun": "Xun",
-      "center": "Center",
-      "qian": "Qian",
-      "dui": "Dui",
-      "gen": "Gen",
-      "li": "Li"
+      "kan": "坎",
+      "kun": "坤",
+      "zhen": "震",
+      "xun": "巽",
+      "center": "中",
+      "qian": "乾",
+      "dui": "兑",
+      "gen": "艮",
+      "li": "离"
     },
-    "palace_suffix": " Palace",
-    "period_desc": "represents current fortune",
-    "mountain_star_desc": "represents sitting direction",
-    "water_star_desc": "represents facing direction",
-    "details": "Details",
-    "pattern_analysis": "Pattern Analysis",
-    "overall_pattern": "Overall Pattern",
-    "pattern_type": "Pattern Type",
-    "key_positions": "Key Positions",
-    "suitable_arrangements": "Suitable Arrangements",
-    "layout_advice": "Layout Advice",
-    "pattern_explanation": "Pattern Explanation",
-    "title": "Feng Shui Analysis",
-    "flying_stars": "Flying Star Feng Shui",
-    "nine_palaces": "Nine Palaces",
-    "compass_direction": "Compass Direction",
-    "house_facing": "House Facing",
-    "house_sitting": "House Sitting",
-    "period": "Period",
-    "current_period": "Current Period",
-    "wenchangwei": "Wenchang Position",
-    "caiwei": "Wealth Position",
-    "mountain_star": "Mountain Star",
-    "water_star": "Water Star",
-    "time_star": "Time Star",
-    "annual_star": "Annual Star",
-    "monthly_star": "Monthly Star",
-    "daily_star": "Daily Star",
-    "auspicious": "Auspicious",
-    "inauspicious": "Inauspicious",
-    "neutral": "Neutral",
-    "very_auspicious": "Very Auspicious",
-    "very_inauspicious": "Very Inauspicious",
-    "room_analysis": "Room Analysis",
-    "bedroom": "Bedroom",
-    "living_room": "Living Room",
-    "kitchen": "Kitchen",
-    "bathroom": "Bathroom",
-    "study": "Study",
-    "dining_room": "Dining Room",
-    "entrance": "Entrance",
-    "balcony": "Balcony",
-    "recommendations": "Feng Shui Recommendations",
-    "color_recommendations": "Color Recommendations",
-    "furniture_placement": "Furniture Placement",
-    "decoration_suggestions": "Decoration Suggestions",
-    "remedy_methods": "Remedy Methods",
+    "palace_suffix": "宫",
+    "period_desc": "代表当前运势",
+    "mountain_star_desc": "代表坐山方位",
+    "water_star_desc": "代表朝向方位",
+    "details": "详细分析",
+    "pattern_analysis": "格局分析",
+    "overall_pattern": "整体格局",
+    "pattern_type": "格局类型",
+    "key_positions": "关键位置",
+    "suitable_arrangements": "适宜布置",
+    "layout_advice": "布局建议",
+    "pattern_explanation": "格局说明",
+    "title": "风水分析",
+    "flying_stars": "玄空飞星",
+    "nine_palaces": "九宫",
+    "compass_direction": "罗盘方位",
+    "house_facing": "房屋朝向",
+    "house_sitting": "房屋坐向",
+    "period": "运",
+    "current_period": "当运",
+    "wenchangwei": "文昌位",
+    "caiwei": "财位",
+    "mountain_star": "山星",
+    "water_star": "水星",
+    "time_star": "时星",
+    "annual_star": "年星",
+    "monthly_star": "月星",
+    "daily_star": "日星",
+    "auspicious": "吉",
+    "inauspicious": "凶",
+    "neutral": "平",
+    "very_auspicious": "大吉",
+    "very_inauspicious": "大凶",
+    "room_analysis": "房间分析",
+    "bedroom": "卧室",
+    "living_room": "客厅",
+    "kitchen": "厨房",
+    "bathroom": "卫生间",
+    "study": "书房",
+    "dining_room": "餐厅",
+    "entrance": "玄关",
+    "balcony": "阳台",
+    "recommendations": "风水建议",
+    "color_recommendations": "颜色建议",
+    "furniture_placement": "家具摆放",
+    "decoration_suggestions": "装饰建议",
+    "remedy_methods": "化解方法",
     "tabs": {
-      "overview": "Overview",
-      "ninePalaces": "Nine Palaces",
-      "patterns": "Patterns",
-      "advice": "Advice",
-      "advanced": "Advanced"
+      "overview": "总览",
+      "ninePalaces": "九宫格",
+      "patterns": "格局",
+      "advice": "建议",
+      "advanced": "高级"
     }
   },
   "compass_legacy": {
-    "title": "Digital Compass",
-    "measuring": "Measuring...",
-    "calibration": "Calibration",
-    "calibrate_device": "Calibrate Device",
-    "calibration_instructions": "Please follow the prompts to calibrate your device",
-    "accuracy": "Accuracy",
-    "confidence": "Confidence",
-    "magnetic_declination": "Magnetic Declination",
-    "true_north": "True North",
-    "magnetic_north": "Magnetic North",
-    "direction": "Direction",
-    "degree": "Degree",
-    "measurement_history": "Measurement History",
-    "save_measurement": "Save Measurement",
-    "clear_history": "Clear History",
-    "device_not_supported": "Device does not support compass functionality",
-    "permission_required": "Sensor permission required",
-    "interference_detected": "Magnetic field interference detected",
-    "move_away_from_metal": "Please move away from metal objects",
-    "measurement_saved": "Measurement saved",
-    "high_accuracy": "High Accuracy",
-    "medium_accuracy": "Medium Accuracy",
-    "low_accuracy": "Low Accuracy"
+    "title": "数字罗盘",
+    "measuring": "测量中...",
+    "calibration": "校准",
+    "calibrate_device": "校准设备",
+    "calibration_instructions": "请按照提示校准您的设备",
+    "accuracy": "精度",
+    "confidence": "置信度",
+    "magnetic_declination": "磁偏角",
+    "true_north": "真北",
+    "magnetic_north": "磁北",
+    "direction": "方向",
+    "degree": "度",
+    "measurement_history": "测量历史",
+    "save_measurement": "保存测量",
+    "clear_history": "清除历史",
+    "device_not_supported": "设备不支持罗盘功能",
+    "permission_required": "需要传感器权限",
+    "interference_detected": "检测到磁场干扰",
+    "move_away_from_metal": "请远离金属物体",
+    "measurement_saved": "测量结果已保存",
+    "high_accuracy": "高精度",
+    "medium_accuracy": "中等精度",
+    "low_accuracy": "低精度"
   },
   "overlay": {
-    "title": "Floor Plan Overlay",
-    "upload_floorplan": "Upload Floor Plan",
-    "processing_image": "Processing image...",
-    "room_detection": "Room Detection",
-    "auto_alignment": "Auto Alignment",
-    "manual_adjustment": "Manual Adjustment",
-    "transparency": "Transparency",
-    "overlay_opacity": "Overlay Opacity",
-    "show_grid": "Show Grid",
-    "show_labels": "Show Labels",
-    "room_scores": "Room Scores",
-    "click_room_for_details": "Click room for details",
-    "room_function": "Room Function",
-    "feng_shui_score": "Feng Shui Score",
-    "recommendations_for_room": "Recommendations for Room",
-    "image_upload_failed": "Image upload failed",
-    "image_processing_failed": "Image processing failed",
-    "unsupported_format": "Unsupported file format",
-    "file_too_large": "File too large",
-    "drag_drop_image": "Drag & drop image here or click to upload",
-    "supported_formats": "Supports JPG, PNG, PDF formats",
-    "max_file_size": "Maximum file size: 10MB",
-    "processing_complete": "Processing complete",
-    "alignment_accuracy": "Alignment Accuracy",
-    "rotation_angle": "Rotation Angle",
-    "scale_factor": "Scale Factor"
+    "title": "户型图叠加",
+    "upload_floorplan": "上传户型图",
+    "processing_image": "处理图像中...",
+    "room_detection": "房间识别",
+    "auto_alignment": "自动对齐",
+    "manual_adjustment": "手动调整",
+    "transparency": "透明度",
+    "overlay_opacity": "叠加透明度",
+    "show_grid": "显示网格",
+    "show_labels": "显示标签",
+    "room_scores": "房间评分",
+    "click_room_for_details": "点击房间查看详情",
+    "room_function": "房间功能",
+    "feng_shui_score": "风水评分",
+    "recommendations_for_room": "房间建议",
+    "image_upload_failed": "图片上传失败",
+    "image_processing_failed": "图片处理失败",
+    "unsupported_format": "不支持的文件格式",
+    "file_too_large": "文件过大",
+    "drag_drop_image": "拖拽图片到此处或点击上传",
+    "supported_formats": "支持 JPG, PNG, PDF 格式",
+    "max_file_size": "最大文件大小: 10MB",
+    "processing_complete": "处理完成",
+    "alignment_accuracy": "对齐精度",
+    "rotation_angle": "旋转角度",
+    "scale_factor": "缩放比例"
   },
   "reports": {
-    "title": "Analysis Reports",
-    "generate_report": "Generate Report",
-    "download_pdf": "Download PDF",
-    "share_report": "Share Report",
-    "report_summary": "Report Summary",
-    "detailed_analysis": "Detailed Analysis",
-    "recommendations": "Recommendations",
-    "charts_and_diagrams": "Charts and Diagrams",
-    "report_date": "Report Date",
-    "analysis_type": "Analysis Type",
-    "comprehensive_analysis": "Comprehensive Analysis",
-    "bazi_only": "BaZi Analysis Only",
-    "fengshui_only": "Feng Shui Analysis Only",
-    "report_generating": "Generating report...",
-    "report_ready": "Report ready",
-    "report_failed": "Report generation failed",
-    "watermark_guest": "Guest Mode - Register for full report",
-    "upgrade_for_full_report": "Upgrade subscription for full report",
-    "report_history": "Report History",
-    "no_reports": "No reports yet",
-    "delete_report": "Delete Report",
-    "report_deleted": "Report deleted"
+    "title": "分析报告",
+    "generate_report": "生成报告",
+    "download_pdf": "下载PDF",
+    "share_report": "分享报告",
+    "report_summary": "报告摘要",
+    "detailed_analysis": "详细分析",
+    "recommendations": "建议事项",
+    "charts_and_diagrams": "图表图解",
+    "report_date": "报告日期",
+    "analysis_type": "分析类型",
+    "comprehensive_analysis": "综合分析",
+    "bazi_only": "仅八字分析",
+    "fengshui_only": "仅风水分析",
+    "report_generating": "报告生成中...",
+    "report_ready": "报告已准备就绪",
+    "report_failed": "报告生成失败",
+    "watermark_guest": "游客模式 - 注册以获得完整报告",
+    "upgrade_for_full_report": "升级订阅以获得完整报告",
+    "report_history": "历史报告",
+    "no_reports": "暂无报告",
+    "delete_report": "删除报告",
+    "report_deleted": "报告已删除"
   },
   "chat": {
-    "title": "AI Feng Shui Assistant",
-    "ask_question": "Ask Feng Shui Questions",
-    "type_message": "Type your question...",
-    "send": "Send",
-    "thinking": "Thinking...",
-    "chat_history": "Chat History",
-    "clear_chat": "Clear Chat",
-    "new_conversation": "New Conversation",
-    "suggested_questions": "Suggested Questions",
-    "daily_limit_reached": "Daily chat limit reached",
-    "upgrade_for_more": "Upgrade subscription for more chats",
-    "ai_disclaimer": "AI responses are for reference only and do not constitute professional advice",
-    "conversation_saved": "Conversation saved",
-    "conversation_deleted": "Conversation deleted",
-    "copy_message": "Copy Message",
-    "message_copied": "Message copied",
-    "regenerate_response": "Regenerate Response",
-    "rate_response": "Rate Response",
-    "helpful": "Helpful",
-    "not_helpful": "Not Helpful"
+    "title": "AI风水助手",
+    "ask_question": "询问风水问题",
+    "type_message": "输入您的问题...",
+    "send": "发送",
+    "thinking": "思考中...",
+    "chat_history": "对话历史",
+    "clear_chat": "清除对话",
+    "new_conversation": "新对话",
+    "suggested_questions": "推荐问题",
+    "daily_limit_reached": "今日对话次数已用完",
+    "upgrade_for_more": "升级订阅以获得更多对话次数",
+    "ai_disclaimer": "AI回答仅供参考，不构成专业建议",
+    "conversation_saved": "对话已保存",
+    "conversation_deleted": "对话已删除",
+    "copy_message": "复制消息",
+    "message_copied": "消息已复制",
+    "regenerate_response": "重新生成回答",
+    "rate_response": "评价回答",
+    "helpful": "有帮助",
+    "not_helpful": "没帮助"
   },
   "subscription": {
-    "title": "Subscription Management",
-    "current_plan": "Current Plan",
-    "free_plan": "Free Plan",
-    "standard_plan": "Standard Plan",
-    "professional_plan": "Professional Plan",
-    "upgrade": "Upgrade",
-    "downgrade": "Downgrade",
-    "cancel_subscription": "Cancel Subscription",
-    "renew_subscription": "Renew Subscription",
-    "billing_history": "Billing History",
-    "usage_statistics": "Usage Statistics",
-    "quota_remaining": "Quota Remaining",
-    "quota_used": "Quota Used",
-    "monthly_billing": "Monthly Billing",
-    "yearly_billing": "Yearly Billing",
-    "save_with_yearly": "Save 20% with yearly billing",
-    "payment_method": "Payment Method",
-    "update_payment": "Update Payment Method",
-    "next_billing_date": "Next Billing Date",
-    "subscription_active": "Subscription Active",
-    "subscription_expired": "Subscription Expired",
-    "subscription_cancelled": "Subscription Cancelled",
-    "auto_renewal": "Auto Renewal",
-    "manage_subscription": "Manage Subscription",
-    "contact_support": "Contact Support"
+    "title": "订阅管理",
+    "current_plan": "当前套餐",
+    "free_plan": "免费版",
+    "standard_plan": "标准版",
+    "professional_plan": "专业版",
+    "upgrade": "升级",
+    "downgrade": "降级",
+    "cancel_subscription": "取消订阅",
+    "renew_subscription": "续费订阅",
+    "billing_history": "账单历史",
+    "usage_statistics": "使用统计",
+    "quota_remaining": "剩余配额",
+    "quota_used": "已使用配额",
+    "monthly_billing": "月付",
+    "yearly_billing": "年付",
+    "save_with_yearly": "年付可节省20%",
+    "payment_method": "支付方式",
+    "update_payment": "更新支付方式",
+    "next_billing_date": "下次扣费日期",
+    "subscription_active": "订阅有效",
+    "subscription_expired": "订阅已过期",
+    "subscription_cancelled": "订阅已取消",
+    "auto_renewal": "自动续费",
+    "manage_subscription": "管理订阅",
+    "contact_support": "联系客服"
   },
   "profile": {
-    "title": "Profile",
-    "personal_info": "Personal Information",
-    "name": "Name",
-    "email": "Email",
-    "phone": "Phone",
-    "address": "Address",
-    "timezone": "Timezone",
-    "language": "Language",
-    "birth_info": "Birth Information",
-    "privacy_settings": "Privacy Settings",
-    "data_export": "Data Export",
-    "delete_account": "Delete Account",
-    "account_security": "Account Security",
-    "change_password": "Change Password",
-    "two_factor_auth": "Two-Factor Authentication",
-    "login_history": "Login History",
-    "profile_updated": "Profile updated",
-    "password_changed": "Password changed",
-    "account_deleted": "Account deleted",
-    "data_exported": "Data exported",
-    "confirm_delete_account": "Confirm delete account? This action cannot be undone.",
-    "display_name": "Display Name",
-    "gender": "Gender",
-    "birth_date": "Birth Date",
-    "birth_time": "Birth Time",
-    "birth_place": "Birth Place",
-    "calendar_type": "Calendar Type",
-    "gregorian": "Gregorian",
-    "lunar": "Lunar",
-    "contact_info": "Contact Information",
-    "optional": "Optional",
-    "required": "Required",
-    "save_profile": "Save Profile",
-    "saving": "Saving...",
-    "profile_saved": "Profile saved successfully",
-    "validation_error": "Validation Error",
-    "invalid_email": "Invalid email format",
-    "invalid_phone": "Invalid phone number format",
-    "name_required": "Name is required",
-    "email_required": "Email is required",
-    "date_required": "Date is required",
-    "time_required": "Time is required",
-    "address_required": "Address is required"
+    "title": "个人资料",
+    "personal_info": "个人信息",
+    "name": "姓名",
+    "email": "邮箱",
+    "phone": "电话",
+    "address": "地址",
+    "timezone": "时区",
+    "language": "语言",
+    "birth_info": "出生信息",
+    "privacy_settings": "隐私设置",
+    "data_export": "数据导出",
+    "delete_account": "删除账户",
+    "account_security": "账户安全",
+    "change_password": "修改密码",
+    "two_factor_auth": "双因素认证",
+    "login_history": "登录历史",
+    "profile_updated": "资料已更新",
+    "password_changed": "密码已修改",
+    "account_deleted": "账户已删除",
+    "data_exported": "数据已导出",
+    "confirm_delete_account": "确认删除账户？此操作不可撤销。",
+    "display_name": "显示名称",
+    "gender": "性别",
+    "birth_date": "出生日期",
+    "birth_time": "出生时间",
+    "birth_place": "出生地点",
+    "calendar_type": "历法类型",
+    "gregorian": "公历",
+    "lunar": "农历",
+    "contact_info": "联系方式",
+    "optional": "可选",
+    "required": "必填",
+    "save_profile": "保存资料",
+    "saving": "保存中...",
+    "profile_saved": "资料保存成功",
+    "validation_error": "验证错误",
+    "invalid_email": "邮箱格式不正确",
+    "invalid_phone": "电话号码格式不正确",
+    "name_required": "姓名不能为空",
+    "email_required": "邮箱不能为空",
+    "date_required": "日期不能为空",
+    "time_required": "时间不能为空",
+    "address_required": "地址不能为空"
   },
   "forms": {
     "validation": {
-      "required": "This field is required",
-      "email": "Please enter a valid email address",
-      "min_length": "At least {{count}} characters required",
-      "max_length": "Maximum {{count}} characters allowed",
-      "pattern": "Invalid format"
+      "required": "此字段为必填项",
+      "email": "请输入有效的邮箱地址",
+      "min_length": "最少需要 {{count}} 个字符",
+      "max_length": "最多只能 {{count}} 个字符",
+      "pattern": "格式不正确"
     },
     "placeholders": {
-      "display_name": "Enter your nickname",
+      "display_name": "请输入您的昵称",
       "email": "your@email.com",
-      "phone": "+1 (555) 123-4567",
-      "birth_date": "Select birth date",
-      "birth_time": "Select birth time",
-      "address": "Enter birth place",
-      "search_address": "Search address..."
+      "phone": "+86 138 0000 0000",
+      "birth_date": "选择出生日期",
+      "birth_time": "选择出生时间",
+      "address": "输入出生地点",
+      "search_address": "搜索地址..."
     },
     "tooltips": {
-      "display_name": "This is the name other users will see. You can change it anytime.",
-      "birth_date_lunar": "Lunar date, used for BaZi calculations",
-      "birth_date_gregorian": "Gregorian date, used for BaZi calculations",
-      "birth_time": "Accurate birth time helps with more precise BaZi analysis",
-      "birth_place": "Birth place is used for true solar time calculation, improving BaZi analysis accuracy",
-      "email": "Used for receiving important notifications and analysis reports",
-      "phone": "Used for receiving SMS notifications and verification",
-      "calendar_type": "Choose Gregorian or Lunar, affects BaZi calculation accuracy"
+      "display_name": "这是其他用户看到的名称，可以随时修改",
+      "birth_date_lunar": "农历日期，用于八字计算",
+      "birth_date_gregorian": "公历日期，用于八字计算",
+      "birth_time": "精确的出生时间有助于更准确的八字分析",
+      "birth_place": "出生地点用于真太阳时计算，提高八字分析精度",
+      "email": "用于接收重要通知和分析报告",
+      "phone": "用于接收短信通知和验证",
+      "calendar_type": "选择公历或农历，影响八字计算的准确性"
     },
     "calendar": {
-      "select_date": "Select Date",
-      "clear": "Clear",
-      "today": "Today",
-      "cancel": "Cancel",
-      "confirm": "Confirm",
-      "lunar_note": "In Lunar mode, the system automatically converts to Gregorian for BaZi calculations"
+      "select_date": "选择日期",
+      "clear": "清除",
+      "today": "今天",
+      "cancel": "取消",
+      "confirm": "确定",
+      "lunar_note": "农历模式下，系统会自动转换为公历进行八字计算"
     },
     "time": {
-      "select_time": "Select Time",
-      "hour": "Hour",
-      "minute": "Minute",
-      "period": "Period",
-      "am": "AM",
-      "pm": "PM",
-      "common_times": "Common Times"
+      "select_time": "选择时间",
+      "hour": "小时",
+      "minute": "分钟",
+      "period": "时段",
+      "am": "上午",
+      "pm": "下午",
+      "common_times": "常用时间"
     },
     "address": {
-      "select_location": "Select Location",
-      "search_placeholder": "Enter address, supports autocomplete search",
-      "no_results": "No matching addresses found, please try other keywords",
-      "supported_formats": "Supports entering state, city, street, community names, etc.",
-      "current_location": "Current Location",
-      "manual_entry": "Manual Entry"
+      "select_location": "选择位置",
+      "search_placeholder": "输入地址，支持联想搜索",
+      "no_results": "未找到匹配的地址，请尝试其他关键词",
+      "supported_formats": "支持输入省市区县、街道、小区名称等",
+      "current_location": "当前位置",
+      "manual_entry": "手动输入"
     },
     "map": {
-      "click_to_select": "Click on map to select location",
-      "drag_to_pan": "Drag map to move",
-      "zoom_in": "Zoom In",
-      "zoom_out": "Zoom Out",
-      "reset_view": "Reset View",
-      "locate_me": "Locate Me",
-      "selected_location": "Selected Location",
-      "latitude": "Latitude",
-      "longitude": "Longitude",
-      "accuracy": "Accuracy",
-      "address": "Address"
+      "click_to_select": "点击地图选择位置",
+      "drag_to_pan": "拖拽地图移动",
+      "zoom_in": "放大",
+      "zoom_out": "缩小",
+      "reset_view": "重置视角",
+      "locate_me": "定位到当前位置",
+      "selected_location": "已选择位置",
+      "latitude": "纬度",
+      "longitude": "经度",
+      "accuracy": "精度",
+      "address": "地址"
     }
   },
   "settings": {
-    "title": "Settings",
-    "general": "General",
-    "appearance": "Appearance",
-    "notifications": "Notifications",
-    "privacy": "Privacy",
-    "advanced": "Advanced",
-    "theme": "Theme",
-    "light_theme": "Light Theme",
-    "dark_theme": "Dark Theme",
-    "auto_theme": "System Default",
-    "font_size": "Font Size",
-    "small": "Small",
-    "medium": "Medium",
-    "large": "Large",
-    "email_notifications": "Email Notifications",
-    "push_notifications": "Push Notifications",
-    "marketing_emails": "Marketing Emails",
-    "data_collection": "Data Collection",
-    "analytics": "Analytics",
-    "cookies": "Cookie Settings",
-    "cache_management": "Cache Management",
-    "clear_cache": "Clear Cache",
-    "export_settings": "Export Settings",
-    "import_settings": "Import Settings",
-    "reset_settings": "Reset Settings",
-    "settings_saved": "Settings saved",
-    "cache_cleared": "Cache cleared",
-    "settings_reset": "Settings reset"
+    "title": "设置",
+    "general": "通用",
+    "appearance": "外观",
+    "notifications": "通知",
+    "privacy": "隐私",
+    "advanced": "高级",
+    "theme": "主题",
+    "light_theme": "浅色主题",
+    "dark_theme": "深色主题",
+    "auto_theme": "跟随系统",
+    "font_size": "字体大小",
+    "small": "小",
+    "medium": "中",
+    "large": "大",
+    "email_notifications": "邮件通知",
+    "push_notifications": "推送通知",
+    "marketing_emails": "营销邮件",
+    "data_collection": "数据收集",
+    "analytics": "分析统计",
+    "cookies": "Cookie设置",
+    "cache_management": "缓存管理",
+    "clear_cache": "清除缓存",
+    "export_settings": "导出设置",
+    "import_settings": "导入设置",
+    "reset_settings": "重置设置",
+    "settings_saved": "设置已保存",
+    "cache_cleared": "缓存已清除",
+    "settings_reset": "设置已重置"
   },
   "errors": {
-    "page_not_found": "Page Not Found",
-    "server_error": "Server Error",
-    "network_error": "Network Error",
-    "permission_denied": "Permission Denied",
-    "invalid_input": "Invalid Input",
-    "file_not_found": "File Not Found",
-    "upload_failed": "Upload Failed",
-    "processing_failed": "Processing Failed",
-    "calculation_error": "Calculation Error",
-    "database_error": "Database Error",
-    "authentication_failed": "Authentication Failed",
-    "session_expired": "Session Expired",
-    "quota_exceeded": "Quota Exceeded",
-    "feature_not_available": "Feature Not Available",
-    "maintenance_mode": "System Maintenance",
-    "try_again_later": "Please try again later",
-    "contact_support": "Please contact support",
-    "unknown_error": "Unknown Error"
+    "calculation_error": "计算错误",
+    "try_again_later": "请稍后重试",
+    "network_error": "网络错误",
+    "unknown_error": "未知错误",
+    "page_not_found": "页面未找到",
+    "server_error": "服务器错误",
+    "permission_denied": "权限不足",
+    "invalid_input": "输入无效",
+    "file_not_found": "文件未找到",
+    "upload_failed": "上传失败",
+    "processing_failed": "处理失败",
+    "database_error": "数据库错误",
+    "authentication_failed": "认证失败",
+    "session_expired": "会话已过期",
+    "quota_exceeded": "配额已超出",
+    "feature_not_available": "功能不可用",
+    "maintenance_mode": "系统维护中",
+    "contact_support": "请联系客服"
   },
   "success": {
-    "operation_completed": "Operation Completed",
-    "data_saved": "Data Saved",
-    "file_uploaded": "File Uploaded",
-    "analysis_completed": "Analysis Completed",
-    "report_generated": "Report Generated",
-    "settings_updated": "Settings Updated",
-    "subscription_updated": "Subscription Updated",
-    "payment_successful": "Payment Successful",
-    "email_sent": "Email Sent",
-    "account_verified": "Account Verified",
-    "password_reset": "Password Reset",
-    "data_exported": "Data Exported",
-    "backup_created": "Backup Created",
-    "sync_completed": "Sync Completed"
+    "operation_completed": "操作完成",
+    "data_saved": "数据已保存",
+    "file_uploaded": "文件已上传",
+    "analysis_completed": "分析完成",
+    "report_generated": "报告已生成",
+    "settings_updated": "设置已更新",
+    "subscription_updated": "订阅已更新",
+    "payment_successful": "支付成功",
+    "email_sent": "邮件已发送",
+    "account_verified": "账户已验证",
+    "password_reset": "密码已重置",
+    "data_exported": "数据已导出",
+    "backup_created": "备份已创建",
+    "sync_completed": "同步完成"
   },
-  "i18nTest": {
-    "currentLanguageInfo": "Current Language Info",
-    "locale": "Locale",
-    "title": "Title",
-    "subtitle": "Subtitle",
-    "features": "Features",
-    "languageSwitchingTest": "Language Switching Test",
-    "switchingInstructions": "Try switching languages using the dropdown above to see the content change.",
-    "commonTranslations": "Common Translations",
-    "loading": "Loading",
-    "success": "Success",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "search": "Search",
-    "save": "Save"
+  "analysis": {
+    "title": "准备开始分析",
+    "description": "我们将基于您提供的信息，生成专业的八字命理和玄空飞星分析报告。",
+    "start": "开始分析",
+    "analyzing": "分析中...",
+    "baziTitle": "您的专属八字命理分析",
+    "baziDescription": "基于您的出生信息，经过专业算法深度分析，呈现您的命理特征和人生洞察。",
+    "fengshuiTitle": "玄空飞星风水分析",
+    "fengshuiDescription": "结合您的八字命理和房屋朝向，为您提供专业的风水布局建议。",
+    "aiEnhancedBazi": "AI增强八字命理分析",
+    "aiEnhancedBaziDescription": "基于专业算法深度解析您的八字命理，结合传统十神理论与现代AI技术，为您提供个性化的人生洞察和运势指引。",
+    "professionalTenGods": "专业十神分析",
+    "majorEventPrediction": "重大事件预测",
+    "yearlyInteraction": "流年互动分析",
+    "lifeFortuneCycle": "人生大运周期",
+    "previousStep": "上一步",
+    "nextStep": "下一步：开始分析",
+    "steps": {
+      "personalData": "个人资料",
+      "personalDataDesc": "填写您的出生信息",
+      "houseOrientation": "房屋朝向",
+      "houseOrientationDesc": "确定房屋朝向信息",
+      "baziAnalysis": "八字分析",
+      "baziAnalysisDesc": "生成八字命理分析",
+      "flyingStar": "玄空飞星",
+      "flyingStarDesc": "生成风水分析报告"
+    }
   },
-  "floorPlan": {
-    "standardListTitle": "Select Standard Floor Plan",
-    "roomFallback": "Room {index}",
-    "standard-3room": {
-      "name": "Standard Three Bedrooms Two Living Rooms",
-      "description": "South-facing, 3 bedrooms, 2 living rooms, 2 bathrooms, about 120㎡"
-    },
-    "standard-2room": {
-      "name": "Standard Two Bedrooms One Living Room",
-      "description": "South-facing, 2 bedrooms, 1 living room, 1 bathroom, about 80㎡"
-    },
-    "standard-4room": {
-      "name": "Standard Four Bedrooms Two Living Rooms",
-      "description": "South-facing, 4 bedrooms, 2 living rooms, 3 bathrooms, about 150㎡"
-    },
-    "summary": "{count} rooms | {area}㎡",
-    "upload": {
-      "title": "Upload Custom Floor Plan",
-      "button": "Upload Floor Plan File",
-      "clickToSelect": "Click to select floor plan file",
-      "supportedFormats": "Supports JPG, PNG, PDF formats",
-      "customName": "Custom Floor Plan",
-      "customDescription": "User uploaded floor plan"
-    },
-    "selected": "Selected Floor Plan"
-  },
-  "compass": {
-    "title": "Digital Compass",
-    "calibration": "Calibration",
-    "calibrating": "校准中...",
-    "start_measurement": "Start Measurement",
-    "stop_measurement": "Stop Measurement",
-    "current_direction": "Current Direction",
-    "accuracy": "Accuracy",
-    "confidence": "Confidence",
-    "status": "Status",
-    "stable": "Stable",
-    "unstable": "Unstable",
-    "calibration_step": "Calibration Step {step}/{total}",
-    "good_pattern": "Auspicious",
-    "bad_pattern": "Inauspicious",
-    "wenchang_desc": "Wisdom and academic fortune position",
-    "caiwei_desc": "Wealth and career development position",
-    "items": {
-      "desk_and_bookcase": "Desk, bookcase",
-      "stationery": "Stationery set",
-      "study_area": "Study/work area",
-      "safe_and_cashier": "Safe, cashier",
-      "money_plant": "Money plants",
-      "business_area": "Business meeting area"
-    },
-    "key_points": "Key Points",
-    "specific_recommendations": "Specific Recommendations",
-    "pattern_explanation_text": "Flying Star patterns are central to feng shui analysis. By examining the relationships among Period, Mountain, and Water stars, we can assess auspiciousness and influences on fortune, health, and wealth."
-  },
-  "homeV2": {
-    "hero": {
-      "titleLine1": "Uniting millennia-old wisdom with AI",
-      "titleLine2": "A new era of destiny insight",
-      "subtitle": "Accurate BaZi analysis · Intelligent compass · AI deep consulting",
-      "ctaPrimary": "Try for Free",
-      "ctaSecondary": "AI Consulting"
-    },
-    "trust": {
-      "dataSecurity": "Encrypted data security",
-      "realtimeAI": "Real-time AI analysis",
-      "traditionFusion": "Tradition meets innovation"
-    },
+  "home": {
+    "title": "QiFlow AI - 智能风水分析平台",
+    "subtitle": "结合传统风水智慧与现代AI技术的智能分析平台",
     "features": {
-      "heading": "Three Core Features",
-      "subtitle": "Blending traditional metaphysics with modern AI for comprehensive personalized services",
-      "ctaHover": "Click to experience →",
-      "items": {
-        "bazi": {
-          "title": "AI BaZi Analysis",
-          "desc": "Enter birth info to get Five Elements, Ten Gods, and annual insights",
-          "credits": "Free 10 credits"
-        },
-        "compass": {
-          "title": "Feng Shui Compass Test",
-          "desc": "Input address to receive orientation and layout suggestions",
-          "credits": "Free 20 credits"
-        },
-        "chat": {
-          "title": "AI Deep Consulting",
-          "desc": "Real-time multi-turn conversations for professional advice",
-          "credits": "5 credits / session"
-        }
+      "bazi": {
+        "title": "八字命理分析",
+        "description": "精确计算生辰八字，分析五行强弱，提供个性化命理指导"
+      },
+      "flyingStar": {
+        "title": "玄空飞星风水",
+        "description": "专业九宫飞星分析，结合房屋朝向，提供精准风水建议"
+      },
+      "compass": {
+        "title": "高精度数字罗盘",
+        "description": "±2°专业级精度，自动磁偏角修正，支持24山方位测量"
+      },
+      "floorPlan": {
+        "title": "户型图智能叠加",
+        "description": "AI识别房间布局，自动叠加飞星图，可视化风水分析"
+      },
+      "visualization3d": {
+        "title": "3D风水展示",
+        "description": "立体化风水分析，VR模式支持，沉浸式体验"
+      },
+      "aiAssistant": {
+        "title": "AI智能助手",
+        "description": "专业风水咨询，个性化建议，多轮对话记忆"
       }
     },
-    "shell": {
-      "empty": {
-        "title": "Not started yet",
-        "desc": "Provide required info to begin intelligent analysis"
-      },
-      "error": {
-        "title": "Service unavailable",
-        "desc": "Please retry later or contact support"
-      },
-      "limited": {
-        "title": "Access limited",
-        "desc": "Insufficient credits or permissions. Top up or upgrade to unlock"
-      },
-      "timeout": {
-        "title": "Analysis timeout",
-        "desc": "AI is still working. Please retry later"
-      },
-      "retry": "Retry",
-      "upgrade": "Top up / Upgrade"
+    "actions": {
+      "continueAsGuest": "以游客身份继续",
+      "register": "立即注册",
+      "viewBaziAnalysis": "立即查看八字命理分析",
+      "testAnalysis": "测试完整分析流程"
     },
-    "guidance": {
-      "bazi": "Enter birth details to start your personalized BaZi analysis",
-      "compass": "Input address or use digital compass for orientation-based advice",
-      "chat": "Ask your specific questions for real-time AI consulting"
+    "guestEntry": {
+      "creatingSession": "创建游客会话中...",
+      "continueAsGuest": "以游客身份继续",
+      "registerNow": "立即注册",
+      "alreadyHaveAccount": "已有账户？立即登录",
+      "guestModeDescription": "游客模式：最多3次分析，数据不保存",
+      "sessionCreationFailed": "游客会话创建失败"
     },
-    "howItWorks": {
-      "heading": "How It Works",
-      "subtitle": "Four steps to your intelligent destiny journey",
-      "steps": {
-        "step1": {
-          "title": "Register",
-          "desc": "Get free credits"
-        },
-        "step2": {
-          "title": "Select Feature",
-          "desc": "Enter relevant info"
-        },
-        "step3": {
-          "title": "AI Analysis",
-          "desc": "Generate personalized report"
-        },
-        "step4": {
-          "title": "Get Results",
-          "desc": "Download PDF or continue consulting"
-        }
-      }
-    },
-    "pricing": {
-      "heading": "Credit Packages",
-      "subtitle": "Flexible plans, pay as you go",
-      "popularBadge": "Most Popular",
-      "creditsLabel": "Credits",
-      "buyNow": "Buy Now",
-      "packages": {
-        "small": {
-          "price": "$4.99"
-        },
-        "medium": {
-          "price": "$14.99"
-        },
-        "large": {
-          "price": "$29.99"
-        }
+    "highlights": {
+      "title": "核心特色",
+      "smartOverlay": {
+        "title": "智能户型叠加",
+        "description": "全球首创户型图与飞星图智能叠加技术"
       },
-      "costTable": {
-        "heading": "Feature Pricing",
-        "items": {
-          "chat": {
-            "name": "AI Chat",
-            "cost": "5 credits/session",
-            "desc": "Multi-turn deep conversation"
-          },
-          "deep": {
-            "name": "Deep Reading",
-            "cost": "30 credits/session",
-            "desc": "Complete destiny analysis"
-          },
-          "bazi": {
-            "name": "BaZi Analysis",
-            "cost": "10 credits/session",
-            "desc": "Five Elements & Ten Gods"
-          },
-          "compass": {
-            "name": "Feng Shui Compass",
-            "cost": "20 credits/session",
-            "desc": "Orientation & layout advice"
-          },
-          "pdf": {
-            "name": "PDF Export",
-            "cost": "5 credits/export",
-            "desc": "Download full report"
-          }
-        }
-      }
-    },
-    "compliance": {
-      "heading": "Security & Compliance Commitment",
-      "items": {
-        "age": {
-          "title": "18+ Age Restriction",
-          "desc": "This platform is for users 18 years and older only"
-        },
-        "privacy": {
-          "title": "Privacy Protection",
-          "desc": "Your data is encrypted and never shared"
-        },
-        "disclaimer": {
-          "title": "Disclaimer",
-          "desc": "AI-based service for reference only, not professional advice"
-        },
-        "dsar": {
-          "title": "DSAR Support",
-          "desc": "Request data access, deletion, or export anytime"
-        }
+      "guestMode": {
+        "title": "游客模式",
+        "description": "无需注册即可体验核心功能，数据24小时自动清理"
+      },
+      "precisionCompass": {
+        "title": "专业级罗盘",
+        "description": "±2°精度要求，支持多种传感器融合算法"
+      },
+      "multilingual": {
+        "title": "多语言支持",
+        "description": "支持6种语言，全球化风水分析服务"
       }
     },
     "footer": {
-      "about": {
-        "heading": "About Us",
-        "desc": "QiFlow AI blends traditional metaphysics with modern AI technology, offering professional and trusted personalized analysis services."
-      },
-      "quickLinks": {
-        "heading": "Quick Links",
-        "terms": "Terms of Service",
-        "privacy": "Privacy Policy",
-        "contact": "Contact Us"
-      },
-      "coreFeatures": {
-        "heading": "Core Features",
-        "bazi": "BaZi Analysis",
-        "compass": "Feng Shui Compass",
-        "chat": "AI Consulting"
-      },
-      "followUs": {
-        "heading": "Follow Us",
-        "wechat": "WeChat",
-        "weibo": "Weibo"
-      },
-      "copyright": "© 2025 QiFlow AI. All Rights Reserved."
+      "copyright": "© 2024 QiFlow AI. 保留所有权利。",
+      "help": "帮助中心",
+      "about": "关于我们"
     }
+  },
+  "testGuest": {
+    "title": "测试游客分析页面",
+    "description": "测试游客分析功能"
+  },
+  "guestAnalysis": {
+    "floorPlan": {
+      "noSelectionNote": "未选择户型图，已跳过九宫房间映射，仅展示基础飞星分析。",
+      "sectionTitle": "户型图风水分析"
+    },
+    "navigation": {
+      "back": "返回",
+      "title": "智能风水分析体验"
+    },
+    "steps": {
+      "discoverDestiny": "发现您的命理密码",
+      "determineLayout": "确定房屋风水布局",
+      "professionalInsights": "基于专业八字算法，为您提供个性化的人生洞察和运势指引。",
+      "preciseLayout": "通过精确的朝向测量，为您提供专业的风水布局建议。"
+    },
+    "personalForm": {
+      "title": "填写您的个人信息",
+      "description": "请准确填写出生信息，这将直接影响八字分析的精度和准确性。",
+      "quickFill": "一键填入示例数据",
+      "name": "姓名",
+      "namePlaceholder": "请输入您的姓名",
+      "nameRequired": "姓名 *",
+      "gender": "性别",
+      "genderRequired": "性别 *",
+      "genderPlaceholder": "请选择性别",
+      "male": "男",
+      "female": "女",
+      "birthDate": "出生日期",
+      "birthDateRequired": "出生日期 *",
+      "birthTime": "出生时间",
+      "birthPlace": "出生地点",
+      "birthPlaceRequired": "出生地点 *",
+      "birthPlacePlaceholder": "请输入出生城市",
+      "nextHouseOrientation": "下一步：房屋朝向"
+    },
+    "houseForm": {
+      "title": "确定房屋朝向信息",
+      "description": "您可以选择手动输入朝向角度，或使用数字罗盘进行精确测量。",
+      "quickFill": "一键填入示例数据",
+      "selectFloorPlan": "选择户型图",
+      "digitalCompass": "数字罗盘测量",
+      "currentOrientation": "当前朝向角度：",
+      "orientationAngle": "朝向角度",
+      "orientationRequired": "朝向角度 *",
+      "orientationPlaceholder": "0-360度",
+      "floor": "楼层",
+      "floorPlaceholder": "楼层数",
+      "address": "房屋地址",
+      "addressPlaceholder": "请输入房屋地址",
+      "roomCount": "房间数量",
+      "roomCountPlaceholder": "房间数量"
+    },
+    "analysisReady": {
+      "title": "准备开始分析",
+      "description": "我们将基于您提供的信息，生成专业的八字命理和玄空飞星分析报告。",
+      "startAnalysis": "开始分析"
+    },
+    "analyzing": "分析中...",
+    "analysis": {
+      "title": "准备开始分析",
+      "description": "我们将根据您提供的信息，生成专业的八字命理和飞星风水分析报告。",
+      "start": "开始分析"
+    },
+    "sampleData": {
+      "name": "张三",
+      "location": "北京市",
+      "address": "北京市朝阳区望京街道",
+      "floorPlanName": "标准三室两厅",
+      "floorPlanDescription": "坐北朝南，三室两厅两卫，面积约120㎡"
+    },
+    "disclaimer": "本分析仅供参考，不能替代专业咨询。如有重要决策，请咨询专业人士。"
+  },
+  "i18nTest": {
+    "currentLanguageInfo": "当前语言信息",
+    "locale": "语言代码",
+    "title": "标题",
+    "subtitle": "副标题",
+    "features": "功能特性",
+    "languageSwitchingTest": "语言切换测试",
+    "switchingInstructions": "尝试使用上方的下拉菜单切换语言，观察内容变化。",
+    "commonTranslations": "常用翻译",
+    "loading": "加载中",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "确认",
+    "search": "搜索",
+    "save": "保存"
+  },
+  "floorPlan": {
+    "standardListTitle": "选择标准户型图",
+    "roomFallback": "房间{index}",
+    "standard-3room": {
+      "name": "标准三室两厅",
+      "description": "坐北朝南，三室两厅两卫，面积约120㎡"
+    },
+    "standard-2room": {
+      "name": "标准两室一厅",
+      "description": "坐北朝南，两室一厅一卫，面积约80㎡"
+    },
+    "standard-4room": {
+      "name": "标准四室两厅",
+      "description": "坐北朝南，四室两厅三卫，面积约150㎡"
+    },
+    "summary": "{count}个房间 | {area}㎡",
+    "upload": {
+      "title": "上传自定义户型图",
+      "button": "上传户型图文件",
+      "clickToSelect": "点击选择户型图文件",
+      "supportedFormats": "支持 JPG, PNG, PDF 格式",
+      "customName": "自定义户型图",
+      "customDescription": "用户上传的户型图"
+    },
+    "selected": "已选择户型图"
+  },
+  "compass": {
+    "title": "数字罗盘",
+    "calibration": "校准",
+    "start_measurement": "开始测量",
+    "stop_measurement": "停止测量",
+    "current_direction": "当前方向",
+    "accuracy": "精度",
+    "confidence": "置信度",
+    "status": "状态",
+    "stable": "稳定",
+    "unstable": "不稳定",
+    "calibration_step": "校准步骤 {step}/{total}",
+    "good_pattern": "吉格",
+    "bad_pattern": "凶格",
+    "wenchang_desc": "智慧学业运势方位",
+    "caiwei_desc": "财运事业发展方位",
+    "items": {
+      "desk_and_bookcase": "书桌、书柜",
+      "stationery": "文房四宝",
+      "study_area": "学习工作区域",
+      "safe_and_cashier": "保险箱、收银台",
+      "money_plant": "招财植物",
+      "business_area": "办公商谈区域"
+    },
+    "key_points": "关键要点",
+    "specific_recommendations": "具体建议",
+    "pattern_explanation_text": "玄空飞星格局是风水分析的核心，通过分析天盘、山盘、向盘三盘之间的关系，可以判断房屋的吉凶状况，并影响居住者的运势、健康与财运。"
+  },
+  "Table": {
+    "ascending": "升序",
+    "descending": "降序",
+    "noResults": "没有结果",
+    "rowsPerPage": "每页行数",
+    "page": "页",
+    "firstPage": "第一页",
+    "previousPage": "上一页",
+    "nextPage": "下一页",
+    "lastPage": "最后一页",
+    "of": "共",
+    "rows": "行",
+    "totalRecords": "总计"
   }
 }

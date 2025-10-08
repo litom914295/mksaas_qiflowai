@@ -15,6 +15,8 @@ export interface ValidationResult {
   message?: string;
   hasData?: boolean;
   dataType?: 'bazi' | 'fengshui' | 'both';
+  confidence?: number;
+  availableData?: any;
 }
 
 export interface AnalysisContext {
@@ -116,7 +118,9 @@ export class AlgorithmFirstGuard {
       return {
         canAnswer: true,
         hasData: true,
-        dataType: 'bazi'
+        dataType: 'bazi',
+        confidence: 0.95,
+        availableData: { baziData: context.baziData }
       };
     }
     
@@ -145,7 +149,9 @@ export class AlgorithmFirstGuard {
       return {
         canAnswer: true,
         hasData: true,
-        dataType: 'fengshui'
+        dataType: 'fengshui',
+        confidence: 0.95,
+        availableData: { fengshuiData: context.fengshuiData }
       };
     }
     
@@ -166,7 +172,12 @@ export class AlgorithmFirstGuard {
     return {
       canAnswer: true,
       hasData: true,
-      dataType: hasBazi && hasFengshui ? 'both' : hasBazi ? 'bazi' : 'fengshui'
+      dataType: hasBazi && hasFengshui ? 'both' : hasBazi ? 'bazi' : 'fengshui',
+      confidence: 0.9,
+      availableData: {
+        baziData: hasBazi ? context.baziData : null,
+        fengshuiData: hasFengshui ? context.fengshuiData : null
+      }
     };
   }
   
@@ -241,6 +252,39 @@ ${validation.reason === 'NO_BAZI_DATA' ?
       default:
         return baseMessage;
     }
+  }
+  
+  /**
+   * 构建AI上下文提示词
+   */
+  static buildContextPrompt(
+    availableData: any,
+    questionType: QuestionType
+  ): string {
+    let contextPrompt = '';
+    
+    if (availableData?.baziData) {
+      contextPrompt += `## 八字数据\n`;
+      contextPrompt += `- 四柱: ${JSON.stringify(availableData.baziData.fourPillars)}\n`;
+      contextPrompt += `- 五行: ${JSON.stringify(availableData.baziData.elements)}\n`;
+      contextPrompt += `- 十神: ${JSON.stringify(availableData.baziData.tenGods)}\n`;
+      if (availableData.baziData.yongShen) {
+        contextPrompt += `- 用神: ${availableData.baziData.yongShen.primary}\n`;
+      }
+      contextPrompt += `\n`;
+    }
+    
+    if (availableData?.fengshuiData) {
+      contextPrompt += `## 风水数据\n`;
+      contextPrompt += `- 坐向: ${availableData.fengshuiData.facing}/${availableData.fengshuiData.mountain}\n`;
+      contextPrompt += `- 元运: ${availableData.fengshuiData.period}运\n`;
+      if (availableData.fengshuiData.flyingStars) {
+        contextPrompt += `- 飞星盘: ${JSON.stringify(availableData.fengshuiData.flyingStars)}\n`;
+      }
+      contextPrompt += `\n`;
+    }
+    
+    return contextPrompt;
   }
   
   /**
@@ -340,7 +384,7 @@ export interface AuditLog {
   hasValidData: boolean;
   dataVersion?: string;
   dataHash?: string;
-  responseType: 'ANALYSIS' | 'GUIDANCE' | 'SENSITIVE_FILTER' | 'ERROR';
+  responseType: 'ANALYSIS' | 'GUIDANCE' | 'SENSITIVE_FILTER' | 'ERROR' | 'AI_ANSWER';
   confidenceLevel?: number;
   error?: string;
 }

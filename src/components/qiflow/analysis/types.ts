@@ -1,4 +1,5 @@
 import type { GenerateFlyingStarOutput, FlyingStarExplanation } from '@/lib/fengshui';
+import type { EnhancedBaziResult } from '@/lib/qiflow/bazi/enhanced-calculator';
 import type { LucideIcon } from 'lucide-react';
 
 /**
@@ -85,7 +86,7 @@ export interface AnalysisData {
   personal: PersonalData;
   house: HouseData;
   floorPlan?: FloorPlan;
-  baziResult?: BaziResult;
+  baziResult?: EnhancedBaziResult;
   fengshuiResult?: GenerateFlyingStarOutput;
   fengshuiExplanation?: FlyingStarExplanation;
 }

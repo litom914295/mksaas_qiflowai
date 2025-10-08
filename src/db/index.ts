@@ -19,6 +19,9 @@ export async function getDb() {
   return db;
 }
 
+// 导出 db 实例供其他模块使用
+export { db };
+
 /**
  * Connect to Neon Database
  * https://orm.drizzle.team/docs/tutorials/drizzle-with-neon

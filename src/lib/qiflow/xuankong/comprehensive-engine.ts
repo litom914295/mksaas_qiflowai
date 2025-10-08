@@ -754,6 +754,9 @@ function getColorTheme(bagua: string): string {
   return colorMap[bagua] || '#757575';
 }
 
+// 别名导出，兼容旧名称
+export const runComprehensiveAnalysis = comprehensiveAnalysis;
+
 export default {
   comprehensiveAnalysis,
   generateEnhancedPlate,

@@ -25,6 +25,47 @@ export interface ParsedInput {
 }
 
 /**
+ * 风水布局关键词
+ */
+const FENGSHUI_KEYWORDS = [
+  '房间', '房屋', '家里', '住宅', '办公室', '卧室', '客厅', '书房',
+  '风水', '布局', '布置', '摆放', '装修', '朝向', '坐向',
+  '财位', '旺财', '招财', '文昌位', '桃花位', '化解',
+  '九宫飞星', '飞星', '玄空',
+];
+
+/**
+ * 朝向关键词
+ */
+const DIRECTION_KEYWORDS = [
+  '朝南', '朝北', '朝东', '朝西',
+  '坐北朝南', '坐南朝北', '坐东朝西', '坐西朝东',
+  '坐东南朝西北', '坐西北朝东南', '坐东北朝西南', '坐西南朝东北',
+  '朝向', '坐向', '度数', '°',
+  '东南', '西北', '东北', '西南',
+];
+
+/**
+ * 检测是否为风水咨询
+ */
+export function detectFengshuiIntent(input: string): boolean {
+  return FENGSHUI_KEYWORDS.some(keyword => input.includes(keyword));
+}
+
+/**
+ * 检测是否提供了朝向信息
+ */
+export function hasDirectionInfo(input: string, context?: any): boolean {
+  // 检查输入中是否有朝向关键词
+  const hasInInput = DIRECTION_KEYWORDS.some(k => input.includes(k));
+  
+  // 检查上下文中是否有房屋信息
+  const hasInContext = context?.houseInfo?.facing || context?.houseInfo?.degree;
+  
+  return hasInInput || !!hasInContext;
+}
+
+/**
  * 智能输入解析器
  */
 export class InputParser {

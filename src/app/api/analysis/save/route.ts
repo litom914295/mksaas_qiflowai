@@ -4,7 +4,7 @@
  */
 
 import { auth } from '@/lib/auth';
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { analysisHistory } from '@/db/schema/analysis';
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
@@ -36,6 +36,7 @@ export async function POST(req: Request) {
     }
 
     // 保存到数据库
+    const db = await getDb();
     const [saved] = await db.insert(analysisHistory).values({
       userId: session.user.id,
       name,

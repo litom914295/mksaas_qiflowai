@@ -4,7 +4,7 @@
  */
 
 import { auth } from '@/lib/auth';
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { analysisHistory } from '@/db/schema/analysis';
 import { eq, desc } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -30,6 +30,7 @@ export async function GET(req: Request) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     // 查询用户的分析历史
+    const db = await getDb();
     const history = await db
       .select()
       .from(analysisHistory)

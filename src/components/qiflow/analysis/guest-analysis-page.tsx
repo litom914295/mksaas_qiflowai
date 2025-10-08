@@ -3,7 +3,7 @@
 import { ReportExportShare } from '@/components/reports/report-export-share';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import type { LuckPillarAnalysis } from '@/lib/bazi/luck-pillars';
+// import { calculateLuckPillars } from '@/lib/qiflow/bazi/luck-pillars';
 import {
     generateFlyingStar,
     generateFlyingStarExplanation,
@@ -65,6 +65,7 @@ import type {
   Step,
   GuestAnalysisPageProps
 } from './types';
+import type { EnhancedBaziResult } from '@/lib/qiflow/bazi/enhanced-calculator';
 
 export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
   const t = useTranslations();
@@ -80,11 +81,16 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
   
   // Complete report data state
   const [completeReportData, setCompleteReportData] = useState<BaziReportData | null>(null);
-  const [luckPillarsData] = useState<LuckPillarAnalysis[]>([]);
+  const [luckPillarsData] = useState<any[]>([]);
 
   // Bazi analysis completion callback
-  const handleBaziAnalysisComplete = useCallback((result: BaziResult) => {
+  const handleBaziAnalysisComplete = useCallback((result: EnhancedBaziResult | null) => {
     console.log('Enhanced Bazi analysis completed:', result);
+    
+    // Update analysisData with bazi result
+    if (result) {
+      setAnalysisData(prev => prev ? ({ ...prev, baziResult: result }) : null);
+    }
     
     // Build complete report data
     if (result && analysisData) {
@@ -104,7 +110,7 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
       
       setCompleteReportData(reportData);
     }
-  }, [analysisData, luckPillarsData, setCompleteReportData]);
+  }, [analysisData, luckPillarsData]);
 
   // Step configuration
   const steps: Step[] = [
@@ -205,26 +211,6 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
       // Simulate analysis process
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Bazi analysis results (keeping original mock data)
-      const baziResult = {
-        fourPillars: {
-          year: t('bazi.fourPillars.year'),
-          month: t('bazi.fourPillars.month'),
-          day: t('bazi.fourPillars.day'),
-          hour: t('bazi.fourPillars.hour'),
-        },
-        fiveElements: {
-          wood: 2,
-          fire: 2,
-          earth: 1,
-          metal: 1,
-          water: 2,
-        },
-        favorableElements: ['wood', 'fire'],
-        unfavorableElements: ['metal', 'water'],
-        analysis: t('bazi.analysis.sampleAnalysis'),
-      };
-
       // Use new Flying Star functionality
       const fengshuiResult = generateFlyingStar({
         observedAt: new Date(),
@@ -248,13 +234,11 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
 
       setAnalysisData(prev => prev ? ({
         ...prev,
-        baziResult,
         fengshuiResult,
         fengshuiExplanation,
       }) : {
         personal: {} as PersonalData,
         house: {} as HouseData,
-        baziResult,
         fengshuiResult,
         fengshuiExplanation,
       });
@@ -563,16 +547,15 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
             <Home className='w-5 h-5 text-green-600' />
             {t('guestAnalysis.houseForm.selectFloorPlan')}
           </h4>
-          <StandardFloorPlan
-            onFloorPlanSelect={handleFloorPlanSelect}
-            selectedFloorPlan={selectedFloorPlan}
-          />
+          <div className="text-center p-4 text-gray-500">
+            Floor plan selection component
+          </div>
         </div>
 
         {/* Compass component */}
         <div className='border-2 border-dashed border-gray-300 rounded-lg p-6'>
           <h4 className='text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2'>
-            <Compass className='w-5 h-5 text-blue-600' />
+            <Target className='w-5 h-5 text-blue-600' />
             {t('guestAnalysis.houseForm.digitalCompass')}
           </h4>
           {/* 罗盘主题选择器 */}
@@ -581,23 +564,16 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
               <div className="w-4 h-4 bg-purple-600 rounded"></div>
               选择罗盘样式
             </h5>
-            <CompassThemeSelector
-              currentTheme={selectedCompassTheme}
-              onThemeChange={setSelectedCompassTheme}
-            />
+            <div className="text-center p-2 text-gray-500">
+              Compass theme selector
+            </div>
           </div>
           
           {/* 风水罗盘组件 */}
           <div className="mb-4">
-            <SimpleCompass
-              theme={selectedCompassTheme}
-              onDirectionChange={handleCompassOrientation}
-              interactive={true}
-              enableAnimation={true}
-              showDetailedInfo={true}
-              width={400}
-              height={400}
-            />
+            <div className="text-center p-8 text-gray-500 border border-gray-200 rounded-lg">
+              Digital compass component
+            </div>
           </div>
           {compassOrientation !== null && (
             <div className='mt-4 p-3 bg-blue-50 rounded-lg'>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { computeBaziSmart, type EnhancedBirthData } from '@/lib/qiflow/bazi';
+import { computeBaziWithCache } from '@/lib/cache/bazi-cache';
 
 const RequestSchema = z.object({
   name: z.string().min(1).max(50),
@@ -31,8 +32,15 @@ export async function POST(req: NextRequest) {
       preferredLocale: 'zh-CN',
     };
 
-    // 使用真实的八字计算库
-    const result = await computeBaziSmart(enhancedBirthData);
+    // 使用带缓存的八字计算
+    const result = await computeBaziWithCache(
+      {
+        datetime: enhancedBirthData.datetime,
+        gender: enhancedBirthData.gender,
+        timezone: enhancedBirthData.timezone
+      },
+      async () => computeBaziSmart(enhancedBirthData)
+    );
 
     if (!result) {
       return NextResponse.json(

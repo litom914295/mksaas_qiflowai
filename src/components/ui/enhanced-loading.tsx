@@ -1,105 +1,78 @@
-'use client';
+import React from 'react'
+import { cn } from '@/lib/utils'
 
-import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
-
-interface EnhancedLoadingProps {
-  className?: string;
-  text?: string;
-  subText?: string;
-  tips?: string[];
-  showProgress?: boolean;
+export interface LoadingSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  variant?: 'spinner' | 'dots' | 'pulse' | 'feng-shui'
 }
 
-export function EnhancedLoading({
+const sizes = {
+  sm: 'w-4 h-4',
+  md: 'w-6 h-6', 
+  lg: 'w-8 h-8',
+  xl: 'w-12 h-12'
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
+  size = 'md', 
+  variant = 'spinner',
   className,
-  text = '加载中...',
-  subText,
-  tips = [],
-  showProgress = false,
-}: EnhancedLoadingProps) {
-  const [progress, setProgress] = useState(0);
-  const [currentTip, setCurrentTip] = useState(0);
-
-  useEffect(() => {
-    if (showProgress) {
-      const timer = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 90) return prev;
-          return prev + Math.random() * 10;
-        });
-      }, 500);
-
-      return () => clearInterval(timer);
-    }
-  }, [showProgress]);
-
-  useEffect(() => {
-    if (tips.length > 0) {
-      const timer = setInterval(() => {
-        setCurrentTip((prev) => (prev + 1) % tips.length);
-      }, 3000);
-
-      return () => clearInterval(timer);
-    }
-  }, [tips.length]);
-
+  ...props 
+}) => {
+  if (variant === 'dots') {
+    return (
+      <div className={cn('flex space-x-1', className)} {...props}>
+        <div className={cn('rounded-full bg-primary animate-bounce', sizes[size])} />
+        <div className={cn('rounded-full bg-primary animate-bounce', sizes[size])} style={{ animationDelay: '0.1s' }} />
+        <div className={cn('rounded-full bg-primary animate-bounce', sizes[size])} style={{ animationDelay: '0.2s' }} />
+      </div>
+    )
+  }
+  
+  if (variant === 'pulse') {
+    return (
+      <div className={cn('rounded-full bg-primary animate-pulse', sizes[size], className)} {...props} />
+    )
+  }
+  
+  if (variant === 'feng-shui') {
+    return (
+      <div className={cn('relative', sizes[size], className)} {...props}>
+        <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
+        <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary animate-spin" />
+        <div className="absolute inset-2 rounded-full border border-accent/40 animate-pulse" />
+        <div className="absolute inset-3 rounded-full bg-gradient-to-r from-primary to-accent opacity-20" />
+      </div>
+    )
+  }
+  
+  // Default spinner
   return (
-    <div className={cn('flex flex-col items-center justify-center p-8 space-y-4', className)}>
-      {/* 主加载动画 */}
-      <div className="relative">
-        <div className="w-16 h-16 border-4 border-blue-200 rounded-full animate-pulse"></div>
-        <div className="absolute top-0 left-0 w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-
-      {/* 加载文字 */}
-      <div className="text-center space-y-2">
-        <p className="text-lg font-medium text-gray-900">{text}</p>
-        {subText && <p className="text-sm text-gray-600">{subText}</p>}
-      </div>
-
-      {/* 进度条 */}
-      {showProgress && (
-        <div className="w-48 bg-gray-200 rounded-full h-2 overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-500 ease-out"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+    <div 
+      className={cn(
+        'animate-spin rounded-full border-2 border-primary/30 border-t-primary',
+        sizes[size],
+        className
       )}
-
-      {/* 提示信息轮播 */}
-      {tips.length > 0 && (
-        <div className="text-sm text-gray-500 text-center h-6 transition-opacity duration-300">
-          {tips[currentTip]}
-        </div>
-      )}
-    </div>
-  );
+      {...props}
+    />
+  )
 }
 
-// 骨架屏加载
-export function SkeletonLoader({ className }: { className?: string }) {
-  return (
-    <div className={cn('animate-pulse', className)}>
-      <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-      <div className="h-4 bg-gray-200 rounded mb-4"></div>
-      <div className="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="h-20 bg-gray-200 rounded"></div>
-        <div className="h-20 bg-gray-200 rounded"></div>
-      </div>
-    </div>
-  );
+export interface ButtonSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
+  size?: 'sm' | 'md'
 }
 
-// 脉冲加载点
-export function PulsingDots({ className }: { className?: string }) {
-  return (
-    <div className={cn('flex space-x-2', className)}>
-      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse delay-75"></div>
-      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse delay-150"></div>
-    </div>
-  );
-}
+export const ButtonSpinner: React.FC<ButtonSpinnerProps> = ({ 
+  size = 'sm',
+  className,
+  ...props 
+}) => (
+  <LoadingSpinner 
+    size={size}
+    className={cn('mr-2', className)}
+    {...props}
+  />
+)
+
+export default LoadingSpinner

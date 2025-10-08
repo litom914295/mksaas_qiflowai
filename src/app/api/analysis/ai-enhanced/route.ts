@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { calculateBazi } from '@/lib/services/bazi-calculator-service';
 import { generateAIEnhancedAnalysis, generateQuickAIAnalysis } from '@/lib/services/ai-enhanced-analysis';
 import { verifyAuth } from '@/lib/auth';
+import type { PersonalData } from '@/components/qiflow/analysis/types';
 
 /**
  * 请求验证Schema
@@ -15,9 +16,7 @@ import { verifyAuth } from '@/lib/auth';
 const requestSchema = z.object({
   birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '生日格式必须为 YYYY-MM-DD'),
   birthTime: z.string().regex(/^\d{2}:\d{2}$/, '时间格式必须为 HH:mm'),
-  gender: z.enum(['male', 'female'], {
-    errorMap: () => ({ message: '性别必须为 male 或 female' })
-  }),
+  gender: z.enum(['male', 'female']),
   isQuickAnalysis: z.boolean().optional().default(false),
   userId: z.string().optional(),
 });
@@ -43,7 +42,7 @@ export async function POST(request: NextRequest) {
 
     if (!validationResult.success) {
       return errorResponse(
-        `请求参数验证失败: ${validationResult.error.errors.map(e => e.message).join(', ')}`
+        `请求参数验证失败: ${validationResult.error.issues.map(e => e.message).join(', ')}`
       );
     }
 
@@ -60,7 +59,14 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. 计算八字
-    const baziResult = await calculateBazi(birthDate, birthTime, gender);
+    const baziResult = calculateBazi({
+      birthDate,
+      birthTime,
+      gender,
+      location: '北京',  // 默认位置
+      calendar: 'solar',
+      name: '用户'
+    } as PersonalData);
 
     // 4. 生成AI增强分析
     let aiAnalysis;
