@@ -11,11 +11,11 @@ import {
 import type {
   FlyingStarExplanation,
   GenerateFlyingStarOutput,
-} from '@/lib/qiflow/xuankong';
+} from '@/lib/fengshui';
 import {
   filterRecommendationsByCategory,
   generateSmartRecommendations,
-} from '@/lib/qiflow/xuankong/smart-recommendations';
+} from '@/lib/fengshui/smart-recommendations';
 import {
   AlertTriangle,
   BookOpen,

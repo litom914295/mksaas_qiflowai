@@ -1,21 +1,21 @@
 /**
  * 图像处理主控制器
- * 
+ *
  * 整合图像上传、预处理、OCR识别、房间检测等功能
  * 提供统一的图像处理接口
  */
 
-import { 
-  ImageUploadData, 
-  ImageAnalysisResult, 
-  ProcessingProgress, 
-  ProcessingStage,
-  ImageProcessingConfig,
-  RoomDetectionResult,
-  OCRResult
-} from './types';
-import { RoomDetector } from './room-detector';
 import { OCRProcessor } from './ocr-processor';
+import { RoomDetector } from './room-detector';
+import type {
+  ImageAnalysisResult,
+  ImageProcessingConfig,
+  ImageUploadData,
+  OCRResult,
+  ProcessingProgress,
+  ProcessingStage,
+  RoomDetectionResult,
+} from './types';
 
 export class ImageProcessor {
   private roomDetector: RoomDetector;
@@ -32,7 +32,7 @@ export class ImageProcessor {
       enableWallDetection: true,
       confidenceThreshold: 0.5,
       maxProcessingTime: 30000, // 30秒
-      ...config
+      ...config,
     };
   }
 
@@ -48,31 +48,33 @@ export class ImageProcessor {
    */
   async processImage(file: File): Promise<ImageAnalysisResult> {
     const startTime = performance.now();
-    
+
     try {
       // 1. 上传和预处理
       this.updateProgress('uploading', 0, '正在上传图像...');
       const imageData = await this.uploadAndPreprocessImage(file);
-      
+
       // 2. OCR处理
       let ocrResults: OCRResult[] = [];
       if (this.config.enableOCR) {
         this.updateProgress('ocr_processing', 20, '正在识别文字...');
         ocrResults = await this.ocrProcessor.recognizeText(imageData);
       }
-      
+
       // 3. 房间检测
       let roomDetection: RoomDetectionResult | null = null;
       if (this.config.enableRoomDetection) {
         this.updateProgress('room_detection', 60, '正在检测房间布局...');
         const imageDataForDetection = await this.convertToImageData(imageData);
-        roomDetection = await this.roomDetector.detectRooms(imageDataForDetection);
+        roomDetection = await this.roomDetector.detectRooms(
+          imageDataForDetection
+        );
       }
-      
+
       // 4. 后处理
       this.updateProgress('postprocessing', 90, '正在生成分析结果...');
       const processingTime = performance.now() - startTime;
-      
+
       const result: ImageAnalysisResult = {
         imageData,
         ocrResults,
@@ -82,20 +84,23 @@ export class ImageProcessor {
           doors: [],
           windows: [],
           confidence: 0,
-          processingTime: 0
+          processingTime: 0,
         },
         processingTime,
-        success: true
+        success: true,
       };
-      
+
       this.updateProgress('completed', 100, '分析完成');
-      
+
       return result;
-      
     } catch (error) {
       console.error('图像处理失败:', error);
-      this.updateProgress('error', 0, `处理失败: ${error instanceof Error ? error.message : '未知错误'}`);
-      
+      this.updateProgress(
+        'error',
+        0,
+        `处理失败: ${error instanceof Error ? error.message : '未知错误'}`
+      );
+
       return {
         imageData: await this.createEmptyImageData(file),
         ocrResults: [],
@@ -105,11 +110,11 @@ export class ImageProcessor {
           doors: [],
           windows: [],
           confidence: 0,
-          processingTime: 0
+          processingTime: 0,
         },
         processingTime: performance.now() - startTime,
         success: false,
-        error: error instanceof Error ? error.message : '未知错误'
+        error: error instanceof Error ? error.message : '未知错误',
       };
     }
   }
@@ -120,34 +125,34 @@ export class ImageProcessor {
   private async uploadAndPreprocessImage(file: File): Promise<ImageUploadData> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
+
       reader.onload = (e) => {
         const url = e.target?.result as string;
         const img = new Image();
-        
+
         img.onload = () => {
           const imageData: ImageUploadData = {
             file,
             url,
             width: img.width,
             height: img.height,
-            format: file.type
+            format: file.type,
           };
-          
+
           resolve(imageData);
         };
-        
+
         img.onerror = () => {
           reject(new Error('图像加载失败'));
         };
-        
+
         img.src = url;
       };
-      
+
       reader.onerror = () => {
         reject(new Error('文件读取失败'));
       };
-      
+
       reader.readAsDataURL(file);
     });
   }
@@ -155,31 +160,38 @@ export class ImageProcessor {
   /**
    * 转换为ImageData格式
    */
-  private async convertToImageData(imageData: ImageUploadData): Promise<ImageData> {
+  private async convertToImageData(
+    imageData: ImageUploadData
+  ): Promise<ImageData> {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      
+
       img.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
-        
+
         const ctx = canvas.getContext('2d');
         if (!ctx) {
           reject(new Error('无法创建画布上下文'));
           return;
         }
-        
+
         ctx.drawImage(img, 0, 0);
-        const imageDataResult = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        
+        const imageDataResult = ctx.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
         resolve(imageDataResult);
       };
-      
+
       img.onerror = () => {
         reject(new Error('图像加载失败'));
       };
-      
+
       img.src = imageData.url;
     });
   }
@@ -193,20 +205,24 @@ export class ImageProcessor {
       url: '',
       width: 0,
       height: 0,
-      format: file.type
+      format: file.type,
     };
   }
 
   /**
    * 更新处理进度
    */
-  private updateProgress(stage: ProcessingStage, progress: number, message: string): void {
+  private updateProgress(
+    stage: ProcessingStage,
+    progress: number,
+    message: string
+  ): void {
     if (this.progressCallback) {
       this.progressCallback({
         stage,
         progress,
         message,
-        estimatedTimeRemaining: this.calculateEstimatedTime(progress)
+        estimatedTimeRemaining: this.calculateEstimatedTime(progress),
       });
     }
   }
@@ -216,11 +232,11 @@ export class ImageProcessor {
    */
   private calculateEstimatedTime(progress: number): number | undefined {
     if (progress <= 0) return undefined;
-    
+
     const elapsed = performance.now();
     const totalEstimated = (elapsed / progress) * 100;
     const remaining = totalEstimated - elapsed;
-    
+
     return remaining > 0 ? Math.round(remaining) : undefined;
   }
 
@@ -233,19 +249,19 @@ export class ImageProcessor {
     if (!allowedTypes.includes(file.type)) {
       return {
         valid: false,
-        error: '不支持的文件格式。请上传 JPEG、PNG 或 WebP 格式的图像。'
+        error: '不支持的文件格式。请上传 JPEG、PNG 或 WebP 格式的图像。',
       };
     }
-    
+
     // 检查文件大小 (最大10MB)
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
       return {
         valid: false,
-        error: '文件过大。请上传小于 10MB 的图像。'
+        error: '文件过大。请上传小于 10MB 的图像。',
       };
     }
-    
+
     return { valid: true };
   }
 
@@ -271,4 +287,3 @@ export class ImageProcessor {
     this.roomDetector.cleanup();
   }
 }
-

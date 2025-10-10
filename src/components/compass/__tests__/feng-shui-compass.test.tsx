@@ -37,7 +37,7 @@ jest.mock('../../../lib/compass/performance-monitor', () => ({
     getMetrics: jest.fn(() => ({
       averageRenderTime: 16,
       memoryUsage: 50,
-      fps: 60
+      fps: 60,
     })),
   },
 }));
@@ -57,16 +57,18 @@ describe('FengShuiCompass', () => {
   describe('渲染测试', () => {
     test('应该正确渲染罗盘组件', () => {
       render(<FengShuiCompass {...defaultProps} />);
-      
+
       expect(screen.getByTestId('feng-shui-compass')).toBeInTheDocument();
       expect(screen.getByTestId('compass-container')).toBeInTheDocument();
     });
 
     test('应该显示控制面板', () => {
       render(<FengShuiCompass {...defaultProps} />);
-      
+
       // 检查按钮是否存在（文本可能因权限状态而异）
-      expect(screen.getByRole('button', { name: /方向传感器/ })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /方向传感器/ })
+      ).toBeInTheDocument();
       expect(screen.getByText('手动校准')).toBeInTheDocument();
       expect(screen.getByText(/切换皮肤/)).toBeInTheDocument();
     });
@@ -75,10 +77,10 @@ describe('FengShuiCompass', () => {
   describe('交互测试', () => {
     test('应该能够切换传感器状态', async () => {
       render(<FengShuiCompass {...defaultProps} />);
-      
+
       const sensorButton = screen.getByRole('button', { name: /方向传感器/ });
       fireEvent.click(sensorButton);
-      
+
       // 按钮文本可能会根据权限状态变化，我们主要测试点击功能
       expect(sensorButton).toBeInTheDocument();
     });

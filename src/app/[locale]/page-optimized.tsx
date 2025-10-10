@@ -1,67 +1,87 @@
 'use client';
 
-import { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import dynamic from 'next/dynamic';
-import { Card } from '@/components/ui/enhanced-card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { SEOHead } from '@/components/seo/seo-head';
-import { 
-  Star, 
-  TrendingUp, 
-  Shield, 
-  Sparkles, 
-  Compass as CompassIcon,
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/enhanced-card';
+import { Progress } from '@/components/ui/progress';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
   ChevronRight,
-  Users,
-  Gift,
+  Compass as CompassIcon,
   Crown,
+  Download,
+  Gift,
   MessageCircle,
-  Download
+  Shield,
+  Sparkles,
+  Star,
+  TrendingUp,
+  Users,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 
 // 懒加载重型组件
 const GuestAnalysisPage = dynamic(
-  () => import('@/components/analysis/guest-analysis-page').then(mod => ({ default: mod.GuestAnalysisPage })),
-  { 
+  () =>
+    import('@/components/analysis/guest-analysis-page').then((mod) => ({
+      default: mod.GuestAnalysisPage,
+    })),
+  {
     loading: () => <div className="p-8 text-center">加载分析组件...</div>,
-    ssr: false 
+    ssr: false,
   }
 );
 
 const AIChatPopup = dynamic(
-  () => import('@/components/home/ai-chat-popup').then(mod => ({ default: mod.AIChatPopup })),
+  () =>
+    import('@/components/home/ai-chat-popup').then((mod) => ({
+      default: mod.AIChatPopup,
+    })),
   { ssr: false }
 );
 
 const ReportExport = dynamic(
-  () => import('@/components/feedback/report-export').then(mod => ({ default: mod.ReportExport })),
+  () =>
+    import('@/components/feedback/report-export').then((mod) => ({
+      default: mod.ReportExport,
+    })),
   { ssr: false }
 );
 
 const RecommendationCard = dynamic(
-  () => import('@/components/feedback/recommendation-card').then(mod => ({ default: mod.RecommendationCard })),
+  () =>
+    import('@/components/feedback/recommendation-card').then((mod) => ({
+      default: mod.RecommendationCard,
+    })),
   { ssr: false }
 );
 
 // 动态导入Tabs组件
-const Tabs = dynamic(() => import('@/components/ui/tabs').then(mod => ({ 
-  default: mod.Tabs 
-})));
+const Tabs = dynamic(() =>
+  import('@/components/ui/tabs').then((mod) => ({
+    default: mod.Tabs,
+  }))
+);
 
-const TabsList = dynamic(() => import('@/components/ui/tabs').then(mod => ({ 
-  default: mod.TabsList 
-})));
+const TabsList = dynamic(() =>
+  import('@/components/ui/tabs').then((mod) => ({
+    default: mod.TabsList,
+  }))
+);
 
-const TabsTrigger = dynamic(() => import('@/components/ui/tabs').then(mod => ({ 
-  default: mod.TabsTrigger 
-})));
+const TabsTrigger = dynamic(() =>
+  import('@/components/ui/tabs').then((mod) => ({
+    default: mod.TabsTrigger,
+  }))
+);
 
-const TabsContent = dynamic(() => import('@/components/ui/tabs').then(mod => ({ 
-  default: mod.TabsContent 
-})));
+const TabsContent = dynamic(() =>
+  import('@/components/ui/tabs').then((mod) => ({
+    default: mod.TabsContent,
+  }))
+);
 
 // 动态导入confetti
 const triggerCelebration = async () => {
@@ -70,18 +90,22 @@ const triggerCelebration = async () => {
     particleCount: 100,
     spread: 70,
     origin: { y: 0.6 },
-    colors: ['#8B5CF6', '#EC4899', '#10B981', '#F59E0B']
+    colors: ['#8B5CF6', '#EC4899', '#10B981', '#F59E0B'],
   });
 };
 
 // 导入分析和支付系统
-import { ConversionFunnel, UserBehaviorTracker, PerformanceMonitor } from '@/lib/analytics';
+import {
+  ConversionFunnel,
+  PerformanceMonitor,
+  UserBehaviorTracker,
+} from '@/lib/analytics';
 import { usePayment } from '@/lib/payment';
 
 // 优化的图片组件
 const OptimizedImage = ({ src, alt, ...props }: any) => {
   const [imageSrc, setImageSrc] = useState('/images/placeholder.jpg');
-  
+
   useEffect(() => {
     const img = new Image();
     img.src = src;
@@ -93,9 +117,24 @@ const OptimizedImage = ({ src, alt, ...props }: any) => {
 
 // 用户见证数据
 const testimonials = [
-  { name: '张先生', avatar: '👨‍💼', text: '准确度惊人！按照建议调整后，生意明显好转', rating: 5 },
-  { name: '李女士', avatar: '👩‍💻', text: '终于找到了适合我的风水布局，感觉运气都变好了', rating: 5 },
-  { name: '王总', avatar: '👨‍💼', text: '专业的分析帮我选对了办公室，事业蒸蒸日上', rating: 5 },
+  {
+    name: '张先生',
+    avatar: '👨‍💼',
+    text: '准确度惊人！按照建议调整后，生意明显好转',
+    rating: 5,
+  },
+  {
+    name: '李女士',
+    avatar: '👩‍💻',
+    text: '终于找到了适合我的风水布局，感觉运气都变好了',
+    rating: 5,
+  },
+  {
+    name: '王总',
+    avatar: '👨‍💼',
+    text: '专业的分析帮我选对了办公室，事业蒸蒸日上',
+    rating: 5,
+  },
 ];
 
 // 实时统计数据
@@ -103,7 +142,7 @@ const stats = {
   totalUsers: 126543,
   todayUsers: 1432,
   accuracy: 96.8,
-  satisfaction: 98.5
+  satisfaction: 98.5,
 };
 
 export default function OptimizedHomePage() {
@@ -116,26 +155,30 @@ export default function OptimizedHomePage() {
   const [showChat, setShowChat] = useState(false);
   const [recommendations, setRecommendations] = useState<any[]>([]);
   const [reportData, setReportData] = useState<any>(null);
-  
+
   const analysisRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  
+
   // 支付系统集成
-  const { createPayment, loading: paymentLoading, error: paymentError } = usePayment();
-  
+  const {
+    createPayment,
+    loading: paymentLoading,
+    error: paymentError,
+  } = usePayment();
+
   // 初始化分析系统
   useEffect(() => {
     // 初始化转化漏斗
     const funnel = ConversionFunnel.getInstance();
     funnel.trackStep('page_view', { page: 'home' });
-    
+
     // 初始化用户行为追踪
     const behaviorTracker = UserBehaviorTracker.getInstance();
-    
+
     // 初始化性能监控
     const performanceMonitor = PerformanceMonitor.getInstance();
     performanceMonitor.measurePageLoad();
-    
+
     return () => {
       // 清理
       funnel.clearFunnel();
@@ -145,7 +188,7 @@ export default function OptimizedHomePage() {
   // 模拟实时用户数增长
   useEffect(() => {
     const interval = setInterval(() => {
-      setUserCount(prev => prev + Math.floor(Math.random() * 3));
+      setUserCount((prev) => prev + Math.floor(Math.random() * 3));
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -156,7 +199,7 @@ export default function OptimizedHomePage() {
     if (analysisRef.current) {
       analysisRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-    
+
     // 追踪漏斗步骤
     const funnel = ConversionFunnel.getInstance();
     funnel.trackStep('start_analysis');
@@ -167,60 +210,63 @@ export default function OptimizedHomePage() {
     // 追踪漏斗步骤
     const funnel = ConversionFunnel.getInstance();
     funnel.trackStep('analysis_complete', results);
-    
+
     // 模拟分析过程
     setTimeout(async () => {
       setBaziScore(85);
       setFengshuiScore(78);
       setShowResults(true);
       setStep(2);
-      
+
       // 生成推荐
       const newRecommendations = [
         {
           type: 'wealth',
           title: '财运提升建议',
           description: '在东南方位放置绿植或水晶',
-          importance: 'high'
+          importance: 'high',
         },
         {
           type: 'career',
           title: '事业发展指南',
           description: '2024年下半年有贵人相助',
-          importance: 'medium'
+          importance: 'medium',
         },
         {
           type: 'relationship',
           title: '感情运势分析',
           description: '农历七月桃花运旺盛',
-          importance: 'high'
-        }
+          importance: 'high',
+        },
       ];
-      
+
       setRecommendations(newRecommendations);
-      
+
       // 设置报告数据
       setReportData({
         baziAnalysis: results?.baziData || {},
         fengshuiAnalysis: results?.fengshuiData || {},
         score: { bazi: 85, fengshui: 78 },
-        recommendations: newRecommendations
+        recommendations: newRecommendations,
       });
-      
+
       // 触发庆祝动画
       await triggerCelebration();
-      
+
       // 滚动到结果区域
       if (resultsRef.current) {
-        resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        resultsRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
       }
-      
+
       // 追踪结果展示
       funnel.trackStep('results_shown', {
         baziScore: 85,
-        fengshuiScore: 78
+        fengshuiScore: 78,
       });
-      
+
       // 延迟显示AI聊天和升级提示
       setTimeout(() => setShowChat(true), 3000);
       setTimeout(() => setShowUpgradeModal(true), 10000);
@@ -232,9 +278,9 @@ export default function OptimizedHomePage() {
     // 追踪转化
     const funnel = ConversionFunnel.getInstance();
     funnel.trackStep('payment_initiated', { method });
-    
+
     const result = await createPayment(99, 'professional', method);
-    
+
     if (result.success) {
       funnel.trackStep('payment_success', result);
     } else {
@@ -244,11 +290,11 @@ export default function OptimizedHomePage() {
 
   return (
     <>
-      <SEOHead 
+      <SEOHead
         title="AI风水大师 - 专业八字命理与风水分析"
         description="融合千年易学智慧与现代AI科技，3分钟精准分析您的命理运势与风水格局"
       />
-      
+
       <div className="min-h-screen bg-gradient-to-b from-purple-50 via-pink-50 to-white">
         {/* 顶部导航栏 */}
         <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b shadow-sm">
@@ -259,26 +305,39 @@ export default function OptimizedHomePage() {
                 <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                   AI风水大师
                 </span>
-                <Badge variant="outline" className="bg-red-50 text-red-600 animate-pulse">
+                <Badge
+                  variant="outline"
+                  className="bg-red-50 text-red-600 animate-pulse"
+                >
                   限时8折
                 </Badge>
               </div>
-              
+
               {/* 实时数据展示 */}
               <div className="hidden md:flex items-center gap-6 text-sm">
                 <div className="flex items-center gap-2">
                   <Users className="w-4 h-4 text-green-600" />
-                  <span>今日用户：<span className="font-bold text-green-600">{userCount}</span></span>
+                  <span>
+                    今日用户：
+                    <span className="font-bold text-green-600">
+                      {userCount}
+                    </span>
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-blue-600" />
-                  <span>准确率：<span className="font-bold text-blue-600">{stats.accuracy}%</span></span>
+                  <span>
+                    准确率：
+                    <span className="font-bold text-blue-600">
+                      {stats.accuracy}%
+                    </span>
+                  </span>
                 </div>
               </div>
 
               {/* 得分展示 */}
               {showResults && (
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className="flex items-center gap-3"
@@ -294,7 +353,7 @@ export default function OptimizedHomePage() {
 
         {/* 主英雄区 */}
         {step === 0 && (
-          <motion.div 
+          <motion.div
             className="relative overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -308,15 +367,24 @@ export default function OptimizedHomePage() {
               >
                 {/* 信任徽章 */}
                 <motion.div className="flex justify-center gap-4 mb-6">
-                  <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1">
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-1 px-3 py-1"
+                  >
                     <Shield className="w-3 h-3" />
                     专业认证
                   </Badge>
-                  <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1">
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-1 px-3 py-1"
+                  >
                     <Star className="w-3 h-3" />
                     4.9分好评
                   </Badge>
-                  <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1">
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-1 px-3 py-1"
+                  >
                     <Users className="w-3 h-3" />
                     10万+用户
                   </Badge>
@@ -326,28 +394,36 @@ export default function OptimizedHomePage() {
                   AI智能风水分析
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
-                  融合千年易学智慧与现代AI科技<br />
-                  <span className="text-purple-600 font-semibold">3分钟</span>精准分析您的
-                  <span className="text-pink-600 font-semibold">命理运势</span>与
+                  融合千年易学智慧与现代AI科技
+                  <br />
+                  <span className="text-purple-600 font-semibold">3分钟</span>
+                  精准分析您的
+                  <span className="text-pink-600 font-semibold">命理运势</span>
+                  与
                   <span className="text-blue-600 font-semibold">风水格局</span>
                 </p>
 
                 {/* 限时优惠 */}
-                <motion.div 
+                <motion.div
                   className="bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-lg p-4 mb-8 max-w-2xl mx-auto"
                   animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
                 >
                   <div className="flex items-center justify-center gap-3">
                     <Gift className="w-6 h-6" />
-                    <span className="text-lg font-bold">限时优惠：前100名用户享8折优惠</span>
+                    <span className="text-lg font-bold">
+                      限时优惠：前100名用户享8折优惠
+                    </span>
                     <Gift className="w-6 h-6" />
                   </div>
                 </motion.div>
 
                 {/* CTA按钮 */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
                     <Button
                       size="lg"
                       className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg shadow-xl"
@@ -371,20 +447,31 @@ export default function OptimizedHomePage() {
 
                 {/* 用户见证 */}
                 <div className="overflow-hidden max-w-3xl mx-auto">
-                  <motion.div 
+                  <motion.div
                     className="flex gap-4"
                     animate={{ x: [0, -1000] }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 20,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: 'linear',
+                    }}
                   >
                     {[...testimonials, ...testimonials].map((item, index) => (
-                      <Card key={index} variant="outline" className="flex-shrink-0 w-80 p-4">
+                      <Card
+                        key={index}
+                        variant="outlined"
+                        className="flex-shrink-0 w-80 p-4"
+                      >
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-2xl">{item.avatar}</span>
                           <div>
                             <p className="font-semibold">{item.name}</p>
                             <div className="flex text-yellow-500">
                               {[...Array(item.rating)].map((_, i) => (
-                                <Star key={i} className="w-3 h-3 fill-current" />
+                                <Star
+                                  key={i}
+                                  className="w-3 h-3 fill-current"
+                                />
                               ))}
                             </div>
                           </div>
@@ -416,8 +503,10 @@ export default function OptimizedHomePage() {
               </div>
 
               <Card variant="elevated" className="p-6">
-                <Suspense fallback={<div className="p-8 text-center">加载中...</div>}>
-                  <GuestAnalysisPage onAnalysisComplete={handleAnalysisComplete} />
+                <Suspense
+                  fallback={<div className="p-8 text-center">加载中...</div>}
+                >
+                  <GuestAnalysisPage />
                 </Suspense>
               </Card>
             </motion.div>
@@ -434,7 +523,10 @@ export default function OptimizedHomePage() {
             >
               {/* 分数展示 */}
               <div className="grid md:grid-cols-2 gap-6 mb-12">
-                <Card variant="elevated" className="p-6 bg-gradient-to-br from-purple-50 to-pink-50">
+                <Card
+                  variant="elevated"
+                  className="p-6 bg-gradient-to-br from-purple-50 to-pink-50"
+                >
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold">八字命理评分</h3>
                     <Badge className="bg-purple-600 text-white text-lg px-3 py-1">
@@ -444,7 +536,10 @@ export default function OptimizedHomePage() {
                   <Progress value={baziScore} className="h-4" />
                 </Card>
 
-                <Card variant="elevated" className="p-6 bg-gradient-to-br from-blue-50 to-green-50">
+                <Card
+                  variant="elevated"
+                  className="p-6 bg-gradient-to-br from-blue-50 to-green-50"
+                >
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold">风水格局评分</h3>
                     <Badge className="bg-blue-600 text-white text-lg px-3 py-1">
@@ -457,7 +552,9 @@ export default function OptimizedHomePage() {
 
               {/* 智能推荐 */}
               <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-6 text-center">个性化改运建议</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center">
+                  个性化改运建议
+                </h2>
                 <div className="grid md:grid-cols-3 gap-6">
                   <Suspense fallback={<div>加载推荐...</div>}>
                     {recommendations.map((rec, index) => (
@@ -511,13 +608,20 @@ export default function OptimizedHomePage() {
 
               {/* 行动号召 */}
               <div className="text-center">
-                <Card variant="elevated" className="p-8 bg-gradient-to-r from-purple-100 to-pink-100">
-                  <h2 className="text-2xl font-bold mb-4">限时特惠，立即行动！</h2>
+                <Card
+                  variant="elevated"
+                  className="p-8 bg-gradient-to-r from-purple-100 to-pink-100"
+                >
+                  <h2 className="text-2xl font-bold mb-4">
+                    限时特惠，立即行动！
+                  </h2>
                   <div className="flex items-center justify-center gap-4 mb-6">
-                    <span className="text-3xl text-gray-400 line-through">¥299</span>
+                    <span className="text-3xl text-gray-400 line-through">
+                      ¥299
+                    </span>
                     <span className="text-5xl font-bold text-red-600">¥99</span>
                   </div>
-                  
+
                   {/* 支付按钮 */}
                   <div className="flex gap-3 justify-center">
                     <Button
@@ -537,7 +641,7 @@ export default function OptimizedHomePage() {
                       微信支付
                     </Button>
                   </div>
-                  
+
                   {paymentError && (
                     <p className="text-red-500 mt-2">{paymentError}</p>
                   )}
@@ -549,7 +653,7 @@ export default function OptimizedHomePage() {
 
         {/* AI聊天弹窗 */}
         <Suspense fallback={null}>
-          <AIChatPopup 
+          <AIChatPopup
             isOpen={showChat}
             onClose={() => setShowChat(false)}
             baziData={reportData?.baziAnalysis}
@@ -561,7 +665,7 @@ export default function OptimizedHomePage() {
         {reportData && (
           <Suspense fallback={null}>
             <div className="hidden">
-              <ReportExport 
+              <ReportExport
                 data={reportData}
                 onExport={(format) => console.log(`Exporting in ${format}`)}
               />

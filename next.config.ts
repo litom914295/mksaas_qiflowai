@@ -1,7 +1,7 @@
+import bundleAnalyzer from '@next/bundle-analyzer';
 import { createMDX } from 'fumadocs-mdx/next';
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
-import bundleAnalyzer from '@next/bundle-analyzer';
 
 /**
  * https://nextjs.org/docs/app/api-reference/config/next-config-js
@@ -12,27 +12,34 @@ const nextConfig: NextConfig = {
 
   /* config options here */
   devIndicators: false,
-  
+
   // 性能优化：禁用生产环境 source maps
   productionBrowserSourceMaps: false,
-  
+
   // 性能优化：启用压缩
   compress: true,
 
   // 实验性特性
   experimental: {
     optimizeCss: true, // 优化 CSS
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons', 'date-fns'], // 优化包导入
+    optimizePackageImports: [
+      'lucide-react',
+      '@radix-ui/react-icons',
+      'date-fns',
+    ], // 优化包导入
   },
 
   // https://nextjs.org/docs/architecture/nextjs-compiler#remove-console
   // Remove all console.* calls in production only
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn'],
-    } : false,
+    removeConsole:
+      process.env.NODE_ENV === 'production'
+        ? {
+            exclude: ['error', 'warn'],
+          }
+        : false,
   },
-  
+
   // 安全头部（提升 Best Practices 分数）
   async headers() {
     return [

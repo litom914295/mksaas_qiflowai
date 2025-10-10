@@ -39,13 +39,109 @@ export function LingzhengAnalysisView({
     );
   }
 
-  // TODO: 需要根据实际的 lingzhengAnalysis 结构进行调整
-  const lingzhengTheory = lingzhengAnalysis || {};
-  const lingShenPosition: any = { direction: '北', palace: '坎', star: 1, currentState: { rating: '良好', description: '当前状态良好' } };
-  const zhengShenPosition: any = { direction: '南', palace: '离', star: 9, currentState: { rating: '良好', description: '当前状态良好' } };
-  const waterPlacements: any[] = [];
-  const mountainPlacements: any[] = [];
-  const analysis: any = {};
+  // 解析零正理论数据结构
+  const {
+    zeroGodPosition = [],
+    positiveGodPosition = [],
+    isZeroPositiveReversed = false,
+    waterPlacement = { favorable: [], unfavorable: [] },
+    mountainPlacement = { favorable: [], unfavorable: [] },
+    recommendations = [],
+  } = lingzhengAnalysis;
+
+  // 方位映射
+  const palaceToDirection: Record<number, string> = {
+    1: '北',
+    2: '西南',
+    3: '东',
+    4: '东南',
+    5: '中',
+    6: '西北',
+    7: '西',
+    8: '东北',
+    9: '南',
+  };
+  const palaceToBagua: Record<number, string> = {
+    1: '坎',
+    2: '坤',
+    3: '震',
+    4: '巽',
+    5: '中',
+    6: '乾',
+    7: '兑',
+    8: '艮',
+    9: '离',
+  };
+
+  // 零神位信息
+  const lingShenPalace = zeroGodPosition[0] || 1;
+  const lingShenPosition = {
+    direction: palaceToDirection[lingShenPalace],
+    palace: palaceToBagua[lingShenPalace],
+    star: lingShenPalace,
+    currentState: {
+      rating: waterPlacement.favorable.includes(lingShenPalace)
+        ? '良好'
+        : '一般',
+      description: waterPlacement.favorable.includes(lingShenPalace)
+        ? '零神位宜见水，当前配置良好'
+        : '建议在此方位加强水元素',
+    },
+    idealSetup: ['鱼缸、水景等动水设施', '门窗等气口开阔处', '低洼、空旷区域'],
+  };
+
+  // 正神位信息
+  const zhengShenPalace = positiveGodPosition[0] || 9;
+  const zhengShenPosition = {
+    direction: palaceToDirection[zhengShenPalace],
+    palace: palaceToBagua[zhengShenPalace],
+    star: zhengShenPalace,
+    currentState: {
+      rating: mountainPlacement.favorable.includes(zhengShenPalace)
+        ? '良好'
+        : '一般',
+      description: mountainPlacement.favorable.includes(zhengShenPalace)
+        ? '正神位宜见山，当前配置良好'
+        : '建议在此方位加强山元素',
+    },
+    idealSetup: ['高大家具、书柜', '实墙、山石装饰', '稳重、静态物品'],
+  };
+
+  // 水位布局详情
+  const waterPlacements = [
+    ...waterPlacement.favorable.map((p) => ({
+      direction: palaceToDirection[p],
+      palace: p,
+      suitable: true,
+      analysis: `${palaceToDirection[p]}方宜见水，可旺财运`,
+      suggestion: '建议布置鱼缸、水景或开门窗',
+    })),
+    ...waterPlacement.unfavorable.map((p) => ({
+      direction: palaceToDirection[p],
+      palace: p,
+      suitable: false,
+      analysis: `${palaceToDirection[p]}方忌见水，可能影响运势`,
+      suggestion: '避免在此方位放置水景或动水设施',
+    })),
+  ];
+
+  // 山位布局详情
+  const mountainPlacements = [
+    ...mountainPlacement.favorable.map((p) => ({
+      direction: palaceToDirection[p],
+      palace: p,
+      suitable: true,
+      analysis: `${palaceToDirection[p]}方宜见山，可旺人丁`,
+      suggestion: '建议布置高大家具或山石装饰',
+    })),
+    ...mountainPlacement.unfavorable.map((p) => ({
+      direction: palaceToDirection[p],
+      palace: p,
+      suitable: false,
+      analysis: `${palaceToDirection[p]}方忌高大物件，影响运势`,
+      suggestion: '保持此方位低矮开阔，避免高大家具',
+    })),
+  ];
 
   // 获取方位评价颜色
   const getRatingColor = (rating: string): string => {
@@ -141,12 +237,14 @@ export function LingzhengAnalysisView({
               <div>
                 <p className="text-sm text-muted-foreground mb-2">理想布局</p>
                 <ul className="space-y-1">
-                  {lingShenPosition.idealSetup?.map((item: any, idx: number) => (
-                    <li key={idx} className="text-sm flex items-start">
-                      <span className="text-blue-500 mr-2">•</span>
-                      <span>{item}</span>
-                    </li>
-                  )) || (
+                  {lingShenPosition.idealSetup?.map(
+                    (item: any, idx: number) => (
+                      <li key={idx} className="text-sm flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        <span>{item}</span>
+                      </li>
+                    )
+                  ) || (
                     <>
                       <li className="text-sm flex items-start">
                         <span className="text-blue-500 mr-2">•</span>
@@ -215,12 +313,14 @@ export function LingzhengAnalysisView({
               <div>
                 <p className="text-sm text-muted-foreground mb-2">理想布局</p>
                 <ul className="space-y-1">
-                  {zhengShenPosition.idealSetup?.map((item: any, idx: number) => (
-                    <li key={idx} className="text-sm flex items-start">
-                      <span className="text-green-500 mr-2">•</span>
-                      <span>{item}</span>
-                    </li>
-                  )) || (
+                  {zhengShenPosition.idealSetup?.map(
+                    (item: any, idx: number) => (
+                      <li key={idx} className="text-sm flex items-start">
+                        <span className="text-green-500 mr-2">•</span>
+                        <span>{item}</span>
+                      </li>
+                    )
+                  ) || (
                     <>
                       <li className="text-sm flex items-start">
                         <span className="text-green-500 mr-2">•</span>

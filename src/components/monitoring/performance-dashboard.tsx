@@ -1,5 +1,6 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import {
   Card,
   CardContent,
@@ -7,11 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { performanceMonitor } from '@/lib/qiflow/xuankong/performance-monitor';
-import { useEffect, useState } from 'react';
 import { Activity, Clock, Gauge, TrendingUp } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface PerformanceMetrics {
   [key: string]: {
@@ -51,7 +51,9 @@ export function PerformanceDashboard() {
     setLastUpdate(new Date());
   };
 
-  const getMetricStatus = (avgDuration: number): 'good' | 'warning' | 'critical' => {
+  const getMetricStatus = (
+    avgDuration: number
+  ): 'good' | 'warning' | 'critical' => {
     if (avgDuration < 100) return 'good';
     if (avgDuration < 500) return 'warning';
     return 'critical';
@@ -71,9 +73,17 @@ export function PerformanceDashboard() {
   const getStatusBadge = (status: 'good' | 'warning' | 'critical') => {
     switch (status) {
       case 'good':
-        return <Badge variant="default" className="bg-green-500">良好</Badge>;
+        return (
+          <Badge variant="default" className="bg-green-500">
+            良好
+          </Badge>
+        );
       case 'warning':
-        return <Badge variant="default" className="bg-yellow-500">警告</Badge>;
+        return (
+          <Badge variant="default" className="bg-yellow-500">
+            警告
+          </Badge>
+        );
       case 'critical':
         return <Badge variant="destructive">严重</Badge>;
     }
@@ -246,7 +256,9 @@ export function PerformanceDashboard() {
                     <span className="text-sm font-medium">{name}</span>
                     {getStatusBadge(status)}
                   </div>
-                  <span className={`text-sm font-bold ${getStatusColor(status)}`}>
+                  <span
+                    className={`text-sm font-bold ${getStatusColor(status)}`}
+                  >
                     P95: {metric.p95.toFixed(2)}ms
                   </span>
                 </div>

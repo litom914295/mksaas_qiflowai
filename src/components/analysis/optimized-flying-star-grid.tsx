@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CulturalCard } from '@/components/ui/enhanced-card';
-import type { PalaceIndex, Plate, PlateCell } from '@/lib/qiflow/xuankong';
+import type { PalaceIndex, Plate, PlateCell } from '@/lib/fengshui';
 import { cn } from '@/lib/utils';
 import {
   ChevronUp,

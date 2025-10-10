@@ -1,18 +1,18 @@
 /**
  * Smart Space Mapping Main Controller
- * 
+ *
  * Integrates alignment engine and room mapper
  * Provides complete space mapping solution
  */
 
-import { Point, Room, Wall } from '../image-processing/types';
+import type { Point, Room, Wall } from '../image-processing/types';
 import { AlignmentEngine } from './alignment-engine';
 import { RoomMapper } from './room-mapper';
-import {
-    MappingValidation,
-    SpaceMappingConfig,
-    SpaceMappingResult,
-    SpaceMappingState
+import type {
+  MappingValidation,
+  SpaceMappingConfig,
+  SpaceMappingResult,
+  SpaceMappingState,
 } from './types';
 
 export class SpaceMapper {
@@ -31,13 +31,13 @@ export class SpaceMapper {
         gridSize: 20,
         enableRoomMerging: false,
         minRoomArea: 1000,
-        ...config
+        ...config,
       },
       currentAlignment: null,
       roomMappings: new Map(),
       palaceMappings: new Map(),
       gridMapping: null,
-      validation: null
+      validation: null,
     };
 
     this.alignmentEngine = new AlignmentEngine(this.state.config);
@@ -57,13 +57,21 @@ export class SpaceMapper {
     try {
       // 1. Execute space alignment
       console.log('Starting space alignment...');
-      const alignment = await this.alignmentEngine.alignSpace(rooms, walls, imageSize);
+      const alignment = await this.alignmentEngine.alignSpace(
+        rooms,
+        walls,
+        imageSize
+      );
       this.state.currentAlignment = alignment;
 
       // 2. Map rooms to Nine Palace
       console.log('Starting room mapping...');
-      const roomMappings = await this.roomMapper.mapRoomsToPalaces(rooms, alignment, imageSize);
-      
+      const roomMappings = await this.roomMapper.mapRoomsToPalaces(
+        rooms,
+        alignment,
+        imageSize
+      );
+
       // 更新状态
       this.state.roomMappings.clear();
       for (const mapping of roomMappings) {
@@ -71,14 +79,18 @@ export class SpaceMapper {
       }
 
       // 3. 创建宫位映射
-      this.state.palaceMappings = this.roomMapper.getPalaceMappings(roomMappings);
+      this.state.palaceMappings =
+        this.roomMapper.getPalaceMappings(roomMappings);
 
       // 4. 验证映射结果
       const validation = this.validateMapping(roomMappings, alignment);
       this.state.validation = validation;
 
       // 5. 计算整体置信度
-      const overallConfidence = this.calculateOverallConfidence(roomMappings, alignment);
+      const overallConfidence = this.calculateOverallConfidence(
+        roomMappings,
+        alignment
+      );
 
       const processingTime = performance.now() - startTime;
 
@@ -87,12 +99,11 @@ export class SpaceMapper {
         roomMappings,
         overallConfidence,
         processingTime,
-        success: true
+        success: true,
       };
 
       console.log('空间映射完成:', result);
       return result;
-
     } catch (error) {
       console.error('空间映射失败:', error);
       const processingTime = performance.now() - startTime;
@@ -103,13 +114,13 @@ export class SpaceMapper {
           translation: { x: 0, y: 0 },
           confidence: 0,
           method: 'manual',
-          processingTime: 0
+          processingTime: 0,
         },
         roomMappings: [],
         overallConfidence: 0,
         processingTime,
         success: false,
-        error: error instanceof Error ? error.message : '未知错误'
+        error: error instanceof Error ? error.message : '未知错误',
       };
     }
   }
@@ -147,7 +158,9 @@ export class SpaceMapper {
     }
 
     // 检查映射质量
-    const lowConfidenceMappings = roomMappings.filter(m => m.confidence < 0.6);
+    const lowConfidenceMappings = roomMappings.filter(
+      (m) => m.confidence < 0.6
+    );
     if (lowConfidenceMappings.length > 0) {
       warnings.push(`${lowConfidenceMappings.length}个房间的映射置信度较低`);
     }
@@ -165,7 +178,7 @@ export class SpaceMapper {
       isValid: errors.length === 0,
       errors,
       warnings,
-      suggestions
+      suggestions,
     };
   }
 
@@ -178,7 +191,7 @@ export class SpaceMapper {
     distribution: Map<number, number>;
   } {
     const distribution = new Map<number, number>();
-    
+
     for (const mapping of roomMappings) {
       const count = distribution.get(mapping.palaceIndex) || 0;
       distribution.set(mapping.palaceIndex, count + 1);
@@ -190,33 +203,42 @@ export class SpaceMapper {
     return {
       emptyPalaces,
       occupiedPalaces,
-      distribution
+      distribution,
     };
   }
 
   /**
    * 计算整体置信度
    */
-  private calculateOverallConfidence(roomMappings: any[], alignment: any): number {
+  private calculateOverallConfidence(
+    roomMappings: any[],
+    alignment: any
+  ): number {
     if (roomMappings.length === 0) return 0;
 
     // 对齐置信度权重
     const alignmentWeight = 0.3;
-    
+
     // 房间映射置信度权重
     const mappingWeight = 0.7;
-    const avgMappingConfidence = roomMappings.reduce(
-      (sum, mapping) => sum + mapping.confidence, 0
-    ) / roomMappings.length;
+    const avgMappingConfidence =
+      roomMappings.reduce((sum, mapping) => sum + mapping.confidence, 0) /
+      roomMappings.length;
 
-    return alignment.confidence * alignmentWeight + avgMappingConfidence * mappingWeight;
+    return (
+      alignment.confidence * alignmentWeight +
+      avgMappingConfidence * mappingWeight
+    );
   }
 
   /**
    * 手动设置对齐
    */
   setManualAlignment(rotationAngle: number, translation: Point): void {
-    const alignment = this.alignmentEngine.setManualAlignment(rotationAngle, translation);
+    const alignment = this.alignmentEngine.setManualAlignment(
+      rotationAngle,
+      translation
+    );
     this.state.currentAlignment = alignment;
   }
 
@@ -297,7 +319,7 @@ export class SpaceMapper {
       roomMappings: Array.from(this.state.roomMappings.values()),
       palaceMappings: Array.from(this.state.palaceMappings.values()),
       validation: this.state.validation,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
   }
 
@@ -311,18 +333,17 @@ export class SpaceMapper {
     validation: any;
   }): void {
     this.state.currentAlignment = data.alignment;
-    
+
     this.state.roomMappings.clear();
     for (const mapping of data.roomMappings) {
       this.state.roomMappings.set(mapping.roomId, mapping);
     }
-    
+
     this.state.palaceMappings.clear();
     for (const mapping of data.palaceMappings) {
       this.state.palaceMappings.set(mapping.palaceIndex, mapping);
     }
-    
+
     this.state.validation = data.validation;
   }
 }
-

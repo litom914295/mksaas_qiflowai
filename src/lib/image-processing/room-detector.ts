@@ -5,14 +5,14 @@
  * 包括房间类型、尺寸、门窗位置等关键信息
  */
 
-import {
-    Door,
-    Point,
-    Room,
-    RoomDetectionResult,
-    RoomType,
-    Wall,
-    Window,
+import type {
+  Door,
+  Point,
+  Room,
+  RoomDetectionResult,
+  RoomType,
+  Wall,
+  Window,
 } from './types';
 
 export class RoomDetector {
@@ -248,8 +248,8 @@ export class RoomDetector {
 
     for (let y = 1; y < height - 1; y++) {
       for (let x = 1; x < width - 1; x++) {
-        let gx = 0,
-          gy = 0;
+        let gx = 0;
+        let gy = 0;
 
         for (let ky = 0; ky < 3; ky++) {
           for (let kx = 0; kx < 3; kx++) {
@@ -507,8 +507,8 @@ export class RoomDetector {
    */
   private createRoomFromPixels(pixels: Point[], roomIndex: number): Room {
     // 计算边界框
-    const xs = pixels.map(p => p.x);
-    const ys = pixels.map(p => p.y);
+    const xs = pixels.map((p) => p.x);
+    const ys = pixels.map((p) => p.y);
     const minX = Math.min(...xs);
     const maxX = Math.max(...xs);
     const minY = Math.min(...ys);
@@ -613,7 +613,7 @@ export class RoomDetector {
     doors: Door[],
     windows: Window[]
   ): Promise<Room[]> {
-    return rooms.map(room => {
+    return rooms.map((room) => {
       // 简化的房间分类逻辑
       let roomType: RoomType = 'unknown';
 
@@ -629,11 +629,11 @@ export class RoomDetector {
       }
 
       // 根据门窗数量调整分类
-      const nearbyDoors = doors.filter(door =>
+      const nearbyDoors = doors.filter((door) =>
         this.isPointNearRoom(door.position, room)
       ).length;
 
-      const nearbyWindows = windows.filter(window =>
+      const nearbyWindows = windows.filter((window) =>
         this.isPointNearRoom(window.position, room)
       ).length;
 
@@ -657,8 +657,7 @@ export class RoomDetector {
    */
   private isPointNearRoom(point: Point, room: Room): boolean {
     const distance = Math.sqrt(
-      Math.pow(point.x - room.center.x, 2) +
-        Math.pow(point.y - room.center.y, 2)
+      (point.x - room.center.x) ** 2 + (point.y - room.center.y) ** 2
     );
 
     return distance < 100; // 100像素内认为靠近
@@ -764,7 +763,7 @@ export class RoomDetector {
 
         const variance =
           neighbors.reduce(
-            (sum, neighbor) => sum + Math.pow(center - neighbor, 2),
+            (sum, neighbor) => sum + (center - neighbor) ** 2,
             0
           ) / 4;
 
@@ -832,7 +831,7 @@ export class RoomDetector {
     try {
       // 过滤无效房间
       const validRooms = rooms.filter(
-        room => room.area > 1000 && room.confidence > 0.3
+        (room) => room.area > 1000 && room.confidence > 0.3
       );
 
       // 合并相邻房间
@@ -842,7 +841,7 @@ export class RoomDetector {
       const validatedRooms = this.validateRoomRelationships(mergedRooms, walls);
 
       // 计算房间分数
-      const scoredRooms = validatedRooms.map(room => ({
+      const scoredRooms = validatedRooms.map((room) => ({
         ...room,
         score: this.calculateRoomScore(room, walls, doors, windows),
       }));
@@ -865,7 +864,7 @@ export class RoomDetector {
       if (processed.has(room.id)) continue;
 
       const adjacentRooms = rooms.filter(
-        other =>
+        (other) =>
           other.id !== room.id &&
           !processed.has(other.id) &&
           this.areRoomsAdjacent(room, other)
@@ -875,7 +874,7 @@ export class RoomDetector {
         // 合并相邻房间
         const mergedRoom = this.mergeRoomGroup([room, ...adjacentRooms]);
         merged.push(mergedRoom);
-        adjacentRooms.forEach(r => processed.add(r.id));
+        adjacentRooms.forEach((r) => processed.add(r.id));
       } else {
         merged.push(room);
       }
@@ -904,8 +903,8 @@ export class RoomDetector {
 
     // 检查距离
     const distance = Math.sqrt(
-      Math.pow(room1.center.x - room2.center.x, 2) +
-        Math.pow(room1.center.y - room2.center.y, 2)
+      (room1.center.x - room2.center.x) ** 2 +
+        (room1.center.y - room2.center.y) ** 2
     );
 
     return distance < threshold;
@@ -915,9 +914,9 @@ export class RoomDetector {
    * 合并房间组
    */
   private mergeRoomGroup(rooms: Room[]): Room {
-    const allCoordinates = rooms.flatMap(room => room.coordinates);
-    const xs = allCoordinates.map(p => p.x);
-    const ys = allCoordinates.map(p => p.y);
+    const allCoordinates = rooms.flatMap((room) => room.coordinates);
+    const xs = allCoordinates.map((p) => p.x);
+    const ys = allCoordinates.map((p) => p.y);
 
     const minX = Math.min(...xs);
     const maxX = Math.max(...xs);
@@ -953,15 +952,15 @@ export class RoomDetector {
    * 验证房间关系
    */
   private validateRoomRelationships(rooms: Room[], walls: Wall[]): Room[] {
-    return rooms.map(room => {
+    return rooms.map((room) => {
       // 检查房间是否与墙壁相邻
-      const hasAdjacentWalls = walls.some(wall =>
+      const hasAdjacentWalls = walls.some((wall) =>
         this.isRoomAdjacentToWall(room, wall)
       );
 
       // 检查房间是否与其他房间相邻
       const hasNeighbors = rooms.some(
-        other => other.id !== room.id && this.areRoomsAdjacent(room, other)
+        (other) => other.id !== room.id && this.areRoomsAdjacent(room, other)
       );
 
       return {
@@ -1044,11 +1043,11 @@ export class RoomDetector {
 
     // 门窗分数
     const doorScore =
-      doors.filter(door => this.isPointNearRoom(door.position, room)).length *
+      doors.filter((door) => this.isPointNearRoom(door.position, room)).length *
       0.1;
 
     const windowScore =
-      windows.filter(window => this.isPointNearRoom(window.position, room))
+      windows.filter((window) => this.isPointNearRoom(window.position, room))
         .length * 0.1;
 
     score += Math.min(0.2, doorScore + windowScore);
@@ -1072,8 +1071,8 @@ export class RoomDetector {
     area = Math.abs(area) / 2;
 
     // 计算边界框面积
-    const xs = room.coordinates.map(p => p.x);
-    const ys = room.coordinates.map(p => p.y);
+    const xs = room.coordinates.map((p) => p.x);
+    const ys = room.coordinates.map((p) => p.y);
     const minX = Math.min(...xs);
     const maxX = Math.max(...xs);
     const minY = Math.min(...ys);

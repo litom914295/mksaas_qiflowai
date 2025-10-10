@@ -28,7 +28,7 @@ export function ExportDialogueButton({
     setIsExporting(true);
 
     const dialogueText = messages
-      .map(msg => {
+      .map((msg) => {
         const role = msg.role === 'user' ? '用户' : 'AI大师';
         const timestamp = new Date(msg.timestamp).toLocaleString('zh-CN');
         return `[${timestamp}] ${role}: ${msg.content}`;
@@ -60,7 +60,7 @@ ${dialogueText}`;
     const dialogueData = {
       sessionId,
       exportTime: new Date().toISOString(),
-      messages: messages.map(msg => ({
+      messages: messages.map((msg) => ({
         id: msg.id,
         role: msg.role,
         content: msg.content,
@@ -87,7 +87,7 @@ ${dialogueText}`;
     if (navigator.share) {
       try {
         const dialogueText = messages
-          .map(msg => {
+          .map((msg) => {
             const role = msg.role === 'user' ? '用户' : 'AI大师';
             return `${role}: ${msg.content}`;
           })
@@ -104,7 +104,7 @@ ${dialogueText}`;
     } else {
       // 降级到复制到剪贴板
       const dialogueText = messages
-        .map(msg => {
+        .map((msg) => {
           const role = msg.role === 'user' ? '用户' : 'AI大师';
           return `${role}: ${msg.content}`;
         })
@@ -126,35 +126,35 @@ ${dialogueText}`;
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <Button
-        variant='outline'
-        size='sm'
+        variant="outline"
+        size="sm"
         onClick={exportToText}
         disabled={disabled || isExporting}
-        className='flex items-center gap-2'
+        className="flex items-center gap-2"
       >
-        <FileText className='w-4 h-4' />
+        <FileText className="w-4 h-4" />
         {isExporting ? '导出中...' : '导出TXT'}
       </Button>
 
       <Button
-        variant='outline'
-        size='sm'
+        variant="outline"
+        size="sm"
         onClick={exportToJSON}
         disabled={disabled || isExporting}
-        className='flex items-center gap-2'
+        className="flex items-center gap-2"
       >
-        <Download className='w-4 h-4' />
+        <Download className="w-4 h-4" />
         {isExporting ? '导出中...' : '导出JSON'}
       </Button>
 
       <Button
-        variant='outline'
-        size='sm'
+        variant="outline"
+        size="sm"
         onClick={shareDialogue}
         disabled={disabled}
-        className='flex items-center gap-2'
+        className="flex items-center gap-2"
       >
-        <Share2 className='w-4 h-4' />
+        <Share2 className="w-4 h-4" />
         分享
       </Button>
     </div>

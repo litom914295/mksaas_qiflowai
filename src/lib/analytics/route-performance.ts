@@ -1,6 +1,6 @@
 /**
  * 路由性能监控工具
- * 
+ *
  * 用于追踪和分析路由切换的性能指标
  */
 
@@ -29,8 +29,8 @@ export interface NavigationTiming {
 class RoutePerformanceTracker {
   private metrics: RoutePerformanceMetrics[] = [];
   private navigationTimings: NavigationTiming[] = [];
-  private previousRoute: string = '';
-  private navigationStartTime: number = 0;
+  private previousRoute = '';
+  private navigationStartTime = 0;
   private maxMetricsStored = 50; // 最多存储50条记录
 
   constructor() {
@@ -45,10 +45,10 @@ class RoutePerformanceTracker {
   private initialize() {
     // 监听路由变化
     this.setupRouteChangeListener();
-    
+
     // 监听性能指标
     this.setupPerformanceObserver();
-    
+
     // 记录初始路由
     this.previousRoute = window.location.pathname;
   }
@@ -91,7 +91,8 @@ class RoutePerformanceTracker {
               this.recordNavigationTiming({
                 route: window.location.pathname,
                 loadTime: navTiming.loadEventEnd - navTiming.fetchStart,
-                domContentLoaded: navTiming.domContentLoadedEventEnd - navTiming.fetchStart,
+                domContentLoaded:
+                  navTiming.domContentLoadedEventEnd - navTiming.fetchStart,
                 domComplete: navTiming.domComplete - navTiming.fetchStart,
               });
             }
@@ -106,7 +107,10 @@ class RoutePerformanceTracker {
               this.updateNavigationTiming('firstPaint', entry.startTime);
             }
             if (entry.name === 'first-contentful-paint') {
-              this.updateNavigationTiming('firstContentfulPaint', entry.startTime);
+              this.updateNavigationTiming(
+                'firstContentfulPaint',
+                entry.startTime
+              );
             }
           }
         });
@@ -117,11 +121,13 @@ class RoutePerformanceTracker {
           const entries = list.getEntries();
           const lastEntry = entries[entries.length - 1] as PerformanceEntry;
           if (lastEntry) {
-            this.updateNavigationTiming('largestContentfulPaint', lastEntry.startTime);
+            this.updateNavigationTiming(
+              'largestContentfulPaint',
+              lastEntry.startTime
+            );
           }
         });
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-
       } catch (error) {
         console.warn('Performance Observer setup failed:', error);
       }
@@ -135,8 +141,8 @@ class RoutePerformanceTracker {
     if (this.previousRoute === newRoute) return;
 
     const endTime = performance.now();
-    const duration = this.navigationStartTime 
-      ? endTime - this.navigationStartTime 
+    const duration = this.navigationStartTime
+      ? endTime - this.navigationStartTime
       : 0;
 
     const metric: RoutePerformanceMetrics = {
@@ -151,7 +157,7 @@ class RoutePerformanceTracker {
     };
 
     this.addMetric(metric);
-    
+
     // 发送到分析服务（如果配置了）
     this.sendToAnalytics(metric);
 
@@ -174,10 +180,11 @@ class RoutePerformanceTracker {
    * 更新导航时间的特定指标
    */
   private updateNavigationTiming(
-    metric: keyof NavigationTiming, 
+    metric: keyof NavigationTiming,
     value: number
   ) {
-    const latestTiming = this.navigationTimings[this.navigationTimings.length - 1];
+    const latestTiming =
+      this.navigationTimings[this.navigationTimings.length - 1];
     if (latestTiming) {
       (latestTiming as any)[metric] = value;
     }
@@ -209,7 +216,11 @@ class RoutePerformanceTracker {
     if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
       return 'tablet';
     }
-    if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+    if (
+      /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+        ua
+      )
+    ) {
       return 'mobile';
     }
     return 'desktop';
@@ -231,7 +242,7 @@ class RoutePerformanceTracker {
    */
   private async sendToAnalytics(metric: RoutePerformanceMetrics) {
     // 这里可以集成 Google Analytics, Mixpanel, 或自定义分析服务
-    
+
     // 示例：Google Analytics
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'route_change', {
@@ -285,7 +296,7 @@ class RoutePerformanceTracker {
    * 获取特定 locale 的性能统计
    */
   public getLocaleStats(locale: string) {
-    const localeMetrics = this.metrics.filter(m => m.locale === locale);
+    const localeMetrics = this.metrics.filter((m) => m.locale === locale);
     if (localeMetrics.length === 0) {
       return {
         count: 0,
@@ -295,7 +306,7 @@ class RoutePerformanceTracker {
       };
     }
 
-    const durations = localeMetrics.map(m => m.duration);
+    const durations = localeMetrics.map((m) => m.duration);
     return {
       count: localeMetrics.length,
       avgDuration: durations.reduce((a, b) => a + b, 0) / durations.length,
@@ -307,8 +318,8 @@ class RoutePerformanceTracker {
   /**
    * 获取慢速路由（超过阈值的路由）
    */
-  public getSlowRoutes(thresholdMs: number = 1000): RoutePerformanceMetrics[] {
-    return this.metrics.filter(m => m.duration > thresholdMs);
+  public getSlowRoutes(thresholdMs = 1000): RoutePerformanceMetrics[] {
+    return this.metrics.filter((m) => m.duration > thresholdMs);
   }
 
   /**
@@ -323,19 +334,23 @@ class RoutePerformanceTracker {
    * 导出指标为 JSON
    */
   public exportMetrics(): string {
-    return JSON.stringify({
-      metrics: this.metrics,
-      navigationTimings: this.navigationTimings,
-      stats: {
-        totalRouteChanges: this.metrics.length,
-        averageDuration: this.getAverageRouteDuration(),
-        localeStats: {
-          'zh-CN': this.getLocaleStats('zh-CN'),
-          'en': this.getLocaleStats('en'),
+    return JSON.stringify(
+      {
+        metrics: this.metrics,
+        navigationTimings: this.navigationTimings,
+        stats: {
+          totalRouteChanges: this.metrics.length,
+          averageDuration: this.getAverageRouteDuration(),
+          localeStats: {
+            'zh-CN': this.getLocaleStats('zh-CN'),
+            en: this.getLocaleStats('en'),
+          },
+          slowRoutes: this.getSlowRoutes(),
         },
-        slowRoutes: this.getSlowRoutes(),
       },
-    }, null, 2);
+      null,
+      2
+    );
   }
 }
 
@@ -349,7 +364,12 @@ export function getRoutePerformanceTracker(): RoutePerformanceTracker {
       getMetrics: () => [],
       getNavigationTimings: () => [],
       getAverageRouteDuration: () => 0,
-      getLocaleStats: () => ({ count: 0, avgDuration: 0, minDuration: 0, maxDuration: 0 }),
+      getLocaleStats: () => ({
+        count: 0,
+        avgDuration: 0,
+        minDuration: 0,
+        maxDuration: 0,
+      }),
       getSlowRoutes: () => [],
       clearMetrics: () => {},
       exportMetrics: () => '{}',

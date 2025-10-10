@@ -314,6 +314,13 @@
     "hero": {
       "title": "AI BaZi · Feng Shui — One-click deep insights",
       "subtitle": "Blend Eastern wisdom with modern AI to get key points, advice and actions — fast.",
+      "optimized": {
+        "headline": "Discover Your Talents & Life Turning Points in 3 Minutes",
+        "subheadline": "Combining ancient wisdom with AI algorithms, 98% of users find it 'incredibly accurate'"
+      },
+      "social": {
+        "proof": "127,843+ people have received their life guidance"
+      },
       "features": {
         "algorithm": "Precise Algorithm",
         "privacy": "Privacy Protected",
@@ -322,7 +329,12 @@
       "cta": {
         "startBazi": "Start BaZi Analysis",
         "tryCompass": "Try Feng Shui Compass",
-        "askAi": "Ask AI"
+        "askAi": "Ask AI",
+        "primary": "Get My Destiny Report Now",
+        "secondary": "View Sample Report",
+        "tertiary": "AI Smart Consultation",
+        "hint": "💡 No registration, 1-minute generation · First experience free",
+        "viewFullAnalysis": "🎯 View Complete Analysis Process"
       },
       "trust": "Trusted by 10,000+ users"
     },
@@ -332,20 +344,32 @@
     "trust": {
       "professional": "Professional Method",
       "ai": "AI Assisted",
-      "privacy": "Privacy & Safety"
+      "privacy": "Privacy & Safety",
+      "users": "Trusted Users",
+      "accuracy": "Algorithm Accuracy"
     },
     "features": {
       "bazi": {
         "title": "Bazi Analysis",
-        "desc": "One-click key pillars, Ten Gods relations and near-term trends."
+        "desc": "One-click key pillars, Ten Gods relations and near-term trends.",
+        "tag": "Most Popular"
       },
       "compass": {
         "title": "Feng Shui Compass",
-        "desc": "Preview key directions and Nine Palaces tips to support site selection & optimization."
+        "desc": "Preview key directions and Nine Palaces tips to support site selection & optimization.",
+        "tag": "Expert Recommended"
       },
       "ai": {
         "title": "AI Consultation",
-        "desc": "Natural language Q&A with targeted suggestions and explanations."
+        "desc": "Natural language Q&A with targeted suggestions and explanations.",
+        "tag": "Instant Response"
+      },
+      "section": {
+        "title": "Three Core Functions to Meet All Your Needs",
+        "subtitle": "From personal destiny to space Feng Shui, from quick queries to in-depth consultations"
+      },
+      "comparison": {
+        "title": "Feature Comparison"
       }
     },
     "how": {

@@ -9,8 +9,8 @@ import { ExportDialogueButton } from './export-dialogue-button';
 import { ConversationInput } from './message-input';
 import { ConversationMessageList } from './message-list';
 import {
-  RecommendationCard,
   type RecommendationAction,
+  RecommendationCard,
 } from './recommendation-card';
 import { useChatSession } from './use-chat-session';
 
@@ -69,7 +69,7 @@ export const EnhancedChatInterface = ({
   }, [context?.fengshui]);
   const recommendationActions = useMemo<RecommendationAction[]>(
     () =>
-      recommendations.map(label => {
+      recommendations.map((label) => {
         let type: RecommendationAction['type'] = 'custom';
         if (label.includes('预约')) type = 'book_expert';
         else if (label.includes('报告')) type = 'generate_report';
@@ -108,7 +108,7 @@ export const EnhancedChatInterface = ({
             timestamp: new Date().toISOString(),
           });
           break;
-        case 'view_analysis' as any:
+        case 'view_analysis' as any: {
           // 查找最新的重定向信息
           const latestMessage = messages[messages.length - 1];
           if ((latestMessage?.metadata as any)?.redirectTo) {
@@ -117,6 +117,7 @@ export const EnhancedChatInterface = ({
             window.open(`${path}?${queryString}`, '_blank');
           }
           break;
+        }
         case 'ai_chat' as any:
           sendMessage({
             id: `user-action-${Math.random().toString(36).slice(2)}`,
@@ -144,15 +145,15 @@ export const EnhancedChatInterface = ({
         className
       )}
     >
-      <div className='flex h-full flex-col rounded-2xl border bg-card shadow-sm'>
-        <div className='flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3'>
+      <div className="flex h-full flex-col rounded-2xl border bg-card shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
           <div>
-            <h2 className='text-base font-semibold'>AI 八字风水大师</h2>
-            <p className='text-xs text-muted-foreground'>
+            <h2 className="text-base font-semibold">AI 八字风水大师</h2>
+            <p className="text-xs text-muted-foreground">
               输入你的出生信息或房屋情况，获取个性化建议
             </p>
           </div>
-          <div className='flex items-center gap-3'>
+          <div className="flex items-center gap-3">
             <ExportDialogueButton
               messages={messages as any}
               sessionId={sessionId}
@@ -165,26 +166,26 @@ export const EnhancedChatInterface = ({
           messages={messages}
           favoriteMessageIds={favoriteMessageIds}
           onToggleFavorite={toggleFavorite}
-          className='max-h-[50vh] lg:max-h-none'
+          className="max-h-[50vh] lg:max-h-none"
         />
-        <div className='border-t px-4 py-3'>
+        <div className="border-t px-4 py-3">
           <ConversationInput
-            onSend={payload => sendMessage(toConversationMessage(payload))}
+            onSend={(payload) => sendMessage(toConversationMessage(payload))}
             onUpload={sendAttachments}
             disabled={isTyping}
           />
         </div>
       </div>
 
-      <div className='flex flex-col gap-4'>
+      <div className="flex flex-col gap-4">
         <RecommendationCard
-          title='快速操作'
-          description='根据当前会话，您可以选择以下操作继续深入分析。'
+          title="快速操作"
+          description="根据当前会话，您可以选择以下操作继续深入分析。"
           actions={recommendationActions}
           onAction={handleRecommendationAction}
         />
         <ConversationContextPanel
-          className='hidden lg:block'
+          className="hidden lg:block"
           bazi={context.bazi}
           fengshui={fengshuiPanelData}
         />

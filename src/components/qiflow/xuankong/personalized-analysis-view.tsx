@@ -9,7 +9,15 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import type { ComprehensiveAnalysisResult } from '@/lib/qiflow/xuankong/comprehensive-engine';
-import { AlertCircle, Briefcase, Heart, Home, User, Zap } from 'lucide-react';
+import { PALACE_TO_BAGUA } from '@/lib/qiflow/xuankong/luoshu';
+import {
+  AlertCircle,
+  Briefcase,
+  DollarSign,
+  Heart,
+  Home,
+  User,
+} from 'lucide-react';
 import React from 'react';
 
 interface PersonalizedAnalysisViewProps {
@@ -41,16 +49,90 @@ export function PersonalizedAnalysisView({
     );
   }
 
-  // TODO: 需要根据实际的 personalizedAnalysis 结构进行调整
-  const userProfile: any = {};
-  const baziIntegration: any = {
-    zodiac: '龙',
-    mainElement: '木',
-    favorableElements: ['水', '火'],
-    unfavorableElements: ['金', '土'],
-    luckyDirections: ['东', '南']
+  // 解析真实的个性化数据
+  const {
+    compatibility,
+    roomRecommendations,
+    careerEnhancement,
+    healthAndWellness,
+    relationshipHarmony,
+    wealthAndProsperity,
+  } = personalizedAnalysis;
+
+  // 构建八字集成信息
+  // 从 compatibility 和其他个性化数据中提取信息
+  const baziIntegration = {
+    // 生肖可从兼容性数据或其他来源获取
+    zodiac: compatibility?.zodiac || '未知',
+    // 主元素（命卦对应的五行）
+    mainElement: compatibility?.element || compatibility?.mainElement || '未知',
+    // 喜用神（有利元素）- 从多个可能的字段提取
+    favorableElements:
+      compatibility?.favorableElements ||
+      compatibility?.favorable ||
+      (compatibility?.element ? [compatibility.element] : []),
+    // 忌讳元素（不利元素）
+    unfavorableElements:
+      compatibility?.unfavorableElements || compatibility?.unfavorable || [],
+    // 幸运方位（从命卦信息获取）
+    luckyDirections:
+      compatibility?.luckyDirections ||
+      compatibility?.favorableDirections ||
+      [],
   };
-  const personalizedRecommendations: any[] = [];
+
+  // 整合所有个性化建议
+  const personalizedRecommendations = [
+    // 健康建议
+    ...(healthAndWellness?.healthWarnings
+      ? healthAndWellness.healthWarnings.map((warning: string, i: number) => ({
+          title: `健康注意 ${i + 1}`,
+          description: warning,
+          priority: 1,
+          actions: ['保持该区域清洁', '避免长时间停留', '可放置化解物品'],
+          category: 'health',
+        }))
+      : []),
+    // 事业建议
+    ...(careerEnhancement?.tips
+      ? careerEnhancement.tips.map((tip: string, i: number) => ({
+          title: `事业提升 ${i + 1}`,
+          description: tip,
+          priority: 2,
+          actions: [
+            `工作区域：${PALACE_TO_BAGUA[careerEnhancement.bestWorkArea] || '未知'}`,
+            `学习区域：${PALACE_TO_BAGUA[careerEnhancement.studyArea] || '未知'}`,
+          ],
+          category: 'career',
+        }))
+      : []),
+    // 家居建议
+    ...(roomRecommendations || []).map((r: any) => ({
+      title: `${r.bagua}宫布局建议`,
+      description: r.personalizedTips?.[0] || '基于您的八字分析',
+      priority: r.priority === 'high' ? 1 : r.priority === 'medium' ? 2 : 3,
+      actions: [
+        ...(r.suitableFor || []).map((s: string) => `适合：${s}`),
+        ...(r.avoidFor || []).map((a: string) => `避免：${a}`),
+      ],
+      category: 'home',
+    })),
+    // 财运建议
+    ...(wealthAndProsperity?.financialAdvice
+      ? wealthAndProsperity.financialAdvice.map(
+          (advice: string, i: number) => ({
+            title: `财运提升 ${i + 1}`,
+            description: advice,
+            priority: 2,
+            actions: [
+              `财位：${PALACE_TO_BAGUA[wealthAndProsperity.wealthCorner] || '未知'}`,
+              `投资区：${PALACE_TO_BAGUA[wealthAndProsperity.investmentArea] || '未知'}`,
+            ],
+            category: 'wealth',
+          })
+        )
+      : []),
+  ];
 
   // 获取生肖图标（可以扩展）
   const getZodiacEmoji = (zodiac: string): string => {
@@ -269,17 +351,17 @@ export function PersonalizedAnalysisView({
           </CardContent>
         </Card>
 
-        {/* 能量提升 */}
+        {/* 财运提升 */}
         <Card>
           <CardHeader>
             <div className="flex items-center space-x-2">
-              <Zap className="w-5 h-5 text-yellow-500" />
-              <CardTitle>能量提升</CardTitle>
+              <DollarSign className="w-5 h-5 text-yellow-600" />
+              <CardTitle>财运提升</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-3">
             {personalizedRecommendations
-              .filter((rec) => rec.category === 'energy')
+              .filter((rec) => rec.category === 'wealth')
               .map((rec, idx) => (
                 <div
                   key={idx}

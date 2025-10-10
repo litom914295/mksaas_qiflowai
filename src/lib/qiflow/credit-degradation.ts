@@ -14,18 +14,18 @@ export interface FeaturePermissions {
   baziCharts: boolean;
   baziInterpretation: boolean;
   baziExport: boolean;
-  
+
   // 玄空风水功能
   xuankongFullAnalysis: boolean;
   xuankongNinePalace: boolean;
   xuankongRecommendations: boolean;
   xuankongExport: boolean;
-  
+
   // AI聊天功能
   aiChatUnlimited: boolean;
   aiChatDeepAnalysis: boolean;
   aiChatHistory: boolean;
-  
+
   // 缓存策略
   cacheEnabled: boolean;
   cacheTTL: number; // 秒
@@ -53,10 +53,10 @@ export const CREDIT_COSTS = {
 
 // 降级阈值配置
 export const DEGRADATION_THRESHOLDS = {
-  full: 100,    // >= 100积分：完整功能
-  medium: 50,   // 50-99积分：中级功能
-  lite: 10,     // 10-49积分：基础功能
-  minimum: 1,   // < 10积分：最小功能
+  full: 100, // >= 100积分：完整功能
+  medium: 50, // 50-99积分：中级功能
+  lite: 10, // 10-49积分：基础功能
+  minimum: 1, // < 10积分：最小功能
 } as const;
 
 /**
@@ -65,17 +65,19 @@ export const DEGRADATION_THRESHOLDS = {
 export function getDegradationLevel(credits: number): DegradationLevel {
   if (credits >= DEGRADATION_THRESHOLDS.full) {
     return 'full';
-  } else if (credits >= DEGRADATION_THRESHOLDS.medium) {
-    return 'medium';
-  } else {
-    return 'lite';
   }
+  if (credits >= DEGRADATION_THRESHOLDS.medium) {
+    return 'medium';
+  }
+  return 'lite';
 }
 
 /**
  * 获取降级等级对应的功能权限
  */
-export function getFeaturePermissions(level: DegradationLevel): FeaturePermissions {
+export function getFeaturePermissions(
+  level: DegradationLevel
+): FeaturePermissions {
   switch (level) {
     case 'full':
       return {
@@ -95,7 +97,7 @@ export function getFeaturePermissions(level: DegradationLevel): FeaturePermissio
         cacheEnabled: true,
         cacheTTL: 3600, // 1小时
       };
-      
+
     case 'medium':
       return {
         // 中级功能（无导出和深度分析）
@@ -114,7 +116,7 @@ export function getFeaturePermissions(level: DegradationLevel): FeaturePermissio
         cacheEnabled: true,
         cacheTTL: 1800, // 30分钟
       };
-      
+
     case 'lite':
       return {
         // 基础功能（仅基本分析）
@@ -145,15 +147,15 @@ export function canAffordOperation(
   level?: 'full' | 'medium' | 'lite' | 'deep' | 'normal' | 'simple'
 ): boolean {
   const costs = CREDIT_COSTS[operation];
-  
+
   if (typeof costs === 'number') {
     return credits >= costs;
   }
-  
+
   if (level && typeof costs === 'object' && level in costs) {
     return credits >= costs[level as keyof typeof costs];
   }
-  
+
   return false;
 }
 
@@ -166,16 +168,16 @@ export function calculateRemainingCredits(
   level?: 'full' | 'medium' | 'lite' | 'deep' | 'normal' | 'simple'
 ): number {
   const costs = CREDIT_COSTS[operation];
-  
+
   if (typeof costs === 'number') {
     return Math.max(0, currentCredits - costs);
   }
-  
+
   if (level && typeof costs === 'object' && level in costs) {
     const cost = costs[level as keyof typeof costs];
     return Math.max(0, currentCredits - cost);
   }
-  
+
   return currentCredits;
 }
 
@@ -190,30 +192,30 @@ export function degradeResult<T>(
   if (level === 'full') {
     return fullResult;
   }
-  
+
   // 这里可以根据具体的结果类型进行降级处理
   // 例如，移除某些高级字段
   const result = { ...fullResult } as any;
-  
+
   if (level === 'medium') {
     // 中级降级：移除导出和深度分析相关字段
-    delete result.exportUrl;
-    delete result.deepInterpretation;
-    delete result.recommendations;
+    result.exportUrl = undefined;
+    result.deepInterpretation = undefined;
+    result.recommendations = undefined;
   } else if (level === 'lite') {
     // 基础降级：只保留基本信息
     const basicFields = ['id', 'name', 'date', 'basicInfo', 'summary'];
     const liteResult: any = {};
-    
-    basicFields.forEach(field => {
+
+    basicFields.forEach((field) => {
       if (field in result) {
         liteResult[field] = result[field];
       }
     });
-    
+
     return liteResult;
   }
-  
+
   return result;
 }
 
@@ -249,7 +251,7 @@ export function getDegradationSuggestion(
   requiredCredits: number
 ): DegradationSuggestion {
   const shortage = requiredCredits - currentCredits;
-  
+
   if (shortage <= 10) {
     return {
       message: `您还需要 ${shortage} 积分即可使用此功能。`,
@@ -257,19 +259,19 @@ export function getDegradationSuggestion(
       requiredCredits: shortage,
       alternativeOptions: ['使用基础版本', '查看免费示例'],
     };
-  } else if (shortage <= 50) {
+  }
+  if (shortage <= 50) {
     return {
       message: `此功能需要 ${requiredCredits} 积分，您当前有 ${currentCredits} 积分。`,
       suggestedAction: 'use_lite',
       requiredCredits: shortage,
       alternativeOptions: ['使用简化版分析', '充值后使用完整功能'],
     };
-  } else {
-    return {
-      message: `积分不足，建议先充值或使用其他功能。`,
-      suggestedAction: 'try_later',
-      requiredCredits: shortage,
-      alternativeOptions: ['查看免费内容', '了解充值优惠'],
-    };
   }
+  return {
+    message: '积分不足，建议先充值或使用其他功能。',
+    suggestedAction: 'try_later',
+    requiredCredits: shortage,
+    alternativeOptions: ['查看免费内容', '了解充值优惠'],
+  };
 }

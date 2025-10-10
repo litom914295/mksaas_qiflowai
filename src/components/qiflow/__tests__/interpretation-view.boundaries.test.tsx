@@ -10,7 +10,7 @@ function safeRender(el: React.ReactElement) {
 
 // 空数据
 {
-  const html = safeRender(<InterpretationView data={{}} />)
+  const html = safeRender(<InterpretationView data={{}} />);
   assert.ok(typeof html === 'string');
 }
 
@@ -40,7 +40,7 @@ function safeRender(el: React.ReactElement) {
       (_, i) => `Period-${i + 1}-${'详解'.repeat(8)}`
     ),
   };
-  const html = safeRender(<InterpretationView data={data as any} />)
+  const html = safeRender(<InterpretationView data={data as any} />);
   assert.ok(html.includes('HL-1'));
 }
 

@@ -1,5 +1,5 @@
 import { PALACE_TO_BAGUA } from './luoshu';
-import { Mountain, PalaceIndex, Plate, Yun } from './types';
+import type { Mountain, PalaceIndex, Plate, Yun } from './types';
 
 /**
  * 个性化分析模块
@@ -290,7 +290,7 @@ function calculatePersonalCompatibility(
     userProfile.occupation.includes('创意') ||
     userProfile.occupation.includes('艺术')
   ) {
-    const liGong = plate.find(cell => cell.palace === 9);
+    const liGong = plate.find((cell) => cell.palace === 9);
     if (liGong && (liGong.mountainStar === 9 || liGong.facingStar === 9)) {
       score += 2;
       reasons.push('离宫九星有利于创意工作');
@@ -299,8 +299,8 @@ function calculatePersonalCompatibility(
 
   // 根据家庭状况调整
   if (userProfile.livingHabits.hasChildren) {
-    const zhenGong = plate.find(cell => cell.palace === 3);
-    if (zhenGong && zhenGong.mountainStar && zhenGong.mountainStar >= 6) {
+    const zhenGong = plate.find((cell) => cell.palace === 3);
+    if (zhenGong?.mountainStar && zhenGong.mountainStar >= 6) {
       score += 1;
       reasons.push('震宫山星旺，有利于子女成长');
     }
@@ -366,12 +366,12 @@ function generateRoomRecommendations(
 
       // 个性化建议
       if (isPersonalFavorable) {
-        personalizedTips.push(`此方位为您的个人吉方，适合长时间停留`);
+        personalizedTips.push('此方位为您的个人吉方，适合长时间停留');
         if (userProfile.livingHabits.workFromHome) {
           suitableFor.push('家庭办公室');
         }
       } else {
-        personalizedTips.push(`此方位为您的个人凶方，建议短暂停留`);
+        personalizedTips.push('此方位为您的个人凶方，建议短暂停留');
         avoidFor.push('长期工作区域');
       }
 
@@ -444,8 +444,8 @@ function generateCareerEnhancement(
   }
 
   // 寻找最佳会议区域
-  const qianGong = plate.find(cell => cell.palace === 6);
-  if (qianGong && qianGong.mountainStar && qianGong.mountainStar >= 6) {
+  const qianGong = plate.find((cell) => cell.palace === 6);
+  if (qianGong?.mountainStar && qianGong.mountainStar >= 6) {
     meetingArea = 6;
     tips.push('乾宫适合重要会议和决策');
   }
@@ -490,20 +490,20 @@ function generateHealthWellness(
   const healthWarnings: string[] = [];
 
   // 寻找最佳休息区域
-  const kunGong = plate.find(cell => cell.palace === 2);
-  if (kunGong && kunGong.mountainStar && kunGong.mountainStar >= 6) {
+  const kunGong = plate.find((cell) => cell.palace === 2);
+  if (kunGong?.mountainStar && kunGong.mountainStar >= 6) {
     restArea = 2;
   }
 
   // 寻找最佳运动区域
-  const zhenGong = plate.find(cell => cell.palace === 3);
-  if (zhenGong && zhenGong.facingStar && zhenGong.facingStar >= 6) {
+  const zhenGong = plate.find((cell) => cell.palace === 3);
+  if (zhenGong?.facingStar && zhenGong.facingStar >= 6) {
     exerciseArea = 3;
   }
 
   // 寻找最佳冥想区域
-  const kanGong = plate.find(cell => cell.palace === 1);
-  if (kanGong && kanGong.mountainStar && kanGong.mountainStar >= 6) {
+  const kanGong = plate.find((cell) => cell.palace === 1);
+  if (kanGong?.mountainStar && kanGong.mountainStar >= 6) {
     meditationArea = 1;
   }
 
@@ -557,7 +557,7 @@ function generateRelationshipHarmony(
   const relationshipTips: string[] = [];
 
   // 夫妻关系区域（坤宫）
-  const kunGong = plate.find(cell => cell.palace === 2);
+  const kunGong = plate.find((cell) => cell.palace === 2);
   if (kunGong) {
     coupleArea = 2;
     if (kunGong.mountainStar && kunGong.facingStar) {
@@ -568,7 +568,7 @@ function generateRelationshipHarmony(
   }
 
   // 家庭关系区域（艮宫）
-  const genGong = plate.find(cell => cell.palace === 8);
+  const genGong = plate.find((cell) => cell.palace === 8);
   if (genGong) {
     familyArea = 8;
     if (genGong.mountainStar && genGong.mountainStar >= 6) {
@@ -577,7 +577,7 @@ function generateRelationshipHarmony(
   }
 
   // 社交关系区域（兑宫）
-  const duiGong = plate.find(cell => cell.palace === 7);
+  const duiGong = plate.find((cell) => cell.palace === 7);
   if (duiGong) {
     socialArea = 7;
     if (duiGong.facingStar && duiGong.facingStar >= 6) {
@@ -626,15 +626,15 @@ function generateWealthProsperity(
   }
 
   // 投资区域（离宫）
-  const liGong = plate.find(cell => cell.palace === 9);
-  if (liGong && liGong.facingStar && liGong.facingStar >= 6) {
+  const liGong = plate.find((cell) => cell.palace === 9);
+  if (liGong?.facingStar && liGong.facingStar >= 6) {
     investmentArea = 9;
     financialAdvice.push('离宫向星旺，适合进行投资决策');
   }
 
   // 储蓄区域（艮宫）
-  const genGong = plate.find(cell => cell.palace === 8);
-  if (genGong && genGong.mountainStar && genGong.mountainStar >= 6) {
+  const genGong = plate.find((cell) => cell.palace === 8);
+  if (genGong?.mountainStar && genGong.mountainStar >= 6) {
     savingsArea = 8;
     financialAdvice.push('艮宫山星旺，有利于财富积累');
   }

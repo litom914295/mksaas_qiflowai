@@ -26,5 +26,10 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "qiflow-ai", "backup_before_migration", "backup_*"]
+  "exclude": [
+    "node_modules",
+    "qiflow-ai",
+    "backup_before_migration",
+    "backup_*"
+  ]
 }

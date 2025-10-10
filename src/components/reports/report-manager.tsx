@@ -5,21 +5,22 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
-    AlertTriangle,
-    CheckCircle,
-    Clock,
-    Download,
-    Eye,
-    FileText,
-    Filter,
-    MoreVertical,
-    Share2,
-    SortAsc,
-    SortDesc,
-    Trash2,
-    X,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Download,
+  Eye,
+  FileText,
+  Filter,
+  MoreVertical,
+  Share2,
+  SortAsc,
+  SortDesc,
+  Trash2,
+  X,
 } from 'lucide-react';
-import React, { useCallback, useEffect, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // Report record type
 interface ReportRecord {
@@ -79,7 +80,8 @@ export const ReportManager: React.FC = () => {
     const mockReports: ReportRecord[] = [
       {
         id: '1',
-        title: 'Comprehensive Feng Shui Analysis Report - Mr. Zhang\'s Residence',
+        title:
+          "Comprehensive Feng Shui Analysis Report - Mr. Zhang's Residence",
         type: 'comprehensive',
         status: 'completed',
         createdAt: new Date('2024-01-15'),
@@ -168,9 +170,9 @@ export const ReportManager: React.FC = () => {
     // Search filter
     if (filters.search) {
       filtered = filtered.filter(
-        report =>
+        (report) =>
           report.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-          report.tags.some(tag =>
+          report.tags.some((tag) =>
             tag.toLowerCase().includes(filters.search.toLowerCase())
           )
       );
@@ -178,34 +180,35 @@ export const ReportManager: React.FC = () => {
 
     // Type filter
     if (filters.type !== 'all') {
-      filtered = filtered.filter(report => report.type === filters.type);
+      filtered = filtered.filter((report) => report.type === filters.type);
     }
 
     // Status filter
     if (filters.status !== 'all') {
-      filtered = filtered.filter(report => report.status === filters.status);
+      filtered = filtered.filter((report) => report.status === filters.status);
     }
 
     // Grade filter
     if (filters.grade !== 'all') {
-      filtered = filtered.filter(report => report.grade === filters.grade);
+      filtered = filtered.filter((report) => report.grade === filters.grade);
     }
 
     // Date range filter
     if (filters.dateRange.start) {
       filtered = filtered.filter(
-        report => report.createdAt >= filters.dateRange.start!
+        (report) => report.createdAt >= filters.dateRange.start!
       );
     }
     if (filters.dateRange.end) {
       filtered = filtered.filter(
-        report => report.createdAt <= filters.dateRange.end!
+        (report) => report.createdAt <= filters.dateRange.end!
       );
     }
 
     // Sorting
     filtered.sort((a, b) => {
-      let aValue: any, bValue: any;
+      let aValue: any;
+      let bValue: any;
 
       switch (filters.sortBy) {
         case 'title':
@@ -239,9 +242,9 @@ export const ReportManager: React.FC = () => {
 
   // 处理报告选择
   const handleReportSelect = useCallback((reportId: string) => {
-    setSelectedReports(prev =>
+    setSelectedReports((prev) =>
       prev.includes(reportId)
-        ? prev.filter(id => id !== reportId)
+        ? prev.filter((id) => id !== reportId)
         : [...prev, reportId]
     );
   }, []);
@@ -251,13 +254,15 @@ export const ReportManager: React.FC = () => {
     if (selectedReports.length === filteredReports.length) {
       setSelectedReports([]);
     } else {
-      setSelectedReports(filteredReports.map(report => report.id));
+      setSelectedReports(filteredReports.map((report) => report.id));
     }
   }, [filteredReports, selectedReports]);
 
   // 删除报告
   const handleDeleteReports = useCallback((reportIds: string[]) => {
-    setReports(prev => prev.filter(report => !reportIds.includes(report.id)));
+    setReports((prev) =>
+      prev.filter((report) => !reportIds.includes(report.id))
+    );
     setSelectedReports([]);
   }, []);
 
@@ -265,13 +270,13 @@ export const ReportManager: React.FC = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed':
-        return <CheckCircle className='h-4 w-4 text-green-500' />;
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
       case 'generating':
-        return <Clock className='h-4 w-4 text-blue-500 animate-spin' />;
+        return <Clock className="h-4 w-4 text-blue-500 animate-spin" />;
       case 'failed':
-        return <AlertTriangle className='h-4 w-4 text-red-500' />;
+        return <AlertTriangle className="h-4 w-4 text-red-500" />;
       default:
-        return <FileText className='h-4 w-4 text-gray-500' />;
+        return <FileText className="h-4 w-4 text-gray-500" />;
     }
   };
 
@@ -305,24 +310,24 @@ export const ReportManager: React.FC = () => {
   };
 
   return (
-    <div className='w-full max-w-7xl mx-auto p-6 space-y-6'>
-      <div className='flex items-center justify-between'>
+    <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className='text-3xl font-bold text-gray-900'>报告管理</h1>
-          <p className='text-gray-600'>管理和查看您的风水分析报告</p>
+          <h1 className="text-3xl font-bold text-gray-900">报告管理</h1>
+          <p className="text-gray-600">管理和查看您的风水分析报告</p>
         </div>
-        <div className='flex items-center gap-3'>
+        <div className="flex items-center gap-3">
           <Button
-            variant='outline'
+            variant="outline"
             onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
           >
             {viewMode === 'grid' ? '列表视图' : '网格视图'}
           </Button>
           <Button
-            variant='outline'
+            variant="outline"
             onClick={() => setShowFilters(!showFilters)}
           >
-            <Filter className='h-4 w-4 mr-2' />
+            <Filter className="h-4 w-4 mr-2" />
             筛选
           </Button>
         </div>
@@ -332,122 +337,122 @@ export const ReportManager: React.FC = () => {
       {showFilters && (
         <Card>
           <CardHeader>
-            <CardTitle className='flex items-center justify-between'>
+            <CardTitle className="flex items-center justify-between">
               <span>筛选和排序</span>
               <Button
-                variant='ghost'
-                size='sm'
+                variant="ghost"
+                size="sm"
                 onClick={() => setShowFilters(false)}
               >
-                <X className='h-4 w-4' />
+                <X className="h-4 w-4" />
               </Button>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
-                <label className='block text-sm font-medium mb-1'>搜索</label>
+                <label className="block text-sm font-medium mb-1">搜索</label>
                 <Input
-                  placeholder='搜索报告标题或标签...'
+                  placeholder="搜索报告标题或标签..."
                   value={filters.search}
-                  onChange={e =>
-                    setFilters(prev => ({ ...prev, search: e.target.value }))
+                  onChange={(e) =>
+                    setFilters((prev) => ({ ...prev, search: e.target.value }))
                   }
                 />
               </div>
               <div>
-                <label className='block text-sm font-medium mb-1'>类型</label>
+                <label className="block text-sm font-medium mb-1">类型</label>
                 <select
                   value={filters.type}
-                  onChange={e =>
-                    setFilters(prev => ({ ...prev, type: e.target.value }))
+                  onChange={(e) =>
+                    setFilters((prev) => ({ ...prev, type: e.target.value }))
                   }
-                  className='w-full p-2 border rounded-md'
+                  className="w-full p-2 border rounded-md"
                 >
-                  <option value='all'>全部类型</option>
-                  <option value='comprehensive'>综合报告</option>
-                  <option value='basic'>基础报告</option>
-                  <option value='detailed'>详细报告</option>
-                  <option value='executive'>高管摘要</option>
+                  <option value="all">全部类型</option>
+                  <option value="comprehensive">综合报告</option>
+                  <option value="basic">基础报告</option>
+                  <option value="detailed">详细报告</option>
+                  <option value="executive">高管摘要</option>
                 </select>
               </div>
               <div>
-                <label className='block text-sm font-medium mb-1'>状态</label>
+                <label className="block text-sm font-medium mb-1">状态</label>
                 <select
                   value={filters.status}
-                  onChange={e =>
-                    setFilters(prev => ({ ...prev, status: e.target.value }))
+                  onChange={(e) =>
+                    setFilters((prev) => ({ ...prev, status: e.target.value }))
                   }
-                  className='w-full p-2 border rounded-md'
+                  className="w-full p-2 border rounded-md"
                 >
-                  <option value='all'>全部状态</option>
-                  <option value='completed'>已完成</option>
-                  <option value='generating'>生成中</option>
-                  <option value='draft'>草稿</option>
-                  <option value='failed'>失败</option>
+                  <option value="all">全部状态</option>
+                  <option value="completed">已完成</option>
+                  <option value="generating">生成中</option>
+                  <option value="draft">草稿</option>
+                  <option value="failed">失败</option>
                 </select>
               </div>
               <div>
-                <label className='block text-sm font-medium mb-1'>等级</label>
+                <label className="block text-sm font-medium mb-1">等级</label>
                 <select
                   value={filters.grade}
-                  onChange={e =>
-                    setFilters(prev => ({ ...prev, grade: e.target.value }))
+                  onChange={(e) =>
+                    setFilters((prev) => ({ ...prev, grade: e.target.value }))
                   }
-                  className='w-full p-2 border rounded-md'
+                  className="w-full p-2 border rounded-md"
                 >
-                  <option value='all'>全部等级</option>
-                  <option value='A+'>A+</option>
-                  <option value='A'>A</option>
-                  <option value='B+'>B+</option>
-                  <option value='B'>B</option>
-                  <option value='C+'>C+</option>
-                  <option value='C'>C</option>
-                  <option value='D'>D</option>
-                  <option value='F'>F</option>
+                  <option value="all">全部等级</option>
+                  <option value="A+">A+</option>
+                  <option value="A">A</option>
+                  <option value="B+">B+</option>
+                  <option value="B">B</option>
+                  <option value="C+">C+</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="F">F</option>
                 </select>
               </div>
             </div>
-            <div className='mt-4 flex items-center gap-4'>
+            <div className="mt-4 flex items-center gap-4">
               <div>
-                <label className='block text-sm font-medium mb-1'>
+                <label className="block text-sm font-medium mb-1">
                   排序方式
                 </label>
                 <select
                   value={filters.sortBy}
-                  onChange={e =>
-                    setFilters(prev => ({
+                  onChange={(e) =>
+                    setFilters((prev) => ({
                       ...prev,
                       sortBy: e.target.value as any,
                     }))
                   }
-                  className='p-2 border rounded-md'
+                  className="p-2 border rounded-md"
                 >
-                  <option value='createdAt'>创建时间</option>
-                  <option value='updatedAt'>更新时间</option>
-                  <option value='title'>标题</option>
-                  <option value='score'>评分</option>
-                  <option value='fileSize'>文件大小</option>
+                  <option value="createdAt">创建时间</option>
+                  <option value="updatedAt">更新时间</option>
+                  <option value="title">标题</option>
+                  <option value="score">评分</option>
+                  <option value="fileSize">文件大小</option>
                 </select>
               </div>
               <div>
-                <label className='block text-sm font-medium mb-1'>
+                <label className="block text-sm font-medium mb-1">
                   排序顺序
                 </label>
                 <Button
-                  variant='outline'
-                  size='sm'
+                  variant="outline"
+                  size="sm"
                   onClick={() =>
-                    setFilters(prev => ({
+                    setFilters((prev) => ({
                       ...prev,
                       sortOrder: prev.sortOrder === 'asc' ? 'desc' : 'asc',
                     }))
                   }
                 >
                   {filters.sortOrder === 'asc' ? (
-                    <SortAsc className='h-4 w-4' />
+                    <SortAsc className="h-4 w-4" />
                   ) : (
-                    <SortDesc className='h-4 w-4' />
+                    <SortDesc className="h-4 w-4" />
                   )}
                 </Button>
               </div>
@@ -459,23 +464,23 @@ export const ReportManager: React.FC = () => {
       {/* 批量操作 */}
       {selectedReports.length > 0 && (
         <Card>
-          <CardContent className='p-4'>
-            <div className='flex items-center justify-between'>
-              <span className='text-sm text-gray-600'>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600">
                 已选择 {selectedReports.length} 个报告
               </span>
-              <div className='flex items-center gap-2'>
+              <div className="flex items-center gap-2">
                 <Button
-                  variant='outline'
-                  size='sm'
+                  variant="outline"
+                  size="sm"
                   onClick={() => handleDeleteReports(selectedReports)}
                 >
-                  <Trash2 className='h-4 w-4 mr-2' />
+                  <Trash2 className="h-4 w-4 mr-2" />
                   删除
                 </Button>
                 <Button
-                  variant='outline'
-                  size='sm'
+                  variant="outline"
+                  size="sm"
                   onClick={() => setSelectedReports([])}
                 >
                   取消选择
@@ -487,15 +492,15 @@ export const ReportManager: React.FC = () => {
       )}
 
       {/* 报告列表 */}
-      <div className='space-y-4'>
+      <div className="space-y-4">
         {filteredReports.length === 0 ? (
           <Card>
-            <CardContent className='p-12 text-center'>
-              <FileText className='h-16 w-16 text-gray-400 mx-auto mb-4' />
-              <h3 className='text-lg font-semibold text-gray-900 mb-2'>
+            <CardContent className="p-12 text-center">
+              <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 没有找到报告
               </h3>
-              <p className='text-gray-600'>尝试调整筛选条件或创建新报告</p>
+              <p className="text-gray-600">尝试调整筛选条件或创建新报告</p>
             </CardContent>
           </Card>
         ) : (
@@ -506,7 +511,7 @@ export const ReportManager: React.FC = () => {
                 : 'space-y-4'
             }
           >
-            {filteredReports.map(report => (
+            {filteredReports.map((report) => (
               <Card
                 key={report.id}
                 className={`cursor-pointer transition-all hover:shadow-md ${
@@ -516,15 +521,15 @@ export const ReportManager: React.FC = () => {
                 }`}
                 onClick={() => handleReportSelect(report.id)}
               >
-                <CardContent className='p-6'>
-                  <div className='flex items-start justify-between mb-4'>
-                    <div className='flex-1'>
-                      <h3 className='font-semibold text-lg mb-2 line-clamp-2'>
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg mb-2 line-clamp-2">
                         {report.title}
                       </h3>
-                      <div className='flex items-center gap-2 mb-2'>
+                      <div className="flex items-center gap-2 mb-2">
                         {getStatusIcon(report.status)}
-                        <Badge variant='outline'>
+                        <Badge variant="outline">
                           {report.type === 'comprehensive'
                             ? '综合'
                             : report.type === 'basic'
@@ -539,59 +544,59 @@ export const ReportManager: React.FC = () => {
                       </div>
                     </div>
                     <Button
-                      variant='ghost'
-                      size='sm'
-                      onClick={e => {
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => {
                         e.stopPropagation();
                         // 显示更多选项
                       }}
                     >
-                      <MoreVertical className='h-4 w-4' />
+                      <MoreVertical className="h-4 w-4" />
                     </Button>
                   </div>
 
-                  <div className='space-y-2 text-sm text-gray-600'>
-                    <div className='flex items-center justify-between'>
+                  <div className="space-y-2 text-sm text-gray-600">
+                    <div className="flex items-center justify-between">
                       <span>创建时间:</span>
                       <span>
                         {report.createdAt.toLocaleDateString('zh-CN')}
                       </span>
                     </div>
                     {report.fileSize && (
-                      <div className='flex items-center justify-between'>
+                      <div className="flex items-center justify-between">
                         <span>文件大小:</span>
                         <span>{formatFileSize(report.fileSize)}</span>
                       </div>
                     )}
-                    <div className='flex items-center justify-between'>
+                    <div className="flex items-center justify-between">
                       <span>评分:</span>
-                      <span className='font-medium'>{report.score}/100</span>
+                      <span className="font-medium">{report.score}/100</span>
                     </div>
-                    <div className='flex items-center justify-between'>
+                    <div className="flex items-center justify-between">
                       <span>下载次数:</span>
                       <span>{report.downloadCount}</span>
                     </div>
                   </div>
 
-                  <div className='mt-4 flex flex-wrap gap-1'>
-                    {report.tags.map(tag => (
-                      <Badge key={tag} variant='secondary' className='text-xs'>
+                  <div className="mt-4 flex flex-wrap gap-1">
+                    {report.tags.map((tag) => (
+                      <Badge key={tag} variant="secondary" className="text-xs">
                         {tag}
                       </Badge>
                     ))}
                   </div>
 
-                  <div className='mt-4 flex items-center gap-2'>
-                    <Button size='sm' variant='outline'>
-                      <Eye className='h-4 w-4 mr-1' />
+                  <div className="mt-4 flex items-center gap-2">
+                    <Button size="sm" variant="outline">
+                      <Eye className="h-4 w-4 mr-1" />
                       查看
                     </Button>
-                    <Button size='sm' variant='outline'>
-                      <Download className='h-4 w-4 mr-1' />
+                    <Button size="sm" variant="outline">
+                      <Download className="h-4 w-4 mr-1" />
                       下载
                     </Button>
-                    <Button size='sm' variant='outline'>
-                      <Share2 className='h-4 w-4 mr-1' />
+                    <Button size="sm" variant="outline">
+                      <Share2 className="h-4 w-4 mr-1" />
                       分享
                     </Button>
                   </div>
@@ -603,15 +608,15 @@ export const ReportManager: React.FC = () => {
       </div>
 
       {/* 分页 */}
-      <div className='flex items-center justify-between'>
-        <div className='text-sm text-gray-600'>
+      <div className="flex items-center justify-between">
+        <div className="text-sm text-gray-600">
           显示 {filteredReports.length} 个报告，共 {reports.length} 个
         </div>
-        <div className='flex items-center gap-2'>
-          <Button variant='outline' size='sm' disabled>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" disabled>
             上一页
           </Button>
-          <Button variant='outline' size='sm' disabled>
+          <Button variant="outline" size="sm" disabled>
             下一页
           </Button>
         </div>
@@ -621,4 +626,3 @@ export const ReportManager: React.FC = () => {
 };
 
 export default ReportManager;
-

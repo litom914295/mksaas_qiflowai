@@ -1,11 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Compass, MapPin, Home, Sparkles, RotateCcw, TestTube } from 'lucide-react';
+import {
+  Compass,
+  Home,
+  MapPin,
+  RotateCcw,
+  Sparkles,
+  TestTube,
+} from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface CompassFormData {
@@ -19,20 +32,20 @@ const STORAGE_KEY = 'compass_form_data';
 const TEST_DATA: CompassFormData = {
   address: '北京市朝阳区建国路88号',
   direction: '270',
-  houseType: '住宅'
+  houseType: '住宅',
 };
 
 export default function CompassAnalysisPage() {
   const [formData, setFormData] = useState<CompassFormData>({
     address: '',
     direction: '',
-    houseType: ''
+    houseType: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<any>(null);
 
   const handleChange = (field: keyof CompassFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const fillTestData = () => {
@@ -57,7 +70,7 @@ export default function CompassAnalysisPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.address || !formData.direction || !formData.houseType) {
       toast.error('请填写所有必填项');
       return;
@@ -72,16 +85,18 @@ export default function CompassAnalysisPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           address: formData.address,
-          direction: parseInt(formData.direction),
+          direction: Number.parseInt(formData.direction),
           houseType: formData.houseType,
-        })
+        }),
       });
 
       const data = await response.json();
-      
+
       if (response.ok && data.success) {
         setResult(data.data);
-        toast.success(`分析完成！置信度: ${(data.confidence * 100).toFixed(0)}%`);
+        toast.success(
+          `分析完成！置信度: ${(data.confidence * 100).toFixed(0)}%`
+        );
       } else {
         toast.error(data.error || '分析失败');
       }
@@ -101,7 +116,9 @@ export default function CompassAnalysisPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-600 mb-4">
             <Compass className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-3">玄空风水罗盘分析</h1>
+          <h1 className="text-4xl font-bold text-white mb-3">
+            玄空风水罗盘分析
+          </h1>
           <p className="text-slate-300">精准测定方位，解读风水玄机</p>
         </div>
 
@@ -117,7 +134,10 @@ export default function CompassAnalysisPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Address */}
               <div className="space-y-2">
-                <Label htmlFor="address" className="text-slate-200 flex items-center gap-2">
+                <Label
+                  htmlFor="address"
+                  className="text-slate-200 flex items-center gap-2"
+                >
                   <MapPin className="w-4 h-4" />
                   房屋地址
                 </Label>
@@ -133,7 +153,10 @@ export default function CompassAnalysisPage() {
 
               {/* Direction */}
               <div className="space-y-2">
-                <Label htmlFor="direction" className="text-slate-200 flex items-center gap-2">
+                <Label
+                  htmlFor="direction"
+                  className="text-slate-200 flex items-center gap-2"
+                >
                   <Compass className="w-4 h-4" />
                   房屋朝向（度数）
                 </Label>
@@ -155,7 +178,10 @@ export default function CompassAnalysisPage() {
 
               {/* House Type */}
               <div className="space-y-2">
-                <Label htmlFor="houseType" className="text-slate-200 flex items-center gap-2">
+                <Label
+                  htmlFor="houseType"
+                  className="text-slate-200 flex items-center gap-2"
+                >
                   <Home className="w-4 h-4" />
                   房屋类型
                 </Label>
@@ -215,38 +241,52 @@ export default function CompassAnalysisPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-slate-400 text-sm">地址</p>
-                  <p className="text-white text-base font-semibold">{result.address}</p>
+                  <p className="text-white text-base font-semibold">
+                    {result.address}
+                  </p>
                 </div>
                 <div>
                   <p className="text-slate-400 text-sm">朝向</p>
-                  <p className="text-white text-lg font-semibold">{result.direction}</p>
+                  <p className="text-white text-lg font-semibold">
+                    {result.direction}
+                  </p>
                 </div>
                 <div>
                   <p className="text-slate-400 text-sm">房屋类型</p>
-                  <p className="text-white text-lg font-semibold">{result.houseType}</p>
+                  <p className="text-white text-lg font-semibold">
+                    {result.houseType}
+                  </p>
                 </div>
                 <div>
                   <p className="text-slate-400 text-sm">元运</p>
-                  <p className="text-white text-lg font-semibold">第 {result.period} 运</p>
+                  <p className="text-white text-lg font-semibold">
+                    第 {result.period} 运
+                  </p>
                 </div>
               </div>
 
               {/* Geju Analysis */}
               {result.geju && (
                 <div className="bg-slate-800/50 p-4 rounded-lg">
-                  <h3 className="text-white font-semibold text-lg mb-3">格局分析</h3>
+                  <h3 className="text-white font-semibold text-lg mb-3">
+                    格局分析
+                  </h3>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        result.geju.isFavorable 
-                          ? 'bg-emerald-500/20 text-emerald-400' 
-                          : 'bg-orange-500/20 text-orange-400'
-                      }`}>
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          result.geju.isFavorable
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : 'bg-orange-500/20 text-orange-400'
+                        }`}
+                      >
                         {result.geju.isFavorable ? '吉利格局' : '普通格局'}
                       </span>
                       <span className="text-slate-300">{result.geju.name}</span>
                     </div>
-                    <p className="text-slate-400 text-sm mt-2">{result.geju.description}</p>
+                    <p className="text-slate-400 text-sm mt-2">
+                      {result.geju.description}
+                    </p>
                   </div>
                 </div>
               )}
@@ -258,8 +298,12 @@ export default function CompassAnalysisPage() {
                     <h4 className="text-purple-300 font-semibold mb-2 flex items-center gap-2">
                       📚 文昌位
                     </h4>
-                    <p className="text-white text-xl font-bold">{result.wenchangwei}</p>
-                    <p className="text-purple-200 text-sm mt-1">适合学习、工作、考试</p>
+                    <p className="text-white text-xl font-bold">
+                      {result.wenchangwei}
+                    </p>
+                    <p className="text-purple-200 text-sm mt-1">
+                      适合学习、工作、考试
+                    </p>
                   </div>
                 )}
                 {result.caiwei && (
@@ -267,8 +311,12 @@ export default function CompassAnalysisPage() {
                     <h4 className="text-amber-300 font-semibold mb-2 flex items-center gap-2">
                       💰 财位
                     </h4>
-                    <p className="text-white text-xl font-bold">{result.caiwei}</p>
-                    <p className="text-amber-200 text-sm mt-1">适合放置保险柜、财神</p>
+                    <p className="text-white text-xl font-bold">
+                      {result.caiwei}
+                    </p>
+                    <p className="text-amber-200 text-sm mt-1">
+                      适合放置保险柜、财神
+                    </p>
                   </div>
                 )}
               </div>
@@ -276,44 +324,62 @@ export default function CompassAnalysisPage() {
               {/* Evaluation Details */}
               {result.evaluation && (
                 <div className="space-y-3">
-                  <h3 className="text-white font-semibold text-lg">各宫位评估</h3>
+                  <h3 className="text-white font-semibold text-lg">
+                    各宫位评估
+                  </h3>
                   <div className="grid grid-cols-1 gap-2">
-                    {Object.entries(result.evaluation).map(([palace, data]: [string, any]) => (
-                      <div key={palace} className="bg-slate-800/50 p-3 rounded-lg">
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-300 font-medium">{palace}宫</span>
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${
-                            data.rating === '大吉' ? 'bg-green-500/20 text-green-400' :
-                            data.rating === '吉' ? 'bg-emerald-500/20 text-emerald-400' :
-                            data.rating === '凶' ? 'bg-orange-500/20 text-orange-400' :
-                            data.rating === '大凶' ? 'bg-red-500/20 text-red-400' :
-                            'bg-slate-500/20 text-slate-400'
-                          }`}>
-                            {data.rating}
-                          </span>
+                    {Object.entries(result.evaluation).map(
+                      ([palace, data]: [string, any]) => (
+                        <div
+                          key={palace}
+                          className="bg-slate-800/50 p-3 rounded-lg"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-300 font-medium">
+                              {palace}宫
+                            </span>
+                            <span
+                              className={`px-2 py-1 rounded text-xs font-medium ${
+                                data.rating === '大吉'
+                                  ? 'bg-green-500/20 text-green-400'
+                                  : data.rating === '吉'
+                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                    : data.rating === '凶'
+                                      ? 'bg-orange-500/20 text-orange-400'
+                                      : data.rating === '大凶'
+                                        ? 'bg-red-500/20 text-red-400'
+                                        : 'bg-slate-500/20 text-slate-400'
+                              }`}
+                            >
+                              {data.rating}
+                            </span>
+                          </div>
+                          {data.interpretation && (
+                            <p className="text-slate-400 text-sm mt-2">
+                              {data.interpretation}
+                            </p>
+                          )}
                         </div>
-                        {data.interpretation && (
-                          <p className="text-slate-400 text-sm mt-2">{data.interpretation}</p>
-                        )}
-                      </div>
-                    ))}
+                      )
+                    )}
                   </div>
                 </div>
               )}
 
               {/* Meta Info */}
-              {result.meta && result.meta.rulesApplied && result.meta.rulesApplied.length > 0 && (
-                <div className="bg-slate-800/30 p-3 rounded-lg">
-                  <p className="text-slate-400 text-sm">
-                    应用规则: {result.meta.rulesApplied.join(', ')}
-                  </p>
-                  {result.meta.ambiguous && (
-                    <p className="text-orange-400 text-sm mt-1">
-                      ⚠️ 存在边界情况，建议进一步确认朝向
+              {result.meta?.rulesApplied &&
+                result.meta.rulesApplied.length > 0 && (
+                  <div className="bg-slate-800/30 p-3 rounded-lg">
+                    <p className="text-slate-400 text-sm">
+                      应用规则: {result.meta.rulesApplied.join(', ')}
                     </p>
-                  )}
-                </div>
-              )}
+                    {result.meta.ambiguous && (
+                      <p className="text-orange-400 text-sm mt-1">
+                        ⚠️ 存在边界情况，建议进一步确认朝向
+                      </p>
+                    )}
+                  </div>
+                )}
             </CardContent>
           </Card>
         )}

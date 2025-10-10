@@ -21,7 +21,13 @@ class SimpleMonitor {
 
   track(metric: Metric) {
     this.queue.push(metric);
-    console.log('[Perf]', metric.name, metric.value.toFixed(2), 'ms', metric.label);
+    console.log(
+      '[Perf]',
+      metric.name,
+      metric.value.toFixed(2),
+      'ms',
+      metric.label
+    );
 
     if (!this.isBuffering) {
       this.send([metric]);
@@ -50,12 +56,24 @@ class SimpleMonitor {
   }
 }
 
-export const monitor = typeof window !== 'undefined' ? new SimpleMonitor() : null;
+export const monitor =
+  typeof window !== 'undefined' ? new SimpleMonitor() : null;
 
-export function trackWebVital(metric: { name: string; value: number; delta: number; id: string }) {
+export function trackWebVital(metric: {
+  name: string;
+  value: number;
+  delta: number;
+  id: string;
+}) {
   monitor?.track(metric);
 }
 
 export function trackCustom(name: string, value: number, label?: string) {
-  monitor?.track({ name, value, delta: value, id: `custom-${Date.now()}`, label });
+  monitor?.track({
+    name,
+    value,
+    delta: value,
+    id: `custom-${Date.now()}`,
+    label,
+  });
 }

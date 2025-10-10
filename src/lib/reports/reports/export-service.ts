@@ -454,7 +454,9 @@ export class CSVExportService {
       ]),
     ];
 
-    return rows.map(row => row.map((cell: any) => `"${cell}"`).join(',')).join('\n');
+    return rows
+      .map((row) => row.map((cell: any) => `"${cell}"`).join(','))
+      .join('\n');
   }
 }
 
@@ -552,4 +554,3 @@ export class ReportExportService {
 
 // 默认导出
 export const reportExportService = new ReportExportService();
-

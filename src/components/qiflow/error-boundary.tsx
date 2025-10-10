@@ -1,9 +1,15 @@
 'use client';
 
-import React from 'react';
-import { AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { AlertCircle } from 'lucide-react';
+import React from 'react';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -15,7 +21,10 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -27,7 +36,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+
     // 这里可以将错误发送到监控服务
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'exception', {
@@ -44,12 +53,19 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   render() {
     if (this.state.hasError && this.state.error) {
       const { fallback: Fallback } = this.props;
-      
+
       if (Fallback) {
-        return <Fallback error={this.state.error} resetError={this.resetError} />;
+        return (
+          <Fallback error={this.state.error} resetError={this.resetError} />
+        );
       }
 
-      return <DefaultErrorFallback error={this.state.error} resetError={this.resetError} />;
+      return (
+        <DefaultErrorFallback
+          error={this.state.error}
+          resetError={this.resetError}
+        />
+      );
     }
 
     return this.props.children;
@@ -57,10 +73,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 }
 
 // 默认错误回退组件
-export function DefaultErrorFallback({ 
-  error, 
-  resetError 
-}: { 
+export function DefaultErrorFallback({
+  error,
+  resetError,
+}: {
   error: Error;
   resetError: () => void;
 }) {
@@ -88,8 +104,8 @@ export function DefaultErrorFallback({
             <Button onClick={resetError} variant="default">
               重试
             </Button>
-            <Button 
-              onClick={() => window.location.href = '/'} 
+            <Button
+              onClick={() => (window.location.href = '/')}
               variant="outline"
             >
               返回首页
@@ -102,18 +118,20 @@ export function DefaultErrorFallback({
 }
 
 // 异步错误边界（用于Suspense）
-export function AsyncErrorBoundary({ 
+export function AsyncErrorBoundary({
   children,
-  fallback 
-}: { 
+  fallback,
+}: {
   children: React.ReactNode;
   fallback?: React.ReactNode;
 }) {
   return (
     <ErrorBoundary
-      fallback={({ error, resetError }) => (
-        fallback || <DefaultErrorFallback error={error} resetError={resetError} />
-      )}
+      fallback={({ error, resetError }) =>
+        fallback || (
+          <DefaultErrorFallback error={error} resetError={resetError} />
+        )
+      }
     >
       {children}
     </ErrorBoundary>

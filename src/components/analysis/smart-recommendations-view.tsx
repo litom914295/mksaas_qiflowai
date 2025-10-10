@@ -130,7 +130,10 @@ export function SmartRecommendationsView({
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <p className="text-3xl font-bold text-orange-600">
-                {prioritizedActions.filter((a: any) => a.priority === 'high').length}
+                {
+                  prioritizedActions.filter((a: any) => a.priority === 'high')
+                    .length
+                }
               </p>
               <p className="text-sm text-muted-foreground mt-1">高优先级</p>
             </div>
@@ -174,14 +177,19 @@ export function SmartRecommendationsView({
                       </span>
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-medium mb-1">{win.title || win.type || '快速建议'}</h4>
+                      <h4 className="font-medium mb-1">
+                        {win.title || win.type || '快速建议'}
+                      </h4>
                       <p className="text-sm text-muted-foreground mb-2">
                         {win.description || win.content || '暂无详细描述'}
                       </p>
                       <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                         <span>⏱️ 耗时: {win.estimatedTime || '待评估'}</span>
                         <span>💰 成本: {win.estimatedCost || '待评估'}</span>
-                        <span>📈 预期效果: {win.expectedImpact || win.priority || '中等'}</span>
+                        <span>
+                          📈 预期效果:{' '}
+                          {win.expectedImpact || win.priority || '中等'}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -309,8 +317,12 @@ export function SmartRecommendationsView({
                   <div className="flex-1 pb-8">
                     <div className="bg-muted/50 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium">{phase.name || phase.title || `第${idx + 1}阶段`}</h4>
-                        <Badge variant="outline">{phase.duration || '持续进行'}</Badge>
+                        <h4 className="font-medium">
+                          {phase.name || phase.title || `第${idx + 1}阶段`}
+                        </h4>
+                        <Badge variant="outline">
+                          {phase.duration || '持续进行'}
+                        </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mb-3">
                         {phase.description}

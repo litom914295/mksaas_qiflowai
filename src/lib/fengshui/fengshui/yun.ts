@@ -1,4 +1,4 @@
-import { Yun } from './types';
+import type { Yun } from './types';
 
 const PERIOD_START_YEAR = 1864; // inclusive
 const PERIOD_END_YEAR = 2043; // inclusive
@@ -22,5 +22,3 @@ export function getYunInfo(date: Date): { period: Yun; isBoundary: boolean } {
   const diffDays = Math.abs((date.getTime() - jan1) / (1000 * 60 * 60 * 24));
   return { period, isBoundary: diffDays <= 15 };
 }
-
-

@@ -2,7 +2,7 @@
  * Smart space mapping algorithm type definitions
  */
 
-import { Point } from '../image-processing/types';
+import type { Point } from '../image-processing/types';
 
 export interface SpaceMappingConfig {
   enableAutoRotation: boolean;
@@ -89,4 +89,3 @@ export interface SpaceMappingState {
   gridMapping: GridMapping | null;
   validation: MappingValidation | null;
 }
-

@@ -2,6 +2,7 @@
 
 import { LoginWrapper } from '@/components/auth/login-wrapper';
 import Container from '@/components/layout/container';
+import { CreditsNavBadge } from '@/components/layout/credits-nav-badge';
 import { ModeSwitcher } from '@/components/layout/mode-switcher';
 import { NavbarMobile } from '@/components/layout/navbar-mobile';
 import { UserButton } from '@/components/layout/user-button';
@@ -240,7 +241,7 @@ export function Navbar({ scroll }: NavBarProps) {
               <Skeleton className="size-8 border rounded-full" />
             ) : currentUser ? (
               <>
-                {/* <CreditsBalanceButton /> */}
+                <CreditsNavBadge />
                 <UserButton user={currentUser} />
               </>
             ) : (

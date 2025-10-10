@@ -103,11 +103,17 @@ export function TiguaAnalysisView({
                     <div className="grid grid-cols-2 gap-2 text-sm">
                       <div>
                         <span className="text-muted-foreground">运星:</span>{' '}
-                        <strong>{analysis.originalPattern?.period || '5'}运</strong>
+                        <strong>
+                          {analysis.originalPattern?.period || '5'}运
+                        </strong>
                       </div>
                       <div>
                         <span className="text-muted-foreground">坐向:</span>{' '}
-                        <strong>{analysis.originalPattern?.facing?.direction || recommendedRule?.zuo || '未知'}</strong>
+                        <strong>
+                          {analysis.originalPattern?.facing?.direction ||
+                            recommendedRule?.zuo ||
+                            '未知'}
+                        </strong>
                       </div>
                     </div>
                   </div>
@@ -125,7 +131,9 @@ export function TiguaAnalysisView({
                     </div>
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    原盘特征: {analysis.originalPattern?.characteristics || '常规飞星布局'}
+                    原盘特征:{' '}
+                    {analysis.originalPattern?.characteristics ||
+                      '常规飞星布局'}
                   </div>
                 </div>
               </CardContent>
@@ -194,19 +202,21 @@ export function TiguaAnalysisView({
                     ✓ 改善方面
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {analysis.improvements?.map((improvement: any, idx: number) => (
-                      <div
-                        key={idx}
-                        className="border-l-4 border-green-500 pl-3 py-2 bg-green-50"
-                      >
-                        <p className="text-sm font-medium">
-                          {improvement.aspect}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {improvement.description}
-                        </p>
-                      </div>
-                    )) || (
+                    {analysis.improvements?.map(
+                      (improvement: any, idx: number) => (
+                        <div
+                          key={idx}
+                          className="border-l-4 border-green-500 pl-3 py-2 bg-green-50"
+                        >
+                          <p className="text-sm font-medium">
+                            {improvement.aspect}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {improvement.description}
+                          </p>
+                        </div>
+                      )
+                    ) || (
                       <div className="col-span-2 text-sm text-muted-foreground">
                         暂无具体改善数据
                       </div>
@@ -270,9 +280,13 @@ export function TiguaAnalysisView({
                         </span>
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-medium mb-1">{rec.description || rec.title || `替卦建议${idx + 1}`}</h4>
+                        <h4 className="font-medium mb-1">
+                          {rec.description || rec.title || `替卦建议${idx + 1}`}
+                        </h4>
                         <p className="text-sm text-muted-foreground mb-2">
-                          {rec.detailedExplanation || rec.description || '替卦应用建议'}
+                          {rec.detailedExplanation ||
+                            rec.description ||
+                            '替卦应用建议'}
                         </p>
                         {rec.modernApplication && (
                           <div className="text-xs text-muted-foreground mb-2">

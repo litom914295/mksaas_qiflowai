@@ -1,6 +1,6 @@
 /**
  * 风水罗盘类型定义
- * 
+ *
  * 基于FengShuiCompass项目移植，适配React + TypeScript + Konva.js
  * 提供完整的风水罗盘类型系统
  */
@@ -97,7 +97,7 @@ export interface AIAnalysisResult {
 }
 
 // 罗盘事件类型
-export type CompassEventType = 
+export type CompassEventType =
   | 'direction_change'
   | 'calibration_start'
   | 'calibration_complete'
@@ -156,7 +156,7 @@ export const COMPASS_THEMES = {
     textColor: '#ffffff',
     scaleColor: '#ff0000',
     tianxinCrossColor: '#ff0000',
-    layerColors: ['#2a2a2a', '#3a3a3a', '#4a4a4a']
+    layerColors: ['#2a2a2a', '#3a3a3a', '#4a4a4a'],
   },
   modern: {
     name: '现代',
@@ -165,7 +165,7 @@ export const COMPASS_THEMES = {
     textColor: '#f1f5f9',
     scaleColor: '#ef4444',
     tianxinCrossColor: '#ef4444',
-    layerColors: ['#1e293b', '#334155', '#475569']
+    layerColors: ['#1e293b', '#334155', '#475569'],
   },
   traditional: {
     name: '传统',
@@ -174,7 +174,7 @@ export const COMPASS_THEMES = {
     textColor: '#fef3c7',
     scaleColor: '#dc2626',
     tianxinCrossColor: '#dc2626',
-    layerColors: ['#92400e', '#a16207', '#ca8a04']
+    layerColors: ['#92400e', '#a16207', '#ca8a04'],
   },
   elegant: {
     name: '优雅紫韵',
@@ -183,7 +183,7 @@ export const COMPASS_THEMES = {
     textColor: '#e0e7ff',
     scaleColor: '#f59e0b',
     tianxinCrossColor: '#f59e0b',
-    layerColors: ['#312e81', '#3730a3', '#4338ca']
+    layerColors: ['#312e81', '#3730a3', '#4338ca'],
   },
   nature: {
     name: '自然翠绿',
@@ -192,7 +192,7 @@ export const COMPASS_THEMES = {
     textColor: '#ecfdf5',
     scaleColor: '#f59e0b',
     tianxinCrossColor: '#f59e0b',
-    layerColors: ['#065f46', '#047857', '#059669']
+    layerColors: ['#065f46', '#047857', '#059669'],
   },
   golden: {
     name: '金辉典雅',
@@ -201,7 +201,7 @@ export const COMPASS_THEMES = {
     textColor: '#fef3c7',
     scaleColor: '#dc2626',
     tianxinCrossColor: '#dc2626',
-    layerColors: ['#92400e', '#a16207', '#ca8a04']
+    layerColors: ['#92400e', '#a16207', '#ca8a04'],
   },
   ocean: {
     name: '深海蓝韵',
@@ -210,8 +210,8 @@ export const COMPASS_THEMES = {
     textColor: '#e0f2fe',
     scaleColor: '#f97316',
     tianxinCrossColor: '#f97316',
-    layerColors: ['#075985', '#0369a1', '#0284c7']
-  }
+    layerColors: ['#075985', '#0369a1', '#0284c7'],
+  },
 } as const;
 
 // 导出常量

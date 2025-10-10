@@ -2,10 +2,16 @@
 
 import { PerformanceDashboard } from '@/components/qiflow/performance/PerformanceDashboard';
 import { WebVitals } from '@/components/qiflow/performance/WebVitals';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Activity, RefreshCw, TrendingUp, Zap } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function PerformancePage() {
   const [isMonitoring, setIsMonitoring] = useState(false);
@@ -21,10 +27,12 @@ export default function PerformancePage() {
     if (isMonitoring) {
       // 模拟收集性能数据
       const collectMetrics = () => {
-        const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+        const navigation = performance.getEntriesByType(
+          'navigation'
+        )[0] as PerformanceNavigationTiming;
         if (navigation) {
           setMetrics({
-            lcp: 2100,  // 模拟数据
+            lcp: 2100, // 模拟数据
             fcp: 1200,
             cls: 0.05,
             ttfb: navigation.responseStart - navigation.requestStart,
@@ -52,9 +60,9 @@ export default function PerformancePage() {
             实时监控Web Vitals指标，优化用户体验
           </p>
         </div>
-        <Button 
+        <Button
           onClick={() => setIsMonitoring(!isMonitoring)}
-          variant={isMonitoring ? "destructive" : "default"}
+          variant={isMonitoring ? 'destructive' : 'default'}
         >
           {isMonitoring ? (
             <>停止监控</>
@@ -79,11 +87,11 @@ export default function PerformancePage() {
             <div className="text-2xl font-bold">
               {metrics.lcp ? `${metrics.lcp}ms` : '--'}
             </div>
-            <p className="text-xs text-muted-foreground">
-              目标: &lt; 2500ms
-            </p>
+            <p className="text-xs text-muted-foreground">目标: &lt; 2500ms</p>
             {metrics.lcp && (
-              <div className={`text-xs mt-1 ${metrics.lcp < 2500 ? 'text-green-500' : 'text-red-500'}`}>
+              <div
+                className={`text-xs mt-1 ${metrics.lcp < 2500 ? 'text-green-500' : 'text-red-500'}`}
+              >
                 {metrics.lcp < 2500 ? '✓ 良好' : '✗ 需要优化'}
               </div>
             )}
@@ -100,11 +108,11 @@ export default function PerformancePage() {
             <div className="text-2xl font-bold">
               {metrics.fcp ? `${metrics.fcp}ms` : '--'}
             </div>
-            <p className="text-xs text-muted-foreground">
-              目标: &lt; 1800ms
-            </p>
+            <p className="text-xs text-muted-foreground">目标: &lt; 1800ms</p>
             {metrics.fcp && (
-              <div className={`text-xs mt-1 ${metrics.fcp < 1800 ? 'text-green-500' : 'text-red-500'}`}>
+              <div
+                className={`text-xs mt-1 ${metrics.fcp < 1800 ? 'text-green-500' : 'text-red-500'}`}
+              >
                 {metrics.fcp < 1800 ? '✓ 良好' : '✗ 需要优化'}
               </div>
             )}
@@ -121,11 +129,11 @@ export default function PerformancePage() {
             <div className="text-2xl font-bold">
               {metrics.cls !== null ? metrics.cls.toFixed(3) : '--'}
             </div>
-            <p className="text-xs text-muted-foreground">
-              目标: &lt; 0.1
-            </p>
+            <p className="text-xs text-muted-foreground">目标: &lt; 0.1</p>
             {metrics.cls !== null && (
-              <div className={`text-xs mt-1 ${metrics.cls < 0.1 ? 'text-green-500' : 'text-red-500'}`}>
+              <div
+                className={`text-xs mt-1 ${metrics.cls < 0.1 ? 'text-green-500' : 'text-red-500'}`}
+              >
                 {metrics.cls < 0.1 ? '✓ 良好' : '✗ 需要优化'}
               </div>
             )}
@@ -142,11 +150,11 @@ export default function PerformancePage() {
             <div className="text-2xl font-bold">
               {metrics.inp ? `${metrics.inp}ms` : '--'}
             </div>
-            <p className="text-xs text-muted-foreground">
-              目标: &lt; 200ms
-            </p>
+            <p className="text-xs text-muted-foreground">目标: &lt; 200ms</p>
             {metrics.inp && (
-              <div className={`text-xs mt-1 ${metrics.inp < 200 ? 'text-green-500' : 'text-red-500'}`}>
+              <div
+                className={`text-xs mt-1 ${metrics.inp < 200 ? 'text-green-500' : 'text-red-500'}`}
+              >
                 {metrics.inp < 200 ? '✓ 良好' : '✗ 需要优化'}
               </div>
             )}
@@ -164,9 +172,7 @@ export default function PerformancePage() {
             <TrendingUp className="w-5 h-5" />
             性能优化建议
           </CardTitle>
-          <CardDescription>
-            基于当前性能数据的优化建议
-          </CardDescription>
+          <CardDescription>基于当前性能数据的优化建议</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -213,7 +219,7 @@ export default function PerformancePage() {
       {/* 实时监控状态 */}
       {isMonitoring && (
         <div className="fixed bottom-4 left-4 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+          <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
           <span className="text-sm font-medium">监控中...</span>
         </div>
       )}

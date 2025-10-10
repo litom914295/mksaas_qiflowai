@@ -8,12 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import type {
-  ComprehensiveAnalysisResult,
-} from '@/lib/qiflow/xuankong/comprehensive-engine';
-import type {
-  EnhancedXuankongPlate,
-} from '@/types/qiflow/xuankong';
+import type { ComprehensiveAnalysisResult } from '@/lib/qiflow/xuankong/comprehensive-engine';
+import type { EnhancedXuankongPlate } from '@/types/qiflow/xuankong';
 import { AlertTriangle, Compass, Star, TrendingUp } from 'lucide-react';
 import React from 'react';
 import { InteractiveFlyingStarGrid } from './interactive-flying-star-grid';
@@ -48,7 +44,7 @@ export function BasicAnalysisView({
     overallScore: 80, // 默认分数
     characteristics: '基础分析特征',
     mainIssues: ['问题1', '问题2', '问题3'],
-    keyPalaces: ['巽', '离', '坤']
+    keyPalaces: ['巽', '离', '坤'],
   };
 
   // 吉凶评分徽章颜色

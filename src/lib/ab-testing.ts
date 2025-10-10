@@ -2,7 +2,7 @@
 
 // A/B测试配置和管理系统
 import { cookies } from 'next/headers';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface ABTestVariant {
   id: string;
@@ -37,8 +37,8 @@ export const AB_TESTS: Record<string, ABTest> = {
           originalPrice: 299,
           currentPrice: 99,
           discount: 67,
-          discountText: '限时67折'
-        }
+          discountText: '限时67折',
+        },
       },
       {
         id: 'variant_a',
@@ -48,8 +48,8 @@ export const AB_TESTS: Record<string, ABTest> = {
           originalPrice: 199,
           currentPrice: 79,
           discount: 60,
-          discountText: '限时6折'
-        }
+          discountText: '限时6折',
+        },
       },
       {
         id: 'variant_b',
@@ -59,8 +59,8 @@ export const AB_TESTS: Record<string, ABTest> = {
           originalPrice: 399,
           currentPrice: 99,
           discount: 75,
-          discountText: '限时75折'
-        }
+          discountText: '限时75折',
+        },
       },
       {
         id: 'variant_c',
@@ -71,10 +71,10 @@ export const AB_TESTS: Record<string, ABTest> = {
           currentPrice: 19.9,
           discount: 50,
           discountText: '首月半价',
-          isSubscription: true
-        }
-      }
-    ]
+          isSubscription: true,
+        },
+      },
+    ],
   },
   cta_text: {
     id: 'cta_text',
@@ -89,8 +89,8 @@ export const AB_TESTS: Record<string, ABTest> = {
         config: {
           mainCTA: '立即免费分析',
           subCTA: '3分钟看透命理运势',
-          urgencyText: '限时优惠仅剩'
-        }
+          urgencyText: '限时优惠仅剩',
+        },
       },
       {
         id: 'variant_a',
@@ -99,8 +99,8 @@ export const AB_TESTS: Record<string, ABTest> = {
         config: {
           mainCTA: '马上测算我的运势',
           subCTA: 'AI大师为您解惑',
-          urgencyText: '今日特惠倒计时'
-        }
+          urgencyText: '今日特惠倒计时',
+        },
       },
       {
         id: 'variant_b',
@@ -109,8 +109,8 @@ export const AB_TESTS: Record<string, ABTest> = {
         config: {
           mainCTA: '开始AI智能分析',
           subCTA: '揭开您的命运密码',
-          urgencyText: '限时福利即将结束'
-        }
+          urgencyText: '限时福利即将结束',
+        },
       },
       {
         id: 'variant_c',
@@ -119,10 +119,10 @@ export const AB_TESTS: Record<string, ABTest> = {
         config: {
           mainCTA: '免费体验专业分析',
           subCTA: '改运从了解自己开始',
-          urgencyText: '优惠名额仅剩'
-        }
-      }
-    ]
+          urgencyText: '优惠名额仅剩',
+        },
+      },
+    ],
   },
   hero_style: {
     id: 'hero_style',
@@ -137,8 +137,8 @@ export const AB_TESTS: Record<string, ABTest> = {
         config: {
           gradient: 'from-purple-600 via-pink-600 to-red-600',
           bgStyle: 'gradient',
-          animation: 'pulse'
-        }
+          animation: 'pulse',
+        },
       },
       {
         id: 'variant_a',
@@ -148,8 +148,8 @@ export const AB_TESTS: Record<string, ABTest> = {
           gradient: 'from-red-700 via-yellow-600 to-red-700',
           bgStyle: 'traditional',
           animation: 'float',
-          pattern: 'chinese'
-        }
+          pattern: 'chinese',
+        },
       },
       {
         id: 'variant_b',
@@ -159,35 +159,37 @@ export const AB_TESTS: Record<string, ABTest> = {
           gradient: 'from-blue-600 via-cyan-500 to-purple-600',
           bgStyle: 'tech',
           animation: 'glow',
-          pattern: 'circuit'
-        }
-      }
-    ]
-  }
+          pattern: 'circuit',
+        },
+      },
+    ],
+  },
 };
 
 // 获取用户的测试变体
-export async function getUserVariant(testId: string): Promise<ABTestVariant | null> {
+export async function getUserVariant(
+  testId: string
+): Promise<ABTestVariant | null> {
   const test = AB_TESTS[testId];
   if (!test || !test.active) return null;
 
   const cookieStore = cookies();
   const variantCookie = cookieStore.get(`ab_${testId}`);
-  
+
   if (variantCookie) {
     // 如果用户已分配变体，返回该变体
-    const variant = test.variants.find(v => v.id === variantCookie.value);
+    const variant = test.variants.find((v) => v.id === variantCookie.value);
     if (variant) return variant;
   }
 
   // 分配新变体
   const variant = selectVariant(test.variants);
-  
+
   // 保存到cookie（30天）
   cookieStore.set(`ab_${testId}`, variant.id, {
     maxAge: 30 * 24 * 60 * 60,
     httpOnly: true,
-    sameSite: 'strict'
+    sameSite: 'strict',
   });
 
   return variant;
@@ -197,12 +199,12 @@ export async function getUserVariant(testId: string): Promise<ABTestVariant | nu
 function selectVariant(variants: ABTestVariant[]): ABTestVariant {
   const totalWeight = variants.reduce((sum, v) => sum + v.weight, 0);
   let random = Math.random() * totalWeight;
-  
+
   for (const variant of variants) {
     random -= variant.weight;
     if (random <= 0) return variant;
   }
-  
+
   return variants[0]; // fallback
 }
 
@@ -220,7 +222,7 @@ export async function trackABEvent(
     variantId,
     event,
     metadata,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 
   // TODO: 发送到分析后端
@@ -241,7 +243,7 @@ export function useABTest(testId: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUserVariant(testId).then(v => {
+    getUserVariant(testId).then((v) => {
       setVariant(v);
       setLoading(false);
       if (v) {
@@ -267,6 +269,6 @@ export function useABTest(testId: string) {
     loading,
     config: variant?.config || {},
     trackClick,
-    trackConversion
+    trackConversion,
   };
 }

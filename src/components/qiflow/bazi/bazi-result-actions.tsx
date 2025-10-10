@@ -8,14 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Download,
-  Share2,
-  Bookmark,
-  Printer,
-  Copy,
-  Check,
-} from 'lucide-react';
+import { Bookmark, Check, Copy, Download, Printer, Share2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -24,7 +17,10 @@ interface BaziResultActionsProps {
   userName?: string;
 }
 
-export function BaziResultActions({ resultData, userName }: BaziResultActionsProps) {
+export function BaziResultActions({
+  resultData,
+  userName,
+}: BaziResultActionsProps) {
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -45,14 +41,14 @@ export function BaziResultActions({ resultData, userName }: BaziResultActionsPro
     try {
       const saved = localStorage.getItem('bazi_saved_results') || '[]';
       const savedResults = JSON.parse(saved);
-      
+
       savedResults.push({
         id: Date.now(),
         userName,
         resultData,
         savedAt: new Date().toISOString(),
       });
-      
+
       localStorage.setItem('bazi_saved_results', JSON.stringify(savedResults));
       setSaved(true);
       toast.success('已保存到收藏');

@@ -1,24 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import { 
-  AlgorithmFirstGuard, 
-  SensitiveTopicFilter,
-  AuditLogger,
+import {
+  AlgorithmFirstGuard,
   type AnalysisContext,
-  type QuestionType
+  AuditLogger,
+  type QuestionType,
+  SensitiveTopicFilter,
 } from '@/lib/qiflow/ai/guardrails';
-import { generateId } from '@/lib/utils';
 import { defaultRateLimiters, getClientIp } from '@/lib/rate-limit';
+import { generateId } from '@/lib/utils';
+import { type NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 
 // 请求验证Schema
 const ChatRequestSchema = z.object({
   message: z.string().min(1).max(2000),
   sessionId: z.string().optional(),
   userId: z.string().optional(),
-  context: z.object({
-    baziData: z.any().optional(),
-    fengshuiData: z.any().optional(),
-  }).optional(),
+  context: z
+    .object({
+      baziData: z.any().optional(),
+      fengshuiData: z.any().optional(),
+    })
+    .optional(),
 });
 
 // 响应类型
@@ -38,30 +40,35 @@ interface ChatResponse {
 
 // OpenAI API配置（从环境变量读取）
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const OPENAI_API_URL = process.env.OPENAI_API_URL || 'https://api.openai.com/v1/chat/completions';
+const OPENAI_API_URL =
+  process.env.OPENAI_API_URL || 'https://api.openai.com/v1/chat/completions';
 
 /**
  * 调用AI模型
  */
-async function callAIModel(prompt: string, systemPrompt?: string): Promise<string> {
+async function callAIModel(
+  prompt: string,
+  systemPrompt?: string
+): Promise<string> {
   if (!OPENAI_API_KEY) {
     // 开发环境返回模拟响应
-    return `【模拟响应】这是基于您提供数据的分析结果。在生产环境中，这里会显示真实的AI回答。`;
+    return '【模拟响应】这是基于您提供数据的分析结果。在生产环境中，这里会显示真实的AI回答。';
   }
-  
+
   try {
     const response = await fetch(OPENAI_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'gpt-4-turbo-preview',
         messages: [
           {
             role: 'system',
-            content: systemPrompt || '你是一位专业的易学顾问，精通八字命理和风水学。',
+            content:
+              systemPrompt || '你是一位专业的易学顾问，精通八字命理和风水学。',
           },
           {
             role: 'user',
@@ -72,13 +79,15 @@ async function callAIModel(prompt: string, systemPrompt?: string): Promise<strin
         max_tokens: 1500,
       }),
     });
-    
+
     if (!response.ok) {
       throw new Error(`AI API error: ${response.statusText}`);
     }
-    
+
     const data = await response.json();
-    return data.choices[0]?.message?.content || '抱歉，我暂时无法回答您的问题。';
+    return (
+      data.choices[0]?.message?.content || '抱歉，我暂时无法回答您的问题。'
+    );
   } catch (error) {
     console.error('AI Model Error:', error);
     throw error;
@@ -88,7 +97,10 @@ async function callAIModel(prompt: string, systemPrompt?: string): Promise<strin
 /**
  * 生成系统提示词
  */
-function generateSystemPrompt(questionType: QuestionType, hasData: boolean): string {
+function generateSystemPrompt(
+  questionType: QuestionType,
+  hasData: boolean
+): string {
   const basePrompt = `你是QiFlow AI的专业易学顾问，专注于提供基于数据的专业分析。
 
 ## 核心原则
@@ -103,7 +115,7 @@ function generateSystemPrompt(questionType: QuestionType, hasData: boolean): str
 3. 适当使用表情符号增加亲和力
 4. 每个回答控制在800字以内
 5. 重要建议用加粗或列表形式突出`;
-  
+
   if (questionType === 'bazi' && hasData) {
     return `${basePrompt}
 
@@ -113,7 +125,7 @@ function generateSystemPrompt(questionType: QuestionType, hasData: boolean): str
 - 擅长性格分析、事业规划、感情婚姻指导
 - 基于提供的八字数据进行精准分析`;
   }
-  
+
   if (questionType === 'fengshui' && hasData) {
     return `${basePrompt}
 
@@ -123,7 +135,7 @@ function generateSystemPrompt(questionType: QuestionType, hasData: boolean): str
 - 擅长居家布局、办公环境优化建议
 - 基于提供的风水数据进行精准分析`;
   }
-  
+
   return `${basePrompt}
 
 ## 通用咨询模式
@@ -140,13 +152,13 @@ export async function POST(request: NextRequest) {
   // 应用限流
   const clientIp = getClientIp(request);
   const rateLimitResult = await defaultRateLimiters.aiChat(clientIp);
-  
+
   // 设置限流响应头
   const headers = new Headers();
   headers.set('X-RateLimit-Limit', rateLimitResult.limit.toString());
   headers.set('X-RateLimit-Remaining', rateLimitResult.remaining.toString());
   headers.set('X-RateLimit-Reset', rateLimitResult.reset.toISOString());
-  
+
   // 如果超过限流，返回429
   if (!rateLimitResult.success) {
     return NextResponse.json<ChatResponse>(
@@ -154,19 +166,21 @@ export async function POST(request: NextRequest) {
         success: false,
         error: rateLimitResult.message,
       },
-      { 
+      {
         status: 429,
         headers: {
           ...Object.fromEntries(headers),
-          'Retry-After': Math.ceil((rateLimitResult.reset.getTime() - Date.now()) / 1000).toString(),
-        }
+          'Retry-After': Math.ceil(
+            (rateLimitResult.reset.getTime() - Date.now()) / 1000
+          ).toString(),
+        },
       }
     );
   }
 
   try {
     const body = await request.json();
-    
+
     // 验证请求数据
     const validationResult = ChatRequestSchema.safeParse(body);
     if (!validationResult.success) {
@@ -178,10 +192,10 @@ export async function POST(request: NextRequest) {
         { status: 400, headers }
       );
     }
-    
+
     const { message, context: providedContext } = validationResult.data;
     const sessionId = validationResult.data.sessionId || generateId('session');
-    
+
     // 敏感话题检查
     if (SensitiveTopicFilter.isSensitive(message)) {
       await AuditLogger.log({
@@ -192,7 +206,7 @@ export async function POST(request: NextRequest) {
         hasValidData: false,
         responseType: 'SENSITIVE_FILTER',
       });
-      
+
       return NextResponse.json<ChatResponse>(
         {
           success: true,
@@ -207,7 +221,7 @@ export async function POST(request: NextRequest) {
         { headers }
       );
     }
-    
+
     // 构建分析上下文
     const analysisContext: AnalysisContext = {
       sessionId,
@@ -216,16 +230,17 @@ export async function POST(request: NextRequest) {
       fengshuiData: providedContext?.fengshuiData || null,
       timestamp: new Date().toISOString(),
     };
-    
+
     // 创建护栏实例并验证
     const guard = new AlgorithmFirstGuard();
     const validation = await guard.validateContext(message, analysisContext);
     const questionType = AlgorithmFirstGuard.identifyQuestionType(message);
-    
+
     // 如果不能回答，返回引导信息
     if (!validation.canAnswer) {
-      const guidanceMessage = AlgorithmFirstGuard.generateGuidanceMessage(validation);
-      
+      const guidanceMessage =
+        AlgorithmFirstGuard.generateGuidanceMessage(validation);
+
       await AuditLogger.log({
         timestamp: new Date().toISOString(),
         sessionId,
@@ -234,7 +249,7 @@ export async function POST(request: NextRequest) {
         hasValidData: false,
         responseType: 'GUIDANCE',
       });
-      
+
       return NextResponse.json<ChatResponse>(
         {
           success: true,
@@ -250,26 +265,32 @@ export async function POST(request: NextRequest) {
         { headers }
       );
     }
-    
+
     // 构建AI提示词
-    const systemPrompt = generateSystemPrompt(questionType, validation.hasData || false);
-    const contextPrompt = AlgorithmFirstGuard.buildContextPrompt(validation.availableData, questionType);
+    const systemPrompt = generateSystemPrompt(
+      questionType,
+      validation.hasData || false
+    );
+    const contextPrompt = AlgorithmFirstGuard.buildContextPrompt(
+      validation.availableData,
+      questionType
+    );
     const fullPrompt = `${contextPrompt}\n\n用户问题：${message}`;
-    
+
     // 调用AI模型
     const aiResponse = await callAIModel(fullPrompt, systemPrompt);
-    
+
     // 记录审计日志
-      await AuditLogger.log({
-        timestamp: new Date().toISOString(),
-        sessionId,
-        userId: validationResult.data.userId,
-        questionType,
-        hasValidData: validation.hasData || false,
-        responseType: 'AI_ANSWER' as const,
-        confidenceLevel: validation.confidence,
-      });
-    
+    await AuditLogger.log({
+      timestamp: new Date().toISOString(),
+      sessionId,
+      userId: validationResult.data.userId,
+      questionType,
+      hasValidData: validation.hasData || false,
+      responseType: 'AI_ANSWER' as const,
+      confidenceLevel: validation.confidence,
+    });
+
     // 返回响应
     return NextResponse.json<ChatResponse>(
       {
@@ -286,7 +307,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('Chat API Error:', error);
-    
+
     return NextResponse.json<ChatResponse>(
       {
         success: false,

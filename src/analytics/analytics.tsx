@@ -52,7 +52,7 @@ export function Analytics() {
 
       {/* speed insights */}
       {/* https://vercel.com/docs/speed-insights/quickstart */}
-      {websiteConfig.analytics.enableSpeedInsights && <SpeedInsights />}
+      {websiteConfig.analytics.enableVercelSpeedInsights && <SpeedInsights />}
     </>
   );
 }

@@ -1,18 +1,18 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { EnhancedBaziResult } from '@/lib/qiflow/bazi';
-import { 
-  Calendar, 
-  Activity, 
-  Star, 
-  TrendingUp,
-  Flame,
+import {
+  Activity,
+  Calendar,
   Droplet,
-  Wind,
+  Flame,
   Mountain,
-  Zap
+  Star,
+  TrendingUp,
+  Wind,
+  Zap,
 } from 'lucide-react';
 
 interface BaziResultDisplayProps {
@@ -36,8 +36,12 @@ const elementColors: Record<string, string> = {
   WATER: 'text-blue-500 bg-blue-50',
 };
 
-export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) {
-  const { pillars, elements, yongshen, luckPillars, dayMasterStrength } = result;
+export function BaziResultDisplay({
+  result,
+  userName,
+}: BaziResultDisplayProps) {
+  const { pillars, elements, yongshen, luckPillars, dayMasterStrength } =
+    result;
 
   return (
     <div className="space-y-6">
@@ -61,23 +65,39 @@ export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.entries(pillars).map(([key, pillar]: [string, any]) => {
               const Icon = elementIcons[pillar.element] || Star;
-              const colorClass = elementColors[pillar.element] || 'text-gray-500';
-              
+              const colorClass =
+                elementColors[pillar.element] || 'text-gray-500';
+
               return (
-                <div key={key} className="text-center p-4 bg-slate-800/50 rounded-lg">
+                <div
+                  key={key}
+                  className="text-center p-4 bg-slate-800/50 rounded-lg"
+                >
                   <div className="text-sm text-slate-400 mb-2 capitalize">
-                    {key === 'year' ? '年柱' : key === 'month' ? '月柱' : key === 'day' ? '日柱' : '时柱'}
+                    {key === 'year'
+                      ? '年柱'
+                      : key === 'month'
+                        ? '月柱'
+                        : key === 'day'
+                          ? '日柱'
+                          : '时柱'}
                   </div>
                   <div className="text-2xl font-bold text-white mb-2">
-                    {pillar.chinese || `${pillar.heavenlyStem}${pillar.earthlyBranch}`}
+                    {pillar.chinese ||
+                      `${pillar.heavenlyStem}${pillar.earthlyBranch}`}
                   </div>
                   <div className="flex items-center justify-center gap-1">
                     <Icon className={`w-4 h-4 ${colorClass.split(' ')[0]}`} />
                     <span className="text-xs text-slate-400">
-                      {pillar.element === 'WOOD' ? '木' : 
-                       pillar.element === 'FIRE' ? '火' :
-                       pillar.element === 'EARTH' ? '土' :
-                       pillar.element === 'METAL' ? '金' : '水'}
+                      {pillar.element === 'WOOD'
+                        ? '木'
+                        : pillar.element === 'FIRE'
+                          ? '火'
+                          : pillar.element === 'EARTH'
+                            ? '土'
+                            : pillar.element === 'METAL'
+                              ? '金'
+                              : '水'}
                     </span>
                   </div>
                   <div className="text-xs text-slate-500 mt-1">
@@ -102,12 +122,17 @@ export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) 
           <div className="space-y-3">
             {Object.entries(elements).map(([element, value]: [string, any]) => {
               const percentage = (value / 100) * 100;
-              const elementName = 
-                element === 'wood' ? '木' :
-                element === 'fire' ? '火' :
-                element === 'earth' ? '土' :
-                element === 'metal' ? '金' : '水';
-              
+              const elementName =
+                element === 'wood'
+                  ? '木'
+                  : element === 'fire'
+                    ? '火'
+                    : element === 'earth'
+                      ? '土'
+                      : element === 'metal'
+                        ? '金'
+                        : '水';
+
               return (
                 <div key={element} className="space-y-1">
                   <div className="flex justify-between text-sm">
@@ -117,10 +142,15 @@ export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) 
                   <div className="w-full bg-slate-800 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${
-                        element === 'wood' ? 'bg-green-500' :
-                        element === 'fire' ? 'bg-red-500' :
-                        element === 'earth' ? 'bg-yellow-500' :
-                        element === 'metal' ? 'bg-gray-400' : 'bg-blue-500'
+                        element === 'wood'
+                          ? 'bg-green-500'
+                          : element === 'fire'
+                            ? 'bg-red-500'
+                            : element === 'earth'
+                              ? 'bg-yellow-500'
+                              : element === 'metal'
+                                ? 'bg-gray-400'
+                                : 'bg-blue-500'
                       }`}
                       style={{ width: `${percentage}%` }}
                     />
@@ -145,19 +175,32 @@ export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-slate-300">日主强弱</span>
-                <Badge variant={
-                  dayMasterStrength.strength === 'strong' ? 'default' :
-                  dayMasterStrength.strength === 'weak' ? 'secondary' : 'outline'
-                } className="text-lg">
-                  {dayMasterStrength.strength === 'strong' ? '身强' :
-                   dayMasterStrength.strength === 'weak' ? '身弱' : '中和'}
+                <Badge
+                  variant={
+                    dayMasterStrength.strength === 'strong'
+                      ? 'default'
+                      : dayMasterStrength.strength === 'weak'
+                        ? 'secondary'
+                        : 'outline'
+                  }
+                  className="text-lg"
+                >
+                  {dayMasterStrength.strength === 'strong'
+                    ? '身强'
+                    : dayMasterStrength.strength === 'weak'
+                      ? '身弱'
+                      : '中和'}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-300">综合评分</span>
-                <span className={`text-xl font-bold ${
-                  dayMasterStrength.score > 0 ? 'text-green-400' : 'text-red-400'
-                }`}>
+                <span
+                  className={`text-xl font-bold ${
+                    dayMasterStrength.score > 0
+                      ? 'text-green-400'
+                      : 'text-red-400'
+                  }`}
+                >
                   {dayMasterStrength.score}
                 </span>
               </div>
@@ -181,11 +224,16 @@ export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) 
                 <div>
                   <div className="text-sm text-slate-400 mb-2">喜用神</div>
                   <div className="flex flex-wrap gap-2">
-                    {yongshen.favorable.filter(Boolean).map((item: any, index: number) => (
-                      <Badge key={index} className="bg-green-500/20 text-green-300 border-green-500">
-                        {item}
-                      </Badge>
-                    ))}
+                    {yongshen.favorable
+                      .filter(Boolean)
+                      .map((item: any, index: number) => (
+                        <Badge
+                          key={index}
+                          className="bg-green-500/20 text-green-300 border-green-500"
+                        >
+                          {item}
+                        </Badge>
+                      ))}
                   </div>
                 </div>
               )}
@@ -193,17 +241,24 @@ export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) 
                 <div>
                   <div className="text-sm text-slate-400 mb-2">忌神</div>
                   <div className="flex flex-wrap gap-2">
-                    {yongshen.unfavorable.filter(Boolean).map((item: any, index: number) => (
-                      <Badge key={index} className="bg-red-500/20 text-red-300 border-red-500">
-                        {item}
-                      </Badge>
-                    ))}
+                    {yongshen.unfavorable
+                      .filter(Boolean)
+                      .map((item: any, index: number) => (
+                        <Badge
+                          key={index}
+                          className="bg-red-500/20 text-red-300 border-red-500"
+                        >
+                          {item}
+                        </Badge>
+                      ))}
                   </div>
                 </div>
               )}
               {yongshen.commentary && (
                 <div className="mt-4 p-4 bg-slate-800/50 rounded-lg">
-                  <p className="text-sm text-slate-300">{yongshen.commentary}</p>
+                  <p className="text-sm text-slate-300">
+                    {yongshen.commentary}
+                  </p>
                 </div>
               )}
             </div>
@@ -226,7 +281,8 @@ export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) 
                 <div key={index} className="p-3 bg-slate-800/50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-lg font-bold text-white">
-                      {pillar.heavenlyStem}{pillar.earthlyBranch}
+                      {pillar.heavenlyStem}
+                      {pillar.earthlyBranch}
                     </span>
                     <Badge variant="outline" className="text-xs">
                       {pillar.startAge}-{pillar.endAge}岁
@@ -246,7 +302,8 @@ export function BaziResultDisplay({ result, userName }: BaziResultDisplayProps) 
       <Card className="bg-blue-900/20 border-blue-700">
         <CardContent className="pt-6">
           <p className="text-sm text-blue-200 text-center">
-            💡 以上分析基于传统八字命理学，仅供参考。人生发展受多种因素影响，应理性对待。
+            💡
+            以上分析基于传统八字命理学，仅供参考。人生发展受多种因素影响，应理性对待。
           </p>
         </CardContent>
       </Card>

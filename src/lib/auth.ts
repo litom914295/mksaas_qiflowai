@@ -187,7 +187,7 @@ export function getLocaleFromRequest(request?: Request): Locale {
 
 /**
  * Verifies authentication from a request
- * 
+ *
  * @param request - The incoming request
  * @returns Authentication result with user ID if authenticated
  */

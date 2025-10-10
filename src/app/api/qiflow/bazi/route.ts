@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import { computeBaziSmart, type EnhancedBirthData } from '@/lib/qiflow/bazi';
 import { computeBaziWithCache } from '@/lib/cache/bazi-cache';
+import { type EnhancedBirthData, computeBaziSmart } from '@/lib/qiflow/bazi';
+import { type NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 
 const RequestSchema = z.object({
   name: z.string().min(1).max(50),
@@ -13,7 +13,7 @@ const RequestSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    
+
     // 验证请求数据
     const parsed = RequestSchema.safeParse(body);
     if (!parsed.success) {
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       {
         datetime: enhancedBirthData.datetime,
         gender: enhancedBirthData.gender,
-        timezone: enhancedBirthData.timezone
+        timezone: enhancedBirthData.timezone,
       },
       async () => computeBaziSmart(enhancedBirthData)
     );

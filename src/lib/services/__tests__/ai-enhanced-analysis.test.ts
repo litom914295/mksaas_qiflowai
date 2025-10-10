@@ -2,8 +2,11 @@
  * AI增强分析服务单元测试
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { generateAIEnhancedAnalysis, generateQuickAIAnalysis } from '../ai-enhanced-analysis';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  generateAIEnhancedAnalysis,
+  generateQuickAIAnalysis,
+} from '../ai-enhanced-analysis';
 import type { BaziAnalysisResult } from '../bazi-calculator-service';
 
 // Mock AI SDK
@@ -51,7 +54,7 @@ describe('AI增强分析服务', () => {
   describe('generateAIEnhancedAnalysis', () => {
     it('应该生成完整的AI增强分析', async () => {
       const { generateText } = await import('ai');
-      
+
       // Mock AI响应
       (generateText as any).mockResolvedValue({
         text: '测试分析内容',
@@ -71,7 +74,7 @@ describe('AI增强分析服务', () => {
 
     it('AI调用失败时应该返回降级分析', async () => {
       const { generateText } = await import('ai');
-      
+
       // Mock AI调用失败
       (generateText as any).mockRejectedValue(new Error('API Error'));
 
@@ -88,7 +91,7 @@ describe('AI增强分析服务', () => {
 
     it('应该并行生成所有分析维度', async () => {
       const { generateText } = await import('ai');
-      
+
       let callCount = 0;
       (generateText as any).mockImplementation(() => {
         callCount++;
@@ -105,7 +108,7 @@ describe('AI增强分析服务', () => {
   describe('generateQuickAIAnalysis', () => {
     it('应该生成快速分析', async () => {
       const { generateText } = await import('ai');
-      
+
       (generateText as any).mockResolvedValue({
         text: '这是一个快速分析',
       });
@@ -117,7 +120,7 @@ describe('AI增强分析服务', () => {
 
     it('快速分析失败时应该返回基础分析', async () => {
       const { generateText } = await import('ai');
-      
+
       (generateText as any).mockRejectedValue(new Error('API Error'));
 
       const result = await generateQuickAIAnalysis(mockBaziResult);
@@ -127,7 +130,7 @@ describe('AI增强分析服务', () => {
 
     it('应该只调用一次AI', async () => {
       const { generateText } = await import('ai');
-      
+
       let callCount = 0;
       (generateText as any).mockImplementation(() => {
         callCount++;
@@ -143,7 +146,7 @@ describe('AI增强分析服务', () => {
   describe('类型验证', () => {
     it('返回的结果应该包含所有必需字段', async () => {
       const { generateText } = await import('ai');
-      
+
       (generateText as any).mockResolvedValue({
         text: '测试内容',
       });
@@ -164,7 +167,7 @@ describe('AI增强分析服务', () => {
   describe('边界情况', () => {
     it('应该处理空的喜用神数组', async () => {
       const { generateText } = await import('ai');
-      
+
       (generateText as any).mockResolvedValue({
         text: '测试分析',
       });
@@ -182,7 +185,7 @@ describe('AI增强分析服务', () => {
 
     it('应该处理极端的五行值', async () => {
       const { generateText } = await import('ai');
-      
+
       (generateText as any).mockResolvedValue({
         text: '测试分析',
       });

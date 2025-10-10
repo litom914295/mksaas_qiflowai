@@ -1,18 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Activity, 
-  Zap, 
-  TrendingUp, 
+import {
+  Activity,
   AlertCircle,
   CheckCircle,
+  RefreshCw,
+  TrendingUp,
   XCircle,
-  RefreshCw
+  Zap,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface PerformanceMetrics {
   score: number;
@@ -60,7 +60,7 @@ export function PerformanceDashboard() {
         setMetrics({
           score: 92,
           lcp: 2100, // ms
-          fid: 45, // ms  
+          fid: 45, // ms
           cls: 0.05,
           ttfb: 600, // ms
           fcp: 1200, // ms
@@ -91,7 +91,10 @@ export function PerformanceDashboard() {
     return '差';
   };
 
-  const getMetricStatus = (metric: string, value: number): 'good' | 'warning' | 'error' => {
+  const getMetricStatus = (
+    metric: string,
+    value: number
+  ): 'good' | 'warning' | 'error' => {
     const thresholds: Record<string, { good: number; warning: number }> = {
       lcp: { good: 2500, warning: 4000 },
       fid: { good: 100, warning: 300 },
@@ -208,10 +211,20 @@ export function PerformanceDashboard() {
         <CardContent>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
-              <div className={`text-4xl font-bold ${getScoreColor(metrics.score)}`}>
+              <div
+                className={`text-4xl font-bold ${getScoreColor(metrics.score)}`}
+              >
                 {metrics.score}
               </div>
-              <Badge variant={metrics.score >= 90 ? 'default' : metrics.score >= 50 ? 'secondary' : 'destructive'}>
+              <Badge
+                variant={
+                  metrics.score >= 90
+                    ? 'default'
+                    : metrics.score >= 50
+                      ? 'secondary'
+                      : 'destructive'
+                }
+              >
                 {getScoreLabel(metrics.score)}
               </Badge>
             </div>
@@ -232,13 +245,21 @@ export function PerformanceDashboard() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {performanceItems.map((item) => (
-              <div key={item.label} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded">
+              <div
+                key={item.label}
+                className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded"
+              >
                 <div className="flex-1">
-                  <div className="text-sm text-gray-600 dark:text-gray-400">{item.label}</div>
-                  <div className="text-lg font-semibold">
-                    {item.value}{item.unit}
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    {item.label}
                   </div>
-                  <div className="text-xs text-gray-500">目标: {item.target}</div>
+                  <div className="text-lg font-semibold">
+                    {item.value}
+                    {item.unit}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    目标: {item.target}
+                  </div>
                 </div>
                 <StatusIcon status={item.status} />
               </div>
@@ -258,8 +279,12 @@ export function PerformanceDashboard() {
               <div key={item.label} className="text-center p-4 border rounded">
                 <StatusIcon status={item.status} />
                 <div className="mt-2 text-2xl font-bold">{item.value}</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{item.label}</div>
-                <div className="text-xs text-gray-500 mt-1">目标: {item.target}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  {item.label}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  目标: {item.target}
+                </div>
               </div>
             ))}
           </div>
@@ -276,19 +301,25 @@ export function PerformanceDashboard() {
             {metrics.lcp > 2500 && (
               <li className="flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-yellow-500 mt-0.5" />
-                <span className="text-sm">优化最大内容绘制时间：考虑使用图片懒加载和CDN加速</span>
+                <span className="text-sm">
+                  优化最大内容绘制时间：考虑使用图片懒加载和CDN加速
+                </span>
               </li>
             )}
             {metrics.cacheHitRate < 80 && (
               <li className="flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-yellow-500 mt-0.5" />
-                <span className="text-sm">提高缓存命中率：检查缓存策略配置</span>
+                <span className="text-sm">
+                  提高缓存命中率：检查缓存策略配置
+                </span>
               </li>
             )}
             {metrics.inp > 200 && (
               <li className="flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-yellow-500 mt-0.5" />
-                <span className="text-sm">改善交互响应：减少主线程阻塞，使用Web Worker处理复杂计算</span>
+                <span className="text-sm">
+                  改善交互响应：减少主线程阻塞，使用Web Worker处理复杂计算
+                </span>
               </li>
             )}
           </ul>

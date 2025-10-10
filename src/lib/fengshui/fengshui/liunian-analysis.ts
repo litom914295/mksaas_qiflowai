@@ -1,5 +1,5 @@
 import { LUOSHU_ORDER, PALACE_TO_BAGUA, shunFei } from './luoshu';
-import { FlyingStar, Mountain, PalaceIndex, Plate, Yun } from './types';
+import type { FlyingStar, Mountain, PalaceIndex, Plate, Yun } from './types';
 
 /**
  * 流年动态分析模块
@@ -212,7 +212,7 @@ export function analyzeLiunianOverlay(
   // 分析每个宫位的叠加效果
   for (const baseCell of basePlate) {
     const liunianCell = liunianResult.liunianPlate.find(
-      cell => cell.palace === baseCell.palace
+      (cell) => cell.palace === baseCell.palace
     );
     if (!liunianCell) continue;
 

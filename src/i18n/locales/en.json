@@ -262,7 +262,7 @@
       "genderRequired": "Gender *",
       "genderPlaceholder": "Please select gender",
       "male": "Male",
-      "female": "Female", 
+      "female": "Female",
       "birthDate": "Birth Date",
       "birthDateRequired": "Birth Date *",
       "birthTime": "Birth Time",
@@ -283,7 +283,7 @@
       "orientationPlaceholder": "0-360 degrees",
       "floor": "Floor",
       "floorPlaceholder": "Floor number",
-      "address": "House Address", 
+      "address": "House Address",
       "addressPlaceholder": "Please enter house address",
       "roomCount": "Number of Rooms",
       "roomCountPlaceholder": "Number of rooms"
@@ -319,7 +319,7 @@
     },
     "fourPillars": {
       "year": "Jia Zi",
-      "month": "Yi Chou", 
+      "month": "Yi Chou",
       "day": "Bing Yin",
       "hour": "Ding Mao"
     },

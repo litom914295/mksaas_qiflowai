@@ -5,8 +5,7 @@
  * 提供友好的错误处理和恢复机制
  */
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { AlertCircle, RefreshCw, Home, Mail } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -16,7 +15,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle, Home, Mail, RefreshCw } from 'lucide-react';
+import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -87,7 +87,7 @@ export class ErrorBoundaryEnhanced extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // 记录错误信息
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+
     // 更新错误详情
     this.setState({
       errorInfo,
@@ -170,7 +170,7 @@ export class ErrorBoundaryEnhanced extends Component<Props, State> {
     if (this.state.hasError) {
       const { error, errorId } = this.state;
       const isDev = process.env.NODE_ENV === 'development';
-      
+
       // 使用自定义fallback如果提供
       if (this.props.fallback) {
         return <>{this.props.fallback}</>;
@@ -220,7 +220,7 @@ export class ErrorBoundaryEnhanced extends Component<Props, State> {
                 错误ID: <code className="text-xs">{errorId}</code>
               </CardDescription>
             </CardHeader>
-            
+
             <CardContent className="space-y-4">
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -302,10 +302,10 @@ export class ErrorBoundaryEnhanced extends Component<Props, State> {
 export function useErrorHandler() {
   return (error: Error, errorInfo?: ErrorInfo) => {
     console.error('Error caught by useErrorHandler:', error, errorInfo);
-    
+
     // 可以在这里添加自定义错误处理逻辑
     // 例如：显示toast通知、发送错误报告等
-    
+
     throw error; // 重新抛出错误让ErrorBoundary捕获
   };
 }

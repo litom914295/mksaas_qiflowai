@@ -1,47 +1,67 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
 import { GuestAnalysisPage } from '@/components/analysis/guest-analysis-page';
-import { Card } from '@/components/ui/enhanced-card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { 
-  Star, 
-  TrendingUp, 
-  Shield, 
-  Sparkles, 
-  Home,
-  Compass as CompassIcon,
-  Download,
-  MessageCircle,
-  ChevronRight,
-  Award,
-  Users,
-  Gift,
-  Zap,
-  Lock,
-  Unlock,
-  CheckCircle,
-  XCircle,
-  ArrowUp,
-  Share2,
-  Heart,
-  DollarSign,
-  Crown
-} from 'lucide-react';
-import confetti from 'canvas-confetti';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Progress } from '@/components/ui/progress';
-import { AIChatPopup } from '@/components/home/ai-chat-popup';
-import { ReportExport } from '@/components/feedback/report-export';
 import { RecommendationCard } from '@/components/feedback/recommendation-card';
+import { ReportExport } from '@/components/feedback/report-export';
+import { AIChatPopup } from '@/components/home/ai-chat-popup';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/enhanced-card';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import confetti from 'canvas-confetti';
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
+import {
+  ArrowUp,
+  Award,
+  CheckCircle,
+  ChevronRight,
+  Compass as CompassIcon,
+  Crown,
+  DollarSign,
+  Download,
+  Gift,
+  Heart,
+  Home,
+  Lock,
+  MessageCircle,
+  Share2,
+  Shield,
+  Sparkles,
+  Star,
+  TrendingUp,
+  Unlock,
+  Users,
+  XCircle,
+  Zap,
+} from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 // 用户见证数据
 const testimonials = [
-  { name: '张先生', avatar: '👨‍💼', text: '准确度惊人！按照建议调整后，生意明显好转', rating: 5 },
-  { name: '李女士', avatar: '👩‍💻', text: '终于找到了适合我的风水布局，感觉运气都变好了', rating: 5 },
-  { name: '王总', avatar: '👨‍💼', text: '专业的分析帮我选对了办公室，事业蒸蒸日上', rating: 5 },
+  {
+    name: '张先生',
+    avatar: '👨‍💼',
+    text: '准确度惊人！按照建议调整后，生意明显好转',
+    rating: 5,
+  },
+  {
+    name: '李女士',
+    avatar: '👩‍💻',
+    text: '终于找到了适合我的风水布局，感觉运气都变好了',
+    rating: 5,
+  },
+  {
+    name: '王总',
+    avatar: '👨‍💼',
+    text: '专业的分析帮我选对了办公室，事业蒸蒸日上',
+    rating: 5,
+  },
 ];
 
 // 实时统计数据（增强可信度）
@@ -49,7 +69,7 @@ const stats = {
   totalUsers: 126543,
   todayUsers: 1432,
   accuracy: 96.8,
-  satisfaction: 98.5
+  satisfaction: 98.5,
 };
 
 export default function UltimateHomePage() {
@@ -65,7 +85,7 @@ export default function UltimateHomePage() {
   const [reportData, setReportData] = useState<any>(null);
   const analysisRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  
+
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.95]);
@@ -73,7 +93,7 @@ export default function UltimateHomePage() {
   // 模拟实时用户数增长
   useEffect(() => {
     const interval = setInterval(() => {
-      setUserCount(prev => prev + Math.floor(Math.random() * 3));
+      setUserCount((prev) => prev + Math.floor(Math.random() * 3));
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -84,14 +104,14 @@ export default function UltimateHomePage() {
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#8B5CF6', '#EC4899', '#10B981', '#F59E0B']
+      colors: ['#8B5CF6', '#EC4899', '#10B981', '#F59E0B'],
     });
   };
 
   // 处理分析结果
   const handleAnalysisComplete = (results: any) => {
     setIsAnalyzing(true);
-    
+
     // 模拟分析过程
     setTimeout(() => {
       setBaziScore(85);
@@ -99,49 +119,52 @@ export default function UltimateHomePage() {
       setIsAnalyzing(false);
       setShowResults(true);
       setStep(2);
-      
+
       // 生成推荐
       setRecommendations([
         {
           type: 'wealth',
           title: '财运提升建议',
           description: '在东南方位放置绿植或水晶',
-          importance: 'high'
+          importance: 'high',
         },
         {
           type: 'career',
           title: '事业发展指南',
           description: '2024年下半年有贵人相助',
-          importance: 'medium'
+          importance: 'medium',
         },
         {
           type: 'relationship',
           title: '感情运势分析',
           description: '农历七月桃花运旺盛',
-          importance: 'high'
-        }
+          importance: 'high',
+        },
       ]);
-      
+
       // 设置报告数据
       setReportData({
         baziAnalysis: results?.baziData || {},
         fengshuiAnalysis: results?.fengshuiData || {},
         score: { bazi: 85, fengshui: 78 },
-        recommendations
+        recommendations,
       });
-      
+
       triggerCelebration();
-      
+
       // 滚动到结果区域
       if (resultsRef.current) {
-        resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        resultsRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
       }
-      
+
       // 延迟显示AI聊天提示
       setTimeout(() => {
         setShowChat(true);
       }, 3000);
-      
+
       // 延迟显示升级提示
       setTimeout(() => {
         setShowUpgradeModal(true);
@@ -160,30 +183,46 @@ export default function UltimateHomePage() {
               <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 AI风水大师
               </span>
-              <Badge variant="outline" className="bg-red-50 text-red-600 animate-pulse">
+              <Badge
+                variant="outline"
+                className="bg-red-50 text-red-600 animate-pulse"
+              >
                 限时8折
               </Badge>
             </div>
-            
+
             {/* 实时数据展示 */}
             <div className="hidden md:flex items-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-green-600" />
-                <span>今日用户：<span className="font-bold text-green-600">{userCount}</span></span>
+                <span>
+                  今日用户：
+                  <span className="font-bold text-green-600">{userCount}</span>
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-blue-600" />
-                <span>准确率：<span className="font-bold text-blue-600">{stats.accuracy}%</span></span>
+                <span>
+                  准确率：
+                  <span className="font-bold text-blue-600">
+                    {stats.accuracy}%
+                  </span>
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Heart className="w-4 h-4 text-red-600" />
-                <span>满意度：<span className="font-bold text-red-600">{stats.satisfaction}%</span></span>
+                <span>
+                  满意度：
+                  <span className="font-bold text-red-600">
+                    {stats.satisfaction}%
+                  </span>
+                </span>
               </div>
             </div>
 
             {/* 得分展示（分析后显示） */}
             {showResults && (
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 className="flex items-center gap-3"
@@ -198,10 +237,7 @@ export default function UltimateHomePage() {
                   <Crown className="w-4 h-4 mr-1" />
                   升级VIP
                 </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setShowChat(true)}
-                >
+                <Button variant="outline" onClick={() => setShowChat(true)}>
                   <MessageCircle className="w-4 h-4 mr-1" />
                   AI咨询
                 </Button>
@@ -213,7 +249,7 @@ export default function UltimateHomePage() {
 
       {/* 主英雄区 - 超强视觉冲击 */}
       {step === 0 && (
-        <motion.div 
+        <motion.div
           style={{ opacity: heroOpacity, scale: heroScale }}
           className="relative overflow-hidden"
         >
@@ -226,21 +262,30 @@ export default function UltimateHomePage() {
               className="text-center max-w-4xl mx-auto"
             >
               {/* 信任徽章 */}
-              <motion.div 
+              <motion.div
                 className="flex justify-center gap-4 mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1">
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1 px-3 py-1"
+                >
                   <Shield className="w-3 h-3" />
                   专业认证
                 </Badge>
-                <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1">
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1 px-3 py-1"
+                >
                   <Star className="w-3 h-3" />
                   4.9分好评
                 </Badge>
-                <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1">
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1 px-3 py-1"
+                >
                   <Users className="w-3 h-3" />
                   10万+用户
                 </Badge>
@@ -250,35 +295,44 @@ export default function UltimateHomePage() {
                 AI智能风水分析
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
-                融合千年易学智慧与现代AI科技<br />
-                <span className="text-purple-600 font-semibold">3分钟</span>精准分析您的
+                融合千年易学智慧与现代AI科技
+                <br />
+                <span className="text-purple-600 font-semibold">3分钟</span>
+                精准分析您的
                 <span className="text-pink-600 font-semibold">命理运势</span>与
                 <span className="text-blue-600 font-semibold">风水格局</span>
               </p>
 
               {/* 限时优惠提醒 */}
-              <motion.div 
+              <motion.div
                 className="bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-lg p-4 mb-8 max-w-2xl mx-auto"
                 animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
               >
                 <div className="flex items-center justify-center gap-3">
                   <Gift className="w-6 h-6" />
-                  <span className="text-lg font-bold">限时优惠：前100名用户享8折优惠 + 赠送月度运势报告</span>
+                  <span className="text-lg font-bold">
+                    限时优惠：前100名用户享8折优惠 + 赠送月度运势报告
+                  </span>
                   <Gift className="w-6 h-6" />
                 </div>
               </motion.div>
 
               {/* CTA按钮组 */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   <Button
                     size="lg"
                     className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg shadow-xl"
                     onClick={() => {
                       setStep(1);
                       if (analysisRef.current) {
-                        analysisRef.current.scrollIntoView({ behavior: 'smooth' });
+                        analysisRef.current.scrollIntoView({
+                          behavior: 'smooth',
+                        });
                       }
                     }}
                   >
@@ -300,13 +354,21 @@ export default function UltimateHomePage() {
 
               {/* 用户见证滚动 */}
               <div className="overflow-hidden max-w-3xl mx-auto">
-                <motion.div 
+                <motion.div
                   className="flex gap-4"
                   animate={{ x: [0, -1000] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  transition={{
+                    duration: 20,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: 'linear',
+                  }}
                 >
                   {[...testimonials, ...testimonials].map((item, index) => (
-                    <Card key={index} variant="outline" className="flex-shrink-0 w-80 p-4">
+                    <Card
+                      key={index}
+                      variant="outlined"
+                      className="flex-shrink-0 w-80 p-4"
+                    >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-2xl">{item.avatar}</span>
                         <div>
@@ -345,9 +407,9 @@ export default function UltimateHomePage() {
               <Progress value={66} className="h-2" />
             </div>
 
-            {/* 嵌入分析组件 */}
+            {/* 起始分析组件 */}
             <Card variant="elevated" className="p-6">
-              <GuestAnalysisPage onAnalysisComplete={handleAnalysisComplete} />
+              <GuestAnalysisPage />
             </Card>
           </motion.div>
         </div>
@@ -363,7 +425,10 @@ export default function UltimateHomePage() {
           >
             {/* 分数展示卡片 */}
             <div className="grid md:grid-cols-2 gap-6 mb-12">
-              <Card variant="elevated" className="p-6 bg-gradient-to-br from-purple-50 to-pink-50">
+              <Card
+                variant="elevated"
+                className="p-6 bg-gradient-to-br from-purple-50 to-pink-50"
+              >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-bold">八字命理评分</h3>
                   <Badge className="bg-purple-600 text-white text-lg px-3 py-1">
@@ -387,7 +452,10 @@ export default function UltimateHomePage() {
                 </div>
               </Card>
 
-              <Card variant="elevated" className="p-6 bg-gradient-to-br from-blue-50 to-green-50">
+              <Card
+                variant="elevated"
+                className="p-6 bg-gradient-to-br from-blue-50 to-green-50"
+              >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-bold">风水格局评分</h3>
                   <Badge className="bg-blue-600 text-white text-lg px-3 py-1">
@@ -444,16 +512,21 @@ export default function UltimateHomePage() {
                       <h3 className="text-lg font-bold mb-3">综合评估</h3>
                       <p className="text-gray-600 leading-relaxed">
                         根据您的八字命理和居住风水综合分析，您的整体运势处于
-                        <span className="text-purple-600 font-bold">中上水平</span>。
+                        <span className="text-purple-600 font-bold">
+                          中上水平
+                        </span>
+                        。
                         命格显示您具有较强的事业心和财运基础，配合适当的风水调整，
                         可以进一步提升各方面运势。
                       </p>
                     </div>
-                    
+
                     {/* 免费展示部分内容 */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-purple-50 p-4 rounded-lg">
-                        <h4 className="font-bold text-purple-700 mb-2">✨ 优势领域</h4>
+                        <h4 className="font-bold text-purple-700 mb-2">
+                          ✨ 优势领域
+                        </h4>
                         <ul className="text-sm space-y-1 text-gray-600">
                           <li>• 事业运势强劲</li>
                           <li>• 贵人运佳</li>
@@ -461,7 +534,9 @@ export default function UltimateHomePage() {
                         </ul>
                       </div>
                       <div className="bg-blue-50 p-4 rounded-lg">
-                        <h4 className="font-bold text-blue-700 mb-2">📈 提升空间</h4>
+                        <h4 className="font-bold text-blue-700 mb-2">
+                          📈 提升空间
+                        </h4>
                         <ul className="text-sm space-y-1 text-gray-600">
                           <li>• 财运可进一步增强</li>
                           <li>• 感情运需要把握时机</li>
@@ -476,8 +551,12 @@ export default function UltimateHomePage() {
                         <div className="flex items-center gap-3">
                           <Lock className="w-6 h-6 text-orange-600" />
                           <div>
-                            <h4 className="font-bold text-orange-900">查看完整分析报告</h4>
-                            <p className="text-sm text-orange-700">包含详细命理解析、流年运势、风水改造方案</p>
+                            <h4 className="font-bold text-orange-900">
+                              查看完整分析报告
+                            </h4>
+                            <p className="text-sm text-orange-700">
+                              包含详细命理解析、流年运势、风水改造方案
+                            </p>
                           </div>
                         </div>
                         <Button
@@ -564,10 +643,13 @@ export default function UltimateHomePage() {
             <div className="text-center">
               <motion.div
                 animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
                 className="inline-block"
               >
-                <Card variant="elevated" className="p-8 bg-gradient-to-r from-purple-100 to-pink-100">
+                <Card
+                  variant="elevated"
+                  className="p-8 bg-gradient-to-r from-purple-100 to-pink-100"
+                >
                   <h2 className="text-2xl font-bold mb-4">
                     🎁 限时特惠，立即行动！
                   </h2>
@@ -575,7 +657,9 @@ export default function UltimateHomePage() {
                     升级专业版，解锁全部功能，获得个性化改运方案
                   </p>
                   <div className="flex items-center justify-center gap-4 mb-6">
-                    <span className="text-3xl text-gray-400 line-through">¥299</span>
+                    <span className="text-3xl text-gray-400 line-through">
+                      ¥299
+                    </span>
                     <span className="text-5xl font-bold text-red-600">¥99</span>
                     <Badge className="bg-red-500 text-white animate-pulse">
                       限时67折
@@ -622,7 +706,8 @@ export default function UltimateHomePage() {
                       onClick={() => {
                         if (reportData) {
                           // 触发报告导出
-                          const exportComponent = document.getElementById('report-export');
+                          const exportComponent =
+                            document.getElementById('report-export');
                           if (exportComponent) {
                             exportComponent.click();
                           }
@@ -634,7 +719,8 @@ export default function UltimateHomePage() {
                     </Button>
                   </div>
                   <p className="text-xs text-gray-500 mt-4">
-                    ⚡ 限时优惠仅剩：<span className="font-bold text-red-600">2小时34分</span>
+                    ⚡ 限时优惠仅剩：
+                    <span className="font-bold text-red-600">2小时34分</span>
                   </p>
                 </Card>
               </motion.div>
@@ -644,7 +730,7 @@ export default function UltimateHomePage() {
       )}
 
       {/* AI聊天弹窗 */}
-      <AIChatPopup 
+      <AIChatPopup
         isOpen={showChat}
         onClose={() => setShowChat(false)}
         baziData={reportData?.baziAnalysis}
@@ -653,9 +739,8 @@ export default function UltimateHomePage() {
 
       {/* 报告导出组件（隐藏） */}
       {reportData && (
-        <div className="hidden">
-          <ReportExport 
-            id="report-export"
+        <div className="hidden" id="report-export">
+          <ReportExport
             data={reportData}
             onExport={(format) => {
               console.log(`Exporting report in ${format} format`);
@@ -743,10 +828,7 @@ export default function UltimateHomePage() {
               <Crown className="w-4 h-4 mr-1" />
               升级VIP
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => setShowChat(true)}
-            >
+            <Button variant="outline" onClick={() => setShowChat(true)}>
               <MessageCircle className="w-5 h-5" />
             </Button>
             <Button
@@ -757,7 +839,7 @@ export default function UltimateHomePage() {
                   navigator.share({
                     title: 'AI风水大师分析结果',
                     text: '我刚完成了风水分析，快来试试！',
-                    url: window.location.href
+                    url: window.location.href,
                   });
                 }
               }}

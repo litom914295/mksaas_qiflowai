@@ -13,15 +13,21 @@ const cases = [
 ];
 
 describe('authoritative snapshots (MVP scaffolding)', () => {
-  test.each(cases)("%s", ({ name, date, deg = 120 }) => {
-    const out = generateFlyingStar({ observedAt: new Date(date), facing: { degrees: deg } });
+  test.each(cases)('%s', ({ name, date, deg = 120 }) => {
+    const out = generateFlyingStar({
+      observedAt: new Date(date),
+      facing: { degrees: deg },
+    });
     // Keep snapshot stable: sort plates by palace
     const sorted = {
       ...out,
-      plates: Object.fromEntries(Object.entries(out.plates).map(([k, v]) => [k, [...v].sort((a, b) => a.palace - b.palace)])),
+      plates: Object.fromEntries(
+        Object.entries(out.plates).map(([k, v]) => [
+          k,
+          [...v].sort((a, b) => a.palace - b.palace),
+        ])
+      ),
     };
     expect({ name, sorted }).toMatchSnapshot();
   });
 });
-
-

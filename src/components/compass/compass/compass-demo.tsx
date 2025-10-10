@@ -1,7 +1,8 @@
 'use client';
 
-import { compassThemes, type CompassThemeKey } from '@/lib/compass/themes';
-import React, { useState } from 'react';
+import { type CompassThemeKey, compassThemes } from '@/lib/compass/themes';
+import type React from 'react';
+import { useState } from 'react';
 import CompassThemeSelector from './compass-theme-selector';
 import FengShuiCompass from './feng-shui-compass';
 
@@ -49,7 +50,7 @@ const CompassDemo: React.FC<CompassDemoProps> = ({ className = '' }) => {
                   <span>主题: {themeConfig.info.name}</span>
                 </div>
               </div>
-              
+
               {/* 罗盘组件 */}
               <div className="flex justify-center">
                 <FengShuiCompass
@@ -80,7 +81,7 @@ const CompassDemo: React.FC<CompassDemoProps> = ({ className = '' }) => {
               <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
                 罗盘设置
               </h3>
-              
+
               <div className="space-y-4">
                 {/* 尺寸设置 */}
                 <div>
@@ -172,38 +173,48 @@ const CompassDemo: React.FC<CompassDemoProps> = ({ className = '' }) => {
               <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
                 当前主题信息
               </h3>
-              
+
               <div className="space-y-3">
                 <div>
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">主题名称:</span>
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    主题名称:
+                  </span>
                   <span className="ml-2 text-sm text-gray-900 dark:text-gray-100">
                     {themeConfig.info.name}
                   </span>
                 </div>
-                
+
                 <div>
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">描述:</span>
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    描述:
+                  </span>
                   <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">
                     {themeConfig.info.preview || '经典风水罗盘主题'}
                   </p>
                 </div>
-                
+
                 <div>
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">层数:</span>
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    层数:
+                  </span>
                   <span className="ml-2 text-sm text-gray-900 dark:text-gray-100">
                     {themeConfig.data.length} 层
                   </span>
                 </div>
-                
+
                 <div>
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">旋转角度:</span>
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    旋转角度:
+                  </span>
                   <span className="ml-2 text-sm text-gray-900 dark:text-gray-100">
                     {themeConfig.rotate}°
                   </span>
                 </div>
-                
+
                 <div>
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">天心十字:</span>
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    天心十字:
+                  </span>
                   <span className="ml-2 text-sm text-gray-900 dark:text-gray-100">
                     {themeConfig.isShowTianxinCross ? '显示' : '隐藏'}
                   </span>
@@ -218,10 +229,12 @@ const CompassDemo: React.FC<CompassDemoProps> = ({ className = '' }) => {
           <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
             使用说明
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">基本操作</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                基本操作
+              </h4>
               <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                 <li>• 点击罗盘可设置方位角度</li>
                 <li>• 切换主题查看不同风格</li>
@@ -229,9 +242,11 @@ const CompassDemo: React.FC<CompassDemoProps> = ({ className = '' }) => {
                 <li>• 开启/关闭动画效果</li>
               </ul>
             </div>
-            
+
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">主题特色</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                主题特色
+              </h4>
               <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                 <li>• 豪华经典：传统风水完整元素</li>
                 <li>• 暗夜星辰：适合夜间使用</li>

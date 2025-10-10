@@ -6,14 +6,7 @@
  */
 
 import { useEffect } from 'react';
-import {
-  type Metric,
-  onCLS,
-  onFCP,
-  onINP,
-  onLCP,
-  onTTFB,
-} from 'web-vitals';
+import { type Metric, onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals';
 
 interface WebVitalsProps {
   /**

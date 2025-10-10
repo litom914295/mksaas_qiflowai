@@ -4,14 +4,20 @@ const { execSync } = require('child_process');
 
 const replacements = [
   { from: '@/lib/bazi/luck-pillars', to: '@/lib/qiflow/bazi/luck-pillars' },
-  { from: '@/lib/bazi/enhanced-calculator', to: '@/lib/qiflow/bazi/enhanced-calculator' },
-  { from: '@/lib/fengshui/smart-recommendations', to: '@/lib/qiflow/fengshui/smart-recommendations' }
+  {
+    from: '@/lib/bazi/enhanced-calculator',
+    to: '@/lib/qiflow/bazi/enhanced-calculator',
+  },
+  {
+    from: '@/lib/fengshui/smart-recommendations',
+    to: '@/lib/qiflow/fengshui/smart-recommendations',
+  },
 ];
 
 function getAllFiles(dirPath, arrayOfFiles = []) {
   const files = fs.readdirSync(dirPath);
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const filePath = path.join(dirPath, file);
     if (fs.statSync(filePath).isDirectory()) {
       arrayOfFiles = getAllFiles(filePath, arrayOfFiles);
@@ -27,13 +33,16 @@ const files = getAllFiles('./src/components');
 
 let totalChanges = 0;
 
-files.forEach(filePath => {
+files.forEach((filePath) => {
   let content = fs.readFileSync(filePath, 'utf8');
   let changed = false;
 
   replacements.forEach(({ from, to }) => {
     if (content.includes(from)) {
-      content = content.replace(new RegExp(from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), to);
+      content = content.replace(
+        new RegExp(from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+        to
+      );
       changed = true;
     }
   });

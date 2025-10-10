@@ -2,7 +2,11 @@ import assert from 'node:assert';
 import { createRateLimiter } from '@/lib/rate-limit';
 
 // 使用短时间窗口进行测试
-const limiter = createRateLimiter({ windowMs: 200, maxRequests: 2, message: '限流触发' });
+const limiter = createRateLimiter({
+  windowMs: 200,
+  maxRequests: 2,
+  message: '限流触发',
+});
 
 const id = 'test-user-123';
 

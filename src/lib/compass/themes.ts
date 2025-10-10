@@ -53,9 +53,10 @@ export type CompassThemeKey = (typeof importedThemeKeys)[number];
 
 export const compassThemeKeys: readonly CompassThemeKey[] = importedThemeKeys;
 export const defaultCompassTheme: CompassThemeKey = 'compass';
-export const compassThemes = importedCompassThemes as Record<CompassThemeKey, CompassTheme>;
-
-
+export const compassThemes = importedCompassThemes as Record<
+  CompassThemeKey,
+  CompassTheme
+>;
 
 export const compassTheme = compassThemes.compass;
 export const darkTheme = compassThemes.dark;
@@ -75,6 +76,3 @@ export const getTheme = (key: CompassThemeKey): CompassTheme => {
 };
 
 export default compassThemes;
-
-
-

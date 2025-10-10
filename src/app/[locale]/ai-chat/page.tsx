@@ -1,7 +1,7 @@
 import { AIChatDemo } from '@/components/qiflow/chat/AIChatDemo';
 import { Button } from '@/components/ui/button';
 import { LocaleLink } from '@/i18n/navigation';
-import { ArrowLeft, Shield, Sparkles, Brain } from 'lucide-react';
+import { ArrowLeft, Brain, Shield, Sparkles } from 'lucide-react';
 
 export default function AIChatPage() {
   // 模拟数据上下文（实际应从用户会话或数据库获取）
@@ -22,7 +22,7 @@ export default function AIChatPage() {
               返回首页
             </Button>
           </LocaleLink>
-          
+
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               AI智能咨询
@@ -44,7 +44,7 @@ export default function AIChatPage() {
               所有个性化建议必须基于已计算的结构化数据，确保准确性
             </p>
           </div>
-          
+
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <div className="flex items-center gap-3 mb-3">
               <Brain className="w-8 h-8 text-blue-500" />
@@ -54,7 +54,7 @@ export default function AIChatPage() {
               自动识别问题类型，引导用户完成必要的分析步骤
             </p>
           </div>
-          
+
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <div className="flex items-center gap-3 mb-3">
               <Sparkles className="w-8 h-8 text-purple-500" />
@@ -71,9 +71,7 @@ export default function AIChatPage() {
 
         {/* 测试说明 */}
         <div className="mt-8 p-6 bg-amber-50 border border-amber-200 rounded-lg max-w-4xl mx-auto">
-          <h3 className="font-semibold text-amber-800 mb-2">
-            💡 演示说明
-          </h3>
+          <h3 className="font-semibold text-amber-800 mb-2">💡 演示说明</h3>
           <div className="text-sm text-amber-700 space-y-2">
             <p>• 试试询问 "我的事业运势如何？" - AI会引导您先进行八字分析</p>
             <p>• 试试询问 "什么是八字命理？" - AI会提供通用知识解答</p>

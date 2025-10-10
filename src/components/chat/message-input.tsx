@@ -68,59 +68,59 @@ export const ConversationInput = ({
 
   return (
     <div
-      className='space-y-2 rounded-lg border border-dashed border-transparent transition hover:border-border'
-      onDragOver={event => {
+      className="space-y-2 rounded-lg border border-dashed border-transparent transition hover:border-border"
+      onDragOver={(event) => {
         if (disabled) return;
         event.preventDefault();
       }}
       onDrop={onDrop}
     >
       <textarea
-        className='h-24 w-full resize-none rounded-md border border-border bg-background p-3 text-sm text-foreground shadow-sm transition focus:outline-none focus:ring-2 focus:ring-primary'
+        className="h-24 w-full resize-none rounded-md border border-border bg-background p-3 text-sm text-foreground shadow-sm transition focus:outline-none focus:ring-2 focus:ring-primary"
         placeholder={placeholder}
         value={value}
         disabled={disabled}
-        onChange={event => setValue(event.target.value)}
-        onKeyDown={event => {
+        onChange={(event) => setValue(event.target.value)}
+        onKeyDown={(event) => {
           if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
             event.preventDefault();
             handleSubmit();
           }
         }}
       />
-      <div className='flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground'>
-        <div className='flex items-center gap-3'>
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+        <div className="flex items-center gap-3">
           <button
-            type='button'
-            className='rounded-md border border-dashed border-border px-2 py-1 text-xs font-medium transition hover:border-primary'
+            type="button"
+            className="rounded-md border border-dashed border-border px-2 py-1 text-xs font-medium transition hover:border-primary"
             onClick={() => fileInputRef.current?.click()}
             disabled={disabled}
           >
             上传附件
           </button>
           {!supportsVoice && (
-            <span className='text-[11px]'>
+            <span className="text-[11px]">
               该浏览器暂不支持语音输入，请使用键盘或粘贴文本。
             </span>
           )}
         </div>
         <span>按 Ctrl + Enter 快速发送</span>
         <button
-          type='button'
+          type="button"
           onClick={handleSubmit}
           disabled={disabled || !value.trim()}
-          className='inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50'
+          className="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           发送
         </button>
       </div>
       <input
         ref={fileInputRef}
-        type='file'
-        accept='image/*'
+        type="file"
+        accept="image/*"
         multiple
-        className='hidden'
-        onChange={event => {
+        className="hidden"
+        onChange={(event) => {
           handleUpload(event.target.files);
           if (event.target) {
             event.target.value = '';

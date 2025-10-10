@@ -3,8 +3,11 @@
  * 确保所有AI回答基于已计算的结构化数据
  */
 
-import { hasValidBaziData, type BaziOutput } from '@/app/api/bazi/schema';
-import { hasValidFengshuiData, type FengshuiOutput } from '@/app/api/fengshui/schema';
+import { type BaziOutput, hasValidBaziData } from '@/app/api/bazi/schema';
+import {
+  type FengshuiOutput,
+  hasValidFengshuiData,
+} from '@/app/api/fengshui/schema';
 
 export type QuestionType = 'bazi' | 'fengshui' | 'general' | 'unknown';
 
@@ -36,48 +39,90 @@ export class AlgorithmFirstGuard {
    */
   static identifyQuestionType(question: string): QuestionType {
     const q = question.toLowerCase();
-    
+
     // 八字相关关键词
     const baziKeywords = [
-      '八字', '命理', '四柱', '天干', '地支', '五行', '十神',
-      '用神', '喜忌', '大运', '流年', '运势', '命运', '性格',
-      '事业', '财运', '婚姻', '健康', '命盘', '日主'
+      '八字',
+      '命理',
+      '四柱',
+      '天干',
+      '地支',
+      '五行',
+      '十神',
+      '用神',
+      '喜忌',
+      '大运',
+      '流年',
+      '运势',
+      '命运',
+      '性格',
+      '事业',
+      '财运',
+      '婚姻',
+      '健康',
+      '命盘',
+      '日主',
     ];
-    
+
     // 风水相关关键词
     const fengshuiKeywords = [
-      '风水', '玄空', '飞星', '九宫', '方位', '朝向', '坐向',
-      '山向', '财位', '文昌', '煞气', '吉凶', '布局', '装修',
-      '摆设', '化解', '罗盘', '宅运'
+      '风水',
+      '玄空',
+      '飞星',
+      '九宫',
+      '方位',
+      '朝向',
+      '坐向',
+      '山向',
+      '财位',
+      '文昌',
+      '煞气',
+      '吉凶',
+      '布局',
+      '装修',
+      '摆设',
+      '化解',
+      '罗盘',
+      '宅运',
     ];
-    
+
     // 通用问题关键词（不需要数据）
     const generalKeywords = [
-      '什么是', '如何', '怎么', '为什么', '介绍', '解释',
-      '定义', '原理', '历史', '文化', '传统', '理论'
+      '什么是',
+      '如何',
+      '怎么',
+      '为什么',
+      '介绍',
+      '解释',
+      '定义',
+      '原理',
+      '历史',
+      '文化',
+      '传统',
+      '理论',
     ];
-    
+
     // 检查是否为通用问题
-    if (generalKeywords.some(keyword => q.includes(keyword))) {
+    if (generalKeywords.some((keyword) => q.includes(keyword))) {
       // 进一步检查是否询问具体的个人信息
       if (!q.includes('我的') && !q.includes('我') && !q.includes('您的')) {
         return 'general';
       }
     }
-    
+
     // 检查八字相关
-    if (baziKeywords.some(keyword => q.includes(keyword))) {
+    if (baziKeywords.some((keyword) => q.includes(keyword))) {
       return 'bazi';
     }
-    
+
     // 检查风水相关
-    if (fengshuiKeywords.some(keyword => q.includes(keyword))) {
+    if (fengshuiKeywords.some((keyword) => q.includes(keyword))) {
       return 'fengshui';
     }
-    
+
     return 'unknown';
   }
-  
+
   /**
    * 验证上下文是否有效
    */
@@ -86,12 +131,12 @@ export class AlgorithmFirstGuard {
     context: AnalysisContext
   ): Promise<ValidationResult> {
     const questionType = AlgorithmFirstGuard.identifyQuestionType(question);
-    
+
     // 通用问题不需要数据
     if (questionType === 'general') {
       return { canAnswer: true };
     }
-    
+
     // 检查八字数据
     if (questionType === 'bazi') {
       if (!context.baziData || !hasValidBaziData(context.baziData)) {
@@ -99,11 +144,12 @@ export class AlgorithmFirstGuard {
           canAnswer: false,
           reason: 'NO_BAZI_DATA',
           action: 'REDIRECT_TO_ANALYSIS',
-          message: '我需要先了解您的八字信息才能回答这个问题。请先进行八字分析。',
+          message:
+            '我需要先了解您的八字信息才能回答这个问题。请先进行八字分析。',
           hasData: false,
         };
       }
-      
+
       // 检查数据时效性（可选）
       if (this.isDataExpired(context.baziData)) {
         return {
@@ -114,28 +160,32 @@ export class AlgorithmFirstGuard {
           hasData: true,
         };
       }
-      
+
       return {
         canAnswer: true,
         hasData: true,
         dataType: 'bazi',
         confidence: 0.95,
-        availableData: { baziData: context.baziData }
+        availableData: { baziData: context.baziData },
       };
     }
-    
+
     // 检查风水数据
     if (questionType === 'fengshui') {
-      if (!context.fengshuiData || !hasValidFengshuiData(context.fengshuiData)) {
+      if (
+        !context.fengshuiData ||
+        !hasValidFengshuiData(context.fengshuiData)
+      ) {
         return {
           canAnswer: false,
           reason: 'NO_FENGSHUI_DATA',
           action: 'REDIRECT_TO_ANALYSIS',
-          message: '我需要先了解您的房屋信息才能进行风水分析。请先提供风水相关信息。',
+          message:
+            '我需要先了解您的房屋信息才能进行风水分析。请先提供风水相关信息。',
           hasData: false,
         };
       }
-      
+
       if (this.isDataExpired(context.fengshuiData)) {
         return {
           canAnswer: false,
@@ -145,20 +195,21 @@ export class AlgorithmFirstGuard {
           hasData: true,
         };
       }
-      
+
       return {
         canAnswer: true,
         hasData: true,
         dataType: 'fengshui',
         confidence: 0.95,
-        availableData: { fengshuiData: context.fengshuiData }
+        availableData: { fengshuiData: context.fengshuiData },
       };
     }
-    
+
     // 未知类型问题，检查是否有任何数据
     const hasBazi = context.baziData && hasValidBaziData(context.baziData);
-    const hasFengshui = context.fengshuiData && hasValidFengshuiData(context.fengshuiData);
-    
+    const hasFengshui =
+      context.fengshuiData && hasValidFengshuiData(context.fengshuiData);
+
     if (!hasBazi && !hasFengshui) {
       return {
         canAnswer: false,
@@ -168,7 +219,7 @@ export class AlgorithmFirstGuard {
         hasData: false,
       };
     }
-    
+
     return {
       canAnswer: true,
       hasData: true,
@@ -176,25 +227,25 @@ export class AlgorithmFirstGuard {
       confidence: 0.9,
       availableData: {
         baziData: hasBazi ? context.baziData : null,
-        fengshuiData: hasFengshui ? context.fengshuiData : null
-      }
+        fengshuiData: hasFengshui ? context.fengshuiData : null,
+      },
     };
   }
-  
+
   /**
    * 检查数据是否过期
    */
   private isDataExpired(data: { timestamp?: string }): boolean {
     if (!data.timestamp) return false;
-    
+
     const dataTime = new Date(data.timestamp).getTime();
     const now = new Date().getTime();
     const oneDay = 24 * 60 * 60 * 1000;
-    
+
     // 数据超过30天视为过期
-    return (now - dataTime) > (30 * oneDay);
+    return now - dataTime > 30 * oneDay;
   }
-  
+
   /**
    * 生成引导消息
    */
@@ -202,9 +253,9 @@ export class AlgorithmFirstGuard {
     if (validation.canAnswer) {
       return '';
     }
-    
+
     const baseMessage = validation.message || '请先完成相关分析。';
-    
+
     switch (validation.action) {
       case 'REDIRECT_TO_ANALYSIS': {
         const { ensureLocalePrefix } = require('@/i18n/url');
@@ -213,21 +264,23 @@ export class AlgorithmFirstGuard {
         return `😊 ${baseMessage}
 
 **请提供以下信息：**
-${validation.reason === 'NO_BAZI_DATA' ? 
-`- 📅 出生日期（公历）
+${
+  validation.reason === 'NO_BAZI_DATA'
+    ? `- 📅 出生日期（公历）
 - ⏰ 出生时间（精确到小时）  
 - 📍 出生地点（城市即可）
 - 👤 性别
 
-[立即开始八字分析](${baziLink})` :
-`- 🧭 房屋朝向（罗盘度数）
+[立即开始八字分析](${baziLink})`
+    : `- 🧭 房屋朝向（罗盘度数）
 - 📅 建造或入住年份
 - 📍 所在城市
 - 📐 户型图（可选）
 
-[开始风水分析](${fsLink})`}`;
+[开始风水分析](${fsLink})`
+}`;
       }
-        
+
       case 'REFRESH_ANALYSIS': {
         const { ensureLocalePrefix } = require('@/i18n/url');
         const path = `/analysis/${validation.dataType === 'bazi' ? 'bazi' : 'xuankong'}`;
@@ -237,7 +290,7 @@ ${validation.reason === 'NO_BAZI_DATA' ?
 
 [重新分析](${ensureLocalePrefix(path, 'zh-CN')})`;
       }
-        
+
       case 'PROVIDE_INFO': {
         const { ensureLocalePrefix } = require('@/i18n/url');
         const baziLink = ensureLocalePrefix('/analysis/bazi', 'zh-CN');
@@ -248,12 +301,12 @@ ${validation.reason === 'NO_BAZI_DATA' ?
 - [八字命理分析](${baziLink}) - 了解个人运势
 - [风水罗盘分析](${fsLink}) - 优化居住环境`;
       }
-        
+
       default:
         return baseMessage;
     }
   }
-  
+
   /**
    * 构建AI上下文提示词
    */
@@ -262,31 +315,31 @@ ${validation.reason === 'NO_BAZI_DATA' ?
     questionType: QuestionType
   ): string {
     let contextPrompt = '';
-    
+
     if (availableData?.baziData) {
-      contextPrompt += `## 八字数据\n`;
+      contextPrompt += '## 八字数据\n';
       contextPrompt += `- 四柱: ${JSON.stringify(availableData.baziData.fourPillars)}\n`;
       contextPrompt += `- 五行: ${JSON.stringify(availableData.baziData.elements)}\n`;
       contextPrompt += `- 十神: ${JSON.stringify(availableData.baziData.tenGods)}\n`;
       if (availableData.baziData.yongShen) {
         contextPrompt += `- 用神: ${availableData.baziData.yongShen.primary}\n`;
       }
-      contextPrompt += `\n`;
+      contextPrompt += '\n';
     }
-    
+
     if (availableData?.fengshuiData) {
-      contextPrompt += `## 风水数据\n`;
+      contextPrompt += '## 风水数据\n';
       contextPrompt += `- 坐向: ${availableData.fengshuiData.facing}/${availableData.fengshuiData.mountain}\n`;
       contextPrompt += `- 元运: ${availableData.fengshuiData.period}运\n`;
       if (availableData.fengshuiData.flyingStars) {
         contextPrompt += `- 飞星盘: ${JSON.stringify(availableData.fengshuiData.flyingStars)}\n`;
       }
-      contextPrompt += `\n`;
+      contextPrompt += '\n';
     }
-    
+
     return contextPrompt;
   }
-  
+
   /**
    * 构建AI提示词上下文
    */
@@ -298,45 +351,46 @@ ${validation.reason === 'NO_BAZI_DATA' ?
     if (!validation.canAnswer) {
       return '';
     }
-    
-    let contextPrompt = `你是一位专业的易学顾问。请基于以下数据回答用户问题：\n\n`;
-    
+
+    let contextPrompt =
+      '你是一位专业的易学顾问。请基于以下数据回答用户问题：\n\n';
+
     if (context.baziData && validation.dataType?.includes('bazi')) {
-      contextPrompt += `## 八字数据\n`;
+      contextPrompt += '## 八字数据\n';
       contextPrompt += `- 四柱: ${JSON.stringify(context.baziData.fourPillars)}\n`;
       contextPrompt += `- 五行: ${JSON.stringify(context.baziData.elements)}\n`;
       contextPrompt += `- 十神: ${JSON.stringify(context.baziData.tenGods)}\n`;
-      
+
       if (context.baziData.yongShen) {
         contextPrompt += `- 用神: ${context.baziData.yongShen.primary}\n`;
       }
-      
+
       contextPrompt += `- 数据版本: ${context.baziData.version}\n`;
       contextPrompt += `- 计算时间: ${context.baziData.timestamp}\n\n`;
     }
-    
+
     if (context.fengshuiData && validation.dataType?.includes('fengshui')) {
-      contextPrompt += `## 风水数据\n`;
+      contextPrompt += '## 风水数据\n';
       contextPrompt += `- 坐向: ${context.fengshuiData.facing}/${context.fengshuiData.mountain}\n`;
       contextPrompt += `- 元运: ${context.fengshuiData.period}运\n`;
       contextPrompt += `- 飞星盘: ${JSON.stringify(context.fengshuiData.flyingStars)}\n`;
-      
+
       if (context.fengshuiData.specialPositions) {
         contextPrompt += `- 特殊方位: ${JSON.stringify(context.fengshuiData.specialPositions)}\n`;
       }
-      
+
       contextPrompt += `- 数据版本: ${context.fengshuiData.version}\n`;
       contextPrompt += `- 计算时间: ${context.fengshuiData.timestamp}\n\n`;
     }
-    
-    contextPrompt += `## 回答要求\n`;
-    contextPrompt += `1. 必须基于上述数据进行分析，不得超出数据范围推测\n`;
-    contextPrompt += `2. 使用通俗易懂的语言解释专业术语\n`;
-    contextPrompt += `3. 提供实用可行的建议\n`;
-    contextPrompt += `4. 在回答末尾加入免责声明\n\n`;
-    
+
+    contextPrompt += '## 回答要求\n';
+    contextPrompt += '1. 必须基于上述数据进行分析，不得超出数据范围推测\n';
+    contextPrompt += '2. 使用通俗易懂的语言解释专业术语\n';
+    contextPrompt += '3. 提供实用可行的建议\n';
+    contextPrompt += '4. 在回答末尾加入免责声明\n\n';
+
     contextPrompt += `用户问题: ${question}`;
-    
+
     return contextPrompt;
   }
 }
@@ -346,20 +400,32 @@ ${validation.reason === 'NO_BAZI_DATA' ?
  */
 export class SensitiveTopicFilter {
   private static sensitiveKeywords = [
-    '生死', '死亡', '疾病', '病症', '癌症', '绝症',
-    '赌博', '彩票', '股票代码', '具体投资',
-    '犯罪', '违法', '诈骗',
-    '政治', '宗教纷争',
-    '自杀', '自残'
+    '生死',
+    '死亡',
+    '疾病',
+    '病症',
+    '癌症',
+    '绝症',
+    '赌博',
+    '彩票',
+    '股票代码',
+    '具体投资',
+    '犯罪',
+    '违法',
+    '诈骗',
+    '政治',
+    '宗教纷争',
+    '自杀',
+    '自残',
   ];
-  
+
   static isSensitive(text: string): boolean {
     const lowerText = text.toLowerCase();
-    return this.sensitiveKeywords.some(keyword => 
+    return SensitiveTopicFilter.sensitiveKeywords.some((keyword) =>
       lowerText.includes(keyword)
     );
   }
-  
+
   static getSensitiveWarning(): string {
     return `⚠️ 您的问题涉及敏感内容，我无法回答。
 
@@ -384,7 +450,12 @@ export interface AuditLog {
   hasValidData: boolean;
   dataVersion?: string;
   dataHash?: string;
-  responseType: 'ANALYSIS' | 'GUIDANCE' | 'SENSITIVE_FILTER' | 'ERROR' | 'AI_ANSWER';
+  responseType:
+    | 'ANALYSIS'
+    | 'GUIDANCE'
+    | 'SENSITIVE_FILTER'
+    | 'ERROR'
+    | 'AI_ANSWER';
   confidenceLevel?: number;
   error?: string;
 }
@@ -393,7 +464,7 @@ export class AuditLogger {
   static async log(entry: AuditLog): Promise<void> {
     // 实际项目中应该发送到日志服务
     console.log('[AUDIT]', JSON.stringify(entry));
-    
+
     // Edge Runtime 不支持相对 URL，暂时只使用 console.log
     // TODO: 如需持久化，请实现外部日志服务（如 Sentry, Datadog 等）
   }

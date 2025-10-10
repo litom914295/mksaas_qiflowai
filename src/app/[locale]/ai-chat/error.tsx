@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -9,7 +9,9 @@ export default function Error({ error, reset }: ErrorProps) {
   return (
     <div className="mx-auto max-w-xl p-6">
       <div className="rounded-lg border bg-card p-4">
-        <h2 className="text-lg font-semibold text-destructive">聊天页加载失败</h2>
+        <h2 className="text-lg font-semibold text-destructive">
+          聊天页加载失败
+        </h2>
         <p className="mt-2 text-sm text-muted-foreground">
           出现了意外错误：{error.message}
         </p>
@@ -20,8 +22,18 @@ export default function Error({ error, reset }: ErrorProps) {
           >
             重试
           </button>
-          <a className="rounded border px-3 py-1.5 text-sm" href="/zh-CN/analysis/bazi">去八字</a>
-          <a className="rounded border px-3 py-1.5 text-sm" href="/zh-CN/analysis/xuankong">去风水</a>
+          <a
+            className="rounded border px-3 py-1.5 text-sm"
+            href="/zh-CN/analysis/bazi"
+          >
+            去八字
+          </a>
+          <a
+            className="rounded border px-3 py-1.5 text-sm"
+            href="/zh-CN/analysis/xuankong"
+          >
+            去风水
+          </a>
         </div>
       </div>
     </div>

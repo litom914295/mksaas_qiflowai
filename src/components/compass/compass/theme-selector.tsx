@@ -1,7 +1,7 @@
 'use client';
 
-import { type CompassThemeKey } from '@/lib/compass/themes';
-import React from 'react';
+import type { CompassThemeKey } from '@/lib/compass/themes';
+import type React from 'react';
 
 interface ThemeSelectorProps {
   currentTheme: CompassThemeKey;
@@ -19,32 +19,32 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
       key: 'compass' as CompassThemeKey,
       name: '经典罗盘',
       preview: '/compass-themes/theme-compass-preview.png',
-      description: '传统风水罗盘，包含完整的风水元素'
+      description: '传统风水罗盘，包含完整的风水元素',
     },
     {
       key: 'dark' as CompassThemeKey,
       name: '暗夜主题',
       preview: '/compass-themes/theme-dark-preview.png',
-      description: '深色主题，适合夜间使用'
+      description: '深色主题，适合夜间使用',
     },
     {
       key: 'simple' as CompassThemeKey,
       name: '简约主题',
       preview: '/compass-themes/theme-polygon-preview.png',
-      description: '简洁清爽的现代设计'
+      description: '简洁清爽的现代设计',
     },
     {
       key: 'polygon' as CompassThemeKey,
       name: '多边形主题',
       preview: '/compass-themes/theme-polygon-preview.png',
-      description: '几何多边形设计风格'
+      description: '几何多边形设计风格',
     },
     {
       key: 'crice' as CompassThemeKey,
       name: '圆规主题',
       preview: '/compass-themes/theme-crice.png',
-      description: '精密测量工具风格'
-    }
+      description: '精密测量工具风格',
+    },
   ];
 
   return (
@@ -57,7 +57,7 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
           选择您喜欢的罗盘皮肤样式
         </p>
       </div>
-      
+
       <div className="themes-container">
         <div className="theme-cards">
           {themes.map((theme) => (
@@ -69,31 +69,66 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
               {currentTheme === theme.key && (
                 <div className="active-badge">当前主题</div>
               )}
-              
-              <div 
+
+              <div
                 className="theme-preview"
                 style={{
                   backgroundImage: `url(${theme.preview})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat'
+                  backgroundRepeat: 'no-repeat',
                 }}
               >
                 {/* 如果图片加载失败，显示备用内容 */}
                 <div className="preview-fallback">
                   <div className="compass-icon">
                     <svg viewBox="0 0 100 100" className="w-12 h-12">
-                      <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2"/>
-                      <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="1"/>
-                      <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" strokeWidth="1"/>
-                      <line x1="50" y1="5" x2="50" y2="95" stroke="currentColor" strokeWidth="1"/>
-                      <line x1="5" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="1"/>
-                      <polygon points="50,20 45,30 55,30" fill="currentColor"/>
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="45"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="30"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      />
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="15"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      />
+                      <line
+                        x1="50"
+                        y1="5"
+                        x2="50"
+                        y2="95"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      />
+                      <line
+                        x1="5"
+                        y1="50"
+                        x2="95"
+                        y2="50"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      />
+                      <polygon points="50,20 45,30 55,30" fill="currentColor" />
                     </svg>
                   </div>
                 </div>
               </div>
-              
+
               <div className="theme-info">
                 <h4 className="theme-name">{theme.name}</h4>
                 <p className="theme-description">{theme.description}</p>

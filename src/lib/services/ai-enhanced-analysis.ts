@@ -22,7 +22,7 @@ const AI_CONFIG = {
 4. 保持客观中立，不做绝对判断
 5. 突出积极正面的指引
 
-请用专业而温和的语气，帮助用户更好地理解自己的命理特点。`
+请用专业而温和的语气，帮助用户更好地理解自己的命理特点。`,
 };
 
 /**
@@ -185,18 +185,18 @@ async function generateHealthAnalysis(
  * AI增强分析结果
  */
 export interface AIEnhancedAnalysis {
-  personality: string;      // 性格分析
-  career: string;          // 事业分析
-  wealth: string;          // 财运分析
-  relationship: string;    // 感情分析
-  health: string;          // 健康分析
-  summary: string;         // 综合总结
-  generatedAt: Date;       // 生成时间
+  personality: string; // 性格分析
+  career: string; // 事业分析
+  wealth: string; // 财运分析
+  relationship: string; // 感情分析
+  health: string; // 健康分析
+  summary: string; // 综合总结
+  generatedAt: Date; // 生成时间
 }
 
 /**
  * 生成AI增强的完整分析
- * 
+ *
  * @param baziResult 八字分析结果
  * @returns AI增强分析
  */
@@ -205,17 +205,19 @@ export async function generateAIEnhancedAnalysis(
 ): Promise<AIEnhancedAnalysis> {
   try {
     // 并行生成所有分析
-    const [personality, career, wealth, relationship, health] = await Promise.all([
-      generatePersonalityAnalysis(baziResult),
-      generateCareerAnalysis(baziResult),
-      generateWealthAnalysis(baziResult),
-      generateRelationshipAnalysis(baziResult),
-      generateHealthAnalysis(baziResult),
-    ]);
+    const [personality, career, wealth, relationship, health] =
+      await Promise.all([
+        generatePersonalityAnalysis(baziResult),
+        generateCareerAnalysis(baziResult),
+        generateWealthAnalysis(baziResult),
+        generateRelationshipAnalysis(baziResult),
+        generateHealthAnalysis(baziResult),
+      ]);
 
     // 生成综合总结
-    const summaryPrompt = `基于以上所有分析，请用150字以内总结此人的整体命理特点和人生建议。`;
-    
+    const summaryPrompt =
+      '基于以上所有分析，请用150字以内总结此人的整体命理特点和人生建议。';
+
     const { text: summary } = await generateText({
       model: openai(AI_CONFIG.model),
       system: AI_CONFIG.systemPrompt,
@@ -233,10 +235,9 @@ export async function generateAIEnhancedAnalysis(
       summary,
       generatedAt: new Date(),
     };
-
   } catch (error) {
     console.error('AI增强分析生成失败:', error);
-    
+
     // 返回基础分析作为后备
     return {
       personality: '性格温和稳重，善于思考。',

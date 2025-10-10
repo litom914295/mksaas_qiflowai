@@ -1,9 +1,9 @@
 'use client';
 
-import Script from 'next/script';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 import { GA_TRACKING_ID, pageview } from '@/lib/analytics';
+import { usePathname, useSearchParams } from 'next/navigation';
+import Script from 'next/script';
+import { useEffect } from 'react';
 
 export function GoogleAnalytics() {
   const pathname = usePathname();

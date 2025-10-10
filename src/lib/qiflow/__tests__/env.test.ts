@@ -1,8 +1,17 @@
 import assert from 'node:assert';
-import { env, getDefaultAIProvider, isDevelopment, hasAIService } from '@/lib/env';
+import {
+  env,
+  getDefaultAIProvider,
+  hasAIService,
+  isDevelopment,
+} from '@/lib/env';
 
 // 基础环境变量验证
-assert.ok(env.NODE_ENV === 'development' || env.NODE_ENV === 'production' || env.NODE_ENV === 'test');
+assert.ok(
+  env.NODE_ENV === 'development' ||
+    env.NODE_ENV === 'production' ||
+    env.NODE_ENV === 'test'
+);
 
 // 必需配置验证
 assert.ok(env.DATABASE_URL, '数据库URL必须配置');

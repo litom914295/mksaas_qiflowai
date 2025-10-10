@@ -1,12 +1,13 @@
 ﻿'use client';
 
 import {
-    compassThemeKeys,
-    compassThemes,
-    defaultCompassTheme,
-    type CompassThemeKey,
+  type CompassThemeKey,
+  compassThemeKeys,
+  compassThemes,
+  defaultCompassTheme,
 } from '@/lib/compass/themes';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface FengShuiCompassProps {
   width?: number;
@@ -19,9 +20,30 @@ interface FengShuiCompassProps {
 }
 
 const MOUNTAIN_NAMES: readonly string[] = [
-  '子', '癸', '丑', '艮', '寅', '甲', '卯', '乙',
-  '辰', '巽', '巳', '丙', '午', '丁', '未', '坤',
-  '申', '庚', '酉', '辛', '戌', '乾', '亥', '壬',
+  '子',
+  '癸',
+  '丑',
+  '艮',
+  '寅',
+  '甲',
+  '卯',
+  '乙',
+  '辰',
+  '巽',
+  '巳',
+  '丙',
+  '午',
+  '丁',
+  '未',
+  '坤',
+  '申',
+  '庚',
+  '酉',
+  '辛',
+  '戌',
+  '乾',
+  '亥',
+  '壬',
 ] as const;
 
 const ORIENTATION_LABEL_MAP = {
@@ -47,7 +69,7 @@ function normalizeAngle(angle: number): number {
 
 function getClosestDiff(from: number, to: number): number {
   const diff = normalizeAngle(to) - normalizeAngle(from);
-  return (diff + 540) % 360 - 180;
+  return ((diff + 540) % 360) - 180;
 }
 
 const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
@@ -59,12 +81,16 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
   enableAnimation = true,
   showDetailedInfo = true,
 }) => {
-  const orientationHandlerRef = useRef<((event: DeviceOrientationEvent) => void) | null>(null);
+  const orientationHandlerRef = useRef<
+    ((event: DeviceOrientationEvent) => void) | null
+  >(null);
 
   const [compassRotation, setCompassRotation] = useState<number>(0);
   const [targetRotation, setTargetRotation] = useState<number>(0);
   const [isRotating, setIsRotating] = useState<boolean>(false);
-  const [permissionStatus, setPermissionStatus] = useState<'unknown' | 'granted' | 'denied' | 'requesting'>('unknown');
+  const [permissionStatus, setPermissionStatus] = useState<
+    'unknown' | 'granted' | 'denied' | 'requesting'
+  >('unknown');
   const [currentTheme, setCurrentTheme] = useState<CompassThemeKey>(theme);
 
   const themeKeys = useMemo(() => compassThemeKeys as CompassThemeKey[], []);
@@ -72,13 +98,17 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
 
   useEffect(() => {
     const incomingTheme = (theme ?? fallbackTheme) as CompassThemeKey;
-    const nextTheme = compassThemes[incomingTheme] ? incomingTheme : fallbackTheme;
+    const nextTheme = compassThemes[incomingTheme]
+      ? incomingTheme
+      : fallbackTheme;
     if (currentTheme !== nextTheme) {
       setCurrentTheme(nextTheme);
     }
   }, [theme, currentTheme, fallbackTheme]);
 
-  const activeTheme: CompassThemeKey = compassThemes[currentTheme] ? currentTheme : fallbackTheme;
+  const activeTheme: CompassThemeKey = compassThemes[currentTheme]
+    ? currentTheme
+    : fallbackTheme;
   const themeConfig = compassThemes[activeTheme];
   const pointerColor = themeConfig.line?.scaleHighlightColor ?? '#f87171';
 
@@ -91,10 +121,14 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
 
   const backgroundLayers = themePreviewUrl
     ? [
-        themeConfig.background ?? 'radial-gradient(circle, rgba(10,10,15,0.9), rgba(0,0,0,0.98))',
+        themeConfig.background ??
+          'radial-gradient(circle, rgba(10,10,15,0.9), rgba(0,0,0,0.98))',
         `url(${themePreviewUrl})`,
       ]
-    : [themeConfig.background ?? 'radial-gradient(circle, rgba(10,10,15,0.9), rgba(0,0,0,0.98))'];
+    : [
+        themeConfig.background ??
+          'radial-gradient(circle, rgba(10,10,15,0.9), rgba(0,0,0,0.98))',
+      ];
 
   const containerSize = Math.min(width, height);
   const center = containerSize / 2;
@@ -148,7 +182,10 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
 
   const cleanupOrientationListener = useCallback(() => {
     if (orientationHandlerRef.current) {
-      window.removeEventListener('deviceorientation', orientationHandlerRef.current);
+      window.removeEventListener(
+        'deviceorientation',
+        orientationHandlerRef.current
+      );
       orientationHandlerRef.current = null;
     }
   }, []);
@@ -160,7 +197,9 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
     cleanupOrientationListener();
     const handleOrientation = (event: DeviceOrientationEvent) => {
       if (event.alpha !== null) {
-        const calibrated = normalizeAngle(-event.alpha + (themeConfig.rotate ?? 0));
+        const calibrated = normalizeAngle(
+          -event.alpha + (themeConfig.rotate ?? 0)
+        );
         setTargetRotation(calibrated);
       }
     };
@@ -169,7 +208,11 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
   }, [cleanupOrientationListener, interactive, themeConfig.rotate]);
 
   const requestOrientationPermission = useCallback(async () => {
-    if (!interactive || typeof window === 'undefined' || typeof DeviceOrientationEvent === 'undefined') {
+    if (
+      !interactive ||
+      typeof window === 'undefined' ||
+      typeof DeviceOrientationEvent === 'undefined'
+    ) {
       return;
     }
     setPermissionStatus('requesting');
@@ -182,7 +225,9 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
           startOrientationTracking();
         } else {
           setPermissionStatus('denied');
-          window.alert('未能获取方向传感器权限，请检查系统与浏览器的隐私设置。');
+          window.alert(
+            '未能获取方向传感器权限，请检查系统与浏览器的隐私设置。'
+          );
         }
       } else {
         startOrientationTracking();
@@ -196,7 +241,7 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
   }, [interactive, startOrientationTracking]);
 
   const handleManualRotation = useCallback(() => {
-    setTargetRotation(prev => normalizeAngle(prev + 90));
+    setTargetRotation((prev) => normalizeAngle(prev + 90));
   }, []);
 
   const switchSkin = useCallback(() => {
@@ -210,13 +255,13 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
     if (!interactive || typeof window === 'undefined') {
       return;
     }
-    
+
     // 检查 DeviceOrientationEvent 是否可用
     if (typeof DeviceOrientationEvent === 'undefined') {
       setPermissionStatus('denied');
       return;
     }
-    
+
     const deviceEvent = DeviceOrientationEvent as any;
     if (typeof deviceEvent?.requestPermission !== 'function') {
       setPermissionStatus('granted');
@@ -229,10 +274,10 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
       setCompassRotation(targetRotation);
       return;
     }
-    
+
     let animationFrame: number;
     const animate = () => {
-      setCompassRotation(prev => {
+      setCompassRotation((prev) => {
         const diff = getClosestDiff(prev, targetRotation);
         const step = diff * 0.12;
         if (Math.abs(diff) < 0.1) {
@@ -254,21 +299,31 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
     }
   }, [compassRotation, onDirectionChange]);
 
-  useEffect(() => () => cleanupOrientationListener(), [cleanupOrientationListener]);
+  useEffect(
+    () => () => cleanupOrientationListener(),
+    [cleanupOrientationListener]
+  );
 
   const getSittingDirection = useCallback((angle: number) => {
-    const index = Math.round(normalizeAngle(angle) / 15) % MOUNTAIN_NAMES.length;
+    const index =
+      Math.round(normalizeAngle(angle) / 15) % MOUNTAIN_NAMES.length;
     return MOUNTAIN_NAMES[index];
   }, []);
 
   const getFacingDirection = useCallback((angle: number) => {
-    const index = Math.round(normalizeAngle(angle) / 15) % MOUNTAIN_NAMES.length;
+    const index =
+      Math.round(normalizeAngle(angle) / 15) % MOUNTAIN_NAMES.length;
     return MOUNTAIN_NAMES[(index + 12) % MOUNTAIN_NAMES.length];
   }, []);
 
   const orientationAvailable = permissionStatus === 'granted';
 
-  const renderRing = (radius: number, key: string, borderColor: string, dash?: string) => (
+  const renderRing = (
+    radius: number,
+    key: string,
+    borderColor: string,
+    dash?: string
+  ) => (
     <div
       key={`ring-${key}-${radius}`}
       style={{
@@ -292,7 +347,12 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
       const radius = maxRadius - layerIndex * ringSpacing;
       const isGroupLayer = Array.isArray(layer.data[0]);
       const baseFontSize = layer.fontSize ?? 16;
-      const scaledFontSize = Math.max(10, Math.round(baseFontSize * (containerSize / themeConfig.compassSize.width)));
+      const scaledFontSize = Math.max(
+        10,
+        Math.round(
+          baseFontSize * (containerSize / themeConfig.compassSize.width)
+        )
+      );
 
       if (isGroupLayer) {
         const groups = layer.data as string[][];
@@ -304,7 +364,8 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
           group.forEach((text, subIndex) => {
             const angle = baseAngle + (subIndex - (group.length - 1) / 2) * 6;
             const rad = (angle - 90) * (Math.PI / 180);
-            const textRadius = radius - subIndex * (ringSpacing / Math.max(group.length, 2));
+            const textRadius =
+              radius - subIndex * (ringSpacing / Math.max(group.length, 2));
             const x = center + textRadius * Math.cos(rad);
             const y = center + textRadius * Math.sin(rad);
             const colors = Array.isArray(layer.textColor)
@@ -319,7 +380,7 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
                   position: 'absolute',
                   left: x,
                   top: y,
-                  transform: `translate(-50%, -50%) rotate(${layer.vertical ? angle : 0}deg)` ,
+                  transform: `translate(-50%, -50%) rotate(${layer.vertical ? angle : 0}deg)`,
                   transformOrigin: 'center center',
                   color,
                   fontSize: scaledFontSize,
@@ -344,8 +405,10 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
           const x = center + radius * Math.cos(rad);
           const y = center + radius * Math.sin(rad);
           const color = Array.isArray(layer.textColor)
-            ? (layer.textColor as string[])[itemIndex % (layer.textColor as string[]).length]
-            : (layer.textColor as string) ?? '#f8fafc';
+            ? (layer.textColor as string[])[
+                itemIndex % (layer.textColor as string[]).length
+              ]
+            : ((layer.textColor as string) ?? '#f8fafc');
 
           elements.push(
             <span
@@ -354,7 +417,7 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
                 position: 'absolute',
                 left: x,
                 top: y,
-                transform: `translate(-50%, -50%) rotate(${layer.vertical ? angle : 0}deg)` ,
+                transform: `translate(-50%, -50%) rotate(${layer.vertical ? angle : 0}deg)`,
                 transformOrigin: 'center center',
                 color,
                 fontSize: scaledFontSize,
@@ -376,10 +439,20 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
 
   return (
     <div className="flex flex-col items-center" data-testid="feng-shui-compass">
-      <div className="relative flex items-center justify-center" data-testid="compass-container">
-        <div className="relative flex items-center justify-center" style={dialStyle}>
+      <div
+        className="relative flex items-center justify-center"
+        data-testid="compass-container"
+      >
+        <div
+          className="relative flex items-center justify-center"
+          style={dialStyle}
+        >
           {Array.from({ length: layerCount }).map((_, index) =>
-            renderRing(maxRadius - index * ringSpacing, `${index}`, themeConfig.line?.scaleColor ?? '#52525b')
+            renderRing(
+              maxRadius - index * ringSpacing,
+              `${index}`,
+              themeConfig.line?.scaleColor ?? '#52525b'
+            )
           )}
 
           {renderLayerTexts()}
@@ -398,8 +471,8 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
               permissionStatus === 'granted'
                 ? 'bg-emerald-600 text-white'
                 : permissionStatus === 'denied'
-                ? 'bg-rose-600 text-white'
-                : 'bg-blue-600 text-white hover:bg-blue-700'
+                  ? 'bg-rose-600 text-white'
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
             }`}
           >
             {orientationButtonLabel}
@@ -428,13 +501,21 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
           >
             当前方位：{Math.round(normalizeAngle(compassRotation))}°
             {isRotating && (
-              <span className="ml-2 inline-block text-sm text-rose-500">旋转中...</span>
+              <span className="ml-2 inline-block text-sm text-rose-500">
+                旋转中...
+              </span>
             )}
           </div>
           <div className="text-sm text-zinc-600">
-            坐山：<span className="font-medium text-blue-600">{getSittingDirection(compassRotation)}</span>
+            坐山：
+            <span className="font-medium text-blue-600">
+              {getSittingDirection(compassRotation)}
+            </span>
             <span className="mx-2 text-zinc-400">│</span>
-            朝向：<span className="font-medium text-emerald-600">{getFacingDirection(compassRotation)}</span>
+            朝向：
+            <span className="font-medium text-emerald-600">
+              {getFacingDirection(compassRotation)}
+            </span>
           </div>
         </div>
 
@@ -444,7 +525,9 @@ const FengShuiCompass: React.FC<FengShuiCompassProps> = ({
               <div className="flex items-center justify-center space-x-2">
                 <span
                   className={`w-2 h-2 rounded-full ${
-                    orientationAvailable ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
+                    orientationAvailable
+                      ? 'bg-emerald-500 animate-pulse'
+                      : 'bg-amber-500'
                   }`}
                 />
                 <span>{orientationHelperText}</span>

@@ -1,12 +1,12 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { Card } from '@/components/ui/enhanced-card';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/enhanced-card';
+import confetti from 'canvas-confetti';
 import { CheckCircle, Download, Home, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import confetti from 'canvas-confetti';
 
 export default function PaymentSuccessPage() {
   const searchParams = useSearchParams();
@@ -17,7 +17,7 @@ export default function PaymentSuccessPage() {
     confetti({
       particleCount: 100,
       spread: 70,
-      origin: { y: 0.6 }
+      origin: { y: 0.6 },
     });
   }, []);
 
@@ -29,9 +29,7 @@ export default function PaymentSuccessPage() {
             <CheckCircle className="w-12 h-12 text-green-600" />
           </div>
           <h1 className="text-3xl font-bold mb-2">支付成功！</h1>
-          <p className="text-gray-600">
-            订单号：{orderId || 'XXXXXXXXXXXX'}
-          </p>
+          <p className="text-gray-600">订单号：{orderId || 'XXXXXXXXXXXX'}</p>
         </div>
 
         <div className="bg-green-50 rounded-lg p-4 mb-6">
@@ -47,20 +45,23 @@ export default function PaymentSuccessPage() {
         </div>
 
         <div className="space-y-3">
-          <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600" asChild>
+          <Button
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
+            asChild
+          >
             <Link href="/">
               <Home className="w-4 h-4 mr-2" />
               返回首页查看完整报告
             </Link>
           </Button>
-          
+
           <Button variant="outline" className="w-full" asChild>
             <Link href="/report">
               <Download className="w-4 h-4 mr-2" />
               下载PDF报告
             </Link>
           </Button>
-          
+
           <Button variant="ghost" className="w-full">
             <MessageCircle className="w-4 h-4 mr-2" />
             联系客服

@@ -93,7 +93,7 @@ function extractDeclination(
 ): number | undefined {
   // Try common shapes
   if (
-    payload?.result && 
+    payload?.result &&
     Array.isArray(payload.result) &&
     payload.result.length > 0 &&
     typeof (payload.result as any)[0].declination === 'number'

@@ -145,7 +145,7 @@
     },
     "fourPillars": {
       "year": "甲子",
-      "month": "乙丑", 
+      "month": "乙丑",
       "day": "丙寅",
       "hour": "丁卯"
     },
@@ -598,12 +598,12 @@
     "data_exported": "資料已匯出",
     "backup_created": "備份已建立",
     "sync_completed": "同步完成"
-    },
-    "analysis": {
+  },
+  "analysis": {
     "title": "準備開始分析",
     "description": "我們將基於您提供的資訊，生成專業的八字命理和玄空飛星分析報告。",
     "start": "開始分析",
-      "analyzing": "分析中...",
+    "analyzing": "分析中...",
     "baziTitle": "您的專屬八字命理分析",
     "baziDescription": "基於您的出生資訊，經過專業算法深度分析，呈現您的命理特徵和人生洞察。",
     "fengshuiTitle": "玄空飛星風水分析",

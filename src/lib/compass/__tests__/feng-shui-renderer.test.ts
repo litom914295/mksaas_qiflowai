@@ -4,7 +4,7 @@
 
 import Konva from 'konva';
 import { FengShuiCompassRenderer as FengShuiRenderer } from '../feng-shui-renderer';
-import { CompassTheme } from '../feng-shui-types';
+import type { CompassTheme } from '../feng-shui-types';
 
 // Mock Konva
 jest.mock('konva', () => ({

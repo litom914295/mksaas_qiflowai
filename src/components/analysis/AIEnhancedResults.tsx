@@ -5,12 +5,25 @@
 
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Sparkles, User, Briefcase, DollarSign, Heart, Activity } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { AIEnhancedAnalysis } from '@/lib/services/ai-enhanced-analysis';
+import {
+  Activity,
+  Briefcase,
+  DollarSign,
+  Heart,
+  Sparkles,
+  User,
+} from 'lucide-react';
 
 interface AIEnhancedResultsProps {
   analysis: AIEnhancedAnalysis;
@@ -21,12 +34,11 @@ interface AIEnhancedResultsProps {
 /**
  * AI增强分析结果展示组件
  */
-export function AIEnhancedResults({ 
-  analysis, 
+export function AIEnhancedResults({
+  analysis,
   isQuickAnalysis = false,
-  locale = 'zh-CN' 
+  locale = 'zh-CN',
 }: AIEnhancedResultsProps) {
-  
   if (isQuickAnalysis) {
     return (
       <Card className="w-full">
@@ -35,9 +47,7 @@ export function AIEnhancedResults({
             <Sparkles className="h-5 w-5 text-yellow-500" />
             <CardTitle>AI快速分析</CardTitle>
           </div>
-          <CardDescription>
-            基于AI的初步命理解读
-          </CardDescription>
+          <CardDescription>基于AI的初步命理解读</CardDescription>
         </CardHeader>
         <CardContent>
           <Alert>
@@ -84,9 +94,7 @@ export function AIEnhancedResults({
       <Card className="w-full">
         <CardHeader>
           <CardTitle>详细分析</CardTitle>
-          <CardDescription>
-            深入了解您的命理特点
-          </CardDescription>
+          <CardDescription>深入了解您的命理特点</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="personality" className="w-full">

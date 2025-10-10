@@ -1,14 +1,19 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/enhanced-card';
 import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/enhanced-card';
 import { Progress } from '@/components/ui/progress';
-import { 
-  TrendingUp, 
-  Star, 
-  AlertTriangle, 
+import {
+  AlertTriangle,
   CheckCircle2,
-  Info
+  Info,
+  Star,
+  TrendingUp,
 } from 'lucide-react';
 
 interface ComprehensiveScoreProps {
@@ -24,9 +29,8 @@ export function ComprehensiveScore({
   fengshuiScore = 0,
   overallScore = 0,
   rating = 'good',
-  suggestions = []
+  suggestions = [],
 }: ComprehensiveScoreProps) {
-  
   // 获取评级颜色
   const getRatingColor = (rating: string) => {
     switch (rating) {
@@ -76,14 +80,22 @@ export function ComprehensiveScore({
   };
 
   // 计算综合分数（如果没有提供）
-  const calculatedScore = overallScore || Math.round((baziScore + fengshuiScore) / 2);
+  const calculatedScore =
+    overallScore || Math.round((baziScore + fengshuiScore) / 2);
 
   return (
-    <Card variant="elevated" className="border-2 border-purple-200 dark:border-purple-700">
+    <Card
+      variant="elevated"
+      className="border-2 border-purple-200 dark:border-purple-700"
+    >
       <CardHeader>
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle size="lg" gradient="primary" className="flex items-center gap-2">
+            <CardTitle
+              size="lg"
+              gradient="primary"
+              className="flex items-center gap-2"
+            >
               综合评分报告
               <Badge className={`${getRatingColor(rating)} text-white`}>
                 {getRatingIcon(rating)}
@@ -95,26 +107,32 @@ export function ComprehensiveScore({
             <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               {calculatedScore}
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">综合得分</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              综合得分
+            </div>
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-6">
         {/* 分项得分 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium">八字命理分析</span>
-              <span className="text-sm font-bold text-purple-600">{baziScore}分</span>
+              <span className="text-sm font-bold text-purple-600">
+                {baziScore}分
+              </span>
             </div>
             <Progress value={baziScore} max={100} className="h-2" />
           </div>
-          
+
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium">玄空风水分析</span>
-              <span className="text-sm font-bold text-blue-600">{fengshuiScore}分</span>
+              <span className="text-sm font-bold text-blue-600">
+                {fengshuiScore}分
+              </span>
             </div>
             <Progress value={fengshuiScore} max={100} className="h-2" />
           </div>
@@ -129,19 +147,27 @@ export function ComprehensiveScore({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="text-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
               <div className="text-2xl font-bold text-purple-600">A+</div>
-              <div className="text-xs text-gray-600 dark:text-gray-400">事业运势</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400">
+                事业运势
+              </div>
             </div>
             <div className="text-center p-3 bg-pink-50 dark:bg-pink-900/20 rounded-lg">
               <div className="text-2xl font-bold text-pink-600">A</div>
-              <div className="text-xs text-gray-600 dark:text-gray-400">感情婚姻</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400">
+                感情婚姻
+              </div>
             </div>
             <div className="text-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
               <div className="text-2xl font-bold text-blue-600">B+</div>
-              <div className="text-xs text-gray-600 dark:text-gray-400">财运分析</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400">
+                财运分析
+              </div>
             </div>
             <div className="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
               <div className="text-2xl font-bold text-green-600">A</div>
-              <div className="text-xs text-gray-600 dark:text-gray-400">健康状况</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400">
+                健康状况
+              </div>
             </div>
           </div>
         </div>
@@ -152,7 +178,10 @@ export function ComprehensiveScore({
             <h4 className="text-sm font-semibold mb-3">优化建议</h4>
             <ul className="space-y-2">
               {suggestions.map((suggestion, index) => (
-                <li key={index} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                <li
+                  key={index}
+                  className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300"
+                >
                   <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                   <span>{suggestion}</span>
                 </li>

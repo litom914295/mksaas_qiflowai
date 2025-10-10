@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Send, AlertCircle, Sparkles, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { LocaleLink } from '@/i18n/navigation';
+import { AlertCircle, Loader2, Send, Sparkles, User } from 'lucide-react';
+import { useState } from 'react';
 
 interface Message {
   id: string;
@@ -26,7 +26,7 @@ interface ChatContext {
     gender: string | null;
     hasComplete: boolean;
   };
-  calculatedBazi?: any;  // 计算的八字数据
+  calculatedBazi?: any; // 计算的八字数据
 }
 
 export function AIChatDemo({ context }: { context?: ChatContext }) {
@@ -34,7 +34,8 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
     {
       id: '1',
       role: 'assistant',
-      content: '您好！我是QiFlow AI智能顾问 🌟\n\n我可以为您提供：\n• 八字命理分析和运势指导\n• 风水布局优化建议\n• 易学文化知识解答\n\n请问有什么可以帮助您的吗？',
+      content:
+        '您好！我是QiFlow AI智能顾问 🌟\n\n我可以为您提供：\n• 八字命理分析和运势指导\n• 风水布局优化建议\n• 易学文化知识解答\n\n请问有什么可以帮助您的吗？',
       timestamp: new Date(),
     },
   ]);
@@ -42,9 +43,13 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId] = useState(() => `demo_${Date.now()}`);
   // 会话记忆：保存识别到的生辰信息
-  const [birthInfo, setBirthInfo] = useState<ChatContext['birthInfo']>(context?.birthInfo);
+  const [birthInfo, setBirthInfo] = useState<ChatContext['birthInfo']>(
+    context?.birthInfo
+  );
   // 保存计算的八字数据
-  const [calculatedBazi, setCalculatedBazi] = useState<any>(context?.calculatedBazi);
+  const [calculatedBazi, setCalculatedBazi] = useState<any>(
+    context?.calculatedBazi
+  );
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -56,7 +61,7 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
@@ -67,7 +72,7 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
         birthInfo: birthInfo || context?.birthInfo,
         calculatedBazi: calculatedBazi || context?.calculatedBazi,
       };
-      
+
       const response = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: {
@@ -86,15 +91,18 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
         // 保存 API 返回的 birthInfo（如果有）
         if (data.data.birthInfo) {
           setBirthInfo(data.data.birthInfo);
-          console.log('💾 Saved birthInfo to session memory:', data.data.birthInfo);
+          console.log(
+            '💾 Saved birthInfo to session memory:',
+            data.data.birthInfo
+          );
         }
-        
+
         // 保存计算的八字数据
         if (data.data.calculatedBazi) {
           setCalculatedBazi(data.data.calculatedBazi);
           console.log('🎯 Saved calculated Bazi to session memory');
         }
-        
+
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
@@ -103,7 +111,7 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
           needsAction: data.data.needsAction,
           actionUrl: data.data.actionUrl,
         };
-        setMessages(prev => [...prev, assistantMessage]);
+        setMessages((prev) => [...prev, assistantMessage]);
       } else {
         throw new Error(data.error || '响应失败');
       }
@@ -115,7 +123,7 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
         content: '抱歉，我暂时无法回答您的问题。请稍后再试。',
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -197,8 +205,10 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
                     <div className="mt-3 pt-3 border-t">
                       <LocaleLink href={message.actionUrl}>
                         <Button size="sm" variant="default">
-                          {message.needsAction === 'REDIRECT_TO_ANALYSIS' && '开始分析'}
-                          {message.needsAction === 'REFRESH_ANALYSIS' && '重新分析'}
+                          {message.needsAction === 'REDIRECT_TO_ANALYSIS' &&
+                            '开始分析'}
+                          {message.needsAction === 'REFRESH_ANALYSIS' &&
+                            '重新分析'}
                           {message.needsAction === 'PROVIDE_INFO' && '了解更多'}
                         </Button>
                       </LocaleLink>
@@ -225,23 +235,29 @@ export function AIChatDemo({ context }: { context?: ChatContext }) {
           <Alert className="mb-4 bg-green-50 border-green-200">
             <Sparkles className="h-4 w-4 text-green-600" />
             <AlertDescription className="text-green-800">
-              ✅ 已记住您的出生信息：{birthInfo.date} {birthInfo.time} {birthInfo.gender}
+              ✅ 已记住您的出生信息：{birthInfo.date} {birthInfo.time}{' '}
+              {birthInfo.gender}
             </AlertDescription>
           </Alert>
         )}
-        
+
         {/* 数据状态提示 */}
-        {(!context?.baziData && !context?.fengshuiData && !birthInfo?.hasComplete) && (
-          <Alert className="mb-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              您还没有进行任何分析。AI将基于您的分析数据提供个性化建议。
-              <LocaleLink href="/analysis/bazi" className="text-primary underline ml-1">
-                立即开始
-              </LocaleLink>
-            </AlertDescription>
-          </Alert>
-        )}
+        {!context?.baziData &&
+          !context?.fengshuiData &&
+          !birthInfo?.hasComplete && (
+            <Alert className="mb-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                您还没有进行任何分析。AI将基于您的分析数据提供个性化建议。
+                <LocaleLink
+                  href="/analysis/bazi"
+                  className="text-primary underline ml-1"
+                >
+                  立即开始
+                </LocaleLink>
+              </AlertDescription>
+            </Alert>
+          )}
 
         {/* 输入区域 */}
         <div className="flex gap-2">

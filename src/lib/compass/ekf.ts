@@ -40,5 +40,3 @@ export function normalizeAngleDeg(a: number): number {
   if (x > 180) x -= 360;
   return x;
 }
-
-

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
 import { PersonalDataForm } from '../personal-data-form';
 
@@ -19,9 +19,9 @@ const messages = {
       birthTime: 'Birth Time',
       birthPlaceRequired: 'Birth Place *',
       birthPlacePlaceholder: 'Please enter birth city',
-      nextHouseOrientation: 'Next: House Orientation'
-    }
-  }
+      nextHouseOrientation: 'Next: House Orientation',
+    },
+  },
 };
 
 describe('PersonalDataForm', () => {
@@ -34,7 +34,7 @@ describe('PersonalDataForm', () => {
 
   const renderForm = (props = {}) => {
     return render(
-      <NextIntlClientProvider locale='en' messages={messages}>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <PersonalDataForm
           onSubmit={mockOnSubmit}
           onQuickFill={mockOnQuickFill}
@@ -56,14 +56,18 @@ describe('PersonalDataForm', () => {
   it('displays quick fill button', () => {
     renderForm();
 
-    const quickFillButton = screen.getByRole('button', { name: /Quick Fill Sample Data/i });
+    const quickFillButton = screen.getByRole('button', {
+      name: /Quick Fill Sample Data/i,
+    });
     expect(quickFillButton).toBeInTheDocument();
   });
 
   it('calls onQuickFill when quick fill button is clicked', () => {
     renderForm();
 
-    const quickFillButton = screen.getByRole('button', { name: /Quick Fill Sample Data/i });
+    const quickFillButton = screen.getByRole('button', {
+      name: /Quick Fill Sample Data/i,
+    });
     fireEvent.click(quickFillButton);
 
     expect(mockOnQuickFill).toHaveBeenCalledTimes(1);
@@ -84,7 +88,9 @@ describe('PersonalDataForm', () => {
     fireEvent.change(locationInput, { target: { value: 'Beijing' } });
 
     // Submit the form
-    const submitButton = screen.getByRole('button', { name: /Next: House Orientation/i });
+    const submitButton = screen.getByRole('button', {
+      name: /Next: House Orientation/i,
+    });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
@@ -93,7 +99,7 @@ describe('PersonalDataForm', () => {
         gender: 'male',
         birthDate: '1990-05-15',
         birthTime: '',
-        location: 'Beijing'
+        location: 'Beijing',
       });
     });
   });
@@ -104,7 +110,7 @@ describe('PersonalDataForm', () => {
       gender: 'female' as const,
       birthDate: '1985-03-20',
       birthTime: '14:30',
-      location: 'Shanghai'
+      location: 'Shanghai',
     };
 
     renderForm({ defaultValues });
@@ -122,7 +128,9 @@ describe('PersonalDataForm', () => {
     expect(nameInput).toHaveAttribute('aria-required', 'true');
     expect(nameInput).toHaveAttribute('required');
 
-    const quickFillButton = screen.getByRole('button', { name: /Quick Fill Sample Data/i });
+    const quickFillButton = screen.getByRole('button', {
+      name: /Quick Fill Sample Data/i,
+    });
     expect(quickFillButton).toHaveAttribute('aria-label');
   });
 });

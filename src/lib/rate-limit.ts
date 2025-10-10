@@ -133,11 +133,11 @@ export function getClientIp(request: Request): string {
   const forwardedFor = headers.get('x-forwarded-for');
   const realIp = headers.get('x-real-ip');
   const cloudflareIp = headers.get('cf-connecting-ip');
-  
+
   if (cloudflareIp) return cloudflareIp;
   if (forwardedFor) return forwardedFor.split(',')[0].trim();
   if (realIp) return realIp;
-  
+
   // 如果无法获取IP，使用默认值
   return 'unknown';
 }
@@ -172,7 +172,9 @@ export function rateLimitMiddleware(
           headers: {
             ...Object.fromEntries(headers),
             'Content-Type': 'application/json',
-            'Retry-After': Math.ceil((result.reset.getTime() - Date.now()) / 1000).toString(),
+            'Retry-After': Math.ceil(
+              (result.reset.getTime() - Date.now()) / 1000
+            ).toString(),
           },
         }
       );

@@ -6,10 +6,10 @@
  */
 
 import {
-    calculateBaziUnified,
-    getGlobalAdapter,
-    type EnhancedBaziResult,
-    type EnhancedBirthData,
+  type EnhancedBaziResult,
+  type EnhancedBirthData,
+  calculateBaziUnified,
+  getGlobalAdapter,
 } from './adapter';
 import { createEnhancedBaziCalculator } from './enhanced-calculator';
 
@@ -100,10 +100,9 @@ export * from './yongshen';
 export {
   OptimizedBaziCalculator,
   calculateOptimizedBazi,
-  validateBaziCalculation
+  validateBaziCalculation,
 } from './optimized-calculator';
 export type {
   OptimizedBaziInput,
-  OptimizedBaziResult
+  OptimizedBaziResult,
 } from './optimized-calculator';
-

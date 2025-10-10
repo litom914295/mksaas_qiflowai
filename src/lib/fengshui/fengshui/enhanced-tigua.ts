@@ -1,5 +1,5 @@
 import { getPalaceByMountain } from './luoshu';
-import { FlyingStar, Mountain, Yun } from './types';
+import type { FlyingStar, Mountain, Yun } from './types';
 
 /**
  * 增强版替卦算法
@@ -322,7 +322,7 @@ export function intelligentTiguaJudgment(
 } {
   // 查找适用的替卦规则
   const applicableRules = ENHANCED_TIGUA_RULES.filter(
-    rule =>
+    (rule) =>
       rule.zuo === zuo &&
       rule.xiang === xiang &&
       rule.applicablePeriods.includes(period)
@@ -479,7 +479,7 @@ export function intelligentTiguaJudgment(
   if (options.prioritizeStability) {
     if (
       originalScore >= 0 &&
-      !applicableRules.some(r => r.conditions.mustUse)
+      !applicableRules.some((r) => r.conditions.mustUse)
     ) {
       reasoning.push('考虑到稳定性优先，建议保持原格局');
       recommendedRule = null;

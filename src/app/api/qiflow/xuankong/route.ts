@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { UnifiedFengshuiEngine } from '@/lib/qiflow/unified';
+import { adaptToFrontend } from '@/lib/qiflow/unified/adapters/frontend-adapter';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { generateFlyingStar, type GenerateFlyingStarInput } from '@/lib/qiflow/xuankong';
 
 const RequestSchema = z.object({
   address: z.string().min(1).max(200),
@@ -12,7 +13,7 @@ const RequestSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    
+
     // 验证请求数据
     const parsed = RequestSchema.safeParse(body);
     if (!parsed.success) {
@@ -24,39 +25,63 @@ export async function POST(req: NextRequest) {
 
     const { address, direction, houseType, observedAt } = parsed.data;
 
-    // 使用真实的玄空风水算法
-    const analysisInput: GenerateFlyingStarInput = {
-      observedAt: observedAt ? new Date(observedAt) : new Date(),
-      facing: {
-        degrees: direction,
-      },
-      config: {
-        toleranceDeg: 3,
-        applyTiGua: true,
-        applyFanGua: true,
-        evaluationProfile: 'standard',
-      },
+    // 使用统一分析引擎
+    const engine = new UnifiedFengshuiEngine();
+    const observationDate = observedAt ? new Date(observedAt) : new Date();
+
+    // 构建默认的八字信息（由于该 API 不处理个人信息）
+    const defaultBazi = {
+      birthYear: observationDate.getFullYear(),
+      birthMonth: 1,
+      birthDay: 1,
+      gender: 'male' as const,
     };
 
-    const result = await generateFlyingStar(analysisInput);
+    // 构建符合 UnifiedAnalysisInput 类型的参数
+    const unifiedResult = await engine.analyze({
+      bazi: defaultBazi,
+      house: {
+        facing: direction,
+        buildYear: observationDate.getFullYear(),
+        period: ((Math.floor((observationDate.getFullYear() - 1864) / 20) % 9) + 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9,
+      },
+      time: {
+        currentYear: observationDate.getFullYear(),
+        currentMonth: observationDate.getMonth() + 1,
+        currentDay: observationDate.getDate(),
+      },
+      options: {
+        includeLiunian: true,
+        includePersonalization: false, // 该 API 不启用个性化分析
+        includeTigua: true,
+        includeLingzheng: true,
+        includeChengmenjue: true,
+        depth: 'comprehensive',
+        config: {
+          applyTiGua: true,
+          applyFanGua: true,
+          evaluationProfile: 'standard',
+        },
+      },
+    });
 
-    // 计算置信度
-    const gejuStrength = result.geju?.isFavorable ? 0.7 : 0.4;
-    const rulesCount = result.meta.rulesApplied.length;
-    const confidence = Math.min(0.95, gejuStrength + rulesCount * 0.1);
+    // 使用适配器转换为前端格式
+    const result = adaptToFrontend(unifiedResult);
+
+    // 计算置信度（基于统一评分）
+    const confidence = Math.min(
+      0.95,
+      unifiedResult.assessment.overallScore / 100
+    );
 
     // 格式化返回结果
     const formattedResult = {
       address,
       direction: `${direction}度`,
       houseType: houseType || '未指定',
-      period: result.period,
-      plates: result.plates,
-      evaluation: result.evaluation,
-      geju: result.geju,
-      wenchangwei: result.wenchangwei,
-      caiwei: result.caiwei,
-      meta: result.meta,
+      ...result.basicAnalysis,
+      overallAssessment: result.overallAssessment,
+      smartRecommendations: result.smartRecommendations,
     };
 
     return NextResponse.json({
@@ -68,9 +93,9 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Xuankong API error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Internal server error',
-        details: error instanceof Error ? error.message : String(error)
+        details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );

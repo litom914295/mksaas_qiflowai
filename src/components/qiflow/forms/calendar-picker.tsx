@@ -76,13 +76,12 @@ export function CalendarPicker({
       const day = LUNAR_DAYS[date.getDate() - 1];
       const year = date.getFullYear();
       return `${year}年${month}${day}`;
-    } else {
-      return date.toLocaleDateString('zh-CN', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      });
     }
+    return date.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
   };
 
   // 获取月份的天数
@@ -116,7 +115,7 @@ export function CalendarPicker({
 
   // 月份导航
   const navigateMonth = (direction: 'prev' | 'next') => {
-    setCurrentDate(prev => {
+    setCurrentDate((prev) => {
       const newDate = new Date(prev);
       if (direction === 'prev') {
         newDate.setMonth(newDate.getMonth() - 1);
@@ -129,7 +128,7 @@ export function CalendarPicker({
 
   // 年份导航
   const navigateYear = (direction: 'prev' | 'next') => {
-    setCurrentDate(prev => {
+    setCurrentDate((prev) => {
       const newDate = new Date(prev);
       if (direction === 'prev') {
         newDate.setFullYear(newDate.getFullYear() - 1);
@@ -167,9 +166,9 @@ export function CalendarPicker({
         if (match) {
           const [, year, month, day] = match;
           parsedDate = new Date(
-            parseInt(year),
-            parseInt(month) - 1,
-            parseInt(day)
+            Number.parseInt(year),
+            Number.parseInt(month) - 1,
+            Number.parseInt(day)
           );
         }
       }
@@ -179,9 +178,9 @@ export function CalendarPicker({
         if (match) {
           const [, year, month, day] = match;
           parsedDate = new Date(
-            parseInt(year),
-            parseInt(month) - 1,
-            parseInt(day)
+            Number.parseInt(year),
+            Number.parseInt(month) - 1,
+            Number.parseInt(day)
           );
         }
       }
@@ -189,13 +188,13 @@ export function CalendarPicker({
       else if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(newValue)) {
         const parts = newValue.split('/');
         parsedDate = new Date(
-          parseInt(parts[2]),
-          parseInt(parts[0]) - 1,
-          parseInt(parts[1])
+          Number.parseInt(parts[2]),
+          Number.parseInt(parts[0]) - 1,
+          Number.parseInt(parts[1])
         );
       }
 
-      if (parsedDate && !isNaN(parsedDate.getTime())) {
+      if (parsedDate && !Number.isNaN(parsedDate.getTime())) {
         setSelectedDate(parsedDate);
         setCurrentDate(new Date(parsedDate));
 
@@ -256,9 +255,9 @@ export function CalendarPicker({
   return (
     <div className={`relative ${className}`}>
       {/* 输入框 */}
-      <div className='relative'>
+      <div className="relative">
         <input
-          type='text'
+          type="text"
           value={isOpen ? inputValue : formatDate(selectedDate)}
           placeholder={placeholder}
           disabled={disabled}
@@ -274,47 +273,47 @@ export function CalendarPicker({
             ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}
           `}
         />
-        <Calendar className='absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+        <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
       </div>
 
       {/* 日历弹窗 */}
       {isOpen && (
         <div
           data-calendar
-          className='absolute top-full left-0 mt-1 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 min-w-[320px]'
-          onMouseDown={e => e.preventDefault()} // 防止触发onBlur
+          className="absolute top-full left-0 mt-1 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 min-w-[320px]"
+          onMouseDown={(e) => e.preventDefault()} // 防止触发onBlur
         >
           {/* 年份导航 */}
-          <div className='flex items-center justify-between mb-3'>
+          <div className="flex items-center justify-between mb-3">
             <button
               onClick={() => navigateYear('prev')}
-              className='p-1 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-800'
+              className="p-1 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-800"
             >
-              <ChevronLeft className='w-4 h-4' />
+              <ChevronLeft className="w-4 h-4" />
             </button>
 
-            <div className='font-semibold text-lg text-gray-900'>
+            <div className="font-semibold text-lg text-gray-900">
               {currentDate.getFullYear()}年
             </div>
 
             <button
               onClick={() => navigateYear('next')}
-              className='p-1 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-800'
+              className="p-1 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-800"
             >
-              <ChevronRight className='w-4 h-4' />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
           {/* 月份导航 */}
-          <div className='flex items-center justify-between mb-4'>
+          <div className="flex items-center justify-between mb-4">
             <button
               onClick={() => navigateMonth('prev')}
-              className='p-1 hover:bg-gray-100 rounded'
+              className="p-1 hover:bg-gray-100 rounded"
             >
-              <ChevronLeft className='w-4 h-4' />
+              <ChevronLeft className="w-4 h-4" />
             </button>
 
-            <div className='font-medium'>
+            <div className="font-medium">
               {calendarType === 'lunar'
                 ? LUNAR_MONTHS[currentDate.getMonth()]
                 : GREGORIAN_MONTHS[currentDate.getMonth()]}
@@ -322,23 +321,23 @@ export function CalendarPicker({
 
             <button
               onClick={() => navigateMonth('next')}
-              className='p-1 hover:bg-gray-100 rounded'
+              className="p-1 hover:bg-gray-100 rounded"
             >
-              <ChevronRight className='w-4 h-4' />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
           {/* 帮助提示 */}
-          <div className='text-xs text-gray-500 mb-3 text-center'>
+          <div className="text-xs text-gray-500 mb-3 text-center">
             💡 支持多种格式：1990-01-01、1990/01/01、1990年1月7日、01/01/1990
           </div>
 
           {/* 星期标题 */}
-          <div className='grid grid-cols-7 gap-1 mb-2'>
-            {['日', '一', '二', '三', '四', '五', '六'].map(day => (
+          <div className="grid grid-cols-7 gap-1 mb-2">
+            {['日', '一', '二', '三', '四', '五', '六'].map((day) => (
               <div
                 key={day}
-                className='text-center text-sm font-medium text-gray-500 py-1'
+                className="text-center text-sm font-medium text-gray-500 py-1"
               >
                 {day}
               </div>
@@ -346,9 +345,9 @@ export function CalendarPicker({
           </div>
 
           {/* 日期网格 */}
-          <div className='grid grid-cols-7 gap-1'>
+          <div className="grid grid-cols-7 gap-1">
             {generateCalendarDays().map((day, index) => (
-              <div key={index} className='aspect-square'>
+              <div key={index} className="aspect-square">
                 {day ? (
                   <button
                     onClick={() => handleDateSelect(day)}
@@ -362,17 +361,17 @@ export function CalendarPicker({
                     {day}
                   </button>
                 ) : (
-                  <div className='w-full h-full' />
+                  <div className="w-full h-full" />
                 )}
               </div>
             ))}
           </div>
 
           {/* 底部操作 */}
-          <div className='flex justify-between mt-4 pt-2 border-t'>
+          <div className="flex justify-between mt-4 pt-2 border-t">
             <Button
-              variant='ghost'
-              size='sm'
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 setSelectedDate(null);
                 onChange?.('');
@@ -381,7 +380,7 @@ export function CalendarPicker({
             >
               清除
             </Button>
-            <Button variant='ghost' size='sm' onClick={() => setIsOpen(false)}>
+            <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)}>
               取消
             </Button>
           </div>
@@ -390,7 +389,7 @@ export function CalendarPicker({
 
       {/* 点击外部关闭 */}
       {isOpen && (
-        <div className='fixed inset-0 z-40' onClick={() => setIsOpen(false)} />
+        <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
       )}
     </div>
   );

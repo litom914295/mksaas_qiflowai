@@ -15,7 +15,10 @@ describe('generateFlyingStar', () => {
   });
 
   test('merges config overrides', () => {
-    const cfg = getConfig({ applyTiGua: true, evaluationProfile: 'conservative' });
+    const cfg = getConfig({
+      applyTiGua: true,
+      evaluationProfile: 'conservative',
+    });
     expect(cfg.applyTiGua).toBe(true);
     expect(cfg.evaluationProfile).toBe('conservative');
   });
@@ -27,16 +30,25 @@ describe('generateFlyingStar', () => {
   });
 
   test('TiGua/FanGua switches apply without throwing', () => {
-    const outA = generateFlyingStar({ observedAt: new Date('2024-01-01T00:00:00Z'), facing: { degrees: 200 }, config: { applyTiGua: true } });
-    const outB = generateFlyingStar({ observedAt: new Date('2024-01-01T00:00:00Z'), facing: { degrees: 200 }, config: { applyFanGua: true } });
+    const outA = generateFlyingStar({
+      observedAt: new Date('2024-01-01T00:00:00Z'),
+      facing: { degrees: 200 },
+      config: { applyTiGua: true },
+    });
+    const outB = generateFlyingStar({
+      observedAt: new Date('2024-01-01T00:00:00Z'),
+      facing: { degrees: 200 },
+      config: { applyFanGua: true },
+    });
     expect(outA.meta.rulesApplied.includes('TiGua')).toBe(true);
     expect(outB.meta.rulesApplied.includes('FanGua')).toBe(true);
   });
 
   test('boundary years mark ambiguous', () => {
-    const out = generateFlyingStar({ observedAt: new Date('1884-01-05T00:00:00Z'), facing: { degrees: 10 } });
+    const out = generateFlyingStar({
+      observedAt: new Date('1884-01-05T00:00:00Z'),
+      facing: { degrees: 10 },
+    });
     expect(typeof out.meta.ambiguous).toBe('boolean');
   });
 });
-
-

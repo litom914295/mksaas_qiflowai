@@ -10,7 +10,7 @@ export const Hero = async ({ variant = 'A' }: HeroProps) => {
     variant === 'B'
       ? 'bg-[radial-gradient(60%_50%_at_50%_0%,rgba(88,166,255,0.35)_0%,rgba(0,0,0,0)_65%)]'
       : 'bg-[radial-gradient(60%_50%_at_50%_0%,rgba(88,166,255,0.20)_0%,rgba(0,0,0,0)_60%)]';
-  
+
   // 算法优先特性标签
   const features = [
     { icon: '🔬', text: t('hero.features.algorithm') || '算法精准' },
@@ -39,13 +39,17 @@ export const Hero = async ({ variant = 'A' }: HeroProps) => {
             </span>
           </h1>
           <p className="max-w-2xl text-lg text-slate-200 md:text-xl font-light">
-            {t('hero.subtitle') || '专业八字分析与风水指导，基于千年易学智慧与现代AI技术'}
+            {t('hero.subtitle') ||
+              '专业八字分析与风水指导，基于千年易学智慧与现代AI技术'}
           </p>
-          
+
           {/* 信任标签 */}
           <div className="flex flex-wrap gap-4 mt-2">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-center gap-2 text-sm text-slate-300">
+              <div
+                key={index}
+                className="flex items-center gap-2 text-sm text-slate-300"
+              >
                 <span className="text-lg">{feature.icon}</span>
                 <span>{feature.text}</span>
               </div>
@@ -77,7 +81,9 @@ export const Hero = async ({ variant = 'A' }: HeroProps) => {
             >
               <span className="flex items-center gap-2">
                 {t('hero.cta.tryCompass') || '查看示例报告'}
-                <span className="transition-transform group-hover:translate-x-1">→</span>
+                <span className="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
               </span>
             </Link>
           </div>
@@ -88,9 +94,13 @@ export const Hero = async ({ variant = 'A' }: HeroProps) => {
             </div>
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-amber-400">★</span>
+                <span key={i} className="text-amber-400">
+                  ★
+                </span>
               ))}
-              <span className="ml-2 text-sm text-slate-300">4.9/5 用户评分</span>
+              <span className="ml-2 text-sm text-slate-300">
+                4.9/5 用户评分
+              </span>
             </div>
           </div>
         </div>

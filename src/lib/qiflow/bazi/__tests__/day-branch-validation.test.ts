@@ -1,6 +1,6 @@
 /**
  * QiFlow AI - 日支计算权威性验证测试
- * 
+ *
  * 基于权威八字资料验证日支计算准确性
  * 使用多个可靠来源的八字样本进行交叉验证
  */
@@ -21,8 +21,8 @@ describe('日支计算权威性验证', () => {
       },
       expected: {
         day: '甲子', // 权威基准日
-        dayBranch: '子'
-      }
+        dayBranch: '子',
+      },
     },
     {
       name: '样本2 - 乙丑日验证',
@@ -34,8 +34,8 @@ describe('日支计算权威性验证', () => {
       },
       expected: {
         day: '乙丑',
-        dayBranch: '丑'
-      }
+        dayBranch: '丑',
+      },
     },
     {
       name: '样本3 - 现代日期测试',
@@ -47,8 +47,8 @@ describe('日支计算权威性验证', () => {
       },
       expected: {
         day: '戊午',
-        dayBranch: '午'
-      }
+        dayBranch: '午',
+      },
     },
     {
       name: '样本4 - 闰年测试',
@@ -60,8 +60,8 @@ describe('日支计算权威性验证', () => {
       },
       expected: {
         day: '甲戌',
-        dayBranch: '戌'
-      }
+        dayBranch: '戌',
+      },
     },
     {
       name: '样本5 - 子时跨日测试',
@@ -74,8 +74,8 @@ describe('日支计算权威性验证', () => {
       expected: {
         // 23:30属于子时，按传统算法应算作次日，即2020年1月2日的日柱
         day: '乙酉', // 2020年1月2日 乙酉日
-        dayBranch: '酉'
-      }
+        dayBranch: '酉',
+      },
     },
     {
       name: '样本6 - 常见出生日期测试1',
@@ -87,8 +87,8 @@ describe('日支计算权威性验证', () => {
       },
       expected: {
         day: '乙酉',
-        dayBranch: '酉'
-      }
+        dayBranch: '酉',
+      },
     },
     {
       name: '样本7 - 常见出生日期测试2',
@@ -100,8 +100,8 @@ describe('日支计算权威性验证', () => {
       },
       expected: {
         day: '甲申',
-        dayBranch: '申'
-      }
+        dayBranch: '申',
+      },
     },
     {
       name: '样本8 - 早晨子时测试',
@@ -114,8 +114,8 @@ describe('日支计算权威性验证', () => {
       expected: {
         // 00:30属于子时，算作当日
         day: '壬申',
-        dayBranch: '申'
-      }
+        dayBranch: '申',
+      },
     },
     {
       name: '样本9 - 夜晚子时测试',
@@ -128,8 +128,8 @@ describe('日支计算权威性验证', () => {
       expected: {
         // 23:30属于子时，算作次日即3月15日
         day: '壬申',
-        dayBranch: '申'
-      }
+        dayBranch: '申',
+      },
     },
     {
       name: '样本10 - 节气边界测试',
@@ -141,9 +141,9 @@ describe('日支计算权威性验证', () => {
       },
       expected: {
         day: '癸卯',
-        dayBranch: '卯'
-      }
-    }
+        dayBranch: '卯',
+      },
+    },
   ];
 
   // 批量验证权威样本
@@ -151,25 +151,29 @@ describe('日支计算权威性验证', () => {
     it(`${sample.name}`, async () => {
       console.log(`\n测试样本 ${index + 1}: ${sample.name}`);
       console.log(`输入日期: ${sample.input.datetime}`);
-      console.log(`期望日柱: ${sample.expected.day}, 期望日支: ${sample.expected.dayBranch}`);
-      
+      console.log(
+        `期望日柱: ${sample.expected.day}, 期望日支: ${sample.expected.dayBranch}`
+      );
+
       const calculator = createEnhancedBaziCalculator(sample.input);
       const result = await calculator.getCompleteAnalysis();
-      
+
       expect(result).toBeDefined();
       expect(result?.pillars?.day).toBeDefined();
-      
-      const actualDay = result?.pillars?.day ? `${result.pillars.day.stem}${result.pillars.day.branch}` : undefined;
+
+      const actualDay = result?.pillars?.day
+        ? `${result.pillars.day.stem}${result.pillars.day.branch}`
+        : undefined;
       const actualDayBranch = result?.pillars?.day?.branch;
-      
+
       console.log(`实际日柱: ${actualDay}, 实际日支: ${actualDayBranch}`);
-      
+
       // 验证日柱完整性
       expect(actualDay).toBe(sample.expected.day);
-      
+
       // 验证日支准确性 (重点)
       expect(actualDayBranch).toBe(sample.expected.dayBranch);
-      
+
       console.log(`✓ 样本 ${index + 1} 验证通过`);
     });
   });
@@ -177,10 +181,16 @@ describe('日支计算权威性验证', () => {
   describe('日支计算一致性验证', () => {
     it('应该在不同时间但同一天产生相同的日支', async () => {
       const sameDay = '1990-05-10';
-      const times = ['01:00:00', '06:00:00', '12:00:00', '18:00:00', '22:00:00'];
-      
+      const times = [
+        '01:00:00',
+        '06:00:00',
+        '12:00:00',
+        '18:00:00',
+        '22:00:00',
+      ];
+
       const results = [];
-      
+
       for (const time of times) {
         const calculator = createEnhancedBaziCalculator({
           datetime: `${sameDay}T${time}`,
@@ -188,20 +198,22 @@ describe('日支计算权威性验证', () => {
           timezone: 'Asia/Shanghai',
           isTimeKnown: true,
         });
-        
+
         const result = await calculator.getCompleteAnalysis();
         results.push({
           time,
           dayBranch: result?.pillars?.day?.branch,
-          dayPillar: result?.pillars?.day ? `${result.pillars.day.stem}${result.pillars.day.branch}` : undefined
+          dayPillar: result?.pillars?.day
+            ? `${result.pillars.day.stem}${result.pillars.day.branch}`
+            : undefined,
         });
       }
-      
+
       console.log('\n同日不同时间的日支一致性验证:');
-      results.forEach(r => {
+      results.forEach((r) => {
         console.log(`${r.time} => 日柱:${r.dayPillar}, 日支:${r.dayBranch}`);
       });
-      
+
       // 同一天的不同时间应该产生相同的日支
       const firstDayBranch = results[0].dayBranch;
       results.forEach((result, index) => {
@@ -212,16 +224,16 @@ describe('日支计算权威性验证', () => {
     it('应该处理子时跨日的边界情况', async () => {
       // 测试23:00-01:00的时间范围
       const testCases = [
-        { time: '1990-05-10T22:30:00', shouldBeSameDay: true },  // 22:30 还是当日
+        { time: '1990-05-10T22:30:00', shouldBeSameDay: true }, // 22:30 还是当日
         { time: '1990-05-10T23:00:00', shouldBeSameDay: false }, // 23:00 算次日
         { time: '1990-05-10T23:30:00', shouldBeSameDay: false }, // 23:30 算次日
-        { time: '1990-05-11T00:00:00', shouldBeSameDay: true },  // 00:00 是当日
-        { time: '1990-05-11T00:30:00', shouldBeSameDay: true },  // 00:30 是当日
-        { time: '1990-05-11T01:00:00', shouldBeSameDay: true },  // 01:00 还是当日
+        { time: '1990-05-11T00:00:00', shouldBeSameDay: true }, // 00:00 是当日
+        { time: '1990-05-11T00:30:00', shouldBeSameDay: true }, // 00:30 是当日
+        { time: '1990-05-11T01:00:00', shouldBeSameDay: true }, // 01:00 还是当日
       ];
 
       const results = [];
-      
+
       for (const testCase of testCases) {
         const calculator = createEnhancedBaziCalculator({
           datetime: testCase.time,
@@ -229,33 +241,35 @@ describe('日支计算权威性验证', () => {
           timezone: 'Asia/Shanghai',
           isTimeKnown: true,
         });
-        
+
         const result = await calculator.getCompleteAnalysis();
         results.push({
           datetime: testCase.time,
-          dayPillar: result?.pillars?.day ? `${result.pillars.day.stem}${result.pillars.day.branch}` : undefined,
+          dayPillar: result?.pillars?.day
+            ? `${result.pillars.day.stem}${result.pillars.day.branch}`
+            : undefined,
           dayBranch: result?.pillars?.day?.branch,
-          shouldBeSameDay: testCase.shouldBeSameDay
+          shouldBeSameDay: testCase.shouldBeSameDay,
         });
       }
-      
+
       console.log('\n子时跨日边界验证:');
-      results.forEach(r => {
+      results.forEach((r) => {
         console.log(`${r.datetime} => ${r.dayPillar} (日支: ${r.dayBranch})`);
       });
-      
+
       // 验证跨日逻辑
-      const may10Results = results.filter(r => r.shouldBeSameDay);
-      const may11Results = results.filter(r => !r.shouldBeSameDay);
-      
+      const may10Results = results.filter((r) => r.shouldBeSameDay);
+      const may11Results = results.filter((r) => !r.shouldBeSameDay);
+
       // 5月10日的所有时间点应该有相同的日支
       const may10DayBranch = may10Results[0]?.dayBranch;
-      may10Results.forEach(r => {
+      may10Results.forEach((r) => {
         expect(r.dayBranch).toBe(may10DayBranch);
       });
-      
+
       // 5月11日的所有时间点应该有不同的日支（相比5月10日）
-      may11Results.forEach(r => {
+      may11Results.forEach((r) => {
         expect(r.dayBranch).not.toBe(may10DayBranch);
       });
     });
@@ -265,55 +279,61 @@ describe('日支计算权威性验证', () => {
     it('应该符合60甲子的循环规律', async () => {
       const baseDate = new Date('2000-01-01'); // 基准日期
       const results = [];
-      
+
       // 测试连续60天，应该完整覆盖一个甲子周期
       for (let i = 0; i < 60; i++) {
         const testDate = new Date(baseDate);
         testDate.setDate(baseDate.getDate() + i);
-        
+
         const calculator = createEnhancedBaziCalculator({
           datetime: testDate.toISOString().slice(0, 19),
           gender: 'male',
           timezone: 'Asia/Shanghai',
           isTimeKnown: true,
         });
-        
+
         const result = await calculator.getCompleteAnalysis();
         results.push({
           date: testDate.toISOString().slice(0, 10),
-          dayPillar: result?.pillars?.day ? `${result.pillars.day.stem}${result.pillars.day.branch}` : undefined,
+          dayPillar: result?.pillars?.day
+            ? `${result.pillars.day.stem}${result.pillars.day.branch}`
+            : undefined,
           dayBranch: result?.pillars?.day?.branch,
-          index: i
+          index: i,
         });
       }
-      
+
       console.log('\n60甲子循环验证 (前10天和后10天):');
-      results.slice(0, 10).forEach(r => {
+      results.slice(0, 10).forEach((r) => {
         console.log(`${r.date} => ${r.dayPillar} (日支: ${r.dayBranch})`);
       });
       console.log('...');
-      results.slice(-10).forEach(r => {
+      results.slice(-10).forEach((r) => {
         console.log(`${r.date} => ${r.dayPillar} (日支: ${r.dayBranch})`);
       });
-      
+
       // 验证没有重复的日柱（在60天内）
-      const dayPillars = results.map(r => r.dayPillar);
+      const dayPillars = results.map((r) => r.dayPillar);
       const uniqueDayPillars = [...new Set(dayPillars)];
-      
+
       expect(uniqueDayPillars.length).toBe(60);
-      
+
       // 验证第61天应该回到第1天的日柱
       const day61Calculator = createEnhancedBaziCalculator({
-        datetime: new Date(baseDate.getTime() + 60 * 24 * 60 * 60 * 1000).toISOString().slice(0, 19),
+        datetime: new Date(baseDate.getTime() + 60 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .slice(0, 19),
         gender: 'male',
         timezone: 'Asia/Shanghai',
         isTimeKnown: true,
       });
-      
+
       const day61Result = await day61Calculator.getCompleteAnalysis();
-      const day61Pillar = day61Result?.pillars?.day ? `${day61Result.pillars.day.stem}${day61Result.pillars.day.branch}` : undefined;
+      const day61Pillar = day61Result?.pillars?.day
+        ? `${day61Result.pillars.day.stem}${day61Result.pillars.day.branch}`
+        : undefined;
       const day1Pillar = results[0].dayPillar;
-      
+
       expect(day61Pillar).toBe(day1Pillar);
     });
   });

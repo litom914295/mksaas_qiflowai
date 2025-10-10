@@ -8,6 +8,7 @@ import {
 import AffonsoScript from '@/components/affiliate/affonso';
 import PromotekitScript from '@/components/affiliate/promotekit';
 import { TailwindIndicator } from '@/components/layout/tailwind-indicator';
+import { ErrorBoundaryEnhanced } from '@/components/providers/error-boundary-enhanced';
 import { WebVitals } from '@/components/qiflow/performance/WebVitals';
 import { routing } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
@@ -17,7 +18,6 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import { Providers } from './providers';
-import { ErrorBoundaryEnhanced } from '@/components/providers/error-boundary-enhanced';
 // 初始化环境变量验证（在服务器启动时执行）
 import '@/lib/env';
 

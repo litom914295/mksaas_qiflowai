@@ -1,7 +1,8 @@
 'use client';
 
-import { type CompassThemeKey } from '@/lib/compass/themes';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type { CompassThemeKey } from '@/lib/compass/themes';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface SimpleCompassProps {
   width?: number;
@@ -92,7 +93,8 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
     polygon: { preview: 'theme-polygon-preview.png', name: '多边形主题' },
     crice: { preview: 'theme-crice.png', name: '圆规主题' },
   };
-  const themeConfig = themeConfigs[theme as keyof typeof themeConfigs] || themeConfigs.compass;
+  const themeConfig =
+    themeConfigs[theme as keyof typeof themeConfigs] || themeConfigs.compass;
 
   const handleOrientationChange = useCallback(
     (event: DeviceOrientationEvent) => {
@@ -142,7 +144,7 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
   }, [handleOrientationChange]);
 
   const handleManualRotation = useCallback(() => {
-    setCompassRotation(prev => normalizeAngle(prev + 90));
+    setCompassRotation((prev) => normalizeAngle(prev + 90));
   }, []);
 
   const handleCalibration = useCallback(() => {
@@ -186,11 +188,11 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
   const oppositeMountain = getOppositeMountain(compassRotation);
 
   return (
-    <div className='simple-compass-container'>
+    <div className="simple-compass-container">
       {/* 罗盘主体 */}
       <div
         ref={compassRef}
-        className='relative mx-auto'
+        className="relative mx-auto"
         style={{
           width: `${width}px`,
           height: `${height}px`,
@@ -200,7 +202,7 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
       >
         {/* 罗盘背景图片 */}
         <div
-          className='absolute inset-0 rounded-full overflow-hidden'
+          className="absolute inset-0 rounded-full overflow-hidden"
           style={{
             backgroundImage: `url(/compass-themes/${themeConfig.preview})`,
             backgroundSize: 'cover',
@@ -213,7 +215,7 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
 
         {/* 指南针 - 随罗盘一起旋转，指向正南方 */}
         <div
-          className='absolute inset-0 pointer-events-none'
+          className="absolute inset-0 pointer-events-none"
           style={{
             transform: `rotate(${compassRotation}deg)`,
             transition: enableAnimation ? 'transform 0.3s ease-out' : 'none',
@@ -221,7 +223,7 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
         >
           {/* 指南针指针 - 指向正南方 */}
           <div
-            className='absolute'
+            className="absolute"
             style={{
               left: '50%',
               top: '50%',
@@ -230,7 +232,7 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
           >
             {/* 指南针主体 */}
             <div
-              className='absolute w-0 h-0'
+              className="absolute w-0 h-0"
               style={{
                 left: '50%',
                 top: '50%',
@@ -243,7 +245,7 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
             />
             {/* 指南针尾部 */}
             <div
-              className='absolute w-0 h-0'
+              className="absolute w-0 h-0"
               style={{
                 left: '50%',
                 top: '50%',
@@ -259,7 +261,7 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
 
         {/* 红色十字罗经线 - 使用Canvas绘制，完全无阴影 */}
         <canvas
-          ref={canvas => {
+          ref={(canvas) => {
             if (canvas) {
               const ctx = canvas.getContext('2d');
               if (ctx) {
@@ -330,9 +332,9 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
 
       {/* 控制按钮和信息显示 */}
       {showDetailedInfo && (
-        <div className='mt-6 space-y-4'>
+        <div className="mt-6 space-y-4">
           {/* 控制按钮 */}
-          <div className='flex justify-center space-x-4'>
+          <div className="flex justify-center space-x-4">
             <button
               onClick={startOrientationTracking}
               disabled={permissionStatus === 'requesting'}
@@ -349,32 +351,32 @@ const SimpleCompass: React.FC<SimpleCompassProps> = ({
 
             <button
               onClick={handleManualRotation}
-              className='px-4 py-2 bg-gray-500 text-white rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors'
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors"
             >
               手动旋转90°
             </button>
 
             <button
               onClick={handleCalibration}
-              className='px-4 py-2 bg-purple-500 text-white rounded-lg text-sm font-medium hover:bg-purple-600 transition-colors'
+              className="px-4 py-2 bg-purple-500 text-white rounded-lg text-sm font-medium hover:bg-purple-600 transition-colors"
             >
               校准归零
             </button>
           </div>
 
           {/* 当前方向信息 */}
-          <div className='text-center space-y-2'>
-            <div className='text-lg font-semibold text-gray-800'>
+          <div className="text-center space-y-2">
+            <div className="text-lg font-semibold text-gray-800">
               当前方位: {Math.round(compassRotation)}°
             </div>
-            <div className='text-sm text-gray-600'>
+            <div className="text-sm text-gray-600">
               坐山: {currentMountain} | 朝向: {oppositeMountain}
             </div>
-            <div className='text-xs text-gray-500'>
+            <div className="text-xs text-gray-500">
               {ORIENTATION_HELPER_MAP[permissionStatus]}
             </div>
             {permissionStatus === 'denied' && (
-              <div className='text-xs text-orange-600'>
+              <div className="text-xs text-orange-600">
                 提示:
                 在iOS设备上需要在Safari设置中开启&ldquo;运动与方向访问&rdquo;权限。
               </div>

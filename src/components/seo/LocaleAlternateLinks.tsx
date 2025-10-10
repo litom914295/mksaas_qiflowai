@@ -2,10 +2,10 @@ import { routing } from '@/i18n/routing';
 
 /**
  * Locale Alternate Links 组件
- * 
+ *
  * 为每个支持的 locale 生成 <link rel="alternate" hreflang="..."> 标签
  * 这对于国际化 SEO 至关重要
- * 
+ *
  * @see https://developers.google.com/search/docs/specialty/international/localized-versions
  */
 
@@ -16,9 +16,9 @@ export interface LocaleAlternateLinksProps {
   baseUrl?: string;
 }
 
-export function LocaleAlternateLinks({ 
-  pathname, 
-  baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://qiflow.ai' 
+export function LocaleAlternateLinks({
+  pathname,
+  baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://qiflow.ai',
 }: LocaleAlternateLinksProps) {
   const locales = routing.locales as readonly string[];
 
@@ -32,7 +32,7 @@ export function LocaleAlternateLinks({
           href={`${baseUrl}/${locale}${pathname}`}
         />
       ))}
-      
+
       {/* x-default 用于未匹配到任何 hreflang 的用户 */}
       <link
         rel="alternate"
@@ -50,7 +50,8 @@ export function generateLocalizedUrls(
   pathname: string,
   baseUrl?: string
 ): Array<{ locale: string; url: string; isDefault: boolean }> {
-  const base = baseUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://qiflow.ai';
+  const base =
+    baseUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://qiflow.ai';
   const locales = routing.locales as readonly string[];
 
   return locales.map((locale) => ({
@@ -68,6 +69,7 @@ export function getCanonicalUrl(
   locale: string,
   baseUrl?: string
 ): string {
-  const base = baseUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://qiflow.ai';
+  const base =
+    baseUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://qiflow.ai';
   return `${base}/${locale}${pathname}`;
 }

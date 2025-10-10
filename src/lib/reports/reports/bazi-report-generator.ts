@@ -1,28 +1,28 @@
 /**
  * QiFlow AI - 八字命理报告生成器
- * 
+ *
  * 基于内容营销策略设计的专业报告生成系统
  * 支持HTML、PDF、JSON多种格式输出
  */
 
-import type {
-  BaziReportData,
-  ReportSection,
-  ExportOptions,
-  ShareOptions,
-  ChartData,
-  PersonalInfo
-} from './types';
 import type { EnhancedBaziResult } from '../bazi';
 import type { LuckPillarAnalysis } from '../bazi/luck-pillars';
 import { BaziReportHelpers } from './report-helpers';
+import type {
+  BaziReportData,
+  ChartData,
+  ExportOptions,
+  PersonalInfo,
+  ReportSection,
+  ShareOptions,
+} from './types';
 
 /**
  * 八字报告生成器主类
  */
 export class BaziReportGenerator {
   private reportData: BaziReportData;
-  
+
   constructor(reportData: BaziReportData) {
     this.reportData = reportData;
   }
@@ -30,14 +30,16 @@ export class BaziReportGenerator {
   /**
    * 生成完整报告
    */
-  async generateReport(options: ExportOptions = {
-    format: 'html',
-    includeCharts: true,
-    includeFengshui: true,
-    template: 'professional'
-  }): Promise<string> {
+  async generateReport(
+    options: ExportOptions = {
+      format: 'html',
+      includeCharts: true,
+      includeFengshui: true,
+      template: 'professional',
+    }
+  ): Promise<string> {
     const sections = await this.generateAllSections();
-    
+
     switch (options.format) {
       case 'html':
         return this.generateHtmlReport(sections, options);
@@ -86,7 +88,7 @@ export class BaziReportGenerator {
   private async generatePersonalOverview(): Promise<ReportSection> {
     const { personalInfo } = this.reportData;
     const { baziAnalysis } = this.reportData;
-    
+
     // 获取核心特质
     const coreTraits = this.extractCoreTraits();
     const commandType = this.getCommandType();
@@ -110,7 +112,7 @@ export class BaziReportGenerator {
     return {
       id: 'personal-overview',
       title: '🎯 个人信息概览',
-      content
+      content,
     };
   }
 
@@ -119,7 +121,9 @@ export class BaziReportGenerator {
    */
   private async generateCoreAnalysis(): Promise<ReportSection> {
     const { baziAnalysis } = this.reportData;
-    const pillarsHtml = BaziReportHelpers.generatePillarsHtml(baziAnalysis.pillars);
+    const pillarsHtml = BaziReportHelpers.generatePillarsHtml(
+      baziAnalysis.pillars
+    );
     const elementsChart = BaziReportHelpers.generateElementsChart(baziAnalysis);
 
     const content = `
@@ -144,7 +148,7 @@ export class BaziReportGenerator {
       id: 'core-analysis',
       title: '📊 核心命理解读',
       content,
-      charts: [elementsChart]
+      charts: [elementsChart],
     };
   }
 
@@ -153,8 +157,8 @@ export class BaziReportGenerator {
    */
   private async generatePersonalityAnalysis(): Promise<ReportSection> {
     const personalityTraits = BaziReportHelpers.extractPersonalityTraits(
-      this.reportData.baziAnalysis, 
-      this.reportData.luckPillarsAnalysis, 
+      this.reportData.baziAnalysis,
+      this.reportData.luckPillarsAnalysis,
       this.reportData.personalInfo.birthDate
     );
     const strengths = personalityTraits.strengths;
@@ -167,21 +171,29 @@ export class BaziReportGenerator {
         
         <div class="strengths">
           <h4>✅ 天赋优势</h4>
-          ${strengths.map(strength => `
+          ${strengths
+            .map(
+              (strength) => `
             <div class="trait-item">
               <strong>${strength.name}</strong> - ${strength.description}
               <div class="example">在${strength.context}中表现为：${strength.example}</div>
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
         </div>
 
         <div class="challenges">
           <h4>⚠️ 需要注意</h4>
-          ${challenges.map(challenge => `
+          ${challenges
+            .map(
+              (challenge) => `
             <div class="trait-item">
               <strong>${challenge.name}</strong> - 建议通过${challenge.solution}改善
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
         </div>
       </div>
     `;
@@ -190,7 +202,7 @@ export class BaziReportGenerator {
       id: 'personality-analysis',
       title: '🌟 性格特质深度分析',
       content,
-      recommendations: personalityTraits.recommendations
+      recommendations: personalityTraits.recommendations,
     };
   }
 
@@ -199,7 +211,7 @@ export class BaziReportGenerator {
    */
   private async generateCareerGuidance(): Promise<ReportSection> {
     const careerAnalysis = BaziReportHelpers.extractCareerAnalysis(
-      this.reportData.luckPillarsAnalysis, 
+      this.reportData.luckPillarsAnalysis,
       this.reportData.personalInfo.birthDate
     );
 
@@ -210,13 +222,17 @@ export class BaziReportGenerator {
         
         <div class="preferred-industries">
           <h4>🏆 首选行业</h4>
-          ${careerAnalysis.preferredIndustries.map(industry => `
+          ${careerAnalysis.preferredIndustries
+            .map(
+              (industry) => `
             <div class="industry-item">
               <strong>${industry.name}</strong>：因为您具备${industry.reason}
               <div class="success-rate">成功概率：${'★'.repeat(industry.rating)}</div>
               <div class="timing">发展时机：${industry.timing}</div>
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
         </div>
 
         <div class="career-strategy">
@@ -234,7 +250,7 @@ export class BaziReportGenerator {
       id: 'career-guidance',
       title: '💼 事业发展指导',
       content,
-      recommendations: careerAnalysis.recommendations
+      recommendations: careerAnalysis.recommendations,
     };
   }
 
@@ -243,7 +259,7 @@ export class BaziReportGenerator {
    */
   private async generateWealthAnalysis(): Promise<ReportSection> {
     const wealthAnalysis = BaziReportHelpers.extractWealthAnalysis(
-      this.reportData.luckPillarsAnalysis, 
+      this.reportData.luckPillarsAnalysis,
       this.reportData.personalInfo.birthDate
     );
 
@@ -259,18 +275,22 @@ export class BaziReportGenerator {
 
         <div class="wealth-opportunities">
           <h4>📈 财富机会</h4>
-          ${wealthAnalysis.opportunities.map(opp => `
+          ${wealthAnalysis.opportunities
+            .map(
+              (opp) => `
             <div class="opportunity-item">
               <strong>${opp.period}</strong>：${opp.description}
               <div class="probability">概率：${opp.probability}</div>
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
         </div>
 
         <div class="wealth-advice">
           <h4>💡 理财建议</h4>
           <ul>
-            ${wealthAnalysis.advice.map(advice => `<li>${advice}</li>`).join('')}
+            ${wealthAnalysis.advice.map((advice) => `<li>${advice}</li>`).join('')}
           </ul>
         </div>
       </div>
@@ -280,7 +300,7 @@ export class BaziReportGenerator {
       id: 'wealth-analysis',
       title: '💰 财运趋势预测',
       content,
-      recommendations: wealthAnalysis.recommendations
+      recommendations: wealthAnalysis.recommendations,
     };
   }
 
@@ -289,13 +309,18 @@ export class BaziReportGenerator {
    */
   private async generateLuckPillarsAnalysis(): Promise<ReportSection> {
     const { luckPillarsAnalysis } = this.reportData;
-    const currentLuck = BaziReportHelpers.getCurrentLuckPillar(luckPillarsAnalysis, this.reportData.personalInfo.birthDate);
+    const currentLuck = BaziReportHelpers.getCurrentLuckPillar(
+      luckPillarsAnalysis,
+      this.reportData.personalInfo.birthDate
+    );
 
     const content = `
       <div class="luck-pillars-analysis">
         <h3>【人生大运分析】</h3>
         
-        ${currentLuck ? `
+        ${
+          currentLuck
+            ? `
           <div class="current-luck">
             <h4>🌟 当前大运（${currentLuck.ageRange}岁）</h4>
             <div class="luck-details">
@@ -310,37 +335,53 @@ export class BaziReportGenerator {
                 <div class="aspect">
                   <h5>❤️ 性格影响</h5>
                   <ul>
-                    ${currentLuck.tenGodRelation.personalityImpact.slice(0, 3).map(impact => `<li>${impact}</li>`).join('')}
+                    ${currentLuck.tenGodRelation.personalityImpact
+                      .slice(0, 3)
+                      .map((impact) => `<li>${impact}</li>`)
+                      .join('')}
                   </ul>
                 </div>
                 <div class="aspect">
                   <h5>💼 事业影响</h5>
                   <ul>
-                    ${currentLuck.tenGodRelation.careerImpact.slice(0, 3).map(impact => `<li>${impact}</li>`).join('')}
+                    ${currentLuck.tenGodRelation.careerImpact
+                      .slice(0, 3)
+                      .map((impact) => `<li>${impact}</li>`)
+                      .join('')}
                   </ul>
                 </div>
                 <div class="aspect">
                   <h5>💰 财运影响</h5>
                   <ul>
-                    ${currentLuck.tenGodRelation.wealthImpact.slice(0, 3).map(impact => `<li>${impact}</li>`).join('')}
+                    ${currentLuck.tenGodRelation.wealthImpact
+                      .slice(0, 3)
+                      .map((impact) => `<li>${impact}</li>`)
+                      .join('')}
                   </ul>
                 </div>
               </div>
             </div>
           </div>
-        ` : ''}
+        `
+            : ''
+        }
 
         <div class="luck-timeline">
           <h4>🔮 大运时间线</h4>
           <div class="timeline">
-            ${luckPillarsAnalysis.slice(0, 8).map(lp => `
+            ${luckPillarsAnalysis
+              .slice(0, 8)
+              .map(
+                (lp) => `
               <div class="timeline-item ${currentLuck?.period === lp.period ? 'current' : ''}">
                 <div class="period">${lp.ageRange}岁</div>
                 <div class="pillar">${lp.pillar.heavenlyStem}${lp.pillar.earthlyBranch}</div>
                 <div class="ten-god">${lp.tenGodRelation.heavenlyTenGod}</div>
                 <div class="influence ${lp.influence}">${BaziReportHelpers.getInfluenceDescription(lp.influence)}</div>
               </div>
-            `).join('')}
+            `
+              )
+              .join('')}
           </div>
         </div>
       </div>
@@ -349,7 +390,7 @@ export class BaziReportGenerator {
     return {
       id: 'luck-pillars-analysis',
       title: '🔮 人生大运分析',
-      content
+      content,
     };
   }
 
@@ -364,29 +405,41 @@ export class BaziReportGenerator {
         <h3>🎯 您的专属改运方案</h3>
 
         <div class="action-timeline">
-          ${actionPlan.phases.map(phase => `
+          ${actionPlan.phases
+            .map(
+              (phase) => `
             <div class="phase">
               <h4>${phase.title}</h4>
               <div class="tasks">
-                ${phase.tasks.map(task => `
+                ${phase.tasks
+                  .map(
+                    (task) => `
                   <div class="task-item">
                     <input type="checkbox" id="task-${task.id}">
                     <label for="task-${task.id}">${task.description}</label>
                     ${task.tip ? `<div class="task-tip">💡 ${task.tip}</div>` : ''}
                   </div>
-                `).join('')}
+                `
+                  )
+                  .join('')}
               </div>
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
         </div>
 
         <div class="long-term-reminders">
           <h4>📅 长期规划提醒</h4>
-          ${actionPlan.longTermReminders.map(reminder => `
+          ${actionPlan.longTermReminders
+            .map(
+              (reminder) => `
             <div class="reminder-item">
               <strong>${reminder.period}：</strong>${reminder.description}
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
         </div>
 
         <div class="contact-info">
@@ -405,7 +458,7 @@ export class BaziReportGenerator {
       id: 'action-guide',
       title: '💡 个性化建议清单',
       content,
-      recommendations: actionPlan.keyRecommendations
+      recommendations: actionPlan.keyRecommendations,
     };
   }
 
@@ -436,32 +489,36 @@ export class BaziReportGenerator {
   private getCommandType(): string {
     const { baziAnalysis } = this.reportData;
     const favorableElements = baziAnalysis.favorableElements?.primary || [];
-    
+
     if (favorableElements.length >= 2) {
       const primary = favorableElements[0];
       const secondary = favorableElements[1];
       return `${this.getElementName(primary)}${this.getElementName(secondary)}相生型`;
-    } else if (favorableElements.length === 1) {
+    }
+    if (favorableElements.length === 1) {
       return `${this.getElementName(favorableElements[0])}旺型`;
     }
-    
+
     return '五行平衡型';
   }
 
   private getElementName(element: string): string {
     const names: Record<string, string> = {
       wood: '木',
-      fire: '火', 
+      fire: '火',
       earth: '土',
       metal: '金',
-      water: '水'
+      water: '水',
     };
     return names[element] || element;
   }
 
   // 更多辅助方法将在下个文件中继续...
-  
-  private generateHtmlReport(sections: ReportSection[], options: ExportOptions): string {
+
+  private generateHtmlReport(
+    sections: ReportSection[],
+    options: ExportOptions
+  ): string {
     // HTML模板生成逻辑
     return `
       <!DOCTYPE html>
@@ -482,20 +539,28 @@ export class BaziReportGenerator {
           </header>
           
           <main class="report-content">
-            ${sections.map(section => `
+            ${sections
+              .map(
+                (section) => `
               <section class="report-section" data-section="${section.id}">
                 <h2>${section.title}</h2>
                 ${section.content}
-                ${section.recommendations ? `
+                ${
+                  section.recommendations
+                    ? `
                   <div class="recommendations">
                     <h4>💡 专属建议</h4>
                     <ul>
-                      ${section.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                      ${section.recommendations.map((rec) => `<li>${rec}</li>`).join('')}
                     </ul>
                   </div>
-                ` : ''}
+                `
+                    : ''
+                }
               </section>
-            `).join('')}
+            `
+              )
+              .join('')}
           </main>
 
           <footer class="report-footer">

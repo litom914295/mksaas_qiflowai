@@ -14,7 +14,7 @@ function safeRender(el: React.ReactElement) {
 
 // LoShuGrid: 空与正常边界
 {
-  const html = safeRender(<LoShuGrid grid={undefined as any} />)
+  const html = safeRender(<LoShuGrid grid={undefined as any} />);
   assert.ok(typeof html === 'string');
 }
 {
@@ -23,13 +23,13 @@ function safeRender(el: React.ReactElement) {
     ['4', '5', '6'],
     ['7', '8', '9'],
   ];
-  const html = safeRender(<LoShuGrid grid={grid as any} />)
+  const html = safeRender(<LoShuGrid grid={grid as any} />);
   assert.ok(html.includes('1'));
 }
 
 // PillarsChart: 空与基本对象
 {
-  const html = safeRender(<PillarsChart pillars={undefined as any} />)
+  const html = safeRender(<PillarsChart pillars={undefined as any} />);
   assert.ok(typeof html === 'string');
 }
 {
@@ -39,31 +39,31 @@ function safeRender(el: React.ReactElement) {
     day: { heavenly: '丙', earthly: '寅' },
     hour: { heavenly: '丁', earthly: '卯' },
   };
-  const html = safeRender(<PillarsChart pillars={pillars as any} />)
+  const html = safeRender(<PillarsChart pillars={pillars as any} />);
   assert.ok(typeof html === 'string');
 }
 
 // TenGodsList: 空与长文
 {
-  const html = safeRender(<TenGodsList tenGods={{}} />)
+  const html = safeRender(<TenGodsList tenGods={{}} />);
   assert.ok(typeof html === 'string');
 }
 {
   const longVal =
     '非常非常非常非常非常非常非常非常长的说明文本，用于测试渲染换行与溢出处理。';
   const ten = { 正财: longVal, 偏财: longVal, 比肩: longVal };
-  const html = safeRender(<TenGodsList tenGods={ten as any} />)
+  const html = safeRender(<TenGodsList tenGods={ten as any} />);
   assert.ok(html.includes('正财'));
 }
 
 // NaYinList: 空与长文
 {
-  const html = safeRender(<NaYinList items={[]} />)
+  const html = safeRender(<NaYinList items={[]} />);
   assert.ok(typeof html === 'string');
 }
 {
   const items = [{ pillar: '甲子', nayin: '金箔金 — ' + '很长'.repeat(50) }];
-  const html = safeRender(<NaYinList items={items as any} />)
+  const html = safeRender(<NaYinList items={items as any} />);
   assert.ok(html.includes('甲子'));
 }
 
@@ -71,7 +71,7 @@ function safeRender(el: React.ReactElement) {
 {
   const states = ['empty', 'error', 'limited', 'timeout'] as const;
   for (const s of states) {
-    const html = safeRender(<StatePanel state={s} />)
+    const html = safeRender(<StatePanel state={s} />);
     assert.ok(typeof html === 'string');
   }
 }

@@ -1,5 +1,5 @@
 import { GuestAnalysisPage } from '@/components/qiflow/analysis/guest-analysis-page';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

@@ -253,43 +253,44 @@ export function getSystemPrompt(context?: {
   userName?: string;
 }) {
   let prompt = AI_FENGSHUI_MASTER_PROMPT;
-  
+
   // 【新增】如果是风水咨询但缺少必要信息，强调引导原则
   if (!context?.hasUserBazi || !context?.hasHouseInfo) {
-    prompt += `\n\n## 【当前对话状态】\n`;
+    prompt += '\n\n## 【当前对话状态】\n';
     prompt += `${!context?.hasUserBazi ? '- ❌ 尚未获取用户八字信息' : '- ✅ 已有用户八字信息'}\n`;
     prompt += `${!context?.hasHouseInfo ? '- ❌ 尚未获取房屋朝向信息' : '- ✅ 已有房屋朝向信息'}\n`;
-    
-    prompt += `\n### 【重要】信息收集准则\n`;
-    prompt += `1. 风水分析必须同时具备：①用户八字 ②房屋朝向\n`;
-    prompt += `2. 缺任一项都不能给出具体的方位和布局建议\n`;
-    prompt += `3. 只能给出通用的五行调理原则\n`;
-    prompt += `4. 必须友好地引导用户提供缺失信息\n`;
-    prompt += `5. 说明完整信息的重要性（如：个性化财位vs通用财位的差异）\n`;
-    
-    prompt += `\n### 【禁止行为】\n`;
-    prompt += `- ❌ 在没有房屋朝向时给出具体的方位建议（如“东南方”、“南方”等）\n`;
-    prompt += `- ❌ 在没有九宫飞星计算时声称已进行风水分析\n`;
-    prompt += `- ❌ 使用模糊或通用的风水建议冒充个性化分析\n`;
+
+    prompt += '\n### 【重要】信息收集准则\n';
+    prompt += '1. 风水分析必须同时具备：①用户八字 ②房屋朝向\n';
+    prompt += '2. 缺任一项都不能给出具体的方位和布局建议\n';
+    prompt += '3. 只能给出通用的五行调理原则\n';
+    prompt += '4. 必须友好地引导用户提供缺失信息\n';
+    prompt += '5. 说明完整信息的重要性（如：个性化财位vs通用财位的差异）\n';
+
+    prompt += '\n### 【禁止行为】\n';
+    prompt +=
+      '- ❌ 在没有房屋朝向时给出具体的方位建议（如“东南方”、“南方”等）\n';
+    prompt += '- ❌ 在没有九宫飞星计算时声称已进行风水分析\n';
+    prompt += '- ❌ 使用模糊或通用的风水建议冒充个性化分析\n';
   } else {
     // 信息完整，可以进行完整分析
-    prompt += `\n\n## 【当前对话状态】\n`;
-    prompt += `- ✅ 已有用户八字信息\n`;
-    prompt += `- ✅ 已有房屋朝向信息\n`;
-    prompt += `- ✅ 已完成九宫飞星计算\n`;
-    
-    prompt += `\n### 【分析要求】\n`;
-    prompt += `1. 严格基于九宫飞星的计算结果\n`;
-    prompt += `2. 结合用户八字的五行喜忌\n`;
-    prompt += `3. 给出明确的方位指引（精确到宫位和度数范围）\n`;
-    prompt += `4. 说明每个建议背后的命理和风水原理\n`;
-    prompt += `5. 提供可操作的具体措施\n`;
+    prompt += '\n\n## 【当前对话状态】\n';
+    prompt += '- ✅ 已有用户八字信息\n';
+    prompt += '- ✅ 已有房屋朝向信息\n';
+    prompt += '- ✅ 已完成九宫飞星计算\n';
+
+    prompt += '\n### 【分析要求】\n';
+    prompt += '1. 严格基于九宫飞星的计算结果\n';
+    prompt += '2. 结合用户八字的五行喜忌\n';
+    prompt += '3. 给出明确的方位指引（精确到宫位和度数范围）\n';
+    prompt += '4. 说明每个建议背后的命理和风水原理\n';
+    prompt += '5. 提供可操作的具体措施\n';
   }
-  
+
   if (context?.userName) {
     prompt += `\n\n【用户信息】当前咨询者：${context.userName}`;
   }
-  
+
   return prompt;
 }
 

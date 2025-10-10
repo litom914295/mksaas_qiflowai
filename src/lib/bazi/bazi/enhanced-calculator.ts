@@ -225,7 +225,7 @@ export class EnhancedBaziCalculator {
       console.log('[EnhancedBaziCalculator] 开始转换传统格式...');
       const legacy = this.convertToLegacyFormat(analysis);
       console.log('[EnhancedBaziCalculator] 转换后的传统格式:', legacy);
-      
+
       const enhancedResult: EnhancedBaziResult = {
         ...legacy,
         luckPillars: this.extractLuckPillars(analysis),
@@ -336,7 +336,7 @@ export class EnhancedBaziCalculator {
       }
 
       const luckPillars: LuckPillarResult[] = analysis.luckPillars.pillars.map(
-        pillar => ({
+        (pillar) => ({
           period: pillar.number,
           heavenlyStem: pillar.heavenlyStem.character,
           earthlyBranch: pillar.earthlyBranch.character,
@@ -370,7 +370,7 @@ export class EnhancedBaziCalculator {
 
     return (
       luckPillars.find(
-        pillar => currentAge >= pillar.startAge && currentAge <= pillar.endAge
+        (pillar) => currentAge >= pillar.startAge && currentAge <= pillar.endAge
       ) || null
     );
   }
@@ -1080,7 +1080,11 @@ export class EnhancedBaziCalculator {
 
     // 如果仍然没有提取到，尝试从chinese字段重新解析
     if (!heavenlyStem || !earthlyBranch) {
-      if (pillar.chinese && typeof pillar.chinese === 'string' && pillar.chinese.length >= 2) {
+      if (
+        pillar.chinese &&
+        typeof pillar.chinese === 'string' &&
+        pillar.chinese.length >= 2
+      ) {
         if (!heavenlyStem) {
           heavenlyStem = pillar.chinese[0];
         }
@@ -1267,11 +1271,11 @@ export class EnhancedBaziCalculator {
 
     if (interactionCount > 10) {
       return '今日互动较多，建议谨慎行事';
-    } else if (interactionCount > 5) {
-      return '今日运势一般，可进行常规活动';
-    } else {
-      return '今日运势良好，适合重要事项';
     }
+    if (interactionCount > 5) {
+      return '今日运势一般，可进行常规活动';
+    }
+    return '今日运势良好，适合重要事项';
   }
 
   /**

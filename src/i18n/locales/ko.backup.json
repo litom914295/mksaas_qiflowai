@@ -467,14 +467,9 @@
     "time_required": "Time is required",
     "address_required": "Address is required"
   },
-  
-  
-  
 
   "forms": {
-
     "validation": {
-
       "required": "이 필드는 필수입니다",
 
       "email": "유효한 이메일 주소를 입력하세요",
@@ -484,11 +479,9 @@
       "max_length": "최대 {{count}}자까지 허용됩니다",
 
       "pattern": "잘못된 형식입니다"
-
     },
 
     "placeholders": {
-
       "display_name": "닉네임을 입력하세요",
 
       "email": "your@email.com",
@@ -502,11 +495,9 @@
       "address": "출생지 입력",
 
       "search_address": "주소 검색..."
-
     },
 
     "tooltips": {
-
       "display_name": "다른 사용자에게 표시되는 이름입니다. 언제든지 변경할 수 있습니다.",
 
       "birth_date_lunar": "사주 계산에 사용되는 음력 날짜",
@@ -522,11 +513,9 @@
       "phone": "SMS 알림 및 인증을 받는 데 사용됩니다",
 
       "calendar_type": "양력 또는 음력을 선택하세요. 사주 계산의 정확도에 영향을 미칩니다"
-
     },
 
     "calendar": {
-
       "select_date": "날짜 선택",
 
       "clear": "지우기",
@@ -538,11 +527,9 @@
       "confirm": "확인",
 
       "lunar_note": "음력 모드에서는 시스템이 자동으로 양력으로 변환하여 사주를 계산합니다"
-
     },
 
     "time": {
-
       "select_time": "시간 선택",
 
       "hour": "시",
@@ -556,11 +543,9 @@
       "pm": "오후",
 
       "common_times": "일반적인 시간"
-
     },
 
     "address": {
-
       "select_location": "위치 선택",
 
       "search_placeholder": "주소 입력, 자동 완성 지원",
@@ -572,11 +557,9 @@
       "current_location": "현재 위치",
 
       "manual_entry": "수동 입력"
-
     },
 
     "map": {
-
       "click_to_select": "지도에서 위치를 클릭하여 선택",
 
       "drag_to_pan": "지도를 드래그하여 이동",
@@ -598,13 +581,10 @@
       "accuracy": "정확도",
 
       "address": "주소"
-
     }
-
   },
 
   "settings": {
-
     "title": "설정",
 
     "general": "일반",
@@ -660,11 +640,9 @@
     "cache_cleared": "캐시가 삭제되었습니다",
 
     "settings_reset": "설정이 초기화되었습니다"
-
   },
 
   "errors": {
-
     "page_not_found": "페이지를 찾을 수 없습니다",
 
     "server_error": "서버 오류",
@@ -700,11 +678,9 @@
     "contact_support": "고객 지원팀에 문의하세요",
 
     "unknown_error": "알 수 없는 오류"
-
   },
 
   "success": {
-
     "operation_completed": "작업이 완료되었습니다",
 
     "data_saved": "데이터가 저장되었습니다",
@@ -732,17 +708,14 @@
     "backup_created": "백업이 생성되었습니다",
 
     "sync_completed": "동기화가 완료되었습니다"
-
   },
 
   "guestAnalysis": {
-
     "title": "지능형 풍수 분석 체험",
 
     "description": "완전한 사주 및 현공풍수 분석 과정을 경험해 보세요.",
 
     "steps": {
-
       "personal": "개인 정보",
 
       "house": "집 방향",
@@ -750,11 +723,9 @@
       "bazi": "사주 분석",
 
       "fengshui": "현공풍수"
-
     },
 
     "personalData": {
-
       "title": "개인 정보 입력",
 
       "description": "출생 정보를 정확하게 입력해 주세요. 사주 분석의 정확도에 직접적인 영향을 미칩니다.",
@@ -776,11 +747,9 @@
       "nextStep": "다음: 집 방향",
 
       "fillSampleData": "샘플 데이터로 채우기"
-
     },
 
     "houseData": {
-
       "title": "집 방향 정보 결정",
 
       "description": "방향 각도를 수동으로 입력하거나 디지털 나침반을 사용하여 정확하게 측정할 수 있습니다.",
@@ -808,11 +777,9 @@
       "standardFloorPlans": "표준 평면도",
 
       "uploadFloorPlan": "사용자 지정 평면도 업로드"
-
     },
 
     "analysis": {
-
       "title": "분석 시작 준비",
 
       "description": "제공된 정보를 기반으로 전문적인 사주 및 현공풍수 분석 보고서를 생성합니다.",
@@ -828,71 +795,53 @@
       "fengshuiTitle": "현공풍수 분석",
 
       "fengshuiDescription": "당신의 사주와 집 방향을 결합하여 전문적인 풍수 레이아웃 제안을 제공합니다."
-
     }
-
   },
 
   "home": {
-
     "title": "QiFlow AI - 지능형 풍수 분석 플랫폼",
 
     "subtitle": "전통적인 풍수 지혜와 현대 AI 기술을 결합한 지능형 분석 플랫폼.",
 
     "features": {
-
       "bazi": {
-
         "title": "사주 분석",
 
         "description": "생년월일을 정확하게 계산하고 오행의 강약을 분석하여 개인화된 명리 지도를 제공합니다."
-
       },
 
       "flyingStar": {
-
         "title": "현공풍수",
 
         "description": "전문적인 구궁 비성 분석, 집 방향과 결합하여 정확한 풍수 조언을 제공합니다."
-
       },
 
       "compass": {
-
         "title": "고정밀 디지털 나침반",
 
         "description": "±2° 전문가급 정확도, 자동 자북 편각 보정, 24산 측정 지원."
-
       },
 
       "floorPlan": {
-
         "title": "지능형 평면도 오버레이",
 
         "description": "AI가 방 레이아웃을 인식하고 비성도를 자동으로 오버레이하여 시각적인 풍수 분석을 수행합니다."
-
       },
 
       "visualization3d": {
-
         "title": "3D 풍수 시각화",
 
         "description": "몰입형 경험을 위한 VR 모드를 지원하는 입체적인 풍수 분석."
-
       },
 
       "aiAssistant": {
-
         "title": "AI 스마트 어시스턴트",
 
         "description": "전문적인 풍수 상담, 개인화된 추천 및 다중 턴 대화 메모리."
-
       }
-
     },
 
     "actions": {
-
       "continueAsGuest": "게스트로 계속하기",
 
       "register": "지금 등록",
@@ -900,7 +849,6 @@
       "viewBaziAnalysis": "사주 분석 즉시 보기",
 
       "testAnalysis": "전체 분석 프로세스 테스트"
-
     },
 
     "guestEntry": {
@@ -913,57 +861,43 @@
     },
 
     "highlights": {
-
       "title": "핵심 기능",
 
       "smartOverlay": {
-
         "title": "스마트 평면도 오버레이",
 
         "description": "평면도에 비성도를 지능적으로 오버레이하는 세계 최초의 기술."
-
       },
 
       "guestMode": {
-
         "title": "게스트 모드",
 
         "description": "등록 없이 핵심 기능을 경험하세요. 데이터는 24시간 후에 자동으로 삭제됩니다."
-
       },
 
       "precisionCompass": {
-
         "title": "전문가급 나침반",
 
         "description": "±2° 정확도 요구 사항, 다중 센서 융합 알고리즘 지원."
-
       },
 
       "multilingual": {
-
         "title": "다국어 지원",
 
         "description": "글로벌 풍수 분석 서비스를 위해 6개 언어 지원."
-
       }
-
     },
 
     "footer": {
-
       "copyright": "© 2024 QiFlow AI. All rights reserved.",
 
       "help": "도움말 센터",
 
       "about": "회사 소개"
-
     }
-
   },
 
   "analysis": {
-
     "title": "분석 시작 준비",
 
     "description": "제공해 주신 정보를 바탕으로 전문적인 사주와 현공비성 풍수 분석 보고서를 생성합니다.",
@@ -997,7 +931,6 @@
     "nextStep": "다음 단계: 분석 시작",
 
     "steps": {
-
       "personalData": "개인 정보",
 
       "personalDataDesc": "출생 정보를 입력하세요",
@@ -1013,27 +946,20 @@
       "flyingStar": "현공비성",
 
       "flyingStarDesc": "풍수 분석 보고서 생성"
-
     }
-
   },
 
   "testGuest": {
-
     "title": "게스트 분석 테스트 페이지",
 
     "description": "게스트 분석 기능 테스트"
-
   },
 
   "guestAnalysis": {
-
     "navigation": {
-
       "back": "뒤로",
 
       "title": "지능형 풍수 분석 체험"
-
     },
 
     "floorPlan": {
@@ -1042,7 +968,6 @@
     },
 
     "steps": {
-
       "discoverDestiny": "운명의 코드를 발견하세요",
 
       "determineLayout": "집의 풍수 배치 결정",
@@ -1050,11 +975,9 @@
       "professionalInsights": "전문 사주 알고리즘을 바탕으로 개인 맞춤형 인생 통찰과 운세 안내를 제공합니다.",
 
       "preciseLayout": "정확한 방향 측정을 통해 전문적인 풍수 배치 권장사항을 제공합니다."
-
     },
 
     "personalForm": {
-
       "title": "개인 정보를 입력해 주세요",
 
       "description": "정확한 출생 정보를 입력해 주세요. 이는 사주 분석의 정확도에 직접적인 영향을 미칩니다.",
@@ -1090,11 +1013,9 @@
       "birthPlacePlaceholder": "출생 도시를 입력해 주세요",
 
       "nextHouseOrientation": "다음: 집 방향"
-
     },
 
     "houseForm": {
-
       "title": "집 방향 정보를 확인하세요",
 
       "description": "수동으로 방향 각도를 입력하거나 디지털 나침반을 사용하여 정확하게 측정할 수 있습니다.",
@@ -1124,17 +1045,14 @@
       "roomCount": "방 개수",
 
       "roomCountPlaceholder": "방 개수"
-
     },
 
     "analysisReady": {
-
       "title": "분석 시작 준비",
 
       "description": "제공해 주신 정보를 바탕으로 전문적인 사주 명리와 현공비성 풍수 분석 보고서를 생성합니다.",
 
       "startAnalysis": "분석 시작"
-
     },
 
     "analyzing": "분석 중...",
@@ -1145,7 +1063,6 @@
     },
 
     "sampleData": {
-
       "name": "김철수",
 
       "location": "서울",
@@ -1155,15 +1072,12 @@
       "floorPlanName": "표준 3룸 2거실",
 
       "floorPlanDescription": "남향, 방 3개 거실 2개 화장실 2개, 면적 약 120㎡"
-
     },
 
     "disclaimer": "이 분석은 참고용이며 전문적인 상담을 대체할 수 없습니다. 중요한 결정을 위해서는 전문가와 상담하세요."
-
   },
 
   "i18nTest": {
-
     "currentLanguageInfo": "현재 언어 정보",
 
     "locale": "로케일",
@@ -1191,41 +1105,32 @@
     "search": "검색",
 
     "save": "저장"
-
   },
 
   "floorPlan": {
-
     "standardListTitle": "표준 평면도 선택",
 
     "standard-3room": {
-
       "name": "표준 3룸 2거실",
 
       "description": "남향, 방 3개, 거실 2개, 화장실 2개, 약 120㎡"
-
     },
 
     "standard-2room": {
-
       "name": "표준 2룸 1거실",
 
       "description": "남향, 방 2개, 거실 1개, 화장실 1개, 약 80㎡"
-
     },
 
     "standard-4room": {
-
       "name": "표준 4룸 2거실",
 
       "description": "남향, 방 4개, 거실 2개, 화장실 3개, 약 150㎡"
-
     },
 
     "summary": "방 {count}개 | {area}㎡",
 
     "upload": {
-
       "title": "사용자 지정 평면도 업로드",
 
       "button": "평면도 파일 업로드",
@@ -1237,15 +1142,12 @@
       "customName": "사용자 지정 평면도",
 
       "customDescription": "사용자가 업로드한 평면도"
-
     },
 
     "selected": "선택된 평면도"
-
   },
 
   "compass": {
-
     "title": "디지털 나침반",
 
     "calibration": "보정",
@@ -1267,11 +1169,9 @@
     "unstable": "불안정",
 
     "calibration_step": "보정 단계 {step}/{total}"
-
   },
 
   "fengshui": {
-
     "good_pattern": "길격",
 
     "bad_pattern": "흉격",
@@ -1281,7 +1181,6 @@
     "caiwei_desc": "재운·사업 발전의 방위",
 
     "items": {
-
       "desk_and_bookcase": "책상, 책장",
 
       "stationery": "문방사우",
@@ -1293,7 +1192,6 @@
       "money_plant": "재운 식물",
 
       "business_area": "업무 상담 구역"
-
     },
 
     "key_points": "핵심 포인트",
@@ -1301,7 +1199,5 @@
     "specific_recommendations": "구체적 제안",
 
     "pattern_explanation_text": "현공비성의 격국은 풍수 분석의 핵심입니다. 천판·산판·향판의 관계를 분석하여 길흉과 운세·건강·재운에 대한 영향을 평가합니다."
-
   }
-
 }

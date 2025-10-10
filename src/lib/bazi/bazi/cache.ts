@@ -5,7 +5,7 @@
  * 支持内存缓存和持久化缓存
  */
 
-import { EnhancedBaziResult } from './enhanced-calculator';
+import type { EnhancedBaziResult } from './enhanced-calculator';
 
 export interface CacheEntry<T = any> {
   data: T;
@@ -41,7 +41,7 @@ export class LRUCache<T = any> {
     hitRate: 0,
   };
 
-  constructor(maxSize: number = 50 * 1024 * 1024, maxEntries: number = 1000) {
+  constructor(maxSize: number = 50 * 1024 * 1024, maxEntries = 1000) {
     // 默认50MB内存限制，1000个条目限制
     this.maxSize = maxSize;
     this.maxEntries = maxEntries;
@@ -239,7 +239,7 @@ export class BaziCache {
   private cache: LRUCache;
   private static instance: BaziCache | null = null;
 
-  constructor(maxSize: number = 100 * 1024 * 1024, maxEntries: number = 2000) {
+  constructor(maxSize: number = 100 * 1024 * 1024, maxEntries = 2000) {
     // 默认100MB，2000个条目
     this.cache = new LRUCache(maxSize, maxEntries);
   }
@@ -254,7 +254,7 @@ export class BaziCache {
   /**
    * 生成八字计算缓存键
    */
-  generateKey(birthData: any, type: string = 'analysis'): string {
+  generateKey(birthData: any, type = 'analysis'): string {
     const data = {
       datetime: birthData.datetime,
       gender: birthData.gender,
@@ -337,7 +337,7 @@ export class BaziCache {
     }
 
     // 删除相关缓存
-    keysToDelete.forEach(key => this.cache.delete(key));
+    keysToDelete.forEach((key) => this.cache.delete(key));
   }
 
   /**

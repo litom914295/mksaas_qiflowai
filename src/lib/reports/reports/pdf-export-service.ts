@@ -1,6 +1,6 @@
 ﻿/**
  * PDFå¯¼å‡ºæœåŠ¡
- * 
+ *
  * å°†HTMLæŠ¥å‘Šè½¬æ¢ä¸ºPDFæ ¼å¼
  */
 
@@ -11,7 +11,8 @@ let jsPDFConstructor: JsPDFConstructor | null = null;
 const loadJsPDF = async (): Promise<JsPDFConstructor> => {
   if (!jsPDFConstructor) {
     const jsPDFModule = await import('jspdf');
-    jsPDFConstructor = (jsPDFModule as any).jsPDF ?? (jsPDFModule as any).default;
+    jsPDFConstructor =
+      (jsPDFModule as any).jsPDF ?? (jsPDFModule as any).default;
   }
   return jsPDFConstructor!;
 };
@@ -20,7 +21,8 @@ let html2canvasFn: Html2CanvasFn | null = null;
 const loadHtml2Canvas = async (): Promise<Html2CanvasFn> => {
   if (!html2canvasFn) {
     const html2canvasModule = await import('html2canvas');
-    html2canvasFn = (html2canvasModule as any).default ?? (html2canvasModule as any);
+    html2canvasFn =
+      (html2canvasModule as any).default ?? (html2canvasModule as any);
   }
   return html2canvasFn!;
 };
@@ -33,7 +35,10 @@ const loadCanvg = async () => {
       const canvgModule = await import('canvg');
       canvg = (canvgModule as any).default || canvgModule;
     } catch (error) {
-      console.warn('canvg æ¨¡å—åŠ è½½å¤±è´¥ï¼Œå°†ä½¿ç”¨åŸºç¡€ PDF åŠŸèƒ½:', error);
+      console.warn(
+        'canvg æ¨¡å—åŠ è½½å¤±è´¥ï¼Œå°†ä½¿ç”¨åŸºç¡€ PDF åŠŸèƒ½:',
+        error
+      );
       canvg = null;
     }
   }
@@ -49,12 +54,11 @@ export interface PdfExportOptions {
 }
 
 export class PdfExportService {
-  
   /**
    * å°†HTMLå†…å®¹è½¬æ¢ä¸ºPDF
    */
   static async exportHtmlToPdf(
-    htmlContent: string, 
+    htmlContent: string,
     options: PdfExportOptions = {}
   ): Promise<Blob> {
     const {
@@ -62,7 +66,7 @@ export class PdfExportService {
       orientation = 'portrait',
       margin = 20,
       quality = 1.0,
-      filename = 'bazi-report.pdf'
+      filename = 'bazi-report.pdf',
     } = options;
 
     if (typeof window === 'undefined' || typeof document === 'undefined') {
@@ -88,7 +92,7 @@ export class PdfExportService {
       const canvas = await html2canvas(container, {
         scale: quality,
         useCORS: true,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
       });
 
       // åˆ›å»ºPDF
@@ -96,12 +100,12 @@ export class PdfExportService {
       const pdf = new JsPDF({
         orientation,
         unit: 'mm',
-        format
+        format,
       });
 
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pageWidth - (margin * 2);
+      const imgWidth = pageWidth - margin * 2;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       let heightLeft = imgHeight;
@@ -109,14 +113,14 @@ export class PdfExportService {
 
       // æ·»åŠ ç¬¬ä¸€é¡µ
       pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
-      heightLeft -= (pageHeight - margin * 2);
+      heightLeft -= pageHeight - margin * 2;
 
       // å¦‚æžœå†…å®¹è¶…è¿‡ä¸€é¡µï¼Œç»§ç»­æ·»åŠ é¡µé¢
       while (heightLeft > 0) {
         position = heightLeft - imgHeight + margin;
         pdf.addPage();
         pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
-        heightLeft -= (pageHeight - margin * 2);
+        heightLeft -= pageHeight - margin * 2;
       }
 
       // æ·»åŠ é¡µè„š
@@ -147,7 +151,10 @@ export class PdfExportService {
     htmlContent: string,
     options: PdfExportOptions = {}
   ): Promise<void> {
-    const pdfBlob = await this.exportHtmlToPdf(htmlContent, options);
+    const pdfBlob = await PdfExportService.exportHtmlToPdf(
+      htmlContent,
+      options
+    );
     const filename = options.filename || 'bazi-report.pdf';
 
     // åˆ›å»ºä¸‹è½½é“¾æŽ¥
@@ -156,11 +163,11 @@ export class PdfExportService {
     link.href = url;
     link.download = filename;
     link.style.display = 'none';
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     // æ¸…ç†URLå¯¹è±¡
     URL.revokeObjectURL(url);
   }
@@ -172,15 +179,18 @@ export class PdfExportService {
     htmlContent: string,
     options: PdfExportOptions = {}
   ): Promise<void> {
-    const pdfBlob = await this.exportHtmlToPdf(htmlContent, options);
+    const pdfBlob = await PdfExportService.exportHtmlToPdf(
+      htmlContent,
+      options
+    );
     const url = URL.createObjectURL(pdfBlob);
-    
+
     const newWindow = window.open();
     if (newWindow) {
       newWindow.location.href = url;
     } else {
       // å¦‚æžœå¼¹çª—è¢«é˜»æ­¢ï¼Œåˆ™ç›´æŽ¥ä¸‹è½½
-      await this.downloadPdf(htmlContent, options);
+      await PdfExportService.downloadPdf(htmlContent, options);
     }
   }
 
@@ -191,8 +201,11 @@ export class PdfExportService {
     htmlContent: string,
     options: PdfExportOptions = {}
   ): Promise<string> {
-    const pdfBlob = await this.exportHtmlToPdf(htmlContent, options);
-    
+    const pdfBlob = await PdfExportService.exportHtmlToPdf(
+      htmlContent,
+      options
+    );
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -337,6 +350,3 @@ export function createPdfOptimizedHtml(originalHtml: string): string {
     </html>
   `;
 }
-
-
-

@@ -7,7 +7,8 @@
 
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface CompassMeasurementProps {
   onMeasurementSave?: (measurement: MeasurementData) => void;
@@ -89,7 +90,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
           ...m,
           timestamp: new Date(m.timestamp),
         }));
-        setState(prev => ({ ...prev, measurements }));
+        setState((prev) => ({ ...prev, measurements }));
       }
     } catch (error) {
       console.error('加载测量数据失败:', error);
@@ -110,7 +111,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
 
   // 开始测量
   const startMeasurement = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isRecording: true,
       recordingStartTime: Date.now(),
@@ -127,7 +128,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
 
   // 停止测量
   const stopMeasurement = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isRecording: false,
       recordingStartTime: 0,
@@ -141,7 +142,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
     // 保存记录的数据
     if (recordingRef.current.length > 0) {
       const newMeasurements = [...state.measurements, ...recordingRef.current];
-      setState(prev => ({ ...prev, measurements: newMeasurements }));
+      setState((prev) => ({ ...prev, measurements: newMeasurements }));
       saveMeasurements(newMeasurements);
     }
   }, [state.measurements, saveMeasurements]);
@@ -161,7 +162,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
     };
 
     recordingRef.current.push(measurement);
-    setState(prev => ({ ...prev, currentMeasurement: measurement }));
+    setState((prev) => ({ ...prev, currentMeasurement: measurement }));
 
     if (onMeasurementSave) {
       onMeasurementSave(measurement);
@@ -188,7 +189,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
       };
 
       const newMeasurements = [...state.measurements, newMeasurement];
-      setState(prev => ({ ...prev, measurements: newMeasurements }));
+      setState((prev) => ({ ...prev, measurements: newMeasurements }));
       saveMeasurements(newMeasurements);
 
       if (onMeasurementSave) {
@@ -201,8 +202,8 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
   // 删除测量
   const deleteMeasurement = useCallback(
     (id: string) => {
-      const newMeasurements = state.measurements.filter(m => m.id !== id);
-      setState(prev => ({ ...prev, measurements: newMeasurements }));
+      const newMeasurements = state.measurements.filter((m) => m.id !== id);
+      setState((prev) => ({ ...prev, measurements: newMeasurements }));
       saveMeasurements(newMeasurements);
     },
     [state.measurements, saveMeasurements]
@@ -211,9 +212,9 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
   // 批量删除测量
   const deleteSelectedMeasurements = useCallback(() => {
     const newMeasurements = state.measurements.filter(
-      m => !state.selectedMeasurements.includes(m.id)
+      (m) => !state.selectedMeasurements.includes(m.id)
     );
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       measurements: newMeasurements,
       selectedMeasurements: [],
@@ -223,22 +224,22 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
 
   // 选择测量
   const toggleMeasurementSelection = useCallback((id: string) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       selectedMeasurements: prev.selectedMeasurements.includes(id)
-        ? prev.selectedMeasurements.filter(i => i !== id)
+        ? prev.selectedMeasurements.filter((i) => i !== id)
         : [...prev.selectedMeasurements, id],
     }));
   }, []);
 
   // 全选/取消全选
   const toggleAllMeasurements = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       selectedMeasurements:
         prev.selectedMeasurements.length === filteredMeasurements.length
           ? []
-          : filteredMeasurements.map(m => m.id),
+          : filteredMeasurements.map((m) => m.id),
     }));
   }, []);
 
@@ -246,7 +247,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
   const exportMeasurements = useCallback(() => {
     const dataToExport =
       state.selectedMeasurements.length > 0
-        ? state.measurements.filter(m =>
+        ? state.measurements.filter((m) =>
             state.selectedMeasurements.includes(m.id)
           )
         : state.measurements;
@@ -290,9 +291,9 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
       };
     }
 
-    const accuracies = measurements.map(m => m.accuracy);
-    const confidences = measurements.map(m => m.confidence);
-    const timestamps = measurements.map(m => m.timestamp);
+    const accuracies = measurements.map((m) => m.accuracy);
+    const confidences = measurements.map((m) => m.confidence);
+    const timestamps = measurements.map((m) => m.timestamp);
 
     return {
       total: measurements.length,
@@ -310,7 +311,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
   };
 
   // 过滤测量数据
-  const filteredMeasurements = state.measurements.filter(measurement => {
+  const filteredMeasurements = state.measurements.filter((measurement) => {
     const { dateRange, accuracyRange, tags } = state.filter;
     const measurementDate = new Date(measurement.timestamp);
 
@@ -328,7 +329,8 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
     // 标签过滤
     if (
       tags.length > 0 &&
-      (!measurement.tags || !tags.some(tag => measurement.tags!.includes(tag)))
+      (!measurement.tags ||
+        !tags.some((tag) => measurement.tags!.includes(tag)))
     )
       return false;
 
@@ -340,10 +342,10 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
 
   return (
     <div className={`compass-measurement ${className}`}>
-      <div className='bg-white p-6 rounded-lg shadow-lg'>
-        <div className='flex justify-between items-center mb-6'>
-          <h3 className='text-xl font-semibold'>测量记录</h3>
-          <div className='flex gap-2'>
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-semibold">测量记录</h3>
+          <div className="flex gap-2">
             <button
               onClick={state.isRecording ? stopMeasurement : startMeasurement}
               className={`px-4 py-2 text-sm rounded transition-colors ${
@@ -356,7 +358,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
             </button>
             <button
               onClick={exportMeasurements}
-              className='px-4 py-2 text-sm bg-blue-500 text-white rounded hover:bg-blue-600'
+              className="px-4 py-2 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
             >
               导出数据
             </button>
@@ -364,52 +366,52 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
         </div>
 
         {/* 统计信息 */}
-        <div className='grid grid-cols-2 md:grid-cols-4 gap-4 mb-6'>
-          <div className='bg-blue-50 p-4 rounded-lg'>
-            <div className='text-2xl font-bold text-blue-600'>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <div className="text-2xl font-bold text-blue-600">
               {stats.total}
             </div>
-            <div className='text-sm text-blue-600'>总测量数</div>
+            <div className="text-sm text-blue-600">总测量数</div>
           </div>
-          <div className='bg-green-50 p-4 rounded-lg'>
-            <div className='text-2xl font-bold text-green-600'>
+          <div className="bg-green-50 p-4 rounded-lg">
+            <div className="text-2xl font-bold text-green-600">
               ±{stats.averageAccuracy.toFixed(1)}°
             </div>
-            <div className='text-sm text-green-600'>平均精度</div>
+            <div className="text-sm text-green-600">平均精度</div>
           </div>
-          <div className='bg-yellow-50 p-4 rounded-lg'>
-            <div className='text-2xl font-bold text-yellow-600'>
+          <div className="bg-yellow-50 p-4 rounded-lg">
+            <div className="text-2xl font-bold text-yellow-600">
               {Math.round(stats.averageConfidence * 100)}%
             </div>
-            <div className='text-sm text-yellow-600'>平均置信度</div>
+            <div className="text-sm text-yellow-600">平均置信度</div>
           </div>
-          <div className='bg-purple-50 p-4 rounded-lg'>
-            <div className='text-2xl font-bold text-purple-600'>
+          <div className="bg-purple-50 p-4 rounded-lg">
+            <div className="text-2xl font-bold text-purple-600">
               ±{stats.bestAccuracy.toFixed(1)}°
             </div>
-            <div className='text-sm text-purple-600'>最佳精度</div>
+            <div className="text-sm text-purple-600">最佳精度</div>
           </div>
         </div>
 
         {/* 当前测量 */}
         {state.currentMeasurement && (
-          <div className='mb-6 p-4 bg-gray-50 rounded-lg'>
-            <h4 className='font-medium mb-2'>当前测量</h4>
-            <div className='grid grid-cols-2 md:grid-cols-4 gap-4 text-sm'>
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+            <h4 className="font-medium mb-2">当前测量</h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
-                <span className='text-gray-600'>方向:</span>{' '}
+                <span className="text-gray-600">方向:</span>{' '}
                 {Math.round(state.currentMeasurement.direction)}°
               </div>
               <div>
-                <span className='text-gray-600'>精度:</span> ±
+                <span className="text-gray-600">精度:</span> ±
                 {state.currentMeasurement.accuracy.toFixed(1)}°
               </div>
               <div>
-                <span className='text-gray-600'>置信度:</span>{' '}
+                <span className="text-gray-600">置信度:</span>{' '}
                 {Math.round(state.currentMeasurement.confidence * 100)}%
               </div>
               <div>
-                <span className='text-gray-600'>时间:</span>{' '}
+                <span className="text-gray-600">时间:</span>{' '}
                 {new Date(
                   state.currentMeasurement.timestamp
                 ).toLocaleTimeString()}
@@ -419,13 +421,13 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
         )}
 
         {/* 测量列表 */}
-        <div className='space-y-2'>
-          <div className='flex justify-between items-center'>
-            <h4 className='font-medium'>测量历史</h4>
-            <div className='flex gap-2'>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <h4 className="font-medium">测量历史</h4>
+            <div className="flex gap-2">
               <button
                 onClick={toggleAllMeasurements}
-                className='px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300'
+                className="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
               >
                 {state.selectedMeasurements.length ===
                 filteredMeasurements.length
@@ -435,7 +437,7 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
               {state.selectedMeasurements.length > 0 && (
                 <button
                   onClick={deleteSelectedMeasurements}
-                  className='px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600'
+                  className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
                 >
                   删除选中 ({state.selectedMeasurements.length})
                 </button>
@@ -444,10 +446,10 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
           </div>
 
           {filteredMeasurements.length === 0 ? (
-            <div className='text-center py-8 text-gray-500'>暂无测量数据</div>
+            <div className="text-center py-8 text-gray-500">暂无测量数据</div>
           ) : (
-            <div className='space-y-2 max-h-96 overflow-y-auto'>
-              {filteredMeasurements.map(measurement => (
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {filteredMeasurements.map((measurement) => (
                 <div
                   key={measurement.id}
                   className={`p-4 border rounded-lg transition-colors ${
@@ -456,40 +458,40 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <div className='flex items-center justify-between'>
-                    <div className='flex items-center gap-4'>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
                       <input
-                        type='checkbox'
+                        type="checkbox"
                         checked={state.selectedMeasurements.includes(
                           measurement.id
                         )}
                         onChange={() =>
                           toggleMeasurementSelection(measurement.id)
                         }
-                        className='w-4 h-4 text-blue-600'
+                        className="w-4 h-4 text-blue-600"
                       />
-                      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 text-sm'>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
-                          <span className='text-gray-600'>方向:</span>{' '}
+                          <span className="text-gray-600">方向:</span>{' '}
                           {Math.round(measurement.direction)}°
                         </div>
                         <div>
-                          <span className='text-gray-600'>精度:</span> ±
+                          <span className="text-gray-600">精度:</span> ±
                           {measurement.accuracy.toFixed(1)}°
                         </div>
                         <div>
-                          <span className='text-gray-600'>置信度:</span>{' '}
+                          <span className="text-gray-600">置信度:</span>{' '}
                           {Math.round(measurement.confidence * 100)}%
                         </div>
                         <div>
-                          <span className='text-gray-600'>时间:</span>{' '}
+                          <span className="text-gray-600">时间:</span>{' '}
                           {new Date(measurement.timestamp).toLocaleString()}
                         </div>
                       </div>
                     </div>
                     <button
                       onClick={() => deleteMeasurement(measurement.id)}
-                      className='px-2 py-1 text-sm text-red-600 hover:bg-red-50 rounded'
+                      className="px-2 py-1 text-sm text-red-600 hover:bg-red-50 rounded"
                     >
                       删除
                     </button>
@@ -505,4 +507,3 @@ export const CompassMeasurement: React.FC<CompassMeasurementProps> = ({
 };
 
 export default CompassMeasurement;
-

@@ -31,7 +31,7 @@ export function TimePicker({
     if (value) {
       const [time, period] = value.split(' ');
       const [hourStr, minuteStr] = time.split(':');
-      let hour = parseInt(hourStr, 10);
+      let hour = Number.parseInt(hourStr, 10);
 
       if (use12Hour && period) {
         setIsAM(period === 'AM');
@@ -43,7 +43,7 @@ export function TimePicker({
       }
 
       setSelectedHour(hour);
-      setSelectedMinute(parseInt(minuteStr, 10));
+      setSelectedMinute(Number.parseInt(minuteStr, 10));
     }
   }, [value, use12Hour]);
 
@@ -67,9 +67,8 @@ export function TimePicker({
         period = 'PM';
       }
       return `${hour.toString().padStart(2, '0')}:${selectedMinute.toString().padStart(2, '0')} ${period}`;
-    } else {
-      return `${hour.toString().padStart(2, '0')}:${selectedMinute.toString().padStart(2, '0')}`;
     }
+    return `${hour.toString().padStart(2, '0')}:${selectedMinute.toString().padStart(2, '0')}`;
   };
 
   // 更新时间
@@ -120,9 +119,9 @@ export function TimePicker({
   return (
     <div className={`relative ${className}`}>
       {/* 输入框 */}
-      <div className='relative'>
+      <div className="relative">
         <input
-          type='text'
+          type="text"
           value={formatTime()}
           placeholder={placeholder}
           readOnly
@@ -134,19 +133,19 @@ export function TimePicker({
             ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'cursor-pointer bg-white'}
           `}
         />
-        <Clock className='absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+        <Clock className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
       </div>
 
       {/* 时间选择弹窗 */}
       {isOpen && (
-        <div className='absolute top-full left-0 mt-1 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 min-w-[240px]'>
+        <div className="absolute top-full left-0 mt-1 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 min-w-[240px]">
           {/* 小时选择 */}
-          <div className='mb-4'>
-            <label className='block text-sm font-medium text-gray-700 mb-2'>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               小时
             </label>
-            <div className='grid grid-cols-4 gap-2 max-h-32 overflow-y-auto'>
-              {generateHourOptions().map(hour => (
+            <div className="grid grid-cols-4 gap-2 max-h-32 overflow-y-auto">
+              {generateHourOptions().map((hour) => (
                 <button
                   key={hour}
                   onClick={() =>
@@ -168,12 +167,12 @@ export function TimePicker({
           </div>
 
           {/* 分钟选择 */}
-          <div className='mb-4'>
-            <label className='block text-sm font-medium text-gray-700 mb-2'>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               分钟
             </label>
-            <div className='grid grid-cols-6 gap-2 max-h-32 overflow-y-auto'>
-              {generateMinuteOptions().map(minute => (
+            <div className="grid grid-cols-6 gap-2 max-h-32 overflow-y-auto">
+              {generateMinuteOptions().map((minute) => (
                 <button
                   key={minute}
                   onClick={() =>
@@ -196,11 +195,11 @@ export function TimePicker({
 
           {/* AM/PM 选择（12小时制） */}
           {use12Hour && (
-            <div className='mb-4'>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 时段
               </label>
-              <div className='flex gap-2'>
+              <div className="flex gap-2">
                 <button
                   onClick={() => updateTime(selectedHour, selectedMinute, true)}
                   className={`
@@ -226,14 +225,14 @@ export function TimePicker({
           )}
 
           {/* 常用时间 */}
-          <div className='mb-4'>
-            <label className='block text-sm font-medium text-gray-700 mb-2'>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               常用时间
             </label>
-            <div className='grid grid-cols-2 gap-2'>
+            <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => updateTime(9, 0, use12Hour ? true : undefined)}
-                className='p-2 text-sm rounded border border-gray-300 hover:bg-blue-50 transition-colors'
+                className="p-2 text-sm rounded border border-gray-300 hover:bg-blue-50 transition-colors"
               >
                 上午9:00
               </button>
@@ -245,7 +244,7 @@ export function TimePicker({
                     use12Hour ? true : undefined
                   )
                 }
-                className='p-2 text-sm rounded border border-gray-300 hover:bg-blue-50 transition-colors'
+                className="p-2 text-sm rounded border border-gray-300 hover:bg-blue-50 transition-colors"
               >
                 中午12:00
               </button>
@@ -257,7 +256,7 @@ export function TimePicker({
                     use12Hour ? false : undefined
                   )
                 }
-                className='p-2 text-sm rounded border border-gray-300 hover:bg-blue-50 transition-colors'
+                className="p-2 text-sm rounded border border-gray-300 hover:bg-blue-50 transition-colors"
               >
                 下午3:00
               </button>
@@ -269,7 +268,7 @@ export function TimePicker({
                     use12Hour ? false : undefined
                   )
                 }
-                className='p-2 text-sm rounded border border-gray-300 hover:bg-blue-50 transition-colors'
+                className="p-2 text-sm rounded border border-gray-300 hover:bg-blue-50 transition-colors"
               >
                 晚上6:00
               </button>
@@ -277,10 +276,10 @@ export function TimePicker({
           </div>
 
           {/* 底部操作 */}
-          <div className='flex justify-between pt-2 border-t'>
+          <div className="flex justify-between pt-2 border-t">
             <Button
-              variant='ghost'
-              size='sm'
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 setSelectedHour(12);
                 setSelectedMinute(0);
@@ -291,7 +290,7 @@ export function TimePicker({
             >
               清除
             </Button>
-            <Button variant='ghost' size='sm' onClick={() => setIsOpen(false)}>
+            <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)}>
               确定
             </Button>
           </div>
@@ -300,7 +299,7 @@ export function TimePicker({
 
       {/* 点击外部关闭 */}
       {isOpen && (
-        <div className='fixed inset-0 z-40' onClick={() => setIsOpen(false)} />
+        <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
       )}
     </div>
   );

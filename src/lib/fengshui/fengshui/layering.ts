@@ -1,5 +1,5 @@
 import { evaluatePlate } from './evaluate';
-import { PalaceIndex, Plate } from './types';
+import type { PalaceIndex, Plate } from './types';
 
 export type TemporalWeights = {
   year?: number;
@@ -67,15 +67,15 @@ export function computeLayeredEvaluation(
 
     if (yearEval?.[p]) {
       score = score * (1 - weights.year) + yearEval[p].score * weights.year;
-      yearEval[p].tags.forEach(t => tags.add(`year:${t}`));
+      yearEval[p].tags.forEach((t) => tags.add(`year:${t}`));
     }
     if (monthEval?.[p]) {
       score = score * (1 - weights.month) + monthEval[p].score * weights.month;
-      monthEval[p].tags.forEach(t => tags.add(`month:${t}`));
+      monthEval[p].tags.forEach((t) => tags.add(`month:${t}`));
     }
     if (dayEval?.[p]) {
       score = score * (1 - weights.day) + dayEval[p].score * weights.day;
-      dayEval[p].tags.forEach(t => tags.add(`day:${t}`));
+      dayEval[p].tags.forEach((t) => tags.add(`day:${t}`));
     }
 
     // 个性化加权：宫位五行与喜/忌匹配

@@ -1,19 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/enhanced-card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  MessageCircle, 
-  X, 
-  Send, 
-  Sparkles,
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/enhanced-card';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
   Bot,
+  Loader2,
+  MessageCircle,
+  Send,
+  Sparkles,
   User,
-  Loader2
+  X,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 interface AIChatPopupProps {
   isOpen?: boolean;
@@ -22,17 +22,19 @@ interface AIChatPopupProps {
   fengshuiData?: any;
 }
 
-export function AIChatPopup({ 
-  isOpen = false, 
+export function AIChatPopup({
+  isOpen = false,
   onClose,
   baziData,
-  fengshuiData 
+  fengshuiData,
 }: AIChatPopupProps) {
-  const [messages, setMessages] = useState<Array<{
-    id: string;
-    role: 'user' | 'assistant';
-    content: string;
-  }>>([]);
+  const [messages, setMessages] = useState<
+    Array<{
+      id: string;
+      role: 'user' | 'assistant';
+      content: string;
+    }>
+  >([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showFloatingButton, setShowFloatingButton] = useState(true);
@@ -43,11 +45,14 @@ export function AIChatPopup({
     const timer = setTimeout(() => {
       if (!chatOpen && messages.length === 0) {
         // 添加欢迎消息
-        setMessages([{
-          id: '1',
-          role: 'assistant',
-          content: '👋 您好！我是您的AI风水大师。我看到您的分析结果了，有什么想深入了解的吗？比如：\n\n• 2024年哪个月份最适合创业？\n• 如何改善家中风水提升财运？\n• 感情运势什么时候会好转？\n\n💝 限时优惠：现在咨询享8折优惠！'
-        }]);
+        setMessages([
+          {
+            id: '1',
+            role: 'assistant',
+            content:
+              '👋 您好！我是您的AI风水大师。我看到您的分析结果了，有什么想深入了解的吗？比如：\n\n• 2024年哪个月份最适合创业？\n• 如何改善家中风水提升财运？\n• 感情运势什么时候会好转？\n\n💝 限时优惠：现在咨询享8折优惠！',
+          },
+        ]);
         // 显示聊天窗口
         setShowFloatingButton(true);
       }
@@ -61,7 +66,7 @@ export function AIChatPopup({
     '我的财运如何提升？',
     '感情什么时候会有转机？',
     '事业发展关键点在哪？',
-    '家中风水如何调整？'
+    '家中风水如何调整？',
   ];
 
   const handleSend = async () => {
@@ -70,10 +75,10 @@ export function AIChatPopup({
     const userMessage = {
       id: Date.now().toString(),
       role: 'user' as const,
-      content: input
+      content: input,
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
@@ -82,16 +87,17 @@ export function AIChatPopup({
       const aiMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant' as const,
-        content: `根据您的八字分析，${input.includes('财') ? 
-          '您的财运在农历三月和八月会有明显提升，建议在这两个月份把握投资机会。同时，您的财位在东南方向，可以在家中东南角摆放绿色植物或水晶来增强财运。' :
-          input.includes('感情') ?
-          '您的感情运在下半年会有好转，特别是农历七月份，桃花运旺盛。建议您多参加社交活动，注意打扮，增加异性缘。' :
-          input.includes('事业') ?
-          '您的事业运势整体向好，特别适合在技术和创意领域发展。今年下半年有贵人相助，要把握好人脉资源。' :
-          '这是一个很好的问题！基于您的命理分析，我建议您重点关注东南方位的能量调整，这对您的整体运势提升很有帮助。'
-        }\n\n💡 想要更详细的个性化建议吗？升级到专业版可以获得完整的风水布局图和每月运势指导。`
+        content: `根据您的八字分析，${
+          input.includes('财')
+            ? '您的财运在农历三月和八月会有明显提升，建议在这两个月份把握投资机会。同时，您的财位在东南方向，可以在家中东南角摆放绿色植物或水晶来增强财运。'
+            : input.includes('感情')
+              ? '您的感情运在下半年会有好转，特别是农历七月份，桃花运旺盛。建议您多参加社交活动，注意打扮，增加异性缘。'
+              : input.includes('事业')
+                ? '您的事业运势整体向好，特别适合在技术和创意领域发展。今年下半年有贵人相助，要把握好人脉资源。'
+                : '这是一个很好的问题！基于您的命理分析，我建议您重点关注东南方位的能量调整，这对您的整体运势提升很有帮助。'
+        }\n\n💡 想要更详细的个性化建议吗？升级到专业版可以获得完整的风水布局图和每月运势指导。`,
       };
-      setMessages(prev => [...prev, aiMessage]);
+      setMessages((prev) => [...prev, aiMessage]);
       setIsLoading(false);
     }, 1500);
   };
@@ -118,7 +124,7 @@ export function AIChatPopup({
                 </Badge>
               )}
             </Button>
-            
+
             {/* 提示气泡 */}
             {messages.length === 1 && (
               <motion.div
@@ -143,7 +149,10 @@ export function AIChatPopup({
             exit={{ opacity: 0, y: 100 }}
             className="fixed bottom-6 right-6 z-50 w-96 h-[600px] max-h-[80vh]"
           >
-            <Card variant="elevated" className="h-full flex flex-col shadow-2xl">
+            <Card
+              variant="elevated"
+              className="h-full flex flex-col shadow-2xl"
+            >
               {/* 头部 */}
               <div className="p-4 border-b bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-t-lg">
                 <div className="flex items-center justify-between">
@@ -154,7 +163,7 @@ export function AIChatPopup({
                     <div>
                       <h3 className="font-bold">AI风水大师</h3>
                       <p className="text-xs text-white/80 flex items-center gap-1">
-                        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                         在线咨询中
                       </p>
                     </div>
@@ -179,26 +188,37 @@ export function AIChatPopup({
                     animate={{ opacity: 1, y: 0 }}
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    <div className={`flex gap-2 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        message.role === 'user' ? 'bg-blue-500' : 'bg-gradient-to-r from-purple-500 to-pink-500'
-                      }`}>
-                        {message.role === 'user' ? 
-                          <User className="w-5 h-5 text-white" /> : 
+                    <div
+                      className={`flex gap-2 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
+                    >
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          message.role === 'user'
+                            ? 'bg-blue-500'
+                            : 'bg-gradient-to-r from-purple-500 to-pink-500'
+                        }`}
+                      >
+                        {message.role === 'user' ? (
+                          <User className="w-5 h-5 text-white" />
+                        ) : (
                           <Sparkles className="w-5 h-5 text-white" />
-                        }
+                        )}
                       </div>
-                      <div className={`px-4 py-2 rounded-2xl ${
-                        message.role === 'user' 
-                          ? 'bg-blue-500 text-white' 
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
-                        <p className="text-sm whitespace-pre-line">{message.content}</p>
+                      <div
+                        className={`px-4 py-2 rounded-2xl ${
+                          message.role === 'user'
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        <p className="text-sm whitespace-pre-line">
+                          {message.content}
+                        </p>
                       </div>
                     </div>
                   </motion.div>
                 ))}
-                
+
                 {isLoading && (
                   <div className="flex justify-start">
                     <div className="flex gap-2">

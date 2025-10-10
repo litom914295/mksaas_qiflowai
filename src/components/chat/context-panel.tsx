@@ -11,12 +11,12 @@ const renderSection = (
   data: Record<string, string | number>
 ) => (
   <section>
-    <h4 className='text-sm font-semibold text-muted-foreground'>{title}</h4>
-    <div className='mt-2 space-y-1 rounded-md bg-background p-3 text-xs'>
+    <h4 className="text-sm font-semibold text-muted-foreground">{title}</h4>
+    <div className="mt-2 space-y-1 rounded-md bg-background p-3 text-xs">
       {Object.entries(data).map(([key, value]) => (
-        <div key={key} className='flex items-start justify-between gap-4'>
-          <span className='text-muted-foreground'>{key}</span>
-          <span className='text-foreground'>{value}</span>
+        <div key={key} className="flex items-start justify-between gap-4">
+          <span className="text-muted-foreground">{key}</span>
+          <span className="text-foreground">{value}</span>
         </div>
       ))}
     </div>

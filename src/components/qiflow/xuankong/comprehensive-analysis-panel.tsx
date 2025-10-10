@@ -30,6 +30,10 @@ import { PersonalizedAnalysisView } from './personalized-analysis-view';
 import { SmartRecommendationsView } from './smart-recommendations-view';
 import { TiguaAnalysisView } from './tigua-analysis-view';
 
+// 导入新增的增强组件（暂时注释掉，避免错误）
+// import { SimpleEnhancedPlate } from './enhanced-plate-simple';
+// import { SimpleKeyPositions } from './key-positions-simple';
+
 interface ComprehensiveAnalysisPanelProps {
   analysisResult: ComprehensiveAnalysisResult | null;
   isLoading?: boolean;
@@ -282,60 +286,46 @@ export function ComprehensiveAnalysisPanel({
 
             {/* 基础分析 */}
             <TabsContent value="basic" className="mt-0">
-              <BasicAnalysisView
-                analysisResult={analysisResult}
-              />
+              <BasicAnalysisView analysisResult={analysisResult} />
             </TabsContent>
 
             {/* 流年分析 */}
             <TabsContent value="liunian" className="mt-0">
               {analysisResult.liunianAnalysis && (
-                <LiunianAnalysisView
-                  analysisResult={analysisResult}
-                />
+                <LiunianAnalysisView analysisResult={analysisResult} />
               )}
             </TabsContent>
 
             {/* 个性化分析 */}
             <TabsContent value="personal" className="mt-0">
               {analysisResult.personalizedAnalysis && (
-                <PersonalizedAnalysisView
-                  analysisResult={analysisResult}
-                />
+                <PersonalizedAnalysisView analysisResult={analysisResult} />
               )}
             </TabsContent>
 
             {/* 智能推荐 */}
             <TabsContent value="recommendations" className="mt-0">
-              <SmartRecommendationsView
-                analysisResult={analysisResult}
-              />
+              <SmartRecommendationsView analysisResult={analysisResult} />
             </TabsContent>
 
             {/* 替卦分析 */}
             <TabsContent value="tigua" className="mt-0">
               {analysisResult.tiguaAnalysis && (
-                <TiguaAnalysisView
-                  analysisResult={analysisResult}
-                />
+                <TiguaAnalysisView analysisResult={analysisResult} />
               )}
             </TabsContent>
 
             {/* 零正理论 */}
             <TabsContent value="lingzheng" className="mt-0">
               {analysisResult.lingzhengAnalysis && (
-                <LingzhengAnalysisView
-                  analysisResult={analysisResult}
-                />
+                <LingzhengAnalysisView analysisResult={analysisResult} />
               )}
             </TabsContent>
 
             {/* 城门诀 */}
             <TabsContent value="chengmen" className="mt-0">
               {analysisResult.chengmenjueAnalysis && (
-                <ChengmenjueAnalysisView
-                  analysisResult={analysisResult}
-                />
+                <ChengmenjueAnalysisView analysisResult={analysisResult} />
               )}
             </TabsContent>
           </CardContent>

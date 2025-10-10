@@ -13,34 +13,36 @@ import { z } from 'zod';
  */
 const envSchema = z.object({
   // Node环境
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  
+  NODE_ENV: z
+    .enum(['development', 'production', 'test'])
+    .default('development'),
+
   // 基础配置
   NEXT_PUBLIC_BASE_URL: z.string().url().optional(),
-  
+
   // 数据库配置 (必需)
   DATABASE_URL: z.string().url(),
-  
+
   // 认证配置 (必需)
   BETTER_AUTH_SECRET: z.string().min(32),
-  
+
   // AI API密钥（可选，根据项目需要添加）
   ANTHROPIC_API_KEY: z.string().optional(),
-  OPENAI_API_KEY: z.string().optional(), 
+  OPENAI_API_KEY: z.string().optional(),
   GOOGLE_API_KEY: z.string().optional(),
   PERPLEXITY_API_KEY: z.string().optional(),
-  
+
   // 邮件服务（可选）
   RESEND_API_KEY: z.string().optional(),
-  
+
   // 支付服务（可选）
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
-  
+
   // 功能开关
   DISABLE_IMAGE_OPTIMIZATION: z.string().optional(),
   DOCKER_BUILD: z.string().optional(),
-  
+
   // 分析工具
   ANALYZE: z.string().optional(),
 });
@@ -56,14 +58,15 @@ function validateEnv() {
     if (error instanceof z.ZodError) {
       console.error('❌ 环境变量验证失败:');
       console.error(error.flatten().fieldErrors);
-      
+
       // 在开发环境提供详细错误信息
       if (process.env.NODE_ENV === 'development') {
-        throw new Error(`环境变量配置错误:\n${JSON.stringify(error.flatten().fieldErrors, null, 2)}`);
-      } else {
-        // 生产环境不暴露具体错误细节
-        throw new Error('环境变量配置错误，请检查服务器配置');
+        throw new Error(
+          `环境变量配置错误:\n${JSON.stringify(error.flatten().fieldErrors, null, 2)}`
+        );
       }
+      // 生产环境不暴露具体错误细节
+      throw new Error('环境变量配置错误，请检查服务器配置');
     }
     throw error;
   }
@@ -95,12 +98,12 @@ export const isDevelopment = () => env.NODE_ENV === 'development';
  */
 export const getAvailableAIProviders = () => {
   const providers: string[] = [];
-  
+
   if (env.ANTHROPIC_API_KEY) providers.push('anthropic');
   if (env.OPENAI_API_KEY) providers.push('openai');
   if (env.GOOGLE_API_KEY) providers.push('google');
   if (env.PERPLEXITY_API_KEY) providers.push('perplexity');
-  
+
   return providers;
 };
 
@@ -113,7 +116,7 @@ export const getDefaultAIProvider = () => {
   if (env.OPENAI_API_KEY) return 'openai';
   if (env.GOOGLE_API_KEY) return 'google';
   if (env.PERPLEXITY_API_KEY) return 'perplexity';
-  
+
   return null;
 };
 

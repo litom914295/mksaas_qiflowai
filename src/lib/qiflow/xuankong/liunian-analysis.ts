@@ -543,6 +543,7 @@ function analyzeYearlyTrends(
 ): any {
   // 简化的年度趋势分析
   const liunianStar = liunianResult.liunianInfo.liunianStar;
+  const year = liunianResult.liunianInfo.year;
 
   let overallLuck: 'excellent' | 'good' | 'fair' | 'challenging';
   if ([8, 9].includes(liunianStar)) overallLuck = 'excellent';
@@ -550,17 +551,100 @@ function analyzeYearlyTrends(
   else if ([3, 4].includes(liunianStar)) overallLuck = 'fair';
   else overallLuck = 'challenging';
 
+  // 分析各个方面的趋势
+  let healthTrend: 'improving' | 'stable' | 'declining' = 'stable';
+  let wealthTrend: 'growing' | 'stable' | 'declining' = 'stable';
+  let careerTrend: 'advancing' | 'stable' | 'challenging' = 'stable';
+  let relationshipTrend: 'harmonious' | 'stable' | 'turbulent' = 'stable';
+
+  // 根据流年星分析趋势
+  if ([8, 9].includes(liunianStar)) {
+    wealthTrend = 'growing';
+    careerTrend = 'advancing';
+  } else if ([1, 6].includes(liunianStar)) {
+    careerTrend = 'advancing';
+    healthTrend = 'improving';
+  } else if ([4].includes(liunianStar)) {
+    relationshipTrend = 'harmonious';
+  } else if ([2, 5].includes(liunianStar)) {
+    healthTrend = 'declining';
+    wealthTrend = 'declining';
+  } else if ([7].includes(liunianStar)) {
+    relationshipTrend = 'turbulent';
+  }
+
+  // 生成关键月份
+  const keyMonths: Array<{
+    month: number;
+    significance: string;
+    advice: string;
+  }> = [];
+
+  // 分析每个月份的流月星
+  for (const monthData of liunianResult.monthlyPlates) {
+    const month = monthData.month;
+    const monthStar = monthData.monthInfo.monthStar;
+
+    // 找出关键月份（五黄、二黑、八白、九紫）
+    if (monthStar === 5) {
+      keyMonths.push({
+        month,
+        significance: '五黄凶星飞临，需谨慎处理事务',
+        advice: '避免重大决策，多做准备，注意健康和安全',
+      });
+    } else if (monthStar === 2) {
+      keyMonths.push({
+        month,
+        significance: '二黑病符星当令，注意身体健康',
+        advice: '多运动锻炼，注意饮食卫生，避免过度劳累',
+      });
+    } else if (monthStar === 8) {
+      keyMonths.push({
+        month,
+        significance: '八白财星当旺，财运亨通',
+        advice: '适合投资理财、商业洽谈、签约合作',
+      });
+    } else if (monthStar === 9) {
+      keyMonths.push({
+        month,
+        significance: '九紫喜庆星临门，贵人运佳',
+        advice: '适合参加社交活动、求婚娶娣、升职加薪',
+      });
+    } else if (monthStar === 1 && [2, 3, 4].includes(month)) {
+      keyMonths.push({
+        month,
+        significance: '一白文昌星当令，利于学业和文书',
+        advice: '适合考试升学、学习新知识、文化创作',
+      });
+    } else if (monthStar === 6 && [8, 9, 10].includes(month)) {
+      keyMonths.push({
+        month,
+        significance: '六白武曲星当令，事业运佳',
+        advice: '适合开展新项目、寻求升迁、创业发展',
+      });
+    }
+  }
+
+  // 如果关键月份过多，只保留最重要的几个
+  if (keyMonths.length > 6) {
+    // 优先保留凶星月份和吉星月份
+    const importantMonths = keyMonths.filter(
+      (km) =>
+        km.significance.includes('五黄') ||
+        km.significance.includes('二黑') ||
+        km.significance.includes('八白') ||
+        km.significance.includes('九紫')
+    );
+    keyMonths.splice(0, keyMonths.length, ...importantMonths.slice(0, 6));
+  }
+
   return {
     overallLuck,
-    healthTrend: 'stable' as const,
-    wealthTrend: [8, 9].includes(liunianStar)
-      ? ('growing' as const)
-      : ('stable' as const),
-    careerTrend: [1, 6].includes(liunianStar)
-      ? ('advancing' as const)
-      : ('stable' as const),
-    relationshipTrend: 'stable' as const,
-    keyMonths: [],
+    healthTrend,
+    wealthTrend,
+    careerTrend,
+    relationshipTrend,
+    keyMonths,
   };
 }
 

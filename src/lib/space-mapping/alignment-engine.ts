@@ -1,12 +1,16 @@
 /**
  * 空间对齐引擎
- * 
+ *
  * 负责户型图的自动旋转对齐和精确定位
  * 实现误差<1°的精度要求
  */
 
-import { Point, Room, Wall } from '../image-processing/types';
-import { AlignmentResult, RotationAnalysis, SpaceMappingConfig } from './types';
+import type { Point, Room, Wall } from '../image-processing/types';
+import type {
+  AlignmentResult,
+  RotationAnalysis,
+  SpaceMappingConfig,
+} from './types';
 
 export class AlignmentEngine {
   private config: SpaceMappingConfig;
@@ -21,7 +25,7 @@ export class AlignmentEngine {
       gridSize: 20,
       enableRoomMerging: false,
       minRoomArea: 1000,
-      ...config
+      ...config,
     };
   }
 
@@ -38,15 +42,19 @@ export class AlignmentEngine {
     try {
       // 1. 分析旋转角度
       const rotationAnalysis = await this.analyzeRotation(rooms, walls);
-      
+
       // 2. 计算平移偏移
       const translation = this.calculateTranslation(rooms, imageSize);
-      
+
       // 3. 验证对齐结果
-      const confidence = this.validateAlignment(rotationAnalysis, translation, rooms);
-      
+      const confidence = this.validateAlignment(
+        rotationAnalysis,
+        translation,
+        rooms
+      );
+
       // 4. 应用网格对齐（如果启用）
-      const finalTranslation = this.config.enableGridSnapping 
+      const finalTranslation = this.config.enableGridSnapping
         ? this.applyGridSnapping(translation)
         : translation;
 
@@ -56,40 +64,46 @@ export class AlignmentEngine {
         rotationAngle: rotationAnalysis.angle,
         translation: finalTranslation,
         confidence,
-        method: rotationAnalysis.method === 'wall_direction' ? 'wall_alignment' : 
-                rotationAnalysis.method === 'room_orientation' ? 'room_alignment' : 
-                'manual',
-        processingTime
+        method:
+          rotationAnalysis.method === 'wall_direction'
+            ? 'wall_alignment'
+            : rotationAnalysis.method === 'room_orientation'
+              ? 'room_alignment'
+              : 'manual',
+        processingTime,
       };
-
     } catch (error) {
       console.error('空间对齐失败:', error);
-      throw new Error(`空间对齐失败: ${error instanceof Error ? error.message : '未知错误'}`);
+      throw new Error(
+        `空间对齐失败: ${error instanceof Error ? error.message : '未知错误'}`
+      );
     }
   }
 
   /**
    * 分析旋转角度
    */
-  private async analyzeRotation(rooms: Room[], walls: Wall[]): Promise<RotationAnalysis> {
+  private async analyzeRotation(
+    rooms: Room[],
+    walls: Wall[]
+  ): Promise<RotationAnalysis> {
     // 方法1: 基于墙壁方向分析
     const wallAnalysis = this.analyzeWallDirections(walls);
-    
+
     // 方法2: 基于房间方向分析
     const roomAnalysis = this.analyzeRoomOrientations(rooms);
-    
+
     // 选择最佳方法
     if (wallAnalysis.confidence > roomAnalysis.confidence) {
       return {
         ...wallAnalysis,
-        method: 'wall_direction'
-      };
-    } else {
-      return {
-        ...roomAnalysis,
-        method: 'room_orientation'
+        method: 'wall_direction',
       };
     }
+    return {
+      ...roomAnalysis,
+      method: 'room_orientation',
+    };
   }
 
   /**
@@ -101,7 +115,7 @@ export class AlignmentEngine {
         angle: 0,
         confidence: 0,
         method: 'wall_direction',
-        referencePoints: []
+        referencePoints: [],
       };
     }
 
@@ -114,11 +128,11 @@ export class AlignmentEngine {
         wall.end.y - wall.start.y,
         wall.end.x - wall.start.x
       );
-      
+
       // 转换为0-180度范围
-      const normalizedAngle = this.normalizeAngle(angle * 180 / Math.PI);
+      const normalizedAngle = this.normalizeAngle((angle * 180) / Math.PI);
       angles.push(normalizedAngle);
-      
+
       referencePoints.push(wall.start, wall.end);
     }
 
@@ -130,7 +144,7 @@ export class AlignmentEngine {
       angle: dominantAngle,
       confidence,
       method: 'wall_direction',
-      referencePoints
+      referencePoints,
     };
   }
 
@@ -143,7 +157,7 @@ export class AlignmentEngine {
         angle: 0,
         confidence: 0,
         method: 'room_orientation',
-        referencePoints: []
+        referencePoints: [],
       };
     }
 
@@ -167,7 +181,7 @@ export class AlignmentEngine {
         angle: 0,
         confidence: 0,
         method: 'room_orientation',
-        referencePoints: []
+        referencePoints: [],
       };
     }
 
@@ -179,7 +193,7 @@ export class AlignmentEngine {
       angle: dominantAngle,
       confidence,
       method: 'room_orientation',
-      referencePoints
+      referencePoints,
     };
   }
 
@@ -196,21 +210,18 @@ export class AlignmentEngine {
     for (let i = 0; i < room.coordinates.length; i++) {
       const current = room.coordinates[i];
       const next = room.coordinates[(i + 1) % room.coordinates.length];
-      
+
       const length = Math.sqrt(
-        Math.pow(next.x - current.x, 2) + Math.pow(next.y - current.y, 2)
+        (next.x - current.x) ** 2 + (next.y - current.y) ** 2
       );
-      
+
       if (length > maxLength) {
         maxLength = length;
-        mainDirection = Math.atan2(
-          next.y - current.y,
-          next.x - current.x
-        );
+        mainDirection = Math.atan2(next.y - current.y, next.x - current.x);
       }
     }
 
-    return this.normalizeAngle(mainDirection * 180 / Math.PI);
+    return this.normalizeAngle((mainDirection * 180) / Math.PI);
   }
 
   /**
@@ -222,12 +233,12 @@ export class AlignmentEngine {
     if (normalized < 0) {
       normalized += 180;
     }
-    
+
     // 如果角度大于90度，转换为0-90度范围
     if (normalized > 90) {
       normalized = 180 - normalized;
     }
-    
+
     return normalized;
   }
 
@@ -263,12 +274,15 @@ export class AlignmentEngine {
   /**
    * 计算角度置信度
    */
-  private calculateAngleConfidence(angles: number[], dominantAngle: number): number {
+  private calculateAngleConfidence(
+    angles: number[],
+    dominantAngle: number
+  ): number {
     if (angles.length === 0) return 0;
 
     const tolerance = this.config.toleranceAngle;
-    const matchingAngles = angles.filter(angle => 
-      Math.abs(angle - dominantAngle) <= tolerance
+    const matchingAngles = angles.filter(
+      (angle) => Math.abs(angle - dominantAngle) <= tolerance
     );
 
     return matchingAngles.length / angles.length;
@@ -277,16 +291,19 @@ export class AlignmentEngine {
   /**
    * 计算平移偏移
    */
-  private calculateTranslation(rooms: Room[], imageSize: { width: number; height: number }): Point {
+  private calculateTranslation(
+    rooms: Room[],
+    imageSize: { width: number; height: number }
+  ): Point {
     if (rooms.length === 0) {
       return { x: 0, y: 0 };
     }
 
     // 计算所有房间的边界框
-    let minX = Infinity;
-    let maxX = -Infinity;
-    let minY = Infinity;
-    let maxY = -Infinity;
+    let minX = Number.POSITIVE_INFINITY;
+    let maxX = Number.NEGATIVE_INFINITY;
+    let minY = Number.POSITIVE_INFINITY;
+    let maxY = Number.NEGATIVE_INFINITY;
 
     for (const room of rooms) {
       for (const point of room.coordinates) {
@@ -307,7 +324,7 @@ export class AlignmentEngine {
 
     return {
       x: imageCenterX - centerX,
-      y: imageCenterY - centerY
+      y: imageCenterY - centerY,
     };
   }
 
@@ -325,7 +342,8 @@ export class AlignmentEngine {
     confidence += rotationAnalysis.confidence * 0.6;
 
     // 基于房间分布的置信度
-    const roomDistributionConfidence = this.calculateRoomDistributionConfidence(rooms);
+    const roomDistributionConfidence =
+      this.calculateRoomDistributionConfidence(rooms);
     confidence += roomDistributionConfidence * 0.4;
 
     return Math.min(1, confidence);
@@ -338,13 +356,16 @@ export class AlignmentEngine {
     if (rooms.length === 0) return 0;
 
     // 检查房间是否合理分布
-    const centers = rooms.map(room => room.center);
+    const centers = rooms.map((room) => room.center);
     const avgDistance = this.calculateAverageDistance(centers);
-    
+
     // 基于平均距离计算置信度
     const expectedDistance = 200; // 期望的房间间距离
-    const distanceRatio = Math.min(avgDistance / expectedDistance, expectedDistance / avgDistance);
-    
+    const distanceRatio = Math.min(
+      avgDistance / expectedDistance,
+      expectedDistance / avgDistance
+    );
+
     return distanceRatio;
   }
 
@@ -360,8 +381,7 @@ export class AlignmentEngine {
     for (let i = 0; i < points.length; i++) {
       for (let j = i + 1; j < points.length; j++) {
         const distance = Math.sqrt(
-          Math.pow(points[i].x - points[j].x, 2) + 
-          Math.pow(points[i].y - points[j].y, 2)
+          (points[i].x - points[j].x) ** 2 + (points[i].y - points[j].y) ** 2
         );
         totalDistance += distance;
         pairCount++;
@@ -376,23 +396,26 @@ export class AlignmentEngine {
    */
   private applyGridSnapping(translation: Point): Point {
     const gridSize = this.config.gridSize;
-    
+
     return {
       x: Math.round(translation.x / gridSize) * gridSize,
-      y: Math.round(translation.y / gridSize) * gridSize
+      y: Math.round(translation.y / gridSize) * gridSize,
     };
   }
 
   /**
    * 手动设置对齐
    */
-  setManualAlignment(rotationAngle: number, translation: Point): AlignmentResult {
+  setManualAlignment(
+    rotationAngle: number,
+    translation: Point
+  ): AlignmentResult {
     return {
       rotationAngle,
       translation,
       confidence: 1.0,
       method: 'manual',
-      processingTime: 0
+      processingTime: 0,
     };
   }
 
@@ -410,4 +433,3 @@ export class AlignmentEngine {
     return { ...this.config };
   }
 }
-

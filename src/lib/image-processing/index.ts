@@ -11,4 +11,3 @@ export * from './ocr-processor';
 export { ImageProcessor as createImageProcessor } from './image-processor';
 export { RoomDetector as createRoomDetector } from './room-detector';
 export { OCRProcessor as createOCRProcessor } from './ocr-processor';
-

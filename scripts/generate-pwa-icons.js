@@ -21,29 +21,29 @@ const svgTemplate = (size) => `
   </defs>
   
   <!-- 中心圆形 -->
-  <circle cx="${size/2}" cy="${size/2}" r="${size/3}" fill="url(#gradient)" opacity="0.2"/>
+  <circle cx="${size / 2}" cy="${size / 2}" r="${size / 3}" fill="url(#gradient)" opacity="0.2"/>
   
   <!-- Q字母设计 -->
-  <g transform="translate(${size/2}, ${size/2})">
+  <g transform="translate(${size / 2}, ${size / 2})">
     <!-- 外圈 -->
-    <circle cx="0" cy="0" r="${size/4}" fill="none" stroke="url(#gradient)" stroke-width="${size/20}"/>
+    <circle cx="0" cy="0" r="${size / 4}" fill="none" stroke="url(#gradient)" stroke-width="${size / 20}"/>
     <!-- 尾部 -->
-    <line x1="${size/6}" y1="${size/6}" x2="${size/4}" y2="${size/4}" 
-          stroke="url(#gradient)" stroke-width="${size/20}" stroke-linecap="round"/>
+    <line x1="${size / 6}" y1="${size / 6}" x2="${size / 4}" y2="${size / 4}" 
+          stroke="url(#gradient)" stroke-width="${size / 20}" stroke-linecap="round"/>
   </g>
   
   <!-- QiFlow文字 -->
-  <text x="${size/2}" y="${size*0.75}" 
+  <text x="${size / 2}" y="${size * 0.75}" 
         font-family="Arial, sans-serif" 
-        font-size="${size/8}" 
+        font-size="${size / 8}" 
         font-weight="bold"
         fill="white" 
         text-anchor="middle">QiFlow</text>
   
   <!-- AI标记 -->
-  <text x="${size*0.85}" y="${size*0.9}" 
+  <text x="${size * 0.85}" y="${size * 0.9}" 
         font-family="Arial, sans-serif" 
-        font-size="${size/12}" 
+        font-size="${size / 12}" 
         fill="#0ea5e9" 
         text-anchor="end">AI</text>
 </svg>
@@ -57,11 +57,11 @@ if (!fs.existsSync(publicDir)) {
 
 // 生成图标文件
 const sizes = [192, 512];
-sizes.forEach(size => {
+sizes.forEach((size) => {
   const svgContent = svgTemplate(size);
   const fileName = `icon-${size}.svg`;
   const filePath = path.join(publicDir, fileName);
-  
+
   fs.writeFileSync(filePath, svgContent);
   console.log(`✅ 已生成 ${fileName}`);
 });

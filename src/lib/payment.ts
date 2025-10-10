@@ -39,15 +39,15 @@ export class PaymentManager {
   private constructor() {
     this.config = {
       provider: 'alipay',
-      sandbox: process.env.NODE_ENV !== 'production'
+      sandbox: process.env.NODE_ENV !== 'production',
     };
   }
 
   static getInstance(): PaymentManager {
-    if (!this.instance) {
-      this.instance = new PaymentManager();
+    if (!PaymentManager.instance) {
+      PaymentManager.instance = new PaymentManager();
     }
-    return this.instance;
+    return PaymentManager.instance;
   }
 
   // 创建支付订单
@@ -66,7 +66,7 @@ export class PaymentManager {
       metadata: params.metadata,
       status: 'pending',
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     // 保存订单到数据库
@@ -82,18 +82,18 @@ export class PaymentManager {
   ): Promise<PaymentResult> {
     try {
       const order = await this.getOrder(orderId);
-      
+
       if (!order) {
         return {
           success: false,
-          error: '订单不存在'
+          error: '订单不存在',
         };
       }
 
       if (order.status !== 'pending') {
         return {
           success: false,
-          error: '订单状态无效'
+          error: '订单状态无效',
         };
       }
 
@@ -102,7 +102,7 @@ export class PaymentManager {
 
       // 根据支付方式处理
       let result: PaymentResult;
-      
+
       switch (paymentMethod) {
         case 'alipay':
           result = await this.processAlipay(order);
@@ -113,7 +113,7 @@ export class PaymentManager {
         default:
           result = {
             success: false,
-            error: '不支持的支付方式'
+            error: '不支持的支付方式',
           };
       }
 
@@ -130,7 +130,7 @@ export class PaymentManager {
       console.error('Payment processing error:', error);
       return {
         success: false,
-        error: '支付处理失败'
+        error: '支付处理失败',
       };
     }
   }
@@ -139,28 +139,28 @@ export class PaymentManager {
   private async processAlipay(order: PaymentOrder): Promise<PaymentResult> {
     // 这里应该调用支付宝SDK
     // 示例代码，实际需要集成支付宝SDK
-    
+
     const formData = {
       out_trade_no: order.id,
       product_code: 'FAST_INSTANT_TRADE_PAY',
       total_amount: order.amount,
       subject: order.description,
       return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/callback`,
-      notify_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/notify`
+      notify_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/notify`,
     };
 
     // 模拟支付成功（开发环境）
     if (this.config.sandbox) {
       console.log('Alipay sandbox payment:', formData);
-      
+
       // 模拟延迟
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       return {
         success: true,
         orderId: order.id,
         transactionId: `ALIPAY_${Date.now()}`,
-        redirectUrl: `/payment/success?orderId=${order.id}`
+        redirectUrl: `/payment/success?orderId=${order.id}`,
       };
     }
 
@@ -170,12 +170,12 @@ export class PaymentManager {
     //   privateKey: this.config.apiKey,
     //   ...
     // });
-    // 
+    //
     // const result = await alipaySDK.exec('alipay.trade.page.pay', formData);
-    
+
     return {
       success: false,
-      error: '请配置支付宝支付参数'
+      error: '请配置支付宝支付参数',
     };
   }
 
@@ -183,7 +183,7 @@ export class PaymentManager {
   private async processWechat(order: PaymentOrder): Promise<PaymentResult> {
     // 这里应该调用微信支付SDK
     // 示例代码，实际需要集成微信支付SDK
-    
+
     const params = {
       appid: this.config.appId,
       mch_id: this.config.merchantId,
@@ -191,21 +191,21 @@ export class PaymentManager {
       total_fee: Math.round(order.amount * 100), // 转换为分
       body: order.description,
       notify_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/wechat/notify`,
-      trade_type: 'JSAPI' // 或 'NATIVE' 用于扫码支付
+      trade_type: 'JSAPI', // 或 'NATIVE' 用于扫码支付
     };
 
     // 模拟支付成功（开发环境）
     if (this.config.sandbox) {
       console.log('WeChat sandbox payment:', params);
-      
+
       // 模拟延迟
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       return {
         success: true,
         orderId: order.id,
         transactionId: `WECHAT_${Date.now()}`,
-        redirectUrl: `/payment/success?orderId=${order.id}`
+        redirectUrl: `/payment/success?orderId=${order.id}`,
       };
     }
 
@@ -218,10 +218,10 @@ export class PaymentManager {
     // });
     //
     // const result = await wechatPay.transactions_jsapi(params);
-    
+
     return {
       success: false,
-      error: '请配置微信支付参数'
+      error: '请配置微信支付参数',
     };
   }
 
@@ -232,7 +232,7 @@ export class PaymentManager {
   ): Promise<boolean> {
     // 验证签名等安全措施
     // 这里需要根据具体的支付提供商实现
-    
+
     if (this.config.sandbox) {
       console.log('Payment callback verification:', { provider, params });
       return true;
@@ -259,38 +259,38 @@ export class PaymentManager {
   ): Promise<PaymentResult> {
     try {
       const order = await this.getOrder(orderId);
-      
+
       if (!order) {
         return {
           success: false,
-          error: '订单不存在'
+          error: '订单不存在',
         };
       }
 
       if (order.status !== 'completed') {
         return {
           success: false,
-          error: '只能退款已完成的订单'
+          error: '只能退款已完成的订单',
         };
       }
 
       const refundAmount = amount || order.amount;
-      
+
       if (refundAmount > order.amount) {
         return {
           success: false,
-          error: '退款金额不能超过订单金额'
+          error: '退款金额不能超过订单金额',
         };
       }
 
       // 模拟退款（开发环境）
       if (this.config.sandbox) {
         await this.updateOrderStatus(orderId, 'refunded');
-        
+
         return {
           success: true,
           orderId: orderId,
-          transactionId: `REFUND_${Date.now()}`
+          transactionId: `REFUND_${Date.now()}`,
         };
       }
 
@@ -299,13 +299,13 @@ export class PaymentManager {
 
       return {
         success: false,
-        error: '退款功能未配置'
+        error: '退款功能未配置',
       };
     } catch (error) {
       console.error('Refund processing error:', error);
       return {
         success: false,
-        error: '退款处理失败'
+        error: '退款处理失败',
       };
     }
   }
@@ -314,10 +314,10 @@ export class PaymentManager {
   private async onPaymentSuccess(order: PaymentOrder) {
     // 解锁用户权限
     await this.unlockUserFeatures(order.userId!);
-    
+
     // 发送通知
     await this.sendPaymentNotification(order);
-    
+
     // 记录分析
     this.trackPaymentAnalytics(order);
   }
@@ -326,7 +326,7 @@ export class PaymentManager {
   private async unlockUserFeatures(userId: string) {
     // TODO: 实现用户功能解锁
     console.log(`Unlocking features for user: ${userId}`);
-    
+
     // 示例：更新用户权限
     // await db.users.update({
     //   where: { id: userId },
@@ -341,7 +341,7 @@ export class PaymentManager {
   private async sendPaymentNotification(order: PaymentOrder) {
     // TODO: 发送邮件/短信通知
     console.log('Sending payment notification:', order);
-    
+
     // 示例：发送邮件
     // await emailService.send({
     //   to: order.userEmail,
@@ -361,13 +361,15 @@ export class PaymentManager {
           transaction_id: order.id,
           value: order.amount,
           currency: order.currency,
-          items: [{
-            id: order.metadata?.productId,
-            name: order.description,
-            category: 'professional',
-            quantity: 1,
-            price: order.amount
-          }]
+          items: [
+            {
+              id: order.metadata?.productId,
+              name: order.description,
+              category: 'professional',
+              quantity: 1,
+              price: order.amount,
+            },
+          ],
         });
       }
     }
@@ -382,18 +384,18 @@ export class PaymentManager {
 
   private getProductDescription(productId: string): string {
     const products: Record<string, string> = {
-      'professional': 'AI风水大师专业版',
-      'basic': 'AI风水大师基础版',
-      'premium': 'AI风水大师高级版'
+      professional: 'AI风水大师专业版',
+      basic: 'AI风水大师基础版',
+      premium: 'AI风水大师高级版',
     };
-    
+
     return products[productId] || '风水分析服务';
   }
 
   private async saveOrder(order: PaymentOrder) {
     // TODO: 保存到数据库
     console.log('Saving order:', order);
-    
+
     // 暂时保存到localStorage（仅用于演示）
     if (typeof window !== 'undefined') {
       const orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -405,13 +407,13 @@ export class PaymentManager {
   private async getOrder(orderId: string): Promise<PaymentOrder | null> {
     // TODO: 从数据库获取
     console.log('Getting order:', orderId);
-    
+
     // 暂时从localStorage获取（仅用于演示）
     if (typeof window !== 'undefined') {
       const orders = JSON.parse(localStorage.getItem('orders') || '[]');
       return orders.find((o: PaymentOrder) => o.id === orderId) || null;
     }
-    
+
     return null;
   }
 
@@ -421,7 +423,7 @@ export class PaymentManager {
   ) {
     // TODO: 更新数据库
     console.log('Updating order status:', { orderId, status });
-    
+
     // 暂时更新localStorage（仅用于演示）
     if (typeof window !== 'undefined') {
       const orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -450,28 +452,27 @@ export function usePayment() {
 
     try {
       const manager = PaymentManager.getInstance();
-      
+
       // 创建订单
       const order = await manager.createOrder({
         amount,
         productId,
         userId: 'user_' + Date.now(), // TODO: 从用户会话获取
-        metadata: { productId }
+        metadata: { productId },
       });
 
       // 处理支付
       const result = await manager.processPayment(order.id, paymentMethod);
-      
+
       if (result.success) {
         // 跳转到支付成功页面或显示二维码
         if (result.redirectUrl) {
           window.location.href = result.redirectUrl;
         }
         return result;
-      } else {
-        setError(result.error || '支付失败');
-        return result;
       }
+      setError(result.error || '支付失败');
+      return result;
     } catch (err) {
       console.error('Payment error:', err);
       setError('支付处理出错');
@@ -484,6 +485,6 @@ export function usePayment() {
   return {
     createPayment,
     loading,
-    error
+    error,
   };
 }

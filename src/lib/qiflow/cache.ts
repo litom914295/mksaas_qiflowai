@@ -1,5 +1,5 @@
-import { unstable_cache } from 'next/cache';
 import { stableHash } from '@/lib/qiflow/hash';
+import { unstable_cache } from 'next/cache';
 
 /**
  * 通用缓存包装器
@@ -10,11 +10,9 @@ export function withCache<I extends object, O>(
   fn: (input: I) => Promise<O>,
   namespace: string
 ) {
-  const cached = unstable_cache(
-    async (input: I) => fn(input),
-    [namespace],
-    { revalidate: false }
-  );
+  const cached = unstable_cache(async (input: I) => fn(input), [namespace], {
+    revalidate: false,
+  });
 
   return async function cachedFn(input: I, extraTags: string[] = []) {
     const tag = `${namespace}:${stableHash(input)}`;

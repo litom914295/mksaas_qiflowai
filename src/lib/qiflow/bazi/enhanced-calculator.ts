@@ -130,16 +130,43 @@ export class EnhancedBaziCalculator {
       const dateTimeStr = this.birthData.datetime;
       console.log('[EnhancedBaziCalculator] 原始日期时间:', dateTimeStr);
 
-      // 直接解析日期，避免时区转换问题
-      const [datePart, timePart] = dateTimeStr.split('T');
-      const [year, month, day] = datePart.split('-').map(Number);
+      // 兼容两种分隔符：'T' (ISO 格式) 或空格
+      const separator = dateTimeStr.includes('T') ? 'T' : ' ';
+      const [datePart, timePart] = dateTimeStr.split(separator);
+
+      if (!datePart) {
+        throw new Error(`无法解析日期部分: ${dateTimeStr}`);
+      }
+
+      const dateComponents = datePart.split('-').map(Number);
+      if (dateComponents.length !== 3 || dateComponents.some(Number.isNaN)) {
+        throw new Error(`日期格式错误: ${datePart}，期望格式: YYYY-MM-DD`);
+      }
+
+      const [year, month, day] = dateComponents;
       const [hour, minute] = timePart
         ? timePart.split(':').map(Number)
         : [0, 0];
 
+      if (Number.isNaN(hour) || Number.isNaN(minute)) {
+        throw new Error(`时间格式错误: ${timePart}，期望格式: HH:mm`);
+      }
+
       // 创建本地Date对象（避免时区转换）
       const birthDate = new Date(year, month - 1, day, hour, minute);
+
+      console.log('[EnhancedBaziCalculator] 解析的组件:', {
+        year,
+        month,
+        day,
+        hour,
+        minute,
+      });
       console.log('[EnhancedBaziCalculator] 解析后日期:', birthDate);
+      console.log(
+        '[EnhancedBaziCalculator] 日期是否有效:',
+        !Number.isNaN(birthDate.getTime())
+      );
       console.log(
         '[EnhancedBaziCalculator] 本地时间:',
         birthDate.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
@@ -162,8 +189,14 @@ export class EnhancedBaziCalculator {
         console.log('[EnhancedBaziCalculator] 调整后日期:', birthDate);
       }
 
+      // 检查日期是否有效
+      if (Number.isNaN(birthDate.getTime())) {
+        throw new Error(`无效的出生日期: ${dateTimeStr}`);
+      }
+
+      // 额外使用 date-fns 的 isValid 进行二次验证
       if (!isValid(birthDate)) {
-        throw new Error('无效的出生日期');
+        throw new Error(`日期验证失败: ${dateTimeStr}`);
       }
 
       // 标准化性别处理
@@ -225,7 +258,7 @@ export class EnhancedBaziCalculator {
       console.log('[EnhancedBaziCalculator] 开始转换传统格式...');
       const legacy = this.convertToLegacyFormat(analysis);
       console.log('[EnhancedBaziCalculator] 转换后的传统格式:', legacy);
-      
+
       const enhancedResult: EnhancedBaziResult = {
         ...legacy,
         luckPillars: this.extractLuckPillars(analysis),
@@ -336,7 +369,7 @@ export class EnhancedBaziCalculator {
       }
 
       const luckPillars: LuckPillarResult[] = analysis.luckPillars.pillars.map(
-        pillar => ({
+        (pillar) => ({
           period: pillar.number,
           heavenlyStem: pillar.heavenlyStem.character,
           earthlyBranch: pillar.earthlyBranch.character,
@@ -370,7 +403,7 @@ export class EnhancedBaziCalculator {
 
     return (
       luckPillars.find(
-        pillar => currentAge >= pillar.startAge && currentAge <= pillar.endAge
+        (pillar) => currentAge >= pillar.startAge && currentAge <= pillar.endAge
       ) || null
     );
   }
@@ -1080,7 +1113,11 @@ export class EnhancedBaziCalculator {
 
     // 如果仍然没有提取到，尝试从chinese字段重新解析
     if (!heavenlyStem || !earthlyBranch) {
-      if (pillar.chinese && typeof pillar.chinese === 'string' && pillar.chinese.length >= 2) {
+      if (
+        pillar.chinese &&
+        typeof pillar.chinese === 'string' &&
+        pillar.chinese.length >= 2
+      ) {
         if (!heavenlyStem) {
           heavenlyStem = pillar.chinese[0];
         }
@@ -1267,11 +1304,11 @@ export class EnhancedBaziCalculator {
 
     if (interactionCount > 10) {
       return '今日互动较多，建议谨慎行事';
-    } else if (interactionCount > 5) {
-      return '今日运势一般，可进行常规活动';
-    } else {
-      return '今日运势良好，适合重要事项';
     }
+    if (interactionCount > 5) {
+      return '今日运势一般，可进行常规活动';
+    }
+    return '今日运势良好，适合重要事项';
   }
 
   /**

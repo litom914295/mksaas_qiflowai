@@ -1,21 +1,18 @@
 /**
  * 风水罗盘Konva.js渲染器
- * 
+ *
  * 基于Konva.js实现的高性能罗盘渲染引擎
  * 支持Canvas渲染、交互事件和动画效果
  */
 
 import Konva from 'konva';
+import { CompassUtil, FengShuiCompassEngine } from './feng-shui-engine';
 import {
-    CompassUtil,
-    FengShuiCompassEngine
-} from './feng-shui-engine';
-import {
-    COMPASS_THEMES,
-    CompassTheme,
-    LayerData,
-    ScaleStyle,
-    TianxinCrossConfig
+  COMPASS_THEMES,
+  type CompassTheme,
+  type LayerData,
+  type ScaleStyle,
+  type TianxinCrossConfig,
 } from './feng-shui-types';
 
 export class FengShuiCompassRenderer {
@@ -33,20 +30,23 @@ export class FengShuiCompassRenderer {
     height: number,
     theme: keyof typeof COMPASS_THEMES = 'classic'
   ) {
-    this.engine = new FengShuiCompassEngine({ x: width / 2, y: height / 2 }, Math.min(width, height) / 2 - 50);
+    this.engine = new FengShuiCompassEngine(
+      { x: width / 2, y: height / 2 },
+      Math.min(width, height) / 2 - 50
+    );
     this.util = new CompassUtil(this.engine);
     this.theme = COMPASS_THEMES[theme];
-    
+
     // 初始化Konva舞台
     this.stage = new Konva.Stage({
       container,
       width,
       height,
     });
-    
+
     this.layer = new Konva.Layer();
     this.stage.add(this.layer);
-    
+
     // 默认配置
     this.scaleStyle = {
       minLineHeight: 10,
@@ -54,7 +54,7 @@ export class FengShuiCompassRenderer {
       maxLineHeight: 20,
       numberFontSize: 30,
     };
-    
+
     this.tianxinCrossConfig = {
       show: true,
       color: this.theme.tianxinCrossColor,
@@ -92,25 +92,25 @@ export class FengShuiCompassRenderer {
     // 使用批量更新优化性能
     this.layer.listening(false);
     this.layer.destroyChildren();
-    
+
     try {
       // 绘制背景
       this.drawBackground();
-      
+
       // 绘制天池
       this.drawTianChi();
-      
+
       // 绘制各层
       this.drawLayers();
-      
+
       // 绘制刻度
       this.drawScale();
-      
+
       // 绘制天心十字
       if (this.tianxinCrossConfig.show) {
         this.drawTianxinCross();
       }
-      
+
       // 批量渲染
       this.layer.batchDraw();
     } catch (error) {
@@ -132,7 +132,7 @@ export class FengShuiCompassRenderer {
       stroke: this.theme.borderColor,
       strokeWidth: config.borderWidth,
     });
-    
+
     this.layer.add(background);
   }
 
@@ -147,14 +147,14 @@ export class FengShuiCompassRenderer {
       stroke: this.theme.borderColor,
       strokeWidth: config.borderWidth,
     });
-    
+
     this.layer.add(tianChi);
   }
 
   // 绘制所有层
   private drawLayers(): void {
     const compassData = this.engine.getCompassData();
-    
+
     for (let i = 0; i < compassData.length; i++) {
       this.drawLayer(i);
       this.drawLayerBorder(i);
@@ -167,15 +167,17 @@ export class FengShuiCompassRenderer {
     const config = this.engine.getConfig();
     const layerRadius = this.engine.getLayerRadius(layerIndex);
     const layerHeight = this.engine.getLayerHeights()[layerIndex];
-    
+
     for (let i = 0; i < layerData.data.length; i++) {
       const angle = layerData.startAngle + (360 / layerData.data.length) * i;
-      
+
       if (Array.isArray(layerData.data[i])) {
         // 处理多重数据
         const multiData = layerData.data[i] as string[];
-        const colors = Array.isArray(layerData.textColor) ? layerData.textColor : [layerData.textColor];
-        
+        const colors = Array.isArray(layerData.textColor)
+          ? layerData.textColor
+          : [layerData.textColor];
+
         for (let j = 0; j < multiData.length; j++) {
           const subAngle = this.calculateSubAngle(layerData, i, j);
           const color = colors[j] || colors[0] || this.theme.textColor;
@@ -191,7 +193,9 @@ export class FengShuiCompassRenderer {
         }
       } else {
         // 处理单一数据
-        const color = Array.isArray(layerData.textColor) ? layerData.textColor[0] : layerData.textColor;
+        const color = Array.isArray(layerData.textColor)
+          ? layerData.textColor[0]
+          : layerData.textColor;
         this.drawText(
           layerData.data[i] as string,
           config.centralPoint,
@@ -206,15 +210,20 @@ export class FengShuiCompassRenderer {
   }
 
   // 计算子角度（用于多重数据）
-  private calculateSubAngle(layerData: LayerData, dataIndex: number, subIndex: number): number {
+  private calculateSubAngle(
+    layerData: LayerData,
+    dataIndex: number,
+    subIndex: number
+  ): number {
     if (layerData.togetherStyle === 'equally') {
       const totalData = layerData.data as string[][];
       const singleAngle = 360 / totalData[dataIndex].length;
-      
+
       if (totalData.length === 2) {
         return subIndex === 0 ? -singleAngle / 4 : singleAngle / 4;
-      } else if (totalData.length === 3) {
-        return (-singleAngle / 3) + (singleAngle * subIndex / 3);
+      }
+      if (totalData.length === 3) {
+        return -singleAngle / 3 + (singleAngle * subIndex) / 3;
       }
     }
     return 0;
@@ -233,7 +242,7 @@ export class FengShuiCompassRenderer {
     const radian = this.engine.rads(angle);
     const x = center.x + Math.cos(radian) * radius;
     const y = center.y + Math.sin(radian) * radius;
-    
+
     if (vertical && text.length > 1) {
       // 垂直文字，逐字绘制
       for (let i = 0; i < text.length; i++) {
@@ -264,7 +273,7 @@ export class FengShuiCompassRenderer {
         fill: color,
         align: 'center',
         verticalAlign: 'middle',
-        offsetX: text.length * fontSize / 4,
+        offsetX: (text.length * fontSize) / 4,
         offsetY: fontSize / 2,
         rotation: (angle + 90) % 360,
       });
@@ -278,7 +287,7 @@ export class FengShuiCompassRenderer {
     const layerRadius = this.engine.getLayerRadius(layerIndex);
     const layerHeight = this.engine.getLayerHeights()[layerIndex];
     const dataLength = this.engine.getLayerDataLength(layerIndex);
-    
+
     // 绘制圆形边框
     const circle = new Konva.Circle({
       x: config.centralPoint.x,
@@ -288,17 +297,19 @@ export class FengShuiCompassRenderer {
       strokeWidth: config.borderWidth,
     });
     this.layer.add(circle);
-    
+
     // 绘制分隔线
     for (let i = 0; i < dataLength; i++) {
-      const angle = (360 / dataLength) * i + (360 / dataLength) / 2;
+      const angle = (360 / dataLength) * i + 360 / dataLength / 2;
       const radian = this.engine.rads(angle);
-      
+
       const startX = config.centralPoint.x + Math.cos(radian) * layerRadius;
       const startY = config.centralPoint.y + Math.sin(radian) * layerRadius;
-      const endX = config.centralPoint.x + Math.cos(radian) * (layerRadius + layerHeight);
-      const endY = config.centralPoint.y + Math.sin(radian) * (layerRadius + layerHeight);
-      
+      const endX =
+        config.centralPoint.x + Math.cos(radian) * (layerRadius + layerHeight);
+      const endY =
+        config.centralPoint.y + Math.sin(radian) * (layerRadius + layerHeight);
+
       const line = new Konva.Line({
         points: [startX, startY, endX, endY],
         stroke: this.theme.borderColor,
@@ -311,25 +322,39 @@ export class FengShuiCompassRenderer {
   // 绘制刻度
   private drawScale(): void {
     const config = this.engine.getConfig();
-    const scaleRadius = this.engine.getLayerRadius(this.engine.getLayersLength()) + config.scaleHeight / 2;
-    
+    const scaleRadius =
+      this.engine.getLayerRadius(this.engine.getLayersLength()) +
+      config.scaleHeight / 2;
+
     for (let i = 0; i < 360; i++) {
       const radian = this.engine.rads(i);
-      const startX = config.centralPoint.x + Math.cos(radian) * (scaleRadius - 10);
-      const startY = config.centralPoint.y + Math.sin(radian) * (scaleRadius - 10);
-      
-      let endX: number, endY: number, strokeWidth: number;
-      
+      const startX =
+        config.centralPoint.x + Math.cos(radian) * (scaleRadius - 10);
+      const startY =
+        config.centralPoint.y + Math.sin(radian) * (scaleRadius - 10);
+
+      let endX: number;
+      let endY: number;
+      let strokeWidth: number;
+
       if (i % 10 === 0) {
         // 主刻度
-        endX = config.centralPoint.x + Math.cos(radian) * (scaleRadius + this.scaleStyle.maxLineHeight);
-        endY = config.centralPoint.y + Math.sin(radian) * (scaleRadius + this.scaleStyle.maxLineHeight);
+        endX =
+          config.centralPoint.x +
+          Math.cos(radian) * (scaleRadius + this.scaleStyle.maxLineHeight);
+        endY =
+          config.centralPoint.y +
+          Math.sin(radian) * (scaleRadius + this.scaleStyle.maxLineHeight);
         strokeWidth = 2;
-        
+
         // 添加数字
-        const textX = config.centralPoint.x + Math.cos(radian) * (scaleRadius + this.scaleStyle.maxLineHeight + 15);
-        const textY = config.centralPoint.y + Math.sin(radian) * (scaleRadius + this.scaleStyle.maxLineHeight + 15);
-        
+        const textX =
+          config.centralPoint.x +
+          Math.cos(radian) * (scaleRadius + this.scaleStyle.maxLineHeight + 15);
+        const textY =
+          config.centralPoint.y +
+          Math.sin(radian) * (scaleRadius + this.scaleStyle.maxLineHeight + 15);
+
         const text = new Konva.Text({
           x: textX,
           y: textY,
@@ -345,16 +370,24 @@ export class FengShuiCompassRenderer {
         this.layer.add(text);
       } else if (i % 5 === 0) {
         // 中刻度
-        endX = config.centralPoint.x + Math.cos(radian) * (scaleRadius + this.scaleStyle.midLineHeight);
-        endY = config.centralPoint.y + Math.sin(radian) * (scaleRadius + this.scaleStyle.midLineHeight);
+        endX =
+          config.centralPoint.x +
+          Math.cos(radian) * (scaleRadius + this.scaleStyle.midLineHeight);
+        endY =
+          config.centralPoint.y +
+          Math.sin(radian) * (scaleRadius + this.scaleStyle.midLineHeight);
         strokeWidth = 1.5;
       } else {
         // 小刻度
-        endX = config.centralPoint.x + Math.cos(radian) * (scaleRadius + this.scaleStyle.minLineHeight);
-        endY = config.centralPoint.y + Math.sin(radian) * (scaleRadius + this.scaleStyle.minLineHeight);
+        endX =
+          config.centralPoint.x +
+          Math.cos(radian) * (scaleRadius + this.scaleStyle.minLineHeight);
+        endY =
+          config.centralPoint.y +
+          Math.sin(radian) * (scaleRadius + this.scaleStyle.minLineHeight);
         strokeWidth = 1;
       }
-      
+
       const line = new Konva.Line({
         points: [startX, startY, endX, endY],
         stroke: this.theme.scaleColor,
@@ -369,21 +402,21 @@ export class FengShuiCompassRenderer {
     const config = this.engine.getConfig();
     const stageWidth = this.stage.width();
     const stageHeight = this.stage.height();
-    
+
     // 水平线
     const horizontalLine = new Konva.Line({
       points: [0, config.centralPoint.y, stageWidth, config.centralPoint.y],
       stroke: this.tianxinCrossConfig.color,
       strokeWidth: this.tianxinCrossConfig.lineWidth,
     });
-    
+
     // 垂直线
     const verticalLine = new Konva.Line({
       points: [config.centralPoint.x, 0, config.centralPoint.x, stageHeight],
       stroke: this.tianxinCrossConfig.color,
       strokeWidth: this.tianxinCrossConfig.lineWidth,
     });
-    
+
     this.layer.add(horizontalLine);
     this.layer.add(verticalLine);
   }

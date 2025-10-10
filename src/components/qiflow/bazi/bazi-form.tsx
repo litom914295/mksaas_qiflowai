@@ -1,16 +1,23 @@
 'use client';
 
-import React, { useState, useCallback, memo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar, Clock, MapPin, Loader2, User } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { solarToLunar } from '@/lib/qiflow/bazi/solar-lunar';
+import { cn } from '@/lib/utils';
+import { Calendar, Clock, Loader2, MapPin, User } from 'lucide-react';
+import type React from 'react';
+import { memo, useCallback, useState } from 'react';
+import { toast } from 'sonner';
 
 interface BaziFormProps {
   onSubmit: (data: BaziFormData) => void;
@@ -36,10 +43,10 @@ export interface BaziFormData {
  * 八字输入表单组件
  * 支持阴阳历选择、性别选择、出生时间地点输入
  */
-export const BaziForm = memo(function BaziForm({ 
-  onSubmit, 
+export const BaziForm = memo(function BaziForm({
+  onSubmit,
   isLoading = false,
-  className 
+  className,
 }: BaziFormProps) {
   // 表单状态
   const [formData, setFormData] = useState<BaziFormData>({
@@ -51,7 +58,7 @@ export const BaziForm = memo(function BaziForm({
     day: new Date().getDate(),
     hour: 0,
     minute: 0,
-    birthPlace: ''
+    birthPlace: '',
   });
 
   // 年份选项（1900-2100）
@@ -63,7 +70,7 @@ export const BaziForm = memo(function BaziForm({
 
   // 处理表单变化
   const handleChange = useCallback((field: keyof BaziFormData, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   }, []);
 
   // 验证表单
@@ -86,13 +93,13 @@ export const BaziForm = memo(function BaziForm({
   // 提交表单
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     // 如果是阴历，需要转换为阳历
-    let submitData = { ...formData };
+    const submitData = { ...formData };
     if (formData.calendarType === 'lunar') {
       // 这里可以调用阴历转阳历的函数
       toast.info('正在转换农历日期...');
@@ -102,7 +109,7 @@ export const BaziForm = memo(function BaziForm({
   };
 
   return (
-    <Card className={cn("w-full max-w-2xl mx-auto", className)}>
+    <Card className={cn('w-full max-w-2xl mx-auto', className)}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <User className="w-5 h-5" />
@@ -180,14 +187,16 @@ export const BaziForm = memo(function BaziForm({
             <div className="grid grid-cols-3 gap-2">
               <Select
                 value={formData.year.toString()}
-                onValueChange={(value) => handleChange('year', parseInt(value))}
+                onValueChange={(value) =>
+                  handleChange('year', Number.parseInt(value))
+                }
                 disabled={isLoading}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="年" />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
-                  {years.reverse().map(year => (
+                  {years.reverse().map((year) => (
                     <SelectItem key={year} value={year.toString()}>
                       {year}年
                     </SelectItem>
@@ -197,14 +206,16 @@ export const BaziForm = memo(function BaziForm({
 
               <Select
                 value={formData.month.toString()}
-                onValueChange={(value) => handleChange('month', parseInt(value))}
+                onValueChange={(value) =>
+                  handleChange('month', Number.parseInt(value))
+                }
                 disabled={isLoading}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="月" />
                 </SelectTrigger>
                 <SelectContent>
-                  {months.map(month => (
+                  {months.map((month) => (
                     <SelectItem key={month} value={month.toString()}>
                       {month}月
                     </SelectItem>
@@ -214,14 +225,16 @@ export const BaziForm = memo(function BaziForm({
 
               <Select
                 value={formData.day.toString()}
-                onValueChange={(value) => handleChange('day', parseInt(value))}
+                onValueChange={(value) =>
+                  handleChange('day', Number.parseInt(value))
+                }
                 disabled={isLoading}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="日" />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
-                  {days.map(day => (
+                  {days.map((day) => (
                     <SelectItem key={day} value={day.toString()}>
                       {day}日
                     </SelectItem>
@@ -240,14 +253,16 @@ export const BaziForm = memo(function BaziForm({
             <div className="grid grid-cols-2 gap-2">
               <Select
                 value={formData.hour.toString()}
-                onValueChange={(value) => handleChange('hour', parseInt(value))}
+                onValueChange={(value) =>
+                  handleChange('hour', Number.parseInt(value))
+                }
                 disabled={isLoading}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="时" />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
-                  {hours.map(hour => (
+                  {hours.map((hour) => (
                     <SelectItem key={hour} value={hour.toString()}>
                       {hour.toString().padStart(2, '0')}时
                     </SelectItem>
@@ -257,14 +272,16 @@ export const BaziForm = memo(function BaziForm({
 
               <Select
                 value={formData.minute.toString()}
-                onValueChange={(value) => handleChange('minute', parseInt(value))}
+                onValueChange={(value) =>
+                  handleChange('minute', Number.parseInt(value))
+                }
                 disabled={isLoading}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="分" />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
-                  {minutes.map(minute => (
+                  {minutes.map((minute) => (
                     <SelectItem key={minute} value={minute.toString()}>
                       {minute.toString().padStart(2, '0')}分
                     </SelectItem>
@@ -290,11 +307,7 @@ export const BaziForm = memo(function BaziForm({
           </div>
 
           {/* 提交按钮 */}
-          <Button 
-            type="submit" 
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />

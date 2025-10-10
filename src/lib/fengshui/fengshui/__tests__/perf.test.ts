@@ -17,5 +17,3 @@ describe('flying star perf', () => {
     expect(per).toBeLessThan(10);
   });
 });
-
-

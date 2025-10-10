@@ -1,16 +1,29 @@
 'use client';
 
-import React, { useState, useCallback, memo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Compass, Home, Calendar, MapPin, Loader2, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Calendar, Compass, Home, Info, Loader2, MapPin } from 'lucide-react';
+import type React from 'react';
+import { memo, useCallback, useState } from 'react';
 import { toast } from 'sonner';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface XuankongFormProps {
   onSubmit: (data: XuankongFormData) => void;
@@ -35,11 +48,11 @@ export interface XuankongFormData {
  * 玄空风水输入表单组件
  * 用于收集房屋风水分析所需信息
  */
-export const XuankongForm = memo(function XuankongForm({ 
-  onSubmit, 
+export const XuankongForm = memo(function XuankongForm({
+  onSubmit,
   isLoading = false,
   className,
-  baziData
+  baziData,
 }: XuankongFormProps) {
   // 表单状态
   const [formData, setFormData] = useState<XuankongFormData>({
@@ -51,7 +64,7 @@ export const XuankongForm = memo(function XuankongForm({
     floorNumber: 1,
     unitNumber: '',
     address: '',
-    city: ''
+    city: '',
   });
 
   // 二十四山向
@@ -79,65 +92,68 @@ export const XuankongForm = memo(function XuankongForm({
     { name: '戌', degree: 300, description: '西北偏西' },
     { name: '乾', degree: 315, description: '西北' },
     { name: '亥', degree: 330, description: '西北偏北' },
-    { name: '壬', degree: 345, description: '北偏西' }
+    { name: '壬', degree: 345, description: '北偏西' },
   ];
 
   // 获取方位描述
   const getDirectionDescription = useCallback((degree: number): string => {
     // 标准化度数到0-360范围
     const normalizedDegree = ((degree % 360) + 360) % 360;
-    
+
     // 找到最接近的方位
     let closestDirection = directions[0];
     let minDiff = Math.abs(normalizedDegree - directions[0].degree);
-    
+
     for (const dir of directions) {
       const diff = Math.min(
         Math.abs(normalizedDegree - dir.degree),
         Math.abs(normalizedDegree - (dir.degree + 360)),
         Math.abs(normalizedDegree - (dir.degree - 360))
       );
-      
+
       if (diff < minDiff) {
         minDiff = diff;
         closestDirection = dir;
       }
     }
-    
+
     // 计算坐向（坐山朝向）
     const sittingDegree = (normalizedDegree + 180) % 360;
     let sittingDirection = directions[0];
     minDiff = Math.abs(sittingDegree - directions[0].degree);
-    
+
     for (const dir of directions) {
       const diff = Math.min(
         Math.abs(sittingDegree - dir.degree),
         Math.abs(sittingDegree - (dir.degree + 360)),
         Math.abs(sittingDegree - (dir.degree - 360))
       );
-      
+
       if (diff < minDiff) {
         minDiff = diff;
         sittingDirection = dir;
       }
     }
-    
+
     return `坐${sittingDirection.name}(${sittingDirection.description})朝${closestDirection.name}(${closestDirection.description})`;
   }, []);
 
   // 处理表单变化
-  const handleChange = useCallback((field: keyof XuankongFormData, value: any) => {
-    setFormData(prev => {
-      const newData = { ...prev, [field]: value };
-      
-      // 如果改变了朝向度数，更新方位描述
-      if (field === 'facing') {
-        newData.facingDirection = getDirectionDescription(value as number);
-      }
-      
-      return newData;
-    });
-  }, [getDirectionDescription]);
+  const handleChange = useCallback(
+    (field: keyof XuankongFormData, value: any) => {
+      setFormData((prev) => {
+        const newData = { ...prev, [field]: value };
+
+        // 如果改变了朝向度数，更新方位描述
+        if (field === 'facing') {
+          newData.facingDirection = getDirectionDescription(value as number);
+        }
+
+        return newData;
+      });
+    },
+    [getDirectionDescription]
+  );
 
   // 验证表单
   const validateForm = (): boolean => {
@@ -146,7 +162,10 @@ export const XuankongForm = memo(function XuankongForm({
       return false;
     }
 
-    if (formData.buildYear < 1900 || formData.buildYear > new Date().getFullYear() + 1) {
+    if (
+      formData.buildYear < 1900 ||
+      formData.buildYear > new Date().getFullYear() + 1
+    ) {
       toast.error('建造年份不合理');
       return false;
     }
@@ -157,7 +176,7 @@ export const XuankongForm = memo(function XuankongForm({
   // 提交表单
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -170,7 +189,7 @@ export const XuankongForm = memo(function XuankongForm({
   const years = Array.from({ length: 125 }, (_, i) => currentYear - i);
 
   return (
-    <Card className={cn("w-full max-w-2xl mx-auto", className)}>
+    <Card className={cn('w-full max-w-2xl mx-auto', className)}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Home className="w-5 h-5" />
@@ -250,14 +269,16 @@ export const XuankongForm = memo(function XuankongForm({
             </Label>
             <Select
               value={formData.buildYear.toString()}
-              onValueChange={(value) => handleChange('buildYear', parseInt(value))}
+              onValueChange={(value) =>
+                handleChange('buildYear', Number.parseInt(value))
+              }
               disabled={isLoading}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="max-h-60">
-                {years.map(year => (
+                {years.map((year) => (
                   <SelectItem key={year} value={year.toString()}>
                     {year}年
                   </SelectItem>
@@ -271,14 +292,19 @@ export const XuankongForm = memo(function XuankongForm({
             <Label htmlFor="moveInYear">入住年份（可选）</Label>
             <Select
               value={formData.moveInYear?.toString() || ''}
-              onValueChange={(value) => handleChange('moveInYear', value ? parseInt(value) : undefined)}
+              onValueChange={(value) =>
+                handleChange(
+                  'moveInYear',
+                  value ? Number.parseInt(value) : undefined
+                )
+              }
               disabled={isLoading}
             >
               <SelectTrigger>
                 <SelectValue placeholder="请选择入住年份" />
               </SelectTrigger>
               <SelectContent className="max-h-60">
-                {years.map(year => (
+                {years.map((year) => (
                   <SelectItem key={year} value={year.toString()}>
                     {year}年
                   </SelectItem>
@@ -297,7 +323,12 @@ export const XuankongForm = memo(function XuankongForm({
                 min="1"
                 max="100"
                 value={formData.floorNumber}
-                onChange={(e) => handleChange('floorNumber', parseInt(e.target.value) || 1)}
+                onChange={(e) =>
+                  handleChange(
+                    'floorNumber',
+                    Number.parseInt(e.target.value) || 1
+                  )
+                }
                 disabled={isLoading}
               />
             </div>
@@ -341,11 +372,7 @@ export const XuankongForm = memo(function XuankongForm({
           </div>
 
           {/* 提交按钮 */}
-          <Button 
-            type="submit" 
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />

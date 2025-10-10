@@ -1,10 +1,10 @@
 import {
-    getBaguaByStar,
-    getBaguaYinYang,
-    LUOSHU_ORDER,
-    shunFei,
+  LUOSHU_ORDER,
+  getBaguaByStar,
+  getBaguaYinYang,
+  shunFei,
 } from './luoshu';
-import { FlyingStar, Mountain, PalaceIndex, Plate, Yun } from './types';
+import type { FlyingStar, Mountain, PalaceIndex, Plate, Yun } from './types';
 
 /**
  * 增强版挨星算法
@@ -162,8 +162,8 @@ export function calculateStarPower(
   period: Yun,
   palace: PalaceIndex,
   mountain?: Mountain,
-  isJian: boolean = false,
-  jianDegree: number = 0
+  isJian = false,
+  jianDegree = 0
 ): {
   basePower: number;
   timePower: number;
@@ -219,7 +219,7 @@ export function calculateStarPower(
   // 兼向调整
   if (isJian && mountain) {
     const jianRule = JIANXIANG_RULES.find(
-      rule =>
+      (rule) =>
         rule.mainMountain === mountain &&
         Math.abs(rule.jianDegree - jianDegree) <= 1
     );
@@ -249,8 +249,8 @@ export function enhancedShunNiFeiJudgment(
   star: FlyingStar,
   mountain: Mountain,
   period: Yun,
-  isJian: boolean = false,
-  jianDegree: number = 0
+  isJian = false,
+  jianDegree = 0
 ): {
   direction: 'shun' | 'ni';
   confidence: number; // 判断置信度 0-1
@@ -292,7 +292,7 @@ export function enhancedShunNiFeiJudgment(
   // 兼向调整
   if (isJian) {
     const jianRule = JIANXIANG_RULES.find(
-      rule =>
+      (rule) =>
         rule.mainMountain === mountain &&
         Math.abs(rule.jianDegree - jianDegree) <= 1
     );
@@ -380,7 +380,7 @@ export function calculateLiunianOverlay(
 
   for (const baseCell of basePlate) {
     const liunianCell = liunianPlate.find(
-      cell => cell.palace === baseCell.palace
+      (cell) => cell.palace === baseCell.palace
     );
     if (!liunianCell) continue;
 
@@ -407,7 +407,7 @@ export function calculateLiunianOverlay(
     } else if (liunianOverlay === 5) {
       effect = 'conflict';
       severity = 'high';
-      description = `流年五黄星飞临，需要特别注意化解`;
+      description = '流年五黄星飞临，需要特别注意化解';
     } else if ([1, 6, 8, 9].includes(liunianOverlay)) {
       effect = 'enhance';
       severity = 'low';
@@ -472,7 +472,7 @@ export function dynamicAixingAdjustment(
   // 兼向调整
   if (options.considerJianxiang && options.jianDegree !== undefined) {
     const jianRule = JIANXIANG_RULES.find(
-      rule =>
+      (rule) =>
         rule.mainMountain === zuo &&
         Math.abs(rule.jianDegree - options.jianDegree!) <= 1
     );

@@ -13,7 +13,7 @@ const routes = [
 
 console.log('Testing routes...\n');
 
-routes.forEach(route => {
+routes.forEach((route) => {
   const options = {
     hostname: 'localhost',
     port: 3000,

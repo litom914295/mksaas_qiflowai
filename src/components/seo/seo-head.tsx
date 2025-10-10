@@ -17,7 +17,16 @@ interface SEOProps {
 export function SEOHead({
   title = 'AI风水大师 - 专业八字命理与风水分析',
   description = '融合千年易学智慧与现代AI科技，3分钟精准分析您的命理运势与风水格局。提供个性化改运方案，助您事业财运感情全面提升。',
-  keywords = ['风水', '八字', '命理', 'AI算命', '风水大师', '运势分析', '风水布局', '改运方案'],
+  keywords = [
+    '风水',
+    '八字',
+    '命理',
+    'AI算命',
+    '风水大师',
+    '运势分析',
+    '风水布局',
+    '改运方案',
+  ],
   image = '/images/og-image.jpg',
   url = 'https://qiflow-ai.com',
   type = 'website',
@@ -25,7 +34,7 @@ export function SEOHead({
   publishedTime,
   modifiedTime,
   schema,
-  noindex = false
+  noindex = false,
 }: SEOProps) {
   const fullTitle = `${title} | AI风水大师`;
   const fullUrl = `${url}${typeof window !== 'undefined' ? window.location.pathname : ''}`;
@@ -43,39 +52,39 @@ export function SEOHead({
       price: '99',
       priceCurrency: 'CNY',
       priceValidUntil: '2025-12-31',
-      availability: 'https://schema.org/InStock'
+      availability: 'https://schema.org/InStock',
     },
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
       reviewCount: '126543',
       bestRating: '5',
-      worstRating: '1'
+      worstRating: '1',
     },
     creator: {
       '@type': 'Organization',
       name: author,
-      url: url
+      url: url,
     },
     featureList: [
       '八字命理分析',
       '风水格局评估',
       'AI智能推荐',
       '个性化改运方案',
-      '流年运势预测'
+      '流年运势预测',
     ],
     screenshot: [
       {
         '@type': 'ImageObject',
         url: `${url}/screenshots/analysis.jpg`,
-        caption: '八字分析界面'
+        caption: '八字分析界面',
       },
       {
         '@type': 'ImageObject',
         url: `${url}/screenshots/fengshui.jpg`,
-        caption: '风水评估界面'
-      }
-    ]
+        caption: '风水评估界面',
+      },
+    ],
   };
 
   const finalSchema = schema || defaultSchema;
@@ -87,9 +96,12 @@ export function SEOHead({
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords.join(', ')} />
       <meta name="author" content={author} />
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=5"
+      />
       <meta name="theme-color" content="#8B5CF6" />
-      
+
       {/* robots指令 */}
       {noindex ? (
         <meta name="robots" content="noindex, nofollow" />
@@ -154,9 +166,23 @@ export function SEOHead({
 
       {/* Favicon */}
       <link rel="icon" href="/favicon.ico" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/apple-touch-icon.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicon-32x32.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/favicon-16x16.png"
+      />
       <link rel="manifest" href="/site.webmanifest" />
 
       {/* 结构化数据 */}
@@ -177,11 +203,11 @@ export function SEOHead({
             provider: {
               '@type': 'Organization',
               name: 'AI风水大师',
-              url: url
+              url: url,
             },
             areaServed: {
               '@type': 'Country',
-              name: '中国'
+              name: '中国',
             },
             hasOfferCatalog: {
               '@type': 'OfferCatalog',
@@ -192,24 +218,24 @@ export function SEOHead({
                   itemOffered: {
                     '@type': 'Service',
                     name: '基础版',
-                    description: '基础八字分析'
+                    description: '基础八字分析',
                   },
                   price: '0',
-                  priceCurrency: 'CNY'
+                  priceCurrency: 'CNY',
                 },
                 {
                   '@type': 'Offer',
                   itemOffered: {
                     '@type': 'Service',
                     name: '专业版',
-                    description: '完整八字风水分析+改运方案'
+                    description: '完整八字风水分析+改运方案',
                   },
                   price: '99',
-                  priceCurrency: 'CNY'
-                }
-              ]
-            }
-          })
+                  priceCurrency: 'CNY',
+                },
+              ],
+            },
+          }),
         }}
       />
 
@@ -226,35 +252,35 @@ export function SEOHead({
                 name: 'AI风水大师的分析准确吗？',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: '我们的AI系统基于传统易学理论和大数据分析，准确率高达96.8%，得到了超过10万用户的认可。'
-                }
+                  text: '我们的AI系统基于传统易学理论和大数据分析，准确率高达96.8%，得到了超过10万用户的认可。',
+                },
               },
               {
                 '@type': 'Question',
                 name: '分析需要多长时间？',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: '整个分析过程只需要3分钟，您输入基本信息后，AI会立即生成详细的分析报告。'
-                }
+                  text: '整个分析过程只需要3分钟，您输入基本信息后，AI会立即生成详细的分析报告。',
+                },
               },
               {
                 '@type': 'Question',
                 name: '支持哪些支付方式？',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: '我们支持支付宝、微信支付等主流支付方式，支付安全便捷。'
-                }
+                  text: '我们支持支付宝、微信支付等主流支付方式，支付安全便捷。',
+                },
               },
               {
                 '@type': 'Question',
                 name: '购买后可以退款吗？',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: '我们提供30天无理由退款保证，如果您对服务不满意，可以申请全额退款。'
-                }
-              }
-            ]
-          })
+                  text: '我们提供30天无理由退款保证，如果您对服务不满意，可以申请全额退款。',
+                },
+              },
+            ],
+          }),
         }}
       />
 
@@ -270,30 +296,34 @@ export function SEOHead({
                 '@type': 'ListItem',
                 position: 1,
                 name: '首页',
-                item: url
+                item: url,
               },
               {
                 '@type': 'ListItem',
                 position: 2,
                 name: '八字分析',
-                item: `${url}/bazi`
+                item: `${url}/bazi`,
               },
               {
                 '@type': 'ListItem',
                 position: 3,
                 name: '风水评估',
-                item: `${url}/fengshui`
-              }
-            ]
-          })
+                item: `${url}/fengshui`,
+              },
+            ],
+          }),
         }}
       />
 
       {/* 预加载关键资源 */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
       <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-      
+
       {/* 预加载关键字体 */}
       <link
         rel="preload"

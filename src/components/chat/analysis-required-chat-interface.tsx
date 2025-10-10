@@ -104,14 +104,14 @@ export function AnalysisRequiredChatInterface({
   if (hasAnalysis && analysisResult) {
     return (
       <div className={className}>
-        <div className='mb-4 p-4 bg-green-50 border border-green-200 rounded-lg'>
-          <div className='flex items-center gap-2 mb-2'>
-            <Star className='w-5 h-5 text-green-600' />
-            <h3 className='font-semibold text-green-900'>
+        <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <Star className="w-5 h-5 text-green-600" />
+            <h3 className="font-semibold text-green-900">
               分析完成，AI大师已就绪
             </h3>
           </div>
-          <p className='text-sm text-green-800'>
+          <p className="text-sm text-green-800">
             基于您的
             {analysisResult.analysisResult.type === 'bazi'
               ? '八字'
@@ -124,7 +124,7 @@ export function AnalysisRequiredChatInterface({
         <EnhancedChatInterface
           sessionId={sessionId}
           userId={userId}
-          className='h-full'
+          className="h-full"
         />
       </div>
     );
@@ -133,48 +133,48 @@ export function AnalysisRequiredChatInterface({
   // 显示分析要求界面
   return (
     <div className={className}>
-      <Card className='h-full'>
-        <CardHeader className='text-center'>
-          <div className='w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4'>
-            <Bot className='w-8 h-8 text-blue-600' />
+      <Card className="h-full">
+        <CardHeader className="text-center">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Bot className="w-8 h-8 text-blue-600" />
           </div>
-          <CardTitle className='text-xl'>AI 八字风水大师</CardTitle>
-          <p className='text-gray-600'>
+          <CardTitle className="text-xl">AI 八字风水大师</CardTitle>
+          <p className="text-gray-600">
             为了提供最准确的分析，请先完成算法分析
           </p>
         </CardHeader>
 
-        <CardContent className='space-y-6'>
+        <CardContent className="space-y-6">
           {/* 分析类型说明 */}
-          <div className='space-y-4'>
-            <h3 className='font-semibold text-gray-900'>分析类型</h3>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+          <div className="space-y-4">
+            <h3 className="font-semibold text-gray-900">分析类型</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {analysisType === 'bazi' && (
-                <div className='flex items-center gap-3 p-3 bg-purple-50 rounded-lg'>
-                  <User className='w-5 h-5 text-purple-600' />
+                <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+                  <User className="w-5 h-5 text-purple-600" />
                   <div>
-                    <div className='font-medium text-purple-900'>八字分析</div>
-                    <div className='text-sm text-purple-700'>个人命理分析</div>
+                    <div className="font-medium text-purple-900">八字分析</div>
+                    <div className="text-sm text-purple-700">个人命理分析</div>
                   </div>
                 </div>
               )}
 
               {analysisType === 'fengshui' && (
-                <div className='flex items-center gap-3 p-3 bg-green-50 rounded-lg'>
-                  <Compass className='w-5 h-5 text-green-600' />
+                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                  <Compass className="w-5 h-5 text-green-600" />
                   <div>
-                    <div className='font-medium text-green-900'>风水分析</div>
-                    <div className='text-sm text-green-700'>房屋环境分析</div>
+                    <div className="font-medium text-green-900">风水分析</div>
+                    <div className="text-sm text-green-700">房屋环境分析</div>
                   </div>
                 </div>
               )}
 
               {analysisType === 'combined' && (
-                <div className='flex items-center gap-3 p-3 bg-blue-50 rounded-lg'>
-                  <Star className='w-5 h-5 text-blue-600' />
+                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                  <Star className="w-5 h-5 text-blue-600" />
                   <div>
-                    <div className='font-medium text-blue-900'>综合分析</div>
-                    <div className='text-sm text-blue-700'>
+                    <div className="font-medium text-blue-900">综合分析</div>
+                    <div className="text-sm text-blue-700">
                       八字+风水综合分析
                     </div>
                   </div>
@@ -185,13 +185,13 @@ export function AnalysisRequiredChatInterface({
 
           {/* 数据预览 */}
           {initialData && (
-            <div className='space-y-4'>
-              <h3 className='font-semibold text-gray-900'>输入数据</h3>
-              <div className='space-y-2'>
+            <div className="space-y-4">
+              <h3 className="font-semibold text-gray-900">输入数据</h3>
+              <div className="space-y-2">
                 {initialData.birthData && (
-                  <div className='flex items-center gap-2 text-sm'>
-                    <Calendar className='w-4 h-4 text-gray-500' />
-                    <span className='text-gray-700'>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Calendar className="w-4 h-4 text-gray-500" />
+                    <span className="text-gray-700">
                       出生时间:{' '}
                       {new Date(initialData.birthData.datetime).toLocaleString(
                         'zh-CN'
@@ -200,9 +200,9 @@ export function AnalysisRequiredChatInterface({
                   </div>
                 )}
                 {initialData.houseInfo && (
-                  <div className='flex items-center gap-2 text-sm'>
-                    <Compass className='w-4 h-4 text-gray-500' />
-                    <span className='text-gray-700'>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Compass className="w-4 h-4 text-gray-500" />
+                    <span className="text-gray-700">
                       房屋朝向: 坐{initialData.houseInfo.sittingDirection}向
                       {initialData.houseInfo.facingDirection}
                     </span>
@@ -214,38 +214,38 @@ export function AnalysisRequiredChatInterface({
 
           {/* 错误信息 */}
           {error && (
-            <div className='p-4 bg-red-50 border border-red-200 rounded-lg'>
-              <div className='flex items-center gap-2 mb-2'>
-                <div className='w-4 h-4 bg-red-100 rounded-full flex items-center justify-center'>
-                  <span className='text-red-600 text-xs'>!</span>
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-4 h-4 bg-red-100 rounded-full flex items-center justify-center">
+                  <span className="text-red-600 text-xs">!</span>
                 </div>
-                <h4 className='font-medium text-red-900'>分析失败</h4>
+                <h4 className="font-medium text-red-900">分析失败</h4>
               </div>
-              <p className='text-sm text-red-800'>{error}</p>
+              <p className="text-sm text-red-800">{error}</p>
             </div>
           )}
 
           {/* 开始分析按钮 */}
-          <div className='text-center'>
+          <div className="text-center">
             <Button
               onClick={handleStartAnalysis}
               disabled={isAnalyzing}
-              className='w-full'
-              size='lg'
+              className="w-full"
+              size="lg"
             >
               {isAnalyzing ? (
                 <>
-                  <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2'></div>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
                   正在分析中...
                 </>
               ) : (
                 <>
-                  <MessageCircle className='w-4 h-4 mr-2' />
+                  <MessageCircle className="w-4 h-4 mr-2" />
                   开始算法分析
                 </>
               )}
             </Button>
-            <p className='text-xs text-gray-500 mt-2'>
+            <p className="text-xs text-gray-500 mt-2">
               分析完成后，AI大师将基于算法结果为您提供专业解答
             </p>
           </div>

@@ -3,31 +3,28 @@
  * GET /api/analysis/history
  */
 
-import { auth } from '@/lib/auth';
 import { getDb } from '@/db';
 import { analysisHistory } from '@/db/schema/analysis';
-import { eq, desc } from 'drizzle-orm';
-import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
+import { desc, eq } from 'drizzle-orm';
 import { headers } from 'next/headers';
+import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
   try {
     // 获取用户session
     const session = await auth.api.getSession({
-      headers: await headers()
+      headers: await headers(),
     });
 
     if (!session?.user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // 获取查询参数
     const { searchParams } = new URL(req.url);
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const offset = parseInt(searchParams.get('offset') || '0');
+    const limit = Number.parseInt(searchParams.get('limit') || '10');
+    const offset = Number.parseInt(searchParams.get('offset') || '0');
 
     // 查询用户的分析历史
     const db = await getDb();
@@ -45,10 +42,9 @@ export async function GET(req: Request) {
       pagination: {
         limit,
         offset,
-        hasMore: history.length === limit
-      }
+        hasMore: history.length === limit,
+      },
     });
-
   } catch (error) {
     console.error('Error fetching analysis history:', error);
     return NextResponse.json(

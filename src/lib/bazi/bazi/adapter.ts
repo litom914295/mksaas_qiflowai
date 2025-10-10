@@ -6,20 +6,17 @@
  */
 
 import type {
-    EnhancedBaziResult,
-    EnhancedBirthData,
+  EnhancedBaziResult,
+  EnhancedBirthData,
 } from './enhanced-calculator';
 // import type { BirthData } from './types'; // BirthData类型不存在，使用EnhancedBirthData
 import {
-    createEnhancedBaziCalculator,
-    type EnhancedBaziCalculator,
+  type EnhancedBaziCalculator,
+  createEnhancedBaziCalculator,
 } from './enhanced-calculator';
 
 // 重新导出类型
-export type {
-    EnhancedBaziResult,
-    EnhancedBirthData
-};
+export type { EnhancedBaziResult, EnhancedBirthData };
 
 /**
  * 计算模式
@@ -88,8 +85,6 @@ export class BaziCalculationAdapter {
 
       // 根据模式选择计算方式
       switch (this.config.mode) {
-        case 'enhanced':
-        case 'hybrid':
         default:
           result = await this.calculateHybrid(birthData);
           break;
@@ -259,7 +254,9 @@ export class BaziCalculationAdapter {
       const durations = metrics.map((m: any) => m.duration);
       summary[name] = {
         count: metrics.length,
-        avgDuration: durations.reduce((a: number, b: number) => a + b, 0) / durations.length,
+        avgDuration:
+          durations.reduce((a: number, b: number) => a + b, 0) /
+          durations.length,
         minDuration: Math.min(...durations),
         maxDuration: Math.max(...durations),
         lastDuration: durations[durations.length - 1],
@@ -342,10 +339,10 @@ export async function calculateBaziBatch(
 ): Promise<(EnhancedBaziResult | null)[]> {
   const adapter = getGlobalAdapter();
   const results = await Promise.allSettled(
-    birthDataList.map(data => adapter.calculate(data))
+    birthDataList.map((data) => adapter.calculate(data))
   );
 
-  return results.map(result =>
+  return results.map((result) =>
     result.status === 'fulfilled' ? result.value : null
   );
 }

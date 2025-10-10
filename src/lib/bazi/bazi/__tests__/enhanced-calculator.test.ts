@@ -237,8 +237,8 @@ describe('BaziCache', () => {
         avoid: ['金'],
         analysis: '乙木需要水来滋润',
         favorable: ['水', '木'] as any[],
-        unfavorable: ['金', '土'] as any[]
-      }
+        unfavorable: ['金', '土'] as any[],
+      },
     };
 
     it('应该能够设置和获取缓存', () => {
@@ -419,7 +419,7 @@ describe('边界情况测试', () => {
       'Europe/London',
     ];
 
-    timezones.forEach(timezone => {
+    timezones.forEach((timezone) => {
       const calc = new EnhancedBaziCalculator({
         ...mockBirthData,
         timezone: timezone as any,
@@ -453,7 +453,7 @@ describe('压力测试', () => {
 
     const startTime = Date.now();
     const results = await Promise.all(
-      birthDataList.map(data => adapter.calculate(data))
+      birthDataList.map((data) => adapter.calculate(data))
     );
     const endTime = Date.now();
 

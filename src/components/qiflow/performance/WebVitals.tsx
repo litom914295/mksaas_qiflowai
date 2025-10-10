@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { onCLS, onFCP, onINP, onLCP, onTTFB, Metric } from 'web-vitals';
+import { type Metric, onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals';
 
 interface WebVitalsData {
-  CLS: number | null;  // Cumulative Layout Shift
-  FCP: number | null;  // First Contentful Paint
-  INP: number | null;  // Interaction to Next Paint
-  LCP: number | null;  // Largest Contentful Paint
+  CLS: number | null; // Cumulative Layout Shift
+  FCP: number | null; // First Contentful Paint
+  INP: number | null; // Interaction to Next Paint
+  LCP: number | null; // Largest Contentful Paint
   TTFB: number | null; // Time to First Byte
 }
 
@@ -37,7 +37,7 @@ const sendToAnalytics = (metric: Metric) => {
       metric_delta: metric.delta,
     });
   }
-  
+
   // 也可以发送到自定义端点
   if (process.env.NEXT_PUBLIC_ANALYTICS_URL) {
     fetch(`${process.env.NEXT_PUBLIC_ANALYTICS_URL}/vitals`, {
@@ -126,7 +126,9 @@ export function WebVitals() {
               <span className="font-mono">{key}:</span>
               {value !== null ? (
                 <span className={`font-bold ${getScoreColor(metric, value)}`}>
-                  {metric === 'CLS' ? value.toFixed(3) : `${Math.round(value)}ms`}
+                  {metric === 'CLS'
+                    ? value.toFixed(3)
+                    : `${Math.round(value)}ms`}
                   <span className="ml-1 text-xs opacity-75">
                     ({getScoreLabel(metric, value)})
                   </span>

@@ -224,9 +224,7 @@ export default function ShowcasePage() {
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link href="/analysis/bazi">
-            <Button size="lg">
-              开始八字分析
-            </Button>
+            <Button size="lg">开始八字分析</Button>
           </Link>
           <Link href="/ai-chat">
             <Button size="lg" variant="outline">

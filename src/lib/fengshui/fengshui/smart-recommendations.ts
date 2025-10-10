@@ -1,4 +1,4 @@
-import { type FlyingStar, type PalaceIndex, type Plate } from './types';
+import type { FlyingStar, PalaceIndex, Plate } from './types';
 
 // 智能建议系统
 export interface SmartRecommendation {
@@ -8,37 +8,51 @@ export interface SmartRecommendation {
   description: string;
   palace?: PalaceIndex;
   priority: number; // 1-10, 10最高
-  category: 'health' | 'wealth' | 'career' | 'relationship' | 'study' | 'general';
+  category:
+    | 'health'
+    | 'wealth'
+    | 'career'
+    | 'relationship'
+    | 'study'
+    | 'general';
   actions: string[];
   timing?: string;
   materials?: string[];
 }
 
 // 飞星吉凶判断
-function getStarFortune(star: FlyingStar, period: FlyingStar): 'very_auspicious' | 'auspicious' | 'neutral' | 'inauspicious' | 'very_inauspicious' {
+function getStarFortune(
+  star: FlyingStar,
+  period: FlyingStar
+):
+  | 'very_auspicious'
+  | 'auspicious'
+  | 'neutral'
+  | 'inauspicious'
+  | 'very_inauspicious' {
   // 当旺星
   if (star === period) return 'very_auspicious';
-  
+
   // 生气星（下一个运星）
   const nextPeriod = ((period % 9) + 1) as FlyingStar;
   if (star === nextPeriod) return 'auspicious';
-  
+
   // 退气星（上一个运星）
-  const prevPeriod = (((period + 7) % 9) || 9) as FlyingStar;
+  const prevPeriod = ((period + 7) % 9 || 9) as FlyingStar;
   if (star === prevPeriod) return 'neutral';
-  
+
   // 死气星（前两个运星）
-  const deadPeriod = (((period + 5) % 9) || 9) as FlyingStar;
+  const deadPeriod = ((period + 5) % 9 || 9) as FlyingStar;
   if (star === deadPeriod) return 'inauspicious';
-  
+
   // 煞气星（五黄）
   if (star === 5) return 'very_inauspicious';
-  
+
   // 其他星
   if (star === 8 || star === 9) return 'auspicious';
   if (star === 1 || star === 6) return 'neutral';
   if (star === 2 || star === 3 || star === 7) return 'inauspicious';
-  
+
   return 'neutral';
 }
 
@@ -57,23 +71,23 @@ const palaceWeights: Record<PalaceIndex, number> = {
 
 // 生成智能建议
 export function generateSmartRecommendations(
-  plate: Plate, 
+  plate: Plate,
   period: FlyingStar,
   wenchangwei: string,
   caiwei: string
 ): SmartRecommendation[] {
   const recommendations: SmartRecommendation[] = [];
-  
+
   // 分析每个宫位
-  plate.forEach(cell => {
+  plate.forEach((cell) => {
     const { palace, periodStar, mountainStar, facingStar } = cell;
     const weight = palaceWeights[palace];
-    
+
     // 分析天盘星
     const periodFortune = getStarFortune(periodStar || 1, period || 1);
     const mountainFortune = getStarFortune(mountainStar, period);
     const facingFortune = getStarFortune(facingStar, period);
-    
+
     // 五黄星特别处理
     if (periodStar === 5 || mountainStar === 5 || facingStar === 5) {
       recommendations.push({
@@ -88,13 +102,13 @@ export function generateSmartRecommendations(
           '放置金属化解物品（如铜钱、铜铃）',
           '避免在此方位进行重要活动',
           '保持该方位整洁安静',
-          '可放置植物进行化解'
+          '可放置植物进行化解',
         ],
         timing: '立即执行',
-        materials: ['铜钱', '铜铃', '金属摆件', '绿色植物']
+        materials: ['铜钱', '铜铃', '金属摆件', '绿色植物'],
       });
     }
-    
+
     // 当旺星处理
     if (periodStar === period) {
       recommendations.push({
@@ -109,13 +123,13 @@ export function generateSmartRecommendations(
           '在此方位放置招财物品',
           '保持该方位明亮通风',
           '可在此方位办公或学习',
-          '定期清洁保持能量流动'
+          '定期清洁保持能量流动',
         ],
         timing: '持续进行',
-        materials: ['招财物品', '水晶', '植物', '灯光']
+        materials: ['招财物品', '水晶', '植物', '灯光'],
       });
     }
-    
+
     // 文昌位特别建议
     if (wenchangwei.includes(palace.toString())) {
       recommendations.push({
@@ -130,13 +144,13 @@ export function generateSmartRecommendations(
           '放置书桌或学习用品',
           '保持该方位安静整洁',
           '可放置文昌塔或文房四宝',
-          '避免在此方位放置杂物'
+          '避免在此方位放置杂物',
         ],
         timing: '长期布局',
-        materials: ['文昌塔', '文房四宝', '书籍', '学习用品']
+        materials: ['文昌塔', '文房四宝', '书籍', '学习用品'],
       });
     }
-    
+
     // 财位特别建议
     if (caiwei.includes(palace.toString())) {
       recommendations.push({
@@ -151,15 +165,19 @@ export function generateSmartRecommendations(
           '放置招财物品（如貔貅、金蟾）',
           '保持该方位干净整洁',
           '可放置植物或水晶',
-          '避免在此方位放置垃圾或杂物'
+          '避免在此方位放置垃圾或杂物',
         ],
         timing: '长期布局',
-        materials: ['貔貅', '金蟾', '招财树', '水晶', '金鱼']
+        materials: ['貔貅', '金蟾', '招财树', '水晶', '金鱼'],
       });
     }
-    
+
     // 凶星化解
-    if (periodFortune === 'very_inauspicious' || mountainFortune === 'very_inauspicious' || facingFortune === 'very_inauspicious') {
+    if (
+      periodFortune === 'very_inauspicious' ||
+      mountainFortune === 'very_inauspicious' ||
+      facingFortune === 'very_inauspicious'
+    ) {
       recommendations.push({
         id: `xiongxing-${palace}`,
         type: 'urgent',
@@ -172,15 +190,19 @@ export function generateSmartRecommendations(
           '放置化解物品（如葫芦、八卦镜）',
           '避免在此方位居住或办公',
           '保持该方位整洁',
-          '可放置植物进行化解'
+          '可放置植物进行化解',
         ],
         timing: '尽快执行',
-        materials: ['葫芦', '八卦镜', '植物', '水晶']
+        materials: ['葫芦', '八卦镜', '植物', '水晶'],
       });
     }
-    
+
     // 山向合十检查
-    if (mountainStar && facingStar && Number(mountainStar) + Number(facingStar) === 10) {
+    if (
+      mountainStar &&
+      facingStar &&
+      Number(mountainStar) + Number(facingStar) === 10
+    ) {
       recommendations.push({
         id: `heshi-${palace}`,
         type: 'suggestion',
@@ -189,16 +211,12 @@ export function generateSmartRecommendations(
         palace,
         priority: 6,
         category: 'general',
-        actions: [
-          '保持该格局不变',
-          '可在此方位进行重要活动',
-          '保持该方位整洁'
-        ],
-        timing: '持续维护'
+        actions: ['保持该格局不变', '可在此方位进行重要活动', '保持该方位整洁'],
+        timing: '持续维护',
       });
     }
   });
-  
+
   // 按优先级排序
   return recommendations.sort((a, b) => b.priority - a.priority);
 }
@@ -208,15 +226,19 @@ export function filterRecommendationsByCategory(
   recommendations: SmartRecommendation[],
   category: SmartRecommendation['category']
 ): SmartRecommendation[] {
-  return recommendations.filter(rec => rec.category === category);
+  return recommendations.filter((rec) => rec.category === category);
 }
 
 // 获取紧急建议
-export function getUrgentRecommendations(recommendations: SmartRecommendation[]): SmartRecommendation[] {
-  return recommendations.filter(rec => rec.type === 'urgent');
+export function getUrgentRecommendations(
+  recommendations: SmartRecommendation[]
+): SmartRecommendation[] {
+  return recommendations.filter((rec) => rec.type === 'urgent');
 }
 
 // 获取今日建议
-export function getTodayRecommendations(recommendations: SmartRecommendation[]): SmartRecommendation[] {
-  return recommendations.filter(rec => rec.priority >= 8);
+export function getTodayRecommendations(
+  recommendations: SmartRecommendation[]
+): SmartRecommendation[] {
+  return recommendations.filter((rec) => rec.priority >= 8);
 }

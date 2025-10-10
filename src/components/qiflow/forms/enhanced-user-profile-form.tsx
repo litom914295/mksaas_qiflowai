@@ -1,7 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/enhanced-card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/enhanced-card';
 import LoadingSpinner from '@/components/ui/enhanced-loading';
 import ProgressBar from '@/components/ui/enhanced-progress';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,7 +41,13 @@ export type EnhancedUserProfileFormProps = {
 };
 
 export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
-  const { defaultValues, onSubmit, isSubmitting = false, showProgress = true, mode = 'profile' } = props;
+  const {
+    defaultValues,
+    onSubmit,
+    isSubmitting = false,
+    showProgress = true,
+    mode = 'profile',
+  } = props;
   // const t = useTranslations('forms');
 
   const {
@@ -45,7 +56,7 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
     watch,
     setValue,
     formState: { errors, isValid },
-    trigger
+    trigger,
   } = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema) as any,
     mode: 'onChange',
@@ -67,7 +78,7 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
   const [openMap] = useState(false);
   const [showContactInfo] = useState(watch('showContactInfo'));
   const [currentStep, setCurrentStep] = useState(1);
-  
+
   const watchedValues = watch();
   const isLunar = watchedValues.calendar === 'lunar';
 
@@ -75,12 +86,12 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
   const requiredFields = ['displayName', 'birthDate', 'address'];
   const optionalFields = ['gender', 'birthTime', 'email', 'phone'];
   const allFields = [...requiredFields, ...optionalFields];
-  
-  const completedFields = allFields.filter(field => {
+
+  const completedFields = allFields.filter((field) => {
     const value = watchedValues[field as keyof typeof watchedValues];
     return value && value !== '';
   }).length;
-  
+
   const progressPercentage = (completedFields / allFields.length) * 100;
 
   const handleFormSubmit = handleSubmit(async (data) => {
@@ -119,13 +130,23 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
     }
   };
 
-  const StepIndicator = ({ step, isActive, isCompleted }: { step: number; isActive: boolean; isCompleted: boolean }) => (
-    <div className={`
+  const StepIndicator = ({
+    step,
+    isActive,
+    isCompleted,
+  }: { step: number; isActive: boolean; isCompleted: boolean }) => (
+    <div
+      className={`
       flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-all
-      ${isActive ? 'bg-primary text-primary-foreground shadow-lg scale-110' : 
-        isCompleted ? 'bg-green-500 text-white' : 
-        'bg-muted text-muted-foreground'}
-    `}>
+      ${
+        isActive
+          ? 'bg-primary text-primary-foreground shadow-lg scale-110'
+          : isCompleted
+            ? 'bg-green-500 text-white'
+            : 'bg-muted text-muted-foreground'
+      }
+    `}
+    >
       {isCompleted ? '✓' : step}
     </div>
   );
@@ -155,7 +176,9 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 </div>
                 {errors.displayName && (
-                  <p className="text-sm text-destructive mt-1">{errors.displayName.message}</p>
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.displayName.message}
+                  </p>
                 )}
               </div>
 
@@ -167,8 +190,8 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                   {[
                     { value: 'male', label: '男', emoji: '👨' },
                     { value: 'female', label: '女', emoji: '👩' },
-                    { value: 'other', label: '其他', emoji: '🌈' }
-                  ].map(option => (
+                    { value: 'other', label: '其他', emoji: '🌈' },
+                  ].map((option) => (
                     <label key={option.value} className="relative">
                       <input
                         {...register('gender')}
@@ -178,7 +201,9 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                       />
                       <div className="p-3 border border-border rounded-lg text-center cursor-pointer transition-all hover:border-primary peer-checked:border-primary peer-checked:bg-primary/5">
                         <div className="text-2xl mb-1">{option.emoji}</div>
-                        <div className="text-sm font-medium">{option.label}</div>
+                        <div className="text-sm font-medium">
+                          {option.label}
+                        </div>
                       </div>
                     </label>
                   ))}
@@ -194,7 +219,9 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
             <div className="text-center mb-6">
               <Calendar className="w-12 h-12 mx-auto text-primary mb-3" />
               <h3 className="text-xl font-semibold">出生信息</h3>
-              <p className="text-muted-foreground">准确的出生时间有助于更精确的分析</p>
+              <p className="text-muted-foreground">
+                准确的出生时间有助于更精确的分析
+              </p>
             </div>
 
             <div className="space-y-4">
@@ -205,8 +232,8 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { value: 'gregorian', label: '公历', desc: '阳历/西历' },
-                    { value: 'lunar', label: '农历', desc: '阴历/中历' }
-                  ].map(option => (
+                    { value: 'lunar', label: '农历', desc: '阴历/中历' },
+                  ].map((option) => (
                     <label key={option.value} className="relative">
                       <input
                         {...register('calendar')}
@@ -216,7 +243,9 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                       />
                       <div className="p-4 border border-border rounded-lg cursor-pointer transition-all hover:border-primary peer-checked:border-primary peer-checked:bg-primary/5">
                         <div className="font-medium">{option.label}</div>
-                        <div className="text-xs text-muted-foreground">{option.desc}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {option.desc}
+                        </div>
                       </div>
                     </label>
                   ))}
@@ -234,7 +263,9 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                     className="w-full px-4 py-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                   />
                   {errors.birthDate && (
-                    <p className="text-sm text-destructive mt-1">{errors.birthDate.message}</p>
+                    <p className="text-sm text-destructive mt-1">
+                      {errors.birthDate.message}
+                    </p>
                   )}
                 </div>
 
@@ -262,7 +293,9 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
             <div className="text-center mb-6">
               <MapPin className="w-12 h-12 mx-auto text-primary mb-3" />
               <h3 className="text-xl font-semibold">地理位置</h3>
-              <p className="text-muted-foreground">出生地点影响地理磁场和风水分析</p>
+              <p className="text-muted-foreground">
+                出生地点影响地理磁场和风水分析
+              </p>
             </div>
 
             <div className="space-y-4">
@@ -276,9 +309,11 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                   placeholder="请输入详细地址，支持智能联想"
                 />
                 {errors.address && (
-                  <p className="text-sm text-destructive mt-1">{errors.address.message}</p>
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.address.message}
+                  </p>
                 )}
-                
+
                 <div className="mt-3 flex items-center gap-3">
                   <Button
                     type="button"
@@ -304,7 +339,9 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
             <div className="text-center mb-6">
               <Mail className="w-12 h-12 mx-auto text-primary mb-3" />
               <h3 className="text-xl font-semibold">联系方式</h3>
-              <p className="text-muted-foreground">选填信息，用于更好的服务体验</p>
+              <p className="text-muted-foreground">
+                选填信息，用于更好的服务体验
+              </p>
             </div>
 
             <div className="space-y-4">
@@ -323,7 +360,9 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   </div>
                   {errors.email && (
-                    <p className="text-sm text-destructive mt-1">{errors.email.message}</p>
+                    <p className="text-sm text-destructive mt-1">
+                      {errors.email.message}
+                    </p>
                   )}
                 </div>
 
@@ -372,8 +411,11 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-2xl">
-            {mode === 'registration' ? '完善资料' : 
-             mode === 'guest' ? '游客信息' : '个人资料'}
+            {mode === 'registration'
+              ? '完善资料'
+              : mode === 'guest'
+                ? '游客信息'
+                : '个人资料'}
           </CardTitle>
           {showProgress && (
             <div className="text-sm text-muted-foreground">
@@ -381,7 +423,7 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
             </div>
           )}
         </div>
-        
+
         {showProgress && (
           <ProgressBar
             value={progressPercentage}
@@ -393,7 +435,7 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
 
         {/* Step Indicator */}
         <div className="flex items-center justify-center gap-4 mt-6">
-          {[1, 2, 3, 4].map(step => (
+          {[1, 2, 3, 4].map((step) => (
             <div key={step} className="flex items-center">
               <StepIndicator
                 step={step}
@@ -401,9 +443,11 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
                 isCompleted={currentStep > step}
               />
               {step < 4 && (
-                <div className={`w-8 h-0.5 mx-2 transition-colors ${
-                  currentStep > step ? 'bg-green-500' : 'bg-muted'
-                }`} />
+                <div
+                  className={`w-8 h-0.5 mx-2 transition-colors ${
+                    currentStep > step ? 'bg-green-500' : 'bg-muted'
+                  }`}
+                />
               )}
             </div>
           ))}
@@ -459,7 +503,7 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
           value={{
             latitude: watchedValues.latitude,
             longitude: watchedValues.longitude,
-            address: watchedValues.address
+            address: watchedValues.address,
           }}
           onChange={(value) => {
             setValue('address', value.address || '');
@@ -469,7 +513,7 @@ export function EnhancedUserProfileForm(props: EnhancedUserProfileFormProps) {
           }}
           defaultCenter={{
             latitude: watchedValues.latitude || 39.9042,
-            longitude: watchedValues.longitude || 116.4074
+            longitude: watchedValues.longitude || 116.4074,
           }}
         />
       </CardContent>

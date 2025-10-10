@@ -45,19 +45,66 @@ export function SmartRecommendationsView({
       </div>
     );
   }
-
-  // 从smartRecommendations中提取数据
+  // 从 smartRecommendations 中提取数据
   const prioritizedActions = smartRecommendations.all || [];
-  const quickWins = smartRecommendations.urgent || [];
-  // 创建模拟的长期计划数据
+  const quickWins =
+    smartRecommendations.urgent || smartRecommendations.today || [];
+
+  // 按优先级映射
+  const priorityMap: Record<number, string> = {
+    1: 'urgent',
+    2: 'high',
+    3: 'medium',
+    4: 'low',
+    5: 'low',
+  };
+
+  // 增强推荐数据
+  const enhancedActions = prioritizedActions.map((action: any) => ({
+    ...action,
+    priority: action.priority
+      ? priorityMap[action.priority] || 'medium'
+      : 'medium',
+    estimatedTime: action.timeRequired || action.estimatedTime || '待评估',
+    estimatedCost: action.estimatedCost
+      ? `${action.estimatedCost.min || 0}-${action.estimatedCost.max || 0}${action.estimatedCost.currency || '元'}`
+      : '待评估',
+    expectedImpact:
+      action.expectedEffect || action.difficulty === 'easy'
+        ? '高'
+        : action.difficulty === 'medium'
+          ? '中'
+          : '低',
+  }));
+
+  // 长期计划
   const longTermPlan = {
-    phases: [
+    phases: analysisResult.overallAssessment?.longTermPlan
+      ?.slice(0, 3)
+      .map((plan: string, i: number) => ({
+        title: `第${i + 1}阶段`,
+        description: plan,
+      })) || [
       { title: '第一阶段', description: '基础调整' },
       { title: '第二阶段', description: '深度优化' },
       { title: '第三阶段', description: '长期维护' },
     ],
   };
-  const actionTimeline: any[] = [];
+
+  // 按时间线排序的行动计划
+  const actionTimeline = enhancedActions
+    .sort((a: any, b: any) => {
+      const priorityOrder: Record<string, number> = {
+        urgent: 1,
+        high: 2,
+        medium: 3,
+        low: 4,
+      };
+      return (
+        (priorityOrder[a.priority] || 3) - (priorityOrder[b.priority] || 3)
+      );
+    })
+    .slice(0, 10);
 
   // 获取优先级图标
   const getPriorityIcon = (priority: string) => {
@@ -87,7 +134,7 @@ export function SmartRecommendationsView({
   };
 
   // 筛选推荐
-  const filteredActions = prioritizedActions.filter((action: any) => {
+  const filteredActions = enhancedActions.filter((action: any) => {
     const categoryMatch =
       selectedCategory === 'all' || action.category === selectedCategory;
     const priorityMatch =
@@ -96,7 +143,7 @@ export function SmartRecommendationsView({
   });
 
   // 获取分类统计
-  const categoryStats = prioritizedActions.reduce(
+  const categoryStats = enhancedActions.reduce(
     (acc: Record<string, number>, action: any) => {
       acc[action.category] = (acc[action.category] || 0) + 1;
       return acc;
@@ -122,7 +169,7 @@ export function SmartRecommendationsView({
             <div className="bg-white rounded-lg p-4 text-center">
               <p className="text-3xl font-bold text-red-600">
                 {
-                  prioritizedActions.filter((a: any) => a.priority === 'urgent')
+                  enhancedActions.filter((a: any) => a.priority === 'urgent')
                     .length
                 }
               </p>
@@ -130,7 +177,10 @@ export function SmartRecommendationsView({
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <p className="text-3xl font-bold text-orange-600">
-                {prioritizedActions.filter((a: any) => a.priority === 'high').length}
+                {
+                  enhancedActions.filter((a: any) => a.priority === 'high')
+                    .length
+                }
               </p>
               <p className="text-sm text-muted-foreground mt-1">高优先级</p>
             </div>
@@ -174,14 +224,19 @@ export function SmartRecommendationsView({
                       </span>
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-medium mb-1">{win.title || win.type || '快速建议'}</h4>
+                      <h4 className="font-medium mb-1">
+                        {win.title || win.type || '快速建议'}
+                      </h4>
                       <p className="text-sm text-muted-foreground mb-2">
                         {win.description || win.content || '暂无详细描述'}
                       </p>
                       <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                         <span>⏱️ 耗时: {win.estimatedTime || '待评估'}</span>
                         <span>💰 成本: {win.estimatedCost || '待评估'}</span>
-                        <span>📈 预期效果: {win.expectedImpact || win.priority || '中等'}</span>
+                        <span>
+                          📈 预期效果:{' '}
+                          {win.expectedImpact || win.priority || '中等'}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -309,8 +364,12 @@ export function SmartRecommendationsView({
                   <div className="flex-1 pb-8">
                     <div className="bg-muted/50 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium">{phase.name || phase.title || `第${idx + 1}阶段`}</h4>
-                        <Badge variant="outline">{phase.duration || '持续进行'}</Badge>
+                        <h4 className="font-medium">
+                          {phase.name || phase.title || `第${idx + 1}阶段`}
+                        </h4>
+                        <Badge variant="outline">
+                          {phase.duration || '持续进行'}
+                        </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mb-3">
                         {phase.description}

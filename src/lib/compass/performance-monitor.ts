@@ -1,6 +1,6 @@
 /**
  * 风水罗盘性能监控工具
- * 
+ *
  * 监控渲染性能和内存使用情况
  */
 
@@ -29,12 +29,11 @@ export class CompassPerformanceMonitor {
 
     const renderTime = performance.now() - this.renderStartTime;
     const now = performance.now();
-    
+
     // 计算帧率
     this.frameCount++;
-    const frameRate = this.lastFrameTime > 0 
-      ? 1000 / (now - this.lastFrameTime) 
-      : 0;
+    const frameRate =
+      this.lastFrameTime > 0 ? 1000 / (now - this.lastFrameTime) : 0;
     this.lastFrameTime = now;
 
     // 获取内存使用情况
@@ -62,7 +61,7 @@ export class CompassPerformanceMonitor {
   // 添加性能指标
   private addMetrics(metrics: PerformanceMetrics): void {
     this.metrics.push(metrics);
-    
+
     // 保持最大数量限制
     if (this.metrics.length > this.maxMetrics) {
       this.metrics.shift();
@@ -92,7 +91,9 @@ export class CompassPerformanceMonitor {
 
   // 获取最新指标
   getLatestMetrics(): PerformanceMetrics | null {
-    return this.metrics.length > 0 ? this.metrics[this.metrics.length - 1] : null;
+    return this.metrics.length > 0
+      ? this.metrics[this.metrics.length - 1]
+      : null;
   }
 
   // 获取所有指标
@@ -114,7 +115,8 @@ export class CompassPerformanceMonitor {
     const average = this.getAverageMetrics();
 
     if (latest) {
-      if (latest.renderTime > 16) { // 超过16ms可能影响60fps
+      if (latest.renderTime > 16) {
+        // 超过16ms可能影响60fps
         warnings.push(`渲染时间过长: ${latest.renderTime.toFixed(2)}ms`);
       }
 
@@ -122,7 +124,8 @@ export class CompassPerformanceMonitor {
         warnings.push(`帧率过低: ${latest.frameRate.toFixed(1)}fps`);
       }
 
-      if (latest.memoryUsage > 100) { // 超过100MB
+      if (latest.memoryUsage > 100) {
+        // 超过100MB
         warnings.push(`内存使用过高: ${latest.memoryUsage.toFixed(1)}MB`);
       }
     }

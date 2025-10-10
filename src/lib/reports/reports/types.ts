@@ -45,7 +45,7 @@ export interface ExportOptions {
 
 export interface ShareOptions {
   expiresIn?: number; // 分享链接过期时间（小时）
-  password?: string;  // 访问密码
+  password?: string; // 访问密码
   allowDownload?: boolean; // 是否允许下载
 }
 

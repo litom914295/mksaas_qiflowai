@@ -17,7 +17,7 @@ try {
   console.log('⚠️  Lighthouse未安装。正在安装...');
   console.log('运行: npm install -g lighthouse\n');
   console.log('或使用Chrome DevTools的Lighthouse面板进行测试。\n');
-  
+
   console.log('📝 手动测试步骤：');
   console.log('1. 启动开发服务器: npm run dev');
   console.log('2. 打开Chrome浏览器');
@@ -59,14 +59,14 @@ const config = {
         width: 1920,
         height: 1080,
         deviceScaleFactor: 1,
-        disabled: false
+        disabled: false,
       },
       throttling: {
         rttMs: 40,
         throughputKbps: 10 * 1024,
-        cpuSlowdownMultiplier: 1
-      }
-    }
+        cpuSlowdownMultiplier: 1,
+      },
+    },
   },
   mobile: {
     extends: 'lighthouse:default',
@@ -77,29 +77,30 @@ const config = {
         width: 375,
         height: 812,
         deviceScaleFactor: 3,
-        disabled: false
-      }
-    }
-  }
+        disabled: false,
+      },
+    },
+  },
 };
 
 // 运行测试
 function runLighthouse(device = 'mobile') {
   console.log(`\n📱 运行${device === 'mobile' ? '移动端' : '桌面端'}测试...`);
-  
+
   const configFile = path.join(outputDir, `config-${device}.json`);
   fs.writeFileSync(configFile, JSON.stringify(config[device], null, 2));
-  
-  const cmd = `npx lighthouse ${testUrl} ` +
+
+  const cmd =
+    `npx lighthouse ${testUrl} ` +
     `--config-path="${configFile}" ` +
-    `--output=html ` +
+    '--output=html ' +
     `--output-path="${outputPath}-${device}.html" ` +
     `--chrome-flags="--headless" ` +
-    `--quiet`;
-  
+    '--quiet';
+
   try {
     const output = execSync(cmd, { encoding: 'utf-8' });
-    
+
     // 解析分数
     const scores = output.match(/\d+/g);
     if (scores && scores.length >= 4) {
@@ -112,7 +113,7 @@ function runLighthouse(device = 'mobile') {
         console.log(`- PWA: ${scores[4]}/100`);
       }
     }
-    
+
     console.log(`\n✅ 报告已保存: ${outputPath}-${device}.html`);
     return true;
   } catch (error) {

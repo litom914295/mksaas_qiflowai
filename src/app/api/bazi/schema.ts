@@ -7,7 +7,9 @@ import { z } from 'zod';
 
 // 输入数据验证
 export const BaziInputSchema = z.object({
-  birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
+  birthDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
   birthTime: z.string().regex(/^\d{2}:\d{2}$/, 'Time must be in HH:MM format'),
   timezone: z.string().min(1, 'Timezone is required'),
   longitude: z.number().min(-180).max(180),
@@ -87,37 +89,41 @@ export const BaziOutputSchema = z.object({
   fourPillars: FourPillarsSchema,
   elements: ElementStatsSchema,
   tenGods: TenGodAnalysisSchema,
-  
+
   // 扩展信息
   luckPillars: z.array(LuckPillarSchema).optional(),
-  yongShen: z.object({
-    primary: z.string(),
-    secondary: z.string().optional(),
-    avoid: z.array(z.string()),
-  }).optional(),
-  
+  yongShen: z
+    .object({
+      primary: z.string(),
+      secondary: z.string().optional(),
+      avoid: z.array(z.string()),
+    })
+    .optional(),
+
   // 计算元数据
   trueSolarTime: z.boolean(),
   dayBoundary: z.string(),
   solarTerm: z.string().optional(),
-  
+
   // 版本控制与验证
   version: z.string(),
   algorithmVersion: z.string(),
   hash: z.string(), // 输入数据的hash，用于缓存
   timestamp: z.string().datetime(),
-  
+
   // 边界与误差
   boundaries: BoundaryMarkersSchema,
-  
+
   // AI可用的解释字段
-  interpretations: z.object({
-    personality: z.array(z.string()).optional(),
-    career: z.array(z.string()).optional(),
-    wealth: z.array(z.string()).optional(),
-    relationship: z.array(z.string()).optional(),
-    health: z.array(z.string()).optional(),
-  }).optional(),
+  interpretations: z
+    .object({
+      personality: z.array(z.string()).optional(),
+      career: z.array(z.string()).optional(),
+      wealth: z.array(z.string()).optional(),
+      relationship: z.array(z.string()).optional(),
+      health: z.array(z.string()).optional(),
+    })
+    .optional(),
 });
 
 // 类型导出
@@ -174,14 +180,20 @@ export function hasValidBaziData(data: unknown): boolean {
 
 // 错误类型定义
 export class BaziValidationError extends Error {
-  constructor(message: string, public errors?: z.ZodError) {
+  constructor(
+    message: string,
+    public errors?: z.ZodError
+  ) {
     super(message);
     this.name = 'BaziValidationError';
   }
 }
 
 export class BaziCalculationError extends Error {
-  constructor(message: string, public code?: string) {
+  constructor(
+    message: string,
+    public code?: string
+  ) {
     super(message);
     this.name = 'BaziCalculationError';
   }

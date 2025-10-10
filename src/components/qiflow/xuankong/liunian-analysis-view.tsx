@@ -31,7 +31,21 @@ export function LiunianAnalysisView({
   analysisResult,
   className = '',
 }: LiunianAnalysisViewProps) {
-  const { liunianAnalysis } = analysisResult;
+  const { liunianAnalysis, personalizedAnalysis } = analysisResult;
+
+  // 提取用户八字信息
+  const userBaziInfo = personalizedAnalysis?.compatibility
+    ? {
+        element: personalizedAnalysis.compatibility.element || '未知',
+        favorableElements:
+          personalizedAnalysis.compatibility.favorableElements || [],
+        luckyDirections:
+          personalizedAnalysis.compatibility.luckyDirections ||
+          personalizedAnalysis.compatibility.favorableDirections ||
+          [],
+        zodiac: personalizedAnalysis.compatibility.zodiac || '未知',
+      }
+    : null;
 
   if (!liunianAnalysis) {
     return (
@@ -47,28 +61,196 @@ export function LiunianAnalysisView({
     );
   }
 
-  // TODO: 需要根据实际的 liunianAnalysis 结构进行调整
+  // 解析真实的流年数据
+  const {
+    yearlyTrends,
+    overlayAnalysis,
+    seasonalAdjustments,
+    dayunTransition,
+  } = liunianAnalysis;
+
+  // 计算真实的流年星和干支
+  const year = new Date().getFullYear();
+  const calculateLiunianStar = (year: number): number => {
+    const baseYear = 1984; // 甲子年
+    const yearOffset = year - baseYear;
+    return (((yearOffset % 9) + 9) % 9) + 1;
+  };
+
+  const calculateGanZhi = (year: number): string => {
+    const tian = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+    const di = [
+      '子',
+      '丑',
+      '寅',
+      '卯',
+      '辰',
+      '巳',
+      '午',
+      '未',
+      '申',
+      '酉',
+      '戌',
+      '亥',
+    ];
+    const tianIndex = (year - 4) % 10;
+    const diIndex = (year - 4) % 12;
+    return tian[tianIndex] + di[diIndex];
+  };
+
   const currentYear = {
-    year: new Date().getFullYear(),
-    yearStar: 5,
-    ganZhi: '甲辰'
+    year: year,
+    yearStar: calculateLiunianStar(year),
+    ganZhi: calculateGanZhi(year),
   };
+
+  // 计算年度总体评分
+  const calculateOverallScore = () => {
+    const trends = [
+      yearlyTrends.healthTrend,
+      yearlyTrends.wealthTrend,
+      yearlyTrends.careerTrend,
+      yearlyTrends.relationshipTrend,
+    ];
+    const scores = trends.map((t) => {
+      if (
+        t === 'improving' ||
+        t === 'growing' ||
+        t === 'advancing' ||
+        t === 'harmonious'
+      )
+        return 90;
+      if (t === 'stable') return 70;
+      return 50;
+    });
+    return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+  };
+
   const yearlyFortune = {
-    trend: 'improving',
-    overallScore: 75,
-    characteristics: '今年运势整体向好',
-    favorableAspects: ['财运提升', '事业发展'],
-    unfavorableAspects: ['健康需要注意'],
-    yearlyRecommendations: ['多做投资', '注意身体'],
-    resolutionMethods: [] as any[]
+    trend:
+      yearlyTrends.overallLuck === 'excellent' ||
+      yearlyTrends.overallLuck === 'good'
+        ? 'improving'
+        : 'stable',
+    overallScore: calculateOverallScore(),
+    characteristics: `整体运势${yearlyTrends.overallLuck === 'excellent' ? '极佳' : yearlyTrends.overallLuck === 'good' ? '良好' : yearlyTrends.overallLuck === 'fair' ? '中等' : '需谨慎'}`,
+    favorableAspects: [
+      yearlyTrends.wealthTrend === 'growing' && '财运增长，投资理财将有收获',
+      yearlyTrends.careerTrend === 'advancing' && '事业发展顺利，有晋升机会',
+      yearlyTrends.healthTrend === 'improving' && '健康状况好转，精力充沛',
+      yearlyTrends.relationshipTrend === 'harmonious' &&
+        '人际关系和谐，感情美满',
+    ].filter(Boolean) as string[],
+    unfavorableAspects: [
+      yearlyTrends.healthTrend === 'declining' && '健康需要特别关注，预防为主',
+      yearlyTrends.wealthTrend === 'declining' && '财运波动，谨慎投资决策',
+      yearlyTrends.careerTrend === 'challenging' && '事业面临挑战，需努力坚持',
+      yearlyTrends.relationshipTrend === 'turbulent' &&
+        '人际关系波动，需谨言慎行',
+    ].filter(Boolean) as string[],
+    yearlyRecommendations: [
+      ...yearlyTrends.keyMonths
+        .slice(0, 3)
+        .map((km) => `${km.month}月${km.significance}：${km.advice}`),
+      dayunTransition &&
+        `大运交替期，需${dayunTransition.recommendations[0] || '谨慎应对'}`,
+    ].filter(Boolean) as string[],
+    resolutionMethods: [] as any[],
   };
-  const monthlyTrends = Array.from({length: 12}, (_, i) => ({
-    month: i + 1,
-    score: Math.floor(Math.random() * 40 + 40),
-    mainInfluences: ['财运', '事业'],
-    trend: ['improving', 'declining', 'stable'][Math.floor(Math.random() * 3)]
-  }));
-  const criticalPeriods: any[] = [];
+
+  // 构建月度趋势数据（基于真实的流月星）
+  const calculateMonthScore = (month: number): number => {
+    const keyMonth = yearlyTrends.keyMonths.find(
+      (km: any) => km.month === month
+    );
+    const baseScore = calculateOverallScore();
+
+    if (keyMonth) {
+      // 根据关键月份的意义调整评分
+      if (
+        keyMonth.significance.includes('五黄') ||
+        keyMonth.significance.includes('二黑')
+      ) {
+        return Math.max(30, baseScore - 25); // 凶星月份降低评分
+      }
+      if (
+        keyMonth.significance.includes('八白') ||
+        keyMonth.significance.includes('九紫')
+      ) {
+        return Math.min(95, baseScore + 20); // 吉星月份提高评分
+      }
+      if (
+        keyMonth.significance.includes('一白') ||
+        keyMonth.significance.includes('六白')
+      ) {
+        return Math.min(88, baseScore + 12); // 吉星月份适度提高
+      }
+    }
+
+    // 普通月份有小幅波动
+    const seasonalVariation = Math.sin(((month - 1) * Math.PI) / 6) * 8; // 正弦波动
+    return Math.round(
+      Math.max(40, Math.min(85, baseScore + seasonalVariation))
+    );
+  };
+
+  const monthlyTrends = Array.from({ length: 12 }, (_, i) => {
+    const month = i + 1;
+    const keyMonth = yearlyTrends.keyMonths.find(
+      (km: any) => km.month === month
+    );
+    const score = calculateMonthScore(month);
+
+    // 判断趋势
+    let trend = 'stable';
+    if (keyMonth) {
+      if (
+        keyMonth.significance.includes('五黄') ||
+        keyMonth.significance.includes('二黑')
+      ) {
+        trend = 'declining';
+      } else if (
+        keyMonth.significance.includes('八白') ||
+        keyMonth.significance.includes('九紫')
+      ) {
+        trend = 'improving';
+      }
+    }
+
+    return {
+      month,
+      score,
+      mainInfluences: keyMonth ? [keyMonth.significance] : ['常规运势'],
+      trend,
+    };
+  });
+
+  // 构建关键时间节点
+  const criticalPeriods = [
+    ...yearlyTrends.keyMonths.map((km) => ({
+      startDate: `${currentYear.year}年${km.month}月`,
+      endDate: `${currentYear.year}年${km.month}月底`,
+      type:
+        km.significance.includes('吉') || km.significance.includes('好')
+          ? 'favorable'
+          : 'unfavorable',
+      title: km.significance,
+      description: km.advice,
+      recommendations: [km.advice],
+    })),
+    ...(dayunTransition
+      ? [
+          {
+            startDate: `${dayunTransition.transitionYear}年`,
+            endDate: `${dayunTransition.transitionYear + 1}年`,
+            type: 'neutral' as const,
+            title: `第${dayunTransition.currentPeriod}运转第${dayunTransition.nextPeriod}运`,
+            description: `大运交替${dayunTransition.transitionPhase === 'early' ? '初期' : dayunTransition.transitionPhase === 'middle' ? '中期' : '晚期'}`,
+            recommendations: dayunTransition.recommendations,
+          },
+        ]
+      : []),
+  ];
 
   // 获取运势趋势图标
   const getTrendIcon = (trend: string) => {
@@ -324,6 +506,57 @@ export function LiunianAnalysisView({
           </div>
         </CardContent>
       </Card>
+
+      {/* 八字个性化提示 */}
+      {userBaziInfo && (
+        <Card className="bg-gradient-to-br from-purple-50 to-pink-50">
+          <CardHeader>
+            <CardTitle className="text-lg">🧪 您的个性化流年建议</CardTitle>
+            <CardDescription>
+              基于您的生肖 {userBaziInfo.zodiac} 和命卦 {userBaziInfo.element}{' '}
+              的分析
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {/* 喜用神方位强化 */}
+              <div className="bg-white rounded-lg p-4">
+                <h4 className="text-sm font-medium mb-2">✨ 吉方时间强化</h4>
+                <p className="text-sm text-muted-foreground mb-2">
+                  您的幸运方位：
+                  {userBaziInfo.luckyDirections.join('、') || '未知'}
+                </p>
+                <p className="text-sm">
+                  建议在这些方位的吉时进行重要活动，
+                  如业务洽谈、签约、入宅等，能够增强效果。
+                </p>
+              </div>
+
+              {/* 五行调节 */}
+              <div className="bg-white rounded-lg p-4">
+                <h4 className="text-sm font-medium mb-2">⚖️ 五行调节</h4>
+                <p className="text-sm text-muted-foreground mb-2">
+                  您的喜用元素：
+                  {userBaziInfo.favorableElements.join('、') || '未知'}
+                </p>
+                <p className="text-sm">
+                  全年可多使用与您喜用元素相关的颜色、物品和食物，
+                  以增强个人运势与流年能量的共振。
+                </p>
+              </div>
+
+              {/* 重点月份提醒 */}
+              <div className="bg-white rounded-lg p-4">
+                <h4 className="text-sm font-medium mb-2">📅 重点月份提醒</h4>
+                <p className="text-sm">
+                  根据您的八字，建议特别关注上述关键时间节点，
+                  在这些时间段内谨慎行事，多做准备， 可以有效跟避凶、提升运势。
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

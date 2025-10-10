@@ -51,7 +51,7 @@ export function LiunianAnalysisView({
   const currentYear = {
     year: new Date().getFullYear(),
     yearStar: 5,
-    ganZhi: '甲辰'
+    ganZhi: '甲辰',
   };
   const yearlyFortune = {
     trend: 'improving',
@@ -60,13 +60,13 @@ export function LiunianAnalysisView({
     favorableAspects: ['财运提升', '事业发展'],
     unfavorableAspects: ['健康需要注意'],
     yearlyRecommendations: ['多做投资', '注意身体'],
-    resolutionMethods: [] as any[]
+    resolutionMethods: [] as any[],
   };
-  const monthlyTrends = Array.from({length: 12}, (_, i) => ({
+  const monthlyTrends = Array.from({ length: 12 }, (_, i) => ({
     month: i + 1,
     score: Math.floor(Math.random() * 40 + 40),
     mainInfluences: ['财运', '事业'],
-    trend: ['improving', 'declining', 'stable'][Math.floor(Math.random() * 3)]
+    trend: ['improving', 'declining', 'stable'][Math.floor(Math.random() * 3)],
   }));
   const criticalPeriods: any[] = [];
 

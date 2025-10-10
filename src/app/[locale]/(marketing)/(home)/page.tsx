@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { AbPersist } from '@/components/qiflow/ab/AbPersist';
 import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification';
 import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar';
@@ -8,14 +7,18 @@ import { FeatureGrid } from '@/components/qiflow/homepage/FeatureGrid';
 import { FourStates } from '@/components/qiflow/homepage/FourStates';
 import { Hero } from '@/components/qiflow/homepage/Hero';
 import { HowItWorks } from '@/components/qiflow/homepage/HowItWorks';
+import { InstantTrySection } from '@/components/qiflow/homepage/InstantTrySection';
+import { LiveActivityFeed } from '@/components/qiflow/homepage/LiveActivityFeed';
 import { Testimonials } from '@/components/qiflow/homepage/Testimonials';
 import { TrustBar } from '@/components/qiflow/homepage/TrustBar';
+import { TrustBarEnhanced } from '@/components/qiflow/homepage/TrustBarEnhanced';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { cookies } from 'next/headers';
+import { Suspense } from 'react';
 import { CrispChat, InteractiveCompassTeaser } from './ClientComponents';
 
 /**
@@ -85,8 +88,20 @@ export default async function HomePage(props: HomePageProps) {
       <div className="flex flex-col">
         <Hero variant={variant} />
         <TrustBar variant={variant} />
+
+        {/* Phase 2: 实时活动流 */}
+        <LiveActivityFeed />
+
         <FeatureGrid variant={variant} />
+
+        {/* Phase 2: 信任增强区 */}
+        <TrustBarEnhanced variant={variant} />
+
         <HowItWorks variant={variant} />
+
+        {/* Phase 2: 即时体验区 */}
+        <InstantTrySection />
+
         <Testimonials variant={variant} />
         <FAQ variant={variant} />
         <Suspense

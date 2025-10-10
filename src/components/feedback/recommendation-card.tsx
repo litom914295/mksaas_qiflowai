@@ -1,56 +1,56 @@
-'use client'
+'use client';
 
-import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Star, TrendingUp, Shield, Heart, Home } from 'lucide-react'
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Heart, Home, Shield, Star, TrendingUp } from 'lucide-react';
+import type React from 'react';
 
 interface RecommendationCardProps {
-  title: string
-  description: string
-  category?: string
-  priority?: 'high' | 'medium' | 'low'
-  icon?: React.ReactNode
-  action?: () => void
+  title: string;
+  description: string;
+  category?: string;
+  priority?: 'high' | 'medium' | 'low';
+  icon?: React.ReactNode;
+  action?: () => void;
 }
 
-export function RecommendationCard({ 
-  title, 
-  description, 
+export function RecommendationCard({
+  title,
+  description,
   category = '建议',
   priority = 'medium',
   icon,
-  action 
+  action,
 }: RecommendationCardProps) {
   const priorityColors = {
     high: 'bg-red-100 text-red-800',
     medium: 'bg-yellow-100 text-yellow-800',
-    low: 'bg-green-100 text-green-800'
-  }
+    low: 'bg-green-100 text-green-800',
+  };
 
   const priorityLabels = {
     high: '重要',
     medium: '建议',
-    low: '参考'
-  }
+    low: '参考',
+  };
 
   const getIcon = () => {
-    if (icon) return icon
-    
+    if (icon) return icon;
+
     switch (category) {
       case '事业':
-        return <TrendingUp className="h-5 w-5" />
+        return <TrendingUp className="h-5 w-5" />;
       case '健康':
-        return <Shield className="h-5 w-5" />
+        return <Shield className="h-5 w-5" />;
       case '感情':
-        return <Heart className="h-5 w-5" />
+        return <Heart className="h-5 w-5" />;
       case '家居':
-        return <Home className="h-5 w-5" />
+        return <Home className="h-5 w-5" />;
       default:
-        return <Star className="h-5 w-5" />
+        return <Star className="h-5 w-5" />;
     }
-  }
+  };
 
   return (
     <Card className="hover:shadow-lg transition-shadow">
@@ -83,5 +83,5 @@ export function RecommendationCard({
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

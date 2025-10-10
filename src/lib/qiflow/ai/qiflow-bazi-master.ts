@@ -7,9 +7,9 @@
  */
 
 import {
-  computeBaziSmart,
   type EnhancedBaziResult,
   type EnhancedBirthData,
+  computeBaziSmart,
 } from '@/lib/bazi';
 import {
   detectAnalysisRequest,
@@ -265,7 +265,7 @@ export class QiFlowBaziMaster {
     sections.push('## 📋 输入信息确认');
     sections.push(`**计算时间**: ${inputData.datetime}`);
     sections.push(`**使用时区**: ${inputData.timezone}`);
-    sections.push(`**历法**: 公历转农历计算`);
+    sections.push('**历法**: 公历转农历计算');
 
     if (uncertainties.length > 0) {
       sections.push(`**⚠️ 不确定性提示**: ${uncertainties.join('；')}`);
@@ -356,7 +356,7 @@ export class QiFlowBaziMaster {
     // 建议与注意部分
     sections.push('\n## 💡 专业建议');
     if (result.dayMasterStrength?.recommendations) {
-      result.dayMasterStrength.recommendations.forEach(rec => {
+      result.dayMasterStrength.recommendations.forEach((rec) => {
         sections.push(`• ${rec}`);
       });
     } else {
@@ -536,7 +536,7 @@ export class QiFlowBaziMaster {
   ): BaziMasterResponse {
     const content = `请补充以下信息以进行专业的八字分析：
 
-${missingInfo.map(info => `• ${info}`).join('\n')}
+${missingInfo.map((info) => `• ${info}`).join('\n')}
 
 **完整示例**：
 "请帮我分析八字：1990年3月15日下午3点，男性，出生在北京"
@@ -570,7 +570,7 @@ ${missingInfo.map(info => `• ${info}`).join('\n')}
         '需要我解释为什么需要这些信息吗？',
       ],
       needsClarification: true,
-      clarificationQuestions: missingInfo.map(info => `请提供${info}`),
+      clarificationQuestions: missingInfo.map((info) => `请提供${info}`),
     };
   }
 

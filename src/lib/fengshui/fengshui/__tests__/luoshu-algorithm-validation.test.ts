@@ -1,6 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import { generateFlyingStar } from '../index';
 import {
+  LUOSHU_ORDER,
   generateShanpan,
   generateTianpan,
   generateXiangpan,
@@ -8,7 +9,6 @@ import {
   getBaguaYinYang,
   getPalaceByMountain,
   getYuanLong,
-  LUOSHU_ORDER,
   mergePlates,
   niFei,
   shunFei,
@@ -61,14 +61,14 @@ describe('九宫飞星排盘算法验证', () => {
       expect(LUOSHU_ORDER).toEqual([5, 6, 7, 8, 9, 1, 2, 3, 4]);
 
       // 验证九运天盘：中心宫位应该是9
-      const centerPalace = tianpan.find(cell => cell.palace === 5);
+      const centerPalace = tianpan.find((cell) => cell.palace === 5);
       expect(centerPalace?.periodStar).toBe(9);
 
       // 验证按洛书顺序顺飞
       let expectedStar = 9;
       for (let i = 0; i < LUOSHU_ORDER.length; i++) {
         const palace = LUOSHU_ORDER[i];
-        const cell = tianpan.find(c => c.palace === palace);
+        const cell = tianpan.find((c) => c.palace === palace);
         expect(cell?.periodStar).toBe(expectedStar);
         expectedStar = shunFei(expectedStar as any, 1);
       }
@@ -79,12 +79,12 @@ describe('九宫飞星排盘算法验证', () => {
         const tianpan = generateTianpan(period as any);
 
         // 中心宫位应该是当前运数
-        const centerPalace = tianpan.find(cell => cell.palace === 5);
+        const centerPalace = tianpan.find((cell) => cell.palace === 5);
         expect(centerPalace?.periodStar).toBe(period);
 
         // 验证所有宫位都有飞星
         expect(tianpan).toHaveLength(9);
-        tianpan.forEach(cell => {
+        tianpan.forEach((cell) => {
           expect(cell.periodStar).toBeGreaterThanOrEqual(1);
           expect(cell.periodStar).toBeLessThanOrEqual(9);
         });
@@ -174,19 +174,19 @@ describe('九宫飞星排盘算法验证', () => {
       const shanpan = generateShanpan(tianpan, '子', false);
 
       // 子山对应坎宫（1宫），九运天盘1宫应该是5星
-      const tianpan1 = tianpan.find(cell => cell.palace === 1);
+      const tianpan1 = tianpan.find((cell) => cell.palace === 1);
       expect(tianpan1?.periodStar).toBe(5);
 
       // 5星对应中宫，中宫为阳，子山为天元龙，应该顺飞
       // 验证山盘1宫是1星（5星顺飞后的结果）
-      const shanpan1 = shanpan.find(cell => cell.palace === 1);
+      const shanpan1 = shanpan.find((cell) => cell.palace === 1);
       expect(shanpan1?.mountainStar).toBe(1);
 
       // 验证按洛书顺序顺飞
       let expectedStar = 5;
       for (let i = 0; i < LUOSHU_ORDER.length; i++) {
         const palace = LUOSHU_ORDER[i];
-        const cell = shanpan.find(c => c.palace === palace);
+        const cell = shanpan.find((c) => c.palace === palace);
         expect(cell?.mountainStar).toBe(expectedStar);
         expectedStar = shunFei(expectedStar as any, 1);
       }
@@ -197,19 +197,19 @@ describe('九宫飞星排盘算法验证', () => {
       const shanpan = generateShanpan(tianpan, '午', false);
 
       // 午山对应离宫（9宫），九运天盘9宫应该是4星
-      const tianpan9 = tianpan.find(cell => cell.palace === 9);
+      const tianpan9 = tianpan.find((cell) => cell.palace === 9);
       expect(tianpan9?.periodStar).toBe(4);
 
       // 4星对应巽卦，巽卦为阴，午山为天元龙，应该逆飞
       // 验证山盘9宫是9星（4星逆飞后的结果）
-      const shanpan9 = shanpan.find(cell => cell.palace === 9);
+      const shanpan9 = shanpan.find((cell) => cell.palace === 9);
       expect(shanpan9?.mountainStar).toBe(9);
 
       // 验证按洛书顺序逆飞
       let expectedStar = 4;
       for (let i = 0; i < LUOSHU_ORDER.length; i++) {
         const palace = LUOSHU_ORDER[i];
-        const cell = shanpan.find(c => c.palace === palace);
+        const cell = shanpan.find((c) => c.palace === palace);
         expect(cell?.mountainStar).toBe(expectedStar);
         expectedStar = niFei(expectedStar as any, 1);
       }
@@ -222,19 +222,19 @@ describe('九宫飞星排盘算法验证', () => {
       const xiangpan = generateXiangpan(tianpan, '午', false);
 
       // 午向对应离宫（9宫），九运天盘9宫应该是4星
-      const tianpan9 = tianpan.find(cell => cell.palace === 9);
+      const tianpan9 = tianpan.find((cell) => cell.palace === 9);
       expect(tianpan9?.periodStar).toBe(4);
 
       // 4星对应巽卦，巽卦为阴，午向为天元龙，应该逆飞
       // 验证向盘9宫是9星（4星逆飞后的结果）
-      const xiangpan9 = xiangpan.find(cell => cell.palace === 9);
+      const xiangpan9 = xiangpan.find((cell) => cell.palace === 9);
       expect(xiangpan9?.facingStar).toBe(9);
 
       // 验证按洛书顺序逆飞
       let expectedStar = 4;
       for (let i = 0; i < LUOSHU_ORDER.length; i++) {
         const palace = LUOSHU_ORDER[i];
-        const cell = xiangpan.find(c => c.palace === palace);
+        const cell = xiangpan.find((c) => c.palace === palace);
         expect(cell?.facingStar).toBe(expectedStar);
         expectedStar = niFei(expectedStar as any, 1);
       }
@@ -253,7 +253,7 @@ describe('九宫飞星排盘算法验证', () => {
 
       // 验证每个宫位都有正确的数据
       for (let i = 1; i <= 9; i++) {
-        const cell = merged.find(c => c.palace === i);
+        const cell = merged.find((c) => c.palace === i);
         expect(cell).toBeDefined();
         expect(cell?.periodStar).toBeDefined();
         expect(cell?.mountainStar).toBeGreaterThanOrEqual(0);
@@ -261,7 +261,7 @@ describe('九宫飞星排盘算法验证', () => {
       }
 
       // 验证特定宫位的数据
-      const centerCell = merged.find(c => c.palace === 5);
+      const centerCell = merged.find((c) => c.palace === 5);
       console.log('中宫(5宫):', centerCell);
       expect(centerCell?.periodStar).toBe(9); // 九运中心
       expect(centerCell?.mountainStar).toBe(5); // 子山山盘中心
@@ -283,12 +283,18 @@ describe('九宫飞星排盘算法验证', () => {
       expect(result.geju).toBeDefined();
 
       // 验证九运天盘
-      const centerPalace = result.plates.period.find(cell => cell.palace === 5);
+      const centerPalace = result.plates.period.find(
+        (cell) => cell.palace === 5
+      );
       expect(centerPalace?.periodStar).toBe(9);
 
       // 验证子山午向的山向星
-      const northPalace = result.plates.period.find(cell => cell.palace === 1); // 坎宫
-      const southPalace = result.plates.period.find(cell => cell.palace === 9); // 离宫
+      const northPalace = result.plates.period.find(
+        (cell) => cell.palace === 1
+      ); // 坎宫
+      const southPalace = result.plates.period.find(
+        (cell) => cell.palace === 9
+      ); // 离宫
 
       // 打印实际值用于调试
       console.log('北宫(1宫):', northPalace);
@@ -321,7 +327,7 @@ describe('九宫飞星排盘算法验证', () => {
         expect(result.geju).toBeDefined();
 
         // 验证所有宫位都有数据
-        result.plates.period.forEach(cell => {
+        result.plates.period.forEach((cell) => {
           expect(cell.periodStar).toBeGreaterThanOrEqual(1);
           expect(cell.periodStar).toBeLessThanOrEqual(9);
           expect(cell.mountainStar).toBeGreaterThanOrEqual(0);
@@ -335,7 +341,7 @@ describe('九宫飞星排盘算法验证', () => {
     test('极值角度处理', () => {
       const extremeAngles = [0, 90, 180, 270, 360];
 
-      extremeAngles.forEach(angle => {
+      extremeAngles.forEach((angle) => {
         expect(() => {
           generateFlyingStar({
             observedAt: new Date('2024-01-01'),

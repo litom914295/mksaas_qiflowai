@@ -2,17 +2,18 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import {
-    AlertCircle,
-    CheckCircle,
-    Copy,
-    ExternalLink,
-    Info,
-    RotateCcw,
-    WifiOff,
-    X,
-    XCircle
+  AlertCircle,
+  CheckCircle,
+  Copy,
+  ExternalLink,
+  Info,
+  RotateCcw,
+  WifiOff,
+  X,
+  XCircle,
 } from 'lucide-react';
-import React, { useCallback, useEffect, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // Toast 通知类型
 export type ToastType = 'success' | 'error' | 'warning' | 'info' | 'loading';
@@ -35,15 +36,15 @@ interface ToastComponentProps extends Toast {
 }
 
 // Toast 组件
-function ToastComponent({ 
-  id, 
-  type, 
-  title, 
-  message, 
-  duration = 5000, 
+function ToastComponent({
+  id,
+  type,
+  title,
+  message,
+  duration = 5000,
   action,
   onDismiss,
-  onClose
+  onClose,
 }: ToastComponentProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
@@ -51,7 +52,7 @@ function ToastComponent({
   useEffect(() => {
     // 进入动画
     const enterTimer = setTimeout(() => setIsVisible(true), 100);
-    
+
     // 自动消失
     let dismissTimer: NodeJS.Timeout | undefined;
     if (duration > 0 && type !== 'loading') {
@@ -94,7 +95,7 @@ function ToastComponent({
   };
 
   const getStyles = () => {
-    const baseStyles = "border-l-4";
+    const baseStyles = 'border-l-4';
     switch (type) {
       case 'success':
         return `${baseStyles} border-green-500 bg-green-50`;
@@ -114,31 +115,27 @@ function ToastComponent({
   return (
     <Card
       className={cn(
-        "max-w-md w-full shadow-lg transition-all duration-300 ease-out",
+        'max-w-md w-full shadow-lg transition-all duration-300 ease-out',
         getStyles(),
         isVisible && !isLeaving
-          ? "transform translate-x-0 opacity-100"
+          ? 'transform translate-x-0 opacity-100'
           : isLeaving
-          ? "transform translate-x-full opacity-0"
-          : "transform translate-x-full opacity-0"
+            ? 'transform translate-x-full opacity-0'
+            : 'transform translate-x-full opacity-0'
       )}
     >
       <div className="p-4">
         <div className="flex items-start space-x-3">
-          <div className="flex-shrink-0 mt-0.5">
-            {getIcon()}
-          </div>
-          
+          <div className="flex-shrink-0 mt-0.5">{getIcon()}</div>
+
           <div className="flex-1 min-w-0">
             <h4 className="text-sm font-semibold text-gray-900 mb-1">
               {title}
             </h4>
             {message && (
-              <p className="text-sm text-gray-700 leading-relaxed">
-                {message}
-              </p>
+              <p className="text-sm text-gray-700 leading-relaxed">{message}</p>
             )}
-            
+
             {action && (
               <div className="mt-3">
                 <Button
@@ -171,17 +168,24 @@ function ToastComponent({
 interface ToastContainerProps {
   toasts: Toast[];
   onDismiss: (id: string) => void;
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
+  position?:
+    | 'top-right'
+    | 'top-left'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'top-center'
+    | 'bottom-center';
 }
 
-export function ToastContainer({ 
-  toasts, 
-  onDismiss, 
-  position = 'top-right' 
+export function ToastContainer({
+  toasts,
+  onDismiss,
+  position = 'top-right',
 }: ToastContainerProps) {
   const getContainerStyles = () => {
-    const baseStyles = "fixed z-[9999] flex flex-col space-y-4 pointer-events-none";
-    
+    const baseStyles =
+      'fixed z-[9999] flex flex-col space-y-4 pointer-events-none';
+
     switch (position) {
       case 'top-right':
         return `${baseStyles} top-4 right-4`;
@@ -204,10 +208,7 @@ export function ToastContainer({
     <div className={getContainerStyles()}>
       {toasts.map((toast) => (
         <div key={toast.id} className="pointer-events-auto">
-          <ToastComponent
-            {...toast}
-            onDismiss={onDismiss}
-          />
+          <ToastComponent {...toast} onDismiss={onDismiss} />
         </div>
       ))}
     </div>
@@ -220,12 +221,12 @@ export function useToast() {
 
   const addToast = useCallback((toast: Omit<Toast, 'id'>) => {
     const id = Math.random().toString(36).substring(2, 9);
-    setToasts(prev => [...prev, { ...toast, id }]);
+    setToasts((prev) => [...prev, { ...toast, id }]);
     return id;
   }, []);
 
   const dismissToast = useCallback((id: string) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
   const clearAllToasts = useCallback(() => {
@@ -234,36 +235,49 @@ export function useToast() {
 
   // 便捷方法
   const toast = {
-    success: (title: string, message?: string, options?: Partial<Toast>) => 
+    success: (title: string, message?: string, options?: Partial<Toast>) =>
       addToast({ type: 'success', title, message, ...options }),
-    
-    error: (title: string, message?: string, options?: Partial<Toast>) => 
+
+    error: (title: string, message?: string, options?: Partial<Toast>) =>
       addToast({ type: 'error', title, message, duration: 8000, ...options }),
-    
-    warning: (title: string, message?: string, options?: Partial<Toast>) => 
+
+    warning: (title: string, message?: string, options?: Partial<Toast>) =>
       addToast({ type: 'warning', title, message, duration: 6000, ...options }),
-    
-    info: (title: string, message?: string, options?: Partial<Toast>) => 
+
+    info: (title: string, message?: string, options?: Partial<Toast>) =>
       addToast({ type: 'info', title, message, ...options }),
-    
-    loading: (title: string, message?: string) => 
+
+    loading: (title: string, message?: string) =>
       addToast({ type: 'loading', title, message, duration: 0 }),
 
     // 更新 loading toast
-    updateLoading: (id: string, type: ToastType, title: string, message?: string) => {
-      setToasts(prev => prev.map(toast => 
-        toast.id === id 
-          ? { ...toast, type, title, message, duration: type === 'loading' ? 0 : 5000 }
-          : toast
-      ));
-    }
+    updateLoading: (
+      id: string,
+      type: ToastType,
+      title: string,
+      message?: string
+    ) => {
+      setToasts((prev) =>
+        prev.map((toast) =>
+          toast.id === id
+            ? {
+                ...toast,
+                type,
+                title,
+                message,
+                duration: type === 'loading' ? 0 : 5000,
+              }
+            : toast
+        )
+      );
+    },
   };
 
   return {
     toasts,
     toast,
     dismissToast,
-    clearAllToasts
+    clearAllToasts,
   };
 }
 
@@ -274,10 +288,10 @@ interface ErrorBoundaryFallbackProps {
   componentStack?: string;
 }
 
-export function ErrorBoundaryFallback({ 
-  error, 
+export function ErrorBoundaryFallback({
+  error,
   resetError,
-  componentStack 
+  componentStack,
 }: ErrorBoundaryFallbackProps) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -309,7 +323,7 @@ export function ErrorBoundaryFallback({
 
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button 
+            <Button
               onClick={resetError}
               className="flex-1 flex items-center justify-center space-x-2"
             >
@@ -317,9 +331,9 @@ export function ErrorBoundaryFallback({
               <span>重新加载</span>
             </Button>
 
-            <Button 
+            <Button
               variant="outline"
-              onClick={() => window.location.href = '/'}
+              onClick={() => (window.location.href = '/')}
               className="flex-1 flex items-center justify-center space-x-2"
             >
               <ExternalLink className="w-4 h-4" />
@@ -356,7 +370,7 @@ export function ErrorBoundaryFallback({
               <div className="text-red-600 mb-3 font-mono text-xs">
                 {error.message}
               </div>
-              
+
               {error.stack && (
                 <div className="max-h-32 overflow-y-auto bg-white p-3 rounded border">
                   <pre className="text-xs text-gray-600 whitespace-pre-wrap">
@@ -370,7 +384,7 @@ export function ErrorBoundaryFallback({
 
         <div className="mt-6 pt-6 border-t border-gray-200 text-sm text-gray-500">
           <p>如果问题持续出现，请联系我们的客服团队</p>
-          <a 
+          <a
             href="mailto:support@qiflow.ai"
             className="text-blue-600 hover:text-blue-800 underline mt-1 inline-block"
           >
@@ -440,13 +454,15 @@ export function NetworkStatusIndicator() {
 }
 
 // 统一的错误处理和反馈系统
-export function UserFeedbackProvider({ children }: { children: React.ReactNode }) {
+export function UserFeedbackProvider({
+  children,
+}: { children: React.ReactNode }) {
   const { toasts, dismissToast } = useToast();
 
   return (
     <>
       {children}
-      <ToastContainer 
+      <ToastContainer
         toasts={toasts}
         onDismiss={dismissToast}
         position="top-right"

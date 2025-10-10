@@ -7,7 +7,8 @@
 
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface CompassCalibrationProps {
   onCalibrationComplete?: (calibration: CalibrationResult) => void;
@@ -135,7 +136,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
         '检测陀螺仪传感器',
         '检测GPS定位功能',
       ],
-      validation: measurements => measurements.length > 0,
+      validation: (measurements) => measurements.length > 0,
     },
     {
       id: 'horizontal_calibration',
@@ -148,9 +149,9 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
         '等待自动校准完成',
         '不要移动设备',
       ],
-      validation: measurements => {
+      validation: (measurements) => {
         const recent = measurements.slice(-10);
-        return recent.length >= 5 && recent.every(m => m.stability > 0.8);
+        return recent.length >= 5 && recent.every((m) => m.stability > 0.8);
       },
     },
     {
@@ -164,8 +165,8 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
         '确保覆盖所有方向',
         '避免快速转动',
       ],
-      validation: measurements => {
-        const directions = measurements.map(m => m.direction);
+      validation: (measurements) => {
+        const directions = measurements.map((m) => m.direction);
         const range = Math.max(...directions) - Math.min(...directions);
         return range > 300; // 至少覆盖300度
       },
@@ -181,9 +182,9 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
         '验证方向准确性',
         '确认精度达标',
       ],
-      validation: measurements => {
+      validation: (measurements) => {
         const recent = measurements.slice(-5);
-        return recent.length >= 3 && recent.every(m => m.accuracy <= 2);
+        return recent.length >= 3 && recent.every((m) => m.accuracy <= 2);
       },
     },
     {
@@ -222,7 +223,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
   // 开始校准
   const startCalibration = useCallback(async () => {
     try {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isActive: true,
         step: 0,
@@ -232,7 +233,10 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
       }));
 
       // 检查是否在浏览器环境中且 DeviceOrientationEvent 可用
-      if (typeof window === 'undefined' || typeof DeviceOrientationEvent === 'undefined') {
+      if (
+        typeof window === 'undefined' ||
+        typeof DeviceOrientationEvent === 'undefined'
+      ) {
         throw new Error('设备方向传感器不可用');
       }
 
@@ -251,7 +255,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
       // 开始校准流程
       await performCalibration();
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         error: error instanceof Error ? error.message : '校准失败',
         isActive: false,
@@ -264,7 +268,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
     for (let i = 0; i < calibrationSteps.length; i++) {
       const step = calibrationSteps[i];
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         step: i,
         message: step.title,
@@ -278,7 +282,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
       }
 
       // 等待步骤完成
-      await new Promise(resolve => setTimeout(resolve, step.duration));
+      await new Promise((resolve) => setTimeout(resolve, step.duration));
 
       // 验证步骤
       if (!step.validation(calibrationRef.current)) {
@@ -292,7 +296,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
 
   // 开始测量
   const startMeasurement = useCallback(async (step: CalibrationStep) => {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       let measurementCount = 0;
       const maxMeasurements = Math.floor(step.duration / 200); // 每200ms测量一次
 
@@ -309,7 +313,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
           calibrationRef.current.push(measurement);
           measurementCount++;
 
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             currentMeasurement: measurement,
             measurements: [...calibrationRef.current],
@@ -349,10 +353,8 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
     const avgDirection =
       recent.reduce((sum, m) => sum + m.direction, 0) / recent.length;
     const variance =
-      recent.reduce(
-        (sum, m) => sum + Math.pow(m.direction - avgDirection, 2),
-        0
-      ) / recent.length;
+      recent.reduce((sum, m) => sum + (m.direction - avgDirection) ** 2, 0) /
+      recent.length;
 
     return Math.max(0, Math.min(1, 1 - variance / 100));
   };
@@ -383,11 +385,11 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
       quality: {
         magneticFieldStrength: 0,
         accuracy: 0,
-        stability: 0
-      }
+        stability: 0,
+      },
     };
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isActive: false,
       progress: 100,
@@ -403,7 +405,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
   const calculateOffset = (measurements: CalibrationMeasurement[]): number => {
     if (measurements.length === 0) return 0;
 
-    const directions = measurements.map(m => m.direction);
+    const directions = measurements.map((m) => m.direction);
     const avg = directions.reduce((sum, d) => sum + d, 0) / directions.length;
     return avg;
   };
@@ -412,7 +414,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
   const calculateScale = (measurements: CalibrationMeasurement[]): number => {
     if (measurements.length < 2) return 1;
 
-    const directions = measurements.map(m => m.direction);
+    const directions = measurements.map((m) => m.direction);
     const range = Math.max(...directions) - Math.min(...directions);
     return range / 360; // 理想情况下应该是1
   };
@@ -435,7 +437,7 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
 
   // 取消校准
   const cancelCalibration = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isActive: false,
       step: 0,
@@ -458,13 +460,13 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
 
   return (
     <div className={`compass-calibration ${className}`}>
-      <div className='bg-white p-6 rounded-lg shadow-lg'>
-        <div className='flex justify-between items-center mb-6'>
-          <h3 className='text-xl font-semibold'>罗盘校准</h3>
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-semibold">罗盘校准</h3>
           {state.isActive && (
             <button
               onClick={cancelCalibration}
-              className='px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600'
+              className="px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600"
             >
               取消校准
             </button>
@@ -472,16 +474,16 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
         </div>
 
         {/* 进度条 */}
-        <div className='mb-6'>
-          <div className='flex justify-between text-sm text-gray-600 mb-2'>
+        <div className="mb-6">
+          <div className="flex justify-between text-sm text-gray-600 mb-2">
             <span>
               步骤 {state.step + 1} / {calibrationSteps.length}
             </span>
             <span>{Math.round(state.progress)}%</span>
           </div>
-          <div className='w-full bg-gray-200 rounded-full h-3'>
+          <div className="w-full bg-gray-200 rounded-full h-3">
             <div
-              className='bg-blue-500 h-3 rounded-full transition-all duration-500'
+              className="bg-blue-500 h-3 rounded-full transition-all duration-500"
               style={{ width: `${state.progress}%` }}
             />
           </div>
@@ -489,18 +491,18 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
 
         {/* 当前步骤信息 */}
         {currentStep && (
-          <div className='mb-6'>
-            <h4 className='text-lg font-medium mb-2'>{currentStep.title}</h4>
-            <p className='text-gray-600 mb-4'>{currentStep.description}</p>
+          <div className="mb-6">
+            <h4 className="text-lg font-medium mb-2">{currentStep.title}</h4>
+            <p className="text-gray-600 mb-4">{currentStep.description}</p>
 
             {/* 指令列表 */}
-            <div className='space-y-2'>
+            <div className="space-y-2">
               {currentStep.instructions.map((instruction, index) => (
-                <div key={index} className='flex items-start gap-2'>
-                  <div className='w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium'>
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium">
                     {index + 1}
                   </div>
-                  <span className='text-sm text-gray-700'>{instruction}</span>
+                  <span className="text-sm text-gray-700">{instruction}</span>
                 </div>
               ))}
             </div>
@@ -509,23 +511,23 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
 
         {/* 测量信息 */}
         {state.currentMeasurement && (
-          <div className='mb-6 p-4 bg-gray-50 rounded-lg'>
-            <h5 className='font-medium mb-2'>实时测量数据</h5>
-            <div className='grid grid-cols-2 gap-4 text-sm'>
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+            <h5 className="font-medium mb-2">实时测量数据</h5>
+            <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className='text-gray-600'>方向:</span>{' '}
+                <span className="text-gray-600">方向:</span>{' '}
                 {Math.round(state.currentMeasurement.direction)}°
               </div>
               <div>
-                <span className='text-gray-600'>精度:</span> ±
+                <span className="text-gray-600">精度:</span> ±
                 {state.currentMeasurement.accuracy.toFixed(1)}°
               </div>
               <div>
-                <span className='text-gray-600'>稳定性:</span>{' '}
+                <span className="text-gray-600">稳定性:</span>{' '}
                 {Math.round(state.currentMeasurement.stability * 100)}%
               </div>
               <div>
-                <span className='text-gray-600'>测量次数:</span>{' '}
+                <span className="text-gray-600">测量次数:</span>{' '}
                 {state.measurements.length}
               </div>
             </div>
@@ -534,28 +536,28 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
 
         {/* 设备信息 */}
         {deviceInfo && (
-          <div className='mb-6 p-4 bg-blue-50 rounded-lg'>
-            <h5 className='font-medium mb-2'>设备传感器状态</h5>
-            <div className='grid grid-cols-2 gap-2 text-sm'>
-              <div className='flex items-center gap-2'>
+          <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+            <h5 className="font-medium mb-2">设备传感器状态</h5>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div className="flex items-center gap-2">
                 <div
                   className={`w-3 h-3 rounded-full ${deviceInfo.hasMagnetometer ? 'bg-green-500' : 'bg-red-500'}`}
                 />
                 <span>磁力计</span>
               </div>
-              <div className='flex items-center gap-2'>
+              <div className="flex items-center gap-2">
                 <div
                   className={`w-3 h-3 rounded-full ${deviceInfo.hasAccelerometer ? 'bg-green-500' : 'bg-red-500'}`}
                 />
                 <span>加速度计</span>
               </div>
-              <div className='flex items-center gap-2'>
+              <div className="flex items-center gap-2">
                 <div
                   className={`w-3 h-3 rounded-full ${deviceInfo.hasGyroscope ? 'bg-green-500' : 'bg-red-500'}`}
                 />
                 <span>陀螺仪</span>
               </div>
-              <div className='flex items-center gap-2'>
+              <div className="flex items-center gap-2">
                 <div
                   className={`w-3 h-3 rounded-full ${deviceInfo.hasGPS ? 'bg-green-500' : 'bg-red-500'}`}
                 />
@@ -567,27 +569,27 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
 
         {/* 错误信息 */}
         {state.error && (
-          <div className='mb-6 p-4 bg-red-50 border border-red-200 rounded-lg'>
-            <div className='flex items-center gap-2 text-red-800'>
-              <div className='w-5 h-5 text-red-500'>⚠️</div>
-              <span className='font-medium'>校准失败</span>
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-center gap-2 text-red-800">
+              <div className="w-5 h-5 text-red-500">⚠️</div>
+              <span className="font-medium">校准失败</span>
             </div>
-            <p className='text-red-600 text-sm mt-1'>{state.error}</p>
+            <p className="text-red-600 text-sm mt-1">{state.error}</p>
           </div>
         )}
 
         {/* 操作按钮 */}
         {!state.isActive && (
-          <div className='flex gap-4'>
+          <div className="flex gap-4">
             <button
               onClick={startCalibration}
-              className='px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors'
+              className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               开始校准
             </button>
             <button
               onClick={cancelCalibration}
-              className='px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors'
+              className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
             >
               取消
             </button>
@@ -596,12 +598,12 @@ export const CompassCalibration: React.FC<CompassCalibrationProps> = ({
 
         {/* 校准完成 */}
         {!state.isActive && state.progress === 100 && (
-          <div className='p-4 bg-green-50 border border-green-200 rounded-lg'>
-            <div className='flex items-center gap-2 text-green-800'>
-              <div className='w-5 h-5 text-green-500'>✅</div>
-              <span className='font-medium'>校准完成</span>
+          <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-2 text-green-800">
+              <div className="w-5 h-5 text-green-500">✅</div>
+              <span className="font-medium">校准完成</span>
             </div>
-            <p className='text-green-600 text-sm mt-1'>
+            <p className="text-green-600 text-sm mt-1">
               罗盘已校准完成，精度达到专业级要求（±2°）
             </p>
           </div>
@@ -723,15 +725,14 @@ const assessCalibrationQuality = (
   const strengthScore = Math.min(1, Math.max(0, (strength - 15) / 20)); // 15-35 μT为正常范围
 
   // 计算稳定性
-  const directions = measurements.map(m => m.direction);
+  const directions = measurements.map((m) => m.direction);
   const mean = directions.reduce((sum, d) => sum + d, 0) / directions.length;
   const variance =
-    directions.reduce((sum, d) => sum + Math.pow(d - mean, 2), 0) /
-    directions.length;
+    directions.reduce((sum, d) => sum + (d - mean) ** 2, 0) / directions.length;
   const stability = Math.max(0, 1 - Math.sqrt(variance) / 10); // 标准差越小越稳定
 
   // 计算精度
-  const accuracies = measurements.map(m => m.accuracy);
+  const accuracies = measurements.map((m) => m.accuracy);
   const avgAccuracy =
     accuracies.reduce((sum, a) => sum + a, 0) / accuracies.length;
   const accuracy = Math.max(0, 1 - avgAccuracy / 10); // 精度越高越好

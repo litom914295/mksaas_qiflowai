@@ -112,9 +112,7 @@ export default function CompassToolPage() {
     return (
       <div className="mx-auto max-w-2xl p-6">
         <Alert variant="destructive">
-          <AlertDescription>
-            您的设备不支持方向传感器
-          </AlertDescription>
+          <AlertDescription>您的设备不支持方向传感器</AlertDescription>
         </Alert>
       </div>
     );
@@ -131,9 +129,7 @@ export default function CompassToolPage() {
 
       {permission === 'denied' && (
         <Alert variant="destructive" className="mb-6">
-          <AlertDescription>
-            需要您授权访问设备方向传感器
-          </AlertDescription>
+          <AlertDescription>需要您授权访问设备方向传感器</AlertDescription>
         </Alert>
       )}
 

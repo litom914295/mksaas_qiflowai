@@ -7,7 +7,8 @@
 
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface CompassUIProps {
   onDirectionChange?: (direction: number) => void;
@@ -162,7 +163,7 @@ export const CompassUI: React.FC<CompassUIProps> = ({
     (newDirection: number) => {
       const now = Date.now();
 
-      setState(prev => {
+      setState((prev) => {
         const deltaTime = now - prev.lastUpdateTime;
         const deltaDirection = Math.abs(newDirection - prev.currentDirection);
 
@@ -200,7 +201,7 @@ export const CompassUI: React.FC<CompassUIProps> = ({
 
   // 开始校准
   const startCalibration = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isCalibrating: true,
       calibrationStep: 0,
@@ -220,12 +221,12 @@ export const CompassUI: React.FC<CompassUIProps> = ({
     ];
 
     for (let i = 0; i < calibrationSteps.length; i++) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         calibrationStep: i,
       }));
 
-      await new Promise(resolve =>
+      await new Promise((resolve) =>
         setTimeout(resolve, calibrationSteps[i].duration)
       );
     }
@@ -238,7 +239,7 @@ export const CompassUI: React.FC<CompassUIProps> = ({
       timestamp: Date.now(),
     };
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isCalibrating: false,
       calibrationStep: 0,
@@ -251,7 +252,7 @@ export const CompassUI: React.FC<CompassUIProps> = ({
 
   // 开始测量
   const startMeasurement = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isMeasuring: true,
     }));
@@ -266,7 +267,7 @@ export const CompassUI: React.FC<CompassUIProps> = ({
       timestamp: Date.now(),
     };
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isMeasuring: false,
       measurements: [...prev.measurements, measurement],
@@ -284,7 +285,7 @@ export const CompassUI: React.FC<CompassUIProps> = ({
 
   // 设置目标方向
   const setTargetDirection = useCallback((direction: number) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       targetDirection: direction,
     }));
@@ -317,10 +318,10 @@ export const CompassUI: React.FC<CompassUIProps> = ({
   return (
     <div className={`compass-ui ${className}`}>
       {/* 控制面板 */}
-      <div className='control-panel bg-white p-4 shadow-lg rounded-lg mb-4'>
-        <div className='flex items-center justify-between mb-4'>
-          <h3 className='text-lg font-semibold'>数字罗盘</h3>
-          <div className='flex gap-2'>
+      <div className="control-panel bg-white p-4 shadow-lg rounded-lg mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">数字罗盘</h3>
+          <div className="flex gap-2">
             <button
               onClick={startCalibration}
               disabled={state.isCalibrating}
@@ -346,15 +347,15 @@ export const CompassUI: React.FC<CompassUIProps> = ({
         </div>
 
         {/* 状态信息 */}
-        <div className='grid grid-cols-2 gap-4 text-sm'>
+        <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <span className='font-medium'>当前方向:</span>{' '}
+            <span className="font-medium">当前方向:</span>{' '}
             {Math.round(state.currentDirection)}°
           </div>
           <div>
-            <span className='font-medium'>精度:</span>
+            <span className="font-medium">精度:</span>
             <span
-              className='ml-1 px-2 py-1 rounded text-xs'
+              className="ml-1 px-2 py-1 rounded text-xs"
               style={{
                 backgroundColor: getAccuracyColor(state.accuracy) + '20',
                 color: getAccuracyColor(state.accuracy),
@@ -364,11 +365,11 @@ export const CompassUI: React.FC<CompassUIProps> = ({
             </span>
           </div>
           <div>
-            <span className='font-medium'>置信度:</span>{' '}
+            <span className="font-medium">置信度:</span>{' '}
             {Math.round(state.confidence * 100)}%
           </div>
           <div>
-            <span className='font-medium'>状态:</span>
+            <span className="font-medium">状态:</span>
             <span
               className={`ml-1 px-2 py-1 rounded text-xs ${
                 state.isStable
@@ -383,13 +384,13 @@ export const CompassUI: React.FC<CompassUIProps> = ({
 
         {/* 校准进度 */}
         {state.isCalibrating && (
-          <div className='mt-4'>
-            <div className='text-sm text-gray-600 mb-2'>
+          <div className="mt-4">
+            <div className="text-sm text-gray-600 mb-2">
               校准步骤 {state.calibrationStep + 1}/3
             </div>
-            <div className='w-full bg-gray-200 rounded-full h-2'>
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className='bg-blue-500 h-2 rounded-full transition-all duration-500'
+                className="bg-blue-500 h-2 rounded-full transition-all duration-500"
                 style={{ width: `${((state.calibrationStep + 1) / 3) * 100}%` }}
               />
             </div>
@@ -398,9 +399,9 @@ export const CompassUI: React.FC<CompassUIProps> = ({
       </div>
 
       {/* 罗盘显示 */}
-      <div className='compass-display bg-white p-4 shadow-lg rounded-lg'>
-        <div className='flex justify-center'>
-          <div className='relative w-80 h-80'>
+      <div className="compass-display bg-white p-4 shadow-lg rounded-lg">
+        <div className="flex justify-center">
+          <div className="relative w-80 h-80">
             {/* Konva罗盘 */}
             <CompassVisualization
               currentDirection={state.currentDirection}
@@ -415,13 +416,13 @@ export const CompassUI: React.FC<CompassUIProps> = ({
 
         {/* 测量历史 */}
         {state.measurements.length > 0 && (
-          <div className='mt-4'>
-            <h4 className='text-sm font-medium mb-2'>测量历史</h4>
-            <div className='max-h-32 overflow-y-auto'>
+          <div className="mt-4">
+            <h4 className="text-sm font-medium mb-2">测量历史</h4>
+            <div className="max-h-32 overflow-y-auto">
               {state.measurements.slice(-5).map((measurement, index) => (
                 <div
                   key={index}
-                  className='flex justify-between text-xs py-1 border-b'
+                  className="flex justify-between text-xs py-1 border-b"
                 >
                   <span>{Math.round(measurement.direction)}°</span>
                   <span>±{measurement.accuracy.toFixed(1)}°</span>
@@ -513,16 +514,16 @@ const CompassVisualization: React.FC<CompassVisualizationProps> = ({
   const targetPos = getPointerPosition(targetDirection);
 
   return (
-    <div className='relative'>
+    <div className="relative">
       {/* 罗盘背景 */}
-      <div className='w-80 h-80 rounded-full border-4 border-gray-300 relative overflow-hidden'>
+      <div className="w-80 h-80 rounded-full border-4 border-gray-300 relative overflow-hidden">
         {/* 24山标记 */}
         {mountains.map((mountain, index) => {
           const pos = getMountainPosition(index);
           return (
             <div
               key={index}
-              className='absolute text-xs font-medium text-gray-600 transform -translate-x-1/2 -translate-y-1/2'
+              className="absolute text-xs font-medium text-gray-600 transform -translate-x-1/2 -translate-y-1/2"
               style={{
                 left: pos.x,
                 top: pos.y,
@@ -540,7 +541,7 @@ const CompassVisualization: React.FC<CompassVisualizationProps> = ({
           return (
             <div
               key={direction}
-              className='absolute text-lg font-bold text-gray-800 transform -translate-x-1/2 -translate-y-1/2'
+              className="absolute text-lg font-bold text-gray-800 transform -translate-x-1/2 -translate-y-1/2"
               style={{
                 left: pos.x,
                 top: pos.y,
@@ -553,7 +554,7 @@ const CompassVisualization: React.FC<CompassVisualizationProps> = ({
 
         {/* 当前方向指针 */}
         <div
-          className='absolute w-0 h-0 transform -translate-x-1/2 -translate-y-1/2'
+          className="absolute w-0 h-0 transform -translate-x-1/2 -translate-y-1/2"
           style={{
             left: currentPos.x,
             top: currentPos.y,
@@ -567,7 +568,7 @@ const CompassVisualization: React.FC<CompassVisualizationProps> = ({
         {/* 目标方向指针 */}
         {targetDirection !== currentDirection && (
           <div
-            className='absolute w-0 h-0 transform -translate-x-1/2 -translate-y-1/2'
+            className="absolute w-0 h-0 transform -translate-x-1/2 -translate-y-1/2"
             style={{
               left: targetPos.x,
               top: targetPos.y,
@@ -581,7 +582,7 @@ const CompassVisualization: React.FC<CompassVisualizationProps> = ({
 
         {/* 精度圆 */}
         <div
-          className='absolute border-2 border-dashed rounded-full opacity-50'
+          className="absolute border-2 border-dashed rounded-full opacity-50"
           style={{
             left: center.x - accuracy * 2,
             top: center.y - accuracy * 2,
@@ -593,7 +594,7 @@ const CompassVisualization: React.FC<CompassVisualizationProps> = ({
 
         {/* 中心点 */}
         <div
-          className='absolute w-4 h-4 bg-gray-800 rounded-full transform -translate-x-1/2 -translate-y-1/2'
+          className="absolute w-4 h-4 bg-gray-800 rounded-full transform -translate-x-1/2 -translate-y-1/2"
           style={{
             left: center.x,
             top: center.y,
@@ -602,12 +603,12 @@ const CompassVisualization: React.FC<CompassVisualizationProps> = ({
       </div>
 
       {/* 方向数值显示 */}
-      <div className='absolute top-4 left-4 bg-white bg-opacity-90 px-2 py-1 rounded text-sm font-mono'>
+      <div className="absolute top-4 left-4 bg-white bg-opacity-90 px-2 py-1 rounded text-sm font-mono">
         {Math.round(currentDirection)}°
       </div>
 
       {/* 精度显示 */}
-      <div className='absolute top-4 right-4 bg-white bg-opacity-90 px-2 py-1 rounded text-sm'>
+      <div className="absolute top-4 right-4 bg-white bg-opacity-90 px-2 py-1 rounded text-sm">
         ±{accuracy.toFixed(1)}°
       </div>
     </div>
@@ -615,4 +616,3 @@ const CompassVisualization: React.FC<CompassVisualizationProps> = ({
 };
 
 export default CompassUI;
-

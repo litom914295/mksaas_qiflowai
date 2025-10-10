@@ -22,7 +22,7 @@ export function BaziSkeleton() {
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-4 w-96" />
       </div>
-      
+
       {/* 四柱展示 */}
       <div className="grid grid-cols-4 gap-4">
         {[1, 2, 3, 4].map((i) => (
@@ -32,7 +32,7 @@ export function BaziSkeleton() {
           </div>
         ))}
       </div>
-      
+
       {/* 分析结果 */}
       <div className="space-y-3">
         <Skeleton className="h-4 w-full" />
@@ -52,7 +52,7 @@ export function XuankongSkeleton() {
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-4 w-64" />
       </div>
-      
+
       {/* 九宫格 */}
       <div className="aspect-square max-w-md mx-auto">
         <div className="grid grid-cols-3 gap-2 h-full">
@@ -61,7 +61,7 @@ export function XuankongSkeleton() {
           ))}
         </div>
       </div>
-      
+
       {/* 分析说明 */}
       <div className="space-y-3">
         <Skeleton className="h-4 w-full" />
@@ -110,24 +110,30 @@ export function CardListSkeleton({ count = 3 }: { count?: number }) {
 }
 
 // 表格骨架屏
-export function TableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
+export function TableSkeleton({
+  rows = 5,
+  cols = 4,
+}: { rows?: number; cols?: number }) {
   return (
     <div className="w-full">
       {/* 表头 */}
       <div className="border-b pb-2 mb-4">
-        <div className="grid gap-4" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+        <div
+          className="grid gap-4"
+          style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
+        >
           {Array.from({ length: cols }).map((_, i) => (
             <Skeleton key={i} className="h-4 w-full" />
           ))}
         </div>
       </div>
-      
+
       {/* 表体 */}
       <div className="space-y-3">
         {Array.from({ length: rows }).map((_, rowIndex) => (
-          <div 
-            key={rowIndex} 
-            className="grid gap-4" 
+          <div
+            key={rowIndex}
+            className="grid gap-4"
             style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
           >
             {Array.from({ length: cols }).map((_, colIndex) => (
@@ -148,7 +154,7 @@ export function ChatSkeleton() {
       <div className="flex justify-end">
         <Skeleton className="h-12 w-64 rounded-2xl" />
       </div>
-      
+
       {/* AI响应 */}
       <div className="flex justify-start">
         <div className="space-y-2">

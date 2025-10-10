@@ -13,7 +13,5 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   // 不配置webServer，假设服务器已经在运行
-  projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-  ],
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 });

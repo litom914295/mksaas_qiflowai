@@ -152,7 +152,7 @@ export const ThreeOverlay = ({
     >
       <div
         ref={fallbackRef}
-        className='absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.16),transparent_60%),radial-gradient(circle_at_80%_20%,rgba(14,165,233,0.14),transparent_70%)] blur-3xl transition-opacity duration-700'
+        className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.16),transparent_60%),radial-gradient(circle_at_80%_20%,rgba(14,165,233,0.14),transparent_70%)] blur-3xl transition-opacity duration-700"
       />
     </div>
   );

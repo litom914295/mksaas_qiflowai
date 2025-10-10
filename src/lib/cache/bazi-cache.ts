@@ -3,7 +3,7 @@
  * 使用内存缓存和localStorage持久化存储
  */
 
-import { EnhancedBaziResult } from '@/lib/qiflow/bazi/types';
+import type { EnhancedBaziResult } from '@/lib/qiflow/bazi/types';
 
 interface CacheEntry {
   key: string;
@@ -31,7 +31,7 @@ class BaziCacheService {
       dt: params.datetime,
       g: params.gender,
       tz: params.timezone || 'Asia/Shanghai',
-      loc: params.location?.name || 'default'
+      loc: params.location?.name || 'default',
     };
     return btoa(JSON.stringify(keyData));
   }
@@ -46,7 +46,7 @@ class BaziCacheService {
     location?: any;
   }): EnhancedBaziResult | null {
     const key = this.generateKey(params);
-    
+
     // 先检查内存缓存
     const memoryEntry = this.memoryCache.get(key);
     if (memoryEntry && memoryEntry.expiresAt > Date.now()) {
@@ -65,10 +65,9 @@ class BaziCacheService {
             // 恢复到内存缓存
             this.memoryCache.set(key, entry);
             return entry.data;
-          } else {
-            // 过期，清理
-            localStorage.removeItem(this.CACHE_PREFIX + key);
           }
+          // 过期，清理
+          localStorage.removeItem(this.CACHE_PREFIX + key);
         }
       } catch (error) {
         console.error('Cache read error:', error);
@@ -97,12 +96,12 @@ class BaziCacheService {
       key,
       data,
       timestamp: Date.now(),
-      expiresAt: Date.now() + ttl
+      expiresAt: Date.now() + ttl,
     };
 
     // 存入内存缓存
     this.memoryCache.set(key, entry);
-    
+
     // 控制内存缓存大小
     if (this.memoryCache.size > this.MAX_CACHE_SIZE) {
       const firstKey = this.memoryCache.keys().next().value;
@@ -116,7 +115,7 @@ class BaziCacheService {
       try {
         localStorage.setItem(this.CACHE_PREFIX + key, JSON.stringify(entry));
         console.log('✅ [Cache] Saved to cache');
-        
+
         // 清理过期的localStorage条目
         this.cleanupExpiredEntries();
       } catch (error) {
@@ -138,7 +137,7 @@ class BaziCacheService {
   }): void {
     const key = this.generateKey(params);
     this.memoryCache.delete(key);
-    
+
     if (typeof window !== 'undefined') {
       localStorage.removeItem(this.CACHE_PREFIX + key);
     }
@@ -149,16 +148,16 @@ class BaziCacheService {
    */
   clear(): void {
     this.memoryCache.clear();
-    
+
     if (typeof window !== 'undefined') {
       const keys = Object.keys(localStorage);
-      keys.forEach(key => {
+      keys.forEach((key) => {
         if (key.startsWith(this.CACHE_PREFIX)) {
           localStorage.removeItem(key);
         }
       });
     }
-    
+
     console.log('🗑️ [Cache] All cache cleared');
   }
 
@@ -167,15 +166,17 @@ class BaziCacheService {
    */
   private cleanupExpiredEntries(): void {
     if (typeof window === 'undefined') return;
-    
+
     const now = Date.now();
     const keys = Object.keys(localStorage);
     let cleaned = 0;
-    
-    keys.forEach(key => {
+
+    keys.forEach((key) => {
       if (key.startsWith(this.CACHE_PREFIX)) {
         try {
-          const entry: CacheEntry = JSON.parse(localStorage.getItem(key) || '{}');
+          const entry: CacheEntry = JSON.parse(
+            localStorage.getItem(key) || '{}'
+          );
           if (entry.expiresAt && entry.expiresAt < now) {
             localStorage.removeItem(key);
             cleaned++;
@@ -187,7 +188,7 @@ class BaziCacheService {
         }
       }
     });
-    
+
     if (cleaned > 0) {
       console.log(`🧹 [Cache] Cleaned ${cleaned} expired entries`);
     }
@@ -196,16 +197,18 @@ class BaziCacheService {
   /**
    * 清理最旧的条目（当localStorage满时）
    */
-  private cleanupOldestEntries(count: number = 10): void {
+  private cleanupOldestEntries(count = 10): void {
     if (typeof window === 'undefined') return;
-    
+
     const entries: Array<{ key: string; timestamp: number }> = [];
     const keys = Object.keys(localStorage);
-    
-    keys.forEach(key => {
+
+    keys.forEach((key) => {
       if (key.startsWith(this.CACHE_PREFIX)) {
         try {
-          const entry: CacheEntry = JSON.parse(localStorage.getItem(key) || '{}');
+          const entry: CacheEntry = JSON.parse(
+            localStorage.getItem(key) || '{}'
+          );
           entries.push({ key, timestamp: entry.timestamp || 0 });
         } catch (error) {
           // 无效条目，直接删除
@@ -213,13 +216,13 @@ class BaziCacheService {
         }
       }
     });
-    
+
     // 按时间戳排序，删除最旧的
     entries
       .sort((a, b) => a.timestamp - b.timestamp)
       .slice(0, count)
       .forEach(({ key }) => localStorage.removeItem(key));
-    
+
     console.log(`🧹 [Cache] Cleaned ${count} oldest entries`);
   }
 
@@ -234,10 +237,10 @@ class BaziCacheService {
     const memoryCount = this.memoryCache.size;
     let storageCount = 0;
     let totalSize = 0;
-    
+
     if (typeof window !== 'undefined') {
       const keys = Object.keys(localStorage);
-      keys.forEach(key => {
+      keys.forEach((key) => {
         if (key.startsWith(this.CACHE_PREFIX)) {
           storageCount++;
           const item = localStorage.getItem(key);
@@ -247,11 +250,11 @@ class BaziCacheService {
         }
       });
     }
-    
+
     return {
       memoryCount,
       storageCount,
-      totalSize: Math.round(totalSize / 1024) // KB
+      totalSize: Math.round(totalSize / 1024), // KB
     };
   }
 }
@@ -274,14 +277,14 @@ export async function computeBaziWithCache(
   if (cached) {
     return cached;
   }
-  
+
   // 计算新结果
   const result = await computeFn(params);
-  
+
   // 存入缓存
   if (result) {
     baziCache.set(params, result);
   }
-  
+
   return result;
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface StandardCompassProps {
   width?: number;
@@ -137,7 +138,7 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
   }, [interactive, startOrientationTracking]);
 
   const handleManualRotation = useCallback(() => {
-    setCompassRotation(prev => normalizeAngle(prev + 90));
+    setCompassRotation((prev) => normalizeAngle(prev + 90));
   }, []);
 
   useEffect(() => {
@@ -168,12 +169,12 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
   const oppositeMountain = getOppositeMountain(compassRotation);
 
   return (
-    <div className='flex flex-col items-center'>
-      <div className='relative flex items-center justify-center'>
+    <div className="flex flex-col items-center">
+      <div className="relative flex items-center justify-center">
         {/* 罗盘容器 - 固定不旋转 */}
         <div
           ref={compassRef}
-          className='relative rounded-full border-4 border-gray-800 shadow-2xl'
+          className="relative rounded-full border-4 border-gray-800 shadow-2xl"
           style={{
             width,
             height,
@@ -182,10 +183,10 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
           }}
         >
           {/* 红色十字罗经线 - 固定在屏幕上不动，横线平行屏幕，竖线垂直屏幕 */}
-          <div className='absolute inset-0 pointer-events-none'>
+          <div className="absolute inset-0 pointer-events-none">
             {/* 水平线 - 平行于屏幕 */}
             <div
-              className='absolute w-full h-1 bg-red-600'
+              className="absolute w-full h-1 bg-red-600"
               style={{
                 top: '50%',
                 left: 0,
@@ -195,7 +196,7 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
             />
             {/* 垂直线 - 垂直于屏幕 */}
             <div
-              className='absolute w-1 h-full bg-red-600'
+              className="absolute w-1 h-full bg-red-600"
               style={{
                 left: '50%',
                 top: 0,
@@ -205,7 +206,7 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
             />
             {/* 中心点 */}
             <div
-              className='absolute w-4 h-4 bg-red-600 rounded-full'
+              className="absolute w-4 h-4 bg-red-600 rounded-full"
               style={{
                 left: '50%',
                 top: '50%',
@@ -217,7 +218,7 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
 
           {/* 罗盘刻度环 - 随指南针一起旋转 */}
           <div
-            className='absolute inset-0 pointer-events-none'
+            className="absolute inset-0 pointer-events-none"
             style={{
               transform: `rotate(${-compassRotation}deg)`, // 反向旋转，保持刻度相对固定
               transition: enableAnimation ? 'transform 0.3s ease-out' : 'none',
@@ -234,7 +235,7 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
               return (
                 <div
                   key={i}
-                  className='absolute text-white font-bold text-sm'
+                  className="absolute text-white font-bold text-sm"
                   style={{
                     left: x,
                     top: y,
@@ -258,7 +259,7 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
               return (
                 <div
                   key={mountain}
-                  className='absolute text-yellow-300 font-bold text-lg'
+                  className="absolute text-yellow-300 font-bold text-lg"
                   style={{
                     left: x,
                     top: y,
@@ -274,13 +275,13 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
 
           {/* 指南针指针 - 固定指向正南方，不旋转 */}
           <div
-            className='absolute inset-0 pointer-events-none'
+            className="absolute inset-0 pointer-events-none"
             style={{
               transform: 'none', // 指南针不旋转，始终指向正南方
             }}
           >
             <div
-              className='absolute'
+              className="absolute"
               style={{
                 left: '50%',
                 top: '50%',
@@ -289,7 +290,7 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
             >
               {/* 指南针主体 - 指向正南方 */}
               <div
-                className='absolute w-0 h-0'
+                className="absolute w-0 h-0"
                 style={{
                   left: '50%',
                   top: '50%',
@@ -302,7 +303,7 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
               />
               {/* 指南针尾部 */}
               <div
-                className='absolute w-0 h-0'
+                className="absolute w-0 h-0"
                 style={{
                   left: '50%',
                   top: '50%',
@@ -319,8 +320,8 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
       </div>
 
       {showDetailedInfo && (
-        <div className='mt-6 w-full max-w-xl space-y-4'>
-          <div className='flex flex-wrap justify-center gap-3'>
+        <div className="mt-6 w-full max-w-xl space-y-4">
+          <div className="flex flex-wrap justify-center gap-3">
             {interactive && (
               <button
                 onClick={requestOrientationPermission}
@@ -339,25 +340,25 @@ const StandardCompass: React.FC<StandardCompassProps> = ({
 
             <button
               onClick={handleManualRotation}
-              className='px-3 py-2 bg-zinc-700 text-white rounded-lg hover:bg-zinc-800 transition-colors text-sm'
+              className="px-3 py-2 bg-zinc-700 text-white rounded-lg hover:bg-zinc-800 transition-colors text-sm"
             >
               手动旋转 90°
             </button>
           </div>
 
           {/* 当前方向信息 */}
-          <div className='text-center space-y-2'>
-            <div className='text-lg font-semibold text-gray-800'>
+          <div className="text-center space-y-2">
+            <div className="text-lg font-semibold text-gray-800">
               当前方位: {Math.round(compassRotation)}°
             </div>
-            <div className='text-sm text-gray-600'>
+            <div className="text-sm text-gray-600">
               坐山: {currentMountain} | 朝向: {oppositeMountain}
             </div>
-            <div className='text-xs text-gray-500'>
+            <div className="text-xs text-gray-500">
               {ORIENTATION_HELPER_MAP[permissionStatus]}
             </div>
             {permissionStatus === 'denied' && (
-              <div className='text-xs text-orange-600'>
+              <div className="text-xs text-orange-600">
                 提示:
                 在iOS设备上需要在Safari设置中开启&ldquo;运动与方向访问&rdquo;权限。
               </div>

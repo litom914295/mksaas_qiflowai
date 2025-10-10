@@ -5,7 +5,7 @@
 describe('Jest配置验证', () => {
   test('基础数学运算', () => {
     expect(2 + 2).toBe(4);
-    expect(Math.PI).toBeCloseTo(3.14159, 4);
+    expect(Math.PI).toBeCloseTo(Math.PI, 4);
   });
 
   test('字符串操作', () => {

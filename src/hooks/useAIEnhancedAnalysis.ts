@@ -5,9 +5,9 @@
 
 'use client';
 
-import { useState, useCallback } from 'react';
-import type { BaziAnalysisResult } from '@/lib/services/bazi-calculator-service';
 import type { AIEnhancedAnalysis } from '@/lib/services/ai-enhanced-analysis';
+import type { BaziAnalysisResult } from '@/lib/services/bazi-calculator-service';
+import { useCallback, useState } from 'react';
 
 /**
  * Hook返回类型
@@ -31,8 +31,8 @@ interface UseAIEnhancedAnalysisReturn {
  * 分析参数
  */
 interface AnalysisParams {
-  birthDate: string;      // YYYY-MM-DD
-  birthTime: string;      // HH:mm
+  birthDate: string; // YYYY-MM-DD
+  birthTime: string; // HH:mm
   gender: 'male' | 'female';
   isQuickAnalysis?: boolean;
   userId?: string;
@@ -90,12 +90,10 @@ export function useAIEnhancedAnalysis(): UseAIEnhancedAnalysisReturn {
         setAiAnalysis(data.data.aiAnalysis);
         setBaziResult(data.data.baziResult);
       }
-
     } catch (err) {
-      const errorMessage = err instanceof Error 
-        ? err.message 
-        : '生成AI分析时发生未知错误';
-      
+      const errorMessage =
+        err instanceof Error ? err.message : '生成AI分析时发生未知错误';
+
       setError(errorMessage);
       console.error('AI增强分析失败:', err);
     } finally {

@@ -315,14 +315,11 @@ export function calculatePalaceScore(
 }
 
 // 获取宫位的详细建议
-export function getStarInterpretation(
-  star: FlyingStar,
-  period?: number
-): any {
+export function getStarInterpretation(star: FlyingStar, period?: number): any {
   const info = STAR_INFO[star];
   const isWang = period ? star === period : false;
   const status = isWang ? '旺' : '生'; // 简化判断
-  
+
   return {
     number: star,
     name: info.name,

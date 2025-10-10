@@ -10,17 +10,17 @@ export const FengshuiInputSchema = z.object({
   // 方位信息
   facing: z.number().min(0).max(360).describe('朝向度数'),
   sitting: z.number().min(0).max(360).describe('坐向度数'),
-  
+
   // 时间信息
   buildYear: z.number().min(1800).max(2100),
   moveInYear: z.number().min(1800).max(2100).optional(),
   currentYear: z.number().min(1800).max(2100).optional(),
-  
+
   // 地理位置
   city: z.string(),
   longitude: z.number().min(-180).max(180),
   latitude: z.number().min(-90).max(90),
-  
+
   // 可选信息
   floorPlan: z.string().optional().describe('Base64编码的户型图'),
   floor: z.number().optional().describe('楼层'),
@@ -38,7 +38,17 @@ export const StarInfoSchema = z.object({
 
 // 九宫格单元
 export const PalaceSchema = z.object({
-  position: z.enum(['center', 'north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest']),
+  position: z.enum([
+    'center',
+    'north',
+    'northeast',
+    'east',
+    'southeast',
+    'south',
+    'southwest',
+    'west',
+    'northwest',
+  ]),
   mountainStar: StarInfoSchema,
   waterStar: StarInfoSchema,
   baseStar: StarInfoSchema,
@@ -92,14 +102,14 @@ export const SpecialPatternSchema = z.object({
 export const FengshuiOutputSchema = z.object({
   // 核心数据
   flyingStars: StarChartSchema,
-  
+
   // 方位分析
   directions: z.object({
     auspicious: z.array(DirectionAnalysisSchema),
     inauspicious: z.array(DirectionAnalysisSchema),
     neutral: z.array(DirectionAnalysisSchema),
   }),
-  
+
   // 特殊位置
   specialPositions: z.object({
     wealthPosition: z.array(z.string()),
@@ -107,34 +117,40 @@ export const FengshuiOutputSchema = z.object({
     healthPosition: z.array(z.string()),
     relationshipPosition: z.array(z.string()),
   }),
-  
+
   // 建议
   recommendations: z.array(RecommendationSchema),
-  
+
   // 特殊格局
   specialPatterns: z.array(SpecialPatternSchema).optional(),
-  
+
   // 年运分析
-  yearlyAnalysis: z.object({
-    year: z.number(),
-    yearStar: z.number(),
-    monthlyStars: z.array(z.object({
-      month: z.number(),
-      star: z.number(),
-    })).optional(),
-  }).optional(),
-  
+  yearlyAnalysis: z
+    .object({
+      year: z.number(),
+      yearStar: z.number(),
+      monthlyStars: z
+        .array(
+          z.object({
+            month: z.number(),
+            star: z.number(),
+          })
+        )
+        .optional(),
+    })
+    .optional(),
+
   // 计算元数据
   period: z.number(),
   mountain: z.string(),
   facing: z.string(),
-  
+
   // 版本控制
   version: z.string(),
   algorithmVersion: z.string(),
   hash: z.string(),
   timestamp: z.string().datetime(),
-  
+
   // 质量标记
   confidence: z.object({
     overall: z.number().min(0).max(100),
@@ -144,15 +160,17 @@ export const FengshuiOutputSchema = z.object({
       patternRecognition: z.number(),
     }),
   }),
-  
+
   // AI可用解释
-  interpretations: z.object({
-    overall: z.string().optional(),
-    wealth: z.string().optional(),
-    health: z.string().optional(),
-    relationship: z.string().optional(),
-    career: z.string().optional(),
-  }).optional(),
+  interpretations: z
+    .object({
+      overall: z.string().optional(),
+      wealth: z.string().optional(),
+      health: z.string().optional(),
+      relationship: z.string().optional(),
+      career: z.string().optional(),
+    })
+    .optional(),
 });
 
 // 类型导出
@@ -208,14 +226,20 @@ export function hasValidFengshuiData(data: unknown): boolean {
 
 // 错误类型定义
 export class FengshuiValidationError extends Error {
-  constructor(message: string, public errors?: z.ZodError) {
+  constructor(
+    message: string,
+    public errors?: z.ZodError
+  ) {
     super(message);
     this.name = 'FengshuiValidationError';
   }
 }
 
 export class FengshuiCalculationError extends Error {
-  constructor(message: string, public code?: string) {
+  constructor(
+    message: string,
+    public code?: string
+  ) {
     super(message);
     this.name = 'FengshuiCalculationError';
   }
@@ -234,7 +258,7 @@ export function degreeToDirection(degree: number): string {
     { name: '正西', min: 247.5, max: 292.5 },
     { name: '西北', min: 292.5, max: 337.5 },
   ];
-  
+
   for (const dir of directions) {
     if (dir.min > dir.max) {
       // 处理跨越0度的情况（正北）
@@ -247,7 +271,7 @@ export function degreeToDirection(degree: number): string {
       }
     }
   }
-  
+
   return '正北'; // 默认值
 }
 
@@ -264,7 +288,7 @@ export function calculatePeriod(year: number): number {
     { start: 2004, end: 2023, period: 8 },
     { start: 2024, end: 2043, period: 9 },
   ];
-  
-  const found = periods.find(p => year >= p.start && year <= p.end);
+
+  const found = periods.find((p) => year >= p.start && year <= p.end);
   return found ? found.period : 9; // 默认九运
 }

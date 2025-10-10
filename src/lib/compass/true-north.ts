@@ -1,5 +1,5 @@
-import { DeclinationProvider } from './declination';
-import { fuseSamples, SensorSample } from './sensor-fusion';
+import type { DeclinationProvider } from './declination';
+import { type SensorSample, fuseSamples } from './sensor-fusion';
 
 export type TrueNorthContext = {
   location: { lat: number; lon: number };
@@ -9,11 +9,17 @@ export type TrueNorthContext = {
 
 export async function measureFacingTrueNorthDegrees(
   ctx: TrueNorthContext,
-  declProvider: DeclinationProvider,
+  declProvider: DeclinationProvider
 ): Promise<{ facingDeg: number; declinationDeg: number; quality: number }> {
-  const decl = await declProvider.getDeclinationDeg(ctx.location.lat, ctx.location.lon, ctx.observedAt);
+  const decl = await declProvider.getDeclinationDeg(
+    ctx.location.lat,
+    ctx.location.lon,
+    ctx.observedAt
+  );
   const state = fuseSamples(ctx.samples, decl);
-  return { facingDeg: state.yawDeg, declinationDeg: decl, quality: state.quality };
+  return {
+    facingDeg: state.yawDeg,
+    declinationDeg: decl,
+    quality: state.quality,
+  };
 }
-
-

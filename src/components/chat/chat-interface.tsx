@@ -6,27 +6,28 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-    AlertCircle,
-    BarChart3,
-    BookOpen,
-    Bot,
-    Compass,
-    Copy,
-    Home,
-    Lightbulb,
-    MessageSquare,
-    Mic,
-    MicOff,
-    MoreVertical,
-    Paperclip,
-    RefreshCw,
-    Send,
-    Star,
-    ThumbsDown,
-    ThumbsUp,
-    User,
+  AlertCircle,
+  BarChart3,
+  BookOpen,
+  Bot,
+  Compass,
+  Copy,
+  Home,
+  Lightbulb,
+  MessageSquare,
+  Mic,
+  MicOff,
+  MoreVertical,
+  Paperclip,
+  RefreshCw,
+  Send,
+  Star,
+  ThumbsDown,
+  ThumbsUp,
+  User,
 } from 'lucide-react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // 消息类型
 interface ChatMessage {
@@ -120,7 +121,7 @@ export const ChatInterface: React.FC = () => {
       };
 
       // 添加用户消息
-      setCurrentSession(prev => {
+      setCurrentSession((prev) => {
         if (!prev) return prev;
         return {
           ...prev,
@@ -134,7 +135,7 @@ export const ChatInterface: React.FC = () => {
 
       try {
         // 模拟AI响应
-        await new Promise(resolve =>
+        await new Promise((resolve) =>
           setTimeout(resolve, 1000 + Math.random() * 2000)
         );
 
@@ -148,7 +149,7 @@ export const ChatInterface: React.FC = () => {
           analysisData: generateAnalysisData(content),
         };
 
-        setCurrentSession(prev => {
+        setCurrentSession((prev) => {
           if (!prev) return prev;
           return {
             ...prev,
@@ -166,7 +167,7 @@ export const ChatInterface: React.FC = () => {
           timestamp: new Date(),
         };
 
-        setCurrentSession(prev => {
+        setCurrentSession((prev) => {
           if (!prev) return prev;
           return {
             ...prev,
@@ -229,7 +230,7 @@ export const ChatInterface: React.FC = () => {
       id: 'analyze_floor_plan',
       title: '分析户型图',
       description: '上传户型图进行风水分析',
-      icon: <Home className='h-5 w-5' />,
+      icon: <Home className="h-5 w-5" />,
       action: () => sendMessage('请帮我分析户型图的风水布局'),
       category: 'analysis',
     },
@@ -237,7 +238,7 @@ export const ChatInterface: React.FC = () => {
       id: 'compass_measurement',
       title: '罗盘测量',
       description: '进行精确的方位测量',
-      icon: <Compass className='h-5 w-5' />,
+      icon: <Compass className="h-5 w-5" />,
       action: () => sendMessage('如何进行罗盘测量？'),
       category: 'tools',
     },
@@ -245,7 +246,7 @@ export const ChatInterface: React.FC = () => {
       id: 'flying_star_analysis',
       title: '飞星分析',
       description: '了解九宫飞星的影响',
-      icon: <Star className='h-5 w-5' />,
+      icon: <Star className="h-5 w-5" />,
       action: () => sendMessage('请解释一下飞星分析的结果'),
       category: 'analysis',
     },
@@ -253,7 +254,7 @@ export const ChatInterface: React.FC = () => {
       id: 'room_optimization',
       title: '房间优化',
       description: '获得房间布局建议',
-      icon: <BarChart3 className='h-5 w-5' />,
+      icon: <BarChart3 className="h-5 w-5" />,
       action: () => sendMessage('如何优化房间布局？'),
       category: 'consultation',
     },
@@ -261,7 +262,7 @@ export const ChatInterface: React.FC = () => {
       id: 'fengshui_education',
       title: '风水知识',
       description: '学习风水基础知识',
-      icon: <BookOpen className='h-5 w-5' />,
+      icon: <BookOpen className="h-5 w-5" />,
       action: () => sendMessage('请介绍一下风水的基本原理'),
       category: 'education',
     },
@@ -269,7 +270,7 @@ export const ChatInterface: React.FC = () => {
       id: 'color_consultation',
       title: '色彩咨询',
       description: '获得色彩搭配建议',
-      icon: <Lightbulb className='h-5 w-5' />,
+      icon: <Lightbulb className="h-5 w-5" />,
       action: () => sendMessage('什么颜色适合我的房间？'),
       category: 'consultation',
     },
@@ -298,7 +299,7 @@ export const ChatInterface: React.FC = () => {
       const files = e.target.files;
       if (!files) return;
 
-      const attachments: ChatAttachment[] = Array.from(files).map(file => ({
+      const attachments: ChatAttachment[] = Array.from(files).map((file) => ({
         id: Date.now().toString() + Math.random(),
         type: file.type.startsWith('image/') ? 'image' : 'document',
         name: file.name,
@@ -362,47 +363,47 @@ export const ChatInterface: React.FC = () => {
   }, [currentSession]);
 
   return (
-    <div className='w-full max-w-6xl mx-auto p-6 space-y-6'>
-      <div className='text-center space-y-2'>
-        <h1 className='text-3xl font-bold text-gray-900'>AI风水助手</h1>
-        <p className='text-gray-600'>智能风水分析，专业建议，随时为您服务</p>
+    <div className="w-full max-w-6xl mx-auto p-6 space-y-6">
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl font-bold text-gray-900">AI风水助手</h1>
+        <p className="text-gray-600">智能风水分析，专业建议，随时为您服务</p>
       </div>
 
       <Tabs
         value={selectedTab}
         onValueChange={setSelectedTab}
-        className='w-full'
+        className="w-full"
       >
-        <TabsList className='grid w-full grid-cols-4'>
-          <TabsTrigger value='chat'>对话</TabsTrigger>
-          <TabsTrigger value='quick'>快速操作</TabsTrigger>
-          <TabsTrigger value='history'>历史记录</TabsTrigger>
-          <TabsTrigger value='settings'>设置</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="chat">对话</TabsTrigger>
+          <TabsTrigger value="quick">快速操作</TabsTrigger>
+          <TabsTrigger value="history">历史记录</TabsTrigger>
+          <TabsTrigger value="settings">设置</TabsTrigger>
         </TabsList>
 
-        <TabsContent value='chat' className='space-y-6'>
-          <Card className='h-[600px] flex flex-col'>
-            <CardHeader className='flex-shrink-0'>
-              <div className='flex items-center justify-between'>
-                <CardTitle className='flex items-center gap-2'>
-                  <MessageSquare className='h-5 w-5' />
+        <TabsContent value="chat" className="space-y-6">
+          <Card className="h-[600px] flex flex-col">
+            <CardHeader className="flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <MessageSquare className="h-5 w-5" />
                   风水助手对话
                 </CardTitle>
-                <div className='flex items-center gap-2'>
+                <div className="flex items-center gap-2">
                   <div
                     className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}
-                  ></div>
-                  <span className='text-sm text-gray-600'>
+                  />
+                  <span className="text-sm text-gray-600">
                     {isConnected ? '在线' : '离线'}
                   </span>
                 </div>
               </div>
             </CardHeader>
 
-            <CardContent className='flex-1 flex flex-col p-0'>
+            <CardContent className="flex-1 flex flex-col p-0">
               {/* 消息列表 */}
-              <div className='flex-1 overflow-y-auto p-6 space-y-4'>
-                {currentSession?.messages.map(message => (
+              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                {currentSession?.messages.map((message) => (
                   <div
                     key={message.id}
                     className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -427,11 +428,11 @@ export const ChatInterface: React.FC = () => {
                           }`}
                         >
                           {message.type === 'user' ? (
-                            <User className='h-4 w-4' />
+                            <User className="h-4 w-4" />
                           ) : message.type === 'assistant' ? (
-                            <Bot className='h-4 w-4' />
+                            <Bot className="h-4 w-4" />
                           ) : (
-                            <AlertCircle className='h-4 w-4' />
+                            <AlertCircle className="h-4 w-4" />
                           )}
                         </div>
 
@@ -447,20 +448,20 @@ export const ChatInterface: React.FC = () => {
                                   : 'bg-yellow-100 text-yellow-900'
                             }`}
                           >
-                            <p className='whitespace-pre-wrap'>
+                            <p className="whitespace-pre-wrap">
                               {message.content}
                             </p>
 
                             {message.attachments &&
                               message.attachments.length > 0 && (
-                                <div className='mt-2 space-y-2'>
-                                  {message.attachments.map(attachment => (
+                                <div className="mt-2 space-y-2">
+                                  {message.attachments.map((attachment) => (
                                     <div
                                       key={attachment.id}
-                                      className='flex items-center gap-2 p-2 bg-white bg-opacity-20 rounded'
+                                      className="flex items-center gap-2 p-2 bg-white bg-opacity-20 rounded"
                                     >
-                                      <Paperclip className='h-4 w-4' />
-                                      <span className='text-sm'>
+                                      <Paperclip className="h-4 w-4" />
+                                      <span className="text-sm">
                                         {attachment.name}
                                       </span>
                                     </div>
@@ -469,50 +470,50 @@ export const ChatInterface: React.FC = () => {
                               )}
 
                             {message.confidence && (
-                              <div className='mt-2 text-xs opacity-75'>
+                              <div className="mt-2 text-xs opacity-75">
                                 置信度: {Math.round(message.confidence * 100)}%
                               </div>
                             )}
                           </div>
 
-                          <div className='flex items-center gap-2 mt-2'>
-                            <span className='text-xs text-gray-500'>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs text-gray-500">
                               {message.timestamp.toLocaleTimeString('zh-CN')}
                             </span>
 
                             {message.type === 'assistant' && (
-                              <div className='flex items-center gap-1'>
+                              <div className="flex items-center gap-1">
                                 <Button
-                                  variant='ghost'
-                                  size='sm'
+                                  variant="ghost"
+                                  size="sm"
                                   onClick={() => copyMessage(message.content)}
                                 >
-                                  <Copy className='h-3 w-3' />
+                                  <Copy className="h-3 w-3" />
                                 </Button>
                                 <Button
-                                  variant='ghost'
-                                  size='sm'
+                                  variant="ghost"
+                                  size="sm"
                                   onClick={() =>
                                     rateMessage(message.id, 'like')
                                   }
                                 >
-                                  <ThumbsUp className='h-3 w-3' />
+                                  <ThumbsUp className="h-3 w-3" />
                                 </Button>
                                 <Button
-                                  variant='ghost'
-                                  size='sm'
+                                  variant="ghost"
+                                  size="sm"
                                   onClick={() =>
                                     rateMessage(message.id, 'dislike')
                                   }
                                 >
-                                  <ThumbsDown className='h-3 w-3' />
+                                  <ThumbsDown className="h-3 w-3" />
                                 </Button>
                                 <Button
-                                  variant='ghost'
-                                  size='sm'
+                                  variant="ghost"
+                                  size="sm"
                                   onClick={() => regenerateResponse(message.id)}
                                 >
-                                  <RefreshCw className='h-3 w-3' />
+                                  <RefreshCw className="h-3 w-3" />
                                 </Button>
                               </div>
                             )}
@@ -520,15 +521,15 @@ export const ChatInterface: React.FC = () => {
 
                           {message.suggestions &&
                             message.suggestions.length > 0 && (
-                              <div className='mt-2 flex flex-wrap gap-2'>
+                              <div className="mt-2 flex flex-wrap gap-2">
                                 {message.suggestions.map(
                                   (suggestion, index) => (
                                     <Button
                                       key={index}
-                                      variant='outline'
-                                      size='sm'
+                                      variant="outline"
+                                      size="sm"
                                       onClick={() => sendMessage(suggestion)}
-                                      className='text-xs'
+                                      className="text-xs"
                                     >
                                       {suggestion}
                                     </Button>
@@ -543,22 +544,22 @@ export const ChatInterface: React.FC = () => {
                 ))}
 
                 {isTyping && (
-                  <div className='flex justify-start'>
-                    <div className='flex items-center gap-3'>
-                      <div className='w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center'>
-                        <Bot className='h-4 w-4' />
+                  <div className="flex justify-start">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center">
+                        <Bot className="h-4 w-4" />
                       </div>
-                      <div className='bg-gray-100 p-4 rounded-lg'>
-                        <div className='flex items-center gap-1'>
-                          <div className='w-2 h-2 bg-gray-400 rounded-full animate-bounce'></div>
+                      <div className="bg-gray-100 p-4 rounded-lg">
+                        <div className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
                           <div
-                            className='w-2 h-2 bg-gray-400 rounded-full animate-bounce'
+                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                             style={{ animationDelay: '0.1s' }}
-                          ></div>
+                          />
                           <div
-                            className='w-2 h-2 bg-gray-400 rounded-full animate-bounce'
+                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                             style={{ animationDelay: '0.2s' }}
-                          ></div>
+                          />
                         </div>
                       </div>
                     </div>
@@ -569,43 +570,43 @@ export const ChatInterface: React.FC = () => {
               </div>
 
               {/* 输入区域 */}
-              <div className='flex-shrink-0 p-6 border-t'>
-                <div className='flex items-end gap-3'>
-                  <div className='flex-1'>
-                    <div className='flex items-center gap-2'>
+              <div className="flex-shrink-0 p-6 border-t">
+                <div className="flex items-end gap-3">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
                       <Input
                         ref={inputRef}
                         value={inputMessage}
-                        onChange={e => setInputMessage(e.target.value)}
+                        onChange={(e) => setInputMessage(e.target.value)}
                         onKeyPress={handleKeyPress}
-                        placeholder='输入您的问题或需求...'
-                        className='flex-1'
+                        placeholder="输入您的问题或需求..."
+                        className="flex-1"
                       />
                       <input
-                        type='file'
-                        id='file-upload'
-                        className='hidden'
+                        type="file"
+                        id="file-upload"
+                        className="hidden"
                         multiple
-                        accept='image/*,.pdf,.doc,.docx'
+                        accept="image/*,.pdf,.doc,.docx"
                         onChange={handleFileUpload}
                       />
-                      <label htmlFor='file-upload'>
-                        <Button variant='outline' size='sm' asChild>
+                      <label htmlFor="file-upload">
+                        <Button variant="outline" size="sm" asChild>
                           <span>
-                            <Paperclip className='h-4 w-4' />
+                            <Paperclip className="h-4 w-4" />
                           </span>
                         </Button>
                       </label>
                       <Button
-                        variant='outline'
-                        size='sm'
+                        variant="outline"
+                        size="sm"
                         onClick={toggleRecording}
                         className={isRecording ? 'bg-red-500 text-white' : ''}
                       >
                         {isRecording ? (
-                          <MicOff className='h-4 w-4' />
+                          <MicOff className="h-4 w-4" />
                         ) : (
-                          <Mic className='h-4 w-4' />
+                          <Mic className="h-4 w-4" />
                         )}
                       </Button>
                     </div>
@@ -613,9 +614,9 @@ export const ChatInterface: React.FC = () => {
                   <Button
                     onClick={() => sendMessage(inputMessage)}
                     disabled={!inputMessage.trim() || isTyping}
-                    className='px-6'
+                    className="px-6"
                   >
-                    <Send className='h-4 w-4 mr-2' />
+                    <Send className="h-4 w-4 mr-2" />
                     发送
                   </Button>
                 </div>
@@ -624,25 +625,25 @@ export const ChatInterface: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value='quick' className='space-y-6'>
+        <TabsContent value="quick" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>快速操作</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {quickActions.map(action => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {quickActions.map((action) => (
                   <Card
                     key={action.id}
-                    className='cursor-pointer hover:shadow-md transition-all'
+                    className="cursor-pointer hover:shadow-md transition-all"
                     onClick={action.action}
                   >
-                    <CardContent className='p-4'>
-                      <div className='flex items-center gap-3 mb-2'>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-3 mb-2">
                         {action.icon}
-                        <h3 className='font-semibold'>{action.title}</h3>
+                        <h3 className="font-semibold">{action.title}</h3>
                       </div>
-                      <p className='text-sm text-gray-600'>
+                      <p className="text-sm text-gray-600">
                         {action.description}
                       </p>
                     </CardContent>
@@ -653,28 +654,28 @@ export const ChatInterface: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value='history' className='space-y-6'>
+        <TabsContent value="history" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>对话历史</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className='space-y-4'>
-                {sessions.map(session => (
+              <div className="space-y-4">
+                {sessions.map((session) => (
                   <div
                     key={session.id}
-                    className='flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 cursor-pointer'
+                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
                     onClick={() => setCurrentSession(session)}
                   >
                     <div>
-                      <h3 className='font-semibold'>{session.title}</h3>
-                      <p className='text-sm text-gray-600'>
+                      <h3 className="font-semibold">{session.title}</h3>
+                      <p className="text-sm text-gray-600">
                         {session.messages.length} 条消息 •{' '}
                         {session.updatedAt.toLocaleDateString('zh-CN')}
                       </p>
                     </div>
-                    <div className='flex items-center gap-2'>
-                      <Badge variant='outline'>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">
                         {session.context.sessionType === 'general'
                           ? '一般'
                           : session.context.sessionType === 'analysis'
@@ -683,8 +684,8 @@ export const ChatInterface: React.FC = () => {
                               ? '咨询'
                               : '故障排除'}
                       </Badge>
-                      <Button variant='ghost' size='sm'>
-                        <MoreVertical className='h-4 w-4' />
+                      <Button variant="ghost" size="sm">
+                        <MoreVertical className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
@@ -694,58 +695,58 @@ export const ChatInterface: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value='settings' className='space-y-6'>
+        <TabsContent value="settings" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>AI助手设置</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className='space-y-6'>
+              <div className="space-y-6">
                 <div>
-                  <label className='block text-sm font-medium mb-2'>
+                  <label className="block text-sm font-medium mb-2">
                     AI模型
                   </label>
-                  <select className='w-full p-2 border rounded-md'>
-                    <option value='gpt-4'>GPT-4</option>
-                    <option value='gpt-3.5-turbo'>GPT-3.5 Turbo</option>
-                    <option value='claude-3'>Claude 3</option>
+                  <select className="w-full p-2 border rounded-md">
+                    <option value="gpt-4">GPT-4</option>
+                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                    <option value="claude-3">Claude 3</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className='block text-sm font-medium mb-2'>
+                  <label className="block text-sm font-medium mb-2">
                     回答风格
                   </label>
-                  <select className='w-full p-2 border rounded-md'>
-                    <option value='professional'>专业严谨</option>
-                    <option value='friendly'>友好亲切</option>
-                    <option value='detailed'>详细深入</option>
-                    <option value='concise'>简洁明了</option>
+                  <select className="w-full p-2 border rounded-md">
+                    <option value="professional">专业严谨</option>
+                    <option value="friendly">友好亲切</option>
+                    <option value="detailed">详细深入</option>
+                    <option value="concise">简洁明了</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className='block text-sm font-medium mb-2'>
+                  <label className="block text-sm font-medium mb-2">
                     语言偏好
                   </label>
-                  <select className='w-full p-2 border rounded-md'>
-                    <option value='zh-CN'>简体中文</option>
-                    <option value='zh-TW'>繁体中文</option>
-                    <option value='en'>English</option>
+                  <select className="w-full p-2 border rounded-md">
+                    <option value="zh-CN">简体中文</option>
+                    <option value="zh-TW">繁体中文</option>
+                    <option value="en">English</option>
                   </select>
                 </div>
 
-                <div className='space-y-3'>
-                  <label className='flex items-center space-x-2'>
-                    <input type='checkbox' defaultChecked className='rounded' />
+                <div className="space-y-3">
+                  <label className="flex items-center space-x-2">
+                    <input type="checkbox" defaultChecked className="rounded" />
                     <span>包含图像分析</span>
                   </label>
-                  <label className='flex items-center space-x-2'>
-                    <input type='checkbox' defaultChecked className='rounded' />
+                  <label className="flex items-center space-x-2">
+                    <input type="checkbox" defaultChecked className="rounded" />
                     <span>包含风水分析数据</span>
                   </label>
-                  <label className='flex items-center space-x-2'>
-                    <input type='checkbox' className='rounded' />
+                  <label className="flex items-center space-x-2">
+                    <input type="checkbox" className="rounded" />
                     <span>启用语音输入</span>
                   </label>
                 </div>
@@ -759,4 +760,3 @@ export const ChatInterface: React.FC = () => {
 };
 
 export default ChatInterface;
-

@@ -1,41 +1,43 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/enhanced-card';
+import { ComprehensiveScore } from '@/components/analysis/comprehensive-score';
+import { GuestAnalysisPage } from '@/components/analysis/guest-analysis-page';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card } from '@/components/ui/enhanced-card';
 import { Progress } from '@/components/ui/progress';
-import { 
-  Compass, 
-  Star, 
-  Home, 
-  Sparkles, 
-  Shield, 
-  Heart,
-  Target,
-  Zap,
-  Download,
-  RefreshCw,
-  TrendingUp,
-  Award,
-  CheckCircle2,
-  Lock,
-  Unlock,
-  ArrowDown,
-  Gift,
-  ChevronRight,
-  User,
-  Calendar,
-  Clock
-} from 'lucide-react';
-import { GuestAnalysisPage } from '@/components/analysis/guest-analysis-page';
-import { ComprehensiveScore } from '@/components/analysis/comprehensive-score';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import confetti from 'canvas-confetti';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  ArrowDown,
+  Award,
+  Calendar,
+  CheckCircle2,
+  ChevronRight,
+  Clock,
+  Compass,
+  Download,
+  Gift,
+  Heart,
+  Home,
+  Lock,
+  RefreshCw,
+  Shield,
+  Sparkles,
+  Star,
+  Target,
+  TrendingUp,
+  Unlock,
+  User,
+  Zap,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function EnhancedHomePage() {
-  const [currentStep, setCurrentStep] = useState<'form' | 'analyzing' | 'results'>('form');
+  const [currentStep, setCurrentStep] = useState<
+    'form' | 'analyzing' | 'results'
+  >('form');
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [formData, setFormData] = useState<any>(null);
   const [showResults, setShowResults] = useState(false);
@@ -44,14 +46,14 @@ export default function EnhancedHomePage() {
     bazi: 78,
     fengshui: 85,
     overall: 82,
-    rating: 'good' as const
+    rating: 'good' as const,
   });
 
   // 模拟分析过程
   const startAnalysis = () => {
     setCurrentStep('analyzing');
     setAnalysisProgress(0);
-    
+
     // 进度条动画
     const interval = setInterval(() => {
       setAnalysisProgress((prev) => {
@@ -64,7 +66,7 @@ export default function EnhancedHomePage() {
             confetti({
               particleCount: 100,
               spread: 70,
-              origin: { y: 0.6 }
+              origin: { y: 0.6 },
             });
           }, 500);
           return 100;
@@ -78,20 +80,19 @@ export default function EnhancedHomePage() {
   const scrollToResults = () => {
     document.getElementById('results-section')?.scrollIntoView({
       behavior: 'smooth',
-      block: 'start'
+      block: 'start',
     });
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      
       {/* 增强版 Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 to-pink-400/10"></div>
-        
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 to-pink-400/10" />
+
         <div className="relative max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
           {/* 动态标题 */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
@@ -117,23 +118,29 @@ export default function EnhancedHomePage() {
                 30秒看透您的命运
               </span>
             </h1>
-            
+
             <p className="text-2xl text-gray-700 dark:text-gray-300 mb-8">
-              <span className="font-semibold">AI + 传统易学</span> 精准分析您的八字命理与家居风水
+              <span className="font-semibold">AI + 传统易学</span>{' '}
+              精准分析您的八字命理与家居风水
             </p>
 
             {/* 限时优惠提示 */}
             <motion.div
               animate={{ scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 2 }}
+              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
               className="inline-block"
             >
-              <Card variant="gradient" className="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white">
+              <Card
+                variant="gradient"
+                className="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white"
+              >
                 <div className="flex items-center gap-2">
                   <Gift className="w-5 h-5" />
                   <span className="font-bold">限时优惠：</span>
                   <span>首次分析免费！原价 ¥99</span>
-                  <span className="text-yellow-300 animate-pulse">仅剩 2 小时</span>
+                  <span className="text-yellow-300 animate-pulse">
+                    仅剩 2 小时
+                  </span>
                 </div>
               </Card>
             </motion.div>
@@ -152,7 +159,7 @@ export default function EnhancedHomePage() {
                 <p className="text-sm text-gray-600">30秒出结果</p>
               </Card>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -164,7 +171,7 @@ export default function EnhancedHomePage() {
                 <p className="text-sm text-gray-600">95%准确率</p>
               </Card>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -176,7 +183,7 @@ export default function EnhancedHomePage() {
                 <p className="text-sm text-gray-600">数据加密保护</p>
               </Card>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -194,7 +201,6 @@ export default function EnhancedHomePage() {
 
       {/* 主分析区域 - 单页漏斗 */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        
         {/* 步骤指示器 */}
         {currentStep === 'form' && (
           <div className="flex items-center justify-center mb-8">
@@ -229,28 +235,34 @@ export default function EnhancedHomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <Card variant="feng-shui" size="lg" className="relative overflow-visible">
+            <Card
+              variant="feng-shui"
+              size="lg"
+              className="relative overflow-visible"
+            >
               {/* 免费标签 */}
               <div className="absolute -top-4 -right-4 z-10">
                 <motion.div
                   animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
+                  transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
                   className="bg-red-500 text-white px-6 py-2 rounded-full shadow-lg font-bold text-lg"
                 >
                   免费分析
                 </motion.div>
               </div>
-              
+
               <div className="p-8">
                 <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                   立即开始您的命理分析
                 </h2>
-                
+
                 {/* 简化的表单 */}
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium mb-2">您的姓名</label>
+                      <label className="block text-sm font-medium mb-2">
+                        您的姓名
+                      </label>
                       <input
                         type="text"
                         className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
@@ -258,7 +270,9 @@ export default function EnhancedHomePage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">性别</label>
+                      <label className="block text-sm font-medium mb-2">
+                        性别
+                      </label>
                       <select className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none">
                         <option value="">请选择</option>
                         <option value="male">男</option>
@@ -266,33 +280,39 @@ export default function EnhancedHomePage() {
                       </select>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium mb-2">出生日期</label>
+                      <label className="block text-sm font-medium mb-2">
+                        出生日期
+                      </label>
                       <input
                         type="date"
                         className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">出生时辰（可选）</label>
+                      <label className="block text-sm font-medium mb-2">
+                        出生时辰（可选）
+                      </label>
                       <input
                         type="time"
                         className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
                       />
                     </div>
                   </div>
-                  
+
                   <div>
-                    <label className="block text-sm font-medium mb-2">出生地点</label>
+                    <label className="block text-sm font-medium mb-2">
+                      出生地点
+                    </label>
                     <input
                       type="text"
                       className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
                       placeholder="如：北京市朝阳区"
                     />
                   </div>
-                  
+
                   {/* CTA按钮 */}
                   <div className="text-center pt-4">
                     <Button
@@ -303,7 +323,7 @@ export default function EnhancedHomePage() {
                       <Sparkles className="mr-2" />
                       立即免费分析
                     </Button>
-                    
+
                     <p className="mt-4 text-sm text-gray-600">
                       <Lock className="inline w-4 h-4 mr-1" />
                       您的信息将被严格保密，仅用于命理分析
@@ -325,42 +345,67 @@ export default function EnhancedHomePage() {
             <Card variant="elevated" className="max-w-2xl mx-auto p-12">
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                transition={{
+                  repeat: Number.POSITIVE_INFINITY,
+                  duration: 3,
+                  ease: 'linear',
+                }}
                 className="w-24 h-24 mx-auto mb-6"
               >
                 <Compass className="w-full h-full text-purple-600" />
               </motion.div>
-              
+
               <h2 className="text-3xl font-bold mb-4">AI正在为您分析...</h2>
               <p className="text-gray-600 mb-8">
                 融合传统易学智慧与现代AI技术，为您生成专属命理报告
               </p>
-              
+
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
                   <span>分析八字命盘...</span>
-                  <span className="text-purple-600 font-bold">{Math.min(analysisProgress * 1.5, 100).toFixed(0)}%</span>
+                  <span className="text-purple-600 font-bold">
+                    {Math.min(analysisProgress * 1.5, 100).toFixed(0)}%
+                  </span>
                 </div>
-                <Progress value={Math.min(analysisProgress * 1.5, 100)} className="h-2" />
-                
+                <Progress
+                  value={Math.min(analysisProgress * 1.5, 100)}
+                  className="h-2"
+                />
+
                 <div className="flex items-center justify-between text-sm">
                   <span>计算五行属性...</span>
-                  <span className="text-blue-600 font-bold">{Math.min(analysisProgress * 1.2, 100).toFixed(0)}%</span>
+                  <span className="text-blue-600 font-bold">
+                    {Math.min(analysisProgress * 1.2, 100).toFixed(0)}%
+                  </span>
                 </div>
-                <Progress value={Math.min(analysisProgress * 1.2, 100)} className="h-2" />
-                
+                <Progress
+                  value={Math.min(analysisProgress * 1.2, 100)}
+                  className="h-2"
+                />
+
                 <div className="flex items-center justify-between text-sm">
                   <span>生成个性化建议...</span>
-                  <span className="text-green-600 font-bold">{analysisProgress}%</span>
+                  <span className="text-green-600 font-bold">
+                    {analysisProgress}%
+                  </span>
                 </div>
                 <Progress value={analysisProgress} className="h-2" />
               </div>
-              
+
               <div className="mt-8 text-sm text-gray-500">
                 <p>正在分析的内容包括：</p>
                 <div className="flex flex-wrap gap-2 mt-2 justify-center">
-                  {['事业运势', '感情婚姻', '财运分析', '健康状况', '贵人运', '流年运程'].map((item, index) => (
-                    <Badge key={index} variant="secondary">{item}</Badge>
+                  {[
+                    '事业运势',
+                    '感情婚姻',
+                    '财运分析',
+                    '健康状况',
+                    '贵人运',
+                    '流年运程',
+                  ].map((item, index) => (
+                    <Badge key={index} variant="secondary">
+                      {item}
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -388,7 +433,7 @@ export default function EnhancedHomePage() {
                   '您的事业运势处于上升期，适合开展新项目',
                   '感情方面需要多加沟通，避免误解',
                   '健康状况良好，继续保持规律作息',
-                  '财运有所起伏，建议稳健理财'
+                  '财运有所起伏，建议稳健理财',
                 ]}
               />
 
@@ -421,9 +466,12 @@ export default function EnhancedHomePage() {
                 </Card>
 
                 {/* 付费内容预览 */}
-                <Card variant="elevated" className="p-6 relative overflow-hidden">
+                <Card
+                  variant="elevated"
+                  className="p-6 relative overflow-hidden"
+                >
                   <div className="absolute inset-0 bg-gradient-to-t from-white/95 to-transparent z-10 flex items-end justify-center pb-4">
-                    <Button 
+                    <Button
                       size="lg"
                       className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
                       onClick={() => setShowPremiumPrompt(true)}
@@ -432,7 +480,7 @@ export default function EnhancedHomePage() {
                       解锁完整报告
                     </Button>
                   </div>
-                  
+
                   <div className="flex items-start justify-between mb-4">
                     <h3 className="text-xl font-bold">深度分析报告</h3>
                     <Badge className="bg-amber-500 text-white">
@@ -453,25 +501,39 @@ export default function EnhancedHomePage() {
 
               {/* 用户见证 */}
               <Card variant="gradient" className="p-8">
-                <h3 className="text-2xl font-bold text-center mb-6">用户真实反馈</h3>
+                <h3 className="text-2xl font-bold text-center mb-6">
+                  用户真实反馈
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {[
-                    { name: '张女士', age: 32, text: '分析非常准确，事业建议很有帮助！' },
-                    { name: '李先生', age: 45, text: '风水调整后，生意明显好转了。' },
-                    { name: '王小姐', age: 28, text: '感情分析让我找到了问题所在。' }
+                    {
+                      name: '张女士',
+                      age: 32,
+                      text: '分析非常准确，事业建议很有帮助！',
+                    },
+                    {
+                      name: '李先生',
+                      age: 45,
+                      text: '风水调整后，生意明显好转了。',
+                    },
+                    {
+                      name: '王小姐',
+                      age: 28,
+                      text: '感情分析让我找到了问题所在。',
+                    },
                   ].map((item, index) => (
                     <Card key={index} variant="glass" className="p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <User className="w-8 h-8 text-gray-400" />
                         <div>
                           <div className="font-semibold">{item.name}</div>
-                          <div className="text-sm text-gray-500">{item.age}岁</div>
+                          <div className="text-sm text-gray-500">
+                            {item.age}岁
+                          </div>
                         </div>
                       </div>
                       <p className="text-sm italic">"{item.text}"</p>
-                      <div className="mt-2">
-                        {'⭐'.repeat(5)}
-                      </div>
+                      <div className="mt-2">{'⭐'.repeat(5)}</div>
                     </Card>
                   ))}
                 </div>
@@ -481,7 +543,7 @@ export default function EnhancedHomePage() {
               <div className="text-center py-8">
                 <motion.div
                   animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
+                  transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
                   className="inline-block"
                 >
                   <Button

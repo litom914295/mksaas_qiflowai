@@ -33,25 +33,28 @@ export interface ComprehensiveAnalysisResult {
     };
     details: string[];
     enhancedPlate: any; // 使用any类型以避免复杂的类型依赖
-    palaceDetails: Record<string, {
-      rating: '大吉' | '吉' | '平' | '凶' | '大凶';
-      score: number;
-      stars: Array<{
-        type: string;
-        value?: number;
-        number?: number;
-      }>;
-      analysis: string;
-      effects: {
-        wealth?: string;
-        health?: string;
-        relationships?: string;
-      };
-      suggestions: string[];
-      suitableFor?: string[];
-      interpretation?: string;
-      recommendations?: string[];
-    }>;
+    palaceDetails: Record<
+      string,
+      {
+        rating: '大吉' | '吉' | '平' | '凶' | '大凶';
+        score: number;
+        stars: Array<{
+          type: string;
+          value?: number;
+          number?: number;
+        }>;
+        analysis: string;
+        effects: {
+          wealth?: string;
+          health?: string;
+          relationships?: string;
+        };
+        suggestions: string[];
+        suitableFor?: string[];
+        interpretation?: string;
+        recommendations?: string[];
+      }
+    >;
   };
   interpretation: {
     wealth: {

@@ -8,7 +8,7 @@ import type {
   GenerateFlyingStarOutput,
   PalaceIndex,
   Plate,
-} from '@/lib/qiflow/xuankong';
+} from '@/lib/fengshui';
 import {
   Calendar,
   Clock,

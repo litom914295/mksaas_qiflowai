@@ -1,7 +1,8 @@
 'use client';
 
 import { MapPin, Search, X } from 'lucide-react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface AddressAutocompleteProps {
   value?: string;
@@ -220,13 +221,13 @@ export function AddressAutocomplete({
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex(prev =>
+        setSelectedIndex((prev) =>
           prev < suggestions.length - 1 ? prev + 1 : prev
         );
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setSelectedIndex(prev => (prev > 0 ? prev - 1 : -1));
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
         break;
       case 'Enter':
         e.preventDefault();
@@ -253,8 +254,8 @@ export function AddressAutocomplete({
     if (onPick) {
       onPick({
         address: newValue,
-        latitude: parseFloat(suggestion.lat),
-        longitude: parseFloat(suggestion.lon),
+        latitude: Number.parseFloat(suggestion.lat),
+        longitude: Number.parseFloat(suggestion.lon),
       });
     }
   };
@@ -305,10 +306,10 @@ export function AddressAutocomplete({
   return (
     <div className={`relative ${className}`}>
       {/* 输入框 */}
-      <div className='relative'>
+      <div className="relative">
         <input
           ref={inputRef}
-          type='text'
+          type="text"
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
@@ -329,23 +330,23 @@ export function AddressAutocomplete({
         />
 
         {/* 搜索图标 */}
-        <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
 
         {/* 清除按钮 */}
         {inputValue && !disabled && (
           <button
-            type='button'
+            type="button"
             onClick={handleClear}
-            className='absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 hover:text-gray-600'
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 hover:text-gray-600"
           >
-            <X className='w-4 h-4' />
+            <X className="w-4 h-4" />
           </button>
         )}
 
         {/* 加载指示器 */}
         {isLoading && (
-          <div className='absolute right-3 top-1/2 transform -translate-y-1/2'>
-            <div className='w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin'></div>
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
           </div>
         )}
       </div>
@@ -354,7 +355,7 @@ export function AddressAutocomplete({
       {showSuggestions && suggestions.length > 0 && (
         <div
           ref={suggestionsRef}
-          className='absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto'
+          className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto"
         >
           {suggestions.map((suggestion, index) => (
             <button
@@ -365,13 +366,13 @@ export function AddressAutocomplete({
                 ${index === selectedIndex ? 'bg-blue-50' : ''}
               `}
             >
-              <div className='flex items-start gap-3'>
-                <MapPin className='w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0' />
-                <div className='flex-1 min-w-0'>
-                  <div className='text-sm text-gray-900 truncate'>
+              <div className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm text-gray-900 truncate">
                     {suggestion.display_name}
                   </div>
-                  <div className='text-xs text-gray-500 mt-1'>
+                  <div className="text-xs text-gray-500 mt-1">
                     {suggestion.type === 'house' && '住宅地址'}
                     {suggestion.type === 'commercial' && '商业地址'}
                     {suggestion.type === 'residential' && '居民区'}
@@ -388,8 +389,8 @@ export function AddressAutocomplete({
         !isLoading &&
         suggestions.length === 0 &&
         inputValue.trim() && (
-          <div className='absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg p-4'>
-            <div className='text-sm text-gray-500 text-center'>
+          <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg p-4">
+            <div className="text-sm text-gray-500 text-center">
               未找到匹配的地址，请尝试其他关键词
             </div>
           </div>
@@ -397,10 +398,10 @@ export function AddressAutocomplete({
 
       {/* 帮助提示 */}
       {!inputValue && !disabled && (
-        <div className='mt-2 text-xs text-gray-500'>
+        <div className="mt-2 text-xs text-gray-500">
           <div>支持输入省市区县、街道、小区名称等</div>
           {!process.env.NEXT_PUBLIC_AMAP_API_KEY && (
-            <div className='mt-1 text-orange-600'>
+            <div className="mt-1 text-orange-600">
               💡 配置高德地图API密钥可获得更精准的地址搜索
             </div>
           )}

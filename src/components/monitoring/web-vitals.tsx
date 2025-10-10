@@ -72,7 +72,10 @@ function flushPendingMetrics() {
   pendingMetrics = [];
 
   // 发送到你的分析端点
-  if (typeof navigator.sendBeacon !== 'undefined' && process.env.NEXT_PUBLIC_ANALYTICS_ENDPOINT) {
+  if (
+    typeof navigator.sendBeacon !== 'undefined' &&
+    process.env.NEXT_PUBLIC_ANALYTICS_ENDPOINT
+  ) {
     const body = JSON.stringify({
       metrics: metricsToSend,
       url: window.location.href,
@@ -85,13 +88,16 @@ function flushPendingMetrics() {
   // 在开发环境中输出汇总
   if (process.env.NODE_ENV === 'development') {
     console.table(
-      metricsToSend.reduce((acc, metric) => {
-        acc[metric.name] = {
-          value: metric.value,
-          rating: metric.rating || 'N/A',
-        };
-        return acc;
-      }, {} as Record<string, any>)
+      metricsToSend.reduce(
+        (acc, metric) => {
+          acc[metric.name] = {
+            value: metric.value,
+            rating: metric.rating || 'N/A',
+          };
+          return acc;
+        },
+        {} as Record<string, any>
+      )
     );
   }
 }

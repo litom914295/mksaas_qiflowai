@@ -60,12 +60,13 @@ export function UserProfileForm(props: UserProfileFormProps) {
 
   const [error, setError] = useState<string | null>(null);
   const [openMap] = useState(false);
-  const [showContactInfo] = useState(
-    watch('showContactInfo')
-  );
+  const [showContactInfo] = useState(watch('showContactInfo'));
 
   const watchedValues = watch();
-  const isLunar = useMemo(() => watchedValues.calendar === 'lunar', [watchedValues.calendar]);
+  const isLunar = useMemo(
+    () => watchedValues.calendar === 'lunar',
+    [watchedValues.calendar]
+  );
 
   const handleFormSubmit = useCallback(
     async (data: z.infer<typeof profileSchema>) => {
@@ -80,63 +81,66 @@ export function UserProfileForm(props: UserProfileFormProps) {
   );
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit as any)} className='space-y-4'>
+    <form
+      onSubmit={handleSubmit(handleFormSubmit as any)}
+      className="space-y-4"
+    >
       <div>
-        <label className='block text-sm mb-1'>Display Name</label>
+        <label className="block text-sm mb-1">Display Name</label>
         <input
-          className='w-full border rounded px-3 py-2'
+          className="w-full border rounded px-3 py-2"
           {...register('displayName')}
-          placeholder='Your nickname'
+          placeholder="Your nickname"
         />
       </div>
 
-      <div className='grid grid-cols-2 gap-3'>
+      <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className='block text-sm mb-1'>Gender</label>
+          <label className="block text-sm mb-1">Gender</label>
           <select
-            className='w-full border rounded px-3 py-2'
+            className="w-full border rounded px-3 py-2"
             {...register('gender')}
           >
-            <option value='male'>Male</option>
-            <option value='female'>Female</option>
-            <option value='other'>Other</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
           </select>
         </div>
         <div>
-          <label className='block text-sm mb-1'>Calendar</label>
+          <label className="block text-sm mb-1">Calendar</label>
           <select
-            className='w-full border rounded px-3 py-2'
+            className="w-full border rounded px-3 py-2"
             {...register('calendar')}
           >
-            <option value='gregorian'>Gregorian</option>
-            <option value='lunar'>Lunar</option>
+            <option value="gregorian">Gregorian</option>
+            <option value="lunar">Lunar</option>
           </select>
         </div>
       </div>
 
-      <div className='grid grid-cols-2 gap-3'>
+      <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className='block text-sm mb-1'>
+          <label className="block text-sm mb-1">
             Birth Date{isLunar ? ' (Lunar Calendar)' : ''}
           </label>
           <input
-            type='date'
-            className='w-full border rounded px-3 py-2'
+            type="date"
+            className="w-full border rounded px-3 py-2"
             {...register('birthDate')}
           />
         </div>
         <div>
-          <label className='block text-sm mb-1'>Birth Time</label>
+          <label className="block text-sm mb-1">Birth Time</label>
           <input
-            type='time'
-            className='w-full border rounded px-3 py-2'
+            type="time"
+            className="w-full border rounded px-3 py-2"
             {...register('birthTime')}
           />
         </div>
       </div>
 
       <div>
-        <label className='block text-sm mb-1'>Birth Place/Address</label>
+        <label className="block text-sm mb-1">Birth Place/Address</label>
         <AddressAutocomplete
           value={watchedValues.address}
           onChange={(value) => setValue('address', value)}
@@ -145,47 +149,47 @@ export function UserProfileForm(props: UserProfileFormProps) {
             setValue('latitude', value.latitude);
             setValue('longitude', value.longitude);
           }}
-          placeholder='Enter address, supports autocomplete and map selection'
+          placeholder="Enter address, supports autocomplete and map selection"
         />
-        <div className='mt-2 flex items-center gap-2'>
+        <div className="mt-2 flex items-center gap-2">
           <button
-            type='button'
-            className='px-3 py-2 border rounded'
+            type="button"
+            className="px-3 py-2 border rounded"
             onClick={() => setOpenMap(true)}
           >
             Open Map Selection
           </button>
-          <p className='text-xs text-muted-foreground'>
+          <p className="text-xs text-muted-foreground">
             Autocomplete is supported; map selection is placeholder version.
           </p>
         </div>
       </div>
 
-      <div className='grid grid-cols-2 gap-3'>
+      <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className='block text-sm mb-1'>Email (Optional)</label>
+          <label className="block text-sm mb-1">Email (Optional)</label>
           <input
-            type='email'
-            className='w-full border rounded px-3 py-2'
+            type="email"
+            className="w-full border rounded px-3 py-2"
             {...register('email')}
-            placeholder='you@example.com'
+            placeholder="you@example.com"
           />
         </div>
         <div>
-          <label className='block text-sm mb-1'>Phone (Optional)</label>
+          <label className="block text-sm mb-1">Phone (Optional)</label>
           <input
-            className='w-full border rounded px-3 py-2'
+            className="w-full border rounded px-3 py-2"
             {...register('phone')}
-            placeholder='For contact only, will not be public'
+            placeholder="For contact only, will not be public"
           />
         </div>
       </div>
 
       {error && (
-        <div className='text-red-600 text-sm whitespace-pre-line'>{error}</div>
+        <div className="text-red-600 text-sm whitespace-pre-line">{error}</div>
       )}
 
-      <Button type='submit' disabled={isSubmitting} className='w-full'>
+      <Button type="submit" disabled={isSubmitting} className="w-full">
         {isSubmitting ? '保存中...' : '保存资料'}
       </Button>
 
@@ -193,7 +197,7 @@ export function UserProfileForm(props: UserProfileFormProps) {
         value={{
           latitude: watchedValues.latitude,
           longitude: watchedValues.longitude,
-          address: watchedValues.address
+          address: watchedValues.address,
         }}
         onChange={(value) => {
           setValue('address', value.address || '');
@@ -202,7 +206,7 @@ export function UserProfileForm(props: UserProfileFormProps) {
         }}
         defaultCenter={{
           latitude: watchedValues.latitude || 39.9042,
-          longitude: watchedValues.longitude || 116.4074
+          longitude: watchedValues.longitude || 116.4074,
         }}
       />
     </form>

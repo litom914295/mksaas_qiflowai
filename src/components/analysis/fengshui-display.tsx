@@ -7,18 +7,19 @@
 
 'use client';
 
-import type { EnhancedBaziResult } from '@/lib/qiflow/bazi/enhanced-calculator';
+import type { EnhancedBaziResult } from '@/lib/bazi/enhanced-calculator';
 import {
-    PALACE_PROFILES,
-    buildStackedPlates,
-    computeLayeredEvaluation,
+  PALACE_PROFILES,
+  buildStackedPlates,
+  computeLayeredEvaluation,
 } from '@/lib/fengshui';
-import { Door, Room, Wall, Window } from '@/lib/image-processing/types';
-import {
-    RoomMappingResult,
-    SpaceMappingResult,
+import type { Door, Room, Wall, Window } from '@/lib/image-processing/types';
+import type {
+  RoomMappingResult,
+  SpaceMappingResult,
 } from '@/lib/space-mapping/types';
-import React, { useCallback, useEffect, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface FengshuiDisplayProps {
   spaceMapping: SpaceMappingResult;
@@ -161,33 +162,33 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
   }, [bazi]);
 
   // 生成房间分析
-  const generateRoomAnalyses = useCallback((
-    rooms: Room[],
-    roomMappings: RoomMappingResult[]
-  ): RoomAnalysis[] => {
-    return rooms.map(room => {
-      const mapping = roomMappings.find(m => m.roomId === room.id);
-      const palaceIndex = mapping?.palaceIndex || 1;
+  const generateRoomAnalyses = useCallback(
+    (rooms: Room[], roomMappings: RoomMappingResult[]): RoomAnalysis[] => {
+      return rooms.map((room) => {
+        const mapping = roomMappings.find((m) => m.roomId === room.id);
+        const palaceIndex = mapping?.palaceIndex || 1;
 
-      const score = calculateRoomScore(room, palaceIndex);
-      const color = getScoreColor(score);
-      const suggestions = generateRoomSuggestions(room, palaceIndex, score);
-      const warnings = generateRoomWarnings(room, palaceIndex, score);
-      const favorableElements = getFavorableElements(room, palaceIndex);
-      const unfavorableElements = getUnfavorableElements(room, palaceIndex);
+        const score = calculateRoomScore(room, palaceIndex);
+        const color = getScoreColor(score);
+        const suggestions = generateRoomSuggestions(room, palaceIndex, score);
+        const warnings = generateRoomWarnings(room, palaceIndex, score);
+        const favorableElements = getFavorableElements(room, palaceIndex);
+        const unfavorableElements = getUnfavorableElements(room, palaceIndex);
 
-      return {
-        roomId: room.id,
-        palaceIndex,
-        score,
-        color,
-        suggestions,
-        warnings,
-        favorableElements,
-        unfavorableElements,
-      };
-    });
-  }, []);
+        return {
+          roomId: room.id,
+          palaceIndex,
+          score,
+          color,
+          suggestions,
+          warnings,
+          favorableElements,
+          unfavorableElements,
+        };
+      });
+    },
+    []
+  );
 
   // 计算宫位得分
   const calculatePalaceScore = (
@@ -355,12 +356,17 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
     // 生成房间分析
     const roomAnalyses = generateRoomAnalyses(rooms, spaceMapping.roomMappings);
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       flyingStars,
       roomAnalyses,
     }));
-  }, [rooms, spaceMapping.roomMappings, generateFlyingStars, generateRoomAnalyses]);
+  }, [
+    rooms,
+    spaceMapping.roomMappings,
+    generateFlyingStars,
+    generateRoomAnalyses,
+  ]);
 
   // 初始化风水分析数据
   useEffect(() => {
@@ -369,7 +375,7 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
 
   // 处理宫位点击
   const handlePalaceClick = useCallback((palaceIndex: number) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       selectedPalace: prev.selectedPalace === palaceIndex ? null : palaceIndex,
     }));
@@ -378,7 +384,7 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
   // 处理房间点击
   const handleRoomClick = useCallback(
     (roomId: string) => {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         selectedRoom: prev.selectedRoom === roomId ? null : roomId,
       }));
@@ -393,28 +399,28 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
   // 切换视图模式
   const handleViewModeChange = useCallback(
     (mode: 'overview' | 'detailed' | 'comparison') => {
-      setState(prev => ({ ...prev, viewMode: mode }));
+      setState((prev) => ({ ...prev, viewMode: mode }));
     },
     []
   );
 
   // 获取选中的宫位数据
   const selectedPalaceData = state.selectedPalace
-    ? state.flyingStars.find(s => s.palaceIndex === state.selectedPalace)
+    ? state.flyingStars.find((s) => s.palaceIndex === state.selectedPalace)
     : null;
 
   // 获取选中的房间数据
   const selectedRoomData = state.selectedRoom
-    ? state.roomAnalyses.find(r => r.roomId === state.selectedRoom)
+    ? state.roomAnalyses.find((r) => r.roomId === state.selectedRoom)
     : null;
 
   return (
     <div className={`fengshui-display ${className}`}>
       {/* 控制面板 */}
-      <div className='control-panel bg-white p-4 shadow-lg rounded-lg mb-4'>
-        <div className='flex items-center justify-between mb-4'>
-          <h3 className='text-lg font-semibold'>风水分析结果</h3>
-          <div className='flex gap-2'>
+      <div className="control-panel bg-white p-4 shadow-lg rounded-lg mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">风水分析结果</h3>
+          <div className="flex gap-2">
             <button
               onClick={() => handleViewModeChange('overview')}
               className={`px-3 py-1 text-sm rounded transition-colors ${
@@ -449,92 +455,92 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
         </div>
 
         {/* 统计信息 */}
-        <div className='grid grid-cols-2 md:grid-cols-4 gap-4 text-sm'>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <span className='font-medium'>总房间数:</span> {rooms.length}
+            <span className="font-medium">总房间数:</span> {rooms.length}
           </div>
           <div>
-            <span className='font-medium'>平均得分:</span>{' '}
+            <span className="font-medium">平均得分:</span>{' '}
             {Math.round(
               state.roomAnalyses.reduce((sum, r) => sum + r.score, 0) /
                 state.roomAnalyses.length || 0
             )}
           </div>
           <div>
-            <span className='font-medium'>优秀房间:</span>{' '}
-            {state.roomAnalyses.filter(r => r.score >= 80).length}
+            <span className="font-medium">优秀房间:</span>{' '}
+            {state.roomAnalyses.filter((r) => r.score >= 80).length}
           </div>
           <div>
-            <span className='font-medium'>需要改善:</span>{' '}
-            {state.roomAnalyses.filter(r => r.score < 60).length}
+            <span className="font-medium">需要改善:</span>{' '}
+            {state.roomAnalyses.filter((r) => r.score < 60).length}
           </div>
         </div>
         {/* 分层权重调节 */}
-        <div className='flex flex-wrap items-center gap-3 text-sm'>
-          <div className='font-medium'>分层权重:</div>
-          <label className='flex items-center gap-1'>
+        <div className="flex flex-wrap items-center gap-3 text-sm">
+          <div className="font-medium">分层权重:</div>
+          <label className="flex items-center gap-1">
             年
             <input
-              type='number'
+              type="number"
               min={0}
               max={1}
               step={0.05}
               value={weights.year}
-              onChange={e =>
-                setWeights(w => ({
+              onChange={(e) =>
+                setWeights((w) => ({
                   ...w,
                   year: Math.max(0, Math.min(1, Number(e.target.value) || 0)),
                 }))
               }
-              className='w-20 px-2 py-1 border rounded'
+              className="w-20 px-2 py-1 border rounded"
             />
           </label>
-          <label className='flex items-center gap-1'>
+          <label className="flex items-center gap-1">
             月
             <input
-              type='number'
+              type="number"
               min={0}
               max={1}
               step={0.05}
               value={weights.month}
-              onChange={e =>
-                setWeights(w => ({
+              onChange={(e) =>
+                setWeights((w) => ({
                   ...w,
                   month: Math.max(0, Math.min(1, Number(e.target.value) || 0)),
                 }))
               }
-              className='w-20 px-2 py-1 border rounded'
+              className="w-20 px-2 py-1 border rounded"
             />
           </label>
-          <label className='flex items-center gap-1'>
+          <label className="flex items-center gap-1">
             日
             <input
-              type='number'
+              type="number"
               min={0}
               max={1}
               step={0.05}
               value={weights.day}
-              onChange={e =>
-                setWeights(w => ({
+              onChange={(e) =>
+                setWeights((w) => ({
                   ...w,
                   day: Math.max(0, Math.min(1, Number(e.target.value) || 0)),
                 }))
               }
-              className='w-20 px-2 py-1 border rounded'
+              className="w-20 px-2 py-1 border rounded"
             />
           </label>
-          <div className='text-gray-500'>
+          <div className="text-gray-500">
             建议总和≤0.6，基础盘权重自动占余量
           </div>
-          <div className='ml-auto flex items-center gap-2'>
+          <div className="ml-auto flex items-center gap-2">
             <button
-              className='px-3 py-1 text-sm rounded bg-gray-100 hover:bg-gray-200'
+              className="px-3 py-1 text-sm rounded bg-gray-100 hover:bg-gray-200"
               onClick={() => setWeights({ year: 0.3, month: 0.2, day: 0.1 })}
             >
               重置权重
             </button>
             <button
-              className='px-3 py-1 text-sm rounded bg-blue-600 text-white hover:bg-blue-700'
+              className="px-3 py-1 text-sm rounded bg-blue-600 text-white hover:bg-blue-700"
               onClick={() => {
                 try {
                   if (
@@ -557,10 +563,10 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
       </div>
 
       {/* 九宫飞星盘 */}
-      <div className='flying-star-plate bg-white p-6 shadow-lg rounded-lg mb-4'>
-        <h4 className='text-lg font-semibold mb-4'>九宫飞星盘</h4>
-        <div className='grid grid-cols-3 gap-2 max-w-md mx-auto'>
-          {state.flyingStars.map(star => (
+      <div className="flying-star-plate bg-white p-6 shadow-lg rounded-lg mb-4">
+        <h4 className="text-lg font-semibold mb-4">九宫飞星盘</h4>
+        <div className="grid grid-cols-3 gap-2 max-w-md mx-auto">
+          {state.flyingStars.map((star) => (
             <div
               key={star.palaceIndex}
               onClick={() => handlePalaceClick(star.palaceIndex)}
@@ -571,12 +577,12 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
               }`}
               style={{ backgroundColor: star.color + '20' }}
             >
-              <div className='text-center'>
-                <div className='text-lg font-bold'>{star.palaceIndex}</div>
-                <div className='text-xs text-gray-600 mt-1'>
+              <div className="text-center">
+                <div className="text-lg font-bold">{star.palaceIndex}</div>
+                <div className="text-xs text-gray-600 mt-1">
                   山:{star.mountainStar} 向:{star.facingStar}
                 </div>
-                <div className='text-xs text-gray-500 mt-1'>
+                <div className="text-xs text-gray-500 mt-1">
                   {Math.round(star.score)}分
                 </div>
               </div>
@@ -586,10 +592,10 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
       </div>
 
       {/* 房间分析列表 */}
-      <div className='room-analysis bg-white p-6 shadow-lg rounded-lg mb-4'>
-        <h4 className='text-lg font-semibold mb-4'>房间分析</h4>
-        <div className='space-y-3'>
-          {state.roomAnalyses.map(analysis => (
+      <div className="room-analysis bg-white p-6 shadow-lg rounded-lg mb-4">
+        <h4 className="text-lg font-semibold mb-4">房间分析</h4>
+        <div className="space-y-3">
+          {state.roomAnalyses.map((analysis) => (
             <div
               key={analysis.roomId}
               onClick={() => handleRoomClick(analysis.roomId)}
@@ -599,25 +605,25 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-4'>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
                   <div
-                    className='w-4 h-4 rounded-full'
+                    className="w-4 h-4 rounded-full"
                     style={{ backgroundColor: analysis.color }}
                   />
                   <div>
-                    <div className='font-medium'>
-                      {rooms.find(r => r.id === analysis.roomId)?.name ||
+                    <div className="font-medium">
+                      {rooms.find((r) => r.id === analysis.roomId)?.name ||
                         analysis.roomId}
                     </div>
-                    <div className='text-sm text-gray-600'>
+                    <div className="text-sm text-gray-600">
                       第{analysis.palaceIndex}宫 · {Math.round(analysis.score)}
                       分
                     </div>
                   </div>
                 </div>
-                <div className='text-right'>
-                  <div className='text-sm text-gray-500'>
+                <div className="text-right">
+                  <div className="text-sm text-gray-500">
                     {analysis.suggestions.length} 建议 ·{' '}
                     {analysis.warnings.length} 警告
                   </div>
@@ -630,31 +636,31 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
 
       {/* 详细信息面板 */}
       {(selectedPalaceData || selectedRoomData) && (
-        <div className='detail-panel bg-white p-6 shadow-lg rounded-lg'>
-          <h4 className='text-lg font-semibold mb-4'>详细信息</h4>
+        <div className="detail-panel bg-white p-6 shadow-lg rounded-lg">
+          <h4 className="text-lg font-semibold mb-4">详细信息</h4>
 
           {selectedPalaceData && (
-            <div className='mb-6'>
-              <h5 className='font-medium mb-2'>宫位信息</h5>
-              <div className='grid grid-cols-2 gap-4 text-sm'>
+            <div className="mb-6">
+              <h5 className="font-medium mb-2">宫位信息</h5>
+              <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className='text-gray-600'>宫位:</span> 第
+                  <span className="text-gray-600">宫位:</span> 第
                   {selectedPalaceData.palaceIndex}宫
                 </div>
                 <div>
-                  <span className='text-gray-600'>得分:</span>{' '}
+                  <span className="text-gray-600">得分:</span>{' '}
                   {Math.round(selectedPalaceData.score)}分
                 </div>
                 <div>
-                  <span className='text-gray-600'>山星:</span>{' '}
+                  <span className="text-gray-600">山星:</span>{' '}
                   {selectedPalaceData.mountainStar}
                 </div>
                 <div>
-                  <span className='text-gray-600'>向星:</span>{' '}
+                  <span className="text-gray-600">向星:</span>{' '}
                   {selectedPalaceData.facingStar}
                 </div>
-                <div className='col-span-2'>
-                  <span className='text-gray-600'>描述:</span>{' '}
+                <div className="col-span-2">
+                  <span className="text-gray-600">描述:</span>{' '}
                   {selectedPalaceData.description}
                 </div>
                 {(() => {
@@ -674,50 +680,50 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
                   if (!p) return null;
                   return (
                     <>
-                      <div className='col-span-2 mt-2'>
-                        <span className='text-gray-600'>主事:</span> {p.governs}
+                      <div className="col-span-2 mt-2">
+                        <span className="text-gray-600">主事:</span> {p.governs}
                       </div>
-                      <div className='col-span-2'>
-                        <span className='text-green-700 font-medium'>
+                      <div className="col-span-2">
+                        <span className="text-green-700 font-medium">
                           吉象:
                         </span>
-                        <ul className='list-disc list-inside text-green-700 mt-1'>
+                        <ul className="list-disc list-inside text-green-700 mt-1">
                           {p.auspicious.map((it, idx) => (
                             <li key={idx}>{it}</li>
                           ))}
                         </ul>
                       </div>
-                      <div className='col-span-2'>
-                        <span className='text-red-700 font-medium'>凶象:</span>
-                        <ul className='list-disc list-inside text-red-700 mt-1'>
+                      <div className="col-span-2">
+                        <span className="text-red-700 font-medium">凶象:</span>
+                        <ul className="list-disc list-inside text-red-700 mt-1">
                           {p.inauspicious.map((it, idx) => (
                             <li key={idx}>{it}</li>
                           ))}
                         </ul>
                       </div>
-                      <div className='col-span-2'>
-                        <span className='text-orange-700 font-medium'>
+                      <div className="col-span-2">
+                        <span className="text-orange-700 font-medium">
                           化解建议:
                         </span>
-                        <ul className='list-disc list-inside text-orange-700 mt-1'>
+                        <ul className="list-disc list-inside text-orange-700 mt-1">
                           {p.mitigation.map((it, idx) => (
                             <li key={idx}>{it}</li>
                           ))}
                         </ul>
                       </div>
-                      <div className='col-span-2'>
-                        <span className='text-blue-700 font-medium'>
+                      <div className="col-span-2">
+                        <span className="text-blue-700 font-medium">
                           催旺建议:
                         </span>
-                        <ul className='list-disc list-inside text-blue-700 mt-1'>
+                        <ul className="list-disc list-inside text-blue-700 mt-1">
                           {p.enhancement.map((it, idx) => (
                             <li key={idx}>{it}</li>
                           ))}
                         </ul>
                       </div>
                       {bazi?.yongshen && (
-                        <div className='col-span-2 mt-1'>
-                          <div className='text-xs text-gray-500'>
+                        <div className="col-span-2 mt-1">
+                          <div className="text-xs text-gray-500">
                             分层来源：基础运盘结合年/月/日权重与个人喜忌（喜{' '}
                             {bazi.yongshen.favorable.join('、')} / 忌{' '}
                             {bazi.yongshen.unfavorable.join('、')}）动态加权。
@@ -733,31 +739,31 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
 
           {selectedRoomData && (
             <div>
-              <h5 className='font-medium mb-2'>房间分析</h5>
-              <div className='space-y-4'>
-                <div className='grid grid-cols-2 gap-4 text-sm'>
+              <h5 className="font-medium mb-2">房间分析</h5>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className='text-gray-600'>房间:</span>{' '}
-                    {rooms.find(r => r.id === selectedRoomData.roomId)?.name}
+                    <span className="text-gray-600">房间:</span>{' '}
+                    {rooms.find((r) => r.id === selectedRoomData.roomId)?.name}
                   </div>
                   <div>
-                    <span className='text-gray-600'>宫位:</span> 第
+                    <span className="text-gray-600">宫位:</span> 第
                     {selectedRoomData.palaceIndex}宫
                   </div>
                   <div>
-                    <span className='text-gray-600'>得分:</span>{' '}
+                    <span className="text-gray-600">得分:</span>{' '}
                     {Math.round(selectedRoomData.score)}分
                   </div>
                   <div>
-                    <span className='text-gray-600'>类型:</span>{' '}
-                    {rooms.find(r => r.id === selectedRoomData.roomId)?.type}
+                    <span className="text-gray-600">类型:</span>{' '}
+                    {rooms.find((r) => r.id === selectedRoomData.roomId)?.type}
                   </div>
                 </div>
 
                 {selectedRoomData.suggestions.length > 0 && (
                   <div>
-                    <h6 className='font-medium text-green-700 mb-2'>建议</h6>
-                    <ul className='list-disc list-inside space-y-1 text-sm text-green-600'>
+                    <h6 className="font-medium text-green-700 mb-2">建议</h6>
+                    <ul className="list-disc list-inside space-y-1 text-sm text-green-600">
                       {selectedRoomData.suggestions.map((suggestion, index) => (
                         <li key={index}>{suggestion}</li>
                       ))}
@@ -767,8 +773,8 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
 
                 {selectedRoomData.warnings.length > 0 && (
                   <div>
-                    <h6 className='font-medium text-red-700 mb-2'>警告</h6>
-                    <ul className='list-disc list-inside space-y-1 text-sm text-red-600'>
+                    <h6 className="font-medium text-red-700 mb-2">警告</h6>
+                    <ul className="list-disc list-inside space-y-1 text-sm text-red-600">
                       {selectedRoomData.warnings.map((warning, index) => (
                         <li key={index}>{warning}</li>
                       ))}
@@ -776,15 +782,15 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
                   </div>
                 )}
 
-                <div className='grid grid-cols-2 gap-4'>
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <h6 className='font-medium text-blue-700 mb-2'>有利元素</h6>
-                    <div className='flex flex-wrap gap-1'>
+                    <h6 className="font-medium text-blue-700 mb-2">有利元素</h6>
+                    <div className="flex flex-wrap gap-1">
                       {selectedRoomData.favorableElements.map(
                         (element, index) => (
                           <span
                             key={index}
-                            className='px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded'
+                            className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
                           >
                             {element}
                           </span>
@@ -793,15 +799,15 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
                     </div>
                   </div>
                   <div>
-                    <h6 className='font-medium text-orange-700 mb-2'>
+                    <h6 className="font-medium text-orange-700 mb-2">
                       不利元素
                     </h6>
-                    <div className='flex flex-wrap gap-1'>
+                    <div className="flex flex-wrap gap-1">
                       {selectedRoomData.unfavorableElements.map(
                         (element, index) => (
                           <span
                             key={index}
-                            className='px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded'
+                            className="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded"
                           >
                             {element}
                           </span>

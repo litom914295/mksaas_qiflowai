@@ -50,10 +50,10 @@ export class ConversionFunnel {
   }
 
   static getInstance(): ConversionFunnel {
-    if (!this.instance) {
-      this.instance = new ConversionFunnel();
+    if (!ConversionFunnel.instance) {
+      ConversionFunnel.instance = new ConversionFunnel();
     }
-    return this.instance;
+    return ConversionFunnel.instance;
   }
 
   private generateSessionId(): string {
@@ -66,7 +66,7 @@ export class ConversionFunnel {
     this.funnelSteps.set(step, {
       timestamp,
       data,
-      sessionId: this.sessionId
+      sessionId: this.sessionId,
     });
 
     // 发送到Google Analytics
@@ -74,7 +74,7 @@ export class ConversionFunnel {
       action: 'funnel_step',
       category: 'Conversion',
       label: step,
-      value: this.funnelSteps.size
+      value: this.funnelSteps.size,
     });
 
     // 发送到自定义后端
@@ -82,7 +82,7 @@ export class ConversionFunnel {
       step,
       timestamp,
       sessionId: this.sessionId,
-      data
+      data,
     });
   }
 
@@ -90,7 +90,7 @@ export class ConversionFunnel {
   getFunnelData() {
     return Array.from(this.funnelSteps.entries()).map(([step, data]) => ({
       step,
-      ...data
+      ...data,
     }));
   }
 
@@ -105,7 +105,7 @@ export class ConversionFunnel {
     try {
       // TODO: 实现实际的后端API
       console.log(`Analytics [${type}]:`, data);
-      
+
       // 示例API调用
       // await fetch('/api/analytics', {
       //   method: 'POST',
@@ -130,10 +130,10 @@ export class UserBehaviorTracker {
   }
 
   static getInstance(): UserBehaviorTracker {
-    if (!this.instance) {
-      this.instance = new UserBehaviorTracker();
+    if (!UserBehaviorTracker.instance) {
+      UserBehaviorTracker.instance = new UserBehaviorTracker();
     }
-    return this.instance;
+    return UserBehaviorTracker.instance;
   }
 
   private setupEventListeners() {
@@ -148,7 +148,10 @@ export class UserBehaviorTracker {
     // 追踪滚动深度
     let maxScroll = 0;
     window.addEventListener('scroll', () => {
-      const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      const scrollPercentage =
+        (window.scrollY /
+          (document.documentElement.scrollHeight - window.innerHeight)) *
+        100;
       if (scrollPercentage > maxScroll) {
         maxScroll = scrollPercentage;
         if (maxScroll >= 25 && maxScroll < 50) {
@@ -173,7 +176,7 @@ export class UserBehaviorTracker {
         text: target.innerText?.substring(0, 50),
         x: e.clientX,
         y: e.clientY,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
       this.track('click', data);
     });
@@ -185,7 +188,7 @@ export class UserBehaviorTracker {
       data,
       timestamp: new Date().toISOString(),
       url: window.location.href,
-      userAgent: navigator.userAgent
+      userAgent: navigator.userAgent,
     };
 
     this.events.push(eventData);
@@ -206,7 +209,7 @@ export class UserBehaviorTracker {
     fetch('/api/analytics/behavior', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ events: eventsToSend })
+      body: JSON.stringify({ events: eventsToSend }),
     }).catch(console.error);
   }
 
@@ -220,10 +223,10 @@ export class PerformanceMonitor {
   private static instance: PerformanceMonitor;
 
   static getInstance(): PerformanceMonitor {
-    if (!this.instance) {
-      this.instance = new PerformanceMonitor();
+    if (!PerformanceMonitor.instance) {
+      PerformanceMonitor.instance = new PerformanceMonitor();
     }
-    return this.instance;
+    return PerformanceMonitor.instance;
   }
 
   // 监控页面加载性能
@@ -232,8 +235,10 @@ export class PerformanceMonitor {
 
     window.addEventListener('load', () => {
       setTimeout(() => {
-        const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-        
+        const perfData = performance.getEntriesByType(
+          'navigation'
+        )[0] as PerformanceNavigationTiming;
+
         const metrics = {
           // Core Web Vitals
           FCP: perfData.responseEnd - perfData.requestStart,
@@ -241,12 +246,14 @@ export class PerformanceMonitor {
           CLS: 0, // 需要使用PerformanceObserver
           FID: 0, // 需要使用PerformanceObserver
           TTFB: perfData.responseStart - perfData.requestStart,
-          
+
           // 其他指标
-          domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+          domContentLoaded:
+            perfData.domContentLoadedEventEnd -
+            perfData.domContentLoadedEventStart,
           loadComplete: perfData.loadEventEnd - perfData.loadEventStart,
           domInteractive: perfData.domInteractive - perfData.fetchStart,
-          
+
           // 资源加载
           dnsTime: perfData.domainLookupEnd - perfData.domainLookupStart,
           tcpTime: perfData.connectEnd - perfData.connectStart,
@@ -254,14 +261,14 @@ export class PerformanceMonitor {
         };
 
         console.log('Performance Metrics:', metrics);
-        
+
         // 发送到Google Analytics
         Object.entries(metrics).forEach(([key, value]) => {
           event({
             action: 'timing_complete',
             category: 'Performance',
             label: key,
-            value: Math.round(value)
+            value: Math.round(value),
           });
         });
       }, 0);
@@ -280,12 +287,12 @@ export class PerformanceMonitor {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
         const lcp = lastEntry.renderTime || lastEntry.loadTime;
-        
+
         event({
           action: 'web_vitals',
           category: 'Performance',
           label: 'LCP',
-          value: Math.round(lcp)
+          value: Math.round(lcp),
         });
       });
       lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
@@ -298,12 +305,12 @@ export class PerformanceMonitor {
       const fidObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           const fid = entry.processingStart - entry.startTime;
-          
+
           event({
             action: 'web_vitals',
             category: 'Performance',
             label: 'FID',
-            value: Math.round(fid)
+            value: Math.round(fid),
           });
         }
       });
@@ -321,12 +328,12 @@ export class PerformanceMonitor {
             clsValue += (entry as any).value;
           }
         }
-        
+
         event({
           action: 'web_vitals',
           category: 'Performance',
           label: 'CLS',
-          value: Math.round(clsValue * 1000) // 转换为更易读的数值
+          value: Math.round(clsValue * 1000), // 转换为更易读的数值
         });
       });
       clsObserver.observe({ entryTypes: ['layout-shift'] });
@@ -342,11 +349,11 @@ export class ErrorTracker {
   private errors: any[] = [];
 
   static getInstance(): ErrorTracker {
-    if (!this.instance) {
-      this.instance = new ErrorTracker();
-      this.instance.setupErrorHandlers();
+    if (!ErrorTracker.instance) {
+      ErrorTracker.instance = new ErrorTracker();
+      ErrorTracker.instance.setupErrorHandlers();
     }
-    return this.instance;
+    return ErrorTracker.instance;
   }
 
   private setupErrorHandlers() {
@@ -360,7 +367,7 @@ export class ErrorTracker {
         filename: event.filename,
         lineno: event.lineno,
         colno: event.colno,
-        stack: event.error?.stack
+        stack: event.error?.stack,
       });
     });
 
@@ -369,7 +376,7 @@ export class ErrorTracker {
       this.trackError({
         type: 'promise',
         reason: event.reason,
-        promise: event.promise
+        promise: event.promise,
       });
     });
   }
@@ -379,7 +386,7 @@ export class ErrorTracker {
       ...error,
       timestamp: new Date().toISOString(),
       url: window?.location?.href,
-      userAgent: navigator?.userAgent
+      userAgent: navigator?.userAgent,
     });
 
     // 发送到Google Analytics
@@ -387,7 +394,7 @@ export class ErrorTracker {
       action: 'exception',
       category: 'Error',
       label: error.message || error.reason,
-      value: 1
+      value: 1,
     });
 
     // 发送到后端
@@ -398,7 +405,7 @@ export class ErrorTracker {
     try {
       // TODO: 实现实际的错误报告API
       console.error('Error tracked:', error);
-      
+
       // await fetch('/api/analytics/error', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },

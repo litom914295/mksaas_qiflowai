@@ -5,9 +5,9 @@
  */
 
 import {
-  computeBaziSmart,
   type EnhancedBaziResult,
   type EnhancedBirthData,
+  computeBaziSmart,
 } from '@/lib/bazi';
 import {
   detectAnalysisRequest,
@@ -259,7 +259,7 @@ export class BaziMasterProcessor {
 
     if (this.config.includeMetadata) {
       sections.push(`**分析ID**: bazi_${Date.now()}`);
-      sections.push(`**算法版本**: v1.0`);
+      sections.push('**算法版本**: v1.0');
     }
 
     // 添加不确定性标注
@@ -323,7 +323,7 @@ export class BaziMasterProcessor {
     if (result.elements) {
       const elements = result.elements;
       sections.push(
-        `**五行分布**: 木${elements['木'] || 0} 火${elements['火'] || 0} 土${elements['土'] || 0} 金${elements['金'] || 0} 水${elements['水'] || 0}`
+        `**五行分布**: 木${elements.木 || 0} 火${elements.火 || 0} 土${elements.土 || 0} 金${elements.金 || 0} 水${elements.水 || 0}`
       );
 
       // 分析五行强弱
@@ -570,7 +570,7 @@ export class BaziMasterProcessor {
     };
 
     for (const [category, words] of Object.entries(keywords)) {
-      if (words.some(word => userInput.includes(word))) {
+      if (words.some((word) => userInput.includes(word))) {
         focus.push(category);
       }
     }
@@ -621,7 +621,7 @@ export class BaziMasterProcessor {
 
     if (uncertainties.length > 0) {
       sections.push('**请注意以下不确定因素**:');
-      uncertainties.forEach(uncertainty => {
+      uncertainties.forEach((uncertainty) => {
         sections.push(`- ${uncertainty}`);
       });
       sections.push('');
@@ -677,7 +677,7 @@ export class BaziMasterProcessor {
       content: `为了进行准确的八字分析，我需要以下信息：
 
 **缺少的信息**：
-${missing.map(item => `- ${item}`).join('\n')}
+${missing.map((item) => `- ${item}`).join('\n')}
 
 **建议格式**：
 "我是[性别]，[年]年[月]月[日]日[时]时[分]分在[地点]出生（公历/农历），请帮我分析八字"

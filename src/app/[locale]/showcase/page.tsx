@@ -12,14 +12,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ArrowLeft,
+import { LocaleLink } from '@/i18n/navigation';
+import {
+  ArrowLeft,
   BarChart3,
   Compass,
   MessageSquare,
   Sparkles,
 } from 'lucide-react';
 import type { Metadata } from 'next';
-import { LocaleLink } from '@/i18n/navigation';
 import Link from 'next/link';
 
 export const metadata: Metadata = {

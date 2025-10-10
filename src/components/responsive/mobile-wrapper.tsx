@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 
 interface MobileWrapperProps {
   children: React.ReactNode;
@@ -16,7 +17,7 @@ interface MobileWrapperProps {
 export function MobileWrapper({
   children,
   className,
-  breakpoint = 768
+  breakpoint = 768,
 }: MobileWrapperProps) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -27,16 +28,18 @@ export function MobileWrapper({
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, [breakpoint]);
 
   return (
-    <div className={cn(
-      'w-full',
-      isMobile ? 'px-4 py-2' : 'container mx-auto px-8 py-6',
-      className
-    )}>
+    <div
+      className={cn(
+        'w-full',
+        isMobile ? 'px-4 py-2' : 'container mx-auto px-8 py-6',
+        className
+      )}
+    >
       {children}
     </div>
   );
@@ -49,7 +52,7 @@ export function ResponsiveGrid({
   children,
   cols = { sm: 1, md: 2, lg: 3 },
   gap = 4,
-  className
+  className,
 }: {
   children: React.ReactNode;
   cols?: { sm?: number; md?: number; lg?: number; xl?: number };
@@ -75,7 +78,7 @@ export function ResponsiveGrid({
 export function MobileFixedButton({
   children,
   className,
-  show = true
+  show = true,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -84,10 +87,12 @@ export function MobileFixedButton({
   if (!show) return null;
 
   return (
-    <div className={cn(
-      'fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t md:hidden',
-      className
-    )}>
+    <div
+      className={cn(
+        'fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t md:hidden',
+        className
+      )}
+    >
       {children}
     </div>
   );
@@ -98,16 +103,13 @@ export function MobileFixedButton({
  */
 export function ResponsiveTitle({
   children,
-  className
+  className,
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
   return (
-    <h1 className={cn(
-      'text-2xl md:text-3xl lg:text-4xl font-bold',
-      className
-    )}>
+    <h1 className={cn('text-2xl md:text-3xl lg:text-4xl font-bold', className)}>
       {children}
     </h1>
   );
@@ -118,18 +120,20 @@ export function ResponsiveTitle({
  */
 export function ResponsiveCard({
   children,
-  className
+  className,
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
   return (
-    <div className={cn(
-      'rounded-lg border bg-card',
-      'p-4 md:p-6 lg:p-8',
-      'shadow-sm hover:shadow-md transition-shadow',
-      className
-    )}>
+    <div
+      className={cn(
+        'rounded-lg border bg-card',
+        'p-4 md:p-6 lg:p-8',
+        'shadow-sm hover:shadow-md transition-shadow',
+        className
+      )}
+    >
       {children}
     </div>
   );
@@ -148,7 +152,7 @@ export function useIsMobile(breakpoint = 768) {
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, [breakpoint]);
 

@@ -10,17 +10,21 @@ import { Card } from '@/components/ui/card';
 import { BaziReportGenerator } from '@/lib/reports/bazi-report-generator';
 import { PdfExportService } from '@/lib/reports/pdf-export-service';
 import { useReportSharing } from '@/lib/reports/sharing-service';
-import type { BaziReportData, ExportOptions, ShareOptions } from '@/lib/reports/types';
+import type {
+  BaziReportData,
+  ExportOptions,
+  ShareOptions,
+} from '@/lib/reports/types';
 import {
-    AlertCircle,
-    Clock,
-    Copy,
-    Download,
-    ExternalLink,
-    Mail,
-    MessageCircle,
-    QrCode,
-    Share2
+  AlertCircle,
+  Clock,
+  Copy,
+  Download,
+  ExternalLink,
+  Mail,
+  MessageCircle,
+  QrCode,
+  Share2,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -29,7 +33,10 @@ interface ReportExportShareProps {
   className?: string;
 }
 
-export function ReportExportShare({ reportData, className }: ReportExportShareProps) {
+export function ReportExportShare({
+  reportData,
+  className,
+}: ReportExportShareProps) {
   const [isExporting, setIsExporting] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [shareLink, setShareLink] = useState<string | null>(null);
@@ -38,10 +45,15 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
   const [shareOptions] = useState({
     password: '',
     expiresIn: 24, // 24 hours
-    allowDownload: true
+    allowDownload: true,
   });
 
-  const { shareReport, copyToClipboard, generateShareText, createSocialShareUrls } = useReportSharing();
+  const {
+    shareReport,
+    copyToClipboard,
+    generateShareText,
+    createSocialShareUrls,
+  } = useReportSharing();
 
   // Generate report content
   const generateReportContent = async (format: 'html' | 'pdf' = 'html') => {
@@ -50,9 +62,9 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
       format,
       includeCharts: true,
       includeFengshui: true,
-      template: 'professional'
+      template: 'professional',
     };
-    
+
     return await generator.generateReport(options);
   };
 
@@ -61,7 +73,7 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
     try {
       setIsExporting(true);
       const htmlContent = await generateReportContent('html');
-      
+
       // Create download link
       const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -69,11 +81,11 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
       link.href = url;
       link.download = `${reportData.personalInfo.name}-Bazi-Analysis-Report.html`;
       link.style.display = 'none';
-      
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error('HTML export failed:', error);
@@ -88,11 +100,11 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
     try {
       setIsExporting(true);
       const htmlContent = await generateReportContent('html');
-      
+
       await PdfExportService.downloadPdf(htmlContent, {
         filename: `${reportData.personalInfo.name}-八字分析报告.pdf`,
         format: 'a4',
-        orientation: 'portrait'
+        orientation: 'portrait',
       });
     } catch (error) {
       console.error('导出PDF失败:', error);
@@ -107,7 +119,7 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
     try {
       setIsSharing(true);
       const htmlContent = await generateReportContent('html');
-      
+
       const shareOptions: ShareOptions = {
         // content: htmlContent,
         expiresIn: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -150,7 +162,9 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
           </div>
           <div>
             <h3 className="text-lg font-semibold text-gray-900">导出与分享</h3>
-            <p className="text-sm text-gray-600">保存或分享您的专属命理分析报告</p>
+            <p className="text-sm text-gray-600">
+              保存或分享您的专属命理分析报告
+            </p>
           </div>
         </div>
 
@@ -166,16 +180,20 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
                 variant="outline"
               >
                 <Download className="w-4 h-4" />
-                {isExporting && exportFormat === 'html' ? '导出中...' : '导出HTML版本'}
+                {isExporting && exportFormat === 'html'
+                  ? '导出中...'
+                  : '导出HTML版本'}
               </Button>
-              
+
               <Button
                 onClick={handleExportPdf}
                 disabled={isExporting}
                 className="w-full flex items-center gap-2"
               >
                 <Download className="w-4 h-4" />
-                {isExporting && exportFormat === 'pdf' ? '生成中...' : '导出PDF版本'}
+                {isExporting && exportFormat === 'pdf'
+                  ? '生成中...'
+                  : '导出PDF版本'}
               </Button>
             </div>
           </div>
@@ -198,8 +216,11 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            <strong>HTML版本：</strong>可在浏览器中打开，保留完整的交互功能和样式<br/>
-            <strong>PDF版本：</strong>适合打印和离线保存，格式固定便于分享<br/>
+            <strong>HTML版本：</strong>
+            可在浏览器中打开，保留完整的交互功能和样式
+            <br />
+            <strong>PDF版本：</strong>适合打印和离线保存，格式固定便于分享
+            <br />
             <strong>在线分享：</strong>生成临时链接，可设置访问密码和过期时间
           </AlertDescription>
         </Alert>
@@ -226,19 +247,29 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
                     <ExternalLink className="w-4 h-4 text-gray-600" />
                     <span className="text-sm font-medium">分享链接</span>
                   </div>
-                  <div className="text-sm text-gray-600 break-all">{shareLink}</div>
+                  <div className="text-sm text-gray-600 break-all">
+                    {shareLink}
+                  </div>
                 </div>
 
                 {/* 操作按钮 */}
                 <div className="grid grid-cols-2 gap-3">
-                  <Button onClick={handleCopyLink} className="flex items-center gap-2">
+                  <Button
+                    onClick={handleCopyLink}
+                    className="flex items-center gap-2"
+                  >
                     <Copy className="w-4 h-4" />
                     复制链接
                   </Button>
-                  
-                  <Button 
+
+                  <Button
                     variant="outline"
-                    onClick={() => window.open(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(shareLink)}`, '_blank')}
+                    onClick={() =>
+                      window.open(
+                        `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(shareLink)}`,
+                        '_blank'
+                      )
+                    }
                     className="flex items-center gap-2"
                   >
                     <QrCode className="w-4 h-4" />
@@ -259,10 +290,12 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
                           `${reportData.personalInfo.name} - 八字分析报告`
                         );
                         // 微信分享需要特殊处理
-                        copyToClipboard(generateShareText(
-                          { id: '', url: shareLink, shortUrl: shareLink },
-                          `${reportData.personalInfo.name} - 八字分析报告`
-                        ).wechat);
+                        copyToClipboard(
+                          generateShareText(
+                            { id: '', url: shareLink, shortUrl: shareLink },
+                            `${reportData.personalInfo.name} - 八字分析报告`
+                          ).wechat
+                        );
                         alert('分享文案已复制，请手动粘贴到微信');
                       }}
                       className="flex items-center gap-1"
@@ -270,7 +303,7 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
                       <MessageCircle className="w-3 h-3" />
                       微信
                     </Button>
-                    
+
                     <Button
                       variant="outline"
                       size="sm"
@@ -286,7 +319,7 @@ export function ReportExportShare({ reportData, className }: ReportExportSharePr
                       <MessageCircle className="w-3 h-3" />
                       QQ
                     </Button>
-                    
+
                     <Button
                       variant="outline"
                       size="sm"

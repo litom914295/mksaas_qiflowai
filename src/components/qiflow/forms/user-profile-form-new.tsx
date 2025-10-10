@@ -31,13 +31,13 @@ const ProgressBar = ({
     optional?: boolean;
   }[];
 }) => {
-  const completedSteps = steps.filter(step => step.completed).length;
+  const completedSteps = steps.filter((step) => step.completed).length;
   const totalSteps = steps.length;
 
   return (
-    <div className='w-full bg-gray-200 rounded-full h-2'>
+    <div className="w-full bg-gray-200 rounded-full h-2">
       <div
-        className='bg-blue-600 h-2 rounded-full transition-all duration-300'
+        className="bg-blue-600 h-2 rounded-full transition-all duration-300"
         style={{ width: `${(completedSteps / totalSteps) * 100}%` }}
       />
     </div>
@@ -74,7 +74,7 @@ const profileSchema = z.object({
   email: z
     .string()
     .optional()
-    .refine(val => !val || z.string().email().safeParse(val).success, {
+    .refine((val) => !val || z.string().email().safeParse(val).success, {
       message: '邮箱格式不正确',
     }),
   phone: z.string().optional(),
@@ -225,150 +225,150 @@ export function UserProfileForm(props: UserProfileFormProps) {
   }, [showContactInfo, setValue]);
 
   return (
-    <div className='max-w-2xl mx-auto p-6'>
+    <div className="max-w-2xl mx-auto p-6">
       {/* 进度条 */}
       {showProgress && (
-        <div className='mb-8'>
+        <div className="mb-8">
           <ProgressBar steps={progressSteps} />
         </div>
       )}
 
       {/* 错误提示 */}
       {error && (
-        <div className='mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700'>
-          <AlertCircle className='w-5 h-5' />
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
+          <AlertCircle className="w-5 h-5" />
           <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit(handleSubmitForm)} className='space-y-6'>
-        <div className='flex justify-end'>
-          <Button type='button' variant='outline' onClick={handleFillSample}>
+      <form onSubmit={handleSubmit(handleSubmitForm)} className="space-y-6">
+        <div className="flex justify-end">
+          <Button type="button" variant="outline" onClick={handleFillSample}>
             ⏩ 一键填充样例
           </Button>
         </div>
         {/* 基本信息 */}
-        <div className='space-y-4'>
-          <h3 className='text-lg font-medium text-gray-900 flex items-center gap-2'>
-            <div className='w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center'>
-              <User className='w-4 h-4 text-white' />
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
+            <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <User className="w-4 h-4 text-white" />
             </div>
             基本信息
           </h3>
 
           <div>
-            <label className='block text-sm font-medium text-gray-700 mb-2'>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               显示名称 *
             </label>
-            <div className='flex items-center gap-2 mb-2'>
-              <span className='text-xs text-gray-500'>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs text-gray-500">
                 💡 这是其他用户看到的名称，可以随时修改
               </span>
             </div>
             <input
               {...register('displayName')}
-              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-              placeholder='请输入您的昵称'
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="请输入您的昵称"
             />
             {errors.displayName && (
-              <p className='mt-1 text-sm text-red-600'>
+              <p className="mt-1 text-sm text-red-600">
                 {errors.displayName.message}
               </p>
             )}
           </div>
 
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 性别
               </label>
-              <div className='flex items-center gap-2 mb-2'>
-                <span className='text-xs text-gray-500'>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs text-gray-500">
                   💡 性别信息用于八字计算，影响五行分析
                 </span>
               </div>
               <select
                 {...register('gender')}
-                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value='male'>男</option>
-                <option value='female'>女</option>
-                <option value='other'>其他</option>
+                <option value="male">男</option>
+                <option value="female">女</option>
+                <option value="other">其他</option>
               </select>
             </div>
 
             <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 历法类型
               </label>
-              <div className='flex items-center gap-2 mb-2'>
-                <span className='text-xs text-gray-500'>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs text-gray-500">
                   💡 选择公历或农历，影响八字计算的准确性
                 </span>
               </div>
               <select
                 {...register('calendar')}
-                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value='gregorian'>公历</option>
-                <option value='lunar'>农历</option>
+                <option value="gregorian">公历</option>
+                <option value="lunar">农历</option>
               </select>
             </div>
           </div>
         </div>
 
         {/* 出生信息 */}
-        <div className='space-y-4'>
-          <h3 className='text-lg font-medium text-gray-900 flex items-center gap-2'>
-            <div className='w-6 h-6 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center'>
-              <Calendar className='w-4 h-4 text-white' />
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
+            <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center">
+              <Calendar className="w-4 h-4 text-white" />
             </div>
             出生信息
           </h3>
 
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 出生日期 *
               </label>
-              <div className='flex items-center gap-2 mb-2'>
-                <span className='text-xs text-gray-500'>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs text-gray-500">
                   💡 {isLunar ? '农历' : '公历'}日期，用于八字计算
                 </span>
               </div>
               <CalendarPicker
                 value={watchedValues.birthDate}
-                onChange={value => setValue('birthDate', value)}
+                onChange={(value) => setValue('birthDate', value)}
                 calendarType={watchedValues.calendar}
-                placeholder='选择出生日期'
+                placeholder="选择出生日期"
               />
               {errors.birthDate && (
-                <p className='mt-1 text-sm text-red-600'>
+                <p className="mt-1 text-sm text-red-600">
                   {errors.birthDate.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 出生时间
               </label>
-              <div className='flex items-center gap-2 mb-2'>
-                <span className='text-xs text-gray-500'>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs text-gray-500">
                   💡 精确的出生时间有助于更准确的八字分析
                 </span>
               </div>
               <TimePicker
                 value={watchedValues.birthTime || ''}
-                onChange={value => setValue('birthTime', value)}
-                placeholder='选择出生时间'
+                onChange={(value) => setValue('birthTime', value)}
+                placeholder="选择出生时间"
               />
             </div>
           </div>
 
           {isLunar && (
-            <div className='p-3 bg-yellow-50 border border-yellow-200 rounded-lg'>
-              <p className='text-sm text-yellow-800'>
+            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-sm text-yellow-800">
                 <strong>注意：</strong>{' '}
                 农历模式下，系统会自动转换为公历进行八字计算。
                 如果知道具体的公历日期，建议直接选择公历模式。
@@ -378,45 +378,45 @@ export function UserProfileForm(props: UserProfileFormProps) {
         </div>
 
         {/* 出生地点 */}
-        <div className='space-y-4'>
-          <h3 className='text-lg font-medium text-gray-900 flex items-center gap-2'>
-            <div className='w-6 h-6 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center'>
-              <MapPin className='w-4 h-4 text-white' />
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
+            <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
+              <MapPin className="w-4 h-4 text-white" />
             </div>
             出生地点
           </h3>
 
           <div>
-            <label className='block text-sm font-medium text-gray-700 mb-2'>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               地址 *
             </label>
-            <div className='flex items-center gap-2 mb-2'>
-              <span className='text-xs text-gray-500'>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs text-gray-500">
                 💡 出生地点用于真太阳时计算，提高八字分析精度
               </span>
             </div>
-            <div className='flex gap-2'>
-              <div className='flex-1'>
+            <div className="flex gap-2">
+              <div className="flex-1">
                 <AddressAutocomplete
                   value={watchedValues.address}
-                  onChange={value => {
+                  onChange={(value) => {
                     setValue('address', value, { shouldValidate: true });
                   }}
                   onPick={handleAddressPick}
-                  placeholder='输入出生地点'
+                  placeholder="输入出生地点"
                 />
               </div>
               <Button
-                type='button'
-                variant='outline'
+                type="button"
+                variant="outline"
                 onClick={() => setOpenMap(true)}
-                className='px-3'
+                className="px-3"
               >
-                <MapPin className='w-4 h-4' />
+                <MapPin className="w-4 h-4" />
               </Button>
             </div>
             {errors.address && (
-              <p className='mt-1 text-sm text-red-600'>
+              <p className="mt-1 text-sm text-red-600">
                 {errors.address.message}
               </p>
             )}
@@ -424,8 +424,8 @@ export function UserProfileForm(props: UserProfileFormProps) {
 
           {/* 地图选择器暂时禁用，等待实现modal版本 */}
           {openMap && (
-            <div className='mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg'>
-              <p className='text-sm text-yellow-800'>
+            <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-sm text-yellow-800">
                 地图选择功能正在开发中，请直接输入地址或使用地址自动完成功能。
               </p>
             </div>
@@ -434,67 +434,67 @@ export function UserProfileForm(props: UserProfileFormProps) {
 
         {/* 联系方式（非游客模式） */}
         {mode !== 'guest' && (
-          <div className='space-y-4'>
-            <div className='flex items-center justify-between'>
-              <h3 className='text-lg font-medium text-gray-900 flex items-center gap-2'>
-                <Mail className='w-5 h-5' />
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
+                <Mail className="w-5 h-5" />
                 联系方式
               </h3>
               <button
-                type='button'
+                type="button"
                 onClick={toggleContactInfo}
-                className='flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800'
+                className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
               >
                 {showContactInfo ? (
-                  <EyeOff className='w-4 h-4' />
+                  <EyeOff className="w-4 h-4" />
                 ) : (
-                  <Eye className='w-4 h-4' />
+                  <Eye className="w-4 h-4" />
                 )}
                 {showContactInfo ? '隐藏' : '显示'}联系方式
               </button>
             </div>
 
             {showContactInfo && (
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     邮箱地址
                   </label>
-                  <div className='flex items-center gap-2 mb-2'>
-                    <span className='text-xs text-gray-500'>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs text-gray-500">
                       💡 用于接收重要通知和分析报告
                     </span>
                   </div>
                   <input
                     {...register('email')}
-                    type='email'
-                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                    placeholder='your@email.com'
+                    type="email"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="your@email.com"
                   />
                   {errors.email && (
-                    <p className='mt-1 text-sm text-red-600'>
+                    <p className="mt-1 text-sm text-red-600">
                       {errors.email.message}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     手机号码
                   </label>
-                  <div className='flex items-center gap-2 mb-2'>
-                    <span className='text-xs text-gray-500'>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs text-gray-500">
                       💡 用于接收短信通知和验证
                     </span>
                   </div>
                   <input
                     {...register('phone')}
-                    type='tel'
-                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                    placeholder='+86 138 0000 0000'
+                    type="tel"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="+86 138 0000 0000"
                   />
                   {errors.phone && (
-                    <p className='mt-1 text-sm text-red-600'>
+                    <p className="mt-1 text-sm text-red-600">
                       {errors.phone.message}
                     </p>
                   )}
@@ -505,11 +505,11 @@ export function UserProfileForm(props: UserProfileFormProps) {
         )}
 
         {/* 提交按钮 */}
-        <div className='pt-6 border-t'>
+        <div className="pt-6 border-t">
           <Button
-            type='submit'
+            type="submit"
             disabled={isSubmitting || !isValid}
-            className='w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200'
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
           >
             {isSubmitting
               ? '保存中...'
@@ -520,13 +520,13 @@ export function UserProfileForm(props: UserProfileFormProps) {
 
           {/* 表单验证提示 */}
           {!isValid && (
-            <div className='mt-3 text-sm text-gray-600 text-center'>
-              <div className='flex items-center justify-center gap-2'>
-                <AlertCircle className='w-4 h-4 text-orange-500' />
+            <div className="mt-3 text-sm text-gray-600 text-center">
+              <div className="flex items-center justify-center gap-2">
+                <AlertCircle className="w-4 h-4 text-orange-500" />
                 <span>请填写所有必填信息以启用分析功能</span>
               </div>
               {/* 调试信息 */}
-              <div className='mt-2 text-xs text-gray-500'>
+              <div className="mt-2 text-xs text-gray-500">
                 <div>调试信息: isValid={isValid.toString()}</div>
                 <div>displayName: {watchedValues.displayName || '空'}</div>
                 <div>birthDate: {watchedValues.birthDate || '空'}</div>

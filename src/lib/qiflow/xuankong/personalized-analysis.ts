@@ -253,6 +253,41 @@ export function personalizedFlyingStarAnalysis(
   };
 }
 
+// 计算生肖（根据出生年份）
+function getChineseZodiac(birthYear: number): string {
+  const zodiacs = [
+    '鼠',
+    '牛',
+    '虎',
+    '兔',
+    '龙',
+    '蛇',
+    '马',
+    '羊',
+    '猴',
+    '鸡',
+    '狗',
+    '猪',
+  ];
+  const baseYear = 1900; // 鼠年
+  const index = (birthYear - baseYear) % 12;
+  return zodiacs[index >= 0 ? index : index + 12];
+}
+
+// 计算不利元素（五行相克关系）
+function getUnfavorableElements(
+  element: '金' | '木' | '水' | '火' | '土'
+): string[] {
+  const 克制关系: { [key: string]: string[] } = {
+    金: ['火', '木'], // 金克木，火克金
+    木: ['金', '土'], // 木克土，金克木
+    水: ['土', '火'], // 水克火，土克水
+    火: ['水', '金'], // 火克金，水克火
+    土: ['木', '水'], // 土克水，木克土
+  };
+  return 克制关系[element] || [];
+}
+
 // 计算个人兼容性
 function calculatePersonalCompatibility(
   plate: Plate,
@@ -262,6 +297,15 @@ function calculatePersonalCompatibility(
   overall: 'excellent' | 'good' | 'fair' | 'poor';
   score: number;
   reasons: string[];
+  // 新增：八字相关信息
+  zodiac?: string;
+  element?: string;
+  favorableElements?: string[];
+  unfavorableElements?: string[];
+  luckyDirections?: string[];
+  favorableDirections?: string[];
+  guaName?: string;
+  guaGroup?: string;
 } {
   let score = 0;
   const reasons: string[] = [];
@@ -313,7 +357,26 @@ function calculatePersonalCompatibility(
   else if (score >= 2) overall = 'fair';
   else overall = 'poor';
 
-  return { overall, score, reasons };
+  // 计算生肖（基于出生年份）
+  const zodiac = getChineseZodiac(userProfile.birthYear);
+
+  // 计算不利元素（与命卦元素相克的元素）
+  const unfavorableElements = getUnfavorableElements(personalGua.element);
+
+  return {
+    overall,
+    score,
+    reasons,
+    // 新增的八字信息
+    zodiac,
+    element: personalGua.element,
+    favorableElements: [personalGua.element], // 喜用神为命卦元素
+    unfavorableElements,
+    luckyDirections: personalGua.favorableDirections,
+    favorableDirections: personalGua.favorableDirections,
+    guaName: personalGua.guaName,
+    guaGroup: personalGua.group,
+  };
 }
 
 // 生成房间功能推荐

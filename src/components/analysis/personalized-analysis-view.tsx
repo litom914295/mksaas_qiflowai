@@ -48,7 +48,7 @@ export function PersonalizedAnalysisView({
     mainElement: '木',
     favorableElements: ['水', '火'],
     unfavorableElements: ['金', '土'],
-    luckyDirections: ['东', '南']
+    luckyDirections: ['东', '南'],
   };
   const personalizedRecommendations: any[] = [];
 

@@ -41,8 +41,18 @@ export function LingzhengAnalysisView({
 
   // TODO: 需要根据实际的 lingzhengAnalysis 结构进行调整
   const lingzhengTheory = lingzhengAnalysis || {};
-  const lingShenPosition: any = { direction: '北', palace: '坎', star: 1, currentState: { rating: '良好', description: '当前状态良好' } };
-  const zhengShenPosition: any = { direction: '南', palace: '离', star: 9, currentState: { rating: '良好', description: '当前状态良好' } };
+  const lingShenPosition: any = {
+    direction: '北',
+    palace: '坎',
+    star: 1,
+    currentState: { rating: '良好', description: '当前状态良好' },
+  };
+  const zhengShenPosition: any = {
+    direction: '南',
+    palace: '离',
+    star: 9,
+    currentState: { rating: '良好', description: '当前状态良好' },
+  };
   const waterPlacements: any[] = [];
   const mountainPlacements: any[] = [];
   const analysis: any = {};
@@ -141,12 +151,14 @@ export function LingzhengAnalysisView({
               <div>
                 <p className="text-sm text-muted-foreground mb-2">理想布局</p>
                 <ul className="space-y-1">
-                  {lingShenPosition.idealSetup?.map((item: any, idx: number) => (
-                    <li key={idx} className="text-sm flex items-start">
-                      <span className="text-blue-500 mr-2">•</span>
-                      <span>{item}</span>
-                    </li>
-                  )) || (
+                  {lingShenPosition.idealSetup?.map(
+                    (item: any, idx: number) => (
+                      <li key={idx} className="text-sm flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        <span>{item}</span>
+                      </li>
+                    )
+                  ) || (
                     <>
                       <li className="text-sm flex items-start">
                         <span className="text-blue-500 mr-2">•</span>
@@ -215,12 +227,14 @@ export function LingzhengAnalysisView({
               <div>
                 <p className="text-sm text-muted-foreground mb-2">理想布局</p>
                 <ul className="space-y-1">
-                  {zhengShenPosition.idealSetup?.map((item: any, idx: number) => (
-                    <li key={idx} className="text-sm flex items-start">
-                      <span className="text-green-500 mr-2">•</span>
-                      <span>{item}</span>
-                    </li>
-                  )) || (
+                  {zhengShenPosition.idealSetup?.map(
+                    (item: any, idx: number) => (
+                      <li key={idx} className="text-sm flex items-start">
+                        <span className="text-green-500 mr-2">•</span>
+                        <span>{item}</span>
+                      </li>
+                    )
+                  ) || (
                     <>
                       <li className="text-sm flex items-start">
                         <span className="text-green-500 mr-2">•</span>

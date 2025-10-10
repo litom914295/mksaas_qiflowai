@@ -64,10 +64,10 @@
           "description": "创建通用 FourStateShell 组件，支持四种状态展示与重试/升级按钮。",
           "details": "已创建 components/common/four-state-shell.tsx，支持 state 参数切换四态。",
           "acceptanceCriteria": [
-            "Empty 态显示"还没有开始"",
-            "Error 态显示"服务暂不可用"",
-            "Limited 态显示"功能受限"并提供升级按钮",
-            "Timeout 态显示"分析超时"",
+            "Empty 态显示 \"还没有开始\"",
+            "Error 态显示 \"服务暂不可用\"",
+            "Limited 态显示 \"功能受限\" 并提供升级按钮",
+            "Timeout 态显示 \"分析超时\"",
             "重试按钮跳转正确",
             "i18n 支持"
           ],
@@ -97,7 +97,7 @@
           "description": "为 /[locale]/bazi-analysis 接入 GuidanceBanner 与 FourStateShell。",
           "details": "已修改 page.tsx，支持 ?state 参数，默认 ok。",
           "acceptanceCriteria": [
-            "引导条显示"填写出生信息"",
+            "引导条显示 \"填写出生信息\"",
             "四态切换正常",
             "默认 ok 态显示 BaziAnalysisPage 组件"
           ],
@@ -112,7 +112,7 @@
           "description": "为 /[locale]/chat 接入 GuidanceBanner 与 FourStateShell。",
           "details": "已修改 page.tsx，支持 ?state 参数，默认 ok。",
           "acceptanceCriteria": [
-            "引导条显示"实时 AI 咨询"",
+            "引导条显示 \"实时 AI 咨询\"",
             "四态切换正常",
             "默认 ok 态显示 EnhancedChatInterface 组件"
           ],
@@ -125,9 +125,9 @@
           "status": "done",
           "priority": "high",
           "description": "新建 /[locale]/compass-analysis 页面，接入 GuidanceBanner 与 FourStateShell。",
-          "details": "已创建 page.tsx，提供"查看示例结果"与"打开测试页面"按钮。",
+          "details": "已创建 page.tsx，提供 \"查看示例结果\" 与 \"打开测试页面\" 按钮。",
           "acceptanceCriteria": [
-            "引导条显示"输入地址或使用数字罗盘"",
+            "引导条显示 \"输入地址或使用数字罗盘\"",
             "四态切换正常",
             "默认 ok 态显示占位内容与跳转按钮"
           ],

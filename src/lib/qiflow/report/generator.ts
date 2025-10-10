@@ -3,8 +3,8 @@
  * 支持多种格式导出：HTML、PDF、Word、JSON
  */
 
-import { BaziOutput } from '@/app/api/bazi/schema';
-import { FengshuiOutput } from '@/app/api/fengshui/schema';
+import type { BaziOutput } from '@/app/api/bazi/schema';
+import type { FengshuiOutput } from '@/app/api/fengshui/schema';
 
 export interface ReportData {
   type: 'bazi' | 'fengshui' | 'combined';
@@ -29,10 +29,13 @@ export interface ReportOptions {
 /**
  * 生成HTML报告
  */
-export function generateHTMLReport(data: ReportData, options: ReportOptions): string {
+export function generateHTMLReport(
+  data: ReportData,
+  options: ReportOptions
+): string {
   const { bazi, fengshui, metadata } = data;
   const template = options.template || 'default';
-  
+
   let html = `
 <!DOCTYPE html>
 <html lang="${options.language || 'zh-CN'}">
@@ -247,17 +250,17 @@ export function generateHTMLReport(data: ReportData, options: ReportOptions): st
   ${options.watermark ? `<div class="watermark">${options.watermark}</div>` : ''}
   <div class="container">
 `;
-  
+
   // 生成八字报告内容
   if (bazi && data.type !== 'fengshui') {
     html += generateBaziHTML(bazi, options);
   }
-  
+
   // 生成风水报告内容
   if (fengshui && data.type !== 'bazi') {
     html += generateFengshuiHTML(fengshui, options);
   }
-  
+
   // 页脚
   html += `
     <div class="footer">
@@ -271,7 +274,7 @@ export function generateHTMLReport(data: ReportData, options: ReportOptions): st
 </body>
 </html>
 `;
-  
+
   return html;
 }
 
@@ -337,12 +340,16 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
     <div class="section">
       <h2 class="section-title">五行分析</h2>
       <div class="elements">
-        ${Object.entries(bazi.elements).map(([element, count]) => `
+        ${Object.entries(bazi.elements)
+          .map(
+            ([element, count]) => `
           <div class="element">
             <div class="element-circle element-${getElementClass(element)}">${count}</div>
             <div class="element-label">${element}</div>
           </div>
-        `).join('')}
+        `
+          )
+          .join('')}
       </div>
       <div style="text-align: center; margin-top: 20px;">
         <p>用神：<strong style="color: #9333ea; font-size: 1.2em;">${bazi.yongShen.primary}</strong></p>
@@ -351,13 +358,15 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
       </div>
     </div>
     
-    ${options.includeRecommendations ? `
+    ${
+      options.includeRecommendations
+        ? `
     <div class="section">
       <h2 class="section-title">性格分析</h2>
       <div class="recommendations">
         <h3>性格特质</h3>
         <ul>
-          ${bazi.analysis.personality.traits.map(trait => `<li>${trait}</li>`).join('')}
+          ${bazi.analysis.personality.traits.map((trait) => `<li>${trait}</li>`).join('')}
         </ul>
       </div>
     </div>
@@ -395,14 +404,19 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
         </ul>
       </div>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 `;
 }
 
 /**
  * 生成风水HTML内容
  */
-function generateFengshuiHTML(fengshui: FengshuiOutput, options: ReportOptions): string {
+function generateFengshuiHTML(
+  fengshui: FengshuiOutput,
+  options: ReportOptions
+): string {
   return `
     <div class="header">
       <h1>玄空风水分析报告</h1>
@@ -431,14 +445,18 @@ function generateFengshuiHTML(fengshui: FengshuiOutput, options: ReportOptions):
       </div>
     </div>
     
-    ${options.includeCharts ? `
+    ${
+      options.includeCharts
+        ? `
     <div class="section">
       <h2 class="section-title">飞星分布</h2>
       <div class="flying-stars">
         ${generateFlyingStarsGrid(fengshui.flyingStars)}
       </div>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
     
     <div class="section">
       <h2 class="section-title">特殊方位</h2>
@@ -462,25 +480,29 @@ function generateFengshuiHTML(fengshui: FengshuiOutput, options: ReportOptions):
       </div>
     </div>
     
-    ${options.includeRecommendations ? `
+    ${
+      options.includeRecommendations
+        ? `
     <div class="section">
       <h2 class="section-title">风水建议</h2>
       <div class="recommendations">
         <h3>布局建议</h3>
         <ul>
-          ${fengshui.recommendations.layout.map(item => `<li>${item}</li>`).join('')}
+          ${fengshui.recommendations.layout.map((item) => `<li>${item}</li>`).join('')}
         </ul>
         <h3 style="margin-top: 20px;">增强措施</h3>
         <ul>
-          ${fengshui.recommendations.enhancement.map(item => `<li>${item}</li>`).join('')}
+          ${fengshui.recommendations.enhancement.map((item) => `<li>${item}</li>`).join('')}
         </ul>
         <h3 style="margin-top: 20px;">化解方法</h3>
         <ul>
-          ${fengshui.recommendations.avoidance.map(item => `<li>${item}</li>`).join('')}
+          ${fengshui.recommendations.avoidance.map((item) => `<li>${item}</li>`).join('')}
         </ul>
       </div>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 `;
 }
 
@@ -489,31 +511,35 @@ function generateFengshuiHTML(fengshui: FengshuiOutput, options: ReportOptions):
  */
 function generateFlyingStarsGrid(flyingStars: any): string {
   if (!flyingStars || !flyingStars.combined) return '';
-  
+
   const positions = [
     [4, 9, 2],
     [3, 5, 7],
-    [8, 1, 6]
+    [8, 1, 6],
   ];
-  
+
   let html = '';
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
       const palace = positions[row][col];
       const star = flyingStars.combined.find((s: any) => s.palace === palace);
-      
+
       html += `
         <div class="star-cell">
-          ${star ? `
+          ${
+            star
+              ? `
             <div class="star-mountain">${star.mountain}</div>
             <div class="star-period">${star.period}</div>
             <div class="star-facing">${star.facing}</div>
-          ` : ''}
+          `
+              : ''
+          }
         </div>
       `;
     }
   }
-  
+
   return html;
 }
 
@@ -522,11 +548,11 @@ function generateFlyingStarsGrid(flyingStars: any): string {
  */
 function getElementClass(element: string): string {
   const mapping: Record<string, string> = {
-    '木': 'wood',
-    '火': 'fire',
-    '土': 'earth',
-    '金': 'metal',
-    '水': 'water'
+    木: 'wood',
+    火: 'fire',
+    土: 'earth',
+    金: 'metal',
+    水: 'water',
   };
   return mapping[element] || 'earth';
 }
@@ -560,7 +586,7 @@ export function preparePDFData(htmlContent: string): {
         top: '20mm',
         right: '15mm',
         bottom: '20mm',
-        left: '15mm'
+        left: '15mm',
       },
       printBackground: true,
       displayHeaderFooter: true,
@@ -573,15 +599,18 @@ export function preparePDFData(htmlContent: string): {
         <div style="font-size: 10px; text-align: center; width: 100%;">
           第 <span class="pageNumber"></span> 页 / 共 <span class="totalPages"></span> 页
         </div>
-      `
-    }
+      `,
+    },
   };
 }
 
 /**
  * 生成分享链接
  */
-export function generateShareLink(reportId: string, type: 'bazi' | 'fengshui'): string {
+export function generateShareLink(
+  reportId: string,
+  type: 'bazi' | 'fengshui'
+): string {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://qiflow.ai';
   return `${baseUrl}/report/${type}/${reportId}`;
 }
@@ -591,22 +620,22 @@ export function generateShareLink(reportId: string, type: 'bazi' | 'fengshui'): 
  */
 export function generateReportSummary(data: ReportData): string {
   let summary = '';
-  
+
   if (data.bazi) {
-    summary += `【八字分析】\n`;
+    summary += '【八字分析】\n';
     summary += `姓名：${data.bazi.basicInfo.name}\n`;
     summary += `八字：${data.bazi.fourPillars.year} ${data.bazi.fourPillars.month} ${data.bazi.fourPillars.day} ${data.bazi.fourPillars.hour}\n`;
     summary += `日主：${data.bazi.fourPillars.dayMaster}\n`;
     summary += `用神：${data.bazi.yongShen.primary}\n\n`;
   }
-  
+
   if (data.fengshui) {
-    summary += `【风水分析】\n`;
+    summary += '【风水分析】\n';
     summary += `坐向：坐${data.fengshui.mountain}向${data.fengshui.facing}\n`;
     summary += `元运：第${data.fengshui.period}运\n`;
     summary += `财位：${data.fengshui.specialPositions.wealthPosition}\n`;
     summary += `文昌位：${data.fengshui.specialPositions.academicPosition}\n`;
   }
-  
+
   return summary;
 }

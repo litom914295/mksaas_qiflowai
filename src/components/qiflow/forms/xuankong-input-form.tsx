@@ -57,7 +57,10 @@ const TWENTY_FOUR_MOUNTAINS = [
   { name: '亥', angle: 322.5 },
 ];
 
-export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProps) {
+export function XuankongInputForm({
+  onSubmit,
+  className,
+}: XuankongInputFormProps) {
   const currentYear = new Date().getFullYear();
   const [formData, setFormData] = useState<XuankongFormData>({
     mountainDirection: 0,
@@ -71,29 +74,32 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // 验证
     const newErrors: Record<string, string> = {};
-    
-    if (formData.completionYear < 1900 || formData.completionYear > currentYear) {
+
+    if (
+      formData.completionYear < 1900 ||
+      formData.completionYear > currentYear
+    ) {
       newErrors.completionYear = '请输入有效的年份';
     }
-    
+
     if (formData.completionMonth < 1 || formData.completionMonth > 12) {
       newErrors.completionMonth = '请输入有效的月份 (1-12)';
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    
+
     onSubmit(formData);
   };
 
   // 根据坐山自动计算向山（相差180度）
   const handleMountainChange = (value: string) => {
-    const angle = parseFloat(value);
+    const angle = Number.parseFloat(value);
     const facing = (angle + 180) % 360;
     setFormData({
       ...formData,
@@ -111,32 +117,38 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
             <Home className="w-5 h-5" />
             建筑基本信息
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="buildingName" className="dark:text-gray-200">
-                建筑名称 <span className="text-gray-500 dark:text-gray-400">(可选)</span>
+                建筑名称{' '}
+                <span className="text-gray-500 dark:text-gray-400">(可选)</span>
               </Label>
               <Input
                 id="buildingName"
                 type="text"
                 placeholder="例如：阳光花园"
                 value={formData.buildingName || ''}
-                onChange={(e) => setFormData({ ...formData, buildingName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, buildingName: e.target.value })
+                }
                 className="dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
               />
             </div>
-            
+
             <div>
               <Label htmlFor="address" className="dark:text-gray-200">
-                地址 <span className="text-gray-500 dark:text-gray-400">(可选)</span>
+                地址{' '}
+                <span className="text-gray-500 dark:text-gray-400">(可选)</span>
               </Label>
               <Input
                 id="address"
                 type="text"
                 placeholder="例如：北京市朝阳区"
                 value={formData.address || ''}
-                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, address: e.target.value })
+                }
                 className="dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
               />
             </div>
@@ -149,7 +161,7 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
             <Compass className="w-5 h-5" />
             坐向方位
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="mountainDirection" className="dark:text-gray-200">
@@ -164,8 +176,8 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
                 </SelectTrigger>
                 <SelectContent className="dark:bg-gray-800 dark:border-gray-700">
                   {TWENTY_FOUR_MOUNTAINS.map((mountain) => (
-                    <SelectItem 
-                      key={mountain.angle} 
+                    <SelectItem
+                      key={mountain.angle}
                       value={mountain.angle.toString()}
                       className="dark:text-gray-100 dark:focus:bg-gray-700"
                     >
@@ -178,7 +190,7 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
                 建筑背靠的方向
               </p>
             </div>
-            
+
             <div>
               <Label htmlFor="facingDirection" className="dark:text-gray-200">
                 向山方位 <span className="text-red-500">*</span>
@@ -203,7 +215,7 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
             <MapPin className="w-5 h-5" />
             时间信息
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="completionYear" className="dark:text-gray-200">
@@ -215,31 +227,43 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
                 min="1900"
                 max={currentYear}
                 value={formData.completionYear}
-                onChange={(e) => setFormData({ ...formData, completionYear: parseInt(e.target.value) })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    completionYear: Number.parseInt(e.target.value),
+                  })
+                }
                 className={`dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 ${
                   errors.completionYear ? 'border-red-500' : ''
                 }`}
               />
               {errors.completionYear && (
-                <p className="text-xs text-red-500 mt-1">{errors.completionYear}</p>
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.completionYear}
+                </p>
               )}
             </div>
-            
+
             <div>
               <Label htmlFor="completionMonth" className="dark:text-gray-200">
                 落成月份 <span className="text-red-500">*</span>
               </Label>
               <Select
                 value={formData.completionMonth.toString()}
-                onValueChange={(value) => setFormData({ ...formData, completionMonth: parseInt(value) })}
+                onValueChange={(value) =>
+                  setFormData({
+                    ...formData,
+                    completionMonth: Number.parseInt(value),
+                  })
+                }
               >
                 <SelectTrigger className="dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="dark:bg-gray-800 dark:border-gray-700">
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                    <SelectItem 
-                      key={month} 
+                    <SelectItem
+                      key={month}
                       value={month.toString()}
                       className="dark:text-gray-100 dark:focus:bg-gray-700"
                     >
@@ -249,10 +273,11 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div>
               <Label htmlFor="currentYear" className="dark:text-gray-200">
-                分析年份 <span className="text-gray-500 dark:text-gray-400">(可选)</span>
+                分析年份{' '}
+                <span className="text-gray-500 dark:text-gray-400">(可选)</span>
               </Label>
               <Input
                 id="currentYear"
@@ -260,7 +285,12 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
                 min={formData.completionYear}
                 max={currentYear + 10}
                 value={formData.currentYear}
-                onChange={(e) => setFormData({ ...formData, currentYear: parseInt(e.target.value) })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    currentYear: Number.parseInt(e.target.value),
+                  })
+                }
                 className="dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -275,10 +305,11 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             其他信息
           </h3>
-          
+
           <div>
             <Label htmlFor="floorCount" className="dark:text-gray-200">
-              楼层数 <span className="text-gray-500 dark:text-gray-400">(可选)</span>
+              楼层数{' '}
+              <span className="text-gray-500 dark:text-gray-400">(可选)</span>
             </Label>
             <Input
               id="floorCount"
@@ -287,7 +318,12 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
               max="200"
               placeholder="例如：30"
               value={formData.floorCount || ''}
-              onChange={(e) => setFormData({ ...formData, floorCount: parseInt(e.target.value) || undefined })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  floorCount: Number.parseInt(e.target.value) || undefined,
+                })
+              }
               className="dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
@@ -295,9 +331,9 @@ export function XuankongInputForm({ onSubmit, className }: XuankongInputFormProp
 
         {/* 提交按钮 */}
         <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-          <Button 
-            type="submit" 
-            size="lg" 
+          <Button
+            type="submit"
+            size="lg"
             className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500"
           >
             开始玄空飞星分析

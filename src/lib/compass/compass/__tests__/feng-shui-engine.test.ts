@@ -3,7 +3,7 @@
  */
 
 import { CompassUtil, FengShuiCompassEngine } from '../feng-shui-engine';
-import { LayerData } from '../feng-shui-types';
+import type { LayerData } from '../feng-shui-types';
 
 describe('FengShuiCompassEngine', () => {
   let engine: FengShuiCompassEngine;
@@ -39,8 +39,8 @@ describe('FengShuiCompassEngine', () => {
         name: '测试层',
         startAngle: 0,
         textColor: '#ffffff',
-        data: ['北', '东北', '东', '东南', '南', '西南', '西', '西北']
-      }
+        data: ['北', '东北', '东', '东南', '南', '西南', '西', '西北'],
+      },
     ];
 
     test('应该正确设置罗盘数据', () => {
@@ -81,10 +81,10 @@ describe('FengShuiCompassEngine', () => {
           name: '层1',
           startAngle: 0,
           textColor: '#ffffff',
-          data: ['A', 'B', 'C', 'D']
-        }
+          data: ['A', 'B', 'C', 'D'],
+        },
       ];
-      
+
       engine.setCompassData(testData);
       const radius = engine.getLayerRadius(0);
       expect(radius).toBeGreaterThan(0);
@@ -113,7 +113,7 @@ describe('CompassUtil', () => {
       const mountain1 = util.getTwentyFourMountain(90);
       const mountain2 = util.getTwentyFourMountain(180);
       const mountain3 = util.getTwentyFourMountain(270);
-      
+
       expect(mountain1.name).toBeDefined();
       expect(mountain2.name).toBeDefined();
       expect(mountain3.name).toBeDefined();

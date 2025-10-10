@@ -112,10 +112,11 @@ export function AIChatInterface({ context, onRequestData }: Props) {
         answer += '• 不是通用的风水建议\n';
         answer += '• 完全基于您的八字定制\n';
         answer += '• 财位、文昌位都因人而异\n\n';
-        answer += '请先提供您的出生信息（年月日时、性别），让我为您进行个性化分析。';
+        answer +=
+          '请先提供您的出生信息（年月日时、性别），让我为您进行个性化分析。';
         return answer;
       }
-      
+
       if (ctx.xuankong) {
         usedData.push('八字+风水数据');
         answer += `基于您的八字（日主特质）和房屋朝向（${ctx.xuankong.facing}度），`;

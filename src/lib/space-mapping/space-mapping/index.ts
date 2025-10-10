@@ -11,4 +11,3 @@ export * from './types';
 export { AlignmentEngine as createAlignmentEngine } from './alignment-engine';
 export { RoomMapper as createRoomMapper } from './room-mapper';
 export { SpaceMapper as createSpaceMapper } from './space-mapper';
-

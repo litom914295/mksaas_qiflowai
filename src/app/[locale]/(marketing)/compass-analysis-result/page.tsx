@@ -1,5 +1,5 @@
 import { CompassAnalysisResultPage } from '@/components/qiflow/analysis/compass-analysis-result-page';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -19,19 +19,25 @@ interface CompassAnalysisResultProps {
   }>;
 }
 
-export default async function CompassAnalysisResult({ 
-  params, 
-  searchParams 
+export default async function CompassAnalysisResult({
+  params,
+  searchParams,
 }: CompassAnalysisResultProps) {
   const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
-  
+
   return (
-    <CompassAnalysisResultPage 
+    <CompassAnalysisResultPage
       locale={resolvedParams.locale}
-      direction={resolvedSearchParams.direction ? parseFloat(resolvedSearchParams.direction) : 0}
+      direction={
+        resolvedSearchParams.direction
+          ? Number.parseFloat(resolvedSearchParams.direction)
+          : 0
+      }
       theme={resolvedSearchParams.theme || 'luxury'}
-      timestamp={resolvedSearchParams.timestamp || new Date().getTime().toString()}
+      timestamp={
+        resolvedSearchParams.timestamp || new Date().getTime().toString()
+      }
     />
   );
 }

@@ -1,4 +1,7 @@
-import type { GenerateFlyingStarOutput, FlyingStarExplanation } from '@/lib/fengshui';
+import type {
+  FlyingStarExplanation,
+  GenerateFlyingStarOutput,
+} from '@/lib/fengshui';
 import type { EnhancedBaziResult } from '@/lib/qiflow/bazi/enhanced-calculator';
 import type { LucideIcon } from 'lucide-react';
 
@@ -35,7 +38,15 @@ export interface HouseData {
 export interface Room {
   id: string;
   name: string;
-  type: 'living' | 'living_room' | 'bedroom' | 'study' | 'kitchen' | 'bathroom' | 'dining' | 'dining_room';
+  type:
+    | 'living'
+    | 'living_room'
+    | 'bedroom'
+    | 'study'
+    | 'kitchen'
+    | 'bathroom'
+    | 'dining'
+    | 'dining_room';
   position?: {
     x: number;
     y: number;

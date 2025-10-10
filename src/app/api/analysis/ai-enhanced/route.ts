@@ -3,18 +3,23 @@
  * POST /api/analysis/ai-enhanced
  */
 
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import { calculateBazi } from '@/lib/services/bazi-calculator-service';
-import { generateAIEnhancedAnalysis, generateQuickAIAnalysis } from '@/lib/services/ai-enhanced-analysis';
-import { verifyAuth } from '@/lib/auth';
 import type { PersonalData } from '@/components/qiflow/analysis/types';
+import { verifyAuth } from '@/lib/auth';
+import {
+  generateAIEnhancedAnalysis,
+  generateQuickAIAnalysis,
+} from '@/lib/services/ai-enhanced-analysis';
+import { calculateBazi } from '@/lib/services/bazi-calculator-service';
+import { type NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 
 /**
  * 请求验证Schema
  */
 const requestSchema = z.object({
-  birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '生日格式必须为 YYYY-MM-DD'),
+  birthDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, '生日格式必须为 YYYY-MM-DD'),
   birthTime: z.string().regex(/^\d{2}:\d{2}$/, '时间格式必须为 HH:mm'),
   gender: z.enum(['male', 'female']),
   isQuickAnalysis: z.boolean().optional().default(false),
@@ -25,10 +30,7 @@ const requestSchema = z.object({
  * 错误响应
  */
 function errorResponse(message: string, status = 400) {
-  return NextResponse.json(
-    { error: message, success: false },
-    { status }
-  );
+  return NextResponse.json({ error: message, success: false }, { status });
 }
 
 /**
@@ -42,11 +44,12 @@ export async function POST(request: NextRequest) {
 
     if (!validationResult.success) {
       return errorResponse(
-        `请求参数验证失败: ${validationResult.error.issues.map(e => e.message).join(', ')}`
+        `请求参数验证失败: ${validationResult.error.issues.map((e) => e.message).join(', ')}`
       );
     }
 
-    const { birthDate, birthTime, gender, isQuickAnalysis, userId } = validationResult.data;
+    const { birthDate, birthTime, gender, isQuickAnalysis, userId } =
+      validationResult.data;
 
     // 2. 验证用户身份（可选，如果需要记录用户信息）
     let authenticatedUserId: string | null = null;
@@ -63,9 +66,9 @@ export async function POST(request: NextRequest) {
       birthDate,
       birthTime,
       gender,
-      location: '北京',  // 默认位置
+      location: '北京', // 默认位置
       calendar: 'solar',
-      name: '用户'
+      name: '用户',
     } as PersonalData);
 
     // 4. 生成AI增强分析
@@ -97,15 +100,14 @@ export async function POST(request: NextRequest) {
         userId: authenticatedUserId,
       },
     });
-
   } catch (error) {
     console.error('AI增强分析失败:', error);
-    
+
     // 区分不同类型的错误
     if (error instanceof z.ZodError) {
       return errorResponse('输入数据格式错误');
     }
-    
+
     if (error instanceof Error) {
       if (error.message.includes('API')) {
         return errorResponse('AI服务暂时不可用，请稍后重试', 503);
@@ -129,8 +131,8 @@ export async function GET() {
       success: true,
       data: {
         available: hasOpenAIKey,
-        message: hasOpenAIKey 
-          ? 'AI增强分析服务可用' 
+        message: hasOpenAIKey
+          ? 'AI增强分析服务可用'
           : 'AI服务未配置，请设置 OPENAI_API_KEY',
       },
     });

@@ -1,6 +1,6 @@
 /**
  * 罗盘集成服务
- * 
+ *
  * 整合数字罗盘和风水罗盘功能
  * 提供统一的罗盘服务接口
  */
@@ -8,11 +8,11 @@
 import { FengShuiAIAnalysis } from './ai-analysis';
 import { DEFAULT_COMPASS_DATA } from './feng-shui-data';
 import { CompassUtil, FengShuiCompassEngine } from './feng-shui-engine';
-import {
+import type {
   AIAnalysisResult,
   CompassEvent,
   LayerData,
-  SensorData
+  SensorData,
 } from './feng-shui-types';
 
 export class CompassIntegrationService {
@@ -25,7 +25,7 @@ export class CompassIntegrationService {
     this.fengShuiEngine = new FengShuiCompassEngine();
     this.compassUtil = new CompassUtil(this.fengShuiEngine);
     this.aiAnalysis = new FengShuiAIAnalysis(this.compassUtil);
-    
+
     // 初始化默认数据
     this.fengShuiEngine.setCompassData(DEFAULT_COMPASS_DATA);
   }
@@ -51,7 +51,7 @@ export class CompassIntegrationService {
   private emitEvent(event: CompassEvent): void {
     const listeners = this.eventListeners.get(event.type);
     if (listeners) {
-      listeners.forEach(callback => callback(event));
+      listeners.forEach((callback) => callback(event));
     }
   }
 
@@ -60,7 +60,7 @@ export class CompassIntegrationService {
     this.emitEvent({
       type: 'direction_change',
       timestamp: sensorData.timestamp,
-      data: sensorData
+      data: sensorData,
     });
   }
 
@@ -68,19 +68,19 @@ export class CompassIntegrationService {
   async performAIAnalysis(direction: number): Promise<AIAnalysisResult> {
     try {
       const result = await this.aiAnalysis.analyzeDirection(direction);
-      
+
       this.emitEvent({
         type: 'ai_analysis_complete',
         timestamp: Date.now(),
-        data: result
+        data: result,
       });
-      
+
       return result;
     } catch (error) {
       this.emitEvent({
         type: 'sensor_error',
         timestamp: Date.now(),
-        data: { error: 'AI分析失败', details: error }
+        data: { error: 'AI分析失败', details: error },
       });
       throw error;
     }
@@ -90,12 +90,12 @@ export class CompassIntegrationService {
   getDirectionInfo(direction: number) {
     const mountain = this.compassUtil.getTwentyFourMountain(direction);
     const bagua = this.compassUtil.getBaguaInfo(direction);
-    
+
     return {
       direction,
       mountain,
       bagua,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
   }
 
@@ -124,7 +124,7 @@ export class CompassIntegrationService {
     this.emitEvent({
       type: 'calibration_complete',
       timestamp: Date.now(),
-      data: { message: '罗盘校准完成' }
+      data: { message: '罗盘校准完成' },
     });
   }
 
@@ -134,7 +134,7 @@ export class CompassIntegrationService {
     this.emitEvent({
       type: 'direction_change',
       timestamp: Date.now(),
-      data: { direction: 0, accuracy: 0 }
+      data: { direction: 0, accuracy: 0 },
     });
   }
 }
