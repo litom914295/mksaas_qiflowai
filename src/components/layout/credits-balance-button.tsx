@@ -6,6 +6,7 @@ import { useCreditBalance } from '@/hooks/use-credits';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { Routes } from '@/routes';
 import { CoinsIcon, Loader2Icon } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 export function CreditsBalanceButton() {
   // If credits are not enabled, return null
@@ -16,7 +17,29 @@ export function CreditsBalanceButton() {
   const router = useLocaleRouter();
 
   // Use TanStack Query hook for credit balance
-  const { data: balance = 0, isLoading } = useCreditBalance();
+  const { data: balance = 0, isLoading, refetch } = useCreditBalance();
+
+  // 进入页面自动触发签到（顶部菜单为全站常驻入口）
+  const tried = useRef(false);
+  useEffect(() => {
+    if (!websiteConfig.credits.dailySignin?.enable) return;
+    if (tried.current) return;
+    const key = 'qf_daily_signin_date';
+    const today = new Date().toISOString().slice(0, 10);
+    const last = typeof window !== 'undefined' ? localStorage.getItem(key) : null;
+    if (last === today) return;
+    tried.current = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/credits/daily-signin', { method: 'POST' });
+        const data = await res.json();
+        if (data?.success) {
+          localStorage.setItem(key, today);
+          if (!data?.data?.already) refetch();
+        }
+      } catch {}
+    })();
+  }, [refetch]);
 
   const handleClick = () => {
     router.push(Routes.SettingsCredits);

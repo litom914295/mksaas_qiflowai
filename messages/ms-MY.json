@@ -125,7 +125,18 @@
       "baziAnalysisDesc": "Generate BaZi astrology analysis",
       "flyingStar": "Flying Star",
       "flyingStarDesc": "Generate feng shui analysis report"
-    }
+    },
+    "bazi": "Analisis BaZi",
+    "fengshui": "Feng Shui",
+    "xuankong": "Bintang Terbang",
+    "personalInfo": "Maklumat Peribadi",
+    "birthDate": "Tarikh Lahir",
+    "birthTime": "Masa Lahir",
+    "location": "Lokasi",
+    "houseOrientation": "Orientasi Rumah",
+    "startAnalysis": "Mula Analisis",
+    "analysisComplete": "Analisis Selesai",
+    "viewReport": "Lihat Laporan"
   },
   "Auth": {
     "login": "Login",
@@ -512,7 +523,10 @@
     "login": "Login",
     "logout": "Logout",
     "signUp": "Sign Up",
-    "logoutFailed": "Logout failed. Please try again."
+    "logoutFailed": "Logout failed. Please try again.",
+    "yes": "Ya",
+    "no": "Tidak",
+    "ok": "OK"
   },
   "Compass": {
     "title": "Digital Compass",
@@ -1941,8 +1955,9 @@
     }
   },
   "Metadata": {
-    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
-    "description": "An intelligent feng shui analysis platform that combines traditional Chinese metaphysics with modern AI technology"
+    "title": "QiFlow AI - Platform Analisis Feng Shui Pintar",
+    "description": "Platform analisis feng shui pintar yang menggabungkan metafisika tradisional Cina dengan teknologi AI moden",
+    "name": "QiFlow AI"
   },
   "Navigation": {
     "home": "Home",

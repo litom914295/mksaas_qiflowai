@@ -175,8 +175,17 @@ export const websiteConfig: WebsiteConfig = {
     enablePackagesForFreePlan: false,
     registerGiftCredits: {
       enable: true,
-      amount: 100, // 增加到100积分，足够体验所有功能
+      amount: 70, // 统一为70积分
       expireDays: 30,
+    },
+    dailySignin: {
+      enable: true,
+      amount: 10, // 每日签到基础奖励（不过期）
+    },
+    referral: {
+      inviterCredits: 15,
+      inviteeCredits: 20,
+      requireActivation: true,
     },
     packages: {
       basic: {
@@ -227,6 +236,16 @@ export const websiteConfig: WebsiteConfig = {
           allowPromotionCode: true,
         },
       },
+    },
+  },
+  growth: {
+    share: {
+      enable: true,
+      rewardCredits: 5,
+      dailyMaxRewards: 1,
+      cooldownMinutes: 60,
+      requireConvert: true,
+      minStaySeconds: 6,
     },
   },
 };

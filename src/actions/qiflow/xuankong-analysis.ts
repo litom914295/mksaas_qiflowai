@@ -134,6 +134,10 @@ export async function xuankongAnalysisAction(formData: FormData) {
       confidence,
       creditsUsed,
     });
+
+    // 触发激活检测（风水分析已完成）
+    const { tryMarkActivation } = await import('@/lib/growth/activation');
+    tryMarkActivation(userId).catch(() => {});
   } catch (e) {
     console.warn('[xuankong] skip insert (db not ready?):', e);
     qiflowLogger.error('Xuankong analysis - database insert failed', {

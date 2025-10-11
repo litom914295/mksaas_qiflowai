@@ -15,16 +15,16 @@ export const WELCOME_BONUSES = {
 
   // 注册用户
   registered: {
-    credits: 200, // 注册送200积分
+    credits: 70, // 注册送70积分（与 websiteConfig 保持一致）
     source: 'REGISTER_GIFT',
     features: ['all'],
     bonus: [
-      '✅ 200积分 = 2-4次完整分析',
-      '✅ 解锁所有场景助手',
+      '✅ 70积分 = 基础体验所需',
+      '✅ 解锁核心功能体验',
       '✅ 每日签到送积分',
       '✅ 分享得积分奖励',
     ],
-    welcomeMessage: '🎉 恭喜！您已获得200积分新人礼包',
+    welcomeMessage: '🎉 恭喜！您已获得70积分新人礼包',
   },
 
   // 首次充值奖励
@@ -37,10 +37,10 @@ export const WELCOME_BONUSES = {
 
   // 邀请奖励
   referral: {
-    inviter: 50, // 邀请人得50积分
-    invitee: 30, // 被邀请人得30积分
-    condition: '被邀请人注册即送',
-    shareMessage: '快来体验气流AI！智能生活决策助手，注册即送200积分~',
+    inviter: 15, // 推荐人 15 积分
+    invitee: 20, // 被推荐人 20 积分
+    condition: '被邀请人完成激活任务后发放',
+    shareMessage: '快来体验气流AI！注册送新人积分，每日签到有奖励~',
   },
 };
 

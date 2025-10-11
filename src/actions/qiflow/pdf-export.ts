@@ -505,6 +505,10 @@ export async function exportQiflowPdfAction(formData: FormData) {
       fileKey: url.startsWith('data:') ? 'inline-datauri' : 's3-url',
       meta: { type, language, size: url.length },
     });
+
+    // 触发激活检测（PDF导出完成）
+    const { tryMarkActivation } = await import('@/lib/growth/activation');
+    tryMarkActivation(userId).catch(() => {});
   } catch (_e) {
     // 忽略 DB 或 Next Runtime 错误，避免阻断导出
   }

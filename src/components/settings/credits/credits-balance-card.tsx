@@ -92,6 +92,28 @@ export default function CreditsBalanceCard() {
     refetchStats();
   }, [refetchBalance, refetchStats]);
 
+  // 进入积分页自动尝试签到（双保险）
+  useEffect(() => {
+    if (!websiteConfig.credits.dailySignin?.enable) return;
+    const key = 'qf_daily_signin_date';
+    const today = new Date().toISOString().slice(0, 10);
+    const last = typeof window !== 'undefined' ? localStorage.getItem(key) : null;
+    if (last === today) return;
+    (async () => {
+      try {
+        const res = await fetch('/api/credits/daily-signin', { method: 'POST' });
+        const data = await res.json();
+        if (data?.success) {
+          localStorage.setItem(key, today);
+          if (!data?.data?.already) {
+            refetchBalance();
+            refetchStats();
+          }
+        }
+      } catch {}
+    })();
+  }, [refetchBalance, refetchStats]);
+
   // Render loading skeleton
   if (!mounted || isLoadingBalance || isLoadingStats) {
     return (
@@ -147,14 +169,12 @@ export default function CreditsBalanceCard() {
       </CardHeader>
       <CardContent className="flex-1">
         {/* Credits balance */}
-        <div className="flex items-center justify-start space-x-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            {/* <CoinsIcon className="h-6 w-6 text-muted-foreground" /> */}
             <div className="text-3xl font-medium">
               {balance.toLocaleString()}
             </div>
           </div>
-          {/* <Badge variant="outline">available</Badge> */}
         </div>
       </CardContent>
       <CardFooter className="px-6 py-4 flex justify-between items-center bg-muted rounded-none">

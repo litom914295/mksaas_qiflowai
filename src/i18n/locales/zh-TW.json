@@ -863,5 +863,8 @@
       "login": "登入",
       "register": "註冊"
     }
+  },
+  "Metadata": {
+    "name": "氣流AI"
   }
 }

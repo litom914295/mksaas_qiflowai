@@ -2,6 +2,10 @@ import { UnifiedFengshuiEngine } from '@/lib/qiflow/unified';
 import { adaptToFrontend } from '@/lib/qiflow/unified/adapters/frontend-adapter';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { verifyAuth } from '@/lib/auth';
+import { getDb } from '@/db';
+import { fengshuiAnalysis } from '@/db/schema';
+import { tryMarkActivation } from '@/lib/growth/activation';
 
 const RequestSchema = z.object({
   address: z.string().min(1).max(200),
@@ -83,6 +87,25 @@ export async function POST(req: NextRequest) {
       overallAssessment: result.overallAssessment,
       smartRecommendations: result.smartRecommendations,
     };
+
+    // 可选：记录业务完成并触发推荐激活（仅登录用户）
+    try {
+      const auth = await verifyAuth(req as unknown as Request);
+      if (auth?.authenticated && auth.userId) {
+        const db = await getDb();
+        await db.insert(fengshuiAnalysis).values({
+          userId: auth.userId,
+          input: { address, direction, houseType, observedAt },
+          result: formattedResult as any,
+          confidence: String(Number(confidence.toFixed(2))),
+          creditsUsed: 20,
+        });
+        // 异步触发激活检测，不阻塞主流程
+        tryMarkActivation(auth.userId).catch(() => {});
+      }
+    } catch (e) {
+      console.warn('xuankong activation side-effect failed:', e);
+    }
 
     return NextResponse.json({
       success: true,

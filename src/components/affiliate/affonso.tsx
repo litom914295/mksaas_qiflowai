@@ -13,10 +13,6 @@ export default function AffonsoScript() {
     return null;
   }
 
-  if (!websiteConfig.features.enableAffonsoAffiliate) {
-    return null;
-  }
-
   const affiliateId = process.env.NEXT_PUBLIC_AFFILIATE_AFFONSO_ID as string;
   if (!affiliateId) {
     return null;

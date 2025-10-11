@@ -3,6 +3,7 @@
 import { EnhancedChatInterface } from '@/components/chat/enhanced-chat-interface';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ShareButton } from '@/components/growth/share-button';
 import type { GenerateFlyingStarOutput } from '@/lib/fengshui/types';
 import {
   Bot,
@@ -87,6 +88,7 @@ export function EnhancedFengshuiAnalysisResult({
         </div>
 
         <div className="flex items-center gap-3">
+          <ShareButton shareType="fengshuiAnalysis" />
           <Button
             onClick={toggleChat}
             variant={showChat ? 'default' : 'outline'}

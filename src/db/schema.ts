@@ -118,6 +118,150 @@ export const creditTransaction = pgTable("credit_transaction", {
 	creditTransactionTypeIdx: index("credit_transaction_type_idx").on(table.type),
 }));
 
+// 推荐/分享/任务/成就/统计（P0 病毒增长闭环）
+export const referralRelationships = pgTable('referral_relationships', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  referrerId: text('referrer_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  refereeId: text('referee_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  referralCode: text('referral_code'),
+  level: integer('level').default(1),
+  status: text('status').default('pending'),
+  rewardGranted: boolean('reward_granted').default(false),
+  createdAt: timestamp('created_at').defaultNow(),
+  activatedAt: timestamp('activated_at'),
+}, (table) => ({
+  idxReferrer: index('idx_referral_referrer').on(table.referrerId),
+  idxReferee: index('idx_referral_referee').on(table.refereeId),
+  idxStatus: index('idx_referral_status').on(table.status),
+  idxReferralCode: index('idx_referral_code').on(table.referralCode),
+}));
+
+export const referralCodes = pgTable('referral_codes', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  code: text('code').notNull().unique(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  customCode: text('custom_code'),
+  usageCount: integer('usage_count').default(0),
+  maxUsage: integer('max_usage'),
+  totalRewards: integer('total_rewards').default(0),
+  expireAt: timestamp('expire_at'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+}, (table) => ({
+  idxCodeUser: index('idx_code_user').on(table.userId),
+  idxCodeCode: index('idx_code_code').on(table.code),
+  idxCodeCustom: index('idx_code_custom').on(table.customCode),
+}));
+
+export const shareRecords = pgTable('share_records', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  shareType: text('share_type').notNull(),
+  platform: text('platform'),
+  shareUrl: text('share_url'),
+  clickCount: integer('click_count').default(0),
+  conversionCount: integer('conversion_count').default(0),
+  rewardGranted: boolean('reward_granted').default(false),
+  rewardAmount: integer('reward_amount').default(0),
+  createdAt: timestamp('created_at').defaultNow(),
+}, (table) => ({
+  idxShareUser: index('idx_share_user').on(table.userId),
+  idxShareType: index('idx_share_type').on(table.shareType),
+  idxShareUserType: index('idx_share_user_type').on(table.userId, table.shareType),
+  idxShareCreated: index('idx_share_created').on(table.createdAt),
+}));
+
+export const taskProgress = pgTable('task_progress', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  taskId: text('task_id').notNull(),
+  taskType: text('task_type'),
+  progress: integer('progress').default(0),
+  target: integer('target').notNull(),
+  completed: boolean('completed').default(false),
+  rewardClaimed: boolean('reward_claimed').default(false),
+  completedAt: timestamp('completed_at'),
+  resetAt: timestamp('reset_at'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+}, (table) => ({
+  idxTaskUser: index('idx_task_user').on(table.userId),
+  idxTaskType: index('idx_task_type').on(table.taskType),
+  idxTaskUserType: index('idx_task_user_type').on(table.userId, table.taskType),
+  idxTaskReset: index('idx_task_reset').on(table.resetAt),
+}));
+
+export const achievements = pgTable('achievements', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  achievementId: text('achievement_id').notNull(),
+  achievementName: text('achievement_name'),
+  achievementLevel: integer('achievement_level').default(1),
+  unlockedAt: timestamp('unlocked_at').defaultNow(),
+  rewardAmount: integer('reward_amount'),
+}, (table) => ({
+  idxAchievementUser: index('idx_achievement_user').on(table.userId),
+  idxAchievementUnlocked: index('idx_achievement_unlocked').on(table.unlockedAt),
+}));
+
+export const userReferralStats = pgTable('user_referral_stats', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id').notNull().unique().references(() => user.id, { onDelete: 'cascade' }),
+  directReferrals: integer('direct_referrals').default(0),
+  indirectReferrals: integer('indirect_referrals').default(0),
+  totalReferralRewards: integer('total_referral_rewards').default(0),
+  totalShares: integer('total_shares').default(0),
+  totalShareClicks: integer('total_share_clicks').default(0),
+  totalShareConversions: integer('total_share_conversions').default(0),
+  referralLevel: text('referral_level'),
+  lastReferralAt: timestamp('last_referral_at'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+}, (table) => ({
+  idxStatsUser: index('idx_stats_user').on(table.userId),
+  idxStatsLevel: index('idx_stats_level').on(table.referralLevel),
+}));
+
+// 点击明细表（用于基础反作弊与统计）
+export const shareClicks = pgTable('share_clicks', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  shareId: uuid('share_id').notNull(),
+  ip: text('ip'),
+  userAgent: text('user_agent'),
+  fingerprint: text('fingerprint'),
+  createdAt: timestamp('created_at').defaultNow(),
+}, (table) => ({
+  idxShareClicksShare: index('idx_share_clicks_share').on(table.shareId),
+  idxShareClicksCreated: index('idx_share_clicks_created').on(table.createdAt),
+}));
+
+// 黑名单（基础风控）：命中则不发放分享奖励
+export const fraudBlacklist = pgTable('fraud_blacklist', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  ip: text('ip'),
+  fingerprint: text('fingerprint'),
+  reason: text('reason'),
+  expiresAt: timestamp('expires_at'),
+  createdAt: timestamp('created_at').defaultNow(),
+}, (table) => ({
+  idxFraudIp: index('idx_fraud_ip').on(table.ip),
+  idxFraudFp: index('idx_fraud_fp').on(table.fingerprint),
+}));
+
+// 风控事件：记录被拦截的分享转化
+export const fraudEvents = pgTable('fraud_events', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  shareId: uuid('share_id').notNull(),
+  ip: text('ip'),
+  fingerprint: text('fingerprint'),
+  reason: text('reason'),
+  step: text('step'),
+  createdAt: timestamp('created_at').defaultNow(),
+}, (table) => ({
+  idxFraudEventsShare: index('idx_fraud_events_share').on(table.shareId),
+  idxFraudEventsCreated: index('idx_fraud_events_created').on(table.createdAt),
+}));
+
 // QiFlow 相关表
 export const baziCalculations = pgTable('bazi_calculations', {
 	id: uuid('id').defaultRandom().primaryKey(),

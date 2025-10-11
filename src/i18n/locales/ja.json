@@ -104,21 +104,6 @@
   },
   "auth": {
     "login": "ログイン",
-    "register": "登録",
-    "logout": "ログアウト",
-    "forgot_password": "パスワードを忘れましたか",
-    "reset_password": "パスワードをリセット",
-    "email": "メールアドレス",
-    "password": "パスワード",
-    "confirm_password": "パスワードを確認",
-    "remember_me": "ログイン状態を維持",
-    "guest_mode": "ゲストモード",
-    "continue_as_guest": "ゲストとして続行",
-    "register_to_save": "データを保存するには登録してください",
-    "login_required": "ログインが必要です",
-    "invalid_credentials": "ユーザー名またはパスワードが無効です",
-    "account_created": "アカウントが正常に作成されました",
-    "password_reset_sent": "パスワードリセットメールが送信されました",
     "register": {
       "title": "アカウントを作成",
       "subtitle": "風水分析の旅を始めましょう",
@@ -135,7 +120,21 @@
       "submit": "アカウントを作成",
       "hasAccount": "すでにアカウントをお持ちですか？",
       "signIn": "サインイン"
-    }
+    },
+    "logout": "ログアウト",
+    "forgot_password": "パスワードを忘れましたか",
+    "reset_password": "パスワードをリセット",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirm_password": "パスワードを確認",
+    "remember_me": "ログイン状態を維持",
+    "guest_mode": "ゲストモード",
+    "continue_as_guest": "ゲストとして続行",
+    "register_to_save": "データを保存するには登録してください",
+    "login_required": "ログインが必要です",
+    "invalid_credentials": "ユーザー名またはパスワードが無効です",
+    "account_created": "アカウントが正常に作成されました",
+    "password_reset_sent": "パスワードリセットメールが送信されました"
   },
   "bazi": {
     "title": "八字分析",
@@ -153,7 +152,10 @@
     "birth_date": "生年月日",
     "birth_time": "出生時間",
     "birth_place": "出生地",
-    "gender": "性別",
+    "gender": {
+      "male": "男性",
+      "female": "女性"
+    },
     "male": "男性",
     "female": "女性",
     "lunar_calendar": "旧暦",
@@ -198,10 +200,6 @@
       "birthTime": "出生時間",
       "gregorian": "新暦",
       "lunar": "旧暦"
-    },
-    "gender": {
-      "male": "男性",
-      "female": "女性"
     }
   },
   "fengshui": {
@@ -596,7 +594,6 @@
     "backup_created": "バックアップが作成されました",
     "sync_completed": "同期が完了しました"
   },
-
   "home": {
     "title": "QiFlow AI - インテリジェント風水分析プラットフォーム",
     "subtitle": "伝統的な風水の知恵と現代のAI技術を組み合わせたインテリジェント分析プラットフォーム。",
@@ -799,5 +796,8 @@
     "key_points": "重要ポイント",
     "specific_recommendations": "具体的な提案",
     "pattern_explanation_text": "玄空飛星の格局は風水分析の中心です。天盤・山盤・向盤の関係を分析して、吉凶や運勢・健康・財運への影響を評価します。"
+  },
+  "Metadata": {
+    "name": "QiFlow AI"
   }
 }

@@ -848,5 +848,8 @@
       "login": "로그인",
       "register": "회원가입"
     }
+  },
+  "Metadata": {
+    "name": "QiFlow AI"
   }
 }

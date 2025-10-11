@@ -156,8 +156,7 @@ export function CompassPicker() {
               <div className="relative">
                 <FengShuiCompass
                   onDirectionChange={handleDirectionChange}
-                  currentTheme={selectedTheme}
-                  initialDirection={initialDirection}
+                  theme={selectedTheme}
                   width={500}
                   height={500}
                   interactive={true}

@@ -2,6 +2,10 @@ import { computeBaziWithCache } from '@/lib/cache/bazi-cache';
 import { type EnhancedBirthData, computeBaziSmart } from '@/lib/qiflow/bazi';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { verifyAuth } from '@/lib/auth';
+import { getDb } from '@/db';
+import { baziCalculations } from '@/db/schema';
+import { tryMarkActivation } from '@/lib/growth/activation';
 
 const RequestSchema = z.object({
   name: z.string().min(1).max(50),
@@ -47,6 +51,29 @@ export async function POST(req: NextRequest) {
         { error: 'Failed to compute bazi' },
         { status: 500 }
       );
+    }
+
+    // 可选：记录业务完成并触发推荐激活（仅登录用户）
+    try {
+      const auth = await verifyAuth(req as unknown as Request);
+      if (auth?.authenticated && auth.userId) {
+        const db = await getDb();
+        await db.insert(baziCalculations).values({
+          userId: auth.userId,
+          input: {
+            name: parsed.data.name,
+            birthDate: parsed.data.birthDate,
+            gender: parsed.data.gender || 'male',
+            timezone: parsed.data.timezone,
+          },
+          result: result as any,
+          creditsUsed: 10,
+        });
+        // 异步触发激活检测，不阻塞主流程
+        tryMarkActivation(auth.userId).catch(() => {});
+      }
+    } catch (e) {
+      console.warn('bazi activation side-effect failed:', e);
     }
 
     return NextResponse.json({

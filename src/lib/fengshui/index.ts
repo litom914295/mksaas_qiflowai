@@ -1,20 +1,96 @@
-/**
- * Fengshui 风水库 - 别名导出
- *
- * 这个文件作为别名，重定向到 qiflow/xuankong 和 qiflow/fengshui 实际实现
- */
+import { evaluatePlate } from './evaluate';
+import { analyzeGeju } from './geju';
+import { analyzeLocation } from './location';
+import {
+  generateShanpan,
+  generateTianpan,
+  generateXiangpan,
+  mergePlates,
+} from './luoshu';
+import { getCaiwei, getWenchangwei } from './positions';
+import {
+  DEFAULT_FLYING_STAR_CONFIG,
+  type FlyingStarConfig,
+  type GenerateFlyingStarInput,
+  type GenerateFlyingStarOutput,
+} from './types';
+import { getYunInfo } from './yun';
 
-// 从 xuankong 导出核心功能
-export {
-  buildStackedPlates,
-  computeLayeredEvaluation,
-} from '@/lib/qiflow/xuankong';
+export function getConfig(
+  partial?: Partial<FlyingStarConfig>
+): FlyingStarConfig {
+  return { ...DEFAULT_FLYING_STAR_CONFIG, ...(partial ?? {}) };
+}
 
-// 导出宫位配置（如果存在）
-export { PALACE_PROFILES } from '@/lib/qiflow/xuankong';
+export function generateFlyingStar(
+  input: GenerateFlyingStarInput
+): GenerateFlyingStarOutput {
+  const config = getConfig(input.config);
+  const observedAt = input.observedAt;
+  const { period, isBoundary } = getYunInfo(observedAt);
 
-// 重新导出所有 xuankong 模块内容
-export * from '@/lib/qiflow/xuankong';
+  // 分析坐向和兼向
+  const location = analyzeLocation(input.facing.degrees, config.toleranceDeg);
 
-// 重新导出 fengshui 引擎（如果需要）
-export * from '@/lib/qiflow/fengshui/engine';
+  // 生成天盘（运盘）
+  const tianpan = generateTianpan(period);
+
+  // 生成山盘和向盘
+  const shanpan = generateShanpan(tianpan, location.zuo, location.isJian);
+  const xiangpan = generateXiangpan(tianpan, location.xiang, location.isJian);
+
+  // 合并三盘
+  const mergedPlate = mergePlates(tianpan, shanpan, xiangpan);
+
+  // 评价各宫位
+  const evaluation = evaluatePlate(mergedPlate, period);
+
+  // 格局分析
+  const geju = analyzeGeju(
+    mergedPlate,
+    location.zuo,
+    location.xiang,
+    period,
+    location.isJian
+  );
+
+  // 文昌位和财位
+  const wenchangwei = getWenchangwei(mergedPlate);
+  const caiwei = getCaiwei(mergedPlate, period);
+
+  const rulesApplied: string[] = [];
+  if (config.applyTiGua) rulesApplied.push('TiGua');
+  if (config.applyFanGua) rulesApplied.push('FanGua');
+  if (location.isJian) rulesApplied.push('兼向');
+
+  const meta = {
+    rulesApplied,
+    ambiguous: location.ambiguous || isBoundary,
+  } as const;
+
+  return {
+    period,
+    plates: {
+      period: mergedPlate,
+      year: mergedPlate,
+      month: mergedPlate,
+      day: mergedPlate,
+    },
+    evaluation,
+    meta,
+    geju,
+    wenchangwei,
+    caiwei,
+  };
+}
+
+export * from './layering';
+export * from './palace-profiles';
+export * from './stack';
+export * from './types';
+export * from './location';
+export * from './luoshu';
+export * from './geju';
+export * from './positions';
+export * from './explanation';
+export { getYunByYear } from './yun';

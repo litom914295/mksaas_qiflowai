@@ -21,6 +21,7 @@ export type WebsiteConfig = {
   payment: PaymentConfig;
   price: PriceConfig;
   credits: CreditsConfig;
+  growth?: GrowthConfig;
 };
 
 /**
@@ -181,7 +182,27 @@ export interface CreditsConfig {
     amount: number;                  // The amount of credits to give to the user
     expireDays?: number;             // The number of days to expire the credits, undefined means no expire
   };
+  dailySignin?: {                    // Daily sign-in configuration
+    enable: boolean;                 // Whether to enable daily sign-in
+    amount: number;                  // Credits to grant per day (no expiration by default)
+  };
+  referral?: {                       // Referral reward configuration
+    inviterCredits: number;          // Credits for the referrer
+    inviteeCredits: number;          // Credits for the invitee
+    requireActivation?: boolean;     // Whether rewards require activation (default true)
+  };
   packages: Record<string, CreditPackage>;  // Packages indexed by ID
+}
+
+export interface GrowthConfig {
+  share?: {
+    enable?: boolean;
+    rewardCredits?: number;        // credits per valid share conversion
+    dailyMaxRewards?: number;      // max rewards per day per user
+    cooldownMinutes?: number;      // cooldown between rewarded shares
+    requireConvert?: boolean;      // require convert event (stay >= minStaySeconds)
+    minStaySeconds?: number;       // min seconds to count conversion
+  };
 }
 
 /**

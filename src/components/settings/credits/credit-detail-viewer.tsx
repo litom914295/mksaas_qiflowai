@@ -57,6 +57,8 @@ export function CreditDetailViewer({ transaction }: CreditDetailViewerProps) {
         return <GiftIcon className="h-5 w-5" />;
       case CREDIT_TRANSACTION_TYPE.PURCHASE_PACKAGE:
         return <ShoppingCartIcon className="h-5 w-5" />;
+      case CREDIT_TRANSACTION_TYPE.DAILY_SIGNIN:
+        return <GiftIcon className="h-5 w-5" />;
       case CREDIT_TRANSACTION_TYPE.USAGE:
         return <CoinsIcon className="h-5 w-5" />;
       case CREDIT_TRANSACTION_TYPE.EXPIRE:
@@ -64,7 +66,11 @@ export function CreditDetailViewer({ transaction }: CreditDetailViewerProps) {
       case CREDIT_TRANSACTION_TYPE.SUBSCRIPTION_RENEWAL:
         return <BanknoteIcon className="h-5 w-5" />;
       case CREDIT_TRANSACTION_TYPE.LIFETIME_MONTHLY:
-        return <GemIcon className="h-5 w-5" />;
+        return <GemIcon className=\"h-5 w-5\" />;
+      case CREDIT_TRANSACTION_TYPE.REFERRAL_REWARD:
+        return <HandCoinsIcon className=\"h-5 w-5\" />;
+      case CREDIT_TRANSACTION_TYPE.SHARE_REWARD:
+        return <HandCoinsIcon className=\"h-5 w-5\" />;
       default:
         return null;
     }
@@ -79,6 +85,8 @@ export function CreditDetailViewer({ transaction }: CreditDetailViewerProps) {
         return t('types.REGISTER_GIFT');
       case CREDIT_TRANSACTION_TYPE.PURCHASE_PACKAGE:
         return t('types.PURCHASE');
+      case CREDIT_TRANSACTION_TYPE.DAILY_SIGNIN:
+        return t('types.DAILY_SIGNIN');
       case CREDIT_TRANSACTION_TYPE.USAGE:
         return t('types.USAGE');
       case CREDIT_TRANSACTION_TYPE.EXPIRE:
@@ -87,6 +95,10 @@ export function CreditDetailViewer({ transaction }: CreditDetailViewerProps) {
         return t('types.SUBSCRIPTION_RENEWAL');
       case CREDIT_TRANSACTION_TYPE.LIFETIME_MONTHLY:
         return t('types.LIFETIME_MONTHLY');
+      case CREDIT_TRANSACTION_TYPE.REFERRAL_REWARD:
+        return t('types.REFERRAL_REWARD');
+      case CREDIT_TRANSACTION_TYPE.SHARE_REWARD:
+        return t('types.SHARE_REWARD');
       default:
         return type;
     }

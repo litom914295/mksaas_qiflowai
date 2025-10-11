@@ -39,7 +39,9 @@
             "不遗留硬编码中文/英文字符串"
           ],
           "testStrategy": "手动切换语言验证，Playwright 断言关键文案存在",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "3",
@@ -72,7 +74,9 @@
             "i18n 支持"
           ],
           "testStrategy": "通过 ?state=empty|error|limited|timeout 参数测试各态",
-          "dependencies": ["2"]
+          "dependencies": [
+            "2"
+          ]
         },
         {
           "id": "5",
@@ -87,7 +91,9 @@
             "样式与品牌色调一致"
           ],
           "testStrategy": "在三个落地页中验证引导条显示",
-          "dependencies": ["3"]
+          "dependencies": [
+            "3"
+          ]
         },
         {
           "id": "6",
@@ -102,7 +108,10 @@
             "默认 ok 态显示 BaziAnalysisPage 组件"
           ],
           "testStrategy": "访问 /zh-CN/bazi-analysis?state=empty 等参数验证",
-          "dependencies": ["4", "5"]
+          "dependencies": [
+            "4",
+            "5"
+          ]
         },
         {
           "id": "7",
@@ -117,7 +126,10 @@
             "默认 ok 态显示 EnhancedChatInterface 组件"
           ],
           "testStrategy": "访问 /zh-CN/chat?state=limited 等参数验证",
-          "dependencies": ["4", "5"]
+          "dependencies": [
+            "4",
+            "5"
+          ]
         },
         {
           "id": "8",
@@ -132,7 +144,10 @@
             "默认 ok 态显示占位内容与跳转按钮"
           ],
           "testStrategy": "访问 /zh-CN/compass-analysis?state=error 等参数验证",
-          "dependencies": ["4", "5"]
+          "dependencies": [
+            "4",
+            "5"
+          ]
         },
         {
           "id": "9",
@@ -148,7 +163,10 @@
             "测试通过：功能卡片导航至 bazi-analysis"
           ],
           "testStrategy": "npx playwright test 命令执行",
-          "dependencies": ["1", "3"]
+          "dependencies": [
+            "1",
+            "3"
+          ]
         },
         {
           "id": "10",
@@ -164,7 +182,9 @@
             "Hover 交互保留"
           ],
           "testStrategy": "手动检查样式与交互，E2E 测试不回归",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "11",
@@ -179,7 +199,9 @@
             "主题切换按钮（如有）正常工作"
           ],
           "testStrategy": "手动切换系统主题验证",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "12",
@@ -194,7 +216,9 @@
             "切换流畅无闪烁"
           ],
           "testStrategy": "手动切换主题验证 Logo 显示",
-          "dependencies": ["11"]
+          "dependencies": [
+            "11"
+          ]
         },
         {
           "id": "13",
@@ -210,7 +234,9 @@
             "CTA 按钮在小屏幕竖向排列"
           ],
           "testStrategy": "Chrome DevTools 设备模拟，Playwright viewport 测试",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "14",
@@ -226,7 +252,9 @@
             "Lighthouse Performance 评分 > 90"
           ],
           "testStrategy": "Lighthouse CI 集成，PageSpeed Insights 验证",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "15",
@@ -242,7 +270,9 @@
             "robots.txt 允许索引"
           ],
           "testStrategy": "手动检查页面源码，Google Search Console 验证",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "16",
@@ -258,7 +288,9 @@
             "三级降级策略正确执行"
           ],
           "testStrategy": "Mock 积分余额测试降级逻辑，集成测试完整流程",
-          "dependencies": ["4"]
+          "dependencies": [
+            "4"
+          ]
         },
         {
           "id": "17",
@@ -292,6 +324,232 @@
           "dependencies": []
         }
       ]
+    }
+  },
+  "growth-p0": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "P0 病毒增长最小闭环上线",
+        "description": "在7天内完成最小可行的病毒增长闭环，包含：1) 统一积分与激励配置；2) DB迁移（推荐/分享/任务/成就/统计）并为存量用户回填推荐码；3) 注册流程接入推荐码与激活任务后置奖励；4) 分享卡片与分享追踪（服务端验证+防刷基础）；5) 每日签到积分；6) 埋点与最小看板（K、激活率、7日留存）；7) 风控上限与冷却；8) 回归测试与发布监控。成功标准：K>=0.6、注册→激活≥35%、被邀付费转化≥4%。",
+        "details": "注意与积分购买与订阅制联动；每日签到积分；首期奖励略偏高可接受；所有积分发放经服务端幂等事务；Zod校验；合规提示。",
+        "testStrategy": "按Task验收清单+KPI看板对照验收",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "统一积分与激励配置（注册70/推荐后置/奖励上限/过期）",
+            "description": "已统一到 website.tsx：注册赠送70、每日签到、推荐奖励（后置）、分享奖励（可配）；新增交易类型（DAILY_SIGNIN/REFERRAL_REWARD/SHARE_REWARD）；欢迎礼包与文案由配置派生，避免重复配置；增长配置可控。",
+            "details": "验收：UI展示与发放一致；注册→首日完整体验可达；交易类型已映射UI；服务端读取单一配置源；分享/推荐奖励上限与冷却已在服务端校验。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 2,
+            "title": "DB迁移（推荐/分享/任务/成就/统计）并回填推荐码",
+            "description": "提供 /api/admin/referral/migration-check 进行表/视图存在校验与统计概览；提供 /api/admin/referral/ensure-codes 回填缺失推荐码；SQL 迁移路径仍可按需执行。",
+            "details": "验收：检查接口返回 checks 全为 true；ensure-codes 返回 created=0（表示已回填完毕）。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 3,
+            "title": "接入推荐码（注册）与激活任务后置奖励",
+            "description": "注册页支持推荐码输入与URL ?ref=（已通过全局捕获器实现）；服务端登记推荐关系（pending），在满足激活条件（八字+风水/或PDF+3轮AI）后自动发放双向奖励（推荐15/被推荐20，可配）。",
+            "details": "验收：非激活不发放；重复调用不重复发放；日志可审计；Zod入参校验；错误友好提示；对话轮数累计与PDF/分析完成触发均已落地。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 4,
+            "title": "分享卡片与分享追踪（服务端验证+反作弊基础）",
+            "description": "新增 /api/share/create 与 /api/share/track，落地页 /[locale]/s/[id]；记录点击与停留转化（6s），server 验证+发奖（日上限1次、冷却60分钟、基础反作弊IP/UA），交易显示 SHARE_REWARD。",
+            "details": "验收：分享后有记录；达到阈值才发放奖励；重复分享不累计；基础反作弊（IP/UA）记录；增长配置（奖励/上限/冷却）可配置。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 5,
+            "title": "每日签到积分（API+自动触发+里程碑券）",
+            "description": "进入页面自动签到（全局handler），API /api/credits/daily-signin 幂等发放积分（不过期），并根据连续签到天数（7/15/30/60/90）自动发放用途券；展示在积分交易与我的礼券中。",
+            "details": "验收：每日仅一次；幂等；自动触发无需点击；积分不过期；连续里程碑发券（bazi_ticket_1/ai_chat_rounds_5/fengshui_ticket_1/pdf_export_3/ai_chat_rounds_100）；UI 无需刷新即可显示（或下次进入显示）。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 6,
+            "title": "埋点与最小KPI看板（K、激活率、7日留存）",
+            "description": "已实现 /[locale]/(protected)/admin/metrics 最小看板：K（人均直接推荐数近似）、激活率（已发放奖励/总推荐）、7日留存（签到近似）、今日分享有效转化。",
+            "details": "验收：仅管理员可见；指标可刷新；不展示敏感数据；后续可接入更多埋点与Graph展示。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 7,
+            "title": "风控（上限/冷却/指纹与IP基础）",
+            "description": "已实现：推荐奖励3次/日、40次/月（发奖前校验）；分享奖励1次/日、冷却60分钟；点击明细记录IP/UA/指纹；黑名单（IP/指纹）拦截与事件记录；管理员黑名单增删查API；KPI看板展示今日拦截。",
+            "details": "验收：阈值与黑名单生效；拦截记录可查询；可配置与灰度扩展；KPI看板可见今日拦截数。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 8,
+            "title": "回归测试与发布监控",
+            "description": "完整回归：注册→激活→奖励→分享→签到→购买/订阅联动。发布：灰度验证+监控报警（错误率/奖励失败率/异常注册）。",
+            "details": "已提供最小健康检查与24小时指标接口 /api/admin/health/overview；回归与烟囱清单位于 mksaas/checklists/growth-p0-regression.md；发布记录模板与回滚预案位于 mksaas/artifacts/RELEASE_NOTES_growp0.md。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-11T03:24:08.183Z",
+      "updated": "2025-10-11T03:24:22.515Z",
+      "description": "P0病毒增长最小闭环与数据化落地"
+    }
+  },
+  "bazi-module": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Phase 1：核心算法重构",
+        "description": "实现专业级四柱八字计算核心算法，包括精确的干支纪年算法、月柱计算、日柱循环、时柱计算、真太阳时校正等",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-11T07:41:16.273Z",
+      "updated": "2025-10-11T08:51:02.272Z",
+      "description": "八字命理模块开发任务"
+    }
+  },
+  "admin-platform": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "基础架构搭建",
+        "description": "搭建Next.js项目基础架构，包括项目初始化、数据库设计、UI组件库集成、路由架构设计和环境配置",
+        "details": "包含子任务：\n1. Next.js项目搭建与基础配置\n2. Prisma数据库schema设计与迁移\n3. Shadcn UI集成与主题配置\n4. App Router结构设计\n5. 开发/测试/生产环境配置\n\n技术要求：\n- Next.js 14+ (App Router)\n- TypeScript 5.0+\n- Prisma 5.0+ + PostgreSQL\n- Shadcn UI + Tailwind CSS\n\n验收标准：\n- 项目可正常启动\n- 数据库连接成功\n- UI组件正常渲染\n- 环境变量配置完整",
+        "testStrategy": "单元测试覆盖数据库连接和基础配置",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "认证权限系统",
+        "description": "实现用户认证和RBAC权限控制系统",
+        "details": "包含子任务：\n1. 用户认证（登录/登出/会话管理）\n2. RBAC权限模型实现\n3. 路由保护中间件\n4. MFA多因素认证集成\n5. API Token服务间认证\n\n技术要求：\n- NextAuth.js认证\n- JWT + Session混合\n- RBAC权限矩阵\n- 中间件路由保护\n- TOTP/SMS多因素认证\n\n验收标准：\n- 登录功能完整可用\n- 权限控制生效\n- 未授权访问被拦截\n- MFA认证流程正常",
+        "testStrategy": "认证流程集成测试和权限控制单元测试",
+        "status": "done",
+        "dependencies": [
+          1
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "用户管理模块",
+        "description": "实现完整的用户管理功能模块",
+        "details": "包含子任务：\n1. 用户列表（查询、分页、筛选）\n2. 用户CRUD（创建、编辑、删除用户）\n3. 角色管理（角色创建与权限分配）\n4. 批量操作（用户批量导入导出）\n5. 登录日志（用户活动追踪记录）\n\n功能特性：\n- 用户信息管理\n- 角色权限分配\n- 批量用户操作\n- 用户行为审计\n- 数据导入导出\n\n验收标准：\n- 用户CRUD功能完整\n- 角色管理可用\n- 批量操作正常\n- 日志记录完整",
+        "testStrategy": "用户管理流程E2E测试和权限分配单元测试",
+        "status": "done",
+        "dependencies": [
+          2
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "内容管理模块",
+        "description": "构建功能完整的内容管理系统(CMS)",
+        "details": "包含子任务：\n1. Markdown富文本编辑器\n2. 文章CRUD与状态管理\n3. 内容分类与标签系统\n4. 轻量审批工作流\n5. 文件上传与CDN集成\n6. 内容版本管理与回滚\n\n技术特性：\n- Markdown编辑器\n- 内容状态流转\n- 多级分类管理\n- 审核发布流程\n- 资源管理系统\n- 版本控制功能\n\n验收标准：\n- 编辑器功能完整\n- 内容发布流程畅通\n- 分类标签正常\n- 审核机制有效",
+        "testStrategy": "内容发布流程E2E测试和编辑器功能测试",
+        "status": "done",
+        "dependencies": [
+          3
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "运营管理模块",
+        "description": "实现运营管理核心功能模块",
+        "details": "包含子任务：\n1. 订单管理（查询与状态管理）\n2. 退款处理（申请与审批流程）\n3. 促销活动配置管理\n4. 消息中心（站内信与通知模板）\n5. 客服工单流转管理\n\n业务功能：\n- 订单全生命周期管理\n- 退款审批与处理\n- 营销活动配置\n- 多渠道消息推送\n- 工单系统管理\n\n验收标准：\n- 订单流程完整\n- 退款机制正常\n- 活动配置可用\n- 消息推送正常\n- 工单处理有效",
+        "testStrategy": "订单退款流程集成测试和活动配置功能测试",
+        "status": "pending",
+        "dependencies": [
+          3
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "数据分析模块",
+        "description": "构建数据分析与报表系统",
+        "details": "包含子任务：\n1. 核心指标实时展示看板\n2. 自定义报表设计器\n3. 异步导出服务\n4. 异常指标监控告警\n5. 数据API开放接口\n\n数据功能：\n- DAU/留存/营收指标\n- 可视化图表展示\n- 自定义报表生成\n- 大数据量异步导出\n- 实时监控告警\n- 开放数据API\n\n验收标准：\n- 核心指标准确展示\n- 报表生成正常\n- 导出功能完整\n- 监控告警有效\n- API接口可用",
+        "testStrategy": "数据准确性测试和报表生成性能测试",
+        "status": "pending",
+        "dependencies": [
+          4,
+          5
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "系统管理模块",
+        "description": "实现系统管理和配置功能",
+        "details": "包含子任务：\n1. 全局系统参数配置管理\n2. 敏感环境变量安全管理\n3. 操作日志查询导出\n4. 功能开关与灰度发布\n5. 第三方集成Webhook推送\n\n系统功能：\n- 系统参数配置\n- 环境变量管理\n- 审计日志系统\n- 特性开关控制\n- Webhook集成\n\n验收标准：\n- 配置管理完整\n- 环境变量安全\n- 审计日志可查\n- 开关控制有效\n- Webhook正常推送",
+        "testStrategy": "系统配置功能测试和审计日志完整性测试",
+        "status": "pending",
+        "dependencies": [
+          2
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "测试部署模块",
+        "description": "完成项目测试与部署上线",
+        "details": "包含子任务：\n1. 核心业务逻辑单元测试\n2. API接口集成测试\n3. 端到端流程E2E测试\n4. 负载与压力性能测试\n5. 生产环境部署配置\n6. 用户手册与API文档完善\n\n测试部署：\n- 单元测试覆盖率>80%\n- 集成测试全覆盖\n- E2E测试核心流程\n- 性能压力测试\n- CI/CD自动部署\n- 完整技术文档\n\n验收标准：\n- 所有测试通过\n- 性能指标达标\n- 生产环境稳定\n- 文档完整可用",
+        "testStrategy": "全面测试策略包含单元、集成、E2E和性能测试",
+        "status": "pending",
+        "dependencies": [
+          6,
+          7
+        ],
+        "priority": "medium",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-11T11:30:49.791Z",
+      "updated": "2025-10-11T14:35:24.407Z",
+      "description": "QiFlowAI 综合管理后台（用户/运营/数据/内容/系统/审计/合规）"
     }
   }
 }

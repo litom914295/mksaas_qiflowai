@@ -862,5 +862,8 @@
       "login": "Log masuk",
       "register": "Daftar"
     }
+  },
+  "Metadata": {
+    "name": "QiFlow AI"
   }
 }

@@ -1,81 +1,38 @@
-import { Analytics } from '@/analytics/analytics';
-import {
-  fontBricolageGrotesque,
-  fontNotoSans,
-  fontNotoSansMono,
-  fontNotoSerif,
-} from '@/assets/fonts';
-import AffonsoScript from '@/components/affiliate/affonso';
-import PromotekitScript from '@/components/affiliate/promotekit';
-import { TailwindIndicator } from '@/components/layout/tailwind-indicator';
-import { ErrorBoundaryEnhanced } from '@/components/providers/error-boundary-enhanced';
-import { WebVitals } from '@/components/qiflow/performance/WebVitals';
-import { routing } from '@/i18n/routing';
-import { cn } from '@/lib/utils';
-import { type Locale, NextIntlClientProvider, hasLocale } from 'next-intl';
-import { notFound } from 'next/navigation';
-import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import type { ReactNode } from 'react';
-import { Toaster } from 'sonner';
-import { Providers } from './providers';
-// 初始化环境变量验证（在服务器启动时执行）
-import '@/lib/env';
-
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import '@/styles/globals.css';
+import { AnalysisContextProvider } from '@/contexts/analysis-context';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: '气流AI - 智能八字风水分析平台',
+  description: '结合传统八字命理与现代AI技术的智能分析平台',
+};
 
 interface LocaleLayoutProps {
-  children: ReactNode;
-  params: Promise<{ locale: Locale }>;
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }
 
-/**
- * 1. Locale Layout
- * https://next-intl.dev/docs/getting-started/app-router/with-i18n-routing#layout
- *
- * 2. NextIntlClientProvider
- * https://next-intl.dev/docs/usage/configuration#nextintlclientprovider
- */
 export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProps) {
   const { locale } = await params;
-
-  // Ensure that the incoming `locale` is valid
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
+  
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
 
   return (
-    <html suppressHydrationWarning lang={locale}>
-      <head>
-        <AffonsoScript />
-        <PromotekitScript />
-      </head>
-      <body
-        suppressHydrationWarning
-        className={cn(
-          'size-full antialiased',
-          fontNotoSans.className,
-          fontNotoSerif.variable,
-          fontNotoSansMono.variable,
-          fontBricolageGrotesque.variable
-        )}
-      >
-        <NuqsAdapter>
-          <NextIntlClientProvider>
-            <ErrorBoundaryEnhanced>
-              <Providers locale={locale}>
-                {children}
-
-                <Toaster richColors position="top-right" offset={64} />
-                <TailwindIndicator />
-                <WebVitals />
-                <Analytics />
-              </Providers>
-            </ErrorBoundaryEnhanced>
-          </NextIntlClientProvider>
-        </NuqsAdapter>
+    <html lang={locale} suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
+        <NextIntlClientProvider messages={messages}>
+          <AnalysisContextProvider>{children}</AnalysisContextProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -125,7 +125,18 @@
       "baziAnalysisDesc": "Generate BaZi astrology analysis",
       "flyingStar": "Flying Star",
       "flyingStarDesc": "Generate feng shui analysis report"
-    }
+    },
+    "bazi": "사주 분석",
+    "fengshui": "풍수",
+    "xuankong": "현공비성",
+    "personalInfo": "개인 정보",
+    "birthDate": "생년월일",
+    "birthTime": "출생 시간",
+    "location": "위치",
+    "houseOrientation": "집 방향",
+    "startAnalysis": "분석 시작",
+    "analysisComplete": "분석 완료",
+    "viewReport": "보고서 보기"
   },
   "Auth": {
     "login": "Login",
@@ -512,7 +523,10 @@
     "login": "Login",
     "logout": "Logout",
     "signUp": "Sign Up",
-    "logoutFailed": "Logout failed. Please try again."
+    "logoutFailed": "Logout failed. Please try again.",
+    "yes": "예",
+    "no": "아니오",
+    "ok": "확인"
   },
   "Compass": {
     "title": "Digital Compass",
@@ -1941,8 +1955,9 @@
     }
   },
   "Metadata": {
-    "title": "QiFlow AI - Intelligent Feng Shui Analysis Platform",
-    "description": "An intelligent feng shui analysis platform that combines traditional Chinese metaphysics with modern AI technology"
+    "title": "QiFlow AI - 지능형 풍수 분석 플랫폼",
+    "description": "전통적인 중국 형이상학과 현대 AI 기술을 결합한 지능형 풍수 분석 플랫폼",
+    "name": "QiFlow AI"
   },
   "Navigation": {
     "home": "Home",

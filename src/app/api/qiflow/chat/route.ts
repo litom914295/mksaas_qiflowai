@@ -1250,6 +1250,7 @@ export async function POST(request: NextRequest) {
           );
         }
 
+        try { const { recordChatRoundAndTryActivate } = await import('@/lib/growth/activation'); await recordChatRoundAndTryActivate(session.user.id); } catch {}
         return NextResponse.json({
           response: result.result,
           creditsUsed: result.creditsUsed,

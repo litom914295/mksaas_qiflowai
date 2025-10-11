@@ -7,8 +7,11 @@ export enum CREDIT_TRANSACTION_TYPE {
   PURCHASE_PACKAGE = 'PURCHASE_PACKAGE',      // Credits earned by purchase package
   SUBSCRIPTION_RENEWAL = 'SUBSCRIPTION_RENEWAL', // Credits earned by subscription renewal
   LIFETIME_MONTHLY = 'LIFETIME_MONTHLY',      // Credits earned by lifetime plan monthly distribution
+  DAILY_SIGNIN = 'DAILY_SIGNIN',              // Credits earned by daily sign-in
+  REFERRAL_REWARD = 'REFERRAL_REWARD',        // Credits earned by referral activation reward
+  SHARE_REWARD = 'SHARE_REWARD',              // Credits earned by share conversion
   USAGE = 'USAGE',                            // Credits spent by usage
-  EXPIRE = 'EXPIRE',                          // Credits expired
+  EXPIRE = 'EXPIRE',                          // Credits expired,
 }
 
 /**

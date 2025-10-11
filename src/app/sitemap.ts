@@ -23,8 +23,8 @@ const staticRoutes = [
   '/cookie',
   '/auth/login',
   '/auth/register',
-  ...(websiteConfig.blog.enable ? ['/blog'] : []),
-  ...(websiteConfig.docs.enable ? ['/docs'] : []),
+  '/blog',
+  '/docs',
 ];
 
 /**
@@ -48,8 +48,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  // add blog related routes if enabled
-  if (websiteConfig.blog.enable) {
+  // add blog related routes
+  if (true) {
     // add categories
     sitemapList.push(
       ...categorySource.getPages().flatMap((category) =>
@@ -134,8 +134,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     );
   }
 
-  // add docs related routes if enabled
-  if (websiteConfig.docs.enable) {
+  // add docs related routes
+  if (true) {
     const docsParams = source.generateParams();
     sitemapList.push(
       ...docsParams.flatMap((param) =>
