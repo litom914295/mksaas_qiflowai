@@ -3,7 +3,7 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Construction, ArrowLeft, Sparkles, Clock } from 'lucide-react';
+import { ArrowLeft, Clock, Construction, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function MaintenancePage() {
@@ -20,7 +20,7 @@ export default function MaintenancePage() {
             系统升级维护中
           </CardTitle>
         </CardHeader>
-        
+
         <CardContent className="pt-8 space-y-6">
           <Alert className="border-blue-200 bg-blue-50">
             <Sparkles className="h-5 w-5 text-blue-600" />

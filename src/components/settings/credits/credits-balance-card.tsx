@@ -97,11 +97,14 @@ export default function CreditsBalanceCard() {
     if (!websiteConfig.credits.dailySignin?.enable) return;
     const key = 'qf_daily_signin_date';
     const today = new Date().toISOString().slice(0, 10);
-    const last = typeof window !== 'undefined' ? localStorage.getItem(key) : null;
+    const last =
+      typeof window !== 'undefined' ? localStorage.getItem(key) : null;
     if (last === today) return;
     (async () => {
       try {
-        const res = await fetch('/api/credits/daily-signin', { method: 'POST' });
+        const res = await fetch('/api/credits/daily-signin', {
+          method: 'POST',
+        });
         const data = await res.json();
         if (data?.success) {
           localStorage.setItem(key, today);

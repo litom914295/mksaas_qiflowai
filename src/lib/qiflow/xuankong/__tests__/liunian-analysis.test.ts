@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import {
   type LiunianAnalysisOptions,
   analyzeLiunian,
-} from '../liunian-analysis';
+} from '../adapters/v6-adapter';
 import type { EnhancedXuankongPlate } from '../types';
 
 describe('LiunianAnalysis (流年分析)', () => {

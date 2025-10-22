@@ -1,0 +1,336 @@
+groups:
+  # 系统级告警
+  - name: system_alerts
+    interval: 30s
+    rules:
+      - alert: HighCPUUsage
+        expr: (100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 80
+        for: 5m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "高CPU使用率 (instance {{ $labels.instance }})"
+          description: "CPU使用率超过80% (当前值: {{ $value }}%)"
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "高内存使用率 (instance {{ $labels.instance }})"
+          description: "内存使用率超过85% (当前值: {{ $value }}%)"
+
+      - alert: DiskSpaceRunningOut
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} * 100) < 15
+        for: 5m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "磁盘空间不足 (instance {{ $labels.instance }})"
+          description: "可用磁盘空间低于15% (当前值: {{ $value }}%)"
+
+  # 应用级告警
+  - name: application_alerts
+    interval: 30s
+    rules:
+      - alert: AppDown
+        expr: up{job="nextjs-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: application
+        annotations:
+          summary: "应用服务宕机"
+          description: "Next.js应用无响应超过1分钟"
+
+      - alert: HighResponseTime
+        expr: http_request_duration_seconds{quantile="0.95"} > 2
+        for: 5m
+        labels:
+          severity: warning
+          component: application
+        annotations:
+          summary: "响应时间过高"
+          description: "95%请求的响应时间超过2秒 (当前值: {{ $value }}s)"
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) * 100 > 5
+        for: 5m
+        labels:
+          severity: critical
+          component: application
+        annotations:
+          summary: "错误率过高"
+          description: "5xx错误率超过5% (当前值: {{ $value }}%)"
+
+  # 数据库告警
+  - name: database_alerts
+    interval: 30s
+    rules:
+      - alert: PostgresDown
+        expr: up{job="postgresql"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: database
+        annotations:
+          summary: "PostgreSQL数据库宕机"
+          description: "PostgreSQL数据库无响应超过1分钟"
+
+      - alert: DatabaseConnectionPoolExhausted
+        expr: pg_stat_database_numbackends / pg_settings_max_connections * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "数据库连接池即将耗尽"
+          description: "数据库连接使用率超过80% (当前值: {{ $value }}%)"
+
+      - alert: SlowQueries
+        expr: rate(pg_stat_statements_mean_exec_time_seconds[5m]) > 1
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "检测到慢查询"
+          description: "平均查询执行时间超过1秒"
+
+  # Redis告警
+  - name: redis_alerts
+    interval: 30s
+    rules:
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: cache
+        annotations:
+          summary: "Redis服务宕机"
+          description: "Redis服务无响应超过1分钟"
+
+      - alert: RedisMemoryUsageHigh
+        expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+          component: cache
+        annotations:
+          summary: "Redis内存使用率过高"
+          description: "Redis内存使用率超过90% (当前值: {{ $value }}%)"
+
+  # 增长系统告警
+  - name: growth_system_alerts
+    interval: 60s
+    rules:
+      - alert: LowViralCoefficient
+        expr: growth_k_factor < 1
+        for: 1h
+        labels:
+          severity: warning
+          component: growth
+        annotations:
+          summary: "病毒系数低于1"
+          description: "K因子低于1，增长可能停滞 (当前值: {{ $value }})"
+
+      - alert: HighFraudRate
+        expr: growth_fraud_attempts_rate > 0.1
+        for: 30m
+        labels:
+          severity: critical
+          component: growth
+        annotations:
+          summary: "检测到高欺诈率"
+          description: "欺诈尝试率超过10% (当前值: {{ $value }}%)"
+
+      - alert: ReferralSystemError
+        expr: increase(growth_referral_errors_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+          component: growth
+        annotations:
+          summary: "推荐系统错误增加"
+          description: "5分钟内推荐系统错误超过10次"
+
+      - alert: CreditSystemImbalance
+        expr: abs(growth_credits_distributed_total - growth_credits_balance_total) > 1000
+        for: 30m
+        labels:
+          severity: warning
+          component: growth
+        annotations:
+          summary: "积分系统账目不平"
+          description: "积分发放与余额总和差异超过1000"
+
+      - alert: AbnormalShareActivity
+        expr: rate(growth_shares_total[5m]) > 100
+        for: 10m
+        labels:
+          severity: warning
+          component: growth
+        annotations:
+          summary: "异常分享活动"
+          description: "分享频率异常升高，可能存在刷量行为"
+
+  # 业务指标告警
+  - name: business_alerts
+    interval: 60s
+    rules:
+      - alert: LowUserActivation
+        expr: growth_activation_rate < 0.3
+        for: 2h
+        labels:
+          severity: warning
+          component: business
+        annotations:
+          summary: "用户激活率过低"
+          description: "用户激活率低于30% (当前值: {{ $value }})"
+
+      - alert: HighChurnRate
+        expr: growth_churn_rate > 0.1
+        for: 1d
+        labels:
+          severity: warning
+          component: business
+        annotations:
+          summary: "用户流失率过高"
+          description: "日流失率超过10% (当前值: {{ $value }})"
+
+      - alert: LowRetention
+        expr: growth_retention_d7 < 0.4
+        for: 1d
+        labels:
+          severity: warning
+          component: business
+        annotations:
+          summary: "7日留存率过低"
+          description: "7日留存率低于40% (当前值: {{ $value }})"
+
+  # SLA 告警
+  - name: sla_alerts
+    interval: 30s
+    rules:
+      - alert: AvailabilitySLOViolation
+        expr: 1 - (sum(rate(http_requests_total{status!~"2..|3.."}[5m])) / sum(rate(http_requests_total[5m]))) < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          component: sla
+        annotations:
+          summary: "可用性SLO违反"
+          description: "可用性低于99.9%"
+
+      - alert: HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m]))) > 1
+        for: 10m
+        labels:
+          severity: warning
+          component: sla
+        annotations:
+          summary: "P95延迟过高"
+          description: "P95 响应时间超过 1s (当前值: {{ $value }}s)"
+
+      - alert: ErrorBudgetBurnRateHigh
+        expr: (sum(rate(http_requests_total{status=~"5.."}[5m])) / sum(rate(http_requests_total[5m]))) > 0.01
+        for: 15m
+        labels:
+          severity: warning
+          component: sla
+        annotations:
+          summary: "错误预算消耗过快"
+          description: "5xx 错误率 > 1%"
+
+      - alert: SignalCoverageLow
+        expr: min_over_time(business_signal_coverage_ratio[15m]) < 0.8
+        for: 15m
+        labels:
+          severity: warning
+          component: sla
+        annotations:
+          summary: "信号覆盖率过低"
+          description: "信号覆盖率低于 0.8"
+
+      - alert: FailoverRTOExceeded
+        expr: max_over_time(failover_last_duration_seconds[1h]) > 300
+        for: 5m
+        labels:
+          severity: critical
+          component: sla
+        annotations:
+          summary: "故障切换RTO超标"
+          description: "最近一次故障切换时长超过 300s"
+
+  # mTLS 证书与客户端认证告警
+  - name: mtls_alerts
+    interval: 60s
+    rules:
+      - alert: CertificateExpiresSoon
+        expr: min_over_time(x509_cert_expires_in_seconds[5m]) < 604800
+        for: 1h
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "证书即将到期 (7天内)"
+          description: "存在7天内到期的证书"
+
+      - alert: CertificateExpiresCritical
+        expr: min_over_time(x509_cert_expires_in_seconds[5m]) < 259200
+        for: 30m
+        labels:
+          severity: critical
+          component: security
+        annotations:
+          summary: "证书即将到期 (3天内)"
+          description: "存在3天内到期的证书"
+
+      - alert: CertRotationFailures
+        expr: increase(mtls_cert_rotation_failures_total[15m]) > 0
+        for: 15m
+        labels:
+          severity: critical
+          component: security
+        annotations:
+          summary: "证书轮换失败"
+          description: "15分钟内检测到证书轮换失败"
+
+  # 灾备切流告警（traffic_switcher）
+  - name: dr_traffic_switcher_alerts
+    interval: 30s
+    rules:
+      - alert: CanaryWeightNonZeroTooLong
+        expr: min_over_time(traffic_switch_weight[30m]) > 0
+        for: 30m
+        labels:
+          severity: warning
+          component: dr
+        annotations:
+          summary: "Canary 权重持续非 0"
+          description: "canary 流量权重在 30 分钟内始终 > 0，可能处于长期切流状态"
+
+      - alert: FrequentTrafficSwitches
+        expr: sum(increase(traffic_switch_events_total[15m])) > 10
+        for: 15m
+        labels:
+          severity: warning
+          component: dr
+        annotations:
+          summary: "短时切流过于频繁"
+          description: "15 分钟内切换次数超过 10 次"
+
+      - alert: FailedTrafficSwitches
+        expr: increase(traffic_switch_events_total{outcome=~"error|k8s_error"}[5m]) > 0
+        for: 5m
+        labels:
+          severity: critical
+          component: dr
+        annotations:
+          summary: "切流失败"
+          description: "5 分钟内检测到切流失败事件"

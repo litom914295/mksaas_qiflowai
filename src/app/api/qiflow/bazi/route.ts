@@ -1,11 +1,11 @@
+import { getDb } from '@/db';
+import { baziCalculations } from '@/db/schema';
+import { verifyAuth } from '@/lib/auth';
 import { computeBaziWithCache } from '@/lib/cache/bazi-cache';
+import { tryMarkActivation } from '@/lib/growth/activation';
 import { type EnhancedBirthData, computeBaziSmart } from '@/lib/qiflow/bazi';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { verifyAuth } from '@/lib/auth';
-import { getDb } from '@/db';
-import { baziCalculations } from '@/db/schema';
-import { tryMarkActivation } from '@/lib/growth/activation';
 
 const RequestSchema = z.object({
   name: z.string().min(1).max(50),
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     const enhancedBirthData: EnhancedBirthData = {
       datetime: parsed.data.birthDate,
       gender: parsed.data.gender || 'male',
-      timezone: parsed.data.timezone,
+      timezone: parsed.data.timezone || 'Asia/Shanghai',
       isTimeKnown: true,
       preferredLocale: 'zh-CN',
     };
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       {
         datetime: enhancedBirthData.datetime,
         gender: enhancedBirthData.gender,
-        timezone: enhancedBirthData.timezone,
+        timezone: enhancedBirthData.timezone || 'Asia/Shanghai',
       },
       async () => computeBaziSmart(enhancedBirthData)
     );
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
             name: parsed.data.name,
             birthDate: parsed.data.birthDate,
             gender: parsed.data.gender || 'male',
-            timezone: parsed.data.timezone,
+            timezone: parsed.data.timezone || 'Asia/Shanghai',
           },
           result: result as any,
           creditsUsed: 10,

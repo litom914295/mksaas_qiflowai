@@ -1,10 +1,12 @@
-import { getSupabaseServerClient } from '@/server/supabase'
-import { SupabaseClientDemo } from './client-demo'
+import { getSupabaseServerClient } from '@/server/supabase';
+import { SupabaseClientDemo } from './client-demo';
 
 export default async function SupabaseDemoPage() {
   // 服务端：获取用户信息（如果已登录）
-  const supabase = getSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const supabase = await getSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-8">
@@ -13,9 +15,7 @@ export default async function SupabaseDemoPage() {
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
             Supabase 配置测试
           </h1>
-          <p className="text-slate-600">
-            验证服务端与客户端 Supabase 连接
-          </p>
+          <p className="text-slate-600">验证服务端与客户端 Supabase 连接</p>
         </div>
 
         {/* 服务端测试结果 */}
@@ -90,7 +90,8 @@ export default async function SupabaseDemoPage() {
             <div>
               <p className="font-medium text-white mb-1">服务端使用：</p>
               <code className="block bg-slate-800 p-2 rounded text-xs overflow-x-auto">
-                import &#123; getSupabaseServerClient &#125; from '@/server/supabase'
+                import &#123; getSupabaseServerClient &#125; from
+                '@/server/supabase'
                 <br />
                 const supabase = getSupabaseServerClient()
               </code>
@@ -100,12 +101,13 @@ export default async function SupabaseDemoPage() {
               <code className="block bg-slate-800 p-2 rounded text-xs overflow-x-auto">
                 'use client'
                 <br />
-                import &#123; supabaseBrowser &#125; from '@/lib/supabase-client'
+                import &#123; supabaseBrowser &#125; from
+                '@/lib/supabase-client'
               </code>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

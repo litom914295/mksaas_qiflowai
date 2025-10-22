@@ -57,7 +57,6 @@
     "mountain_star": "山星",
     "facing_star": "向星",
     "period_star": "运星",
-    "combination_analysis": "组合分析",
     "usage_recommendations": "使用建议",
     "professional_fengshui_report": "专业风水分析报告",
     "overall_rating": "总体评分",
@@ -70,5 +69,425 @@
     "suggestions": "建议",
     "report_generated_by": "报告生成于",
     "version": "版本"
+  },
+  "HomePage": {
+    "faqs": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Answers to common questions about our services",
+      "items": {
+        "item-1": {
+          "question": "How accurate is the BaZi analysis?",
+          "answer": "Our BaZi analysis is based on traditional Chinese astrology principles and modern algorithmic optimization, combined with big data validation, achieving over 98% accuracy. More than 120,000 users have verified the accuracy of our analysis results."
+        },
+        "item-2": {
+          "question": "How are Feng Shui analysis fees calculated?",
+          "answer": "Basic BaZi analysis is completely free. Deep destiny interpretation costs 30 credits, Xuankong Flying Stars analysis costs 20 credits, and AI consultation costs 5 credits per session. New users receive 100 credits upon registration."
+        },
+        "item-3": {
+          "question": "How to improve analysis accuracy?",
+          "answer": "Please ensure you provide accurate birth time (precise to the minute), birth location, and true solar time information. This information directly affects the accuracy of BaZi chart construction and thus the final analysis results."
+        },
+        "item-4": {
+          "question": "How to earn and use credits?",
+          "answer": "New users get 100 credits upon registration, 5 credits for daily check-in, and 50 credits when you successfully refer a friend. Credits can be used for deep analysis, AI consultation, and other premium features."
+        },
+        "item-5": {
+          "question": "How to contact customer support?",
+          "answer": "You can contact us through the online customer service feature in the bottom right corner of the page, or send an email to support@qiflow.ai. Our customer service team provides professional service 24/7."
+        }
+      }
+    },
+    "features": {
+      "title": "Core Features",
+      "subtitle": "Professional Analysis Tools",
+      "description": "Combining traditional wisdom with modern technology to provide comprehensive destiny and Feng Shui analysis services",
+      "items": {
+        "item-1": {
+          "title": "Data-Driven Analysis",
+          "description": "Accurate destiny analysis based on massive data and professional algorithms"
+        },
+        "item-2": {
+          "title": "Privacy Protection",
+          "description": "Strict data encryption and privacy protection measures to ensure your information security"
+        },
+        "item-3": {
+          "title": "Personalized Service",
+          "description": "Customized analysis reports and recommendations based on your personal information"
+        },
+        "item-4": {
+          "title": "Real-time Updates",
+          "description": "Continuously updated fortune analysis and Feng Shui layout recommendations to help you seize opportunities"
+        }
+      }
+    },
+    "pricing": {
+      "subtitle": "Flexible Pricing Plans",
+      "description": "Choose the plan that best suits your needs, all plans include core features"
+    },
+    "calltoaction": {
+      "title": "Ready to Start Your Destiny & Feng Shui Journey?",
+      "description": "Experience professional BaZi and Feng Shui analysis services now, let traditional wisdom guide your life direction",
+      "primaryButton": "Start Free Analysis",
+      "secondaryButton": "View Sample Report"
+    },
+    "testimonials": {
+      "title": "User Testimonials",
+      "subtitle": "See what other users are saying",
+      "items": {
+        "item-1": {
+          "name": "Michael Zhang",
+          "role": "Entrepreneur",
+          "image": "/avatars/avatar-1.jpg",
+          "quote": "The BaZi analysis was incredibly accurate and helped me make the right decisions in my career planning. Highly recommended!"
+        },
+        "item-2": {
+          "name": "Linda Li",
+          "role": "Designer",
+          "image": "/avatars/avatar-2.jpg",
+          "quote": "The Feng Shui advice was very practical. After adjusting my home layout as suggested, the whole atmosphere of my home improved."
+        },
+        "item-3": {
+          "name": "David Wang",
+          "role": "IT Engineer",
+          "image": "/avatars/avatar-3.jpg",
+          "quote": "As a technical person, I was skeptical at first, but the analysis results were indeed accurate. The combination of AI technology and traditional culture is fascinating."
+        },
+        "item-4": {
+          "name": "Sarah Chen",
+          "role": "Teacher",
+          "image": "/avatars/avatar-4.jpg",
+          "quote": "The report is very detailed and professional, not only analyzing personality traits but also providing practical life advice."
+        },
+        "item-5": {
+          "name": "James Liu",
+          "role": "Sales Manager",
+          "image": "/avatars/avatar-5.jpg",
+          "quote": "Used it for a month, and I refer to it whenever I face important decisions. It has really helped me a lot."
+        },
+        "item-6": {
+          "name": "Emily Yang",
+          "role": "Accountant",
+          "image": "/avatars/avatar-6.jpg",
+          "quote": "Reasonable prices, professional service. Customer support is also very responsive and answers questions promptly."
+        },
+        "item-7": {
+          "name": "Robert Zhao",
+          "role": "Startup Founder",
+          "image": "/avatars/avatar-7.jpg",
+          "quote": "The Feng Shui analysis helped me choose the right office location, and the company business indeed improved."
+        },
+        "item-8": {
+          "name": "Amy Sun",
+          "role": "Doctor",
+          "image": "/avatars/avatar-8.jpg",
+          "quote": "The analysis report is very in-depth, not superficial at all. A trustworthy professional service."
+        },
+        "item-9": {
+          "name": "Kevin Zhou",
+          "role": "Financial Analyst",
+          "image": "/avatars/avatar-9.jpg",
+          "quote": "The data-driven destiny analysis is very innovative, combining modern technology to make traditional culture easier to understand."
+        },
+        "item-10": {
+          "name": "Michelle Wu",
+          "role": "Lawyer",
+          "image": "/avatars/avatar-10.jpg",
+          "quote": "The AI consultation feature is very convenient, I can ask questions anytime, and the answers are always professional."
+        },
+        "item-11": {
+          "name": "Steven Zheng",
+          "role": "Architect",
+          "image": "/avatars/avatar-11.jpg",
+          "quote": "As an architect, I appreciate the Feng Shui analysis method here, which respects tradition while having scientific basis."
+        },
+        "item-12": {
+          "name": "Grace Qian",
+          "role": "HR Manager",
+          "image": "/avatars/avatar-12.jpg",
+          "quote": "Helped me better understand myself and my team members, very helpful for interpersonal relationship management."
+        }
+      }
+    }
+  },
+  "home": {
+    "pricing": {
+      "title": "Choose Your Plan",
+      "subtitle": "All plans include 50% off for first-time purchase, larger plans offer better value",
+      "firstTimeOffer": "Get 50% extra credits on first purchase",
+      "mostPopular": "Most Popular",
+      "credits": "credits",
+      "save": "Save",
+      "buyNow": "Buy Now",
+      "hint": "💡 All plans support Alipay, WeChat Pay, Credit Card and more",
+      "refund": "7-day money-back guarantee · Data encryption · Safe & secure",
+      "starter": {
+        "name": "Starter",
+        "features": {
+          "credits": "100 credits",
+          "analyses": "About 5-10 analyses",
+          "bazi": "Basic BaZi analysis",
+          "xuankong": "Xuankong Feng Shui query",
+          "validity": "7 days validity"
+        }
+      },
+      "standard": {
+        "name": "Standard",
+        "features": {
+          "credits": "500 credits",
+          "analyses": "About 25-50 analyses",
+          "bazi": "Complete BaZi analysis",
+          "xuankong": "Advanced Feng Shui advice",
+          "ai": "AI intelligent consultation",
+          "pdf": "PDF report export",
+          "validity": "30 days validity"
+        }
+      },
+      "professional": {
+        "name": "Professional",
+        "features": {
+          "credits": "1500 credits",
+          "analyses": "About 75-150 analyses",
+          "bazi": "In-depth BaZi interpretation",
+          "xuankong": "Professional Feng Shui layout",
+          "ai": "Unlimited AI consultation",
+          "support": "Priority technical support",
+          "vip": "VIP exclusive service",
+          "validity": "90 days validity"
+        }
+      }
+    }
+  },
+  "Marketing": {
+    "footer": {
+      "tagline": "Intelligent Feng Shui analysis platform combining traditional wisdom with modern AI technology",
+      "product": {
+        "title": "Product",
+        "items": {
+          "features": "Features",
+          "pricing": "Pricing",
+          "faq": "FAQ"
+        }
+      },
+      "resources": {
+        "title": "Resources",
+        "items": {
+          "blog": "Blog",
+          "docs": "Documentation",
+          "changelog": "Changelog",
+          "roadmap": "Roadmap"
+        }
+      },
+      "company": {
+        "title": "Company",
+        "items": {
+          "about": "About",
+          "contact": "Contact",
+          "waitlist": "Waitlist"
+        }
+      },
+      "legal": {
+        "title": "Legal",
+        "items": {
+          "cookiePolicy": "Cookie Policy",
+          "privacyPolicy": "Privacy Policy",
+          "termsOfService": "Terms of Service"
+        }
+      }
+    }
+  },
+  "AuthPage": {
+    "login": {
+      "welcomeBack": "Welcome Back",
+      "signUpHint": "Don't have an account? Sign up now",
+      "email": "Email",
+      "password": "Password",
+      "emailRequired": "Please enter a valid email address",
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Invalid captcha, please try again",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "forgotPassword": "Forgot password?",
+      "signIn": "Sign In",
+      "signInWith": "Sign in with {provider}",
+      "orContinueWith": "Or continue with"
+    },
+    "register": {
+      "createAccount": "Create Account",
+      "signInHint": "Already have an account? Sign in now",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter a valid email address",
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Invalid captcha, please try again",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "signUp": "Sign Up",
+      "signUpWith": "Sign up with {provider}",
+      "orContinueWith": "Or continue with",
+      "checkEmail": "Please check your email to verify your account",
+      "signUpFailed": "Sign up failed, please try again later",
+      "userAlreadyExists": "This email is already registered, please use another email",
+      "invalidEmail": "Invalid email format",
+      "weakPassword": "Password is too weak, please use a stronger password"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "backToLogin": "Back to Login",
+      "email": "Email",
+      "emailRequired": "Please enter a valid email address",
+      "sendResetLink": "Send Reset Link",
+      "checkEmail": "Please check your email for password reset link"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "passwordRequired": "Please enter new password",
+      "passwordsNotMatch": "Passwords do not match",
+      "resetPassword": "Reset Password",
+      "passwordResetSuccess": "Password reset successfully"
+    }
+  },
+  "Dashboard": {
+    "upgrade": {
+      "title": "Upgrade Account",
+      "description": "Unlock more features and credits",
+      "button": "Upgrade Now"
+    },
+    "sidebar": {
+      "main": "Main",
+      "settings": "Settings",
+      "admin": "Admin"
+    },
+    "settings": {
+      "profile": {
+        "name": {
+          "title": "Display Name",
+          "description": "This is your display name on the platform",
+          "placeholder": "Enter your display name",
+          "hint": "Please use your real name or nickname",
+          "save": "Save",
+          "saving": "Saving...",
+          "success": "Name updated successfully",
+          "fail": "Failed to update name",
+          "minLength": "Name must be at least 3 characters",
+          "maxLength": "Name must be at most 30 characters"
+        },
+        "avatar": {
+          "title": "Avatar",
+          "description": "Update your profile picture",
+          "upload": "Upload Avatar",
+          "uploading": "Uploading...",
+          "success": "Avatar updated successfully",
+          "fail": "Failed to update avatar",
+          "fileTooLarge": "File too large, please select an image smaller than 2MB",
+          "invalidFormat": "Unsupported file format"
+        }
+      },
+      "security": {
+        "password": {
+          "title": "Change Password",
+          "description": "Change your password regularly to keep your account secure",
+          "currentPassword": "Current Password",
+          "newPassword": "New Password",
+          "confirmPassword": "Confirm New Password",
+          "currentPasswordPlaceholder": "Enter current password",
+          "newPasswordPlaceholder": "Enter new password",
+          "confirmPasswordPlaceholder": "Enter new password again",
+          "hint": "Password must be at least 8 characters",
+          "save": "Update Password",
+          "saving": "Updating...",
+          "success": "Password updated successfully",
+          "fail": "Failed to update password",
+          "passwordsNotMatch": "Passwords do not match",
+          "weakPassword": "Password is too weak",
+          "wrongCurrentPassword": "Current password is incorrect"
+        },
+        "deleteAccount": {
+          "title": "Delete Account",
+          "description": "Permanently delete your account and all data",
+          "warning": "⚠️ This action cannot be undone",
+          "confirmText": "I understand this action cannot be undone",
+          "deleteButton": "Delete Account",
+          "deleting": "Deleting...",
+          "success": "Account deleted",
+          "fail": "Failed to delete account"
+        }
+      },
+      "credits": {
+        "balance": {
+          "title": "Credits Balance",
+          "description": "Your current available credits",
+          "creditsAdded": "Credits added successfully",
+          "retry": "Retry",
+          "expiringCredits": "{credits} credits will expire in {days} days"
+        },
+        "packages": {
+          "title": "Buy Credits",
+          "description": "Choose a credits package that suits you",
+          "credits": "Credits",
+          "popular": "Popular",
+          "buyNow": "Buy Now",
+          "buying": "Buying...",
+          "bonus": "Bonus {amount} credits"
+        },
+        "transactions": {
+          "title": "Transaction History",
+          "description": "View your credits usage history",
+          "date": "Date",
+          "type": "Type",
+          "amount": "Amount",
+          "balance": "Balance",
+          "description_col": "Description",
+          "noTransactions": "No transactions yet",
+          "loadMore": "Load More",
+          "types": {
+            "purchase": "Purchase",
+            "consume": "Consume",
+            "refund": "Refund",
+            "bonus": "Bonus",
+            "signin": "Sign In"
+          }
+        }
+      },
+      "billing": {
+        "title": "Billing Management",
+        "description": "Manage your subscription and payment methods",
+        "currentPlan": "Current Plan",
+        "nextBilling": "Next Billing",
+        "cancel": "Cancel Subscription",
+        "upgrade": "Upgrade Plan",
+        "paymentMethod": "Payment Method",
+        "addPaymentMethod": "Add Payment Method",
+        "billingHistory": "Billing History",
+        "invoice": "Invoice",
+        "download": "Download",
+        "paid": "Paid",
+        "pending": "Pending"
+      },
+      "notification": {
+        "title": "Notification Settings",
+        "description": "Manage your notification preferences",
+        "email": {
+          "title": "Email Notifications",
+          "marketing": "Marketing Emails",
+          "updates": "Product Updates",
+          "newsletters": "Newsletters",
+          "tips": "Tips & Tricks"
+        },
+        "push": {
+          "title": "Push Notifications",
+          "analysis": "Analysis Complete",
+          "credits": "Credits Changes",
+          "system": "System Notifications"
+        },
+        "save": "Save Settings",
+        "saving": "Saving...",
+        "success": "Settings saved",
+        "fail": "Failed to save"
+      }
+    }
   }
 }

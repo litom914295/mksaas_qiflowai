@@ -1,12 +1,33 @@
+/**
+ * @deprecated 此文件已被 enhanced-tigua.ts 替代
+ *
+ * ⚠️ 警告：此文件为旧版本实现，已被增强版本替代
+ *
+ * 请使用 enhanced-tigua.ts 中的增强版替卦功能，该文件提供：
+ * - 智能替卦判断
+ * - 个性化替卦建议
+ * - 更完善的规则覆盖
+ * - 更好的性能和可维护性
+ *
+ * 此文件仅作为参考保留，未来版本将移除
+ *
+ * @since v5.0
+ * @deprecated since v6.0
+ * @removal-planned v7.0
+ * @see enhanced-tigua.ts - 替代此文件的增强版本
+ */
+
 import { MOUNTAIN_TO_BAGUA, getPalaceByMountain } from './luoshu';
 import { type FlyingStar, type Mountain, PalaceIndex, type Yun } from './types';
 
 /**
- * 替卦理论实现
+ * 替卦理论实现（已废弃）
  *
  * 替卦是玄空飞星中处理特殊坐向的重要理论
  * 当某些特定的山向组合出现时，需要用替卦来调整飞星排盘
  * 主要适用于五运和某些特殊的山向组合
+ *
+ * @deprecated 请使用 enhanced-tigua.ts
  */
 
 // 替卦规则表：定义哪些山向组合需要使用替卦

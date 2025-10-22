@@ -1,42 +1,137 @@
-import { ChartAreaInteractive } from '@/components/dashboard/chart-area-interactive';
-import { DashboardHeader } from '@/components/dashboard/dashboard-header';
-import { DataTable } from '@/components/dashboard/data-table';
-import { SectionCards } from '@/components/dashboard/section-cards';
-import { useTranslations } from 'next-intl';
+import { getDashboardData } from '@/app/actions/dashboard/get-dashboard-data';
+import ActivitySection from '@/components/dashboard/personal/activity-section';
+import QuickActionsGrid from '@/components/dashboard/personal/quick-actions';
+import StatsGrid from '@/components/dashboard/personal/stats-grid';
+import WelcomeBanner from '@/components/dashboard/personal/welcome-banner';
+import { Skeleton } from '@/components/ui/skeleton';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
-import data from './data.json';
+// 加载骨架屏组件
+function DashboardSkeleton() {
+  return (
+    <div className="space-y-6">
+      {/* Banner Skeleton */}
+      <Skeleton className="h-32 w-full rounded-lg" />
+
+      {/* Stats Grid Skeleton */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {[1, 2, 3, 4].map((i) => (
+          <Skeleton key={i} className="h-32 rounded-lg" />
+        ))}
+      </div>
+
+      {/* Quick Actions Skeleton */}
+      <Skeleton className="h-48 w-full rounded-lg" />
+
+      {/* Activity Section Skeleton */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <Skeleton className="h-80 rounded-lg" />
+        <Skeleton className="h-80 rounded-lg" />
+      </div>
+    </div>
+  );
+}
+
+// 错误边界组件
+function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-red-200 bg-red-50 p-8 dark:border-red-800 dark:bg-red-900/20">
+      <h2 className="mb-2 text-xl font-semibold text-red-600 dark:text-red-400">
+        加载失败
+      </h2>
+      <p className="text-center text-sm text-red-600 dark:text-red-400">
+        {error?.message || '无法加载仪表盘数据，请稍后重试'}
+      </p>
+    </div>
+  );
+}
 
 /**
- * Dashboard page
+ * Personal Dashboard Page - Now the main dashboard
  *
- * NOTICE: This is a demo page for the dashboard, no real data is used,
- * we will show real data in the future
+ * Provides a comprehensive personal management interface with:
+ * - Welcome banner with user information
+ * - Statistics cards showing key metrics
+ * - Quick action buttons for common tasks
+ * - Activity center with recent user activities
+ * - Recent analysis records preview
  */
-export default function DashboardPage() {
-  const t = useTranslations();
+export default async function DashboardPage() {
+  try {
+    // 获取仪表盘数据
+    const dashboardData = await getDashboardData();
 
-  const breadcrumbs = [
-    {
-      label: t('Dashboard.dashboard.title'),
-      isCurrentPage: true,
-    },
-  ];
+    if (!dashboardData) {
+      notFound();
+    }
 
-  return (
-    <>
-      <DashboardHeader breadcrumbs={breadcrumbs} />
-
-      <div className="flex flex-1 flex-col">
-        <div className="@container/main flex flex-1 flex-col gap-2">
-          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <SectionCards />
-            <div className="px-4 lg:px-6">
-              <ChartAreaInteractive />
-            </div>
-            <DataTable data={data} />
+    return (
+      <div className="h-full overflow-auto">
+        <div className="container mx-auto max-w-7xl space-y-6 p-6">
+          {/* 页面标题 */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold tracking-tight">个人中心</h1>
+            <p className="mt-2 text-muted-foreground">
+              管理您的账户、查看数据统计和探索更多功能
+            </p>
           </div>
+
+          {/* 欢迎横幅 */}
+          <Suspense fallback={<Skeleton className="h-32 w-full rounded-lg" />}>
+            <WelcomeBanner
+              userName={dashboardData.user.name}
+              userAvatar={dashboardData.user.avatar}
+              userLevel={dashboardData.user.level}
+              greeting={dashboardData.greeting}
+            />
+          </Suspense>
+
+          {/* 统计数据网格 */}
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <Skeleton key={i} className="h-32 rounded-lg" />
+                ))}
+              </div>
+            }
+          >
+            <StatsGrid stats={dashboardData.stats} />
+          </Suspense>
+
+          {/* 快速入口 */}
+          <Suspense fallback={<Skeleton className="h-48 w-full rounded-lg" />}>
+            <QuickActionsGrid />
+          </Suspense>
+
+          {/* 活动中心 */}
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <Skeleton className="h-80 rounded-lg" />
+                <Skeleton className="h-80 rounded-lg" />
+              </div>
+            }
+          >
+            <ActivitySection activities={dashboardData.activities} />
+          </Suspense>
+
+          {/* 最近分析记录 - 预留位置 */}
+          <section className="mt-8">
+            <h2 className="mb-4 text-xl font-semibold">最近分析</h2>
+            <div className="rounded-lg border bg-card p-8 text-center text-muted-foreground">
+              <p>暂无分析记录</p>
+              <p className="mt-2 text-sm">
+                开始使用 QiFlow AI 进行您的第一次分析吧！
+              </p>
+            </div>
+          </section>
         </div>
       </div>
-    </>
-  );
+    );
+  } catch (error) {
+    console.error('Dashboard error:', error);
+    return <ErrorBoundary error={error as Error} />;
+  }
 }

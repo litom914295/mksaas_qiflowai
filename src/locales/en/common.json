@@ -1,0 +1,727 @@
+{
+  "QiFlow": {
+    "instantResult": {
+      "analysisComplete": "Analysis Complete",
+      "yourPreview": "Your Destiny Preview",
+      "previewDesc": "Generated destiny overview based on your birth information",
+      "aiSummary": "AI Destiny Summary",
+      "yourPillars": "Your Ba Zi Four Pillars",
+      "elementsChart": "Five Elements Distribution",
+      "keyInsights": "Key Insights",
+      "upgradeSection": {
+        "features": {
+          "fullReport": "Complete 30-page Professional Ba Zi Report",
+          "luckCycle": "Detailed Luck Cycles and Annual Predictions",
+          "pdfExport": "PDF Export for Anytime Access",
+          "aiChat": "Unlimited AI Q&A Sessions"
+        },
+        "getFullReport": "Get Full Report Now",
+        "retry": "Try Again",
+        "limitedOffer": "💎 Limited Offer: 20% OFF for First Purchase"
+      }
+    },
+    "interpretation": {
+      "generateButton": "Generate Interpretation",
+      "labels": {
+        "suggestions": "Suggestions",
+        "relations": "Ten Gods Relations",
+        "nayin": "Nayin",
+        "breakdown": "Period Breakdown"
+      }
+    },
+    "userProfile": {
+      "labels": {
+        "displayName": "Display Name",
+        "displayNamePlaceholder": "Your nickname",
+        "gender": "Gender",
+        "genderOptions": {
+          "male": "Male",
+          "female": "Female",
+          "other": "Other"
+        },
+        "calendar": "Calendar",
+        "calendarOptions": {
+          "gregorian": "Gregorian",
+          "lunar": "Lunar"
+        },
+        "birthDate": "Birth Date",
+        "birthDateLunar": "Birth Date (Lunar Calendar)",
+        "birthTime": "Birth Time",
+        "address": "Birth Place/Address",
+        "addressPlaceholder": "Enter address, supports autocomplete and map selection",
+        "email": "Email (Optional)",
+        "emailPlaceholder": "you@example.com",
+        "phone": "Phone (Optional)",
+        "phonePlaceholder": "For contact only, will not be public"
+      },
+      "buttons": {
+        "openMap": "Open Map Selection",
+        "save": "Save Profile",
+        "saving": "Saving..."
+      },
+      "hints": {
+        "mapSupport": "Autocomplete is supported; map selection is placeholder version."
+      },
+      "validation": {
+        "nameRequired": "Please enter name",
+        "dateRequired": "Please select date",
+        "addressRequired": "Please enter address or select location",
+        "invalidEmail": "Invalid email format",
+        "submissionFailed": "Submission failed"
+      }
+    },
+    "aiChat": {
+      "welcome": {
+        "greeting": "Hello! I am the QiFlow AI Assistant.",
+        "coreAdvantage": "🌟 **Core Advantage**: All Feng Shui analyses are customized based on your personal Ba Zi",
+        "features": {
+          "wealth": "• Wealth position determined by your Day Master",
+          "color": "• Colors selected based on your favorable elements",
+          "direction": "• Directions based on your five elements preferences"
+        },
+        "instruction": "Please provide your birth information first for truly personalized destiny and Feng Shui advice."
+      },
+      "quickQuestions": {
+        "bazi": "What are my favorable elements in Ba Zi?",
+        "fengshui": "Based on my Ba Zi, how should I arrange Feng Shui at home?",
+        "wealth": "Where is my personal wealth position?",
+        "career": "How is my career luck this year?"
+      },
+      "prompts": {
+        "inputPlaceholder": "Enter your question...",
+        "sendButton": "Send",
+        "loading": "AI is thinking..."
+      },
+      "responses": {
+        "needsInfo": "To answer your question, I need the following information:",
+        "pleaseProvide": "Please complete the relevant analysis first, or provide me with this information for accurate advice.",
+        "dataTypes": {
+          "bazi": "Ba Zi Information",
+          "xuankong": "Feng Shui Data",
+          "house": "House Information"
+        },
+        "fengshuiRequiresBazi": {
+          "title": "🔔 **Important**: Feng Shui analysis must be based on your Ba Zi destiny",
+          "difference": "Our Feng Shui service is different:",
+          "features": {
+            "notGeneric": "• Not generic Feng Shui advice",
+            "basedOnBazi": "• Completely customized based on your Ba Zi",
+            "personalized": "• Wealth and wisdom positions vary by individual"
+          },
+          "pleaseProvide": "Please provide your birth information (year, month, day, time, gender) for personalized analysis."
+        }
+      },
+      "badges": {
+        "dataUsed": "Data Used",
+        "bazi": "Ba Zi",
+        "xuankong": "Feng Shui",
+        "house": "House"
+      }
+    },
+    "forms": {
+      "common": {
+        "required": "Required",
+        "optional": "Optional",
+        "select": "Please select",
+        "loading": "Loading...",
+        "submitting": "Submitting...",
+        "success": "Success",
+        "error": "Failed"
+      }
+    },
+    "terms": {
+      "tiangan": {
+        "title": "Heavenly Stems",
+        "items": {
+          "jia": "Jia (甲)",
+          "yi": "Yi (乙)",
+          "bing": "Bing (丙)",
+          "ding": "Ding (丁)",
+          "wu": "Wu (戊)",
+          "ji": "Ji (己)",
+          "geng": "Geng (庚)",
+          "xin": "Xin (辛)",
+          "ren": "Ren (壬)",
+          "gui": "Gui (癸)"
+        }
+      },
+      "dizhi": {
+        "title": "Earthly Branches",
+        "items": {
+          "zi": "Zi (子)",
+          "chou": "Chou (丑)",
+          "yin": "Yin (寅)",
+          "mao": "Mao (卯)",
+          "chen": "Chen (辰)",
+          "si": "Si (巳)",
+          "wu": "Wu (午)",
+          "wei": "Wei (未)",
+          "shen": "Shen (申)",
+          "you": "You (酉)",
+          "xu": "Xu (戌)",
+          "hai": "Hai (亥)"
+        }
+      },
+      "wuxing": {
+        "title": "Five Elements",
+        "items": {
+          "wood": "Wood",
+          "fire": "Fire",
+          "earth": "Earth",
+          "metal": "Metal",
+          "water": "Water"
+        },
+        "relationships": {
+          "generating": "Generating Cycle",
+          "overcoming": "Overcoming Cycle",
+          "harmony": "Harmony",
+          "conflict": "Conflict"
+        }
+      },
+      "shishen": {
+        "title": "Ten Gods",
+        "items": {
+          "bijian": "Friend (比肩)",
+          "jiecai": "Rob Wealth (劫财)",
+          "shishen": "Eating God (食神)",
+          "shangguan": "Hurting Officer (伤官)",
+          "piancai": "Indirect Wealth (偏财)",
+          "zhengcai": "Direct Wealth (正财)",
+          "qisha": "Seven Killings (七杀)",
+          "zhengguan": "Direct Officer (正官)",
+          "pianyin": "Indirect Resource (偏印)",
+          "zhengyin": "Direct Resource (正印)"
+        },
+        "descriptions": {
+          "bijian": "Same as Day Master, represents siblings and friends",
+          "jiecai": "Same element opposite polarity, represents competition",
+          "shishen": "Produced by Day Master same polarity, represents talent",
+          "shangguan": "Produced by Day Master opposite polarity, represents intelligence",
+          "piancai": "Controlled by Day Master same polarity, represents indirect wealth",
+          "zhengcai": "Controlled by Day Master opposite polarity, represents direct wealth",
+          "qisha": "Controls Day Master same polarity, represents pressure",
+          "zhengguan": "Controls Day Master opposite polarity, represents authority",
+          "pianyin": "Produces Day Master same polarity, represents unconventional knowledge",
+          "zhengyin": "Produces Day Master opposite polarity, represents traditional education"
+        }
+      },
+      "nayin": {
+        "title": "Nayin",
+        "items": {
+          "haizhongjin": "Gold in the Sea",
+          "luzhonghuo": "Fire in the Furnace",
+          "dalinmu": "Wood of the Forest",
+          "lushangtu": "Earth by the Roadside",
+          "jianfengjin": "Sword-Edge Gold",
+          "shantouhu": "Fire on the Mountain",
+          "jianxiashui": "Water in the Stream",
+          "chengtountu": "Earth on the City Wall",
+          "bailajin": "White Wax Gold",
+          "yangliumu": "Willow Wood",
+          "quanzhongshui": "Water in the Spring",
+          "wushangtu": "Earth on the Roof",
+          "pilili": "Thunderbolt Fire",
+          "songbainu": "Pine-Cypress Wood",
+          "changliushui": "Long Flowing Water",
+          "shazongtu": "Earth in the Sand",
+          "shanxiahuo": "Fire at the Foot of the Mountain",
+          "pingdimu": "Flat Land Wood",
+          "biishangtu": "Earth on the Wall",
+          "jinboxin": "Gold Foil Gold",
+          "fudenghuo": "Buddha Lamp Fire",
+          "tianheshui": "Heavenly River Water",
+          "daiyitu": "Earth of the Great Post Road",
+          "chaichuanjin": "Hairpin-Bracelet Gold",
+          "sangsongmu": "Mulberry Wood",
+          "daxishui": "Great Stream Water",
+          "shazongtu2": "Earth in the Sand",
+          "tianshanghuo": "Fire in the Sky",
+          "shiliumu": "Pomegranate Wood",
+          "dahaishui": "Water of the Great Sea"
+        }
+      },
+      "luck": {
+        "dayun": "Major Luck Cycle",
+        "liunian": "Annual Fortune",
+        "xiaoyun": "Monthly Fortune",
+        "taisui": "Grand Duke Jupiter",
+        "descriptions": {
+          "dayun": "10-year major fortune cycle",
+          "liunian": "Annual fortune changes",
+          "xiaoyun": "Monthly fortune fluctuations",
+          "taisui": "Year's ruling deity"
+        }
+      },
+      "yongshen": {
+        "title": "Favorable Elements",
+        "yongshen": "Favorable Element",
+        "xishen": "Supporting Element",
+        "jishen": "Unfavorable Element",
+        "choushen": "Opposing Element",
+        "xiangshen": "Auxiliary Element",
+        "descriptions": {
+          "yongshen": "Element needed to balance the chart",
+          "xishen": "Element that assists the favorable element",
+          "jishen": "Element harmful to the chart",
+          "choushen": "Element opposing the favorable element",
+          "xiangshen": "Element generating the favorable element"
+        },
+        "strength": {
+          "strong": "Strong",
+          "weak": "Weak",
+          "balanced": "Balanced",
+          "veryStrong": "Very Strong",
+          "veryWeak": "Very Weak"
+        }
+      },
+      "flyingStars": {
+        "title": "Nine Flying Stars",
+        "stars": {
+          "1": "Star 1 - White Greedy Wolf",
+          "2": "Star 2 - Black Giant Door",
+          "3": "Star 3 - Green Storing Lu",
+          "4": "Star 4 - Green Literary Song",
+          "5": "Star 5 - Yellow Integrity",
+          "6": "Star 6 - White Martial Song",
+          "7": "Star 7 - Red Breaking Army",
+          "8": "Star 8 - White Left Assistant",
+          "9": "Star 9 - Purple Right Assistant"
+        },
+        "elements": {
+          "1": "Water",
+          "2": "Earth",
+          "3": "Wood",
+          "4": "Wood",
+          "5": "Earth",
+          "6": "Metal",
+          "7": "Metal",
+          "8": "Earth",
+          "9": "Fire"
+        },
+        "nature": {
+          "1": "Auspicious",
+          "2": "Inauspicious",
+          "3": "Inauspicious",
+          "4": "Auspicious",
+          "5": "Inauspicious",
+          "6": "Auspicious",
+          "7": "Inauspicious",
+          "8": "Auspicious",
+          "9": "Auspicious"
+        },
+        "meanings": {
+          "1": "Wisdom, Education, Career",
+          "2": "Illness, Disputes, Losses",
+          "3": "Conflicts, Arguments, Fights",
+          "4": "Education, Learning, Wisdom",
+          "5": "Disasters, Accidents, Losses",
+          "6": "Power, Status, Wealth",
+          "7": "Losses, Theft, Arguments",
+          "8": "Wealth, Career, Health",
+          "9": "Celebration, Romance, Fame"
+        }
+      },
+      "geju": {
+        "title": "Feng Shui Patterns",
+        "types": {
+          "wangshanwangshui": "Prosperous Mountain Prosperous Water",
+          "shangshanxiashui": "Mountain Goes Down Water Goes Up",
+          "shuangxinghuixiang": "Double Stars Meet Direction",
+          "fuyin": "Hidden Chant",
+          "fanyin": "Reversed Chant",
+          "heshi": "Combination of Ten",
+          "sanban": "Three Combinations",
+          "dajie": "Great Robbery"
+        },
+        "descriptions": {
+          "wangshanwangshui": "Mountain and water stars both reach prosperous positions, most auspicious",
+          "shangshanxiashui": "Mountain star flies to direction, water star flies to sitting, very inauspicious",
+          "shuangxinghuixiang": "Both mountain and water stars fly to direction",
+          "fuyin": "Mountain and water stars are the same",
+          "fanyin": "Mountain and water stars are opposite",
+          "heshi": "Mountain and water stars add up to ten",
+          "sanban": "Three plates form special combinations",
+          "dajie": "Special three-cycle nine-fortune combination"
+        }
+      },
+      "directions": {
+        "title": "Directions",
+        "eight": {
+          "north": "North",
+          "northeast": "Northeast",
+          "east": "East",
+          "southeast": "Southeast",
+          "south": "South",
+          "southwest": "Southwest",
+          "west": "West",
+          "northwest": "Northwest"
+        },
+        "trigrams": {
+          "kan": "Kan (Water)",
+          "gen": "Gen (Mountain)",
+          "zhen": "Zhen (Thunder)",
+          "xun": "Xun (Wind)",
+          "li": "Li (Fire)",
+          "kun": "Kun (Earth)",
+          "dui": "Dui (Lake)",
+          "qian": "Qian (Heaven)"
+        },
+        "positions": {
+          "wealth": "Wealth Position",
+          "wenchang": "Education Position",
+          "taohua": "Romance Position",
+          "guiren": "Benefactor Position",
+          "yannian": "Longevity Position",
+          "tianyi": "Heavenly Doctor Position",
+          "shengqi": "Vitality Position",
+          "wugui": "Five Ghosts Position",
+          "liusha": "Six Killings Position",
+          "huohai": "Disasters Position",
+          "jueming": "Total Loss Position"
+        }
+      },
+      "seasons": {
+        "title": "Seasons & Solar Terms",
+        "seasons": {
+          "spring": "Spring",
+          "summer": "Summer",
+          "autumn": "Autumn",
+          "winter": "Winter"
+        },
+        "solarTerms": {
+          "lichun": "Beginning of Spring",
+          "yushui": "Rain Water",
+          "jingzhe": "Awakening of Insects",
+          "chunfen": "Spring Equinox",
+          "qingming": "Pure Brightness",
+          "guyu": "Grain Rain",
+          "lixia": "Beginning of Summer",
+          "xiaoman": "Grain Buds",
+          "mangzhong": "Grain in Ear",
+          "xiazhi": "Summer Solstice",
+          "xiaoshu": "Minor Heat",
+          "dashu": "Major Heat",
+          "liqiu": "Beginning of Autumn",
+          "chushu": "End of Heat",
+          "bailu": "White Dew",
+          "qiufen": "Autumn Equinox",
+          "hanlu": "Cold Dew",
+          "shuangjiang": "Descent of Frost",
+          "lidong": "Beginning of Winter",
+          "xiaoxue": "Minor Snow",
+          "daxue": "Major Snow",
+          "dongzhi": "Winter Solstice",
+          "xiaohan": "Minor Cold",
+          "dahan": "Major Cold"
+        }
+      },
+      "colors": {
+        "title": "Colors",
+        "favorable": "Favorable Colors",
+        "unfavorable": "Unfavorable Colors",
+        "byElement": {
+          "wood": ["Green", "Blue-green", "Cyan"],
+          "fire": ["Red", "Purple", "Orange"],
+          "earth": ["Yellow", "Brown", "Earth tones"],
+          "metal": ["White", "Gold", "Silver"],
+          "water": ["Black", "Blue", "Gray"]
+        }
+      },
+      "industries": {
+        "title": "Suitable Industries",
+        "byElement": {
+          "wood": [
+            "Forestry",
+            "Timber",
+            "Culture",
+            "Education",
+            "Medicine",
+            "Textiles"
+          ],
+          "fire": [
+            "Energy",
+            "Food & Beverage",
+            "Electronics",
+            "Optics",
+            "Entertainment",
+            "Advertising"
+          ],
+          "earth": [
+            "Real Estate",
+            "Construction",
+            "Agriculture",
+            "Animal Husbandry",
+            "Agency",
+            "Management"
+          ],
+          "metal": [
+            "Finance",
+            "Hardware",
+            "Machinery",
+            "Automotive",
+            "Jewelry",
+            "Technology"
+          ],
+          "water": [
+            "Shipping",
+            "Aquatic",
+            "Beverages",
+            "Tourism",
+            "Logistics",
+            "Communications"
+          ]
+        }
+      }
+    }
+  },
+  "PricingPage": {
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "mostPopular": "Most Popular",
+    "currentPlan": "Current Plan",
+    "upgradeTo": "Upgrade to",
+    "subscribe": "Subscribe",
+    "getStarted": "Get Started",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "billedMonthly": "Billed monthly",
+    "billedYearly": "Billed yearly",
+    "save": "Save",
+    "whatIncluded": "What's included",
+    "allFeaturesInclude": "All features include"
+  },
+  "PricePlans": {
+    "free": {
+      "name": "Free",
+      "description": "Perfect for trying out",
+      "features": {
+        "feature-1": "Basic Ba Zi chart",
+        "feature-2": "Five elements analysis",
+        "feature-3": "Simple destiny reading",
+        "feature-4": "Community support"
+      },
+      "limits": {
+        "limit-1": "5 analyses per month",
+        "limit-2": "Basic features only",
+        "limit-3": "No AI consultation"
+      }
+    },
+    "pro": {
+      "name": "Professional",
+      "description": "For serious users",
+      "features": {
+        "feature-1": "Unlimited Ba Zi analysis",
+        "feature-2": "Complete destiny reports",
+        "feature-3": "AI smart consultation",
+        "feature-4": "Xuankong Feng Shui analysis",
+        "feature-5": "PDF export feature"
+      },
+      "limits": {
+        "limit-1": "500 credits per month",
+        "limit-2": "Priority customer support"
+      }
+    },
+    "lifetime": {
+      "name": "Lifetime",
+      "description": "Pay once, use forever",
+      "features": {
+        "feature-1": "All Pro features",
+        "feature-2": "Unlimited usage",
+        "feature-3": "Free updates forever",
+        "feature-4": "VIP customer service",
+        "feature-5": "Advanced AI models",
+        "feature-6": "Private customization",
+        "feature-7": "Early access to new features"
+      },
+      "limits": []
+    }
+  },
+  "BaziHome": {
+    "teaser": {
+      "title": "Experience Smart Compass",
+      "clockwise": "Clockwise",
+      "counterClockwise": "Counter-clockwise",
+      "currentDegreeLabel": "Current Degree"
+    }
+  },
+  "Metadata": {
+    "title": "QiFlow AI - Intelligent Ba Zi & Feng Shui Analysis Platform",
+    "description": "Professional AI-powered Ba Zi destiny and Xuankong Feng Shui analysis service, providing personalized destiny consultation and Feng Shui advice"
+  },
+  "UnifiedForm": {
+    "hero": {
+      "title": "AI-Powered Ba Zi & Feng Shui Analysis",
+      "subtitle": "Combining traditional wisdom with modern AI technology for professional destiny and Feng Shui guidance",
+      "trustBadge": "50,000+ Users Served",
+      "accuracyBadge": "95%+ Accuracy",
+      "securityBadge": "Privacy Protected"
+    },
+    "steps": {
+      "personal": "Personal Info",
+      "house": "House Info",
+      "review": "Review"
+    },
+    "personalInfo": {
+      "title": "Step 1: Enter Your Personal Information",
+      "description": "Accurate birth information is the foundation of precise analysis",
+      "nameLabel": "Name",
+      "namePlaceholder": "Enter your name",
+      "genderLabel": "Gender",
+      "genderMale": "Male",
+      "genderFemale": "Female",
+      "birthDateLabel": "Birth Date",
+      "birthDatePlaceholder": "Select date",
+      "birthTimeLabel": "Birth Time",
+      "birthTimePlaceholder": "Select time",
+      "birthTimeHint": "If exact time unknown, approximate hour is acceptable",
+      "locationLabel": "Birth Location",
+      "locationPlaceholder": "Enter birth city or region"
+    },
+    "houseInfo": {
+      "title": "Step 2: House Feng Shui Information (Optional)",
+      "description": "Add house information for personalized Feng Shui layout recommendations",
+      "skip": "Skip this step",
+      "addressLabel": "House Address",
+      "addressPlaceholder": "Enter house address",
+      "directionLabel": "House Direction",
+      "directionPlaceholder": "Select direction",
+      "buildYearLabel": "Build Year",
+      "buildYearPlaceholder": "Select year",
+      "layoutLabel": "Layout",
+      "layoutPlaceholder": "e.g., 3 bedrooms 2 living rooms",
+      "floorLabel": "Floor",
+      "floorPlaceholder": "Enter floor number"
+    },
+    "review": {
+      "title": "Step 3: Review Information",
+      "personalTitle": "Personal Information",
+      "houseTitle": "House Information",
+      "edit": "Edit",
+      "noHouseInfo": "No house information provided",
+      "addHouseInfo": "Add house information"
+    },
+    "actions": {
+      "next": "Next",
+      "previous": "Previous",
+      "submit": "Start Analysis",
+      "submitting": "Analyzing..."
+    },
+    "validation": {
+      "nameRequired": "Please enter name",
+      "genderRequired": "Please select gender",
+      "birthDateRequired": "Please select birth date",
+      "birthTimeRequired": "Please select birth time",
+      "locationRequired": "Please enter birth location"
+    },
+    "testimonials": {
+      "title": "User Reviews",
+      "ratings": "5.0 stars from 1,200+ reviews"
+    }
+  },
+  "AIChat": {
+    "title": "AI Smart Consultation",
+    "subtitle": "Personalized professional advice based on your Ba Zi and Feng Shui data",
+    "placeholder": "Enter your question...",
+    "send": "Send",
+    "thinking": "AI is thinking...",
+    "quickQuestions": {
+      "title": "Quick Questions",
+      "bazi": "What are my favorable elements?",
+      "fengshui": "How to arrange home Feng Shui based on my Ba Zi?",
+      "wealth": "Where is my wealth position?",
+      "career": "How is my career luck this year?"
+    },
+    "welcome": {
+      "greeting": "Hello! I am the QiFlow AI Assistant.",
+      "coreAdvantage": "🌟 Core Advantage: All Feng Shui analyses are customized based on your personal Ba Zi",
+      "features": {
+        "wealth": "• Wealth position determined by your Day Master",
+        "color": "• Colors selected based on your favorable elements",
+        "direction": "• Directions based on your five elements preferences"
+      },
+      "instruction": "Please provide your birth information first for truly personalized destiny and Feng Shui advice."
+    },
+    "responses": {
+      "needsInfo": "To answer your question, I need the following information:",
+      "pleaseProvide": "Please complete the relevant analysis first, or provide me with this information for accurate advice.",
+      "dataTypes": {
+        "bazi": "Ba Zi Information",
+        "xuankong": "Feng Shui Data",
+        "house": "House Information"
+      }
+    },
+    "badges": {
+      "dataUsed": "Data Used",
+      "bazi": "Ba Zi",
+      "xuankong": "Feng Shui",
+      "house": "House"
+    }
+  },
+  "Report": {
+    "title": "Professional Analysis Report",
+    "loading": "Generating your professional report...",
+    "tabs": {
+      "bazi": "Ba Zi Destiny",
+      "fengshui": "Feng Shui Analysis",
+      "comprehensive": "Comprehensive Advice"
+    },
+    "bazi": {
+      "pillars": "Four Pillars",
+      "elements": "Five Elements Analysis",
+      "tenGods": "Ten Gods Relations",
+      "luck": "Luck Cycles",
+      "favorable": "Favorable Elements"
+    },
+    "fengshui": {
+      "flyingStars": "Nine Flying Stars",
+      "directions": "Directional Fortune",
+      "layout": "Layout Recommendations",
+      "remedy": "Remedy Solutions"
+    },
+    "actions": {
+      "export": "Export Report",
+      "share": "Share Report",
+      "consult": "AI Consultation",
+      "print": "Print Report"
+    },
+    "score": {
+      "overall": "Overall Score",
+      "career": "Career Luck",
+      "wealth": "Wealth Luck",
+      "health": "Health Luck",
+      "relationship": "Relationship Luck"
+    }
+  },
+  "Common": {
+    "errors": {
+      "networkError": "Network error, please try again later",
+      "serverError": "Server error, please try again later",
+      "validationError": "Validation failed",
+      "unauthorized": "Please login first",
+      "insufficientCredits": "Insufficient credits",
+      "unknownError": "Unknown error, please contact support"
+    },
+    "success": {
+      "saved": "Saved successfully",
+      "submitted": "Submitted successfully",
+      "updated": "Updated successfully",
+      "deleted": "Deleted successfully"
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "save": "Save",
+      "edit": "Edit",
+      "delete": "Delete",
+      "retry": "Retry",
+      "back": "Back",
+      "close": "Close"
+    },
+    "loading": {
+      "default": "Loading...",
+      "saving": "Saving...",
+      "submitting": "Submitting...",
+      "analyzing": "Analyzing..."
+    }
+  }
+}

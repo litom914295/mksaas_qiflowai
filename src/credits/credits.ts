@@ -394,6 +394,13 @@ export async function canAddCreditsByType(userId: string, creditType: string) {
  * @param userId - User ID
  */
 export async function addRegisterGiftCredits(userId: string) {
+  // 本地开发可通过环境变量跳过积分数据库操作，避免阻塞登录
+  if (process.env.DISABLE_CREDITS_DB === 'true') {
+    console.warn(
+      '[credits] skipped addRegisterGiftCredits due to DISABLE_CREDITS_DB=true'
+    );
+    return;
+  }
   // Check if user has already received register gift credits
   const db = await getDb();
   const record = await db

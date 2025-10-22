@@ -10,6 +10,7 @@ export enum CREDIT_TRANSACTION_TYPE {
   DAILY_SIGNIN = 'DAILY_SIGNIN',              // Credits earned by daily sign-in
   REFERRAL_REWARD = 'REFERRAL_REWARD',        // Credits earned by referral activation reward
   SHARE_REWARD = 'SHARE_REWARD',              // Credits earned by share conversion
+  MANUAL_ADJUSTMENT = 'MANUAL_ADJUSTMENT',    // Credits manually adjusted by admin
   USAGE = 'USAGE',                            // Credits spent by usage
   EXPIRE = 'EXPIRE',                          // Credits expired,
 }

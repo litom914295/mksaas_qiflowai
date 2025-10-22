@@ -17,7 +17,7 @@ import { formatPrice } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { CircleCheckBigIcon, CoinsIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { CreditCheckoutButton } from './credit-checkout-button';
+import { PaymentMethodSelector } from './payment-method-selector';
 
 /**
  * Credit packages component
@@ -99,20 +99,32 @@ export function CreditPackages() {
 
                 <div className="text-sm text-muted-foreground text-left py-2 flex items-center gap-2">
                   <CircleCheckBigIcon className="h-4 w-4 text-green-500" />
-                  {creditPackage.description}
+                  {creditPackage.description ||
+                    creditPackage.name ||
+                    `${creditPackage.amount}积分`}
                 </div>
 
-                {/* purchase button using checkout */}
-                <CreditCheckoutButton
+                {/* purchase button using payment method selector */}
+                <PaymentMethodSelector
                   userId={currentUser?.id ?? ''}
                   packageId={creditPackage.id}
                   priceId={creditPackage.price.priceId}
+                  packageName={
+                    (creditPackage.description ||
+                      creditPackage.name ||
+                      `${creditPackage.amount}积分套餐`) as string
+                  }
+                  packageAmount={creditPackage.amount}
+                  packagePrice={formatPrice(
+                    creditPackage.price.amount,
+                    creditPackage.price.currency
+                  )}
                   className="w-full cursor-pointer mt-2"
                   variant={creditPackage.popular ? 'default' : 'outline'}
                   disabled={!creditPackage.price.priceId}
                 >
                   {t('purchase')}
-                </CreditCheckoutButton>
+                </PaymentMethodSelector>
               </CardContent>
             </Card>
           ))}

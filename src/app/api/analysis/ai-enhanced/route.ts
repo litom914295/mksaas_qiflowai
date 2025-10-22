@@ -3,7 +3,6 @@
  * POST /api/analysis/ai-enhanced
  */
 
-import type { PersonalData } from '@/components/qiflow/analysis/types';
 import { verifyAuth } from '@/lib/auth';
 import {
   generateAIEnhancedAnalysis,
@@ -12,6 +11,16 @@ import {
 import { calculateBazi } from '@/lib/services/bazi-calculator-service';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+
+// 定义 PersonalData 类型
+interface PersonalData {
+  birthDate: string;
+  birthTime: string;
+  gender: 'male' | 'female';
+  location?: string;
+  calendar?: 'solar' | 'lunar';
+  name?: string;
+}
 
 /**
  * 请求验证Schema
@@ -61,15 +70,18 @@ export async function POST(request: NextRequest) {
       authenticatedUserId = authResult.userId;
     }
 
-    // 3. 计算八字
+    // 3. 解析日期和时间
+    const [yearStr, monthStr, dayStr] = birthDate.split('-');
+    const [hourStr, minuteStr] = birthTime.split(':');
+
+    // 计算八字
     const baziResult = calculateBazi({
-      birthDate,
-      birthTime,
+      year: Number.parseInt(yearStr),
+      month: Number.parseInt(monthStr),
+      day: Number.parseInt(dayStr),
+      hour: Number.parseInt(hourStr),
       gender,
-      location: '北京', // 默认位置
-      calendar: 'solar',
-      name: '用户',
-    } as PersonalData);
+    });
 
     // 4. 生成AI增强分析
     let aiAnalysis;

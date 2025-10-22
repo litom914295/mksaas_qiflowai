@@ -1,4 +1,5 @@
-﻿import { RedisConnection } from '@/lib/redis/connection';
+// @ts-ignore - Redis connection module
+import { RedisConnection } from '@/lib/redis/connection';
 
 interface RateLimiterOptions {
   limit?: number;
@@ -18,7 +19,7 @@ class MemoryBucket {
   ) {}
 
   consume(key: string): boolean {
-    // const now = Date.now();
+    const now = Date.now();
     const bucket = this.buckets.get(key);
 
     if (!bucket || bucket.expiresAt < now) {

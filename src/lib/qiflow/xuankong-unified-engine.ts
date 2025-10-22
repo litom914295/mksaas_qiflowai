@@ -1,6 +1,6 @@
 /**
  * 玄空统一引擎
- * 
+ *
  * 这是一个占位实现，待后续完善
  */
 
@@ -44,7 +44,7 @@ export interface XuankongAnalysisResult {
 
 /**
  * 执行玄空风水统一分析
- * 
+ *
  * @param personalInfo - 个人信息
  * @param houseInfo - 房屋信息
  * @returns 玄空分析结果
@@ -54,8 +54,8 @@ export async function evaluateXuankongAnalysis(
   houseInfo: HouseInfo
 ): Promise<XuankongAnalysisResult> {
   // 占位实现 - 返回模拟数据
-  const period = Math.floor((houseInfo.buildYear - 1864) / 20) % 9 + 1;
-  
+  const period = (Math.floor((houseInfo.buildYear - 1864) / 20) % 9) + 1;
+
   return {
     basic: {
       period,
@@ -77,10 +77,7 @@ export async function evaluateXuankongAnalysis(
         '飞星组合较为理想',
         '适合当前元运',
       ],
-      weaknesses: [
-        '部分宫位存在煞气',
-        '需要适当的风水调整',
-      ],
+      weaknesses: ['部分宫位存在煞气', '需要适当的风水调整'],
       recommendations: [
         '在东南方位放置绿植以增强木能量',
         '保持房屋通风采光良好',

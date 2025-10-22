@@ -20,6 +20,7 @@ import {
   Users,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 
 // 懒加载重型组件
@@ -58,30 +59,21 @@ const RecommendationCard = dynamic(
   { ssr: false }
 );
 
-// 动态导入Tabs组件
-const Tabs = dynamic(() =>
-  import('@/components/ui/tabs').then((mod) => ({
-    default: mod.Tabs,
-  }))
+// 动态导入Tabs组件（优化：合并导入）
+const TabsComponents = dynamic(
+  () =>
+    import('@/components/ui/tabs').then((mod) => ({
+      default: () => null, // placeholder
+      Tabs: mod.Tabs,
+      TabsList: mod.TabsList,
+      TabsTrigger: mod.TabsTrigger,
+      TabsContent: mod.TabsContent,
+    })),
+  { ssr: false }
 );
 
-const TabsList = dynamic(() =>
-  import('@/components/ui/tabs').then((mod) => ({
-    default: mod.TabsList,
-  }))
-);
-
-const TabsTrigger = dynamic(() =>
-  import('@/components/ui/tabs').then((mod) => ({
-    default: mod.TabsTrigger,
-  }))
-);
-
-const TabsContent = dynamic(() =>
-  import('@/components/ui/tabs').then((mod) => ({
-    default: mod.TabsContent,
-  }))
-);
+// 为了保持兼容性，导出各个组件
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // 动态导入confetti
 const triggerCelebration = async () => {
@@ -102,17 +94,34 @@ import {
 } from '@/lib/analytics';
 import { usePayment } from '@/lib/payment';
 
-// 优化的图片组件
-const OptimizedImage = ({ src, alt, ...props }: any) => {
-  const [imageSrc, setImageSrc] = useState('/images/placeholder.jpg');
+// 优化的图片组件 - 使用 next/image
+type OptimizedImageProps = {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  className?: string;
+};
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => setImageSrc(src);
-  }, [src]);
-
-  return <img src={imageSrc} alt={alt} loading="lazy" {...props} />;
+const OptimizedImage = ({
+  src,
+  alt,
+  width = 800,
+  height = 600,
+  className,
+  ...props
+}: OptimizedImageProps) => {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+      loading="lazy"
+      {...props}
+    />
+  );
 };
 
 // 用户见证数据

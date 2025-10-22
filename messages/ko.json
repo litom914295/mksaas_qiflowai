@@ -333,9 +333,22 @@
       "cta": {
         "startBazi": "Start Bazi Analysis",
         "tryCompass": "Try Feng Shui Compass",
-        "askAi": "Ask AI"
+        "askAi": "Ask AI",
+        "primary": "立即获取我的命理报告",
+        "secondary": "先看个示例",
+        "tertiary": "AI智能咨询",
+        "hint": "💡 无需注册，1分钟生成 · 首次体验免费",
+        "viewFullAnalysis": "🎯 查看完整分析流程"
       },
-      "trust": "10,000명 이상의 사용자가 신뢰합니다"
+      "trust": "10,000명 이상의 사용자가 신뢰합니다",
+      "optimized": {
+        "headline": "3分钟，看清你的天赋与运势转折点",
+        "subheadline": "结合千年命理智慧与AI算法，98%用户认为『准得离谱』"
+      },
+      "social": {
+        "proof": "已有",
+        "proofSuffix": "人获得了人生指南"
+      }
     },
     "billing": {
       "hint": "Pricing units: aiChat=5, deepInterpretation=30, bazi=10, xuankong=20, pdfExport=5; if balance is low we auto downgrade to a lite result."
@@ -343,20 +356,32 @@
     "trust": {
       "professional": "Professional Method",
       "ai": "AI Assisted",
-      "privacy": "Privacy & Safety"
+      "privacy": "Privacy & Safety",
+      "users": "用户信赖使用",
+      "accuracy": "算法准确率"
     },
     "features": {
       "bazi": {
         "title": "Bazi Analysis",
-        "desc": "One-click key pillars, Ten Gods relations and near-term trends."
+        "desc": "One-click key pillars, Ten Gods relations and near-term trends.",
+        "tag": "最受欢迎"
       },
       "compass": {
         "title": "Feng Shui Compass",
-        "desc": "Preview key directions and Nine Palaces tips to support site selection & optimization."
+        "desc": "Preview key directions and Nine Palaces tips to support site selection & optimization.",
+        "tag": "专业推荐"
       },
       "ai": {
         "title": "AI Consultation",
-        "desc": "Natural language Q&A with targeted suggestions and explanations."
+        "desc": "Natural language Q&A with targeted suggestions and explanations.",
+        "tag": "即时响应"
+      },
+      "section": {
+        "title": "三大核心功能，满足你的所有需求",
+        "subtitle": "从个人命理到空间风水，从快速查询到深度咨询"
+      },
+      "comparison": {
+        "title": "功能对比一览"
       }
     },
     "how": {
@@ -378,11 +403,44 @@
     },
     "testimonials": {
       "title": "Testimonials",
-      "items": []
+      "items": [
+        {
+          "quote": "用起来很顺手，关键点一目了然。初学者也能快速上手。",
+          "author": "L. Zhang",
+          "role": "室内设计师"
+        },
+        {
+          "quote": "AI 的解释通俗易懂，结合罗盘预览更直观。",
+          "author": "Y. Chen",
+          "role": "产品经理"
+        },
+        {
+          "quote": "计费透明，隐私有保障，报告也便于和家人沟通。",
+          "author": "H. Wang",
+          "role": "自由职业者"
+        }
+      ]
     },
     "faq": {
       "title": "FAQ",
-      "items": []
+      "items": [
+        {
+          "q": "需要精确到分钟的出生时间吗？",
+          "a": "建议越精确越好；若不确定，可先填写大致时间，AI 会提示可能影响。"
+        },
+        {
+          "q": "数据会被用作其他用途吗？",
+          "a": "不会。数据仅用于计算与生成报告，遵循隐私与 DSAR 规范。"
+        },
+        {
+          "q": "余额不足会怎样？",
+          "a": "系统会自动降级为精简结果，充值后可解锁完整分析与导出。"
+        },
+        {
+          "q": "AI 回答是否权威？",
+          "a": "AI 用于辅助与解释，不构成专业建议；重要决策请咨询专业人士。"
+        }
+      ]
     },
     "teaser": {
       "title": "Compass preview (rotatable)",
@@ -425,7 +483,20 @@
         "Feng Shui",
         "팔자"
       ]
-    }
+    },
+    "mainTitle": "3분만에 확인하는",
+    "mainTitleLine2": "당신의 재능과 운명의 전환점",
+    "mainSubtitle": "천년의 명리 지혜와 AI 알고리즘 결합, 98% 사용자가 \"놀랍도록 정확\"하다고 평가",
+    "feature1": "98% 알고리즘 정확도",
+    "feature2": "개인정보 보호",
+    "feature3": "3분 분석",
+    "usersGuided": "명이 인생 가이드를 받았습니다",
+    "usersGuidedPrefix": "이미",
+    "viewExample": "예시 보기",
+    "aiConsult": "AI 상담",
+    "userRating": "사용자 평가",
+    "algorithmAccuracy": "알고리즘 정확도",
+    "alertFillRequired": "필수 항목을 모두 입력해주세요"
   },
   "BlogPage": {
     "title": "Blog",
@@ -526,7 +597,13 @@
     "logoutFailed": "Logout failed. Please try again.",
     "yes": "예",
     "no": "아니오",
-    "ok": "확인"
+    "ok": "확인",
+    "add": "添加",
+    "actions": "操作",
+    "status": "状态",
+    "date": "日期",
+    "name": "名称",
+    "description": "描述"
   },
   "Compass": {
     "title": "Digital Compass",
@@ -2371,5 +2448,1174 @@
       "fail": "Failed to subscribe",
       "emailValidation": "Please enter a valid email address"
     }
+  },
+  "metadata": {
+    "title": "QiFlow AI - 스마트 풍수 분석 플랫폼",
+    "description": "전통 풍수 지혜와 현대 AI 기술을 결합한 스마트 풍수 분석 플랫폼"
+  },
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류",
+    "success": "성공",
+    "cancel": "취소",
+    "confirm": "확인",
+    "save": "저장",
+    "delete": "삭제",
+    "edit": "편집",
+    "back": "뒤로",
+    "next": "다음",
+    "previous": "이전",
+    "submit": "제출",
+    "reset": "재설정",
+    "search": "검색",
+    "filter": "필터",
+    "sort": "정렬",
+    "export": "내보내기",
+    "import": "가져오기",
+    "share": "공유",
+    "copy": "복사",
+    "download": "다운로드",
+    "upload": "업로드",
+    "close": "닫기",
+    "open": "열기",
+    "view": "보기",
+    "preview": "미리보기",
+    "refresh": "새로고침",
+    "retry": "재시도",
+    "switchLanguage": "언어 전환",
+    "unknown": "알 수 없음",
+    "toBeCalculated": "계산 대기"
+  },
+  "testPages": {
+    "simpleLangTest": {
+      "title": "간단한 언어 전환 테스트",
+      "currentStatus": "현재 상태",
+      "currentLanguage": "현재 언어",
+      "currentPath": "현재 경로",
+      "pageTitle": "페이지 제목",
+      "subtitle": "부제목",
+      "languageSwitch": "언어 전환",
+      "translationTest": "번역 콘텐츠 테스트",
+      "features": "기능",
+      "commonText": "공통 텍스트",
+      "debugInfo": "디버그 정보",
+      "currentTime": "현재 시간",
+      "browserLanguage": "브라우저 언어"
+    },
+    "langTest": {
+      "title": "언어 전환 테스트 페이지",
+      "currentStatus": "현재 상태",
+      "currentLanguage": "현재 언어",
+      "currentPath": "현재 경로",
+      "pageTitle": "페이지 제목",
+      "subtitle": "부제목",
+      "languageSwitch": "언어 전환",
+      "translationTest": "번역 콘텐츠 테스트",
+      "features": "기능",
+      "commonText": "공통 텍스트",
+      "debugLogs": "디버그 로그",
+      "clearLogs": "로그 지우기",
+      "noLogs": "로그가 없습니다",
+      "instructions": "사용 설명",
+      "instruction1": "언어 버튼을 클릭하여 언어를 전환하세요",
+      "instruction2": "URL 변화와 페이지 콘텐츠를 관찰하세요",
+      "instruction3": "디버그 로그에서 경로 변화를 확인하세요",
+      "instruction4": "번역 콘텐츠가 올바르게 표시되는지 확인하세요",
+      "instruction5": "언어 전환이 작동하지 않으면 브라우저 콘솔 오류를 확인하세요",
+      "pageLoaded": "페이지 로드됨",
+      "path": "경로",
+      "startSwitchTo": "언어 전환 시작",
+      "cleanedPath": "정리된 경로",
+      "newPath": "새 경로",
+      "navigatedTo": "이동됨"
+    },
+    "minimalTest": {
+      "title": "최소 언어 테스트",
+      "serverInfo": "서버 사이드 정보",
+      "features": "기능",
+      "testDescription": "테스트 설명",
+      "description": "번역이 올바르게 로드되는지 테스트하는 서버 사이드 렌더링 페이지입니다. 다른 언어 버전에 접근해 보세요:"
+    }
+  },
+  "home": {
+    "title": "QiFlow AI - 지능형 풍수 분석 플랫폼",
+    "subtitle": "전통 풍수 지혜와 현대 AI 기술을 결합한 지능형 분석 플랫폼",
+    "features": {
+      "title": "강력한 기능, 간단한 조작",
+      "subtitle": "사주명리부터 풍수 배치까지, 데이터 분석부터 AI 상담까지, 원스톱 솔루션",
+      "learnMore": "자세히 보기",
+      "hint": "💡 모든 기능은 첨단 AI 알고리즘을 사용하여 정확성과 전문성을 보장합니다",
+      "bazi": {
+        "title": "사주 분석",
+        "description": "30초만에 운명 보고서 생성"
+      },
+      "xuankong": {
+        "title": "현공풍수",
+        "description": "스마트 비성 배치 분석"
+      },
+      "compass": {
+        "title": "나침반 알고리즘",
+        "description": "AI 방위 인식"
+      },
+      "floorPlan": {
+        "title": "평면도 분석",
+        "description": "평면도를 업로드하여 분석"
+      },
+      "visualization3d": {
+        "title": "3D 시각화",
+        "description": "입체 풍수 배치 표시"
+      },
+      "aiAssistant": {
+        "title": "AI 어시스턴트",
+        "description": "24/7 스마트 Q&A"
+      }
+    },
+    "actions": {
+      "continueAsGuest": "게스트로 계속하기",
+      "register": "지금 등록",
+      "viewBaziAnalysis": "사주 분석 보기",
+      "testAnalysis": "전체 분석 테스트"
+    },
+    "guestEntry": {
+      "creatingSession": "게스트 세션 생성 중...",
+      "continueAsGuest": "게스트로 계속하기",
+      "registerNow": "지금 회원가입",
+      "alreadyHaveAccount": "이미 계정이 있으신가요? 로그인",
+      "guestModeDescription": "게스트 모드: 최대 3회 분석, 데이터는 저장되지 않습니다",
+      "sessionCreationFailed": "게스트 세션 생성 실패"
+    },
+    "highlights": {
+      "title": "핵심 기능",
+      "smartOverlay": {
+        "title": "스마트 오버레이",
+        "description": "평면도에 비성도를 지능적으로 오버레이하는 혁신 기능"
+      },
+      "guestMode": {
+        "title": "게스트 모드",
+        "description": "회원가입 없이 핵심 기능 체험, 데이터는 24시간 후 자동 삭제"
+      },
+      "precisionCompass": {
+        "title": "정밀 나침반",
+        "description": "±2° 정확도, 다중 센서 융합"
+      },
+      "multilingual": {
+        "title": "다국어",
+        "description": "글로벌 서비스를 위한 6개 언어 지원"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 QiFlow AI. All rights reserved.",
+      "help": "도움말 센터",
+      "about": "회사 소개"
+    },
+    "pricing": {
+      "title": "당신에게 맞는 패키지 선택",
+      "subtitle": "모든 패키지는 첫 충전 시 50% 할인, 더 큰 패키지를 선택하면 더 유리",
+      "firstTimeOffer": "첫 충전 시 추가 50% 크레딧 제공",
+      "mostPopular": "가장 인기",
+      "credits": "크레딧",
+      "save": "절약",
+      "buyNow": "지금 구매",
+      "hint": "💡 모든 패키지는 Alipay, WeChat Pay, 신용카드 등 다양한 결제 방법 지원",
+      "refund": "7일 무조건 환불 · 데이터 암호화 보호 · 안전하고 신뢰할 수 있음",
+      "starter": {
+        "name": "입문 버전",
+        "features": {
+          "credits": "100 크레딧",
+          "analyses": "약 5-10회 분석",
+          "bazi": "기초 팔자 분석",
+          "xuankong": "현공풍수 조회",
+          "validity": "7일 유효기간"
+        }
+      },
+      "standard": {
+        "name": "표준 버전",
+        "features": {
+          "credits": "500 크레딧",
+          "analyses": "약 25-50회 분석",
+          "bazi": "완전한 팔자 분석",
+          "xuankong": "고급 풍수 조언",
+          "ai": "AI 스마트 컨설팅",
+          "pdf": "PDF 보고서 내보내기",
+          "validity": "30일 유효기간"
+        }
+      },
+      "professional": {
+        "name": "전문가 버전",
+        "features": {
+          "credits": "1500 크레딧",
+          "analyses": "약 75-150회 분석",
+          "bazi": "심층 팔자 해석",
+          "xuankong": "전문 풍수 레이아웃",
+          "ai": "무제한 AI 컨설팅",
+          "support": "우선 기술 지원",
+          "vip": "VIP 전용 서비스",
+          "validity": "90일 유효기간"
+        }
+      }
+    },
+    "trust": {
+      "title": "당신의 신뢰, 우리의 약속",
+      "subtitle": "전문적, 안전, 고효율 AI 운명 분석 서비스",
+      "privacy": {
+        "title": "개인정보 보호",
+        "description": "데이터 암호화 저장, 절대 개인정보 유출 없음"
+      },
+      "speed": {
+        "title": "초고속 응답",
+        "description": "AI 알고리즘 구동, 3분 이내 분석 완료"
+      },
+      "accuracy": {
+        "title": "전문적 정확성",
+        "description": "전통 명리와 현대 AI 결합, 정확도 98%"
+      }
+    }
+  },
+  "navigation": {
+    "home": "홈",
+    "dashboard": "대시보드",
+    "analysis": "풍수 분석",
+    "compass": "디지털 나침반",
+    "overlay": "평면도 오버레이",
+    "3d_viewer": "3D 뷰어",
+    "reports": "분석 보고서",
+    "chat": "AI 어시스턴트",
+    "subscription": "구독 관리",
+    "profile": "프로필",
+    "settings": "설정",
+    "help": "도움말",
+    "about": "회사 소개"
+  },
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "forgot_password": "비밀번호 찾기",
+    "reset_password": "비밀번호 재설정",
+    "email": "이메일",
+    "password": "비밀번호",
+    "confirm_password": "비밀번호 확인",
+    "remember_me": "로그인 유지",
+    "guest_mode": "게스트 모드",
+    "continue_as_guest": "게스트로 계속하기",
+    "register_to_save": "데이터 저장을 위해 회원가입하세요",
+    "login_required": "로그인이 필요합니다",
+    "invalid_credentials": "잘못된 자격 증명입니다",
+    "account_created": "계정이 생성되었습니다",
+    "password_reset_sent": "비밀번호 재설정 이메일이 발송되었습니다",
+    "register": {
+      "title": "계정 생성",
+      "subtitle": "풍수 분석 여정을 시작하세요",
+      "signInLink": "이미 계정이 있으신가요? 로그인",
+      "displayName": "표시 이름",
+      "displayNamePlaceholder": "표시 이름을 입력하세요",
+      "emailPlaceholder": "이메일 주소를 입력하세요",
+      "passwordPlaceholder": "비밀번호를 입력하세요",
+      "confirmPasswordPlaceholder": "비밀번호를 다시 입력하세요",
+      "acceptTerms": "다음을 읽고 동의합니다",
+      "termsLink": "서비스 약관",
+      "and": "및",
+      "privacyLink": "개인정보 처리방침",
+      "submit": "계정 생성",
+      "hasAccount": "이미 계정이 있으신가요?",
+      "signIn": "로그인"
+    }
+  },
+  "analysis": {
+    "title": "분석 시작 준비",
+    "description": "제공해 주신 정보를 바탕으로 전문적인 사주와 현공비성 풍수 분석 보고서를 생성합니다.",
+    "start": "분석 시작",
+    "analyzing": "분석 중...",
+    "baziTitle": "개인 맞춤 사주 분석",
+    "baziDescription": "출생 정보를 기반으로 전문 알고리즘이 명리적 특성과 인생 통찰을 제시합니다.",
+    "fengshuiTitle": "현공비성 풍수 분석",
+    "fengshuiDescription": "사주와 집 방향을 결합하여 전문적인 풍수 배치 권장사항을 제공합니다.",
+    "aiEnhancedBazi": "AI 강화 사주 분석",
+    "aiEnhancedBaziDescription": "전통 십신 이론과 현대 AI를 결합하여 개인화된 인생 통찰과 운세 가이드를 제공합니다.",
+    "professionalTenGods": "전문 십신 분석",
+    "majorEventPrediction": "중요 사건 예측",
+    "yearlyInteraction": "연간 상호작용 분석",
+    "lifeFortuneCycle": "인생 대운 주기",
+    "previousStep": "이전 단계",
+    "nextStep": "다음 단계: 분석 시작",
+    "steps": {
+      "personalData": "개인 정보",
+      "personalDataDesc": "출생 정보를 입력하세요",
+      "houseOrientation": "집 방향",
+      "houseOrientationDesc": "집 방향 정보를 확인하세요",
+      "baziAnalysis": "사주 분석",
+      "baziAnalysisDesc": "사주 분석 생성",
+      "flyingStar": "현공비성",
+      "flyingStarDesc": "풍수 분석 보고서 생성"
+    }
+  },
+  "testGuest": {
+    "title": "게스트 분석 테스트 페이지",
+    "description": "게스트 분석 기능 테스트"
+  },
+  "guestAnalysis": {
+    "floorPlan": {
+      "noSelectionNote": "평면도가 선택되지 않아 구궁 방 매핑을 건너뛰고 기본 비성 분석만 표시합니다.",
+      "sectionTitle": "평면도 풍수 분석"
+    },
+    "navigation": {
+      "back": "뒤로",
+      "title": "지능형 풍수 분석 체험"
+    },
+    "steps": {
+      "discoverDestiny": "운명의 코드를 발견하세요",
+      "determineLayout": "집의 풍수 배치 결정",
+      "professionalInsights": "전문 사주 알고리즘을 바탕으로 개인 맞춤형 인생 통찰과 운세 안내를 제공합니다.",
+      "preciseLayout": "정확한 방향 측정을 통해 전문적인 풍수 배치 권장사항을 제공합니다."
+    },
+    "personalForm": {
+      "title": "개인 정보를 입력해 주세요",
+      "description": "정확한 출생 정보를 입력해 주세요. 이는 사주 분석의 정확도에 직접적인 영향을 미칩니다.",
+      "quickFill": "샘플 데이터 빠른 입력",
+      "name": "이름",
+      "namePlaceholder": "이름을 입력해 주세요",
+      "nameRequired": "이름 *",
+      "gender": "성별",
+      "genderRequired": "성별 *",
+      "genderPlaceholder": "성별을 선택해 주세요",
+      "male": "남성",
+      "female": "여성",
+      "birthDate": "출생일",
+      "birthDateRequired": "출생일 *",
+      "birthTime": "출생 시간",
+      "birthPlace": "출생지",
+      "birthPlaceRequired": "출생지 *",
+      "birthPlacePlaceholder": "출생 도시를 입력해 주세요",
+      "nextHouseOrientation": "다음: 집 방향"
+    },
+    "houseForm": {
+      "title": "집 방향 정보를 확인하세요",
+      "description": "수동으로 방향 각도를 입력하거나 디지털 나침반을 사용하여 정확하게 측정할 수 있습니다.",
+      "quickFill": "샘플 데이터 빠른 입력",
+      "selectFloorPlan": "평면도 선택",
+      "digitalCompass": "디지털 나침반 측정",
+      "currentOrientation": "현재 방향 각도:",
+      "orientationAngle": "방향 각도",
+      "orientationRequired": "방향 각도 *",
+      "orientationPlaceholder": "0-360도",
+      "floor": "층",
+      "floorPlaceholder": "층수",
+      "address": "집 주소",
+      "addressPlaceholder": "집 주소를 입력해 주세요",
+      "roomCount": "방 개수",
+      "roomCountPlaceholder": "방 개수"
+    },
+    "analysisReady": {
+      "title": "분석 시작 준비",
+      "description": "제공해 주신 정보를 바탕으로 전문적인 사주 명리와 현공비성 풍수 분석 보고서를 생성합니다.",
+      "startAnalysis": "분석 시작"
+    },
+    "analyzing": "분석 중...",
+    "analysis": {
+      "title": "분석 시작 준비",
+      "description": "제공해 주신 정보를 바탕으로 전문적인 사주 명리와 현공비성 풍수 분석 보고서를 생성합니다.",
+      "start": "분석 시작"
+    },
+    "sampleData": {
+      "name": "김철수",
+      "location": "서울",
+      "address": "서울시 강남구 테헤란로",
+      "floorPlanName": "표준 3룸 2거실",
+      "floorPlanDescription": "남향, 방 3개 거실 2개 욕실 2개, 약 120㎡"
+    },
+    "disclaimer": "본 분석은 참고용이며 전문 상담을 대체할 수 없습니다. 중요한 결정은 전문가와 상의하세요."
+  },
+  "bazi": {
+    "title": "사주 분석",
+    "description": "전문 사주 알고리즘을 기반으로 개인화된 인생 통찰과 운세 가이드를 제공합니다",
+    "analyzing": "심층 분석 중...",
+    "analysis_description": "전통 명리학 지혜를 활용해 인생 패턴을 해독합니다",
+    "disclaimer": "본 분석은 전통 명리학 원리에 기반한 참고용입니다. 중요한 결정은 전문가와 상의하세요.",
+    "analysis": {
+      "sampleAnalysis": "귀하의 사주는..."
+    },
+    "fourPillars": {
+      "year": "갑자",
+      "month": "을축",
+      "day": "병인",
+      "hour": "정묘"
+    },
+    "birth_info": "출생 정보",
+    "birth_date": "출생일",
+    "birth_time": "출생 시간",
+    "birth_place": "출생지",
+    "lunar_calendar": "음력",
+    "solar_calendar": "양력",
+    "year_pillar": "년주",
+    "month_pillar": "월주",
+    "day_pillar": "일주",
+    "hour_pillar": "시주",
+    "heavenly_stem": "천간",
+    "earthly_branch": "지지",
+    "five_elements": "오행",
+    "wood": "목",
+    "fire": "화",
+    "earth": "토",
+    "metal": "금",
+    "water": "수",
+    "strong": "왕",
+    "weak": "약",
+    "favorable_elements": "희용신",
+    "unfavorable_elements": "기신",
+    "element_analysis": "오행 분석",
+    "personality_analysis": "성격 분석",
+    "career_guidance": "직업 가이드",
+    "relationship_analysis": "관계 분석",
+    "health_guidance": "건강 가이드",
+    "fortune_analysis": "운세 분석",
+    "tabs": {
+      "overview": "개요",
+      "fourPillars": "사주",
+      "patterns": "격국",
+      "fiveElements": "오행",
+      "godsEvils": "신살",
+      "luckCycles": "대운",
+      "dailyFortune": "일일 운세",
+      "insights": "인사이트"
+    },
+    "deepAnalysisTitle": "심층 사주 분석",
+    "deepAnalysisSubtitle": "전문 알고리즘 기반의 개인 맞춤 인사이트",
+    "labels": {
+      "name": "이름",
+      "gender": "성별",
+      "birthTime": "출생 시간",
+      "gregorian": "양력",
+      "lunar": "음력"
+    },
+    "gender": {
+      "male": "남성",
+      "female": "여성"
+    },
+    "male": "男性",
+    "female": "女性"
+  },
+  "fengshui": {
+    "palace": {
+      "kan": "감",
+      "kun": "곤",
+      "zhen": "진",
+      "xun": "손",
+      "center": "중",
+      "qian": "건",
+      "dui": "태",
+      "gen": "간",
+      "li": "리"
+    },
+    "palace_suffix": "궁",
+    "period_desc": "현재 운세를 나타냅니다",
+    "mountain_star_desc": "좌향(앉는 방향)을 나타냅니다",
+    "water_star_desc": "향(보는 방향)을 나타냅니다",
+    "details": "상세",
+    "pattern_analysis": "격국 분석",
+    "overall_pattern": "전체 격국",
+    "pattern_type": "격국 유형",
+    "key_positions": "핵심 위치",
+    "suitable_arrangements": "적합한 배치",
+    "layout_advice": "배치 조언",
+    "pattern_explanation": "격국 설명",
+    "title": "풍수 분석",
+    "flying_stars": "현공비성",
+    "nine_palaces": "구궁",
+    "compass_direction": "나침반 방위",
+    "house_facing": "주택 향",
+    "house_sitting": "주택 좌",
+    "period": "운",
+    "current_period": "당운",
+    "wenchangwei": "문창위",
+    "caiwei": "재위",
+    "mountain_star": "산성",
+    "water_star": "수성",
+    "time_star": "시성",
+    "annual_star": "년성",
+    "monthly_star": "월성",
+    "daily_star": "일성",
+    "auspicious": "길",
+    "inauspicious": "흉",
+    "neutral": "평",
+    "very_auspicious": "대길",
+    "very_inauspicious": "대흉",
+    "room_analysis": "방 분석",
+    "bedroom": "침실",
+    "living_room": "거실",
+    "kitchen": "주방",
+    "bathroom": "욕실",
+    "study": "서재",
+    "dining_room": "식당",
+    "entrance": "현관",
+    "balcony": "발코니",
+    "recommendations": "풍수 권장사항",
+    "color_recommendations": "색상 권장",
+    "furniture_placement": "가구 배치",
+    "decoration_suggestions": "장식 제안",
+    "remedy_methods": "화해 방법",
+    "tabs": {
+      "overview": "개요",
+      "ninePalaces": "구궁도",
+      "patterns": "격국",
+      "advice": "조언",
+      "advanced": "고급"
+    }
+  },
+  "compass_legacy": {
+    "title": "디지털 나침반",
+    "measuring": "측정 중...",
+    "calibration": "보정",
+    "calibrate_device": "장치 보정",
+    "calibration_instructions": "안내에 따라 장치를 보정하세요",
+    "accuracy": "정확도",
+    "confidence": "신뢰도",
+    "magnetic_declination": "자기 편각",
+    "true_north": "진북",
+    "magnetic_north": "자북",
+    "direction": "방향",
+    "degree": "도",
+    "measurement_history": "측정 기록",
+    "save_measurement": "측정값 저장",
+    "clear_history": "기록 지우기",
+    "device_not_supported": "장치가 나침반 기능을 지원하지 않습니다",
+    "permission_required": "센서 권한이 필요합니다",
+    "interference_detected": "자기장 간섭이 감지되었습니다",
+    "move_away_from_metal": "금속 물체에서 멀리 이동하세요",
+    "measurement_saved": "측정값이 저장되었습니다",
+    "high_accuracy": "고정밀",
+    "medium_accuracy": "중간 정밀",
+    "low_accuracy": "저정밀"
+  },
+  "overlay": {
+    "title": "평면도 오버레이",
+    "upload_floorplan": "평면도 업로드",
+    "processing_image": "이미지 처리 중...",
+    "room_detection": "방 인식",
+    "auto_alignment": "자동 정렬",
+    "manual_adjustment": "수동 조정",
+    "transparency": "투명도",
+    "overlay_opacity": "오버레이 불투명도",
+    "show_grid": "그리드 표시",
+    "show_labels": "라벨 표시",
+    "room_scores": "방 점수",
+    "click_room_for_details": "방을 클릭하여 상세 보기",
+    "room_function": "방 기능",
+    "feng_shui_score": "풍수 점수",
+    "recommendations_for_room": "방 권장 사항",
+    "image_upload_failed": "이미지 업로드 실패",
+    "image_processing_failed": "이미지 처리 실패",
+    "unsupported_format": "지원하지 않는 파일 형식",
+    "file_too_large": "파일이 너무 큽니다",
+    "drag_drop_image": "이미지를 끌어놓거나 클릭하여 업로드",
+    "supported_formats": "JPG, PNG, PDF 형식 지원",
+    "max_file_size": "최대 파일 크기: 10MB",
+    "processing_complete": "처리 완료",
+    "alignment_accuracy": "정렬 정확도",
+    "rotation_angle": "회전 각도",
+    "scale_factor": "배율"
+  },
+  "reports": {
+    "title": "분석 보고서",
+    "generate_report": "보고서 생성",
+    "download_pdf": "PDF 다운로드",
+    "share_report": "보고서 공유",
+    "report_summary": "보고서 요약",
+    "detailed_analysis": "상세 분석",
+    "recommendations": "권장 사항",
+    "charts_and_diagrams": "차트 및 다이어그램",
+    "report_date": "보고 날짜",
+    "analysis_type": "분석 유형",
+    "comprehensive_analysis": "종합 분석",
+    "bazi_only": "사주 분석만",
+    "fengshui_only": "풍수 분석만",
+    "report_generating": "보고서 생성 중...",
+    "report_ready": "보고서 준비 완료",
+    "report_failed": "보고서 생성 실패",
+    "watermark_guest": "게스트 모드 - 전체 보고서는 회원가입 필요",
+    "upgrade_for_full_report": "전체 보고서를 위해 구독 업그레이드",
+    "report_history": "보고서 기록",
+    "no_reports": "보고서가 없습니다",
+    "delete_report": "보고서 삭제",
+    "report_deleted": "보고서가 삭제되었습니다"
+  },
+  "chat": {
+    "title": "AI 풍수 어시스턴트",
+    "ask_question": "풍수 질문하기",
+    "type_message": "질문을 입력하세요...",
+    "send": "보내기",
+    "thinking": "생각 중...",
+    "chat_history": "대화 기록",
+    "clear_chat": "대화 지우기",
+    "new_conversation": "새 대화",
+    "suggested_questions": "추천 질문",
+    "daily_limit_reached": "일일 대화 제한에 도달했습니다",
+    "upgrade_for_more": "더 많은 대화를 위해 구독을 업그레이드하세요",
+    "ai_disclaimer": "AI 답변은 참고용이며 전문적인 조언이 아닙니다",
+    "conversation_saved": "대화가 저장되었습니다",
+    "conversation_deleted": "대화가 삭제되었습니다",
+    "copy_message": "메시지 복사",
+    "message_copied": "메시지가 복사되었습니다",
+    "regenerate_response": "응답 다시 생성",
+    "rate_response": "응답 평가",
+    "helpful": "도움됨",
+    "not_helpful": "도움되지 않음"
+  },
+  "subscription": {
+    "title": "구독 관리",
+    "current_plan": "현재 요금제",
+    "free_plan": "무료 플랜",
+    "standard_plan": "스탠다드 플랜",
+    "professional_plan": "프로 플랜",
+    "upgrade": "업그레이드",
+    "downgrade": "다운그레이드",
+    "cancel_subscription": "구독 취소",
+    "renew_subscription": "구독 갱신",
+    "billing_history": "결제 내역",
+    "usage_statistics": "사용 통계",
+    "quota_remaining": "남은 할당량",
+    "quota_used": "사용한 할당량",
+    "monthly_billing": "월 결제",
+    "yearly_billing": "연 결제",
+    "save_with_yearly": "연 결제로 20% 절약",
+    "payment_method": "결제 수단",
+    "update_payment": "결제 수단 업데이트",
+    "next_billing_date": "다음 결제일",
+    "subscription_active": "구독 활성",
+    "subscription_expired": "구독 만료",
+    "subscription_cancelled": "구독 취소됨",
+    "auto_renewal": "자동 갱신",
+    "manage_subscription": "구독 관리",
+    "contact_support": "고객 지원 문의"
+  },
+  "profile": {
+    "title": "프로필",
+    "personal_info": "개인 정보",
+    "name": "이름",
+    "email": "이메일",
+    "phone": "전화",
+    "address": "주소",
+    "timezone": "시간대",
+    "language": "언어",
+    "birth_info": "출생 정보",
+    "privacy_settings": "개인정보 설정",
+    "data_export": "데이터 내보내기",
+    "delete_account": "계정 삭제",
+    "account_security": "계정 보안",
+    "change_password": "비밀번호 변경",
+    "two_factor_auth": "2단계 인증",
+    "login_history": "로그인 기록",
+    "profile_updated": "프로필이 업데이트되었습니다",
+    "password_changed": "비밀번호가 변경되었습니다",
+    "account_deleted": "계정이 삭제되었습니다",
+    "data_exported": "데이터가 내보내졌습니다",
+    "confirm_delete_account": "계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    "display_name": "표시 이름",
+    "gender": "성별",
+    "birth_date": "출생일",
+    "birth_time": "출생 시간",
+    "birth_place": "출생지",
+    "calendar_type": "달력 종류",
+    "gregorian": "양력",
+    "lunar": "음력",
+    "contact_info": "연락처 정보",
+    "optional": "선택",
+    "required": "필수",
+    "save_profile": "프로필 저장",
+    "saving": "저장 중...",
+    "profile_saved": "프로필이 성공적으로 저장되었습니다",
+    "validation_error": "유효성 검사 오류",
+    "invalid_email": "이메일 형식이 올바르지 않습니다",
+    "invalid_phone": "전화번호 형식이 올바르지 않습니다",
+    "name_required": "이름은 필수입니다",
+    "email_required": "이메일은 필수입니다",
+    "date_required": "날짜는 필수입니다",
+    "time_required": "시간은 필수입니다",
+    "address_required": "주소는 필수입니다"
+  },
+  "forms": {
+    "validation": {
+      "required": "이 필드는 필수입니다",
+      "email": "유효한 이메일 주소를 입력하세요",
+      "min_length": "최소 {{count}}자 이상이어야 합니다",
+      "max_length": "최대 {{count}}자까지 허용됩니다",
+      "pattern": "올바르지 않은 형식입니다"
+    },
+    "placeholders": {
+      "display_name": "닉네임을 입력하세요",
+      "email": "your@email.com",
+      "phone": "+82 10-1234-5678",
+      "birth_date": "생년월일 선택",
+      "birth_time": "출생 시간 선택",
+      "address": "출생지 입력",
+      "search_address": "주소 검색..."
+    },
+    "tooltips": {
+      "display_name": "다른 사용자에게 표시되는 이름입니다. 언제든지 변경할 수 있습니다.",
+      "birth_date_lunar": "음력 날짜(사주 계산에 사용)",
+      "birth_date_gregorian": "양력 날짜(사주 계산에 사용)",
+      "birth_time": "정확한 출생 시간은 더 정밀한 사주 분석에 도움이 됩니다",
+      "birth_place": "출생지는 진태양시 계산에 사용되어 분석 정확도를 높입니다",
+      "email": "중요 알림과 분석 보고서 수신에 사용됩니다",
+      "phone": "SMS 알림과 인증에 사용됩니다",
+      "calendar_type": "양력/음력 선택(사주 계산 정확도에 영향)"
+    },
+    "calendar": {
+      "select_date": "날짜 선택",
+      "clear": "지우기",
+      "today": "오늘",
+      "cancel": "취소",
+      "confirm": "확인",
+      "lunar_note": "음력 모드에서는 시스템이 자동으로 양력으로 변환해 사주를 계산합니다"
+    },
+    "time": {
+      "select_time": "시간 선택",
+      "hour": "시",
+      "minute": "분",
+      "period": "구분",
+      "am": "오전",
+      "pm": "오후",
+      "common_times": "자주 쓰는 시간"
+    },
+    "address": {
+      "select_location": "위치 선택",
+      "search_placeholder": "주소를 입력하세요(자동 완성 지원)",
+      "no_results": "일치하는 주소가 없습니다. 다른 키워드를 시도하세요",
+      "supported_formats": "시/도, 시/군/구, 도로명, 건물명 등 입력 지원",
+      "current_location": "현재 위치",
+      "manual_entry": "수동 입력"
+    },
+    "map": {
+      "click_to_select": "지도에서 위치를 클릭하여 선택",
+      "drag_to_pan": "지도를 드래그하여 이동",
+      "zoom_in": "확대",
+      "zoom_out": "축소",
+      "reset_view": "뷰 리셋",
+      "locate_me": "내 위치로 이동",
+      "selected_location": "선택된 위치",
+      "latitude": "위도",
+      "longitude": "경도",
+      "accuracy": "정확도",
+      "address": "주소"
+    }
+  },
+  "settings": {
+    "title": "설정",
+    "general": "일반",
+    "appearance": "모양",
+    "notifications": "알림",
+    "privacy": "개인정보",
+    "advanced": "고급",
+    "theme": "테마",
+    "light_theme": "라이트 테마",
+    "dark_theme": "다크 테마",
+    "auto_theme": "시스템 기본값",
+    "font_size": "글꼴 크기",
+    "small": "작게",
+    "medium": "중간",
+    "large": "크게",
+    "email_notifications": "이메일 알림",
+    "push_notifications": "푸시 알림",
+    "marketing_emails": "마케팅 이메일",
+    "data_collection": "데이터 수집",
+    "analytics": "분석",
+    "cookies": "쿠키 설정",
+    "cache_management": "캐시 관리",
+    "clear_cache": "캐시 지우기",
+    "export_settings": "설정 내보내기",
+    "import_settings": "설정 가져오기",
+    "reset_settings": "설정 초기화",
+    "settings_saved": "설정이 저장되었습니다",
+    "cache_cleared": "캐시가 삭제되었습니다",
+    "settings_reset": "설정이 초기화되었습니다"
+  },
+  "errors": {
+    "page_not_found": "페이지를 찾을 수 없습니다",
+    "server_error": "서버 오류",
+    "network_error": "네트워크 오류",
+    "permission_denied": "권한이 거부되었습니다",
+    "invalid_input": "잘못된 입력",
+    "file_not_found": "파일을 찾을 수 없습니다",
+    "upload_failed": "업로드 실패",
+    "processing_failed": "처리 실패",
+    "calculation_error": "계산 오류",
+    "database_error": "데이터베이스 오류",
+    "authentication_failed": "인증 실패",
+    "session_expired": "세션이 만료되었습니다",
+    "quota_exceeded": "할당량 초과",
+    "feature_not_available": "기능을 사용할 수 없습니다",
+    "maintenance_mode": "시스템 점검 중",
+    "try_again_later": "나중에 다시 시도하세요",
+    "contact_support": "고객 지원팀에 문의하세요",
+    "unknown_error": "알 수 없는 오류"
+  },
+  "success": {
+    "operation_completed": "작업이 완료되었습니다",
+    "data_saved": "데이터가 저장되었습니다",
+    "file_uploaded": "파일이 업로드되었습니다",
+    "analysis_completed": "분석이 완료되었습니다",
+    "report_generated": "보고서가 생성되었습니다",
+    "settings_updated": "설정이 업데이트되었습니다",
+    "subscription_updated": "구독이 업데이트되었습니다",
+    "payment_successful": "결제가 성공적으로 완료되었습니다",
+    "email_sent": "이메일이 발송되었습니다",
+    "account_verified": "계정이 확인되었습니다",
+    "password_reset": "비밀번호가 재설정되었습니다",
+    "data_exported": "데이터가 내보내졌습니다",
+    "backup_created": "백업이 생성되었습니다",
+    "sync_completed": "동기화가 완료되었습니다"
+  },
+  "i18nTest": {
+    "currentLanguageInfo": "현재 언어 정보",
+    "locale": "로케일",
+    "title": "제목",
+    "subtitle": "부제목",
+    "features": "기능",
+    "languageSwitchingTest": "언어 전환 테스트",
+    "switchingInstructions": "상단 드롭다운으로 언어를 전환하여 콘텐츠 변화를 확인하세요.",
+    "commonTranslations": "일반 번역",
+    "loading": "로딩",
+    "success": "성공",
+    "cancel": "취소",
+    "confirm": "확인",
+    "search": "검색",
+    "save": "저장",
+    "good_pattern": "吉格",
+    "bad_pattern": "凶格",
+    "wenchang_desc": "知恵・学業運の方位",
+    "caiwei_desc": "財運・事業発展の方位",
+    "items": {
+      "desk_and_bookcase": "机・書棚",
+      "stationery": "文房四宝",
+      "study_area": "学習・仕事エリア",
+      "safe_and_cashier": "金庫・レジ",
+      "money_plant": "金運植物",
+      "business_area": "商談エリア"
+    },
+    "key_points": "重要ポイント",
+    "specific_recommendations": "具体的な提案",
+    "pattern_explanation_text": "玄空飛星の格局は風水分析の中心です。天盤・山盤・向盤の関係を分析して、吉凶や運勢・健康・財運への影響を評価します。"
+  },
+  "floorPlan": {
+    "standardListTitle": "표준 평면도 선택",
+    "roomFallback": "방 {index}",
+    "standard-3room": {
+      "name": "표준 3룸 2거실",
+      "description": "남향, 방 3개, 거실 2개, 욕실 2개, 약 120㎡"
+    },
+    "standard-2room": {
+      "name": "표준 2룸 1거실",
+      "description": "남향, 방 2개, 거실 1개, 욕실 1개, 약 80㎡"
+    },
+    "standard-4room": {
+      "name": "표준 4룸 2거실",
+      "description": "남향, 방 4개, 거실 2개, 욕실 3개, 약 150㎡"
+    },
+    "summary": "방 {count}개 | {area}㎡",
+    "upload": {
+      "title": "사용자 정의 평면도 업로드",
+      "button": "평면도 파일 업로드",
+      "clickToSelect": "평면도 파일 선택",
+      "supportedFormats": "JPG, PNG, PDF 형식 지원",
+      "customName": "사용자 정의 평면도",
+      "customDescription": "사용자가 업로드한 평면도"
+    },
+    "selected": "선택된 평면도"
+  },
+  "compass": {
+    "title": "디지털 나침반",
+    "calibration": "보정",
+    "calibrating": "보정 중...",
+    "start_measurement": "측정 시작",
+    "stop_measurement": "측정 중지",
+    "current_direction": "현재 방향",
+    "accuracy": "정확도",
+    "confidence": "신뢰도",
+    "status": "상태",
+    "stable": "안정",
+    "unstable": "불안정",
+    "calibration_step": "보정 단계 {step}/{total}",
+    "good_pattern": "吉格",
+    "bad_pattern": "凶格",
+    "wenchang_desc": "智慧学业运势方位",
+    "caiwei_desc": "财运事业发展方位",
+    "items": {
+      "desk_and_bookcase": "书桌、书柜",
+      "stationery": "文房四宝",
+      "study_area": "学习工作区域",
+      "safe_and_cashier": "保险箱、收银台",
+      "money_plant": "招财植物",
+      "business_area": "办公商谈区域"
+    },
+    "key_points": "关键要点",
+    "specific_recommendations": "具体建议",
+    "pattern_explanation_text": "玄空飞星格局是风水分析的核心，通过分析天盘、山盘、向盘三盘之间的关系，可以判断房屋的吉凶状况，并影响居住者的运势、健康与财运。",
+    "measuring": "測定中...",
+    "calibrate_device": "デバイスを校正",
+    "calibration_instructions": "プロンプトに従ってデバイスを校正してください",
+    "magnetic_declination": "磁気偏角",
+    "true_north": "真北",
+    "magnetic_north": "磁北",
+    "direction": "方向",
+    "degree": "度",
+    "measurement_history": "測定履歴",
+    "save_measurement": "測定を保存",
+    "clear_history": "履歴をクリア",
+    "device_not_supported": "デバイスはコンパス機能をサポートしていません",
+    "permission_required": "センサーの許可が必要です",
+    "interference_detected": "磁気干渉が検出されました",
+    "move_away_from_metal": "金属物から離れてください",
+    "measurement_saved": "測定結果が保存されました",
+    "high_accuracy": "高精度",
+    "medium_accuracy": "中精度",
+    "low_accuracy": "低精度"
+  },
+  "Table": {
+    "ascending": "升序",
+    "descending": "降序",
+    "noResults": "没有结果",
+    "rowsPerPage": "每页行数",
+    "page": "页",
+    "firstPage": "第一页",
+    "previousPage": "上一页",
+    "nextPage": "下一页",
+    "lastPage": "最后一页",
+    "of": "共",
+    "rows": "行",
+    "totalRecords": "总计"
+  },
+  "form": {
+    "title": "운명의 여정 시작 · 무료 체험",
+    "subtitle": "전문 알고리즘 기반 개인화된 사주 분석",
+    "name": "이름",
+    "namePlaceholder": "이름을 입력하세요",
+    "gender": "성별",
+    "male": "남성",
+    "female": "여성",
+    "birthDate": "생년월일",
+    "year": "년",
+    "month": "월",
+    "day": "일",
+    "yearPlaceholder": "년도 선택",
+    "monthPlaceholder": "월",
+    "dayPlaceholder": "일",
+    "birthTime": "출생 시간",
+    "morning": "오전（06:00-12:00）",
+    "afternoon": "오후（12:00-18:00）",
+    "evening": "저녁（18:00-00:00）",
+    "exact": "정확한 시간",
+    "exactTimePlaceholder": "정확한 시간 선택",
+    "birthPlace": "출생지",
+    "birthPlacePlaceholder": "출생 도시를 입력하세요",
+    "calendarType": "달력 유형",
+    "solar": "양력",
+    "lunar": "음력",
+    "houseInfo": "주택 정보（선택 사항）",
+    "direction": "방향",
+    "roomCount": "방 수",
+    "completionDate": "완공 날짜",
+    "submit": "분석 시작",
+    "required": "필수",
+    "optional": "선택",
+    "birthCity": "출생 도시",
+    "birthCityPlaceholder": "출생 도시 입력（시간대 계산용）",
+    "solarTime": "태양시",
+    "timeMorning": "오전",
+    "timeMorningTooltip": "오전 시간대（06:00-12:00）",
+    "timeAfternoon": "오후",
+    "timeAfternoonTooltip": "오후 시간대（12:00-18:00）",
+    "timeEvening": "저녁",
+    "timeEveningTooltip": "저녁 시간대（18:00-00:00）",
+    "submitButton": "분석 시작",
+    "yearSuffix": "년",
+    "monthSuffix": "월",
+    "daySuffix": "일",
+    "lunarNote": "음력 날짜는 자동으로 양력으로 변환되어 계산됩니다",
+    "addFengshuiInfo": "풍수 정보 추가（선택 사항）",
+    "houseDirection": "주택 방향",
+    "selectDirection": "방향 선택",
+    "directionNorth": "북",
+    "directionSouth": "남",
+    "directionEast": "동",
+    "directionWest": "서",
+    "directionNortheast": "동북",
+    "directionNorthwest": "서북",
+    "directionSoutheast": "동남",
+    "directionSouthwest": "서남",
+    "roomCountLabel": "방 수",
+    "roomCountPlaceholder": "방 수",
+    "roomSuffix": "실",
+    "completionYear": "완공 연도",
+    "completionYearPlaceholder": "예: 2020",
+    "completionMonth": "완공 월",
+    "bottomHint": "💡 등록 불필요 · 3분 생성 · 첫 체험 무료",
+    "mobileUsers": "12만+ 사용자",
+    "mobileAccuracy": "98% 정확"
+  },
+  "faqs": {
+    "title": "자주 묻는 질문",
+    "subtitle": "우리 서비스에 대한 자주 묻는 질문",
+    "items": [
+      {
+        "question": "사주명리란 무엇인가요?",
+        "answer": "사주명리는 중국 전통 문화의 명리학으로, 출생 년월일시로 운명을 추산합니다. 저희 AI 시스템은 전통 이론과 현대 알고리즘을 결합하여 정확한 명리 분석을 제공합니다."
+      },
+      {
+        "question": "현공풍수는 정확한가요?",
+        "answer": "저희 현공풍수 분석은 전통 풍수 이론에 기반하며 AI 알고리즘으로 정밀 계산합니다. 정확도는 98% 이상이며, 12만 명 이상의 사용자가 검증했습니다."
+      },
+      {
+        "question": "나침반 기능은 어떻게 사용하나요?",
+        "answer": "휴대폰에서 나침반 도구를 열고 기기 방향 권한을 허용한 후 안내에 따라 방위를 측정하세요. 시스템이 자동으로 보정하고 정확한 방위 데이터를 제공합니다."
+      },
+      {
+        "question": "내 데이터는 안전한가요?",
+        "answer": "사용자 개인 정보와 데이터 보안을 매우 중요하게 생각합니다. 모든 데이터는 암호화되어 저장되며 제3자와 공유하지 않습니다. 언제든지 데이터를 삭제할 수 있습니다."
+      },
+      {
+        "question": "어떤 결제 방법을 지원하나요?",
+        "answer": "Alipay, WeChat Pay, 신용카드 등 다양한 결제 방법을 지원합니다. 첫 체험은 완전 무료이며, 필요에 따라 크레딧을 구매할 수 있습니다."
+      },
+      {
+        "question": "고객 서비스에 어떻게 연락하나요?",
+        "answer": "페이지 오른쪽 하단의 온라인 채팅, 이메일 support@qiflowai.com 또는 WeChat 공식 계정으로 문의하세요. 24시간 내에 답변드립니다."
+      }
+    ]
+  },
+  "pricing": {
+    "title": "적합한 플랜 선택",
+    "subtitle": "다양한 요구를 충족하는 유연한 가격 플랜",
+    "monthly": "월간",
+    "yearly": "연간",
+    "save": "절약",
+    "perMonth": "/월",
+    "perYear": "/년",
+    "popularBadge": "가장 인기",
+    "getStarted": "시작하기",
+    "currentPlan": "현재 플랜",
+    "features": "기능",
+    "plans": {
+      "free": {
+        "name": "무료 체험",
+        "description": "처음 사용하는 사용자용",
+        "price": "0",
+        "features": [
+          "기본 사주 분석",
+          "월 5회 조회",
+          "표준 보고서 내보내기",
+          "커뮤니티 지원"
+        ]
+      },
+      "basic": {
+        "name": "베이직",
+        "description": "개인 사용자용",
+        "price": "29",
+        "features": [
+          "완전 사주 분석",
+          "월 30회 조회",
+          "고급 보고서 내보내기",
+          "PDF 다운로드",
+          "우선 고객 지원"
+        ]
+      },
+      "pro": {
+        "name": "프로페셔널",
+        "description": "전문가 및 소규모 스튜디오용",
+        "price": "99",
+        "features": [
+          "무제한 조회",
+          "현공풍수 분석",
+          "3D 시각화",
+          "AI 심층 해석",
+          "전담 지원",
+          "API 액세스"
+        ]
+      },
+      "enterprise": {
+        "name": "엔터프라이즈",
+        "description": "대규모 조직 및 기업용",
+        "price": "문의하기",
+        "features": [
+          "모든 프로 기능",
+          "팀 협업",
+          "커스텀 브랜딩",
+          "전용 서버",
+          "기술 지원",
+          "맞춤 개발"
+        ]
+      }
+    }
+  },
+  "cta": {
+    "title": "운명의 여정을 시작할 준비가 되셨나요?",
+    "subtitle": "지금 등록하고 AI 기반 운명 분석을 경험하세요",
+    "primaryButton": "무료로 시작",
+    "secondaryButton": "데모 보기",
+    "trustBadge": "120,000+ 사용자 신뢰"
+  },
+  "testimonials": {
+    "title": "사용자 후기",
+    "subtitle": "다른 사용자들의 의견",
+    "readMore": "더 많은 후기 보기",
+    "items": [
+      {
+        "name": "장 씨",
+        "role": "임원",
+        "avatar": "/avatars/avatar-1.jpg",
+        "rating": 5,
+        "content": "매우 정확한 사주 분석으로 직업 계획에서 올바른 결정을 내릴 수 있었습니다. 깔끔한 인터페이스, 사용하기 쉬움, 강력 추천!"
+      },
+      {
+        "name": "이 씨",
+        "role": "인테리어 디자이너",
+        "avatar": "/avatars/avatar-2.jpg",
+        "rating": 5,
+        "content": "현공풍수 분석 기능이 훌륭합니다! 고객에게 전문적인 풍수 조언을 제공하는 것이 쉬워졌습니다. 3D 시각화로 한눈에 알 수 있습니다."
+      },
+      {
+        "name": "왕 씨",
+        "role": "프리랜서",
+        "avatar": "/avatars/avatar-3.jpg",
+        "rating": 5,
+        "content": "AI 어시스턴트가 24시간 대응, 기존 상담보다 훨씬 편리합니다. 가격도 합리적이고 가성비가 최고!"
+      }
+    ]
+  },
+  "footer": {
+    "company": {
+      "title": "회사",
+      "about": "회사 소개",
+      "blog": "블로그",
+      "careers": "채용",
+      "press": "보도자료"
+    },
+    "product": {
+      "title": "제품",
+      "features": "기능",
+      "pricing": "가격",
+      "security": "보안",
+      "roadmap": "로드맵"
+    },
+    "resources": {
+      "title": "리소스",
+      "documentation": "문서",
+      "guides": "가이드",
+      "apiReference": "API 참조",
+      "community": "커뮤니티"
+    },
+    "legal": {
+      "title": "법률",
+      "privacy": "개인정보 보호정책",
+      "terms": "서비스 약관",
+      "disclaimer": "면책조항",
+      "gdpr": "GDPR"
+    },
+    "social": {
+      "title": "팔로우",
+      "wechat": "WeChat",
+      "weibo": "Weibo",
+      "twitter": "Twitter",
+      "github": "GitHub"
+    },
+    "copyright": "© 2024 QiFlowAI. 모든 권리 보유.",
+    "madeWith": "❤️ 중국에서 제작"
   }
 }

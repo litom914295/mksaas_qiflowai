@@ -1,7 +1,6 @@
 'use client';
 
-// A/B测试配置和管理系统
-import { cookies } from 'next/headers';
+// A/B测试配置和管理系统（客户端使用 document.cookie 管理）
 import { useEffect, useState } from 'react';
 
 export interface ABTestVariant {
@@ -173,24 +172,28 @@ export async function getUserVariant(
   const test = AB_TESTS[testId];
   if (!test || !test.active) return null;
 
-  const cookieStore = cookies();
-  const variantCookie = cookieStore.get(`ab_${testId}`);
+  // 读取已有变体（客户端）
+  let existingVariantId: string | null = null;
+  if (typeof document !== 'undefined') {
+    const match = document.cookie.match(
+      new RegExp(`(?:^|; )ab_${testId}=([^;]*)`)
+    );
+    existingVariantId = match ? decodeURIComponent(match[1]) : null;
+  }
 
-  if (variantCookie) {
-    // 如果用户已分配变体，返回该变体
-    const variant = test.variants.find((v) => v.id === variantCookie.value);
-    if (variant) return variant;
+  if (existingVariantId) {
+    const found = test.variants.find((v) => v.id === existingVariantId);
+    if (found) return found;
   }
 
   // 分配新变体
   const variant = selectVariant(test.variants);
 
-  // 保存到cookie（30天）
-  cookieStore.set(`ab_${testId}`, variant.id, {
-    maxAge: 30 * 24 * 60 * 60,
-    httpOnly: true,
-    sameSite: 'strict',
-  });
+  // 保存到cookie（30天，仅客户端）
+  if (typeof document !== 'undefined') {
+    const maxAge = 30 * 24 * 60 * 60;
+    document.cookie = `ab_${testId}=${encodeURIComponent(variant.id)}; Max-Age=${maxAge}; Path=/; SameSite=Strict`;
+  }
 
   return variant;
 }

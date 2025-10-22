@@ -70,8 +70,8 @@ export function adaptToFrontend(
     evaluation: xuankong.evaluation,
     geju: xuankong.geju,
     // 继承其他必要字段
-    wenchangwei: [], // 从 keyPositions 中提取
-    caiwei: [], // 从 keyPositions 中提取
+    wenchangwei: [] as any[], // 从 keyPositions 中提取
+    caiwei: [] as any[], // 从 keyPositions 中提取
   };
 
   // 从 keyPositions 提取文昌位和财位
@@ -256,7 +256,7 @@ export function adaptToFrontend(
     hasChengmenjueAnalysis: !!result.chengmenjueAnalysis,
   });
 
-  return result;
+  return result as any;
 }
 
 /**

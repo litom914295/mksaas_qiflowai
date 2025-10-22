@@ -1,0 +1,351 @@
+// Prisma Schema for QiFlow AI - P1 Optimization v5.1.1
+// Updated: 2025-10-12
+// Changes: Added instant_previews, leaderboard, posters tables
+//          Extended referrals, check_ins, users tables
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// EXISTING MODELS (from previous versions)
+// ============================================
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  password      String?
+
+  // P1 Optimization: 新增字段
+  memberTier        String @default("basic") @map("member_tier") @db.VarChar(20)
+  totalInvites      Int    @default(0) @map("total_invites")
+  successfulInvites Int    @default(0) @map("successful_invites")
+
+  // 推荐码
+  referralCode String? @unique @map("referral_code") @db.VarChar(20)
+
+  // 积分系统
+  credits Int @default(0)
+
+  // 元数据
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // 关系
+  accounts           Account[]
+  sessions           Session[]
+  analyses           Analysis[]
+  creditTransactions CreditTransaction[]
+  referralsGiven     Referral[]          @relation("Referrer")
+  referralsReceived  Referral[]          @relation("Referred")
+  checkIns           CheckIn[]
+
+  // P1 Optimization: 新增关系
+  instantPreviews InstantPreview[]
+  leaderboards    Leaderboard[]
+  posters         Poster[]
+  redemptions     CreditRedemption[]
+
+  @@index([memberTier])
+  @@index([successfulInvites(sort: Desc)])
+  @@index([referralCode])
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+model Analysis {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  type   String @db.VarChar(50) // 'bazi', 'xuankong', 'qimen', etc.
+
+  // 输入数据
+  input Json
+
+  // 分析结果
+  result Json
+
+  // 元数据
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // 关系
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // P1 Optimization: 新增关系
+  posters Poster[]
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([type])
+  @@map("analyses")
+}
+
+model CreditTransaction {
+  id          String  @id @default(uuid())
+  userId      String  @map("user_id")
+  amount      Int // 正数为增加，负数为扣减
+  type        String  @db.VarChar(50) // 'purchase', 'referral_reward', 'check_in', 'analysis_cost', etc.
+  description String?
+  metadata    Json?
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([type])
+  @@map("credit_transactions")
+}
+
+model Referral {
+  id         String @id @default(uuid())
+  referrerId String @map("referrer_id")
+  referrer   User   @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+
+  referredId String @map("referred_id")
+  referred   User   @relation("Referred", fields: [referredId], references: [id], onDelete: Cascade)
+
+  status String @default("pending") @db.VarChar(20) // 'pending', 'activated'
+
+  // P1 Optimization: 新增字段
+  progress    Json      @default("{}") // {bazi: 0, xuankong: 0, pdf: 0, aiChat: 0}
+  activatedAt DateTime? @map("activated_at")
+  rewardTier  String?   @map("reward_tier") @db.VarChar(20) // 'basic', 'milestone_3', 'milestone_10', etc.
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([status])
+  @@index([referrerId, status])
+  @@index([referredId])
+  @@map("referrals")
+}
+
+model CheckIn {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  checkInDate     DateTime @default(now()) @map("check_in_date") @db.Date
+  consecutiveDays Int      @default(1) @map("consecutive_days")
+
+  // P1 Optimization: 新增字段
+  rewardCredits   Int @default(2) @map("reward_credits")
+  milestoneReward Int @default(0) @map("milestone_reward")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([userId, checkInDate])
+  @@index([userId, checkInDate(sort: Desc)])
+  @@map("check_ins")
+}
+
+// ============================================
+// P1 OPTIMIZATION: NEW MODELS
+// ============================================
+
+// 即时体验记录表（风控+统计）
+model InstantPreview {
+  id String @id @default(uuid())
+
+  // 输入信息
+  birthDate DateTime  @map("birth_date") @db.Date
+  birthTime DateTime? @map("birth_time") @db.Time
+
+  // IP和指纹（风控）
+  ipAddress   String? @map("ip_address") @db.VarChar(45)
+  fingerprint String? @db.VarChar(255)
+  userAgent   String? @map("user_agent") @db.Text
+
+  // 分析结果（简化存储）
+  dayPillar      String   @map("day_pillar") @db.VarChar(10)
+  wuxing         String   @db.VarChar(10)
+  wuxingStrength Json     @map("wuxing_strength") // {wood: 35, fire: 20, ...}
+  todayFortune   String   @map("today_fortune") @db.Text
+  favorable      String[]
+  unfavorable    String[]
+
+  // 元数据
+  createdAt DateTime @default(now()) @map("created_at")
+  userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([ipAddress, createdAt])
+  @@index([fingerprint])
+  @@index([userId])
+  @@map("instant_previews")
+}
+
+// 邀请排行榜快照表（每日/每月更新）
+model Leaderboard {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // 排名数据
+  rank   Int
+  period String @db.VarChar(20) // '2025-01', '2025-02'
+  type   String @default("monthly") @db.VarChar(20) // 'monthly', 'all_time'
+
+  // 统计数据
+  totalInvites     Int @default(0) @map("total_invites")
+  activatedInvites Int @default(0) @map("activated_invites")
+  earnedCredits    Int @default(0) @map("earned_credits")
+
+  // 元数据
+  snapshotAt DateTime @default(now()) @map("snapshot_at")
+
+  @@unique([userId, period, type], name: "userId_period_type")
+  @@index([period, type, rank])
+  @@map("leaderboard")
+}
+
+// 分享海报记录表
+model Poster {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  analysisId String?   @map("analysis_id")
+  analysis   Analysis? @relation(fields: [analysisId], references: [id], onDelete: SetNull)
+
+  // 海报信息
+  posterUrl  String @map("poster_url") @db.Text
+  posterType String @default("bazi") @map("poster_type") @db.VarChar(20) // 'bazi', 'xuankong', 'invite'
+
+  // 分享统计
+  viewCount     Int @default(0) @map("view_count")
+  downloadCount Int @default(0) @map("download_count")
+  shareCount    Int @default(0) @map("share_count")
+
+  // 元数据
+  createdAt DateTime  @default(now()) @map("created_at")
+  expiresAt DateTime? @map("expires_at")
+
+  @@index([userId, createdAt])
+  @@index([analysisId])
+  @@map("posters")
+}
+
+// 积分配置表
+model CreditConfig {
+  id   String @id @default(uuid())
+  key  String @unique @db.VarChar(100) // 配置键: 'signin.daily', 'referral.inviterBonus'
+  value Json // 配置值
+  description String? @db.Text // 配置说明
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@map("credit_configs")
+}
+
+// 积分兑换商品表
+model CreditReward {
+  id          String  @id @default(uuid())
+  name        String  @db.VarChar(200)
+  description String? @db.Text
+  cost        Int // 需要的积分
+  stock       Int     @default(-1) // 库存, -1表示无限
+  imageUrl    String? @map("image_url") @db.Text
+  category    String  @default("other") @db.VarChar(50) // 分类: coupon, vip, physical, virtual
+  
+  enabled   Boolean  @default(true)
+  sortOrder Int      @default(0) @map("sort_order")
+  
+  metadata Json? // 额外配置: {优惠券码, 有效期等}
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  redemptions CreditRedemption[]
+  
+  @@index([enabled, sortOrder])
+  @@map("credit_rewards")
+}
+
+// 积分兑换记录表
+model CreditRedemption {
+  id       String @id @default(uuid())
+  userId   String @map("user_id")
+  rewardId String @map("reward_id")
+  
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reward CreditReward @relation(fields: [rewardId], references: [id], onDelete: Restrict)
+  
+  cost   Int // 消耗的积分
+  status String @default("pending") @db.VarChar(20) // pending, fulfilled, cancelled
+  
+  fulfillmentData Json? @map("fulfillment_data") // 兑换后的数据(优惠券码等)
+  
+  redeemedAt  DateTime  @default(now()) @map("redeemed_at")
+  fulfilledAt DateTime? @map("fulfilled_at")
+  
+  @@index([userId, redeemedAt])
+  @@index([status])
+  @@map("credit_redemptions")
+}
+
+// 积分等级表
+model CreditLevel {
+  id          String @id @default(uuid())
+  level       Int    @unique // 等级编号
+  name        String @db.VarChar(50) // 等级名称: 青铜, 白银, 黄金...
+  minCredits  Int    @map("min_credits") // 最低积分要求
+  color       String @default("#gray") @db.VarChar(20) // 等级颜色
+  icon        String? @db.VarChar(100) // 等级图标
+  
+  benefits Json // 权益配置: {dailySignBonus: 2, discountRate: 0.95}
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@index([level])
+  @@map("credit_levels")
+}

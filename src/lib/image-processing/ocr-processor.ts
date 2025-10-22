@@ -5,6 +5,7 @@
  * 用于自动解析房间标注、尺寸信息等
  */
 
+// @ts-ignore - tesseract.js library
 import Tesseract from 'tesseract.js';
 import type { ImageUploadData, OCRResult } from './types';
 

@@ -1,15 +1,19 @@
 'use client';
 
+import { CreditsEarningGuide } from '@/components/dashboard/credits/credits-earning-guide';
+import { EnhancedBalanceCard } from '@/components/dashboard/credits/enhanced-balance-card';
+import { EnhancedCreditPackages } from '@/components/dashboard/credits/enhanced-credit-packages';
 import { CreditPackages } from '@/components/settings/credits/credit-packages';
 import { CreditTransactions } from '@/components/settings/credits/credit-transactions';
 import CreditsBalanceCard from '@/components/settings/credits/credits-balance-card';
+import { VouchersList } from '@/components/settings/credits/vouchers-list';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useTranslations } from 'next-intl';
-import { parseAsStringLiteral, useQueryState } from 'nuqs';
-import { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { Routes } from '@/routes';
+import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
+import { parseAsStringLiteral, useQueryState } from 'nuqs';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 /**
@@ -37,18 +41,22 @@ export default function CreditsPageClient() {
     if (!token) return;
     (async () => {
       try {
-        const res = await fetch('/api/vouchers/claim', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }) });
+        const res = await fetch('/api/vouchers/claim', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token }),
+        });
         const data = await res.json();
         if (data?.success) {
-          toast.success('已领取礼券');
+          toast.success(t('vouchers.claimSuccess'));
           const url = new URL(window.location.href);
           url.searchParams.delete('gift_token');
           localeRouter.replace(Routes.SettingsCredits + url.search);
         } else {
-          toast.error(data?.error || '领取失败');
+          toast.error(data?.error || t('vouchers.claimFailed'));
         }
       } catch (e) {
-        toast.error('领取失败');
+        toast.error(t('vouchers.claimFailed'));
       }
     })();
   }, [searchParams, localeRouter]);
@@ -68,20 +76,30 @@ export default function CreditsPageClient() {
         </TabsList>
 
         <TabsContent value="balance" className="mt-4 flex flex-col gap-8">
-          {/* Credits Balance Card */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <CreditsBalanceCard />
+          {/* Enhanced Credits Balance Card */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <EnhancedBalanceCard />
+            </div>
+            <div className="lg:col-span-1">
+              <CreditsBalanceCard />
+            </div>
+          </div>
+
+          {/* Credits Earning Guide */}
+          <div className="w-full">
+            <CreditsEarningGuide />
           </div>
 
           {/* My Vouchers */}
           <div className="w-full space-y-3">
-            <h3 className="text-base font-medium">我的礼券</h3>
+            <h3 className="text-base font-medium">{t('vouchers.title')}</h3>
             <VouchersList />
           </div>
 
-          {/* Credit Packages */}
+          {/* Enhanced Credit Packages */}
           <div className="w-full">
-            <CreditPackages />
+            <EnhancedCreditPackages />
           </div>
         </TabsContent>
 

@@ -1,9 +1,9 @@
 'use client';
 
 import { EnhancedChatInterface } from '@/components/chat/enhanced-chat-interface';
+import { ShareButton } from '@/components/growth/share-button';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShareButton } from '@/components/growth/share-button';
 import type { GenerateFlyingStarOutput } from '@/lib/fengshui/types';
 import {
   Bot,

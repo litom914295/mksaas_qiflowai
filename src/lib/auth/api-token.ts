@@ -1,6 +1,6 @@
+import crypto from 'crypto';
 import { prisma } from '@/lib/db';
 import { generateApiKey, verifyToken } from './jwt';
-import crypto from 'crypto';
 
 export interface ApiToken {
   id: string;
@@ -25,18 +25,18 @@ export async function createApiToken(
   const token = generateApiKey(userId);
   const hashedToken = hashToken(token);
 
-  const expiresAt = expiresIn 
+  const expiresAt = expiresIn
     ? new Date(Date.now() + expiresIn * 24 * 60 * 60 * 1000)
     : null;
 
-  const apiToken = await prisma.apiToken.create({
+  const apiToken = await (prisma as any).apiToken.create({
     data: {
       userId,
       name,
       token: hashedToken,
       permissions: permissions.join(','),
       expiresAt,
-    }
+    },
   });
 
   return {
@@ -74,11 +74,11 @@ export async function validateApiToken(token: string): Promise<{
 
   // 查找token记录
   const hashedToken = hashToken(token);
-  const apiToken = await prisma.apiToken.findUnique({
-    where: { 
+  const apiToken = await (prisma as any).apiToken.findUnique({
+    where: {
       token: hashedToken,
       userId: payload.userId,
-    }
+    },
   });
 
   if (!apiToken) {
@@ -91,9 +91,9 @@ export async function validateApiToken(token: string): Promise<{
   }
 
   // 更新最后使用时间
-  await prisma.apiToken.update({
+  await (prisma as any).apiToken.update({
     where: { id: apiToken.id },
-    data: { lastUsed: new Date() }
+    data: { lastUsed: new Date() },
   });
 
   return {
@@ -112,9 +112,7 @@ export async function revokeApiToken(
   userId?: string
 ): Promise<boolean> {
   try {
-    const where = userId 
-      ? { id: tokenId, userId }
-      : { id: tokenId };
+    const where = userId ? { id: tokenId, userId } : { id: tokenId };
 
     await prisma.apiToken.delete({ where });
     return true;
@@ -130,12 +128,12 @@ export async function revokeApiToken(
 export async function getUserApiTokens(
   userId: string
 ): Promise<Omit<ApiToken, 'token'>[]> {
-  const tokens = await prisma.apiToken.findMany({
+  const tokens = await (prisma as any).apiToken.findMany({
     where: { userId },
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: 'desc' },
   });
 
-  return tokens.map(token => ({
+  return tokens.map((token: any) => ({
     id: token.id,
     name: token.name,
     token: '***', // 隐藏实际token
@@ -153,8 +151,8 @@ export async function refreshApiToken(
   tokenId: string,
   userId: string
 ): Promise<ApiToken | null> {
-  const existingToken = await prisma.apiToken.findUnique({
-    where: { id: tokenId, userId }
+  const existingToken = await (prisma as any).apiToken.findUnique({
+    where: { id: tokenId, userId },
   });
 
   if (!existingToken) {
@@ -166,12 +164,12 @@ export async function refreshApiToken(
   const hashedToken = hashToken(newToken);
 
   // 更新token
-  const updated = await prisma.apiToken.update({
+  const updated = await (prisma as any).apiToken.update({
     where: { id: tokenId },
     data: {
       token: hashedToken,
       lastUsed: null,
-    }
+    },
   });
 
   return {
@@ -193,27 +191,29 @@ export async function verifyApiPermission(
   requiredPermission: string
 ): Promise<boolean> {
   const validation = await validateApiToken(token);
-  
+
   if (!validation.valid || !validation.permissions) {
     return false;
   }
 
   // 检查是否有所需权限
-  return validation.permissions.includes(requiredPermission) ||
-         validation.permissions.includes('*'); // 通配符权限
+  return (
+    validation.permissions.includes(requiredPermission) ||
+    validation.permissions.includes('*')
+  ); // 通配符权限
 }
 
 /**
  * 清理过期的API Token
  */
 export async function cleanupExpiredTokens(): Promise<number> {
-  const result = await prisma.apiToken.deleteMany({
+  const result = await (prisma as any).apiToken.deleteMany({
     where: {
       expiresAt: {
         not: null,
-        lt: new Date()
-      }
-    }
+        lt: new Date(),
+      },
+    },
   });
 
   return result.count;

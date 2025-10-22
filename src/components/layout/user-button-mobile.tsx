@@ -40,7 +40,7 @@ export function UserButtonMobile({ user }: UserButtonProps) {
           // TanStack Query automatically handles cache invalidation on sign out
           localeRouter.replace('/');
         },
-        onError: (error) => {
+        onError: (error: Error) => {
           console.error('sign out error:', error);
           toast.error(t('Common.logoutFailed'));
         },

@@ -1,53 +1,115 @@
-export default function SimpleHomePage() {
+import { Footer } from '@/components/layout/footer';
+import { Navbar } from '@/components/layout/navbar';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+// 动态导入重型组件，延迟加载
+const HeroWithForm = dynamic(() =>
+  import('@/components/home/HeroWithForm').then((mod) => ({
+    default: mod.HeroWithForm,
+  }))
+);
+
+const FeatureShowcase = dynamic(() =>
+  import('@/components/home/FeatureShowcase').then((mod) => ({
+    default: mod.FeatureShowcase,
+  }))
+);
+
+const PricingSection = dynamic(() =>
+  import('@/components/home/PricingSection').then((mod) => ({
+    default: mod.PricingSection,
+  }))
+);
+
+// 信任区块为静态内容，保留在服务器组件
+function TrustSection() {
   return (
-    <div
-      style={{ padding: '50px', textAlign: 'center', fontFamily: 'sans-serif' }}
-    >
-      <h1 style={{ color: '#6b46c1', fontSize: '48px' }}>✅ 气流AI 首页</h1>
-      <p style={{ fontSize: '20px', color: '#666' }}>
-        欢迎来到气流AI - 智能八字风水分析平台
-      </p>
-      <div
-        style={{
-          marginTop: '30px',
-          padding: '20px',
-          background: '#f0f0f0',
-          borderRadius: '8px',
-          maxWidth: '600px',
-          margin: '30px auto',
-        }}
-      >
-        <h2>测试链接</h2>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li style={{ margin: '10px 0' }}>
-            <a
-              href="/zh-CN/unified-form"
-              style={{
-                color: '#6b46c1',
-                textDecoration: 'none',
-                fontSize: '18px',
-              }}
-            >
-              → 一页式表单
-            </a>
-          </li>
-          <li style={{ margin: '10px 0' }}>
-            <a
-              href="/zh-CN/test-simple"
-              style={{
-                color: '#6b46c1',
-                textDecoration: 'none',
-                fontSize: '18px',
-              }}
-            >
-              → 简单测试页
-            </a>
-          </li>
-        </ul>
+    <section className="py-16 lg:py-24 bg-muted/30">
+      <div className="container mx-auto px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground mb-3">
+              您的信任,我们的承诺
+            </h2>
+            <p className="text-muted-foreground">
+              专业、安全、高效的AI命理服务
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <div className="group flex flex-col items-center p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all">
+              <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                <span className="text-3xl">🔒</span>
+              </div>
+              <h3 className="font-semibold text-card-foreground mb-2 text-lg">
+                隐私保护
+              </h3>
+              <p className="text-sm text-muted-foreground text-center">
+                数据加密存储,绝不泄露个人信息
+              </p>
+            </div>
+            <div className="group flex flex-col items-center p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all">
+              <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                <span className="text-3xl">⚡</span>
+              </div>
+              <h3 className="font-semibold text-card-foreground mb-2 text-lg">
+                极速响应
+              </h3>
+              <p className="text-sm text-muted-foreground text-center">
+                AI 算法驱动,3分钟内完成分析
+              </p>
+            </div>
+            <div className="group flex flex-col items-center p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all">
+              <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                <span className="text-3xl">✨</span>
+              </div>
+              <h3 className="font-semibold text-card-foreground mb-2 text-lg">
+                专业准确
+              </h3>
+              <p className="text-sm text-muted-foreground text-center">
+                结合传统命理与现代AI,准确率高达98%
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <p style={{ color: '#999', fontSize: '14px', marginTop: '50px' }}>
-        如果你能看到这个页面，说明 [locale]/page.tsx 工作正常
-      </p>
+    </section>
+  );
+}
+
+// 服务器组件 - 快速渲染
+export default function HomePage() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* 导航栏 - 静态部分先渲染 */}
+      <Navbar scroll={true} />
+
+      {/* Hero + Form - 延迟加载 */}
+      <Suspense
+        fallback={
+          <div className="min-h-[600px] flex items-center justify-center">
+            <div className="animate-pulse">加载中...</div>
+          </div>
+        }
+      >
+        <HeroWithForm />
+      </Suspense>
+
+      {/* Feature Showcase - 延迟加载 */}
+      <Suspense fallback={<div className="min-h-[400px]" />}>
+        <FeatureShowcase />
+      </Suspense>
+
+      {/* Pricing - 延迟加载 */}
+      <Suspense fallback={<div className="min-h-[400px]" />}>
+        <PricingSection />
+      </Suspense>
+
+      {/* Trust Section - 服务器渲染 */}
+      <TrustSection />
+
+      {/* Footer - 静态内容 */}
+      <Footer />
     </div>
   );
 }

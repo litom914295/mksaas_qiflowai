@@ -151,7 +151,7 @@ export function LiunianAnalysisView({
     yearlyRecommendations: [
       ...yearlyTrends.keyMonths
         .slice(0, 3)
-        .map((km) => `${km.month}月${km.significance}：${km.advice}`),
+        .map((km: any) => `${km.month}月${km.significance}：${km.advice}`),
       dayunTransition &&
         `大运交替期，需${dayunTransition.recommendations[0] || '谨慎应对'}`,
     ].filter(Boolean) as string[],
@@ -227,7 +227,7 @@ export function LiunianAnalysisView({
 
   // 构建关键时间节点
   const criticalPeriods = [
-    ...yearlyTrends.keyMonths.map((km) => ({
+    ...yearlyTrends.keyMonths.map((km: any) => ({
       startDate: `${currentYear.year}年${km.month}月`,
       endDate: `${currentYear.year}年${km.month}月底`,
       type:

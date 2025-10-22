@@ -384,9 +384,15 @@ export function generateFurniturePlacement(
   avoid: string[];
   enhance: string[];
 } {
-  const suggestions = [];
-  const avoid = [];
-  const enhance = [];
+  const suggestions: Array<{
+    furniture: FurnitureType;
+    position: string;
+    direction?: RoadDirection;
+    reason: string;
+    alternatives?: string[];
+  }> = [];
+  const avoid: string[] = [];
+  const enhance: string[] = [];
 
   // 根据房间类型给出基础建议
   switch (roomType) {
@@ -467,13 +473,13 @@ export function generateFurniturePlacement(
   }
 
   // 根据飞星调整建议
-  if (star.facing === 5 || star.mountain === 5) {
+  if ((star as any).facing === 5 || (star as any).mountain === 5) {
     // 五黄煞
     avoid.push('该宫位不宜摆放过多家具');
     enhance.push('使用金属制品或白色物品化解五黄');
   }
 
-  if (star.facing === 8 || star.mountain === 8) {
+  if ((star as any).facing === 8 || (star as any).mountain === 8) {
     // 当运星
     enhance.push('该位置可摆放重要家具，利于运势');
   }
@@ -500,7 +506,7 @@ function getBestBedDirection(
   if (userElement === 'water') return 'north';
 
   // 默认根据飞星
-  if (star.facing >= 6) return 'north';
+  if ((star as any).facing >= 6) return 'north';
   return 'south';
 }
 

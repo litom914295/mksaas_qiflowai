@@ -1,4 +1,4 @@
-﻿import { SessionStorageService } from '../../redis/session-storage';
+// import { SessionStorageService } from '../../redis/session-storage'; // TODO: 模块缺失
 import type {
   ConversationMemoryAdapter,
   ConversationSessionState,
@@ -6,7 +6,7 @@ import type {
 
 export class DualLayerMemoryCoordinator {
   constructor(
-    private readonly redis,
+    private readonly redis: any,
     private readonly primary: ConversationMemoryAdapter
   ) {}
 

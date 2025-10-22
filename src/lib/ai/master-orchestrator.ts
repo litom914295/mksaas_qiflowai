@@ -633,8 +633,8 @@ export class MasterOrchestrator {
 
   private normalizeTextArray(value: unknown): string[] {
     return ensureArray(value as string[] | string | undefined | null)
-      .map((item) => safeString(item as string, ''))
-      .filter((item) => item.length > 0);
+      .map((item: any) => safeString(item as string, ''))
+      .filter((item: any) => item.length > 0);
   }
 
   private createMessageId(role: ConversationMessage['role']): string {

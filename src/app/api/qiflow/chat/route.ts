@@ -249,7 +249,7 @@ async function generateAIResponse(
 
   // 使用优化后的系统提示词
   const systemPrompt =
-    getSystemPrompt({ hasUserBazi: true }) +
+    getSystemPrompt('bazi') +
     '\n\n【当前用户八字数据】\n' +
     '四柱八字：\n' +
     `年柱：${baziData.yearPillar?.stem}${baziData.yearPillar?.branch}\n` +
@@ -690,7 +690,7 @@ async function generateFengshuiResponse(
 ): Promise<string> {
   // 使用优化后的系统提示词
   const systemPrompt =
-    getSystemPrompt({ hasHouseInfo: true }) +
+    getSystemPrompt('fengshui') +
     '\n\n【当前房屋风水数据】\n' +
     `坐山朝向：坐${fengshuiData.mountain}朝${fengshuiData.facing}\n` +
     `所属宫位：${fengshuiData.palace}\n` +
@@ -763,7 +763,7 @@ async function generateCombinedFengshuiResponse(
 ): Promise<string> {
   // 使用优化后的系统提示词，同时标记有八字和房屋数据
   const systemPrompt =
-    getSystemPrompt({ hasUserBazi: true, hasHouseInfo: true }) +
+    getSystemPrompt('fengshui') +
     '\n\n【综合分析数据】\n' +
     '\n一、用户八字信息：\n' +
     `日主：${baziData.dayMaster}\n` +
@@ -1026,6 +1026,7 @@ export async function POST(request: NextRequest) {
             gender: birthInfo.gender || 'male',
             timezone: 'Asia/Shanghai',
             isTimeKnown: true,
+            preferredLocale: 'zh-CN',
           });
         } catch (error) {
           console.error('八字计算错误:', error);
@@ -1096,6 +1097,7 @@ export async function POST(request: NextRequest) {
           gender: parsedBirthInfo.gender || 'male',
           timezone: 'Asia/Shanghai',
           isTimeKnown: true,
+          preferredLocale: 'zh-CN',
         });
 
         // 检查计算结果
@@ -1164,7 +1166,7 @@ export async function POST(request: NextRequest) {
       }
 
       // 6.2 有八字但没有房屋朝向，引导提供
-      const hasDirection = hasDirectionInfo(message, context);
+      const hasDirection = hasDirectionInfo(message);
 
       if (!hasDirection) {
         // 格式化五行信息
@@ -1250,7 +1252,12 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        try { const { recordChatRoundAndTryActivate } = await import('@/lib/growth/activation'); await recordChatRoundAndTryActivate(session.user.id); } catch {}
+        try {
+          const { recordChatRoundAndTryActivate } = await import(
+            '@/lib/growth/activation'
+          );
+          await recordChatRoundAndTryActivate(session.user.id);
+        } catch {}
         return NextResponse.json({
           response: result.result,
           creditsUsed: result.creditsUsed,

@@ -1,4 +1,4 @@
-import bundleAnalyzer from '@next/bundle-analyzer';
+import { withSentryConfig } from '@sentry/nextjs';
 import { createMDX } from 'fumadocs-mdx/next';
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
@@ -13,20 +13,129 @@ const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: false,
 
+  // Ensure .tsx/.jsx pages are recognized alongside MDX
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+
   // 性能优化：禁用生产环境 source maps
   productionBrowserSourceMaps: false,
 
   // 性能优化：启用压缩
   compress: true,
 
+  // 关闭 Typed Routes，避免对不存在的路由进行类型校验
+  typedRoutes: false,
+
+  // Webpack 优化配置
+  webpack: (
+    config: any,
+    { dev, isServer }: { dev: boolean; isServer: boolean }
+  ) => {
+    // 开发环境优化
+    if (dev) {
+      // 减少文件监听开销
+      config.watchOptions = {
+        poll: false, // 禁用轮询，使用原生文件系统事件
+        aggregateTimeout: 300, // 增加聚合延迟，减少编译次数
+        ignored: [
+          '**/node_modules/**',
+          '**/.git/**',
+          '**/.next/**',
+          '**/backup_*/**',
+          '**/qiflow-ai/**',
+          '**/qiflow-ui/**',
+          '**/artifacts/**',
+          '**/.taskmaster/**',
+          '**/tests/**',
+          '**/scripts/**',
+        ],
+      };
+
+      // 开发环境优化：减少代码分割和优化
+      config.optimization = {
+        ...config.optimization,
+        moduleIds: 'named',
+        chunkIds: 'named',
+        minimize: false, // 开发环境不压缩
+        splitChunks: false, // 禁用代码分割以加快编译
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+      };
+
+      // 缓存配置
+      config.cache = {
+        type: 'filesystem',
+        compression: false, // 禁用压缩以加快缓存速度
+        buildDependencies: {
+          config: [__filename],
+        },
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7天缓存
+      };
+
+      // 减少 source map 生成时间
+      config.devtool = 'eval-cheap-module-source-map';
+    }
+
+    // 优化模块解析
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': require('path').resolve(__dirname, 'src'),
+    };
+
+    // 减少bundle大小
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+
+    return config;
+  },
+
   // 实验性特性
   experimental: {
-    optimizeCss: true, // 优化 CSS
+    // 开发环境禁用 CSS 优化以加快编译
+    optimizeCss: process.env.NODE_ENV === 'production',
+    // 优化大型包的导入 - 这是关键优化！
     optimizePackageImports: [
       'lucide-react',
       '@radix-ui/react-icons',
+      '@tabler/icons-react',
       'date-fns',
-    ], // 优化包导入
+      'recharts',
+      '@radix-ui/react-accordion',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-popover',
+      '@radix-ui/react-select',
+      '@radix-ui/react-tabs',
+      '@radix-ui/react-toast',
+      '@radix-ui/react-tooltip',
+      'framer-motion',
+      'react-countup',
+      'three',
+      'fabric',
+      'konva',
+      '@tanstack/react-query',
+      'next-intl',
+    ],
+    // 并行编译路由以加快构建
+    webpackBuildWorker: true,
+  },
+
+  // Turbopack 配置 (替代已弃用的 experimental.turbo)
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+    resolveAlias: {
+      '@': './src',
+    },
   },
 
   // https://nextjs.org/docs/architecture/nextjs-compiler#remove-console
@@ -118,20 +227,58 @@ const nextConfig: NextConfig = {
  *
  * https://next-intl.dev/docs/getting-started/app-router/with-i18n-routing#next-config
  */
-const withNextIntl = createNextIntlPlugin();
+// const withNextIntl = createNextIntlPlugin(); // disabled for isolation
 
 /**
  * https://fumadocs.dev/docs/ui/manual-installation
  * https://fumadocs.dev/docs/mdx/plugin
  */
-const withMDX = createMDX();
+// const withMDX = createMDX(); // disabled for isolation
 
 /**
  * Webpack Bundle Analyzer
  * Run with: ANALYZE=true npm run build
  */
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
+// const withBundleAnalyzer = bundleAnalyzer({
+//   enabled: process.env.ANALYZE === 'true',
+// });
 
-export default withBundleAnalyzer(withMDX(withNextIntl(nextConfig)));
+const withNextIntl = createNextIntlPlugin();
+const withMDX = createMDX();
+
+// 应用所有配置包装器
+let config = nextConfig;
+config = withNextIntl(config);
+config = withMDX(config);
+
+// Sentry配置 - 仅在生产环境或设置了SENTRY_AUTH_TOKEN时启用
+const shouldUseSentry =
+  process.env.NODE_ENV === 'production' || process.env.SENTRY_AUTH_TOKEN;
+
+if (shouldUseSentry) {
+  config = withSentryConfig(config, {
+    // Sentry Webpack Plugin 选项
+    // https://github.com/getsentry/sentry-webpack-plugin
+    org: process.env.SENTRY_ORG,
+    project: process.env.SENTRY_PROJECT,
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+
+    // 静默构建输出以减少日志
+    silent: true,
+
+    // 上传source maps
+    // 注意：这会增加构建时间
+    widenClientFileUpload: true,
+
+    // 自动设置路由以隧道Sentry请求，避免广告拦截器
+    tunnelRoute: '/monitoring',
+
+    // 禁用Sentry SDK的调试日志
+    disableLogger: true,
+
+    // 自动为客户端导入instruments
+    automaticVercelMonitors: true,
+  });
+}
+
+export default config;

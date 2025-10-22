@@ -8,16 +8,16 @@ import { Redis } from 'ioredis';
 // Redis客户端配置
 const redisConfig = {
   host: process.env.REDIS_HOST || 'localhost',
-  port: parseInt(process.env.REDIS_PORT || '6379'),
+  port: Number.parseInt(process.env.REDIS_PORT || '6379'),
   password: process.env.REDIS_PASSWORD,
-  db: parseInt(process.env.REDIS_DB || '0'),
+  db: Number.parseInt(process.env.REDIS_DB || '0'),
   retryStrategy: (times: number) => {
     const delay = Math.min(times * 50, 2000);
     return delay;
   },
   maxRetriesPerRequest: 3,
   enableReadyCheck: true,
-  lazyConnect: true
+  lazyConnect: true,
 };
 
 // 创建Redis客户端实例
@@ -35,8 +35,8 @@ export function getRedisClient(): Redis | null {
   if (!redisClient) {
     try {
       redisClient = new Redis(redisConfig);
-      
-      redisClient.on('error', (err) => {
+
+      redisClient.on('error', (err: any) => {
         console.error('Redis连接错误:', err);
       });
 
@@ -66,7 +66,7 @@ export class CacheService {
   constructor() {
     this.redis = getRedisClient();
     this.memoryCache = new Map();
-    
+
     // 定期清理过期的内存缓存
     setInterval(() => this.cleanupMemoryCache(), 60000); // 每分钟清理一次
   }
@@ -74,9 +74,9 @@ export class CacheService {
   /**
    * 设置缓存
    */
-  async set(key: string, value: any, ttl: number = 3600): Promise<void> {
+  async set(key: string, value: any, ttl = 3600): Promise<void> {
     const serialized = JSON.stringify(value);
-    
+
     if (this.redis) {
       try {
         await this.redis.setex(key, ttl, serialized);
@@ -127,13 +127,13 @@ export class CacheService {
     if (this.redis) {
       try {
         const values = await this.redis.mget(...keys);
-        return values.map(v => v ? JSON.parse(v) : null);
+        return values.map((v: any) => (v ? JSON.parse(v) : null));
       } catch (error) {
         console.error('Redis mget error:', error);
-        return keys.map(key => this.getMemoryCache(key));
+        return keys.map((key) => this.getMemoryCache(key));
       }
     } else {
-      return keys.map(key => this.getMemoryCache(key));
+      return keys.map((key) => this.getMemoryCache(key));
     }
   }
 
@@ -158,7 +158,12 @@ export class CacheService {
   /**
    * 设置哈希字段
    */
-  async hset(key: string, field: string, value: any, ttl?: number): Promise<void> {
+  async hset(
+    key: string,
+    field: string,
+    value: any,
+    ttl?: number
+  ): Promise<void> {
     if (this.redis) {
       try {
         await this.redis.hset(key, field, JSON.stringify(value));
@@ -294,7 +299,7 @@ export class BaziCacheKey {
       params.gender,
       params.birthDate,
       params.birthTime,
-      params.analysisType
+      params.analysisType,
     ].join(':');
     return `bazi:analysis:${normalized}`;
   }
@@ -302,7 +307,7 @@ export class BaziCacheKey {
   /**
    * 生成用户历史缓存键
    */
-  static userHistory(userId: string, page: number = 1): string {
+  static userHistory(userId: string, page = 1): string {
     return `bazi:history:${userId}:${page}`;
   }
 
@@ -316,7 +321,7 @@ export class BaziCacheKey {
   /**
    * 生成速率限制键
    */
-  static rateLimit(userId: string, type: string = 'analysis'): string {
+  static rateLimit(userId: string, type = 'analysis'): string {
     return `bazi:rate:${type}:${userId}`;
   }
 

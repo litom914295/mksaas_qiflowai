@@ -94,3 +94,17 @@ export * from './geju';
 export * from './positions';
 export * from './explanation';
 export { getYunByYear } from './yun';
+
+// v6.0 API导出
+export * from './converters';
+export * from './adapters/v6-adapter';
+
+// P1阶段新功能：诊断预警和化解方案
+export * from './diagnostic-system';
+export * from './remedy-generator';
+
+// 导出别名以保持兼容性
+export { generateXuankongPlate } from './plate-generator';
+export { analyzeXuankongDiagnosis } from './diagnostic-engine';
+export { generateRemedyPlans } from './remedy-engine';
+export { analyzeKeyPositions } from '../fusion/key-positions';

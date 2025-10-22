@@ -20,7 +20,7 @@ export const CTASection = async ({ variant = 'A' }: CTASectionProps) => {
             href="/guest-analysis"
             className="rounded-md bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-3 text-sm font-semibold text-black shadow-lg hover:shadow-xl transition-all hover:scale-105"
           >
-            {t('cta.viewFullAnalysis') || '🎯 查看完整分析流程'}
+            {(t as any)('cta.viewFullAnalysis') || '🎯 查看完整分析流程'}
           </LocaleLink>
           <LocaleLink
             href="/analysis/bazi"

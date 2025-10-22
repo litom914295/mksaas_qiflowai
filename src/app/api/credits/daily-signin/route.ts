@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
-import { verifyAuth } from '@/lib/auth';
+import { websiteConfig } from '@/config/website';
+import { addCredits } from '@/credits/credits';
+import { issueVoucher } from '@/credits/vouchers';
 import { getDb } from '@/db';
 import { achievements, creditTransaction } from '@/db/schema';
-import { addCredits } from '@/credits/credits';
-import { websiteConfig } from '@/config/website';
+import { verifyAuth } from '@/lib/auth';
 import { and, eq, gte } from 'drizzle-orm';
-import { issueVoucher } from '@/credits/vouchers';
+import { NextResponse } from 'next/server';
 
 function dateKey(d: Date) {
   const y = d.getFullYear();
@@ -16,9 +16,15 @@ function dateKey(d: Date) {
 
 export async function POST(request: Request) {
   try {
+    console.log('[签到API] 开始处理签到请求');
+
     // 鉴权
+    console.log('[签到API] 验证用户身份...');
     const { authenticated, userId } = await verifyAuth(request);
+    console.log('[签到API] 认证结果:', { authenticated, userId });
+
     if (!authenticated || !userId) {
+      console.warn('[签到API] 用户未认证');
       return NextResponse.json(
         { success: false, error: 'UNAUTHORIZED' },
         { status: 401 }
@@ -26,15 +32,25 @@ export async function POST(request: Request) {
     }
 
     // 检查是否启用每日签到
+    console.log('[签到API] 检查签到功能开关...');
     const dailyCfg = websiteConfig.credits?.dailySignin;
+    console.log('[签到API] 签到配置:', {
+      enableCredits: websiteConfig.credits?.enableCredits,
+      dailySigninEnabled: dailyCfg?.enable,
+      amount: dailyCfg?.amount,
+    });
+
     if (!websiteConfig.credits.enableCredits || !dailyCfg?.enable) {
+      console.warn('[签到API] 签到功能未启用');
       return NextResponse.json(
         { success: false, error: 'DAILY_SIGNIN_DISABLED' },
         { status: 400 }
       );
     }
 
+    console.log('[签到API] 连接数据库...');
     const db = await getDb();
+    console.log('[签到API] 数据库连接成功');
 
     // 计算当天零点
     const now = new Date();
@@ -55,16 +71,24 @@ export async function POST(request: Request) {
       .limit(1);
 
     if (signed.length > 0) {
+      console.log('[签到API] 用户今日已签到');
       return NextResponse.json({ success: true, data: { already: true } });
     }
 
     // 发放签到积分（不过期）
-    await addCredits({
-      userId,
-      amount: dailyCfg.amount,
-      type: 'DAILY_SIGNIN',
-      description: '每日签到奖励',
-    });
+    console.log('[签到API] 发放签到积分:', dailyCfg.amount);
+    try {
+      await addCredits({
+        userId,
+        amount: dailyCfg.amount,
+        type: 'DAILY_SIGNIN',
+        description: '每日签到奖励',
+      });
+      console.log('[签到API] 积分发放成功');
+    } catch (error) {
+      console.error('[签到API] 积分发放失败:', error);
+      throw error;
+    }
 
     // 计算连续签到（基于 creditTransaction DAILY_SIGNIN）
     const since = new Date();
@@ -89,16 +113,54 @@ export async function POST(request: Request) {
     for (let i = 0; i < 365; i++) {
       const cur = new Date(today);
       cur.setDate(today.getDate() - i);
-      if (marked.has(dateKey(cur))) streak += 1; else break;
+      if (marked.has(dateKey(cur))) streak += 1;
+      else break;
     }
 
     // 里程碑券：7/15/30/60/90 天
-    const milestones: Array<{ n: number; code: string; action: 'bazi'|'fengshui'|'ai_chat'|'pdf_export'; units: number; name: string; expireDays?: number; }>= [
-      { n: 7,  code: 'bazi_ticket_1',       action: 'bazi',       units: 1,   name: 'streak_7' },
-      { n: 15, code: 'ai_chat_rounds_5',    action: 'ai_chat',    units: 5,   name: 'streak_15' },
-      { n: 30, code: 'fengshui_ticket_1',   action: 'fengshui',   units: 1,   name: 'streak_30' },
-      { n: 60, code: 'pdf_export_3',        action: 'pdf_export', units: 3,   name: 'streak_60' },
-      { n: 90, code: 'ai_chat_rounds_100',  action: 'ai_chat',    units: 100, name: 'streak_90' },
+    const milestones: Array<{
+      n: number;
+      code: string;
+      action: 'bazi' | 'fengshui' | 'ai_chat' | 'pdf_export';
+      units: number;
+      name: string;
+      expireDays?: number;
+    }> = [
+      {
+        n: 7,
+        code: 'bazi_ticket_1',
+        action: 'bazi',
+        units: 1,
+        name: 'streak_7',
+      },
+      {
+        n: 15,
+        code: 'ai_chat_rounds_5',
+        action: 'ai_chat',
+        units: 5,
+        name: 'streak_15',
+      },
+      {
+        n: 30,
+        code: 'fengshui_ticket_1',
+        action: 'fengshui',
+        units: 1,
+        name: 'streak_30',
+      },
+      {
+        n: 60,
+        code: 'pdf_export_3',
+        action: 'pdf_export',
+        units: 3,
+        name: 'streak_60',
+      },
+      {
+        n: 90,
+        code: 'ai_chat_rounds_100',
+        action: 'ai_chat',
+        units: 100,
+        name: 'streak_90',
+      },
     ];
 
     for (const m of milestones) {
@@ -106,20 +168,52 @@ export async function POST(request: Request) {
         const exists = await db
           .select({ id: achievements.id })
           .from(achievements)
-          .where(and(eq(achievements.userId, userId), eq(achievements.achievementId, m.name)))
+          .where(
+            and(
+              eq(achievements.userId, userId),
+              eq(achievements.achievementId, m.name)
+            )
+          )
           .limit(1);
         if (exists.length === 0) {
-          await issueVoucher({ userId, action: m.action, units: m.units, voucherCode: m.code, reason: m.name, expireAt: null });
-          await db.insert(achievements).values({ userId, achievementId: m.name, achievementName: m.name, rewardAmount: 0 });
+          await issueVoucher({
+            userId,
+            action: m.action,
+            units: m.units,
+            voucherCode: m.code,
+            reason: m.name,
+            expireAt: null,
+          });
+          await db.insert(achievements).values({
+            userId,
+            achievementId: m.name,
+            achievementName: m.name,
+            rewardAmount: 0,
+          });
         }
       }
     }
 
-    return NextResponse.json({ success: true, data: { already: false, streak } });
+    console.log('[签到API] 签到成功, 连续天数:', streak);
+    return NextResponse.json({
+      success: true,
+      data: { already: false, streak },
+    });
   } catch (error) {
-    console.error('daily-signin error:', error);
+    console.error('[签到API] ❌ 签到失败:', error);
+    if (error instanceof Error) {
+      console.error('[签到API] 错误详情:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+      });
+    }
     return NextResponse.json(
-      { success: false, error: 'INTERNAL_ERROR' },
+      {
+        success: false,
+        error: 'INTERNAL_ERROR',
+        details: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }

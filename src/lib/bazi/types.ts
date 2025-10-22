@@ -40,20 +40,42 @@ export type Branch =
   | '亥';
 
 export type Pillars = {
-  year: { stem: Stem; branch: Branch };
-  month: { stem: Stem; branch: Branch };
-  day: { stem: Stem; branch: Branch };
-  hour: { stem: Stem; branch: Branch };
+  year: { stem: Stem; branch: Branch; gan?: string; zhi?: string };
+  month: { stem: Stem; branch: Branch; gan?: string; zhi?: string };
+  day: { stem: Stem; branch: Branch; gan?: string; zhi?: string };
+  hour: { stem: Stem; branch: Branch; gan?: string; zhi?: string };
 };
 
 export type FiveElement = '木' | '火' | '土' | '金' | '水';
 
-export type FiveElementStrength = Record<FiveElement, number>; // 0..100 scale
+// 支持中英文两种属性名
+export type FiveElementStrength = (Record<FiveElement, number> | {
+  wood?: number;
+  fire?: number;
+  earth?: number;
+  metal?: number;
+  water?: number;
+  '木'?: number;
+  '火'?: number;
+  '土'?: number;
+  '金'?: number;
+  '水'?: number;
+  balance?: {
+    status: 'balanced' | 'imbalanced';
+    shortage?: string[];
+    excess?: string[];
+  };
+}) & Record<string, any>; // 0..100 scale
 
 export type YongShen = {
-  favorable: FiveElement[];
-  unfavorable: FiveElement[];
+  favorable?: FiveElement[];
+  unfavorable?: FiveElement[];
+  primary?: any[];
+  secondary?: any[];
+  avoid?: any[];
   commentary?: string;
+  explanation?: string;
+  recommendations?: Record<string, string[]>;
 };
 
 export type BaziResult = {

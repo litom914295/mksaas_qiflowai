@@ -1,18 +1,13 @@
-'use client'
+'use client';
 
-import * as React from 'react'
+import { Button } from '@/components/ui/button';
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -20,24 +15,37 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
+} from '@/components/ui/table';
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search } from 'lucide-react'
+  type ColumnDef,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  Search,
+} from 'lucide-react';
+import * as React from 'react';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  searchPlaceholder?: string
-  searchKey?: string
-  showColumnVisibility?: boolean
-  pageSize?: number
+export interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  searchPlaceholder?: string;
+  searchKey?: string;
+  showColumnVisibility?: boolean;
+  pageSize?: number;
+  loading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -47,12 +55,16 @@ export function DataTable<TData, TValue>({
   searchKey,
   showColumnVisibility = true,
   pageSize = 10,
+  loading = false,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [globalFilter, setGlobalFilter] = React.useState('')
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [globalFilter, setGlobalFilter] = React.useState('');
 
   const table = useReactTable({
     data,
@@ -79,7 +91,7 @@ export function DataTable<TData, TValue>({
         pageSize: pageSize,
       },
     },
-  })
+  });
 
   return (
     <div className="w-full space-y-4">
@@ -113,11 +125,13 @@ export function DataTable<TData, TValue>({
                       key={column.id}
                       className="capitalize"
                       checked={column.getIsVisible()}
-                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
-                  )
+                  );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -135,27 +149,50 @@ export function DataTable<TData, TValue>({
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {loading ? (
+              // 显示加载骨架屏
+              Array.from({ length: 10 }).map((_, index) => (
+                <TableRow key={index}>
+                  {columns.map((_, colIndex) => (
+                    <TableCell key={colIndex} className="py-4">
+                      <div className="h-6 w-full max-w-[200px] bg-gray-200 rounded animate-pulse" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   暂无数据
                 </TableCell>
               </TableRow>
@@ -167,7 +204,8 @@ export function DataTable<TData, TValue>({
       {/* 分页 */}
       <div className="flex items-center justify-between px-2">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} / {table.getFilteredRowModel().rows.length} 行已选中
+          {table.getFilteredSelectedRowModel().rows.length} /{' '}
+          {table.getFilteredRowModel().rows.length} 行已选中
         </div>
         <div className="flex items-center space-x-6 lg:space-x-8">
           <div className="flex items-center space-x-2">
@@ -175,7 +213,7 @@ export function DataTable<TData, TValue>({
             <select
               value={table.getState().pagination.pageSize}
               onChange={(e) => {
-                table.setPageSize(Number(e.target.value))
+                table.setPageSize(Number(e.target.value));
               }}
               className="h-8 w-16 rounded border border-input bg-background px-2 text-sm"
             >
@@ -187,7 +225,8 @@ export function DataTable<TData, TValue>({
             </select>
           </div>
           <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            第 {table.getState().pagination.pageIndex + 1} / {table.getPageCount()} 页
+            第 {table.getState().pagination.pageIndex + 1} /{' '}
+            {table.getPageCount()} 页
           </div>
           <div className="flex items-center space-x-2">
             <Button
@@ -230,5 +269,5 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
     </div>
-  )
+  );
 }

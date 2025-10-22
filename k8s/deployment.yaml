@@ -1,0 +1,232 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mksaas-app
+  namespace: mksaas
+  labels:
+    app: mksaas
+    component: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mksaas
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: mksaas
+        component: frontend
+    spec:
+      containers:
+      - name: app
+        image: your-registry/mksaas:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          name: http
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: mksaas-secrets
+              key: database-url
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: mksaas-secrets
+              key: nextauth-secret
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: mksaas-secrets
+              key: redis-url
+        envFrom:
+        - configMapRef:
+            name: mksaas-config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: uploads
+          mountPath: /app/uploads
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: mksaas-uploads-pvc
+      - name: logs
+        persistentVolumeClaim:
+          claimName: mksaas-logs-pvc
+      imagePullSecrets:
+      - name: registry-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mksaas-service
+  namespace: mksaas
+spec:
+  selector:
+    app: mksaas
+    component: frontend
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mksaas-ingress
+  namespace: mksaas
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "mksaas/mtls-ca"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "2"
+    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
+    nginx.ingress.kubernetes.io/auth-url: "http://mtls-authz.mksaas.svc.cluster.local:8080/authorize"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Authz-User, X-Authz-Serial"
+    nginx.ingress.kubernetes.io/auth-snippet: |
+      proxy_set_header X-SSL-Client-Serial $ssl_client_serial;
+      proxy_set_header X-SSL-Client-Verify $ssl_client_verify;
+      proxy_set_header X-SSL-Client-S-DN $ssl_client_s_dn;
+spec:
+  tls:
+  - hosts:
+    - your-domain.com
+    - www.your-domain.com
+    secretName: mksaas-tls
+  rules:
+  - host: your-domain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mksaas-service
+            port:
+              number: 80
+  - host: www.your-domain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mksaas-service
+            port:
+              number: 80
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mksaas-uploads-pvc
+  namespace: mksaas
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mksaas-logs-pvc
+  namespace: mksaas
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mksaas-config
+  namespace: mksaas
+data:
+  APP_URL: "https://your-domain.com"
+  NEXTAUTH_URL: "https://your-domain.com"
+  SMTP_HOST: "smtp.example.com"
+  SMTP_PORT: "587"
+  EMAIL_FROM: "MkSaaS <noreply@example.com>"
+  GROWTH_ENABLED: "true"
+  REFERRAL_DEFAULT_REWARD: "50"
+  FRAUD_DETECTION_ENABLED: "true"
+  RATE_LIMIT_ENABLED: "true"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mksaas-secrets
+  namespace: mksaas
+type: Opaque
+stringData:
+  database-url: "postgresql://user:pass@postgres:5432/mksaas"
+  nextauth-secret: "your-nextauth-secret"
+  redis-url: "redis://:password@redis:6379"
+  jwt-secret: "your-jwt-secret"
+  smtp-pass: "your-smtp-password"
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mksaas-hpa
+  namespace: mksaas
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mksaas-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

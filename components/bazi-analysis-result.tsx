@@ -1,6 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -8,35 +16,27 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { BaziAnalysisResponse } from '@/lib/bazi-pro/types';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import {
-  Calendar,
-  Heart,
+  AlertCircle,
   Briefcase,
+  Calendar,
+  CheckCircle2,
+  ChevronRight,
   DollarSign,
+  Download,
+  Heart,
+  Info,
+  Share2,
   Shield,
+  Sparkles,
   Star,
   TrendingUp,
   User,
-  Sparkles,
-  AlertCircle,
-  CheckCircle2,
-  Info,
-  ChevronRight,
-  Download,
-  Share2,
 } from 'lucide-react';
-import { BaziAnalysisResponse } from '@/lib/bazi-pro/types';
+import { useState } from 'react';
 
 interface BaziAnalysisResultProps {
   data: BaziAnalysisResponse['data'];
@@ -122,8 +122,14 @@ export function BaziAnalysisResult({
                   {['年柱', '月柱', '日柱', '时柱'][index]}
                 </div>
                 <div className="text-2xl font-bold">
-                  {chart.pillars[pillar as keyof typeof chart.pillars].heavenlyStem}
-                  {chart.pillars[pillar as keyof typeof chart.pillars].earthlyBranch}
+                  {
+                    chart.pillars[pillar as keyof typeof chart.pillars]
+                      .heavenlyStem
+                  }
+                  {
+                    chart.pillars[pillar as keyof typeof chart.pillars]
+                      .earthlyBranch
+                  }
                 </div>
                 <div className="text-xs text-gray-400">
                   {chart.pillars[pillar as keyof typeof chart.pillars].nayin}
@@ -156,10 +162,7 @@ export function BaziAnalysisResult({
                 <div className="flex items-center gap-2">
                   <span className="text-lg">{elementIcons[element]}</span>
                   <span className="font-medium">{element}</span>
-                  <Badge
-                    variant="secondary"
-                    className={elementColors[element]}
-                  >
+                  <Badge variant="secondary" className={elementColors[element]}>
                     {value}%
                   </Badge>
                 </div>
@@ -200,10 +203,12 @@ export function BaziAnalysisResult({
                 <span className="text-sm font-medium">{pattern.strength}%</span>
               </div>
             </div>
-            
+
             {pattern.subPatterns.length > 0 && (
               <div className="space-y-2">
-                <div className="text-sm font-medium text-gray-500">辅助格局</div>
+                <div className="text-sm font-medium text-gray-500">
+                  辅助格局
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {pattern.subPatterns.map((sub) => (
                     <Badge key={sub} variant="outline">
@@ -232,10 +237,11 @@ export function BaziAnalysisResult({
                   <span className="font-medium">用神</span>
                 </div>
                 <Badge className={elementColors[yongshen.primary.element]}>
-                  {elementIcons[yongshen.primary.element]} {yongshen.primary.element}
+                  {elementIcons[yongshen.primary.element]}{' '}
+                  {yongshen.primary.element}
                 </Badge>
               </div>
-              
+
               {yongshen.secondary && (
                 <div className="flex items-center justify-between p-3 rounded-lg bg-blue-50 border border-blue-200">
                   <div className="flex items-center gap-2">
@@ -243,22 +249,24 @@ export function BaziAnalysisResult({
                     <span className="font-medium">喜神</span>
                   </div>
                   <Badge className={elementColors[yongshen.secondary.element]}>
-                    {elementIcons[yongshen.secondary.element]} {yongshen.secondary.element}
+                    {elementIcons[yongshen.secondary.element]}{' '}
+                    {yongshen.secondary.element}
                   </Badge>
                 </div>
               )}
-              
+
               <div className="flex items-center justify-between p-3 rounded-lg bg-red-50 border border-red-200">
                 <div className="flex items-center gap-2">
                   <AlertCircle className="h-4 w-4 text-red-600" />
                   <span className="font-medium">忌神</span>
                 </div>
                 <Badge className={elementColors[yongshen.avoid.element]}>
-                  {elementIcons[yongshen.avoid.element]} {yongshen.avoid.element}
+                  {elementIcons[yongshen.avoid.element]}{' '}
+                  {yongshen.avoid.element}
                 </Badge>
               </div>
             </div>
-            
+
             <Alert>
               <Info className="h-4 w-4" />
               <AlertDescription className="text-xs">
@@ -283,7 +291,10 @@ export function BaziAnalysisResult({
             <div className="space-y-3">
               <div className="font-medium text-green-600">吉神</div>
               {shensha.jiShen.slice(0, 3).map((js) => (
-                <div key={js.name} className="p-3 rounded-lg bg-green-50 border border-green-100">
+                <div
+                  key={js.name}
+                  className="p-3 rounded-lg bg-green-50 border border-green-100"
+                >
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-medium text-sm">{js.name}</span>
                     <Badge variant="outline" className="text-xs">
@@ -294,12 +305,15 @@ export function BaziAnalysisResult({
                 </div>
               ))}
             </div>
-            
+
             {/* 凶神 */}
             <div className="space-y-3">
               <div className="font-medium text-red-600">凶神</div>
               {shensha.xiongShen.slice(0, 3).map((xs) => (
-                <div key={xs.name} className="p-3 rounded-lg bg-red-50 border border-red-100">
+                <div
+                  key={xs.name}
+                  className="p-3 rounded-lg bg-red-50 border border-red-100"
+                >
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-medium text-sm">{xs.name}</span>
                     <Badge variant="outline" className="text-xs">
@@ -318,9 +332,7 @@ export function BaziAnalysisResult({
       <Card>
         <CardHeader>
           <CardTitle>详细解读</CardTitle>
-          <CardDescription>
-            基于AI智能分析的个性化命理解读
-          </CardDescription>
+          <CardDescription>基于AI智能分析的个性化命理解读</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -332,29 +344,41 @@ export function BaziAnalysisResult({
               <TabsTrigger value="relationship">感情</TabsTrigger>
               <TabsTrigger value="health">健康</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="overview" className="space-y-4">
               <div className="prose prose-sm max-w-none">
-                <p className="text-gray-700">{interpretation.summary.overview}</p>
-                
+                <p className="text-gray-700">
+                  {interpretation.summary.overview}
+                </p>
+
                 <div className="grid gap-4 md:grid-cols-2 mt-4">
                   <div className="p-4 rounded-lg bg-green-50">
-                    <div className="font-medium text-green-800 mb-2">优势特点</div>
+                    <div className="font-medium text-green-800 mb-2">
+                      优势特点
+                    </div>
                     <ul className="space-y-1">
                       {interpretation.summary.strengths.map((s, i) => (
-                        <li key={i} className="text-sm text-gray-700 flex items-start">
+                        <li
+                          key={i}
+                          className="text-sm text-gray-700 flex items-start"
+                        >
                           <CheckCircle2 className="h-3 w-3 mt-0.5 mr-2 text-green-600 flex-shrink-0" />
                           {s}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div className="p-4 rounded-lg bg-orange-50">
-                    <div className="font-medium text-orange-800 mb-2">改善建议</div>
+                    <div className="font-medium text-orange-800 mb-2">
+                      改善建议
+                    </div>
                     <ul className="space-y-1">
                       {interpretation.summary.challenges.map((c, i) => (
-                        <li key={i} className="text-sm text-gray-700 flex items-start">
+                        <li
+                          key={i}
+                          className="text-sm text-gray-700 flex items-start"
+                        >
                           <Info className="h-3 w-3 mt-0.5 mr-2 text-orange-600 flex-shrink-0" />
                           {c}
                         </li>
@@ -364,7 +388,7 @@ export function BaziAnalysisResult({
                 </div>
               </div>
             </TabsContent>
-            
+
             <TabsContent value="personality">
               <Accordion type="single" collapsible defaultValue="item-1">
                 {interpretation.detailed.personality.map((item, index) => (
@@ -384,11 +408,14 @@ export function BaziAnalysisResult({
                 ))}
               </Accordion>
             </TabsContent>
-            
+
             <TabsContent value="career">
               <div className="space-y-3">
                 {interpretation.detailed.career.map((item, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-blue-50 border border-blue-100">
+                  <div
+                    key={index}
+                    className="p-3 rounded-lg bg-blue-50 border border-blue-100"
+                  >
                     <div className="flex items-start gap-2">
                       <Briefcase className="h-4 w-4 text-blue-600 mt-0.5" />
                       <p className="text-sm">{item}</p>
@@ -397,11 +424,14 @@ export function BaziAnalysisResult({
                 ))}
               </div>
             </TabsContent>
-            
+
             <TabsContent value="wealth">
               <div className="space-y-3">
                 {interpretation.detailed.wealth.map((item, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-yellow-50 border border-yellow-100">
+                  <div
+                    key={index}
+                    className="p-3 rounded-lg bg-yellow-50 border border-yellow-100"
+                  >
                     <div className="flex items-start gap-2">
                       <DollarSign className="h-4 w-4 text-yellow-600 mt-0.5" />
                       <p className="text-sm">{item}</p>
@@ -410,11 +440,14 @@ export function BaziAnalysisResult({
                 ))}
               </div>
             </TabsContent>
-            
+
             <TabsContent value="relationship">
               <div className="space-y-3">
                 {interpretation.detailed.relationships.map((item, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-pink-50 border border-pink-100">
+                  <div
+                    key={index}
+                    className="p-3 rounded-lg bg-pink-50 border border-pink-100"
+                  >
                     <div className="flex items-start gap-2">
                       <Heart className="h-4 w-4 text-pink-600 mt-0.5" />
                       <p className="text-sm">{item}</p>
@@ -423,11 +456,14 @@ export function BaziAnalysisResult({
                 ))}
               </div>
             </TabsContent>
-            
+
             <TabsContent value="health">
               <div className="space-y-3">
                 {interpretation.detailed.health.map((item, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-purple-50 border border-purple-100">
+                  <div
+                    key={index}
+                    className="p-3 rounded-lg bg-purple-50 border border-purple-100"
+                  >
                     <div className="flex items-start gap-2">
                       <Shield className="h-4 w-4 text-purple-600 mt-0.5" />
                       <p className="text-sm">{item}</p>

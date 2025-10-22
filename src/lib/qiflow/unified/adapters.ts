@@ -98,7 +98,7 @@ export function toFengshuiRoomLayout(
 ): FengshuiRoomLayout {
   return {
     id: room.id,
-    type: room.type,
+    type: room.type as any,
     name: room.name,
     position: room.palace,
     area: room.area,
@@ -330,7 +330,7 @@ export function palaceToMountain(palace: PalaceIndex): Mountain {
     2: '坤', // 西南
     3: '卯', // 东
     4: '巽', // 东南
-    5: '中', // 中（实际不存在对应山向，取子）
+    5: '子', // 中（实际不存在对应山向，取子）
     6: '乾', // 西北
     7: '酉', // 西
     8: '艮', // 东北

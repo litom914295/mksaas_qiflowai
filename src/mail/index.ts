@@ -35,11 +35,12 @@ export const getMailProvider = (): MailProvider => {
  */
 export const initializeMailProvider = (): MailProvider => {
   if (!mailProvider) {
-    if (websiteConfig.mail.provider === 'resend') {
+    const config = websiteConfig as any;
+    if (config?.mail?.provider === 'resend') {
       mailProvider = new ResendProvider();
     } else {
       throw new Error(
-        `Unsupported mail provider: ${websiteConfig.mail.provider}`
+        `Unsupported mail provider: ${config?.mail?.provider ?? 'unknown'}`
       );
     }
   }

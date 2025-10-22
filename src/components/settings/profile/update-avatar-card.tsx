@@ -105,7 +105,7 @@ export function UpdateAvatarCard({ className }: UpdateAvatarCardProps) {
             // Refetch the session to get the latest data
             refetch();
           },
-          onError: (ctx) => {
+          onError: (ctx: any) => {
             console.error('update avatar error:', ctx.error);
             setError(`${ctx.error.status}: ${ctx.error.message}`);
             // Restore the previous avatar on error

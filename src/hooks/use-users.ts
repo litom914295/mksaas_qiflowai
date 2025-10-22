@@ -62,7 +62,7 @@ export function useBanUser() {
         userId,
         banReason,
         banExpiresIn,
-      });
+      } as any);
     },
     onSuccess: () => {
       // Invalidate all users queries to refresh the data

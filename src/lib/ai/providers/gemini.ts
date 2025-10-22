@@ -7,7 +7,7 @@ import type {
 
 const mapToGemini = (messages: any[]) => {
   // Gemini uses different message format
-  return messages.map(m => ({
+  return messages.map((m) => ({
     role: m.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: m.content }],
   }));

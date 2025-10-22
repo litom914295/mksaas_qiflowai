@@ -39,7 +39,7 @@ export const LoginForm = ({
   className,
   callbackUrl: propCallbackUrl,
 }: LoginFormProps) => {
-  const t = useTranslations('AuthPage.login');
+  const t = useTranslations('AuthPage.login') as any;
   const searchParams = useSearchParams();
   const urlError = searchParams.get('error');
   const paramCallbackUrl = searchParams.get('callbackUrl');
@@ -133,24 +133,27 @@ export const LoginForm = ({
         callbackURL: callbackUrl,
       },
       {
-        onRequest: (ctx) => {
+        onRequest: (ctx: any) => {
           // console.log("login, request:", ctx.url);
           setIsPending(true);
           setError('');
           setSuccess('');
         },
-        onResponse: (ctx) => {
+        onResponse: (ctx: any) => {
           // console.log("login, response:", ctx.response);
           setIsPending(false);
         },
-        onSuccess: (ctx) => {
+        onSuccess: (ctx: any) => {
           // console.log("login, success:", ctx.data);
           // setSuccess("Login successful");
           // router.push(callbackUrl || "/dashboard");
         },
-        onError: (ctx) => {
+        onError: (ctx: any) => {
           console.error('login, error:', ctx.error);
-          setError(`${ctx.error.status}: ${ctx.error.message}`);
+          // 处理空错误对象或缺少错误信息的情况
+          const errorStatus = ctx.error?.status || 'Unknown';
+          const errorMessage = ctx.error?.message || '登录失败，请稍后重试';
+          setError(`${errorStatus}: ${errorMessage}`);
           // Reset captcha on login error
           if (captchaConfigured) {
             resetCaptcha();

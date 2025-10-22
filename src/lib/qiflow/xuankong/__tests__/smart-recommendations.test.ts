@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import {
   type SmartRecommendationsOptions,
   generateSmartRecommendations,
-} from '../smart-recommendations';
+} from '../adapters/v6-adapter';
 import type { EnhancedXuankongPlate } from '../types';
 
 describe('SmartRecommendations (智能推荐)', () => {

@@ -1,17 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Compass, 
-  Home, 
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  AlertCircle,
   Calendar,
   CheckCircle2,
-  AlertCircle,
+  Compass,
+  Home,
   Info,
+  Shield,
   TrendingUp,
-  Shield
 } from 'lucide-react';
 
 interface HouseInfo {
@@ -28,19 +34,22 @@ interface ReportFengshuiAnalysisProps {
 /**
  * 风水分析组件 - 用于报告页面
  */
-export function ReportFengshuiAnalysis({ houseInfo }: ReportFengshuiAnalysisProps) {
+export function ReportFengshuiAnalysis({
+  houseInfo,
+}: ReportFengshuiAnalysisProps) {
   // 简化版风水分析，后续可接入完整的玄空飞星算法
   const getBasicFengshuiAnalysis = () => {
-    const { sittingDirection, facingDirection, period, buildingYear } = houseInfo;
-    
+    const { sittingDirection, facingDirection, period, buildingYear } =
+      houseInfo;
+
     // 基于朝向的简单吉凶判断
     const favorableDirections = ['南', '东南', '东', '西南'];
     const isFavorable = favorableDirections.includes(facingDirection);
-    
+
     return {
       overall: isFavorable ? 'good' : 'neutral',
       score: isFavorable ? 85 : 70,
-      message: isFavorable 
+      message: isFavorable
         ? '此朝向在当前运势中属于吉利方位，有利于家运昌盛。'
         : '此朝向需要通过合理布局来化解不利因素，提升居住环境。',
     };
@@ -103,10 +112,10 @@ export function ReportFengshuiAnalysis({ houseInfo }: ReportFengshuiAnalysisProp
               <p className="text-sm text-gray-500 mt-1">满分100分</p>
             </div>
             <div className="text-right">
-              <Badge 
+              <Badge
                 className={
-                  analysis.overall === 'good' 
-                    ? 'bg-green-100 text-green-800' 
+                  analysis.overall === 'good'
+                    ? 'bg-green-100 text-green-800'
                     : 'bg-yellow-100 text-yellow-800'
                 }
               >

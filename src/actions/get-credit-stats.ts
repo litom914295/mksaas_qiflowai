@@ -18,6 +18,11 @@ export const getCreditStatsAction = userActionClient.action(async ({ ctx }) => {
 
     const db = await getDb();
     const now = new Date();
+    const startOfToday = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
     // Get credits expiring in the next 30 days
     const expirationDaysFromNow = addDays(now, CREDITS_EXPIRATION_DAYS);
 
@@ -41,12 +46,63 @@ export const getCreditStatsAction = userActionClient.action(async ({ ctx }) => {
     const totalExpiringCredits =
       Number(expiringCreditsResult[0]?.totalAmount) || 0;
 
+    // Get total credits used (negative amounts)
+    const usedCreditsResult = await db
+      .select({
+        totalAmount: sum(creditTransaction.amount),
+      })
+      .from(creditTransaction)
+      .where(
+        and(
+          eq(creditTransaction.userId, userId),
+          eq(creditTransaction.type, 'used')
+        )
+      );
+
+    const totalCreditsUsed = Math.abs(
+      Number(usedCreditsResult[0]?.totalAmount) || 0
+    );
+
+    // Get total credits earned (positive amounts)
+    const earnedCreditsResult = await db
+      .select({
+        totalAmount: sum(creditTransaction.amount),
+      })
+      .from(creditTransaction)
+      .where(
+        and(
+          eq(creditTransaction.userId, userId),
+          eq(creditTransaction.type, 'earned')
+        )
+      );
+
+    const totalCreditsEarned = Number(earnedCreditsResult[0]?.totalAmount) || 0;
+
+    // Get today's usage (negative amounts from today)
+    const todayUsageResult = await db
+      .select({
+        totalAmount: sum(creditTransaction.amount),
+      })
+      .from(creditTransaction)
+      .where(
+        and(
+          eq(creditTransaction.userId, userId),
+          eq(creditTransaction.type, 'used'),
+          gte(creditTransaction.createdAt, startOfToday)
+        )
+      );
+
+    const todayUsage = Math.abs(Number(todayUsageResult[0]?.totalAmount) || 0);
+
     return {
       success: true,
       data: {
         expiringCredits: {
           amount: totalExpiringCredits,
         },
+        totalCreditsUsed,
+        totalCreditsEarned,
+        todayUsage,
       },
     };
   } catch (error) {

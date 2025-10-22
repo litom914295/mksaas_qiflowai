@@ -4,6 +4,7 @@ import { LoginForm } from '@/components/auth/login-form';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -53,8 +54,9 @@ export const LoginWrapper = ({
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-[400px] p-0">
-          <DialogHeader className="hidden">
-            <DialogTitle />
+          <DialogHeader className="sr-only">
+            <DialogTitle>登录</DialogTitle>
+            <DialogDescription>请输入您的登录凭据以继续</DialogDescription>
           </DialogHeader>
           <LoginForm callbackUrl={callbackUrl} className="border-none" />
         </DialogContent>

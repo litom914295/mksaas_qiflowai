@@ -26,7 +26,8 @@ export class ResendProvider implements MailProvider {
       throw new Error('RESEND_API_KEY environment variable is not set.');
     }
 
-    if (!websiteConfig.mail.fromEmail) {
+    const config = websiteConfig as any;
+    if (!config?.mail?.fromEmail) {
       throw new Error(
         'Default from email address is not set in websiteConfig.'
       );
@@ -34,7 +35,7 @@ export class ResendProvider implements MailProvider {
 
     const apiKey = process.env.RESEND_API_KEY;
     this.resend = new Resend(apiKey);
-    this.from = websiteConfig.mail.fromEmail;
+    this.from = config.mail.fromEmail;
   }
 
   /**

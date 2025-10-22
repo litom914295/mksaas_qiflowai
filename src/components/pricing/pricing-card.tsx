@@ -141,9 +141,7 @@ export function PricingCard({
       )}
 
       <CardHeader>
-        <CardTitle>
-          <h3 className="font-medium">{plan.name}</h3>
-        </CardTitle>
+        <CardTitle className="font-medium">{plan.name}</CardTitle>
 
         {/* show price and price label */}
         <div className="flex items-baseline gap-2">
@@ -153,9 +151,7 @@ export function PricingCard({
           {priceLabel && <span className="text-2xl">{priceLabel}</span>}
         </div>
 
-        <CardDescription>
-          <p className="text-sm">{plan.description}</p>
-        </CardDescription>
+        <CardDescription>{plan.description}</CardDescription>
 
         {/* show action buttons based on plans */}
         {plan.isFree ? (

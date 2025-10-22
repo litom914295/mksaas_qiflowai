@@ -90,9 +90,9 @@ export function generateSmartRecommendations(
   const recommendations: SmartRecommendation[] = [];
 
   // 分析每个宫位
-  plate.forEach((cell) => {
+  plate.forEach((cell: any) => {
     const { palace, periodStar, mountainStar, facingStar } = cell;
-    const weight = palaceWeights[palace];
+    const weight = palaceWeights[palace as PalaceIndex];
 
     // 分析天盘星
     const periodFortune = getStarFortune(periodStar || 1, period || 1);

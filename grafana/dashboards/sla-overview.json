@@ -1,0 +1,183 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "-- Grafana --",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Availability",
+      "id": 1,
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "1 - (sum(rate(http_requests_total{status!~\"2..|3..\"}[5m])) / sum(rate(http_requests_total[5m])))",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"] },
+        "orientation": "horizontal"
+      },
+      "fieldConfig": {
+        "defaults": { "unit": "percentunit", "min": 0, "max": 1 },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Error rate (5xx)",
+      "id": 2,
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) / sum(rate(http_requests_total[5m]))",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"] },
+        "orientation": "horizontal"
+      },
+      "fieldConfig": {
+        "defaults": { "unit": "percentunit", "min": 0, "max": 1 },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "P95 latency (s)",
+      "id": 3,
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"] },
+        "orientation": "horizontal"
+      },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] }
+    },
+    {
+      "type": "stat",
+      "title": "Signal coverage",
+      "id": 4,
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "min_over_time(business_signal_coverage_ratio[15m])",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"] },
+        "orientation": "horizontal"
+      },
+      "fieldConfig": {
+        "defaults": { "unit": "percentunit", "min": 0, "max": 1 },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "P95 latency trend",
+      "id": 5,
+      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 4 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "options": {
+        "legend": { "showLegend": true },
+        "tooltip": { "mode": "single" }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Error rate (5xx)",
+      "id": 6,
+      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 4 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) / sum(rate(http_requests_total[5m]))",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" }, "overrides": [] },
+      "options": {
+        "legend": { "showLegend": true },
+        "tooltip": { "mode": "single" }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Failover RTO (s)",
+      "id": 7,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "max_over_time(failover_last_duration_seconds[1h])",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "options": {
+        "legend": { "showLegend": true },
+        "tooltip": { "mode": "single" }
+      }
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["sla"],
+  "templating": {
+    "list": [
+      {
+        "name": "DS_PROMETHEUS",
+        "type": "datasource",
+        "query": "prometheus",
+        "hide": 0,
+        "current": { "text": "Prometheus", "value": "Prometheus" }
+      }
+    ]
+  },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "SLA Overview",
+  "uid": "sla-overview-v1",
+  "version": 1
+}

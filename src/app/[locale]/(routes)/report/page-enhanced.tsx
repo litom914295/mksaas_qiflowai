@@ -1,7 +1,7 @@
 'use client';
 
 import { AIMasterChatButton } from '@/components/qiflow/ai-master-chat-button';
-import { BaziAnalysisResult } from '@/components/qiflow/analysis/bazi-analysis-result';
+import BaziAnalysisResult from '@/components/qiflow/analysis/bazi-analysis-result';
 import { ComprehensiveAnalysisPanel } from '@/components/qiflow/xuankong/comprehensive-analysis-panel';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -141,7 +141,7 @@ export default function EnhancedReportPage() {
         // 使用统一分析引擎
         const engine = new UnifiedFengshuiEngine();
         const birthDate = new Date(formData.personal.birthDate);
-        
+
         // 构建八字信息：始终提供有效的 UnifiedBaziInfo 对象
         const baziInfo = {
           birthYear: birthDate.getFullYear(),
@@ -153,13 +153,12 @@ export default function EnhancedReportPage() {
           favorableElements: baziResult?.favorableElements || [],
           unfavorableElements: baziResult?.unfavorableElements || [],
         };
-        
+
         const unifiedResult = await engine.analyze({
           house: {
             facing: facingDegrees,
             period: 9, // 默认九运
-            buildYear:
-              formData.house?.buildingYear || new Date().getFullYear(),
+            buildYear: formData.house?.buildingYear || new Date().getFullYear(),
           },
           bazi: baziInfo,
           time: {

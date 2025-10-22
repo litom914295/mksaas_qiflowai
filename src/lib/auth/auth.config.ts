@@ -1,10 +1,9 @@
-import { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/lib/db';
+import { PrismaAdapter } from '@auth/prisma-adapter';
 import bcrypt from 'bcryptjs';
+import type { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import { generateToken, verifyToken } from './jwt';
-import { checkUserPermissions } from '../admin/permissions/permissions';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -12,10 +11,10 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        email: { label: "邮箱", type: "email" },
-        password: { label: "密码", type: "password" }
+        email: { label: '邮箱', type: 'email' },
+        password: { label: '密码', type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('请输入邮箱和密码');
         }
@@ -29,15 +28,15 @@ export const authOptions: NextAuthOptions = {
                   include: {
                     permissions: {
                       include: {
-                        permission: true
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+                        permission: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        } as any);
 
         if (!user || !user.hashedPassword) {
           throw new Error('用户不存在或密码错误');
@@ -64,30 +63,37 @@ export const authOptions: NextAuthOptions = {
         await prisma.loginLog.create({
           data: {
             userId: user.id,
-            ip: credentials.ip || '',
-            userAgent: credentials.userAgent || '',
-            status: 'success'
-          }
+            ip: (credentials as any).ip || '',
+            userAgent: (credentials as any).userAgent || '',
+            status: 'success',
+          },
         });
 
         // 更新最后登录时间
         await prisma.user.update({
           where: { id: user.id },
-          data: { lastLogin: new Date() }
+          data: { lastLogin: new Date() },
         });
 
+        const roleName = user.roles?.[0]?.role.name || 'user';
         return {
           id: user.id,
           email: user.email,
           name: user.name,
           image: user.avatar,
-          role: user.roles[0]?.role.name || 'user',
-          permissions: user.roles.flatMap(ur => 
-            ur.role.permissions.map(rp => rp.permission.key)
-          )
+          role:
+            roleName === 'admin' || roleName === 'superadmin'
+              ? 'admin'
+              : 'user',
+          permissions:
+            user.roles?.flatMap((ur) =>
+              (ur.role.permissions as any[]).map((rp: any) =>
+                rp?.permission ? rp.permission.key : rp
+              )
+            ) || [],
         };
-      }
-    })
+      },
+    }),
   ],
   session: {
     strategy: 'jwt',
@@ -99,7 +105,7 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      if (trigger === "update" && session) {
+      if (trigger === 'update' && session) {
         // 允许客户端更新session数据
         token = { ...token, ...session };
       }
@@ -124,21 +130,28 @@ export const authOptions: NextAuthOptions = {
                   include: {
                     permissions: {
                       include: {
-                        permission: true
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+                        permission: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        } as any);
 
         if (freshUser) {
-          token.role = freshUser.roles[0]?.role.name || 'user';
-          token.permissions = freshUser.roles.flatMap(ur => 
-            ur.role.permissions.map(rp => rp.permission.key)
-          );
+          const roleName = freshUser.roles?.[0]?.role.name || 'user';
+          token.role =
+            roleName === 'admin' || roleName === 'superadmin'
+              ? 'admin'
+              : 'user';
+          token.permissions =
+            freshUser.roles?.flatMap((ur) =>
+              (ur.role.permissions as any[]).map((rp: any) =>
+                rp?.permission ? rp.permission.key : rp
+              )
+            ) || [];
         }
       }
 
@@ -150,7 +163,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email as string;
         session.user.name = token.name as string;
         session.user.image = token.image as string;
-        session.user.role = token.role as string;
+        session.user.role = token.role as 'user' | 'admin' | undefined;
         session.user.permissions = token.permissions as string[];
       }
       return session;
@@ -158,16 +171,16 @@ export const authOptions: NextAuthOptions = {
     async redirect({ url, baseUrl }) {
       // 登录后重定向到管理后台
       if (url.startsWith('/')) return `${baseUrl}${url}`;
-      else if (new URL(url).origin === baseUrl) return url;
+      if (new URL(url).origin === baseUrl) return url;
       return baseUrl + '/admin/dashboard';
-    }
+    },
   },
   pages: {
     signIn: '/auth/signin',
     signOut: '/auth/signout',
     error: '/auth/error',
     verifyRequest: '/auth/verify-request',
-    newUser: '/auth/new-user'
+    newUser: '/auth/new-user',
   },
   debug: process.env.NODE_ENV === 'development',
   secret: process.env.NEXTAUTH_SECRET,

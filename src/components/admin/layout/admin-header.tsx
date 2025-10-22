@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { User } from "@/types/user"
-import { Button } from "@/components/ui/button"
-import { LogOut } from "lucide-react"
-import Link from "next/link"
+import { Button } from '@/components/ui/button';
+import type { User } from '@/types/user';
+import { LogOut } from 'lucide-react';
+import Link from 'next/link';
 
 interface AdminHeaderProps {
-  user: Partial<User>
-  locale: string
+  user: Partial<User>;
+  locale: string;
 }
 
 export function AdminHeader({ user, locale }: AdminHeaderProps) {
@@ -18,7 +18,9 @@ export function AdminHeader({ user, locale }: AdminHeaderProps) {
       </div>
       <div className="flex items-center space-x-3">
         <Link href={`/${locale}`}>
-          <Button variant="outline" size="sm">返回前台</Button>
+          <Button variant="outline" size="sm">
+            返回前台
+          </Button>
         </Link>
         <form action={`/${locale}/logout`} method="post">
           <Button variant="destructive" size="sm">
@@ -27,5 +29,5 @@ export function AdminHeader({ user, locale }: AdminHeaderProps) {
         </form>
       </div>
     </header>
-  )
+  );
 }

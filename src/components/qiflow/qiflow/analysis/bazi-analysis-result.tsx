@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { BaziAnalysisResult as BaziResultDisplay } from '@/components/bazi-analysis-result';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, AlertCircle } from 'lucide-react';
-import { BaziAnalysisResult as BaziResultDisplay } from '@/components/bazi-analysis-result';
+import { AlertCircle, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface BirthData {
   datetime: string;
@@ -22,9 +22,9 @@ interface BaziAnalysisResultProps {
  * 八字分析结果组件（适配器）
  * 连接报告页面和实际的八字分析结果显示组件
  */
-export function BaziAnalysisResult({ 
-  birthData, 
-  onAnalysisComplete 
+export function BaziAnalysisResult({
+  birthData,
+  onAnalysisComplete,
 }: BaziAnalysisResultProps) {
   const [analysisData, setAnalysisData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -63,7 +63,7 @@ export function BaziAnalysisResult({
 
         const result = await response.json();
         setAnalysisData(result.data);
-        
+
         // 通知父组件分析完成
         if (onAnalysisComplete) {
           onAnalysisComplete(result.data);

@@ -32,13 +32,13 @@ export async function issueVoucher(input: IssueVoucherInput) {
 
 export async function getUserVouchers(userId: string) {
   const db = await getDb();
-  const result = await db.execute(sql`
+  const result = (await db.execute(sql`
     SELECT id, user_id, action, units_total, units_used, voucher_code, issued_reason, expire_at, metadata, created_at, updated_at
     FROM user_vouchers
     WHERE user_id = ${userId}
     ORDER BY created_at DESC
-  `);
-  const rows = result.rows || [];
+  `)) as any[];
+  const rows = result || [];
   return rows.map((r: any) => ({
     id: r.id,
     action: r.action as VoucherAction,
@@ -46,20 +46,31 @@ export async function getUserVouchers(userId: string) {
     name: mapVoucherName(r.voucher_code as string),
     unitsTotal: Number(r.units_total) || 0,
     unitsUsed: Number(r.units_used) || 0,
-    unitsRemain: Math.max(0, (Number(r.units_total) || 0) - (Number(r.units_used) || 0)),
+    unitsRemain: Math.max(
+      0,
+      (Number(r.units_total) || 0) - (Number(r.units_used) || 0)
+    ),
     expireAt: r.expire_at ? new Date(r.expire_at) : null,
-    giftable: !!(r.metadata && (r.metadata.giftable === true || r.metadata.giftable === 'true')) || isVoucherGiftableByCode(r.voucher_code as string),
+    giftable:
+      !!(
+        r.metadata &&
+        (r.metadata.giftable === true || r.metadata.giftable === 'true')
+      ) || isVoucherGiftableByCode(r.voucher_code as string),
     metadata: r.metadata || {},
     createdAt: r.created_at ? new Date(r.created_at) : null,
   }));
 }
 
-export async function redeemVoucherUnits(userId: string, action: VoucherAction, needUnits: number) {
+export async function redeemVoucherUnits(
+  userId: string,
+  action: VoucherAction,
+  needUnits: number
+) {
   if (needUnits <= 0) return { used: 0 };
   const db = await getDb();
 
   // 取可用券：未过期、未用尽，按expire_at/created_at排序，FIFO
-  const result = await db.execute(sql`
+  const result = (await db.execute(sql`
     SELECT id, units_total, units_used
     FROM user_vouchers
     WHERE user_id = ${userId}
@@ -68,10 +79,10 @@ export async function redeemVoucherUnits(userId: string, action: VoucherAction, 
       AND (units_total - units_used) > 0
     ORDER BY expire_at NULLS LAST, created_at ASC
     FOR UPDATE
-  `);
+  `)) as any[];
 
   let remain = needUnits;
-  for (const row of result.rows || []) {
+  for (const row of result || []) {
     if (remain <= 0) break;
     const total = Number(row.units_total) || 0;
     const used = Number(row.units_used) || 0;
@@ -102,7 +113,7 @@ export async function prepareGift(userId: string, voucherId: string) {
       AND (units_total - units_used) > 0
     RETURNING id
   `);
-  if (!res.rows || res.rows.length === 0) {
+  if (!res || (res as any[]).length === 0) {
     throw new Error('VOUCHER_NOT_GIFTABLE_OR_NOT_FOUND');
   }
   return { token };
@@ -110,15 +121,15 @@ export async function prepareGift(userId: string, voucherId: string) {
 
 export async function claimGift(recipientUserId: string, token: string) {
   const db = await getDb();
-  const res = await db.execute(sql`
+  const res = (await db.execute(sql`
     SELECT id, user_id, units_total, units_used
     FROM user_vouchers
     WHERE metadata->>'giftToken' = ${token}
       AND (units_total - units_used) > 0
     LIMIT 1
-  `);
-  if (!res.rows || res.rows.length === 0) throw new Error('GIFT_TOKEN_INVALID');
-  const v = res.rows[0];
+  `)) as any[];
+  if (!res || res.length === 0) throw new Error('GIFT_TOKEN_INVALID');
+  const v = res[0];
   if (v.user_id === recipientUserId) throw new Error('GIFT_SAME_OWNER');
 
   // 转移所有剩余单位的券

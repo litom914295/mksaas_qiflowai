@@ -2371,5 +2371,69 @@
       "fail": "Failed to subscribe",
       "emailValidation": "Please enter a valid email address"
     }
+  },
+  "home": {
+    "pricing": {
+      "title": "Pilih Pakej Yang Sesuai Untuk Anda",
+      "subtitle": "Semua pakej menikmati diskaun 50% untuk pertama kali, pakej lebih besar lebih berbaloi",
+      "firstTimeOffer": "Tambahan 50% kredit untuk penambahan pertama",
+      "mostPopular": "Paling Popular",
+      "credits": "kredit",
+      "save": "Jimat",
+      "buyNow": "Beli Sekarang",
+      "hint": "💡 Semua pakej menyokong Alipay, WeChat Pay, kad kredit dan pelbagai kaedah pembayaran lain",
+      "refund": "7 hari pulangan tanpa sebab · Perlindungan enkripsi data · Selamat dan boleh dipercayai",
+      "starter": {
+        "name": "Versi Permulaan",
+        "features": {
+          "credits": "100 kredit",
+          "analyses": "Kira-kira 5-10 analisis",
+          "bazi": "Analisis Ba Zi asas",
+          "xuankong": "Pertanyaan Feng Shui Xuan Kong",
+          "validity": "Tempoh sah 7 hari"
+        }
+      },
+      "standard": {
+        "name": "Versi Standard",
+        "features": {
+          "credits": "500 kredit",
+          "analyses": "Kira-kira 25-50 analisis",
+          "bazi": "Analisis Ba Zi lengkap",
+          "xuankong": "Nasihat Feng Shui lanjutan",
+          "ai": "Konsultasi AI pintar",
+          "pdf": "Eksport laporan PDF",
+          "validity": "Tempoh sah 30 hari"
+        }
+      },
+      "professional": {
+        "name": "Versi Profesional",
+        "features": {
+          "credits": "1500 kredit",
+          "analyses": "Kira-kira 75-150 analisis",
+          "bazi": "Tafsiran Ba Zi mendalam",
+          "xuankong": "Susun atur Feng Shui profesional",
+          "ai": "Konsultasi AI tanpa had",
+          "support": "Sokongan teknikal keutamaan",
+          "vip": "Perkhidmatan eksklusif VIP",
+          "validity": "Tempoh sah 90 hari"
+        }
+      }
+    },
+    "trust": {
+      "title": "Kepercayaan Anda, Komitmen Kami",
+      "subtitle": "Perkhidmatan Analisis Takdir AI yang Profesional, Selamat dan Cekap",
+      "privacy": {
+        "title": "Perlindungan Privasi",
+        "description": "Penyimpanan data yang disulitkan, tidak akan membocorkan maklumat peribadi"
+      },
+      "speed": {
+        "title": "Respons Pantas",
+        "description": "Didorong oleh algoritma AI, selesai dalam 3 minit"
+      },
+      "accuracy": {
+        "title": "Ketepatan Profesional",
+        "description": "Menggabungkan metafizik tradisional dengan AI moden, kadar ketepatan 98%"
+      }
+    }
   }
 }

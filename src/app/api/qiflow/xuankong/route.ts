@@ -1,11 +1,11 @@
+import { getDb } from '@/db';
+import { fengshuiAnalysis } from '@/db/schema';
+import { verifyAuth } from '@/lib/auth';
+import { tryMarkActivation } from '@/lib/growth/activation';
 import { UnifiedFengshuiEngine } from '@/lib/qiflow/unified';
 import { adaptToFrontend } from '@/lib/qiflow/unified/adapters/frontend-adapter';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { verifyAuth } from '@/lib/auth';
-import { getDb } from '@/db';
-import { fengshuiAnalysis } from '@/db/schema';
-import { tryMarkActivation } from '@/lib/growth/activation';
 
 const RequestSchema = z.object({
   address: z.string().min(1).max(200),
@@ -47,7 +47,8 @@ export async function POST(req: NextRequest) {
       house: {
         facing: direction,
         buildYear: observationDate.getFullYear(),
-        period: ((Math.floor((observationDate.getFullYear() - 1864) / 20) % 9) + 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9,
+        period: ((Math.floor((observationDate.getFullYear() - 1864) / 20) % 9) +
+          1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9,
       },
       time: {
         currentYear: observationDate.getFullYear(),

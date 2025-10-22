@@ -1,13 +1,19 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { useTranslations } from 'next-intl';
 
 /**
  * Example component demonstrating proper i18n usage in QiFlow AI
- * 
+ *
  * This component shows how to:
  * 1. Use translations from different namespaces
  * 2. Display localized app name and content
@@ -19,7 +25,6 @@ export function I18nExample() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 p-6">
-      
       {/* App Metadata Display */}
       <Card>
         <CardHeader>
@@ -32,7 +37,9 @@ export function I18nExample() {
       <Card>
         <CardHeader>
           <CardTitle>导航示例 / Navigation Example</CardTitle>
-          <CardDescription>Available navigation items with localized names</CardDescription>
+          <CardDescription>
+            Available navigation items with localized names
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -52,7 +59,9 @@ export function I18nExample() {
       <Card>
         <CardHeader>
           <CardTitle>通用操作 / Common Actions</CardTitle>
-          <CardDescription>Common UI elements with localized text</CardDescription>
+          <CardDescription>
+            Common UI elements with localized text
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -72,7 +81,9 @@ export function I18nExample() {
       <Card>
         <CardHeader>
           <CardTitle>分析功能 / Analysis Features</CardTitle>
-          <CardDescription>Core analysis functionality with localized names</CardDescription>
+          <CardDescription>
+            Core analysis functionality with localized names
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -80,17 +91,18 @@ export function I18nExample() {
               <div className="text-center p-4 border rounded-lg">
                 <h3 className="font-semibold">{t('Analysis.bazi')}</h3>
                 <p className="text-sm text-muted-foreground mt-2">
-                  {t('Analysis.personalInfo')}: {t('Analysis.birthDate')}, {t('Analysis.birthTime')}
+                  {t('Analysis.personalInfo')}: {t('Analysis.birthDate')},{' '}
+                  {t('Analysis.birthTime')}
                 </p>
               </div>
-              
+
               <div className="text-center p-4 border rounded-lg">
                 <h3 className="font-semibold">{t('Analysis.fengshui')}</h3>
                 <p className="text-sm text-muted-foreground mt-2">
                   {t('Analysis.location')}, {t('Analysis.houseOrientation')}
                 </p>
               </div>
-              
+
               <div className="text-center p-4 border rounded-lg">
                 <h3 className="font-semibold">{t('Analysis.xuankong')}</h3>
                 <p className="text-sm text-muted-foreground mt-2">
@@ -98,7 +110,7 @@ export function I18nExample() {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex justify-center space-x-4">
               <Button size="lg" className="bg-primary">
                 {t('Analysis.startAnalysis')}
@@ -115,27 +127,29 @@ export function I18nExample() {
       <Card>
         <CardHeader>
           <CardTitle>状态示例 / State Examples</CardTitle>
-          <CardDescription>Various UI states with proper localization</CardDescription>
+          <CardDescription>
+            Various UI states with proper localization
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             <div className="flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary" />
               <span>{t('Common.loading')}</span>
             </div>
-            
+
             <div className="flex items-center space-x-2">
-              <div className="animate-pulse rounded-full h-4 w-4 bg-yellow-500"></div>
+              <div className="animate-pulse rounded-full h-4 w-4 bg-yellow-500" />
               <span>{t('Analysis.analyzing')}</span>
             </div>
-            
+
             <div className="flex items-center space-x-2">
-              <div className="rounded-full h-4 w-4 bg-green-500"></div>
+              <div className="rounded-full h-4 w-4 bg-green-500" />
               <span>{t('Analysis.analysisComplete')}</span>
             </div>
-            
+
             <div className="flex items-center space-x-2">
-              <div className="rounded-full h-4 w-4 bg-red-500"></div>
+              <div className="rounded-full h-4 w-4 bg-red-500" />
               <span>{t('Common.error')}</span>
             </div>
           </div>
@@ -146,7 +160,9 @@ export function I18nExample() {
       <Card>
         <CardHeader>
           <CardTitle>代码示例 / Code Usage</CardTitle>
-          <CardDescription>How to use these translations in your components</CardDescription>
+          <CardDescription>
+            How to use these translations in your components
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <pre className="bg-muted p-4 rounded-lg text-sm overflow-x-auto">

@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import {
   type PersonalizedAnalysisOptions,
   analyzePersonalized,
-} from '../personalized-analysis';
+} from '../adapters/v6-adapter';
 import type { EnhancedXuankongPlate } from '../types';
 
 describe('PersonalizedAnalysis (个性化分析)', () => {

@@ -10,13 +10,16 @@ export function withCache<I extends object, O>(
   fn: (input: I) => Promise<O>,
   namespace: string
 ) {
-  const cached = unstable_cache(async (input: I) => fn(input), [namespace], {
-    revalidate: false,
-  });
-
   return async function cachedFn(input: I, extraTags: string[] = []) {
     const tag = `${namespace}:${stableHash(input)}`;
-    return cached(input, { tags: [tag, ...extraTags] });
+    const cached = unstable_cache(
+      async () => fn(input),
+      [namespace, tag, ...extraTags],
+      {
+        revalidate: false,
+      }
+    );
+    return cached();
   };
 }
 

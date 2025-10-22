@@ -1,6 +1,6 @@
-import speakeasy from 'speakeasy';
-import QRCode from 'qrcode';
 import { prisma } from '@/lib/db';
+import QRCode from 'qrcode';
+import speakeasy from 'speakeasy';
 
 export type MFAMethod = 'totp' | 'sms' | 'email';
 
@@ -18,11 +18,14 @@ export interface MFASecret {
 /**
  * 生成TOTP密钥
  */
-export function generateSecret(name: string, issuer: string = 'MkSaaS Admin'): MFASecret {
+export function generateSecret(
+  name: string,
+  issuer = 'MkSaaS Admin'
+): MFASecret {
   const secret = speakeasy.generateSecret({
     name,
     issuer,
-    length: 32
+    length: 32,
   });
 
   return {
@@ -58,7 +61,7 @@ export function verifyTOTP(token: string, secret: string): boolean {
       secret,
       encoding: 'base32',
       token,
-      window: 2 // 允许前后各2个时间窗口的误差
+      window: 2, // 允许前后各2个时间窗口的误差
     });
   } catch (error) {
     console.error('验证TOTP失败:', error);
@@ -69,7 +72,7 @@ export function verifyTOTP(token: string, secret: string): boolean {
 /**
  * 生成备份码
  */
-export function generateBackupCodes(count: number = 10): string[] {
+export function generateBackupCodes(count = 10): string[] {
   const codes: string[] = [];
   for (let i = 0; i < count; i++) {
     const code = Math.random().toString(36).substring(2, 10).toUpperCase();
@@ -88,8 +91,8 @@ export async function enableMFA(
 ) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    include: { mfa: true }
-  });
+    include: { mfa: true },
+  } as any);
 
   if (!user) {
     throw new Error('用户不存在');
@@ -113,28 +116,29 @@ export async function enableMFA(
     lastUsed: null,
   };
 
-  if (user.mfa) {
-    await prisma.mfa.update({
+  if ((user as any).mfa) {
+    await (prisma as any).mfa.update({
       where: { userId },
-      data: mfaData
+      data: mfaData,
     });
   } else {
-    await prisma.mfa.create({
+    await (prisma as any).mfa.create({
       data: {
         ...mfaData,
-        userId
-      }
+        userId,
+      },
     });
   }
 
   return {
     secret,
     backupCodes,
-    qrCode: method === 'totp' && secret
-      ? await generateQRCode(
-          `otpauth://totp/MkSaaS:${user.email}?secret=${secret}&issuer=MkSaaS`
-        )
-      : null
+    qrCode:
+      method === 'totp' && secret
+        ? await generateQRCode(
+            `otpauth://totp/MkSaaS:${user.email}?secret=${secret}&issuer=MkSaaS`
+          )
+        : null,
   };
 }
 
@@ -142,13 +146,13 @@ export async function enableMFA(
  * 禁用用户MFA
  */
 export async function disableMFA(userId: string) {
-  await prisma.mfa.update({
+  await (prisma as any).mfa.update({
     where: { userId },
     data: {
       enabled: false,
       secret: null,
       backupCodes: null,
-    }
+    },
   });
 }
 
@@ -159,8 +163,8 @@ export async function verifyMFA(
   userId: string,
   code: string
 ): Promise<boolean> {
-  const mfa = await prisma.mfa.findUnique({
-    where: { userId, enabled: true }
+  const mfa = await (prisma as any).mfa.findUnique({
+    where: { userId, enabled: true },
   });
 
   if (!mfa) {
@@ -171,16 +175,16 @@ export async function verifyMFA(
   if (mfa.backupCodes) {
     const backupCodes = mfa.backupCodes.split(',');
     const codeIndex = backupCodes.indexOf(code);
-    
+
     if (codeIndex !== -1) {
       // 使用备份码
       backupCodes.splice(codeIndex, 1);
-      await prisma.mfa.update({
+      await (prisma as any).mfa.update({
         where: { userId },
         data: {
           backupCodes: backupCodes.join(','),
-          lastUsed: new Date()
-        }
+          lastUsed: new Date(),
+        },
       });
       return true;
     }
@@ -188,7 +192,7 @@ export async function verifyMFA(
 
   // 根据方法验证
   let isValid = false;
-  
+
   switch (mfa.method) {
     case 'totp':
       isValid = verifyTOTP(code, mfa.secret || '');
@@ -207,7 +211,7 @@ export async function verifyMFA(
     // 更新最后使用时间
     await prisma.mfa.update({
       where: { userId },
-      data: { lastUsed: new Date() }
+      data: { lastUsed: new Date() },
     });
   }
 
@@ -219,7 +223,7 @@ export async function verifyMFA(
  */
 export async function sendSMSCode(userId: string): Promise<void> {
   const user = await prisma.user.findUnique({
-    where: { id: userId }
+    where: { id: userId },
   });
 
   if (!user || !user.phone) {
@@ -227,15 +231,15 @@ export async function sendSMSCode(userId: string): Promise<void> {
   }
 
   const code = Math.floor(100000 + Math.random() * 900000).toString();
-  
+
   // 保存验证码到缓存或数据库
-  await prisma.verificationCode.create({
+  await (prisma as any).verificationCode.create({
     data: {
       userId,
       code,
       type: 'sms_mfa',
-      expiresAt: new Date(Date.now() + 5 * 60 * 1000) // 5分钟过期
-    }
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5分钟过期
+    },
   });
 
   // TODO: 调用SMS服务发送验证码
@@ -246,20 +250,20 @@ export async function sendSMSCode(userId: string): Promise<void> {
  * 验证SMS验证码
  */
 async function verifySMSCode(userId: string, code: string): Promise<boolean> {
-  const verificationCode = await prisma.verificationCode.findFirst({
+  const verificationCode = await (prisma as any).verificationCode.findFirst({
     where: {
       userId,
       code,
       type: 'sms_mfa',
       expiresAt: { gt: new Date() },
-      used: false
-    }
+      used: false,
+    },
   });
 
   if (verificationCode) {
-    await prisma.verificationCode.update({
+    await (prisma as any).verificationCode.update({
       where: { id: verificationCode.id },
-      data: { used: true }
+      data: { used: true },
     });
     return true;
   }
@@ -272,7 +276,7 @@ async function verifySMSCode(userId: string, code: string): Promise<boolean> {
  */
 export async function sendEmailCode(userId: string): Promise<void> {
   const user = await prisma.user.findUnique({
-    where: { id: userId }
+    where: { id: userId },
   });
 
   if (!user || !user.email) {
@@ -280,15 +284,15 @@ export async function sendEmailCode(userId: string): Promise<void> {
   }
 
   const code = Math.floor(100000 + Math.random() * 900000).toString();
-  
+
   // 保存验证码到缓存或数据库
   await prisma.verificationCode.create({
     data: {
       userId,
       code,
       type: 'email_mfa',
-      expiresAt: new Date(Date.now() + 5 * 60 * 1000) // 5分钟过期
-    }
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5分钟过期
+    },
   });
 
   // TODO: 调用邮件服务发送验证码
@@ -305,14 +309,14 @@ async function verifyEmailCode(userId: string, code: string): Promise<boolean> {
       code,
       type: 'email_mfa',
       expiresAt: { gt: new Date() },
-      used: false
-    }
+      used: false,
+    },
   });
 
   if (verificationCode) {
     await prisma.verificationCode.update({
       where: { id: verificationCode.id },
-      data: { used: true }
+      data: { used: true },
     });
     return true;
   }

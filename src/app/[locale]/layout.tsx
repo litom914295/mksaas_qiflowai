@@ -1,9 +1,8 @@
+import { AnalysisProvider } from '@/contexts/analysis-context';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import '@/styles/globals.css';
-import { AnalysisContextProvider } from '@/contexts/analysis-context';
+import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,18 +21,25 @@ export default async function LocaleLayout({
   params,
 }: LocaleLayoutProps) {
   const { locale } = await params;
-  
-  // Providing all messages to the client
-  // side is the easiest way to get started
+
+  // 获取国际化消息（仅在开发环境记录性能）
+  const startTime = process.env.NODE_ENV === 'development' ? performance.now() : 0;
   const messages = await getMessages();
+  
+  if (process.env.NODE_ENV === 'development' && startTime > 0) {
+    const duration = performance.now() - startTime;
+    console.log(`[i18n] getMessages took ${duration.toFixed(2)}ms`);
+  }
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
-        <NextIntlClientProvider messages={messages}>
-          <AnalysisContextProvider>{children}</AnalysisContextProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <div
+      className={inter.className}
+      data-locale={locale}
+      suppressHydrationWarning
+    >
+      <NextIntlClientProvider messages={messages}>
+        <AnalysisProvider>{children}</AnalysisProvider>
+      </NextIntlClientProvider>
+    </div>
   );
 }

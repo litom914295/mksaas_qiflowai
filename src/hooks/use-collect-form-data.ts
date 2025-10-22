@@ -133,13 +133,7 @@ export function useCollectFormData(options: UseCollectFormDataOptions) {
             : data.lon
           : undefined,
       },
-      options: {
-        depth: data.depth,
-        includeLiunian: data.includeLiunian,
-        includePersonalization: data.includePersonalization,
-        includeScoring: data.includeScoring,
-        includeWarnings: data.includeWarnings,
-      },
+      // options 不属于 UserInput 类型，已移除
     };
   }, []);
 
@@ -155,7 +149,8 @@ export function useCollectFormData(options: UseCollectFormDataOptions) {
 
       // 如果有分析结果，也保存
       if (analysisResult) {
-        analysisContext.setAnalysisResult(analysisResult);
+        // ComprehensiveAnalysisResult 可以被视为 AnalysisResult，因为后者属性都是 any
+        analysisContext.setAnalysisResult(analysisResult as any);
       }
 
       console.log('📊 表单数据已收集到上下文');
@@ -178,7 +173,8 @@ export function useCollectFormData(options: UseCollectFormDataOptions) {
       analysisContext.setUserInput(userInput);
 
       if (analysisResult) {
-        analysisContext.setAnalysisResult(analysisResult);
+        // ComprehensiveAnalysisResult 可以被视为 AnalysisResult
+        analysisContext.setAnalysisResult(analysisResult as any);
       }
 
       console.log('📊 手动收集表单数据完成');

@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const session = await auth.api.getSession({
       headers: req.headers,
     });
-    
+
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Unauthorized. Please login first.' },

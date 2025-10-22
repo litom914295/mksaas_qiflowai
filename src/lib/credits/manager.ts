@@ -53,19 +53,58 @@ export class CreditsManager {
     return CreditsManager.PRICES[feature];
   }
 
+  // 检查用户是否为管理员
+  async isAdmin(userId: string): Promise<boolean> {
+    try {
+      const db = await getDb();
+      const users = await db
+        .select({ role: user.role })
+        .from(user)
+        .where(eq(user.id, userId))
+        .limit(1);
+
+      return users[0]?.role === 'admin';
+    } catch (error) {
+      console.error('[积分管理] 检查管理员角色失败:', error);
+      return false;
+    }
+  }
+
   // 获取用户当前积分余额
   async getBalance(userId: string): Promise<number> {
     try {
+      console.log(`[积分管理] 获取用户积分余额, userId: ${userId}`);
+
+      if (!userId) {
+        console.error('[积分管理] userId 为空');
+        return 0;
+      }
+
+      // 管理员返回无限积分
+      if (await this.isAdmin(userId)) {
+        console.log(`[积分管理] 管理员用户，返回无限积分`);
+        return Number.MAX_SAFE_INTEGER;
+      }
+
       const db = await getDb();
+      console.log('[积分管理] 数据库连接成功');
+
       const userCredits = await db
         .select({ credits: userCredit.currentCredits })
         .from(userCredit)
         .where(eq(userCredit.userId, userId))
         .limit(1);
 
-      return userCredits[0]?.credits ?? 0;
+      const balance = userCredits[0]?.credits ?? 0;
+      console.log(`[积分管理] 用户积分余额: ${balance}`);
+
+      return balance;
     } catch (error) {
-      console.error('Failed to get user balance:', error);
+      console.error('[积分管理] 获取积分失败:', error);
+      if (error instanceof Error) {
+        console.error('[积分管理] 错误详情:', error.message);
+        console.error('[积分管理] 错误堆栈:', error.stack);
+      }
       return 0;
     }
   }
@@ -73,6 +112,12 @@ export class CreditsManager {
   // 扣除用户积分
   async deduct(userId: string, amount: number): Promise<boolean> {
     try {
+      // 管理员不扣除积分
+      if (await this.isAdmin(userId)) {
+        console.log(`[积分管理] 管理员用户，跳过积分扣除`);
+        return true;
+      }
+
       const currentBalance = await this.getBalance(userId);
       if (currentBalance < amount) {
         return false;

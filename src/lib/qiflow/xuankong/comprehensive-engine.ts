@@ -1,4 +1,10 @@
 import { analyzeChengmenjue } from './chengmenjue';
+import { convertPlateToEnhanced as plateToEnhancedXuankongPlate } from './converters';
+import {
+  type AlertLevel,
+  type DiagnosticReport,
+  performDiagnostics,
+} from './diagnostic-system';
 import { calculateLiunianOverlay, calculateStarPower } from './enhanced-aixing';
 import { intelligentTiguaJudgment } from './enhanced-tigua';
 import { analyzeGeju } from './geju';
@@ -15,6 +21,11 @@ import {
   calculatePersonalGua,
   personalizedFlyingStarAnalysis,
 } from './personalized-analysis';
+import {
+  type ComprehensiveRemedyPlan,
+  type RemedyLevel,
+  generateComprehensiveRemedyPlans,
+} from './remedy-generator';
 import {
   generateSmartRecommendations,
   getTodayRecommendations,
@@ -56,6 +67,12 @@ export interface ComprehensiveAnalysisOptions {
   includeLingzheng?: boolean; // 包含零正理论
   includeChengmenjue?: boolean; // 包含城门诀
   includeTimeSelection?: boolean; // 包含择吉时间
+
+  // P1 新增分析选项
+  includeDiagnostics?: boolean; // 包含智能诊断预警
+  includeRemedyPlans?: boolean; // 包含分级化解方案
+  remedyLevel?: RemedyLevel; // 化解方案级别（basic/standard/advanced/master/ultimate）
+  maxRemedyBudget?: number; // 化解方案最大预算
 
   // 环境信息（用于零正理论）
   environmentInfo?: {
@@ -132,6 +149,12 @@ export interface ComprehensiveAnalysisResult {
     avoidPeriods: any[];
     generalGuidelines: string[];
   };
+
+  // P1 新增：诊断预警
+  diagnosticReport?: DiagnosticReport;
+
+  // P1 新增：分级化解方案
+  remedyPlans?: ComprehensiveRemedyPlan;
 
   // 综合评分和总结
   overallAssessment: {
@@ -309,7 +332,54 @@ export async function comprehensiveAnalysis(
     );
   }
 
-  // 10. 综合评估
+  // 10. P1新增：智能诊断预警（如果启用）
+  let diagnosticReport;
+  if (options.includeDiagnostics) {
+    const enhancedXuankongPlate = plateToEnhancedXuankongPlate(
+      basePlate,
+      period,
+      { zuo, xiang, geju } as any
+    );
+
+    diagnosticReport = performDiagnostics(enhancedXuankongPlate, {
+      includeMinorIssues: true,
+      focusAreas: [
+        options.userProfile?.healthConcerns ? 'health' : undefined,
+        options.userProfile?.financialGoals ? 'wealth' : undefined,
+        options.userProfile?.careerGoals ? 'career' : undefined,
+        options.userProfile?.familyStatus !== 'single'
+          ? 'relationship'
+          : undefined,
+      ].filter((a): a is any => a !== undefined),
+    });
+  }
+
+  // 11. P1新增：分级化解方案（如果启用）
+  let remedyPlans;
+  if (options.includeRemedyPlans && diagnosticReport) {
+    remedyPlans = generateComprehensiveRemedyPlans(
+      plateToEnhancedXuankongPlate(basePlate, period, {
+        zuo,
+        xiang,
+        geju,
+      } as any),
+      diagnosticReport,
+      {
+        maxBudget: options.maxRemedyBudget,
+        preferredLevel: options.remedyLevel || 'standard',
+        focusAreas: [
+          options.userProfile?.healthConcerns ? 'health' : undefined,
+          options.userProfile?.financialGoals ? 'wealth' : undefined,
+          options.userProfile?.careerGoals ? 'career' : undefined,
+          options.userProfile?.familyStatus !== 'single'
+            ? 'relationship'
+            : undefined,
+        ].filter((a): a is any => a !== undefined),
+      }
+    );
+  }
+
+  // 12. 综合评估（整合所有分析结果）
   const overallAssessment = generateOverallAssessment({
     basicAnalysis,
     enhancedPlate,
@@ -321,6 +391,8 @@ export async function comprehensiveAnalysis(
     chengmenjueAnalysis,
     timeSelection,
     geju,
+    diagnosticReport,
+    remedyPlans,
   });
 
   const computationTime = Date.now() - startTime;
@@ -350,10 +422,12 @@ export async function comprehensiveAnalysis(
     lingzhengAnalysis,
     chengmenjueAnalysis,
     timeSelection,
+    diagnosticReport,
+    remedyPlans,
     overallAssessment,
     metadata: {
       analyzedAt: new Date(),
-      version: '1.0.0',
+      version: '6.0.0', // 升级到 v6.0
       analysisDepth,
       computationTime,
     },
@@ -513,6 +587,57 @@ function generateOverallAssessment(data: any): any {
     score += 5;
     strengths.push('具备城门诀催旺条件');
     longTermPlan.push('利用城门诀催旺财丁运');
+  }
+
+  // P1新增：分析诊断预警
+  if (data.diagnosticReport) {
+    const report = data.diagnosticReport;
+
+    // 整合诊断分数
+    const diagnosticScore = report.overall.score;
+    score = (score + diagnosticScore) / 2; // 取平均
+
+    // 整合危险级预警
+    if (report.statistics.criticalCount > 0) {
+      score -= report.statistics.criticalCount * 5;
+      weaknesses.push(`发现${report.statistics.criticalCount}个危险级风水问题`);
+      topPriorities.push(...report.priorityActions.now.slice(0, 3));
+    }
+
+    // 整合警告级预警
+    if (report.statistics.warningCount > 0) {
+      weaknesses.push(`存在${report.statistics.warningCount}个警告级问题`);
+      topPriorities.push(...report.priorityActions.thisWeek.slice(0, 2));
+    }
+
+    // 整合优势
+    if (report.alerts.excellent.length > 0) {
+      strengths.push(`有${report.alerts.excellent.length}个优秀方位可利用`);
+    }
+    if (report.alerts.good.length > 0) {
+      strengths.push(`有${report.alerts.good.length}个良好方位`);
+    }
+
+    // 整合长期规划
+    longTermPlan.push(...report.priorityActions.longTerm.slice(0, 2));
+  }
+
+  // P1新增：分析化解方案
+  if (data.remedyPlans) {
+    const plans = data.remedyPlans;
+
+    if (plans.overall.priority === 'immediate') {
+      topPriorities.unshift('立即启动紧急化解方案');
+    }
+
+    // 添加预算建议
+    const budget = plans.overall.totalBudget;
+    longTermPlan.push(
+      `建议化解预算：${budget.min}-${budget.max}元（可分阶段实施）`
+    );
+
+    // 添加专家建议
+    longTermPlan.push(...plans.expertAdvice.slice(0, 2));
   }
 
   // 确定评级

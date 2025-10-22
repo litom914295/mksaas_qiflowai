@@ -161,8 +161,10 @@ export const useChatSession = ({
           confidence = data.data.confidence;
           redirectTo = data.data.redirectTo;
         } else if (data?.success && data?.data?.reply) {
-          if (typeof data.data.reply === 'string') replyContent = data.data.reply;
-          else if (data.data.reply?.content) replyContent = data.data.reply.content;
+          if (typeof data.data.reply === 'string')
+            replyContent = data.data.reply;
+          else if (data.data.reply?.content)
+            replyContent = data.data.reply.content;
           confidence = data.data.confidence;
           redirectTo = data.data.redirectTo;
         } else if (typeof data?.response === 'string') {

@@ -31,11 +31,12 @@ export const getStorageProvider = (): StorageProvider => {
  */
 export const initializeStorageProvider = (): StorageProvider => {
   if (!storageProvider) {
-    if (websiteConfig.storage.provider === 's3') {
+    const config = websiteConfig as any;
+    if (config?.storage?.provider === 's3') {
       storageProvider = new S3Provider();
     } else {
       throw new Error(
-        `Unsupported storage provider: ${websiteConfig.storage.provider}`
+        `Unsupported storage provider: ${config?.storage?.provider ?? 'unknown'}`
       );
     }
   }

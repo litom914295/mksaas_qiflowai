@@ -38,7 +38,7 @@ export function getPricePlans(): Record<string, PricePlan> {
         t('free.limits.limit-2'),
         t('free.limits.limit-3'),
       ],
-    };
+    } as PricePlan;
   }
 
   if (priceConfig.plans.pro) {
@@ -54,7 +54,7 @@ export function getPricePlans(): Record<string, PricePlan> {
         t('pro.features.feature-5'),
       ],
       limits: [t('pro.limits.limit-1'), t('pro.limits.limit-2')],
-    };
+    } as PricePlan;
   }
 
   if (priceConfig.plans.lifetime) {
@@ -72,7 +72,7 @@ export function getPricePlans(): Record<string, PricePlan> {
         t('lifetime.features.feature-7'),
       ],
       limits: [],
-    };
+    } as PricePlan;
   }
 
   return plans;

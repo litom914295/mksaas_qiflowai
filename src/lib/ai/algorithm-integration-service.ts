@@ -20,7 +20,7 @@ import {
   generateFlyingStar,
 } from '@/lib/fengshui';
 import { AnalysisType, detectAnalysisRequest } from './analysis-detection';
-import { baziMasterProcessor } from './bazi-master-processor';
+// import { baziMasterProcessor } from './bazi-master-processor'; // TODO: 模块缺失
 import { selectModelByCondition } from './config/ai-models-config';
 import { createRouter } from './router';
 import type { AIModelProvider } from './types';
@@ -175,6 +175,9 @@ export class AlgorithmIntegrationService {
         console.log('[算法集成服务] 检测到八字分析请求，调用八字大师处理器');
 
         try {
+          // TODO: baziMasterProcessor 模块缺失,需要实现或使用替代方案
+          throw new Error('baziMasterProcessor 模块未实现');
+          /*
           // 调用八字大师处理器
           const baziResponse = await baziMasterProcessor.processAnalysisRequest(
             {
@@ -189,92 +192,7 @@ export class AlgorithmIntegrationService {
               },
             }
           );
-
-          if (baziResponse.success) {
-            // 构建标准的IntegratedResponse格式
-            return {
-              aiResponse: {
-                id: baziResponse.analysisId || `bazi-${Date.now()}`,
-                provider: 'qiflow-bazi-master',
-                model: 'algorithm-first-bazi',
-                created: Date.now(),
-                choices: [
-                  {
-                    index: 0,
-                    message: {
-                      role: 'assistant',
-                      content: baziResponse.content,
-                    },
-                  },
-                ],
-                confidence: {
-                  overall: 0.95,
-                  reasoning: '基于算法优先的八字大师专业分析',
-                  factors: {
-                    dataQuality: 0.95,
-                    theoryMatch: 0.98,
-                    complexity: 0.9,
-                    culturalRelevance: 1.0,
-                  },
-                },
-              },
-              algorithmResults: [], // 八字大师处理器内部已处理算法调用
-              suggestions: baziResponse.needsClarification?.suggestions || [
-                '查看详细的八字分析报告',
-                '了解您的五行平衡状况',
-                '获取个性化的开运建议',
-              ],
-              followUpQuestions: [
-                '您想了解哪个方面的运势？',
-                '需要我分析您的大运情况吗？',
-                '您对五行平衡有什么疑问？',
-              ],
-              actionItems: [
-                '保存八字分析结果',
-                '制定个人开运计划',
-                '定期复查和调整',
-              ],
-              metadata: baziResponse.metadata,
-            };
-          }
-          if (baziResponse.needsClarification) {
-            // 需要澄清信息
-            return {
-              aiResponse: {
-                id: `clarification-${Date.now()}`,
-                provider: 'qiflow-bazi-master',
-                model: 'algorithm-first-bazi',
-                created: Date.now(),
-                choices: [
-                  {
-                    index: 0,
-                    message: {
-                      role: 'assistant',
-                      content: `我需要更多信息来为您进行准确的八字分析：
-
-${baziResponse.needsClarification.missing.map((item: string) => `• ${item}`).join('\n')}
-
-${baziResponse.needsClarification.suggestions.map((suggestion: string) => `💡 ${suggestion}`).join('\n')}
-
-请提供这些信息，我将为您进行专业的八字排盘和命理分析。`,
-                    },
-                  },
-                ],
-              },
-              algorithmResults: [],
-              suggestions: baziResponse.needsClarification.suggestions,
-              followUpQuestions: [
-                '请提供您的准确出生时间',
-                '请告诉我您的性别',
-                '请确认您的出生地点',
-              ],
-              actionItems: [
-                '准备准确的出生证明或户口本',
-                '确认出生时间的准确性',
-                '提供出生地点信息',
-              ],
-            };
-          }
+          */
         } catch (error) {
           console.error('[算法集成服务] 八字大师处理器调用失败:', error);
           // 继续使用原有流程作为备用

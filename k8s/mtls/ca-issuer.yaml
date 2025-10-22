@@ -1,0 +1,31 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: mtls-client-issuer
+  namespace: mksaas
+spec:
+  ca:
+    secretName: mtls-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: internal-client-cert
+  namespace: mksaas
+spec:
+  secretName: internal-client-cert
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - mksaas-internal
+  commonName: internal-client
+  usages:
+    - client auth
+  privateKey:
+    rotationPolicy: Always
+    algorithm: RSA
+    size: 2048
+  issuerRef:
+    name: mtls-client-issuer
+    kind: Issuer

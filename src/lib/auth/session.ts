@@ -1,7 +1,7 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from './auth.config';
 import { prisma } from '@/lib/db';
+import { getServerSession } from 'next-auth';
 import type { Session } from 'next-auth';
+import { authOptions } from './auth.config';
 
 export interface ExtendedSession extends Session {
   user: {
@@ -9,7 +9,7 @@ export interface ExtendedSession extends Session {
     email: string;
     name?: string | null;
     image?: string | null;
-    role: string;
+    role: 'user' | 'admin' | undefined;
     permissions: string[];
   };
 }
@@ -46,10 +46,10 @@ export async function hasPermission(permission: string): Promise<boolean> {
   if (!session) return false;
 
   const { role, permissions } = session.user;
-  
-  // 超级管理员拥有所有权限
-  if (role === 'superadmin') return true;
-  
+
+  // 管理员拥有所有权限（superadmin 已被映射为 admin）
+  if (role === 'admin') return true;
+
   // 检查具体权限
   return permissions.includes(permission) || permissions.includes('*');
 }
@@ -57,7 +57,9 @@ export async function hasPermission(permission: string): Promise<boolean> {
 /**
  * 检查用户是否有多个权限之一
  */
-export async function hasAnyPermission(permissions: string[]): Promise<boolean> {
+export async function hasAnyPermission(
+  permissions: string[]
+): Promise<boolean> {
   for (const permission of permissions) {
     if (await hasPermission(permission)) {
       return true;
@@ -69,7 +71,9 @@ export async function hasAnyPermission(permissions: string[]): Promise<boolean> 
 /**
  * 检查用户是否有所有指定权限
  */
-export async function hasAllPermissions(permissions: string[]): Promise<boolean> {
+export async function hasAllPermissions(
+  permissions: string[]
+): Promise<boolean> {
   for (const permission of permissions) {
     if (!(await hasPermission(permission))) {
       return false;
@@ -84,7 +88,7 @@ export async function hasAllPermissions(permissions: string[]): Promise<boolean>
 export async function hasRole(role: string): Promise<boolean> {
   const session = await getCurrentSession();
   if (!session) return false;
-  
+
   return session.user.role === role;
 }
 
@@ -94,18 +98,18 @@ export async function hasRole(role: string): Promise<boolean> {
 export async function hasAnyRole(roles: string[]): Promise<boolean> {
   const session = await getCurrentSession();
   if (!session) return false;
-  
-  return roles.includes(session.user.role);
+
+  return session.user.role ? roles.includes(session.user.role) : false;
 }
 
 /**
  * 获取用户的活动会话
  */
 export async function getUserSessions(userId: string) {
-  const sessions = await prisma.session.findMany({
-    where: { 
+  const sessions = await (prisma as any).session.findMany({
+    where: {
       userId,
-      expires: { gt: new Date() }
+      expires: { gt: new Date() },
     },
     orderBy: { createdAt: 'desc' },
     select: {
@@ -116,10 +120,10 @@ export async function getUserSessions(userId: string) {
       ipAddress: true,
       userAgent: true,
       device: true,
-    }
+    },
   });
 
-  return sessions.map(session => ({
+  return sessions.map((session: any) => ({
     id: session.id,
     token: session.sessionToken.substring(0, 8) + '...',
     expires: session.expires,
@@ -139,11 +143,9 @@ export async function revokeSession(
   userId?: string
 ): Promise<boolean> {
   try {
-    const where = userId
-      ? { id: sessionId, userId }
-      : { id: sessionId };
+    const where = userId ? { id: sessionId, userId } : { id: sessionId };
 
-    await prisma.session.delete({ where });
+    await (prisma as any).session.delete({ where });
     return true;
   } catch (error) {
     console.error('撤销会话失败:', error);
@@ -162,7 +164,7 @@ export async function revokeAllUserSessions(
     ? { userId, id: { not: exceptSessionId } }
     : { userId };
 
-  const result = await prisma.session.deleteMany({ where });
+  const result = await (prisma as any).session.deleteMany({ where });
   return result.count;
 }
 
@@ -170,10 +172,10 @@ export async function revokeAllUserSessions(
  * 清理过期会话
  */
 export async function cleanupExpiredSessions(): Promise<number> {
-  const result = await prisma.session.deleteMany({
+  const result = await (prisma as any).session.deleteMany({
     where: {
-      expires: { lt: new Date() }
-    }
+      expires: { lt: new Date() },
+    },
   });
   return result.count;
 }
@@ -189,13 +191,13 @@ export async function recordSessionActivity(
     metadata?: any;
   }
 ): Promise<void> {
-  const session = await prisma.session.findUnique({
-    where: { sessionToken }
+  const session = await (prisma as any).session.findUnique({
+    where: { sessionToken },
   });
 
   if (!session) return;
 
-  await prisma.activityLog.create({
+  await (prisma as any).activityLog.create({
     data: {
       userId: session.userId,
       sessionId: session.id,
@@ -203,7 +205,7 @@ export async function recordSessionActivity(
       resource: activity.resource,
       metadata: activity.metadata,
       timestamp: new Date(),
-    }
+    },
   });
 }
 
@@ -214,12 +216,12 @@ export async function getSessionStats(userId?: string) {
   const where = userId ? { userId } : {};
 
   const [total, active, expired] = await Promise.all([
-    prisma.session.count({ where }),
-    prisma.session.count({
-      where: { ...where, expires: { gt: new Date() } }
+    (prisma as any).session.count({ where }),
+    (prisma as any).session.count({
+      where: { ...where, expires: { gt: new Date() } },
     }),
-    prisma.session.count({
-      where: { ...where, expires: { lte: new Date() } }
+    (prisma as any).session.count({
+      where: { ...where, expires: { lte: new Date() } },
     }),
   ]);
 
@@ -235,15 +237,15 @@ export async function getSessionStats(userId?: string) {
  */
 export async function extendSession(
   sessionToken: string,
-  days: number = 30
+  days = 30
 ): Promise<boolean> {
   try {
     const newExpires = new Date();
     newExpires.setDate(newExpires.getDate() + days);
 
-    await prisma.session.update({
+    await (prisma as any).session.update({
       where: { sessionToken },
-      data: { expires: newExpires }
+      data: { expires: newExpires },
     });
 
     return true;
@@ -258,24 +260,26 @@ export async function extendSession(
  */
 export async function requireAuth(): Promise<ExtendedSession> {
   const session = await getCurrentSession();
-  
+
   if (!session) {
     throw new Error('未授权：请先登录');
   }
-  
+
   return session;
 }
 
 /**
  * 验证会话权限（需要特定权限）
  */
-export async function requirePermission(permission: string): Promise<ExtendedSession> {
+export async function requirePermission(
+  permission: string
+): Promise<ExtendedSession> {
   const session = await requireAuth();
-  
+
   if (!(await hasPermission(permission))) {
     throw new Error(`未授权：缺少权限 ${permission}`);
   }
-  
+
   return session;
 }
 
@@ -284,10 +288,10 @@ export async function requirePermission(permission: string): Promise<ExtendedSes
  */
 export async function requireRole(role: string): Promise<ExtendedSession> {
   const session = await requireAuth();
-  
-  if (!await hasRole(role)) {
+
+  if (!(await hasRole(role))) {
     throw new Error(`未授权：需要角色 ${role}`);
   }
-  
+
   return session;
 }

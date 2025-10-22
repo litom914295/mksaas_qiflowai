@@ -1,103 +1,108 @@
-import { getDb } from '@/db'
-import { user, creditTransaction, referralRelationships, shareRecords } from '@/db/schema'
-import { count, desc, eq, gte, sql } from 'drizzle-orm'
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle 
-} from '@/components/ui/card'
-import { 
-  Users, 
-  FileText, 
-  TrendingUp, 
-  DollarSign,
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { getDb } from '@/db';
+import {
+  creditTransaction,
+  referralRelationships,
+  shareRecords,
+  user,
+} from '@/db/schema';
+import { count, desc, eq, gte, sql } from 'drizzle-orm';
+import {
   Activity,
+  DollarSign,
+  FileText,
   Share2,
+  Shield,
   Target,
-  Shield
-} from 'lucide-react'
+  TrendingUp,
+  Users,
+} from 'lucide-react';
 
 // 获取统计数据
 async function getDashboardStats() {
-  const db = await getDb()
-  const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-  
+  const db = await getDb();
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
   // 用户统计
-  const totalUsers = await db
-    .select({ count: count() })
-    .from(user)
-    
+  const totalUsers = await db.select({ count: count() }).from(user);
+
   const todayUsers = await db
     .select({ count: count() })
     .from(user)
-    .where(gte(user.createdAt, today))
-    
+    .where(gte(user.createdAt, today));
+
   const monthlyUsers = await db
     .select({ count: count() })
     .from(user)
-    .where(gte(user.createdAt, thisMonth))
-    
+    .where(gte(user.createdAt, thisMonth));
+
   // 积分交易统计
   const todayTransactions = await db
-    .select({ 
+    .select({
       count: count(),
-      total: sql<number>`COALESCE(SUM(amount), 0)`
+      total: sql<number>`COALESCE(SUM(amount), 0)`,
     })
     .from(creditTransaction)
-    .where(gte(creditTransaction.createdAt, today))
-    
+    .where(gte(creditTransaction.createdAt, today));
+
   // 推荐统计
   const totalReferrals = await db
     .select({ count: count() })
-    .from(referralRelationships)
-    
+    .from(referralRelationships);
+
   const activatedReferrals = await db
     .select({ count: count() })
     .from(referralRelationships)
-    .where(eq(referralRelationships.rewardGranted, true))
-    
+    .where(eq(referralRelationships.rewardGranted, true));
+
   // 分享统计
   const todayShares = await db
-    .select({ 
+    .select({
       count: count(),
-      conversions: sql<number>`COALESCE(SUM(CASE WHEN reward_granted THEN 1 ELSE 0 END), 0)`
+      conversions: sql<number>`COALESCE(SUM(CASE WHEN reward_granted THEN 1 ELSE 0 END), 0)`,
     })
     .from(shareRecords)
-    .where(gte(shareRecords.createdAt, today))
-    
+    .where(gte(shareRecords.createdAt, today));
+
   return {
     users: {
       total: totalUsers[0].count,
       today: todayUsers[0].count,
-      monthly: monthlyUsers[0].count
+      monthly: monthlyUsers[0].count,
     },
     transactions: {
       today: todayTransactions[0].count,
-      amount: Number(todayTransactions[0].total)
+      amount: Number(todayTransactions[0].total),
     },
     referrals: {
       total: totalReferrals[0].count,
-      activated: activatedReferrals[0].count
+      activated: activatedReferrals[0].count,
     },
     shares: {
       today: todayShares[0].count,
-      conversions: Number(todayShares[0].conversions)
-    }
-  }
+      conversions: Number(todayShares[0].conversions),
+    },
+  };
 }
 
 export default async function AdminDashboard() {
-  const stats = await getDashboardStats()
-  const activationRate = stats.referrals.total > 0 
-    ? ((stats.referrals.activated / stats.referrals.total) * 100).toFixed(1)
-    : '0'
-  const shareConversionRate = stats.shares.today > 0
-    ? ((stats.shares.conversions / stats.shares.today) * 100).toFixed(1)
-    : '0'
+  const stats = await getDashboardStats();
+  const activationRate =
+    stats.referrals.total > 0
+      ? ((stats.referrals.activated / stats.referrals.total) * 100).toFixed(1)
+      : '0';
+  const shareConversionRate =
+    stats.shares.today > 0
+      ? ((stats.shares.conversions / stats.shares.today) * 100).toFixed(1)
+      : '0';
 
   return (
     <div className="space-y-6">
@@ -233,24 +238,39 @@ export default async function AdminDashboard() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            <a href="/zh-CN/admin/metrics" className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+            <a
+              href="/zh-CN/admin/metrics"
+              className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            >
               查看增长KPI
             </a>
-            <a href="/zh-CN/admin/users" className="inline-flex items-center rounded-md bg-secondary px-3 py-2 text-sm font-medium hover:bg-secondary/80">
+            <a
+              href="/zh-CN/admin/users"
+              className="inline-flex items-center rounded-md bg-secondary px-3 py-2 text-sm font-medium hover:bg-secondary/80"
+            >
               用户列表
             </a>
-            <a href="/zh-CN/admin/operations/referrals" className="inline-flex items-center rounded-md bg-secondary px-3 py-2 text-sm font-medium hover:bg-secondary/80">
+            <a
+              href="/zh-CN/admin/operations/referrals"
+              className="inline-flex items-center rounded-md bg-secondary px-3 py-2 text-sm font-medium hover:bg-secondary/80"
+            >
               推荐管理
             </a>
-            <a href="/zh-CN/admin/operations/credits" className="inline-flex items-center rounded-md bg-secondary px-3 py-2 text-sm font-medium hover:bg-secondary/80">
+            <a
+              href="/zh-CN/admin/operations/credits"
+              className="inline-flex items-center rounded-md bg-secondary px-3 py-2 text-sm font-medium hover:bg-secondary/80"
+            >
               积分管理
             </a>
-            <a href="/zh-CN/admin/operations/fraud" className="inline-flex items-center rounded-md bg-secondary px-3 py-2 text-sm font-medium hover:bg-secondary/80">
+            <a
+              href="/zh-CN/admin/operations/fraud"
+              className="inline-flex items-center rounded-md bg-secondary px-3 py-2 text-sm font-medium hover:bg-secondary/80"
+            >
               风控管理
             </a>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

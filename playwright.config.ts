@@ -16,7 +16,7 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
 
   use: {
-    baseURL: process.env.E2E_BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.E2E_BASE_URL || 'http://localhost:3010',
     headless: true,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
@@ -27,16 +27,18 @@ export default defineConfig({
     actionTimeout: 10_000, // 10秒操作超时
   },
 
-  webServer: {
-    command: process.env.E2E_DEV
-      ? 'npm run dev'
-      : 'npm run build && npm run start',
-    url: 'http://localhost:3000',
-    timeout: 180_000, // 增加到180秒，给构建更多时间
-    reuseExistingServer: !process.env.CI,
-    stderr: 'pipe', // 捕获错误输出
-    stdout: 'pipe', // 捕获标准输出
-  },
+  webServer: process.env.E2E_SKIP_SERVER
+    ? undefined
+    : {
+        command: process.env.E2E_DEV
+          ? 'npm run dev -- -p 3010'
+          : 'npm run build && npm run start -- -p 3010',
+        url: process.env.E2E_HEALTH_URL || 'http://localhost:3010/api/health',
+        timeout: 300_000, // 增加到300秒（5分钟），确保构建有足够时间
+        reuseExistingServer: true, // 总是复用已存在的服务器
+        stderr: 'pipe', // 捕获错误输出
+        stdout: 'pipe', // 捕获标准输出
+      },
 
   // 只在本地运行 Chromium，CI 中运行所有浏览器
   projects: process.env.CI

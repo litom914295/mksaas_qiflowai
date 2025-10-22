@@ -286,7 +286,8 @@ export class PerformanceMonitor {
       const lcpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
-        const lcp = lastEntry.renderTime || lastEntry.loadTime;
+        const lcp =
+          (lastEntry as any).renderTime || (lastEntry as any).loadTime;
 
         event({
           action: 'web_vitals',
@@ -304,7 +305,7 @@ export class PerformanceMonitor {
     try {
       const fidObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          const fid = entry.processingStart - entry.startTime;
+          const fid = (entry as any).processingStart - (entry as any).startTime;
 
           event({
             action: 'web_vitals',
@@ -324,7 +325,7 @@ export class PerformanceMonitor {
     try {
       const clsObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (!entry.hadRecentInput) {
+          if (!(entry as any).hadRecentInput) {
             clsValue += (entry as any).value;
           }
         }

@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
 import { requirePermission } from '@/lib/auth/session';
+import { prisma } from '@/lib/db';
+import type { User } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 // 用户查询参数验证
@@ -25,12 +26,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const params = querySchema.parse(Object.fromEntries(searchParams));
 
-    const page = parseInt(params.page);
-    const pageSize = parseInt(params.pageSize);
+    const page = Number.parseInt(params.page);
+    const pageSize = Number.parseInt(params.pageSize);
     const skip = (page - 1) * pageSize;
 
     // 构建查询条件
-    const where: any = {};
+    const where: Record<string, any> = {};
 
     // 搜索条件
     if (params.search) {
@@ -46,9 +47,9 @@ export async function GET(request: NextRequest) {
       where.roles = {
         some: {
           role: {
-            name: params.role
-          }
-        }
+            name: params.role,
+          },
+        },
       };
     }
 
@@ -69,28 +70,28 @@ export async function GET(request: NextRequest) {
         include: {
           roles: {
             include: {
-              role: true
-            }
+              role: true,
+            },
           },
           _count: {
             select: {
               referrals: true,
               transactions: true,
-            }
-          }
-        }
+            },
+          },
+        },
       }),
       prisma.user.count({ where }),
     ]);
 
     // 格式化返回数据
-    const formattedUsers = users.map(user => ({
+    const formattedUsers = users.map((user) => ({
       id: user.id,
       email: user.email,
       name: user.name,
       phone: user.phone,
       avatar: user.avatar,
-      role: user.roles[0]?.role.name || 'user',
+      role: (user as any).roles?.[0]?.role.name || 'user',
       status: user.status,
       credits: user.credits,
       referralCode: user.referralCode,
@@ -108,14 +109,14 @@ export async function GET(request: NextRequest) {
         pageSize,
         total,
         totalPages: Math.ceil(total / pageSize),
-      }
+      },
     });
   } catch (error) {
     console.error('获取用户列表失败:', error);
     return NextResponse.json(
-      { 
-        success: false, 
-        error: error instanceof Error ? error.message : '获取用户列表失败' 
+      {
+        success: false,
+        error: error instanceof Error ? error.message : '获取用户列表失败',
       },
       { status: 500 }
     );
@@ -146,7 +147,7 @@ export async function POST(request: NextRequest) {
 
     // 检查邮箱是否已存在
     const existingUser = await prisma.user.findUnique({
-      where: { email: data.email }
+      where: { email: data.email },
     });
 
     if (existingUser) {
@@ -161,7 +162,7 @@ export async function POST(request: NextRequest) {
 
     // 查找角色
     const role = await prisma.role.findUnique({
-      where: { name: data.role }
+      where: { name: data.role },
     });
 
     if (!role) {
@@ -187,23 +188,23 @@ export async function POST(request: NextRequest) {
         referredBy: data.referredBy,
         roles: {
           create: {
-            roleId: role.id
-          }
-        }
+            roleId: role.id,
+          },
+        },
       },
       include: {
         roles: {
           include: {
-            role: true
-          }
-        }
-      }
+            role: true,
+          },
+        },
+      },
     });
 
     // 如果有推荐人，更新推荐关系
     if (data.referredBy) {
       const referrer = await prisma.user.findUnique({
-        where: { referralCode: data.referredBy }
+        where: { referralCode: data.referredBy },
       });
 
       if (referrer) {
@@ -213,13 +214,13 @@ export async function POST(request: NextRequest) {
             referredId: user.id,
             status: 'completed',
             rewardCredits: 10, // 推荐奖励积分
-          }
+          },
         });
 
         // 给推荐人增加积分
         await prisma.user.update({
           where: { id: referrer.id },
-          data: { credits: { increment: 10 } }
+          data: { credits: { increment: 10 } },
         });
       }
     }
@@ -230,17 +231,17 @@ export async function POST(request: NextRequest) {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.roles[0]?.role.name,
+        role: (user as any).roles?.[0]?.role.name,
         status: user.status,
         createdAt: user.createdAt,
-      }
+      },
     });
   } catch (error) {
     console.error('创建用户失败:', error);
     return NextResponse.json(
-      { 
-        success: false, 
-        error: error instanceof Error ? error.message : '创建用户失败' 
+      {
+        success: false,
+        error: error instanceof Error ? error.message : '创建用户失败',
       },
       { status: 500 }
     );

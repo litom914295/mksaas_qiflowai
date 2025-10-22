@@ -1,14 +1,16 @@
+const locales: Record<string, { name: string; code: string; flag?: string }> = {
+  'zh-CN': { name: '简体中文', code: 'zh-CN', flag: '🇨🇳' },
+  'zh-TW': { name: '繁體中文', code: 'zh-TW', flag: '🇹🇼' },
+  en: { name: 'English', code: 'en', flag: '🇺🇸' },
+  ja: { name: '日本語', code: 'ja', flag: '🇯🇵' },
+  ko: { name: '한국어', code: 'ko', flag: '🇰🇷' },
+  'ms-MY': { name: 'Bahasa Melayu', code: 'ms-MY', flag: '🇲🇾' },
+};
+
 export const websiteConfig = {
   i18n: {
     defaultLocale: 'zh-CN',
-    locales: {
-      'zh-CN': { name: '简体中文', code: 'zh-CN' },
-      'zh-TW': { name: '繁體中文', code: 'zh-TW' },
-      en: { name: 'English', code: 'en' },
-      ja: { name: '日本語', code: 'ja' },
-      ko: { name: '한국어', code: 'ko' },
-      'ms-MY': { name: 'Bahasa Melayu', code: 'ms-MY' },
-    },
+    locales,
   },
   name: 'QiFlow AI',
   description: '智能八字风水分析平台',
@@ -97,6 +99,12 @@ export const websiteConfig = {
       enable: true,
       amount: 5,
     },
+    // 推荐奖励
+    referral: {
+      inviterCredits: 15,
+      inviteeCredits: 20,
+      requireActivation: true,
+    },
     // 是否允许免费计划也购买积分包
     enablePackagesForFreePlan: true,
     // 可售卖积分包（若未配置Stripe价格ID，前端可隐藏购买入口）
@@ -167,6 +175,15 @@ export const websiteConfig = {
     social: {
       twitter: process.env.NEXT_PUBLIC_TWITTER_URL || '',
       github: process.env.NEXT_PUBLIC_GITHUB_URL || '',
+      blueSky: process.env.NEXT_PUBLIC_BLUESKY_URL || '',
+      mastodon: process.env.NEXT_PUBLIC_MASTODON_URL || '',
+      discord: process.env.NEXT_PUBLIC_DISCORD_URL || '',
+      youtube: process.env.NEXT_PUBLIC_YOUTUBE_URL || '',
+      linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || '',
+      facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || '',
+      instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || '',
+      tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || '',
+      telegram: process.env.NEXT_PUBLIC_TELEGRAM_URL || '',
     },
     images: {
       logoLight: '/logo.png',
@@ -195,4 +212,14 @@ export const websiteConfig = {
   },
   docs: { enable: false },
   storage: { enable: false },
+  // 增长工具配置
+  growth: {
+    share: {
+      enable: true,
+      rewardCredits: 5,
+      requireConvert: false,
+      dailyMaxRewards: 3,
+      cooldownMinutes: 60,
+    },
+  },
 };

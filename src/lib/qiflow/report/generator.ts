@@ -281,11 +281,12 @@ export function generateHTMLReport(
 /**
  * 生成八字HTML内容
  */
-function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
+function generateBaziHTML(bazi: any, options: ReportOptions): string {
+  const data = bazi as any;
   return `
     <div class="header">
       <h1>八字命理分析报告</h1>
-      <div class="subtitle">${bazi.basicInfo.name} - ${bazi.basicInfo.gender}</div>
+      <div class="subtitle">${data?.basicInfo?.name ?? ''} - ${data?.basicInfo?.gender ?? ''}</div>
     </div>
     
     <div class="section">
@@ -293,19 +294,19 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
       <div class="grid">
         <div class="card">
           <div class="card-title">出生日期</div>
-          <div class="card-content">${bazi.basicInfo.birthDate}</div>
+          <div class="card-content">${data?.basicInfo?.birthDate ?? ''}</div>
         </div>
         <div class="card">
           <div class="card-title">出生时间</div>
-          <div class="card-content">${bazi.basicInfo.birthTime}</div>
+          <div class="card-content">${data?.basicInfo?.birthTime ?? ''}</div>
         </div>
         <div class="card">
           <div class="card-title">年龄</div>
-          <div class="card-content">${bazi.basicInfo.age}岁</div>
+          <div class="card-content">${data?.basicInfo?.age ?? ''}岁</div>
         </div>
         <div class="card">
           <div class="card-title">生肖</div>
-          <div class="card-content">${bazi.basicInfo.zodiac}</div>
+          <div class="card-content">${data?.basicInfo?.zodiac ?? ''}</div>
         </div>
       </div>
     </div>
@@ -315,24 +316,24 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
       <div class="pillars">
         <div class="pillar">
           <div class="pillar-label">年柱</div>
-          <div class="pillar-value">${bazi.fourPillars.year}</div>
+          <div class="pillar-value">${data?.fourPillars?.year ?? ''}</div>
         </div>
         <div class="pillar">
           <div class="pillar-label">月柱</div>
-          <div class="pillar-value">${bazi.fourPillars.month}</div>
+          <div class="pillar-value">${data?.fourPillars?.month ?? ''}</div>
         </div>
         <div class="pillar">
           <div class="pillar-label">日柱</div>
-          <div class="pillar-value">${bazi.fourPillars.day}</div>
+          <div class="pillar-value">${data?.fourPillars?.day ?? ''}</div>
         </div>
         <div class="pillar">
           <div class="pillar-label">时柱</div>
-          <div class="pillar-value">${bazi.fourPillars.hour}</div>
+          <div class="pillar-value">${data?.fourPillars?.hour ?? ''}</div>
         </div>
       </div>
       <div style="text-align: center; margin-top: 20px;">
         <span style="background: #fef3c7; padding: 10px 20px; border-radius: 20px;">
-          日主：<strong style="color: #d97706; font-size: 1.2em;">${bazi.fourPillars.dayMaster}</strong>
+          日主：<strong style="color: #d97706; font-size: 1.2em;">${data?.fourPillars?.dayMaster ?? ''}</strong>
         </span>
       </div>
     </div>
@@ -340,7 +341,7 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
     <div class="section">
       <h2 class="section-title">五行分析</h2>
       <div class="elements">
-        ${Object.entries(bazi.elements)
+        ${Object.entries(data?.elements ?? {})
           .map(
             ([element, count]) => `
           <div class="element">
@@ -352,21 +353,21 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
           .join('')}
       </div>
       <div style="text-align: center; margin-top: 20px;">
-        <p>用神：<strong style="color: #9333ea; font-size: 1.2em;">${bazi.yongShen.primary}</strong></p>
-        <p>喜神：${bazi.yongShen.secondary}</p>
-        <p>忌神：${bazi.yongShen.avoid.join('、')}</p>
+        <p>用神：<strong style="color: #9333ea; font-size: 1.2em;">${data?.yongShen?.primary ?? ''}</strong></p>
+        <p>喜神：${data?.yongShen?.secondary ?? ''}</p>
+        <p>忌神：${(data?.yongShen?.avoid ?? []).join('、')}</p>
       </div>
     </div>
     
     ${
-      options.includeRecommendations
+      options.includeRecommendations && data?.analysis
         ? `
     <div class="section">
       <h2 class="section-title">性格分析</h2>
       <div class="recommendations">
         <h3>性格特质</h3>
         <ul>
-          ${bazi.analysis.personality.traits.map((trait) => `<li>${trait}</li>`).join('')}
+          ${(data?.analysis?.personality?.traits ?? []).map((trait: any) => `<li>${trait}</li>`).join('')}
         </ul>
       </div>
     </div>
@@ -376,19 +377,19 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
       <div class="grid">
         <div class="card">
           <div class="card-title">适合行业</div>
-          <div class="card-content">${bazi.analysis.career.suitable.join('、')}</div>
+          <div class="card-content">${(data?.analysis?.career?.suitable ?? []).join('、')}</div>
         </div>
         <div class="card">
           <div class="card-title">发展方向</div>
-          <div class="card-content">${bazi.analysis.career.direction}</div>
+          <div class="card-content">${data?.analysis?.career?.direction ?? ''}</div>
         </div>
         <div class="card">
           <div class="card-title">财运类型</div>
-          <div class="card-content">${bazi.analysis.wealth.type}</div>
+          <div class="card-content">${data?.analysis?.wealth?.type ?? ''}</div>
         </div>
         <div class="card">
           <div class="card-title">财源建议</div>
-          <div class="card-content">${bazi.analysis.wealth.advice}</div>
+          <div class="card-content">${data?.analysis?.wealth?.advice ?? ''}</div>
         </div>
       </div>
     </div>
@@ -397,10 +398,10 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
       <h2 class="section-title">开运建议</h2>
       <div class="recommendations">
         <ul>
-          <li>幸运颜色：${bazi.recommendations.colors.join('、')}</li>
-          <li>幸运数字：${bazi.recommendations.numbers.join('、')}</li>
-          <li>有利方位：${bazi.recommendations.directions.join('、')}</li>
-          <li>有利季节：${bazi.recommendations.seasons.join('、')}</li>
+          <li>幸运颜色：${(data?.recommendations?.colors ?? []).join('、')}</li>
+          <li>幸运数字：${(data?.recommendations?.numbers ?? []).join('、')}</li>
+          <li>有利方位：${(data?.recommendations?.directions ?? []).join('、')}</li>
+          <li>有利季节：${(data?.recommendations?.seasons ?? []).join('、')}</li>
         </ul>
       </div>
     </div>
@@ -413,14 +414,12 @@ function generateBaziHTML(bazi: BaziOutput, options: ReportOptions): string {
 /**
  * 生成风水HTML内容
  */
-function generateFengshuiHTML(
-  fengshui: FengshuiOutput,
-  options: ReportOptions
-): string {
+function generateFengshuiHTML(fengshui: any, options: ReportOptions): string {
+  const data = fengshui as any;
   return `
     <div class="header">
       <h1>玄空风水分析报告</h1>
-      <div class="subtitle">坐${fengshui.mountain}向${fengshui.facing} - ${fengshui.period}运</div>
+      <div class="subtitle">坐${data?.mountain ?? ''}向${data?.facing ?? ''} - ${data?.period ?? ''}运</div>
     </div>
     
     <div class="section">
@@ -428,30 +427,30 @@ function generateFengshuiHTML(
       <div class="grid">
         <div class="card">
           <div class="card-title">房屋朝向</div>
-          <div class="card-content">${fengshui.facing}（${fengshui.basicInfo.facing}°）</div>
+          <div class="card-content">${data?.facing ?? ''}（${data?.basicInfo?.facing ?? ''}°）</div>
         </div>
         <div class="card">
           <div class="card-title">坐山</div>
-          <div class="card-content">${fengshui.mountain}</div>
+          <div class="card-content">${data?.mountain ?? ''}</div>
         </div>
         <div class="card">
           <div class="card-title">元运</div>
-          <div class="card-content">第${fengshui.period}运</div>
+          <div class="card-content">第${data?.period ?? ''}运</div>
         </div>
         <div class="card">
           <div class="card-title">建造年份</div>
-          <div class="card-content">${fengshui.basicInfo.buildYear}年</div>
+          <div class="card-content">${data?.basicInfo?.buildYear ?? ''}年</div>
         </div>
       </div>
     </div>
     
     ${
-      options.includeCharts
+      options.includeCharts && data?.flyingStars
         ? `
     <div class="section">
       <h2 class="section-title">飞星分布</h2>
       <div class="flying-stars">
-        ${generateFlyingStarsGrid(fengshui.flyingStars)}
+        ${generateFlyingStarsGrid(data.flyingStars)}
       </div>
     </div>
     `
@@ -463,40 +462,40 @@ function generateFengshuiHTML(
       <div class="grid">
         <div class="card">
           <div class="card-title">财位</div>
-          <div class="card-content">${fengshui.specialPositions.wealthPosition}</div>
+          <div class="card-content">${data?.specialPositions?.wealthPosition ?? ''}</div>
         </div>
         <div class="card">
           <div class="card-title">文昌位</div>
-          <div class="card-content">${fengshui.specialPositions.academicPosition}</div>
+          <div class="card-content">${data?.specialPositions?.academicPosition ?? ''}</div>
         </div>
         <div class="card">
           <div class="card-title">桃花位</div>
-          <div class="card-content">${fengshui.specialPositions.relationshipPosition}</div>
+          <div class="card-content">${data?.specialPositions?.relationshipPosition ?? ''}</div>
         </div>
         <div class="card">
           <div class="card-title">健康位</div>
-          <div class="card-content">${fengshui.specialPositions.healthPosition}</div>
+          <div class="card-content">${data?.specialPositions?.healthPosition ?? ''}</div>
         </div>
       </div>
     </div>
     
     ${
-      options.includeRecommendations
+      options.includeRecommendations && data?.recommendations
         ? `
     <div class="section">
       <h2 class="section-title">风水建议</h2>
       <div class="recommendations">
         <h3>布局建议</h3>
         <ul>
-          ${fengshui.recommendations.layout.map((item) => `<li>${item}</li>`).join('')}
+          ${(data?.recommendations?.layout ?? []).map((item: any) => `<li>${item}</li>`).join('')}
         </ul>
         <h3 style="margin-top: 20px;">增强措施</h3>
         <ul>
-          ${fengshui.recommendations.enhancement.map((item) => `<li>${item}</li>`).join('')}
+          ${(data?.recommendations?.enhancement ?? []).map((item: any) => `<li>${item}</li>`).join('')}
         </ul>
         <h3 style="margin-top: 20px;">化解方法</h3>
         <ul>
-          ${fengshui.recommendations.avoidance.map((item) => `<li>${item}</li>`).join('')}
+          ${(data?.recommendations?.avoidance ?? []).map((item: any) => `<li>${item}</li>`).join('')}
         </ul>
       </div>
     </div>
@@ -618,23 +617,25 @@ export function generateShareLink(
 /**
  * 生成报告摘要
  */
-export function generateReportSummary(data: ReportData): string {
+export function generateReportSummary(data: any): string {
   let summary = '';
 
-  if (data.bazi) {
+  if (data?.bazi) {
+    const bazi = data.bazi as any;
     summary += '【八字分析】\n';
-    summary += `姓名：${data.bazi.basicInfo.name}\n`;
-    summary += `八字：${data.bazi.fourPillars.year} ${data.bazi.fourPillars.month} ${data.bazi.fourPillars.day} ${data.bazi.fourPillars.hour}\n`;
-    summary += `日主：${data.bazi.fourPillars.dayMaster}\n`;
-    summary += `用神：${data.bazi.yongShen.primary}\n\n`;
+    summary += `姓名：${bazi?.basicInfo?.name ?? ''}\n`;
+    summary += `八字：${bazi?.fourPillars?.year ?? ''} ${bazi?.fourPillars?.month ?? ''} ${bazi?.fourPillars?.day ?? ''} ${bazi?.fourPillars?.hour ?? ''}\n`;
+    summary += `日主：${bazi?.fourPillars?.dayMaster ?? ''}\n`;
+    summary += `用神：${bazi?.yongShen?.primary ?? ''}\n\n`;
   }
 
-  if (data.fengshui) {
+  if (data?.fengshui) {
+    const fengshui = data.fengshui as any;
     summary += '【风水分析】\n';
-    summary += `坐向：坐${data.fengshui.mountain}向${data.fengshui.facing}\n`;
-    summary += `元运：第${data.fengshui.period}运\n`;
-    summary += `财位：${data.fengshui.specialPositions.wealthPosition}\n`;
-    summary += `文昌位：${data.fengshui.specialPositions.academicPosition}\n`;
+    summary += `坐向：坐${fengshui?.mountain ?? ''}向${fengshui?.facing ?? ''}\n`;
+    summary += `元运：第${fengshui?.period ?? ''}运\n`;
+    summary += `财位：${fengshui?.specialPositions?.wealthPosition ?? ''}\n`;
+    summary += `文昌位：${fengshui?.specialPositions?.academicPosition ?? ''}\n`;
   }
 
   return summary;

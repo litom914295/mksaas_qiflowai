@@ -7,8 +7,30 @@
 export type Gender = 'male' | 'female';
 export type UserLevel = 'beginner' | 'intermediate' | 'expert';
 export type Element = '木' | '火' | '土' | '金' | '水';
-export type HeavenlyStem = '甲' | '乙' | '丙' | '丁' | '戊' | '己' | '庚' | '辛' | '壬' | '癸';
-export type EarthlyBranch = '子' | '丑' | '寅' | '卯' | '辰' | '巳' | '午' | '未' | '申' | '酉' | '戌' | '亥';
+export type HeavenlyStem =
+  | '甲'
+  | '乙'
+  | '丙'
+  | '丁'
+  | '戊'
+  | '己'
+  | '庚'
+  | '辛'
+  | '壬'
+  | '癸';
+export type EarthlyBranch =
+  | '子'
+  | '丑'
+  | '寅'
+  | '卯'
+  | '辰'
+  | '巳'
+  | '午'
+  | '未'
+  | '申'
+  | '酉'
+  | '戌'
+  | '亥';
 
 // ===== 八字图表 =====
 
@@ -58,7 +80,12 @@ export interface WuxingAnalysis {
 
 // ===== 用神分析 =====
 
-export type YongshenType = 'fuyi' | 'tiaohou' | 'tongguan' | 'bingyao' | 'congge';
+export type YongshenType =
+  | 'fuyi'
+  | 'tiaohou'
+  | 'tongguan'
+  | 'bingyao'
+  | 'congge';
 
 export interface YongshenResult {
   primary: {
@@ -81,46 +108,46 @@ export interface YongshenResult {
 // ===== 格局分析 =====
 
 export enum PatternType {
-  NORMAL = 'normal',           // 普通格局
-  
+  NORMAL = 'normal', // 普通格局
+
   // 正格
-  JIAN_LU = 'jianlu',          // 建禄格
-  YUE_REN = 'yueren',          // 月刃格
-  ZHENG_GUAN = 'zhengguan',    // 正官格
-  QI_SHA = 'qisha',            // 七杀格
-  ZHENG_CAI = 'zhengcai',      // 正财格
-  PIAN_CAI = 'piancai',        // 偏财格
-  ZHENG_YIN = 'zhengyin',      // 正印格
-  PIAN_YIN = 'pianyin',        // 偏印格
-  SHI_SHEN = 'shishen',        // 食神格
-  SHANG_GUAN = 'shangguan',    // 伤官格
-  
+  JIAN_LU = 'jianlu', // 建禄格
+  YUE_REN = 'yueren', // 月刃格
+  ZHENG_GUAN = 'zhengguan', // 正官格
+  QI_SHA = 'qisha', // 七杀格
+  ZHENG_CAI = 'zhengcai', // 正财格
+  PIAN_CAI = 'piancai', // 偏财格
+  ZHENG_YIN = 'zhengyin', // 正印格
+  PIAN_YIN = 'pianyin', // 偏印格
+  SHI_SHEN = 'shishen', // 食神格
+  SHANG_GUAN = 'shangguan', // 伤官格
+
   // 从格
-  CONG_CAI = 'congcai',        // 从财格
-  CONG_GUAN = 'congguan',      // 从官格
-  CONG_ER = 'conger',          // 从儿格
-  CONG_SHI = 'congshi',        // 从势格
-  
+  CONG_CAI = 'congcai', // 从财格
+  CONG_GUAN = 'congguan', // 从官格
+  CONG_ER = 'conger', // 从儿格
+  CONG_SHI = 'congshi', // 从势格
+
   // 化格
-  HUA_TU = 'huatu',            // 化土格
-  HUA_JIN = 'huajin',          // 化金格
-  HUA_SHUI = 'huashui',        // 化水格
-  HUA_MU = 'huamu',            // 化木格
-  HUA_HUO = 'huahuo',          // 化火格
-  
+  HUA_TU = 'huatu', // 化土格
+  HUA_JIN = 'huajin', // 化金格
+  HUA_SHUI = 'huashui', // 化水格
+  HUA_MU = 'huamu', // 化木格
+  HUA_HUO = 'huahuo', // 化火格
+
   // 专旺格
-  QU_ZHI = 'quzhi',            // 曲直格
-  YAN_SHANG = 'yanshang',      // 炎上格
-  JIA_SE = 'jiase',            // 稼穑格
-  CONG_GE = 'congge',          // 从革格
-  RUN_XIA = 'runxia',          // 润下格
-  
+  QU_ZHI = 'quzhi', // 曲直格
+  YAN_SHANG = 'yanshang', // 炎上格
+  JIA_SE = 'jiase', // 稼穑格
+  CONG_GE = 'congge', // 从革格
+  RUN_XIA = 'runxia', // 润下格
+
   // 特殊格局
-  KUI_GANG = 'kuigang',        // 魁罡格
-  JIN_SHEN = 'jinshen',        // 金神格
-  RI_GUI = 'rigui',            // 日贵格
-  LU_MA = 'luma',              // 禄马格
-  TIAN_YI = 'tianyi'           // 天乙格
+  KUI_GANG = 'kuigang', // 魁罡格
+  JIN_SHEN = 'jinshen', // 金神格
+  RI_GUI = 'rigui', // 日贵格
+  LU_MA = 'luma', // 禄马格
+  TIAN_YI = 'tianyi', // 天乙格
 }
 
 export interface PatternDetail {
@@ -144,8 +171,8 @@ export interface PatternResult {
 // ===== 神煞系统 =====
 
 export enum ShenShaType {
-  JI_SHEN = 'jishen',          // 吉神
-  XIONG_SHEN = 'xiongshen'     // 凶神
+  JI_SHEN = 'jishen', // 吉神
+  XIONG_SHEN = 'xiongshen', // 凶神
 }
 
 export interface ShenShaResult {
@@ -169,19 +196,68 @@ export interface ShenSha {
   };
 }
 
+// ===== 兼容类型 =====
+
+export type Stem = string;
+export type Branch = string;
+
+export interface StemBranch {
+  gan: string; // 天干
+  zhi: string; // 地支
+  stem?: Stem; // 兼容旧代码
+  branch?: Branch; // 兼容旧代码
+  element?: string; // 五行
+  nayin?: string; // 纳音
+}
+
+export interface FourPillars {
+  year: StemBranch;
+  month: StemBranch;
+  day: StemBranch;
+  hour: StemBranch;
+}
+
+export interface WuxingStrength {
+  wood: number;
+  fire: number;
+  earth: number;
+  metal: number;
+  water: number;
+}
+
+export interface BaziDate {
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+}
+
+export interface BaziResult {
+  pillars: FourPillars;
+  elements: WuxingStrength;
+  yongshen?: any;
+}
+
+export interface DayunPeriod {
+  startAge: number;
+  endAge: number;
+  stem: Stem;
+  branch: Branch;
+}
+
 // ===== 十神关系 =====
 
 export interface TenGodsDistribution {
-  zhengGuan: number;    // 正官
-  qiSha: number;        // 七杀
-  zhengCai: number;     // 正财
-  pianCai: number;      // 偏财
-  zhengYin: number;     // 正印
-  pianYin: number;      // 偏印
-  shiShen: number;      // 食神
-  shangGuan: number;    // 伤官
-  biJian: number;       // 比肩
-  jieZai: number;       // 劫财
+  zhengGuan: number; // 正官
+  qiSha: number; // 七杀
+  zhengCai: number; // 正财
+  pianCai: number; // 偏财
+  zhengYin: number; // 正印
+  pianYin: number; // 偏印
+  shiShen: number; // 食神
+  shangGuan: number; // 伤官
+  biJian: number; // 比肩
+  jieZai: number; // 劫财
 }
 
 // ===== 大运流年 =====
@@ -235,12 +311,12 @@ export interface InterpretationResult {
 // ===== API 接口 =====
 
 export interface BaziAnalysisRequest {
-  birthDate: string;      // YYYY-MM-DD
-  birthTime: string;      // HH:mm
-  longitude: number;      // 经度
-  latitude?: number;      // 纬度
-  timezone?: number;      // 时区
-  isLunar?: boolean;      // 是否农历
+  birthDate: string; // YYYY-MM-DD
+  birthTime: string; // HH:mm
+  longitude: number; // 经度
+  latitude?: number; // 纬度
+  timezone?: number; // 时区
+  isLunar?: boolean; // 是否农历
   gender: Gender;
   name?: string;
   analysisDepth?: 'basic' | 'standard' | 'comprehensive';
@@ -308,5 +384,5 @@ export enum BaziErrorCode {
   CALCULATION_FAILED = 'CALCULATION_FAILED',
   INSUFFICIENT_CREDITS = 'INSUFFICIENT_CREDITS',
   SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE',
-  RATE_LIMIT_EXCEEDED = 'RATE_LIMIT_EXCEEDED'
+  RATE_LIMIT_EXCEEDED = 'RATE_LIMIT_EXCEEDED',
 }

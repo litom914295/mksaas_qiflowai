@@ -43,13 +43,25 @@ export function createRateLimiter(config: RateLimitConfig) {
     message = 'Too many requests, please try again later.',
   } = config;
 
-  return async function rateLimit(identifier: string): Promise<{
+  return async function rateLimit(
+    identifier: string,
+    options?: { skipCheck?: boolean }
+  ): Promise<{
     success: boolean;
     limit: number;
     remaining: number;
     reset: Date;
     message?: string;
   }> {
+    // 如果跳过检查（例如管理员），直接返回成功
+    if (options?.skipCheck) {
+      return {
+        success: true,
+        limit: maxRequests,
+        remaining: maxRequests,
+        reset: new Date(Date.now() + windowMs),
+      };
+    }
     const now = Date.now();
     const resetTime = now + windowMs;
 
@@ -148,10 +160,21 @@ export function getClientIp(request: Request): string {
  * @returns 中间件函数
  */
 export function rateLimitMiddleware(
-  limiter: ReturnType<typeof createRateLimiter> = defaultRateLimiters.general
+  limiter: ReturnType<typeof createRateLimiter> = defaultRateLimiters.general,
+  options?: { skipAdminCheck?: boolean }
 ) {
-  return async function middleware(request: Request): Promise<Response | null> {
-    const identifier = getClientIp(request);
+  return async function middleware(
+    request: Request,
+    userId?: string,
+    userRole?: string
+  ): Promise<Response | null> {
+    // 管理员豁免限流
+    if (!options?.skipAdminCheck && userRole === 'admin') {
+      console.log('[限流] 管理员用户，跳过限流检查');
+      return null;
+    }
+
+    const identifier = userId || getClientIp(request);
     const result = await limiter(identifier);
 
     // 设置限流相关响应头

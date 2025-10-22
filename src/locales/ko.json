@@ -88,71 +88,81 @@
     }
   },
   "home": {
-    "title": "QiFlow AI - 지능형 풍수 분석 플랫폼",
-    "subtitle": "전통 풍수 지혜와 현대 AI 기술을 결합한 지능형 분석 플랫폼",
     "features": {
+      "title": "강력한 기능, 간단한 조작",
+      "subtitle": "사주 분석부터 풍수 배치, 데이터 분석부터 AI 상담까지, 원스톱 솔루션",
+      "learnMore": "자세히 보기",
+      "hint": "💡 모든 기능은 고급 AI 알고리즘을 사용하여 정확성과 전문성을 보장합니다",
       "bazi": {
         "title": "사주 분석",
-        "description": "사주팔자 정확 계산, 오행 강약 분석, 개인 맞춤형 가이드 제공"
+        "description": "30초 운세 보고서"
       },
-      "flyingStar": {
-        "title": "현공비성 풍수",
-        "description": "집 방향을 결합한 전문 구궁 분석으로 정밀한 조언 제공"
+      "xuankong": {
+        "title": "현공 풍수",
+        "description": "스마트 비성 배치 분석"
       },
       "compass": {
-        "title": "고정밀 디지털 나침반",
-        "description": "±2° 전문가급 정확도, 자동 편각 보정 및 24산 지원"
+        "title": "나침반 알고리즘",
+        "description": "AI 스마트 방향 인식"
       },
       "floorPlan": {
-        "title": "스마트 평면도 오버레이",
-        "description": "AI가 방을 인식하고 비성도를 오버레이하여 시각적 분석 제공"
+        "title": "평면도 분석",
+        "description": "평면도를 업로드하여 분석"
       },
       "visualization3d": {
         "title": "3D 시각화",
-        "description": "몰입형 VR 지원 3D 풍수 분석"
+        "description": "3D 풍수 배치 표시"
       },
       "aiAssistant": {
         "title": "AI 어시스턴트",
-        "description": "전문 상담, 개인 맞춤 제안 및 대화 메모리"
+        "description": "24/7 지능형 Q&A"
       }
     },
-    "actions": {
-      "continueAsGuest": "게스트로 계속하기",
-      "register": "지금 등록",
-      "viewBaziAnalysis": "사주 분석 보기",
-      "testAnalysis": "전체 분석 테스트"
-    },
-    "guestEntry": {
-      "creatingSession": "게스트 세션 생성 중...",
-      "continueAsGuest": "게스트로 계속하기",
-      "registerNow": "지금 회원가입",
-      "alreadyHaveAccount": "이미 계정이 있으신가요? 로그인",
-      "guestModeDescription": "게스트 모드: 최대 3회 분석, 데이터는 저장되지 않습니다",
-      "sessionCreationFailed": "게스트 세션 생성 실패"
-    },
-    "highlights": {
-      "title": "핵심 기능",
-      "smartOverlay": {
-        "title": "스마트 오버레이",
-        "description": "평면도에 비성도를 지능적으로 오버레이하는 혁신 기능"
+    "pricing": {
+      "title": "플랜 선택",
+      "subtitle": "모든 플랜은 첫 구매 시 50% 할인, 큰 플랜일수록 더 유리",
+      "firstTimeOffer": "첫 구매 시 50% 추가 크레딧",
+      "mostPopular": "가장 인기",
+      "credits": "크레딧",
+      "save": "절약",
+      "buyNow": "지금 구매",
+      "hint": "💡 모든 플랜은 Alipay, WeChat Pay, 신용카드 등 지원",
+      "refund": "7일 환불 보증 · 데이터 암호화 · 안전하고 확실",
+      "starter": {
+        "name": "스타터",
+        "features": {
+          "credits": "100 크레딧",
+          "analyses": "약 5-10회 분석",
+          "bazi": "기본 사주 분석",
+          "xuankong": "현공 풍수 쿼리",
+          "validity": "7일 유효"
+        }
       },
-      "guestMode": {
-        "title": "게스트 모드",
-        "description": "회원가입 없이 핵심 기능 체험, 데이터는 24시간 후 자동 삭제"
+      "standard": {
+        "name": "스탠다드",
+        "features": {
+          "credits": "500 크레딧",
+          "analyses": "약 25-50회 분석",
+          "bazi": "완전한 사주 분석",
+          "xuankong": "고급 풍수 조언",
+          "ai": "AI 지능형 상담",
+          "pdf": "PDF 보고서 내보내기",
+          "validity": "30일 유효"
+        }
       },
-      "precisionCompass": {
-        "title": "정밀 나침반",
-        "description": "±2° 정확도, 다중 센서 융합"
-      },
-      "multilingual": {
-        "title": "다국어",
-        "description": "글로벌 서비스를 위한 6개 언어 지원"
+      "professional": {
+        "name": "프로페셔널",
+        "features": {
+          "credits": "1500 크레딧",
+          "analyses": "약 75-150회 분석",
+          "bazi": "심층 사주 해석",
+          "xuankong": "전문 풍수 레이아웃",
+          "ai": "무제한 AI 상담",
+          "support": "우선 기술 지원",
+          "vip": "VIP 전용 서비스",
+          "validity": "90일 유효"
+        }
       }
-    },
-    "footer": {
-      "copyright": "© 2024 QiFlow AI. All rights reserved.",
-      "help": "도움말 센터",
-      "about": "회사 소개"
     }
   },
   "navigation": {
@@ -831,22 +841,426 @@
     "title": "QiFlow AI - 스마트 풍수 분석 플랫폼",
     "subtitle": "전통 풍수 지혜와 현대 AI 기술의 결합",
     "features": {
-      "fengshui": {
-        "title": "풍수 분석",
-        "description": "전문 현공비성 분석으로 상세 평가와 권장 사항 제공"
-      },
-      "bazi": {
-        "title": "사주 분석",
-        "description": "전통 사주 이론 기반 개인 운세 분석"
-      },
-      "guest": {
-        "title": "게스트 분석",
-        "description": "개인 맞춤형 풍수 권장 사항을 제공하는 지능형 시스템"
+      "title": "핵심 기능",
+      "subtitle": "전문 분석 도구",
+      "description": "전통적인 지혜와 현대 기술을 결합하여 포괄적인 운명 및 풍수 분석 서비스를 제공",
+      "items": {
+        "item-1": {
+          "title": "데이터 기반 분석",
+          "description": "방대한 데이터와 전문 알고리즘을 기반으로 정확한 운명 분석 제공"
+        },
+        "item-2": {
+          "title": "개인정보 보호",
+          "description": "엄격한 데이터 암호화 및 개인정보 보호 조치로 정보 보안 보장"
+        },
+        "item-3": {
+          "title": "맞춤형 서비스",
+          "description": "개인 정보를 기반으로 맞춤형 분석 보고서 및 권장 사항 제공"
+        },
+        "item-4": {
+          "title": "실시간 업데이트",
+          "description": "지속적으로 업데이트되는 운세 분석 및 풍수 레이아웃 권장 사항으로 기회 포착 지원"
+        }
       }
     },
     "actions": {
       "login": "로그인",
       "register": "회원가입"
+    },
+    "faqs": {
+      "title": "자주 묻는 질문",
+      "subtitle": "서비스 이용 중 궁금한 점들을 해결해드립니다",
+      "items": {
+        "item-1": {
+          "question": "사주 분석의 정확도는 어떻게 되나요?",
+          "answer": "저희 사주 분석은 전통 명리학 원리와 현대 알고리즘 최적화를 기반으로 하며, 빅데이터 검증을 통해 98% 이상의 정확도를 달성하고 있습니다. 12만 명 이상의 사용자가 분석 결과의 정확성을 검증했습니다."
+        },
+        "item-2": {
+          "question": "풍수 분석 비용은 어떻게 계산되나요?",
+          "answer": "기본 사주 분석은 완전 무료입니다. 심화 운세 해석은 30 크레딧, 현공비성 풍수 분석은 20 크레딧, AI 상담은 회당 5 크레딧이 필요합니다. 신규 가입자는 가입 시 100 크레딧을 받습니다."
+        },
+        "item-3": {
+          "question": "분석 정확도를 높이려면 어떻게 해야 하나요?",
+          "answer": "정확한 출생시간(분 단위까지), 출생지점, 진태양시 정보를 제공해주세요. 이러한 정보는 사주 구성의 정확성에 직접 영향을 미치며, 최종 분석 결과에도 영향을 줍니다."
+        },
+        "item-4": {
+          "question": "크레딧은 어떻게 획득하고 사용하나요?",
+          "answer": "신규 가입 시 100 크레딧 지급, 일일 체크인으로 5 크레딧, 친구 추천 성공 시 50 크레딧을 획득할 수 있습니다. 크레딧은 심화 분석, AI 상담 등 프리미엄 기능에 사용할 수 있습니다."
+        },
+        "item-5": {
+          "question": "고객 지원팀에는 어떻게 연락하나요?",
+          "answer": "페이지 우하단의 온라인 고객 서비스 기능을 통해 연락하거나 support@qiflow.ai로 이메일을 보내주세요. 고객 서비스팀이 24시간 전문적인 서비스를 제공합니다."
+        }
+      }
+    },
+    "pricing": {
+      "subtitle": "유연한 가격 플랜",
+      "description": "귀하의 필요에 가장 적합한 플랜을 선택하세요. 모든 플랜에는 핵심 기능이 포함됩니다"
+    },
+    "calltoaction": {
+      "title": "Ready to Start Your Destiny & Feng Shui Journey?",
+      "description": "Experience professional BaZi and Feng Shui analysis services now, let traditional wisdom guide your life direction",
+      "primaryButton": "Start Free Analysis",
+      "secondaryButton": "View Sample Report"
+    },
+    "testimonials": {
+      "title": "User Testimonials",
+      "subtitle": "See what other users are saying",
+      "items": {
+        "item-1": {
+          "name": "Michael Zhang",
+          "role": "Entrepreneur",
+          "image": "/avatars/avatar-1.jpg",
+          "quote": "The BaZi analysis was incredibly accurate and helped me make the right decisions in my career planning. Highly recommended!"
+        },
+        "item-2": {
+          "name": "Linda Li",
+          "role": "Designer",
+          "image": "/avatars/avatar-2.jpg",
+          "quote": "The Feng Shui advice was very practical. After adjusting my home layout as suggested, the whole atmosphere of my home improved."
+        },
+        "item-3": {
+          "name": "David Wang",
+          "role": "IT Engineer",
+          "image": "/avatars/avatar-3.jpg",
+          "quote": "As a technical person, I was skeptical at first, but the analysis results were indeed accurate. The combination of AI technology and traditional culture is fascinating."
+        },
+        "item-4": {
+          "name": "Sarah Chen",
+          "role": "Teacher",
+          "image": "/avatars/avatar-4.jpg",
+          "quote": "The report is very detailed and professional, not only analyzing personality traits but also providing practical life advice."
+        },
+        "item-5": {
+          "name": "James Liu",
+          "role": "Sales Manager",
+          "image": "/avatars/avatar-5.jpg",
+          "quote": "Used it for a month, and I refer to it whenever I face important decisions. It has really helped me a lot."
+        },
+        "item-6": {
+          "name": "Emily Yang",
+          "role": "Accountant",
+          "image": "/avatars/avatar-6.jpg",
+          "quote": "Reasonable prices, professional service. Customer support is also very responsive and answers questions promptly."
+        },
+        "item-7": {
+          "name": "Robert Zhao",
+          "role": "Startup Founder",
+          "image": "/avatars/avatar-7.jpg",
+          "quote": "The Feng Shui analysis helped me choose the right office location, and the company business indeed improved."
+        },
+        "item-8": {
+          "name": "Amy Sun",
+          "role": "Doctor",
+          "image": "/avatars/avatar-8.jpg",
+          "quote": "The analysis report is very in-depth, not superficial at all. A trustworthy professional service."
+        },
+        "item-9": {
+          "name": "Kevin Zhou",
+          "role": "Financial Analyst",
+          "image": "/avatars/avatar-9.jpg",
+          "quote": "The data-driven destiny analysis is very innovative, combining modern technology to make traditional culture easier to understand."
+        },
+        "item-10": {
+          "name": "Michelle Wu",
+          "role": "Lawyer",
+          "image": "/avatars/avatar-10.jpg",
+          "quote": "The AI consultation feature is very convenient, I can ask questions anytime, and the answers are always professional."
+        },
+        "item-11": {
+          "name": "Steven Zheng",
+          "role": "Architect",
+          "image": "/avatars/avatar-11.jpg",
+          "quote": "As an architect, I appreciate the Feng Shui analysis method here, which respects tradition while having scientific basis."
+        },
+        "item-12": {
+          "name": "Grace Qian",
+          "role": "HR Manager",
+          "image": "/avatars/avatar-12.jpg",
+          "quote": "Helped me better understand myself and my team members, very helpful for interpersonal relationship management."
+        }
+      }
+    }
+  },
+  "form": {
+    "title": "운명의 여정 시작 · 무료 체험",
+    "name": "이름",
+    "namePlaceholder": "이름을 입력하세요",
+    "gender": "성별",
+    "male": "남성",
+    "female": "여성",
+    "birthCity": "출생 도시",
+    "birthCityPlaceholder": "예: 서울",
+    "solarTime": "진태양시",
+    "birthDate": "생년월일",
+    "solar": "양력",
+    "lunar": "음력",
+    "birthTime": "출생 시간",
+    "timeMorning": "오전",
+    "timeAfternoon": "오후",
+    "timeEvening": "저녁",
+    "timeMorningTooltip": "묘진사오 (05:00-13:00)",
+    "timeAfternoonTooltip": "미신유술 (13:00-21:00)",
+    "timeEveningTooltip": "해자축인 (21:00-05:00)",
+    "lunarNote": "음력이 선택되었습니다. 양력으로 자동 변환됩니다",
+    "submitButton": "분석 시작",
+    "addHouseInfo": "주택 정보 추가 (선택사항)",
+    "houseDirection": "주택 방향",
+    "selectDirection": "방향 선택",
+    "roomCount": "방 개수",
+    "completionYear": "완공 연도",
+    "completionMonth": "완공 월",
+    "noRegistration": "💡 등록 불필요 · 3분 생성 · 첫 체험 무료",
+    "fillAllFields": "모든 필수 항목을 입력하세요",
+    "users": "12만+ 사용자",
+    "accurate": "98% 정확"
+  },
+  "BaziHome": {
+    "title": "운명의 여정 시작",
+    "subtitle": "무료 체험",
+    "heroTitle": "3분 안에, 당신의",
+    "heroTitleHighlight": "재능과 운명의 전환점 발견",
+    "heroDescription": "천년의 지혜와 AI 알고리즘의 결합, 98%의 사용자가 \"놀랍도록 정확\"하다고 평가",
+    "accuracy": "98% 알고리즘 정확도",
+    "privacy": "개인정보 보호",
+    "speed": "3분 분석",
+    "userCount": "{count}명이 인생 지침을 받았습니다",
+    "rating": "사용자 평가",
+    "algorithmAccuracy": "알고리즘 정확도",
+    "viewExample": "예시 보기",
+    "aiConsultation": "AI 상담"
+  },
+  "Marketing": {
+    "footer": {
+      "tagline": "Intelligent Feng Shui analysis platform combining traditional wisdom with modern AI technology",
+      "product": {
+        "title": "Product",
+        "items": {
+          "features": "Features",
+          "pricing": "Pricing",
+          "faq": "FAQ"
+        }
+      },
+      "resources": {
+        "title": "Resources",
+        "items": {
+          "blog": "Blog",
+          "docs": "Documentation",
+          "changelog": "Changelog",
+          "roadmap": "Roadmap"
+        }
+      },
+      "company": {
+        "title": "Company",
+        "items": {
+          "about": "About",
+          "contact": "Contact",
+          "waitlist": "Waitlist"
+        }
+      },
+      "legal": {
+        "title": "Legal",
+        "items": {
+          "cookiePolicy": "Cookie Policy",
+          "privacyPolicy": "Privacy Policy",
+          "termsOfService": "Terms of Service"
+        }
+      }
+    }
+  },
+  "AuthPage": {
+    "login": {
+      "welcomeBack": "Welcome Back",
+      "signUpHint": "Don't have an account? Sign up now",
+      "email": "Email",
+      "password": "Password",
+      "emailRequired": "Please enter a valid email address",
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Invalid captcha, please try again",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "forgotPassword": "Forgot password?",
+      "signIn": "Sign In",
+      "signInWith": "Sign in with {provider}",
+      "orContinueWith": "Or continue with"
+    },
+    "register": {
+      "createAccount": "Create Account",
+      "signInHint": "Already have an account? Sign in now",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter a valid email address",
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Invalid captcha, please try again",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "signUp": "Sign Up",
+      "signUpWith": "Sign up with {provider}",
+      "orContinueWith": "Or continue with",
+      "checkEmail": "Please check your email to verify your account",
+      "signUpFailed": "Sign up failed, please try again later",
+      "userAlreadyExists": "This email is already registered, please use another email",
+      "invalidEmail": "Invalid email format",
+      "weakPassword": "Password is too weak, please use a stronger password"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "backToLogin": "Back to Login",
+      "email": "Email",
+      "emailRequired": "Please enter a valid email address",
+      "sendResetLink": "Send Reset Link",
+      "checkEmail": "Please check your email for password reset link"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "passwordRequired": "Please enter new password",
+      "passwordsNotMatch": "Passwords do not match",
+      "resetPassword": "Reset Password",
+      "passwordResetSuccess": "Password reset successfully"
+    }
+  },
+  "Dashboard": {
+    "upgrade": {
+      "title": "Upgrade Account",
+      "description": "Unlock more features and credits",
+      "button": "Upgrade Now"
+    },
+    "sidebar": {
+      "main": "Main",
+      "settings": "Settings",
+      "admin": "Admin"
+    },
+    "settings": {
+      "profile": {
+        "name": {
+          "title": "Display Name",
+          "description": "This is your display name on the platform",
+          "placeholder": "Enter your display name",
+          "hint": "Please use your real name or nickname",
+          "save": "Save",
+          "saving": "Saving...",
+          "success": "Name updated successfully",
+          "fail": "Failed to update name",
+          "minLength": "Name must be at least 3 characters",
+          "maxLength": "Name must be at most 30 characters"
+        },
+        "avatar": {
+          "title": "Avatar",
+          "description": "Update your profile picture",
+          "upload": "Upload Avatar",
+          "uploading": "Uploading...",
+          "success": "Avatar updated successfully",
+          "fail": "Failed to update avatar",
+          "fileTooLarge": "File too large, please select an image smaller than 2MB",
+          "invalidFormat": "Unsupported file format"
+        }
+      },
+      "security": {
+        "password": {
+          "title": "Change Password",
+          "description": "Change your password regularly to keep your account secure",
+          "currentPassword": "Current Password",
+          "newPassword": "New Password",
+          "confirmPassword": "Confirm New Password",
+          "currentPasswordPlaceholder": "Enter current password",
+          "newPasswordPlaceholder": "Enter new password",
+          "confirmPasswordPlaceholder": "Enter new password again",
+          "hint": "Password must be at least 8 characters",
+          "save": "Update Password",
+          "saving": "Updating...",
+          "success": "Password updated successfully",
+          "fail": "Failed to update password",
+          "passwordsNotMatch": "Passwords do not match",
+          "weakPassword": "Password is too weak",
+          "wrongCurrentPassword": "Current password is incorrect"
+        },
+        "deleteAccount": {
+          "title": "Delete Account",
+          "description": "Permanently delete your account and all data",
+          "warning": "⚠️ This action cannot be undone",
+          "confirmText": "I understand this action cannot be undone",
+          "deleteButton": "Delete Account",
+          "deleting": "Deleting...",
+          "success": "Account deleted",
+          "fail": "Failed to delete account"
+        }
+      },
+      "credits": {
+        "balance": {
+          "title": "Credits Balance",
+          "description": "Your current available credits",
+          "creditsAdded": "Credits added successfully",
+          "retry": "Retry",
+          "expiringCredits": "{credits} credits will expire in {days} days"
+        },
+        "packages": {
+          "title": "Buy Credits",
+          "description": "Choose a credits package that suits you",
+          "credits": "Credits",
+          "popular": "Popular",
+          "buyNow": "Buy Now",
+          "buying": "Buying...",
+          "bonus": "Bonus {amount} credits"
+        },
+        "transactions": {
+          "title": "Transaction History",
+          "description": "View your credits usage history",
+          "date": "Date",
+          "type": "Type",
+          "amount": "Amount",
+          "balance": "Balance",
+          "description_col": "Description",
+          "noTransactions": "No transactions yet",
+          "loadMore": "Load More",
+          "types": {
+            "purchase": "Purchase",
+            "consume": "Consume",
+            "refund": "Refund",
+            "bonus": "Bonus",
+            "signin": "Sign In"
+          }
+        }
+      },
+      "billing": {
+        "title": "Billing Management",
+        "description": "Manage your subscription and payment methods",
+        "currentPlan": "Current Plan",
+        "nextBilling": "Next Billing",
+        "cancel": "Cancel Subscription",
+        "upgrade": "Upgrade Plan",
+        "paymentMethod": "Payment Method",
+        "addPaymentMethod": "Add Payment Method",
+        "billingHistory": "Billing History",
+        "invoice": "Invoice",
+        "download": "Download",
+        "paid": "Paid",
+        "pending": "Pending"
+      },
+      "notification": {
+        "title": "Notification Settings",
+        "description": "Manage your notification preferences",
+        "email": {
+          "title": "Email Notifications",
+          "marketing": "Marketing Emails",
+          "updates": "Product Updates",
+          "newsletters": "Newsletters",
+          "tips": "Tips & Tricks"
+        },
+        "push": {
+          "title": "Push Notifications",
+          "analysis": "Analysis Complete",
+          "credits": "Credits Changes",
+          "system": "System Notifications"
+        },
+        "save": "Save Settings",
+        "saving": "Saving...",
+        "success": "Settings saved",
+        "fail": "Failed to save"
+      }
     }
   }
 }

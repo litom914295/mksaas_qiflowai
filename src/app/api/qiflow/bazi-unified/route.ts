@@ -24,21 +24,12 @@ type BaziRequest = z.infer<typeof BaziRequestSchema>;
  */
 export async function POST(req: NextRequest) {
   try {
-    // 1. 验证用户登录状态
+    // 1. 验证用户登录状态（可选）
     const session = await auth.api.getSession({
       headers: req.headers,
     });
 
-    if (!session?.user) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: '请先登录',
-          needsLogin: true,
-        },
-        { status: 401 }
-      );
-    }
+    const isLoggedIn = !!session?.user;
 
     // 2. 解析和验证请求参数
     const body = await req.json();
@@ -58,38 +49,52 @@ export async function POST(req: NextRequest) {
     const { name, birthDate, birthTime, gender, birthCity, calendarType } =
       parsed.data;
 
-    // 3. 检查积分余额
+    // 3. 如果用户已登录，检查积分并扣除
     const REQUIRED_CREDITS = 10;
-    const balanceResult = await getCreditBalanceAction();
+    let creditsUsed = 0;
+    let isFreeTrial = false;
 
-    if (!balanceResult?.data || !balanceResult.data.success || (balanceResult.data.credits ?? 0) < REQUIRED_CREDITS) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: '积分不足',
-          needsCredits: true,
-          required: REQUIRED_CREDITS,
-          available: balanceResult?.data?.credits || 0,
-        },
-        { status: 402 }
-      );
-    }
+    if (isLoggedIn) {
+      const balanceResult = await getCreditBalanceAction();
 
-    // 4. 扣除积分
-    const consumeResult = await consumeCreditsAction({
-      amount: REQUIRED_CREDITS,
-      description: `八字分析 - ${name}`,
-    });
+      if (
+        !balanceResult?.data ||
+        !balanceResult.data.success ||
+        (balanceResult.data.credits ?? 0) < REQUIRED_CREDITS
+      ) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: '积分不足',
+            needsCredits: true,
+            required: REQUIRED_CREDITS,
+            available: balanceResult?.data?.credits || 0,
+          },
+          { status: 402 }
+        );
+      }
 
-    if (!consumeResult?.data?.success) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: '积分扣除失败',
-          details: consumeResult?.data?.error || '未知错误',
-        },
-        { status: 500 }
-      );
+      // 4. 扣除积分
+      const consumeResult = await consumeCreditsAction({
+        amount: REQUIRED_CREDITS,
+        description: `八字分析 - ${name}`,
+      });
+
+      if (!consumeResult?.data?.success) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: '积分扣除失败',
+            details: consumeResult?.data?.error || '未知错误',
+          },
+          { status: 500 }
+        );
+      }
+
+      creditsUsed = REQUIRED_CREDITS;
+    } else {
+      // 未登录用户可以免费试用基础功能
+      isFreeTrial = true;
     }
 
     // 5. 调用八字分析引擎
@@ -141,7 +146,8 @@ export async function POST(req: NextRequest) {
       success: true,
       data: {
         ...baziAnalysisResult,
-        creditsUsed: REQUIRED_CREDITS,
+        creditsUsed,
+        isFreeTrial,
         analysisDate: new Date().toISOString(),
         inputData: {
           name,
@@ -152,7 +158,7 @@ export async function POST(req: NextRequest) {
           calendarType,
         },
       },
-      message: '八字分析完成',
+      message: isFreeTrial ? '八字分析完成（试用版）' : '八字分析完成',
     });
   } catch (error) {
     console.error('八字分析API错误:', error);

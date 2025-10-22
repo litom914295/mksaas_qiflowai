@@ -1,6 +1,19 @@
-import type { AuditLog } from '@/lib/qiflow/ai/guardrails';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+
+// 定义 AuditLog 类型
+interface AuditLog {
+  timestamp: string;
+  userId?: string;
+  sessionId: string;
+  questionType: 'bazi' | 'fengshui' | 'general' | 'unknown';
+  hasValidData: boolean;
+  dataVersion?: string;
+  dataHash?: string;
+  responseType: 'ANALYSIS' | 'GUIDANCE' | 'SENSITIVE_FILTER' | 'ERROR';
+  confidenceLevel?: number;
+  error?: string;
+}
 
 // 审计日志Schema
 const AuditLogSchema = z.object({

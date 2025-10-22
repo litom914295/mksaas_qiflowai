@@ -1,41 +1,38 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import dynamic from 'next/dynamic';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Bold,
-  Italic,
-  Underline,
-  Link,
-  List,
-  ListOrdered,
-  Quote,
   Code,
-  Image,
-  Table,
+  Eye,
+  EyeOff,
+  FileText,
   Heading1,
   Heading2,
   Heading3,
-  FileText,
-  Eye,
-  EyeOff,
+  Image,
+  Italic,
+  Link,
+  List,
+  ListOrdered,
   Maximize2,
   Minimize2,
-  Upload,
-  Undo,
+  Quote,
   Redo,
+  Table,
+  Underline,
+  Undo,
+  Upload,
 } from 'lucide-react';
-import { toast } from '@/components/ui/use-toast';
+import dynamic from 'next/dynamic';
+import { useCallback, useState } from 'react';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 
 // 动态导入MDEditor以避免SSR问题
-const MDEditor = dynamic(
-  () => import('@uiw/react-md-editor'),
-  { ssr: false }
-);
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 interface MarkdownEditorProps {
   value: string;
@@ -57,46 +54,63 @@ export default function MarkdownEditor({
   onImageUpload,
 }: MarkdownEditorProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [previewMode, setPreviewMode] = useState<'live' | 'edit' | 'preview'>(preview);
+  const [previewMode, setPreviewMode] = useState<'live' | 'edit' | 'preview'>(
+    preview
+  );
   const [uploading, setUploading] = useState(false);
+  const { toast } = useToast();
 
   // 插入文本到光标位置
-  const insertText = useCallback((text: string) => {
-    const textarea = document.querySelector('.w-md-editor-text-input') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const insertText = useCallback(
+    (text: string) => {
+      const textarea = document.querySelector(
+        '.w-md-editor-text-input'
+      ) as HTMLTextAreaElement;
+      if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const newValue = value.substring(0, start) + text + value.substring(end);
-    
-    onChange(newValue);
-    
-    // 恢复光标位置
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + text.length, start + text.length);
-    }, 0);
-  }, [value, onChange]);
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const newValue = value.substring(0, start) + text + value.substring(end);
+
+      onChange(newValue);
+
+      // 恢复光标位置
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + text.length, start + text.length);
+      }, 0);
+    },
+    [value, onChange]
+  );
 
   // 包裹选中文本
-  const wrapText = useCallback((before: string, after: string = before) => {
-    const textarea = document.querySelector('.w-md-editor-text-input') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const wrapText = useCallback(
+    (before: string, after: string = before) => {
+      const textarea = document.querySelector(
+        '.w-md-editor-text-input'
+      ) as HTMLTextAreaElement;
+      if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = value.substring(start, end);
-    const newText = before + selectedText + after;
-    const newValue = value.substring(0, start) + newText + value.substring(end);
-    
-    onChange(newValue);
-    
-    // 选中新插入的文本
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length);
-    }, 0);
-  }, [value, onChange]);
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = value.substring(start, end);
+      const newText = before + selectedText + after;
+      const newValue =
+        value.substring(0, start) + newText + value.substring(end);
+
+      onChange(newValue);
+
+      // 选中新插入的文本
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(
+          start + before.length,
+          start + before.length + selectedText.length
+        );
+      }, 0);
+    },
+    [value, onChange]
+  );
 
   // 处理图片上传
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -237,12 +251,17 @@ export default function MarkdownEditor({
     {
       icon: <Table className="h-4 w-4" />,
       title: '表格',
-      action: () => insertText('\n| 列1 | 列2 | 列3 |\n| --- | --- | --- |\n| 内容1 | 内容2 | 内容3 |\n'),
+      action: () =>
+        insertText(
+          '\n| 列1 | 列2 | 列3 |\n| --- | --- | --- |\n| 内容1 | 内容2 | 内容3 |\n'
+        ),
     },
   ];
 
   return (
-    <div className={`markdown-editor-wrapper ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-gray-900' : ''}`}>
+    <div
+      className={`markdown-editor-wrapper ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-gray-900' : ''}`}
+    >
       {/* 自定义工具栏 */}
       {!hideToolbar && (
         <Card className="mb-2 p-2">
@@ -250,7 +269,12 @@ export default function MarkdownEditor({
             <div className="flex items-center gap-1">
               {toolbarButtons.map((button, index) => {
                 if (button.divider) {
-                  return <div key={index} className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1" />;
+                  return (
+                    <div
+                      key={index}
+                      className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1"
+                    />
+                  );
                 }
                 return (
                   <Button
@@ -265,7 +289,7 @@ export default function MarkdownEditor({
                   </Button>
                 );
               })}
-              
+
               {/* 图片上传按钮 */}
               <div className="relative">
                 <input
@@ -279,7 +303,9 @@ export default function MarkdownEditor({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => document.getElementById('image-upload')?.click()}
+                  onClick={() =>
+                    document.getElementById('image-upload')?.click()
+                  }
                   title="上传图片"
                   disabled={uploading}
                 >

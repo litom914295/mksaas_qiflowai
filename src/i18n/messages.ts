@@ -8,13 +8,20 @@ import { routing } from './routing';
 // and the email templates can use the default messages to preview the emails
 export { default as defaultMessages } from '../../messages/en.json';
 
+// 内存缓存，避免重复加载和合并
+const messagesCache = new Map<Locale, Messages>();
+let defaultMessagesCache: Messages | null = null;
+
 const importLocale = async (locale: Locale): Promise<Messages> => {
   return (await import(`../../messages/${locale}.json`)).default as Messages;
 };
 
 // Instead of using top-level await, create a function to get default messages
 export const getDefaultMessages = async (): Promise<Messages> => {
-  return await importLocale(routing.defaultLocale);
+  if (!defaultMessagesCache) {
+    defaultMessagesCache = await importLocale(routing.defaultLocale);
+  }
+  return defaultMessagesCache;
 };
 
 /**
@@ -26,11 +33,28 @@ export const getDefaultMessages = async (): Promise<Messages> => {
 export const getMessagesForLocale = async (
   locale: Locale
 ): Promise<Messages> => {
-  const localeMessages = await importLocale(locale);
-  if (locale === routing.defaultLocale) {
-    return localeMessages;
+  // 检查缓存
+  if (messagesCache.has(locale)) {
+    return messagesCache.get(locale)!;
   }
-  // Get default messages when needed instead of using a top-level await
-  const defaultMessages = await getDefaultMessages();
-  return deepmerge(defaultMessages, localeMessages);
+
+  const startTime = performance.now();
+  const localeMessages = await importLocale(locale);
+
+  let result: Messages;
+  if (locale === routing.defaultLocale) {
+    result = localeMessages;
+  } else {
+    // Get default messages when needed instead of using a top-level await
+    const defaultMessages = await getDefaultMessages();
+    result = deepmerge(defaultMessages, localeMessages);
+  }
+
+  // 存入缓存
+  messagesCache.set(locale, result);
+
+  const duration = performance.now() - startTime;
+  console.log(`[i18n] getMessages: ${duration.toFixed(3)}ms`);
+
+  return result;
 };

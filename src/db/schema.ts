@@ -308,3 +308,4 @@ export const copyrightAudit = pgTable('copyright_audit', {
 	copyrightAuditUserIdIdx: index("copyright_audit_user_id_idx").on(table.userId),
 	copyrightAuditCreatedAtIdx: index("copyright_audit_created_at_idx").on(table.createdAt),
 }));
+

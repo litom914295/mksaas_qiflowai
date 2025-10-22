@@ -30,23 +30,23 @@ export function ThemeSelector() {
 
   const DEFAULT_THEMES = [
     {
-      name: t('default'),
+      name: t('default' as any),
       value: 'default',
     },
     {
-      name: t('neutral'),
+      name: t('neutral' as any),
       value: 'neutral',
     },
     {
-      name: t('blue'),
+      name: t('blue' as any),
       value: 'blue',
     },
     {
-      name: t('green'),
+      name: t('green' as any),
       value: 'green',
     },
     {
-      name: t('amber'),
+      name: t('amber' as any),
       value: 'amber',
     },
   ];

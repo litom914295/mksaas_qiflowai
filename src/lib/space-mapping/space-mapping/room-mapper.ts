@@ -72,10 +72,12 @@ export class RoomMapper {
   private applyAlignment(rooms: Room[], alignment: AlignmentResult): Room[] {
     return rooms.map((room) => ({
       ...room,
-      coordinates: room.coordinates.map((point) =>
+      coordinates: room.coordinates?.map((point: any) =>
         this.transformPoint(point, alignment)
       ),
-      center: this.transformPoint(room.center, alignment),
+      center: room.center
+        ? this.transformPoint(room.center, alignment)
+        : undefined,
     }));
   }
 
@@ -153,9 +155,9 @@ export class RoomMapper {
         const mapping: RoomMappingResult = {
           roomId: room.id,
           palaceIndex: bestPalace.palaceIndex,
-          coordinates: room.coordinates,
-          center: room.center,
-          area: room.area,
+          coordinates: room.coordinates || [],
+          center: room.center || { x: 0, y: 0 },
+          area: (room as any).area || this.calculateRoomArea(room),
           confidence: this.calculateMappingConfidence(room, bestPalace),
           alignmentScore: this.calculateAlignmentScore(room, bestPalace),
         };
@@ -196,6 +198,8 @@ export class RoomMapper {
    * 计算宫位得分
    */
   private calculatePalaceScore(room: Room, palace: PalaceMapping): number {
+    if (!room.center || !room.coordinates) return 0;
+
     // 1. 中心点距离得分
     const centerDistance = Math.sqrt(
       (room.center.x - palace.center.x) ** 2 +
@@ -250,12 +254,16 @@ export class RoomMapper {
     minY: number;
     maxY: number;
   } {
-    if (room.coordinates.length === 0) {
+    if (!room.coordinates || room.coordinates.length === 0) {
       return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     }
 
-    const xs = room.coordinates.map((p) => p.x);
-    const ys = room.coordinates.map((p) => p.y);
+    const xs = room.coordinates.filter((p): p is Point => !!p).map((p) => p.x);
+    const ys = room.coordinates.filter((p): p is Point => !!p).map((p) => p.y);
+
+    if (xs.length === 0 || ys.length === 0) {
+      return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+    }
 
     return {
       minX: Math.min(...xs),
@@ -269,7 +277,7 @@ export class RoomMapper {
    * 计算房间面积
    */
   private calculateRoomArea(room: Room): number {
-    if (room.coordinates.length < 3) return 0;
+    if (!room.coordinates || room.coordinates.length < 3) return 0;
 
     // 使用鞋带公式计算多边形面积
     let area = 0;
@@ -277,8 +285,12 @@ export class RoomMapper {
 
     for (let i = 0; i < n; i++) {
       const j = (i + 1) % n;
-      area += room.coordinates[i].x * room.coordinates[j].y;
-      area -= room.coordinates[j].x * room.coordinates[i].y;
+      const curr = room.coordinates[i];
+      const next = room.coordinates[j];
+      if (curr && next) {
+        area += curr.x * next.y;
+        area -= next.x * curr.y;
+      }
     }
 
     return Math.abs(area) / 2;
@@ -345,7 +357,7 @@ export class RoomMapper {
     palace: PalaceMapping
   ): number {
     const palaceScore = this.calculatePalaceScore(room, palace);
-    const roomConfidence = room.confidence || 0.5;
+    const roomConfidence = (room as any).confidence || 0.5;
 
     return (palaceScore + roomConfidence) / 2;
   }

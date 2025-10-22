@@ -45,7 +45,16 @@ export function ChengmenjueAnalysisView({
     chengmenPositions = [],
     activationMethods = [],
     taboos = [],
-  } = chengmenjueAnalysis;
+    overallAssessment,
+    keyPoints,
+    priorities,
+  } = chengmenjueAnalysis as any;
+
+  const analysis = {
+    overallAssessment,
+    keyPoints,
+    priorities,
+  };
 
   const applicable = hasChengmen;
 

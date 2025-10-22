@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-lifecycle
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+    ports:
+      - "9090:9090"
+    networks: [monitor]
+
+  grafana:
+    image: grafana/grafana-oss:10.4.6
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks: [monitor]
+
+  traffic-switcher:
+    build:
+      context: ../services/traffic-switcher
+    container_name: traffic-switcher
+    environment:
+      - PORT=8080
+      - DEFAULT_HOST=local.test
+    ports:
+      - "8080:8080"
+    networks: [monitor]
+
+networks:
+  monitor: {}

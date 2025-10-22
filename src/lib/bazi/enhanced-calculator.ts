@@ -38,6 +38,15 @@ export interface EnhancedBaziResult extends BaziResult {
   interactions?: BaziInteraction[];
   dayMasterStrength?: DayMasterStrengthResult;
   favorableElements?: FavorableElementsResult;
+  pattern?: {
+    primary: string;
+    secondary: string[];
+    stability: number;
+    rationale: string;
+  };
+  shensha?: any;
+  interpretation?: any;
+  lunar?: any;
 }
 
 export interface LuckPillarResult {

@@ -109,14 +109,14 @@ export function LingzhengAnalysisView({
 
   // 水位布局详情
   const waterPlacements = [
-    ...waterPlacement.favorable.map((p) => ({
+    ...waterPlacement.favorable.map((p: number) => ({
       direction: palaceToDirection[p],
       palace: p,
       suitable: true,
       analysis: `${palaceToDirection[p]}方宜见水，可旺财运`,
       suggestion: '建议布置鱼缸、水景或开门窗',
     })),
-    ...waterPlacement.unfavorable.map((p) => ({
+    ...waterPlacement.unfavorable.map((p: number) => ({
       direction: palaceToDirection[p],
       palace: p,
       suitable: false,
@@ -127,14 +127,14 @@ export function LingzhengAnalysisView({
 
   // 山位布局详情
   const mountainPlacements = [
-    ...mountainPlacement.favorable.map((p) => ({
+    ...mountainPlacement.favorable.map((p: number) => ({
       direction: palaceToDirection[p],
       palace: p,
       suitable: true,
       analysis: `${palaceToDirection[p]}方宜见山，可旺人丁`,
       suggestion: '建议布置高大家具或山石装饰',
     })),
-    ...mountainPlacement.unfavorable.map((p) => ({
+    ...mountainPlacement.unfavorable.map((p: number) => ({
       direction: palaceToDirection[p],
       palace: p,
       suitable: false,
@@ -351,7 +351,7 @@ export function LingzhengAnalysisView({
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {waterPlacements?.map((placement, idx) => (
+            {waterPlacements?.map((placement: any, idx: number) => (
               <div key={idx} className="border rounded-lg p-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
@@ -388,7 +388,7 @@ export function LingzhengAnalysisView({
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {mountainPlacements?.map((placement, idx) => (
+            {mountainPlacements?.map((placement: any, idx: number) => (
               <div key={idx} className="border rounded-lg p-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
@@ -429,12 +429,17 @@ export function LingzhengAnalysisView({
             <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-medium">总体匹配度</h4>
-                <Badge className={getRatingColor(analysis.overallRating)}>
-                  {analysis.overallRating}
+                <Badge
+                  className={getRatingColor(
+                    (lingzhengAnalysis as any).overallRating || '一般'
+                  )}
+                >
+                  {(lingzhengAnalysis as any).overallRating || '一般'}
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground">
-                {analysis.summary}
+                {(lingzhengAnalysis as any).summary ||
+                  '零正神布局需要综合评估水山位置'}
               </p>
             </div>
 
@@ -444,11 +449,13 @@ export function LingzhengAnalysisView({
                 ✓ 优势方面
               </h4>
               <ul className="space-y-1 ml-4">
-                {analysis.strengths?.map((strength: any, idx: number) => (
-                  <li key={idx} className="text-sm text-muted-foreground">
-                    • {strength}
-                  </li>
-                )) || (
+                {(lingzhengAnalysis as any).strengths?.map(
+                  (strength: any, idx: number) => (
+                    <li key={idx} className="text-sm text-muted-foreground">
+                      • {strength}
+                    </li>
+                  )
+                ) || (
                   <li className="text-sm text-muted-foreground">
                     • 暂无具体优势数据
                   </li>
@@ -462,11 +469,13 @@ export function LingzhengAnalysisView({
                 ⚠ 改进建议
               </h4>
               <ul className="space-y-1 ml-4">
-                {analysis.improvements?.map((improvement: any, idx: number) => (
-                  <li key={idx} className="text-sm text-muted-foreground">
-                    • {improvement}
-                  </li>
-                )) || (
+                {(lingzhengAnalysis as any).improvements?.map(
+                  (improvement: any, idx: number) => (
+                    <li key={idx} className="text-sm text-muted-foreground">
+                      • {improvement}
+                    </li>
+                  )
+                ) || (
                   <li className="text-sm text-muted-foreground">
                     • 暂无具体改进建议
                   </li>

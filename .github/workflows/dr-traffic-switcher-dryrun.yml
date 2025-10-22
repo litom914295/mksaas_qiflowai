@@ -1,0 +1,65 @@
+name: DR Traffic Switcher Dry-Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      weight:
+        description: 'Canary weight 0-100'
+        required: false
+        default: '25'
+      repeats:
+        description: 'Repeat count to simulate frequent switches'
+        required: false
+        default: '1'
+
+jobs:
+  dryrun:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set inputs
+        run: |
+          echo "WEIGHT=${{ github.event.inputs.weight || '25' }}" >> $GITHUB_ENV
+          echo "REPEATS=${{ github.event.inputs.repeats || '1' }}" >> $GITHUB_ENV
+
+      - name: Prepare reports dir
+        run: mkdir -p reports
+
+      - name: API dry-run (if TRAFFIC_SWITCHER_URL provided)
+        env:
+          TRAFFIC_SWITCHER_URL: ${{ secrets.TRAFFIC_SWITCHER_URL }}
+          WEIGHT: ${{ env.WEIGHT }}
+          REPEATS: ${{ env.REPEATS }}
+        shell: bash
+        run: |
+          if [ -n "${TRAFFIC_SWITCHER_URL}" ]; then
+            echo "URL provided. Running dry-run sequence..."
+            for i in $(seq 1 ${REPEATS}); do
+              curl -fsS "${TRAFFIC_SWITCHER_URL}/status" -o reports/status_before_${i}.json || true
+              curl -fsS -H 'Content-Type: application/json' \
+                -d "{\"canary_weight\":${WEIGHT},\"dry_run\":true}" \
+                -X POST "${TRAFFIC_SWITCHER_URL}/switch" -o reports/switch_set_${i}.json || true
+              curl -fsS -H 'Content-Type: application/json' \
+                -d "{\"canary_weight\":0,\"dry_run\":true}" \
+                -X POST "${TRAFFIC_SWITCHER_URL}/switch" -o reports/switch_rollback_${i}.json || true
+            done
+            curl -fsS "${TRAFFIC_SWITCHER_URL}/metrics" -o reports/metrics.txt || true
+          else
+            echo "TRAFFIC_SWITCHER_URL not set; skipping API dry-run." | tee reports/skip.txt
+          fi
+
+      - name: Kubectl reference (no cluster in CI)
+        env:
+          WEIGHT: ${{ env.WEIGHT }}
+        shell: bash
+        run: |
+          echo "kubectl -n mksaas patch ingress mksaas-ingress-canary --type merge -p '{\"metadata\":{\"annotations\":{\"nginx.ingress.kubernetes.io/canary-weight\":\"$WEIGHT\"}}}'" \
+            > reports/kubectl_reference.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dr-traffic-switcher-dryrun
+          path: reports

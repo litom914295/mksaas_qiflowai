@@ -100,8 +100,8 @@ export function PersonalizedAnalysisView({
           description: tip,
           priority: 2,
           actions: [
-            `工作区域：${PALACE_TO_BAGUA[careerEnhancement.bestWorkArea] || '未知'}`,
-            `学习区域：${PALACE_TO_BAGUA[careerEnhancement.studyArea] || '未知'}`,
+            `工作区域：${(PALACE_TO_BAGUA as any)[(careerEnhancement as any).bestWorkArea] || '未知'}`,
+            `学习区域：${(PALACE_TO_BAGUA as any)[(careerEnhancement as any).studyArea] || '未知'}`,
           ],
           category: 'career',
         }))
@@ -125,8 +125,8 @@ export function PersonalizedAnalysisView({
             description: advice,
             priority: 2,
             actions: [
-              `财位：${PALACE_TO_BAGUA[wealthAndProsperity.wealthCorner] || '未知'}`,
-              `投资区：${PALACE_TO_BAGUA[wealthAndProsperity.investmentArea] || '未知'}`,
+              `财位：${(PALACE_TO_BAGUA as any)[(wealthAndProsperity as any).wealthCorner] || '未知'}`,
+              `投资区：${(PALACE_TO_BAGUA as any)[(wealthAndProsperity as any).investmentArea] || '未知'}`,
             ],
             category: 'wealth',
           })
@@ -402,11 +402,11 @@ export function PersonalizedAnalysisView({
             <div className="bg-white rounded-lg p-4 space-y-2">
               <p className="text-sm">
                 <strong className="text-green-600">有利组合:</strong>{' '}
-                {baziIntegration.compatibility?.beneficial || '暂无数据'}
+                {(compatibility as any)?.beneficial || '暂无数据'}
               </p>
               <p className="text-sm">
                 <strong className="text-orange-600">需要化解:</strong>{' '}
-                {baziIntegration.compatibility?.conflicting || '暂无数据'}
+                {(compatibility as any)?.conflicting || '暂无数据'}
               </p>
             </div>
           </div>

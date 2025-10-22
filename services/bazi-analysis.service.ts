@@ -3,7 +3,10 @@
  * 封装与后端API的交互
  */
 
-import { BaziAnalysisRequest, BaziAnalysisResponse } from '@/lib/bazi-pro/types';
+import type {
+  BaziAnalysisRequest,
+  BaziAnalysisResponse,
+} from '@/lib/bazi-pro/types';
 
 export class BaziAnalysisService {
   private static instance: BaziAnalysisService;
@@ -115,7 +118,7 @@ export class BaziAnalysisService {
       return false;
     }
     const d = new Date(date);
-    return d instanceof Date && !isNaN(d.getTime());
+    return d instanceof Date && !Number.isNaN(d.getTime());
   }
 
   /**
@@ -129,7 +132,9 @@ export class BaziAnalysisService {
   /**
    * 计算积分需求
    */
-  calculateCreditsRequired(depth: 'basic' | 'standard' | 'comprehensive'): number {
+  calculateCreditsRequired(
+    depth: 'basic' | 'standard' | 'comprehensive'
+  ): number {
     const credits = {
       basic: 5,
       standard: 10,
@@ -141,7 +146,10 @@ export class BaziAnalysisService {
   /**
    * 保存分析历史到本地
    */
-  saveToHistory(request: BaziAnalysisRequest, response: BaziAnalysisResponse): void {
+  saveToHistory(
+    request: BaziAnalysisRequest,
+    response: BaziAnalysisResponse
+  ): void {
     try {
       const history = this.getHistory();
       const entry = {
@@ -150,14 +158,14 @@ export class BaziAnalysisService {
         response,
         timestamp: new Date().toISOString(),
       };
-      
+
       history.unshift(entry);
-      
+
       // 只保留最近20条记录
       if (history.length > 20) {
         history.splice(20);
       }
-      
+
       localStorage.setItem('bazi_analysis_history', JSON.stringify(history));
     } catch (error) {
       console.error('保存历史记录失败:', error);
@@ -187,7 +195,10 @@ export class BaziAnalysisService {
   /**
    * 导出分析报告
    */
-  async exportReport(data: BaziAnalysisResponse['data'], format: 'pdf' | 'image' = 'pdf'): Promise<Blob> {
+  async exportReport(
+    data: BaziAnalysisResponse['data'],
+    format: 'pdf' | 'image' = 'pdf'
+  ): Promise<Blob> {
     // 这里可以实现PDF或图片导出功能
     // 暂时返回一个模拟的Blob
     return new Blob(['分析报告内容'], { type: 'application/pdf' });
@@ -207,18 +218,18 @@ export class BaziAnalysisService {
    */
   getTimeRangeByShichen(shichen: string): string {
     const shichenMap: Record<string, string> = {
-      '子时': '23:00-01:00',
-      '丑时': '01:00-03:00',
-      '寅时': '03:00-05:00',
-      '卯时': '05:00-07:00',
-      '辰时': '07:00-09:00',
-      '巳时': '09:00-11:00',
-      '午时': '11:00-13:00',
-      '未时': '13:00-15:00',
-      '申时': '15:00-17:00',
-      '酉时': '17:00-19:00',
-      '戌时': '19:00-21:00',
-      '亥时': '21:00-23:00',
+      子时: '23:00-01:00',
+      丑时: '01:00-03:00',
+      寅时: '03:00-05:00',
+      卯时: '05:00-07:00',
+      辰时: '07:00-09:00',
+      巳时: '09:00-11:00',
+      午时: '11:00-13:00',
+      未时: '13:00-15:00',
+      申时: '15:00-17:00',
+      酉时: '17:00-19:00',
+      戌时: '19:00-21:00',
+      亥时: '21:00-23:00',
     };
     return shichenMap[shichen] || '';
   }
@@ -228,7 +239,7 @@ export class BaziAnalysisService {
    */
   getShichenByTime(time: string): string {
     const [hour] = time.split(':').map(Number);
-    
+
     if (hour >= 23 || hour < 1) return '子时';
     if (hour >= 1 && hour < 3) return '丑时';
     if (hour >= 3 && hour < 5) return '寅时';
@@ -241,7 +252,7 @@ export class BaziAnalysisService {
     if (hour >= 17 && hour < 19) return '酉时';
     if (hour >= 19 && hour < 21) return '戌时';
     if (hour >= 21 && hour < 23) return '亥时';
-    
+
     return '未知';
   }
 }

@@ -49,8 +49,8 @@ export const getCacheKey = (
 export const cachedBaziAnalysis = unstable_cache(
   async (birthData: string, gender: string) => {
     // 这里调用实际的八字分析函数
-    const { calculateBazi } = await import('@/lib/qiflow/bazi');
-    return calculateBazi({ birthData, gender });
+    const mod: any = await import('@/lib/qiflow/bazi');
+    return mod.calculateBazi({ birthData, gender });
   },
   ['bazi-analysis'],
   {
@@ -63,8 +63,8 @@ export const cachedBaziAnalysis = unstable_cache(
 export const cachedXuankongAnalysis = unstable_cache(
   async (address: string, facing: number) => {
     // 这里调用实际的玄空分析函数
-    const { calculateXuankong } = await import('@/lib/qiflow/xuankong');
-    return calculateXuankong({ address, facing });
+    const mod: any = await import('@/lib/qiflow/xuankong');
+    return mod.calculateXuankong({ address, facing });
   },
   ['xuankong-analysis'],
   {

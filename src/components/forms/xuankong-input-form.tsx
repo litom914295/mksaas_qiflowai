@@ -1,6 +1,9 @@
 'use client';
 
-import { XuankongForm, type XuankongFormData as BaseFormData } from '../analysis/xuankong-form';
+import {
+  type XuankongFormData as BaseFormData,
+  XuankongForm,
+} from '../qiflow/xuankong/xuankong-form';
 
 export interface XuankongFormData {
   facingDirection: number;

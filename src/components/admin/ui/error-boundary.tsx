@@ -1,20 +1,27 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { AlertCircle, Home, RefreshCw } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { AlertCircle, Home, RefreshCw } from 'lucide-react';
+import { useEffect } from 'react';
 
 interface ErrorBoundaryProps {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }
 
 export default function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
   useEffect(() => {
     // 记录错误到错误报告服务
-    console.error('Error:', error)
-  }, [error])
+    console.error('Error:', error);
+  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -24,9 +31,7 @@ export default function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
             <AlertCircle className="h-5 w-5 text-destructive" />
             <CardTitle>出错了</CardTitle>
           </div>
-          <CardDescription>
-            抱歉，页面加载时遇到了问题
-          </CardDescription>
+          <CardDescription>抱歉，页面加载时遇到了问题</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="rounded-md bg-muted p-4">
@@ -56,7 +61,7 @@ export default function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
 
 // 404 错误页面
@@ -66,9 +71,7 @@ export function NotFound() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-6xl font-bold">404</CardTitle>
-          <CardDescription className="text-center">
-            页面未找到
-          </CardDescription>
+          <CardDescription className="text-center">页面未找到</CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-center text-muted-foreground">
@@ -86,7 +89,7 @@ export function NotFound() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
 
 // 无权限页面
@@ -99,9 +102,7 @@ export function Unauthorized() {
             <AlertCircle className="h-5 w-5 text-warning" />
             <CardTitle>无权限访问</CardTitle>
           </div>
-          <CardDescription>
-            您没有权限访问此页面
-          </CardDescription>
+          <CardDescription>您没有权限访问此页面</CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
@@ -109,14 +110,11 @@ export function Unauthorized() {
           </p>
         </CardContent>
         <CardFooter>
-          <Button
-            onClick={() => window.history.back()}
-            className="w-full"
-          >
+          <Button onClick={() => window.history.back()} className="w-full">
             返回上一页
           </Button>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

@@ -80,15 +80,15 @@ CREATE INDEX IF NOT EXISTS idx_verification_token ON verification(token);
 async function createTables() {
   console.log('🚀 开始创建认证表...\n');
   console.log(`📍 Supabase URL: ${SUPABASE_URL}`);
-  console.log(`🔑 使用 Service Role Key\n`);
+  console.log('🔑 使用 Service Role Key\n');
 
   try {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/exec_sql`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': SERVICE_ROLE_KEY,
-        'Authorization': `Bearer ${SERVICE_ROLE_KEY}`,
+        apikey: SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
       },
       body: JSON.stringify({ query: SQL }),
     });
@@ -107,7 +107,7 @@ async function createTables() {
     console.log('  ✅ verification  - 验证令牌表\n');
     console.log('🎉 现在可以测试注册功能了！');
     console.log('👉 http://localhost:3000/zh-CN/sign-up\n');
-    
+
     return result;
   } catch (error) {
     console.error('❌ 创建表失败:', error.message);
@@ -127,7 +127,7 @@ async function createTables() {
 // 验证表是否创建成功
 async function verifyTables() {
   console.log('🔍 验证表是否创建成功...\n');
-  
+
   const checkSQL = `
     SELECT table_name 
     FROM information_schema.tables 
@@ -141,8 +141,8 @@ async function verifyTables() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': SERVICE_ROLE_KEY,
-        'Authorization': `Bearer ${SERVICE_ROLE_KEY}`,
+        apikey: SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
       },
       body: JSON.stringify({ query: checkSQL }),
     });

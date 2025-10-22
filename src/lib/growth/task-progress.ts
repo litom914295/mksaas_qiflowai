@@ -19,9 +19,15 @@ export async function incrementTaskProgress(params: {
   const db = await getDb();
   // Try read existing row
   const existing = await db
-    .select({ id: taskProgress.id, progress: taskProgress.progress, target: taskProgress.target })
+    .select({
+      id: taskProgress.id,
+      progress: taskProgress.progress,
+      target: taskProgress.target,
+    })
     .from(taskProgress)
-    .where(and(eq(taskProgress.userId, userId), eq(taskProgress.taskId, taskId)))
+    .where(
+      and(eq(taskProgress.userId, userId), eq(taskProgress.taskId, taskId))
+    )
     .limit(1);
 
   if (existing.length === 0) {
@@ -39,10 +45,17 @@ export async function incrementTaskProgress(params: {
   }
 
   const cur = existing[0];
-  const nextProgress = Math.min((cur.progress ?? 0) + delta, cur.target ?? target);
+  const nextProgress = Math.min(
+    (cur.progress ?? 0) + delta,
+    cur.target ?? target
+  );
   await db
     .update(taskProgress)
-    .set({ progress: nextProgress, completed: nextProgress >= (cur.target ?? target), updatedAt: new Date() })
+    .set({
+      progress: nextProgress,
+      completed: nextProgress >= (cur.target ?? target),
+      updatedAt: new Date(),
+    })
     .where(eq(taskProgress.id, cur.id));
   return { progress: nextProgress, target: cur.target ?? target };
 }

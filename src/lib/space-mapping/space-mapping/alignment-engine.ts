@@ -166,11 +166,11 @@ export class AlignmentEngine {
     const referencePoints: Point[] = [];
 
     for (const room of rooms) {
-      if (room.coordinates.length < 2) continue;
+      if (!room.coordinates || room.coordinates.length < 2) continue;
 
       // 计算房间的主要方向向量
       const roomAngle = this.calculateRoomMainDirection(room);
-      if (roomAngle !== null) {
+      if (roomAngle !== null && room.center) {
         angles.push(roomAngle);
         referencePoints.push(room.center);
       }
@@ -201,7 +201,7 @@ export class AlignmentEngine {
    * 计算房间主要方向
    */
   private calculateRoomMainDirection(room: Room): number | null {
-    if (room.coordinates.length < 2) return null;
+    if (!room.coordinates || room.coordinates.length < 2) return null;
 
     // 找到房间的最长边
     let maxLength = 0;
@@ -306,6 +306,7 @@ export class AlignmentEngine {
     let maxY = Number.NEGATIVE_INFINITY;
 
     for (const room of rooms) {
+      if (!room.coordinates) continue;
       for (const point of room.coordinates) {
         minX = Math.min(minX, point.x);
         maxX = Math.max(maxX, point.x);
@@ -356,7 +357,7 @@ export class AlignmentEngine {
     if (rooms.length === 0) return 0;
 
     // 检查房间是否合理分布
-    const centers = rooms.map((room) => room.center);
+    const centers = rooms.map((room) => room.center).filter((c) => c);
     const avgDistance = this.calculateAverageDistance(centers);
 
     // 基于平均距离计算置信度
@@ -372,16 +373,18 @@ export class AlignmentEngine {
   /**
    * 计算平均距离
    */
-  private calculateAverageDistance(points: Point[]): number {
-    if (points.length < 2) return 0;
+  private calculateAverageDistance(points: (Point | undefined)[]): number {
+    const validPoints = points.filter((p): p is Point => p !== undefined);
+    if (validPoints.length < 2) return 0;
 
     let totalDistance = 0;
     let pairCount = 0;
 
-    for (let i = 0; i < points.length; i++) {
-      for (let j = i + 1; j < points.length; j++) {
+    for (let i = 0; i < validPoints.length; i++) {
+      for (let j = i + 1; j < validPoints.length; j++) {
         const distance = Math.sqrt(
-          (points[i].x - points[j].x) ** 2 + (points[i].y - points[j].y) ** 2
+          (validPoints[i].x - validPoints[j].x) ** 2 +
+            (validPoints[i].y - validPoints[j].y) ** 2
         );
         totalDistance += distance;
         pairCount++;

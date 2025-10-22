@@ -350,3 +350,263 @@ export type RoomFengshuiAnalysis = {
     directions: string[]; // 朝向建议
   };
 };
+
+// ========== v6.0 增强类型定义 ==========
+
+// 宫位名称类型
+export type PalaceName =
+  | '中'
+  | '乾'
+  | '兑'
+  | '离'
+  | '震'
+  | '巽'
+  | '坎'
+  | '艮'
+  | '坤';
+
+// 吉凶等级
+export type FortuneRating =
+  | '大吉'
+  | '吉'
+  | '次吉'
+  | '平'
+  | '次凶'
+  | '凶'
+  | '大凶';
+
+export type PositionRating =
+  | 'excellent'
+  | 'good'
+  | 'moderate'
+  | 'weak'
+  | 'poor';
+
+export type Element = '木' | '火' | '土' | '金' | '水';
+
+// v6.0 增强宫位信息
+export type EnhancedPalaceInfo = {
+  palace: PalaceName;
+  mountainStar: FlyingStar;
+  facingStar: FlyingStar;
+  timeStar: FlyingStar; // 运盘星
+  fortuneRating: FortuneRating;
+  score: number; // 0-100
+
+  // 兼容字段（部分模块会读取这些可选属性）
+  yearStar?: FlyingStar; // 年飞星
+  rating?: 'auspicious' | 'neutral' | 'inauspicious'; // 宫位吉凶评级
+
+  // 可选详细信息
+  starNames?: {
+    mountain: string;
+    facing: string;
+    time: string;
+  };
+  combinations?: {
+    type: string;
+    description: string;
+    isFavorable: boolean;
+  }[];
+  warnings?: string[];
+  recommendations?: string[];
+};
+
+// v6.0 增强飞星盘
+export type EnhancedXuankongPlate = {
+  period: number;
+  facing: {
+    degrees: number;
+    direction: string;
+    palace: PalaceName;
+  };
+  palaces: Record<PalaceName, EnhancedPalaceInfo>;
+  specialPatterns: string[];
+  overallScore: number;
+  metadata: {
+    calculatedAt: Date;
+    calculationMethod: 'standard' | 'tigua' | 'chengmenjue';
+    appliedRules?: string[];
+  };
+};
+
+// v6.0 智能推荐选项
+export type SmartRecommendationsOptions = {
+  includeQuickWins?: boolean; // 包含快速见效方案
+  includeLongTermPlan?: boolean; // 包含长期规划
+  includeTimeline?: boolean; // 包含时间轴
+  budgetRange?: {
+    min: number;
+    max: number;
+  };
+  focusAreas?: ('health' | 'wealth' | 'career' | 'relationship' | 'study')[];
+};
+
+// v6.0 行动建议
+export type ActionRecommendation = {
+  id: string;
+  title: string;
+  description: string;
+  priority: 'urgent' | 'high' | 'medium' | 'low';
+  category: 'layout' | 'decoration' | 'color' | 'furniture' | 'other';
+  reason: string;
+  specificSteps: string[];
+  estimatedTime?: string;
+  estimatedCost?: string;
+  expectedImpact?: string;
+  difficulty?: 'easy' | 'medium' | 'hard';
+};
+
+// v6.0 快速见效方案
+export type QuickWinRecommendation = {
+  title: string;
+  description: string;
+  estimatedTime: string;
+  estimatedCost: string;
+  expectedImpact: string;
+  steps: string[];
+  materials?: string[];
+};
+
+// v6.0 长期规划阶段
+export type LongTermPhase = {
+  phase: number;
+  title: string;
+  duration: string;
+  goals: string[];
+  actions: string[];
+  expectedOutcomes: string[];
+};
+
+// v6.0 智能推荐结果
+export type SmartRecommendationResult = {
+  prioritizedActions: ActionRecommendation[];
+  quickWins: QuickWinRecommendation[];
+  longTermPlan: {
+    overview: string;
+    phases: LongTermPhase[];
+    totalDuration: string;
+  };
+  timeline?: {
+    period: string;
+    milestones: string[];
+    criticalDates: string[];
+  };
+};
+
+// v6.0 个性化分析选项
+export type PersonalizedAnalysisOptions = {
+  userProfile: {
+    birthDate: Date;
+    bazi: {
+      year: { gan: string; zhi: string };
+      month: { gan: string; zhi: string };
+      day: { gan: string; zhi: string };
+      hour: { gan: string; zhi: string };
+    };
+    gender?: 'male' | 'female';
+    occupation?: string;
+  };
+  includeHealthAnalysis?: boolean;
+  includeCareerGuidance?: boolean;
+  includeRelationshipAdvice?: boolean;
+};
+
+// v6.0 八字融合分析
+export type BaziIntegration = {
+  zodiac: string; // 生肖
+  mainElement: '金' | '木' | '水' | '火' | '土'; // 日元五行
+  favorableElements: ('金' | '木' | '水' | '火' | '土')[]; // 喜用神
+  unfavorableElements: ('金' | '木' | '水' | '火' | '土')[]; // 忌神
+  luckyDirections: string[]; // 幸运方位
+  unluckyDirections: string[]; // 不利方位
+  seasonalInfluence: string; // 季节影响
+};
+
+// v6.0 个性化推荐
+export type PersonalizedRecommendation = {
+  title: string;
+  category: 'health' | 'career' | 'home' | 'energy';
+  priority: 'high' | 'medium' | 'low';
+  description: string;
+  actions: string[];
+  reasoning: string;
+  timeline?: string;
+};
+
+// v6.0 个性化分析结果
+export type PersonalizedAnalysisResult = {
+  userProfile: PersonalizedAnalysisOptions['userProfile'];
+  baziIntegration: BaziIntegration;
+  personalizedRecommendations: PersonalizedRecommendation[];
+  roomPriorities: {
+    palace: PalaceName;
+    suitability: number; // 0-100
+    reasons: string[];
+  }[];
+  avoidanceAreas: {
+    palace: PalaceName;
+    severity: 'high' | 'medium' | 'low';
+    reasons: string[];
+  }[];
+};
+
+// v6.0 流年分析选项
+export type LiunianAnalysisOptions = {
+  year: number;
+  includeMonthly?: boolean;
+  includeDailyGuidance?: boolean;
+  focusAreas?: ('health' | 'wealth' | 'career' | 'relationship')[];
+};
+
+// v6.0 当前年份信息
+export type CurrentYearInfo = {
+  year: number;
+  yearStar: FlyingStar;
+  ganZhi: string; // 干支
+  element: '金' | '木' | '水' | '火' | '土';
+  characteristics: string;
+};
+
+// v6.0 年度运势
+export type YearlyFortune = {
+  overallScore: number;
+  overallRating: 'excellent' | 'good' | 'fair' | 'challenging';
+  characteristics: string;
+  favorableAspects: string[];
+  unfavorableAspects: string[];
+  keyMonths: number[];
+  yearlyRecommendations: string[];
+};
+
+// v6.0 月度趋势
+export type MonthlyTrend = {
+  month: number;
+  score: number;
+  trend: 'improving' | 'declining' | 'stable';
+  mainInfluences: string[];
+  recommendations: string[];
+};
+
+// v6.0 关键时期
+export type CriticalPeriod = {
+  period: string; // 如 "2024年3月"
+  type: 'favorable' | 'unfavorable' | 'neutral';
+  description: string;
+  suggestions: string[];
+  importance: number; // 1-10
+};
+
+// v6.0 流年分析结果
+export type LiunianAnalysisResult = {
+  currentYear: CurrentYearInfo;
+  yearlyFortune: YearlyFortune;
+  monthlyTrends: MonthlyTrend[];
+  criticalPeriods: CriticalPeriod[];
+  annualGuidance: {
+    health: string[];
+    wealth: string[];
+    career: string[];
+    relationship: string[];
+  };
+};

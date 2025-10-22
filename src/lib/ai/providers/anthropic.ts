@@ -7,7 +7,7 @@ import type {
 
 const mapToAnthropic = (messages: any[]) => {
   // Anthropic uses different message format
-  return messages.map(m => ({
+  return messages.map((m) => ({
     role: m.role === 'assistant' ? 'assistant' : 'user',
     content: m.content,
   }));

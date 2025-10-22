@@ -1,6 +1,6 @@
-import { z } from 'zod';
-import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
+import bcrypt from 'bcryptjs';
+import { z } from 'zod';
 
 // CSV行数据验证
 const csvRowSchema = z.object({
@@ -10,7 +10,10 @@ const csvRowSchema = z.object({
   phone: z.string().optional(),
   role: z.string().optional().default('user'),
   status: z.enum(['active', 'inactive', 'banned']).optional().default('active'),
-  credits: z.string().transform(val => parseInt(val) || 0).optional(),
+  credits: z
+    .string()
+    .transform((val) => Number.parseInt(val) || 0)
+    .optional(),
   referredBy: z.string().optional(),
 });
 
@@ -35,15 +38,15 @@ export interface ImportResult {
  * 解析CSV内容
  */
 export function parseCSV(content: string): string[][] {
-  const lines = content.split('\n').filter(line => line.trim());
-  return lines.map(line => {
+  const lines = content.split('\n').filter((line) => line.trim());
+  return lines.map((line) => {
     const values: string[] = [];
     let current = '';
     let inQuotes = false;
-    
+
     for (let i = 0; i < line.length; i++) {
       const char = line[i];
-      
+
       if (char === '"') {
         inQuotes = !inQuotes;
       } else if (char === ',' && !inQuotes) {
@@ -53,7 +56,7 @@ export function parseCSV(content: string): string[][] {
         current += char;
       }
     }
-    
+
     values.push(current.trim());
     return values;
   });
@@ -80,17 +83,27 @@ export async function importUsers(
   try {
     // 解析CSV
     const rows = parseCSV(csvContent);
-    
+
     // 跳过表头
     const startIndex = options.skipHeader ? 1 : 0;
-    
+
     // 获取表头（用于映射字段）
-    const headers = options.skipHeader ? rows[0].map(h => h.toLowerCase()) : 
-      ['email', 'password', 'name', 'phone', 'role', 'status', 'credits', 'referredBy'];
+    const headers = options.skipHeader
+      ? rows[0].map((h) => h.toLowerCase())
+      : [
+          'email',
+          'password',
+          'name',
+          'phone',
+          'role',
+          'status',
+          'credits',
+          'referredBy',
+        ];
 
     // 查找默认角色
     const defaultRole = await prisma.role.findUnique({
-      where: { name: 'user' }
+      where: { name: 'user' },
     });
 
     if (!defaultRole) {
@@ -101,7 +114,7 @@ export async function importUsers(
     for (let i = startIndex; i < rows.length; i++) {
       const row = rows[i];
       const rowNumber = i + 1;
-      
+
       try {
         // 映射数据到对象
         const data: any = {};
@@ -116,7 +129,7 @@ export async function importUsers(
 
         // 检查邮箱是否已存在
         const existingUser = await prisma.user.findUnique({
-          where: { email: validatedData.email }
+          where: { email: validatedData.email },
         });
 
         if (existingUser) {
@@ -149,9 +162,11 @@ export async function importUsers(
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // 查找角色
-        const role = validatedData.role ? 
-          await prisma.role.findUnique({ where: { name: validatedData.role } }) :
-          defaultRole;
+        const role = validatedData.role
+          ? await prisma.role.findUnique({
+              where: { name: validatedData.role },
+            })
+          : defaultRole;
 
         if (!role) {
           result.errors.push({
@@ -179,22 +194,22 @@ export async function importUsers(
             referredBy: validatedData.referredBy,
             roles: {
               create: {
-                roleId: role.id
-              }
-            }
-          }
+                roleId: role.id,
+              },
+            },
+          },
         });
 
         result.users.push({
           email: user.email,
-          name: user.name,
+          name: user.name ?? null,
           status: user.status,
         });
 
         // 处理推荐关系
         if (validatedData.referredBy) {
           const referrer = await prisma.user.findUnique({
-            where: { referralCode: validatedData.referredBy }
+            where: { referralCode: validatedData.referredBy },
           });
 
           if (referrer) {
@@ -204,12 +219,12 @@ export async function importUsers(
                 referredId: user.id,
                 status: 'completed',
                 rewardCredits: 10,
-              }
+              },
             });
 
             await prisma.user.update({
               where: { id: referrer.id },
-              data: { credits: { increment: 10 } }
+              data: { credits: { increment: 10 } },
             });
           }
         }
@@ -232,21 +247,24 @@ export async function importUsers(
 
     return result;
   } catch (error) {
-    throw new Error(`导入失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    throw new Error(
+      `导入失败: ${error instanceof Error ? error.message : '未知错误'}`
+    );
   }
 }
 
 /**
  * 生成随机密码
  */
-function generateRandomPassword(length: number = 12): string {
-  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+function generateRandomPassword(length = 12): string {
+  const charset =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
   let password = '';
-  
+
   for (let i = 0; i < length; i++) {
     password += charset.charAt(Math.floor(Math.random() * charset.length));
   }
-  
+
   return password;
 }
 
@@ -256,18 +274,21 @@ function generateRandomPassword(length: number = 12): string {
 function generateReferralCode(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let code = '';
-  
+
   for (let i = 0; i < 6; i++) {
     code += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  
+
   return code;
 }
 
 /**
  * 发送欢迎邮件（示例）
  */
-async function sendWelcomeEmail(email: string, password: string): Promise<void> {
+async function sendWelcomeEmail(
+  email: string,
+  password: string
+): Promise<void> {
   // TODO: 实现邮件发送逻辑
   console.log(`发送欢迎邮件到 ${email}，临时密码: ${password}`);
 }
@@ -276,15 +297,42 @@ async function sendWelcomeEmail(email: string, password: string): Promise<void> 
  * 生成CSV模板
  */
 export function generateCSVTemplate(): string {
-  const headers = ['email', 'password', 'name', 'phone', 'role', 'status', 'credits', 'referredBy'];
+  const headers = [
+    'email',
+    'password',
+    'name',
+    'phone',
+    'role',
+    'status',
+    'credits',
+    'referredBy',
+  ];
   const examples = [
-    ['user1@example.com', 'password123', '张三', '13800138000', 'user', 'active', '100', ''],
-    ['user2@example.com', 'password456', '李四', '13900139000', 'admin', 'active', '200', 'ABC123'],
+    [
+      'user1@example.com',
+      'password123',
+      '张三',
+      '13800138000',
+      'user',
+      'active',
+      '100',
+      '',
+    ],
+    [
+      'user2@example.com',
+      'password456',
+      '李四',
+      '13900139000',
+      'admin',
+      'active',
+      '200',
+      'ABC123',
+    ],
     ['user3@example.com', '', '王五', '', 'operator', 'inactive', '0', ''],
   ];
 
   const rows = [headers, ...examples];
-  return rows.map(row => row.join(',')).join('\n');
+  return rows.map((row) => row.join(',')).join('\n');
 }
 
 /**
@@ -313,9 +361,9 @@ export async function exportUsersToCSV(
     where.roles = {
       some: {
         role: {
-          name: filters.role
-        }
-      }
+          name: filters.role,
+        },
+      },
     };
   }
 
@@ -335,23 +383,35 @@ export async function exportUsersToCSV(
     include: {
       roles: {
         include: {
-          role: true
-        }
-      }
+          role: true,
+        },
+      },
     },
     orderBy: {
-      createdAt: 'desc'
-    }
+      createdAt: 'desc',
+    },
   });
 
   // 构建CSV内容
-  const headers = ['ID', '邮箱', '姓名', '手机', '角色', '状态', '积分', '推荐码', '推荐人', '最后登录', '注册时间'];
-  const rows = users.map(user => [
+  const headers = [
+    'ID',
+    '邮箱',
+    '姓名',
+    '手机',
+    '角色',
+    '状态',
+    '积分',
+    '推荐码',
+    '推荐人',
+    '最后登录',
+    '注册时间',
+  ];
+  const rows = users.map((user) => [
     user.id,
     user.email,
     user.name || '',
     user.phone || '',
-    user.roles[0]?.role.name || 'user',
+    user.roles?.[0]?.role.name || 'user',
     user.status,
     user.credits.toString(),
     user.referralCode,
@@ -361,7 +421,7 @@ export async function exportUsersToCSV(
   ]);
 
   const csvContent = [headers, ...rows]
-    .map(row => row.map(cell => `"${cell}"`).join(','))
+    .map((row) => row.map((cell) => `"${cell}"`).join(','))
     .join('\n');
 
   return csvContent;

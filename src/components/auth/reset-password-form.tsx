@@ -68,26 +68,26 @@ export const ResetPasswordForm = () => {
   const onSubmit = async (values: z.infer<typeof ResetPasswordSchema>) => {
     await authClient.resetPassword(
       {
-        newPassword: values.password,
+        password: values.password,
         token,
       },
       {
-        onRequest: (ctx) => {
+        onRequest: (ctx: any) => {
           // console.log("resetPassword, request:", ctx.url);
           setIsPending(true);
           setError('');
           setSuccess('');
         },
-        onResponse: (ctx) => {
+        onResponse: (ctx: any) => {
           // console.log("resetPassword, response:", ctx.response);
           setIsPending(false);
         },
-        onSuccess: (ctx) => {
+        onSuccess: (ctx: any) => {
           // console.log("resetPassword, success:", ctx.data);
           // setSuccess("Password reset successfully");
           router.push(`${Routes.Login}`);
         },
-        onError: (ctx) => {
+        onError: (ctx: any) => {
           console.error('resetPassword, error:', ctx.error);
           setError(`${ctx.error.status}: ${ctx.error.message}`);
         },

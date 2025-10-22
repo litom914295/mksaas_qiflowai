@@ -24,11 +24,12 @@ export const getNewsletterProvider = (): NewsletterProvider => {
  */
 export const initializeNewsletterProvider = (): NewsletterProvider => {
   if (!newsletterProvider) {
-    if (websiteConfig.newsletter.provider === 'resend') {
+    const config = websiteConfig as any;
+    if (config?.newsletter?.provider === 'resend') {
       newsletterProvider = new ResendNewsletterProvider();
     } else {
       throw new Error(
-        `Unsupported newsletter provider: ${websiteConfig.newsletter.provider}`
+        `Unsupported newsletter provider: ${config?.newsletter?.provider ?? 'unknown'}`
       );
     }
   }

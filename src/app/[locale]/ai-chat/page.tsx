@@ -1,15 +1,39 @@
-import { AIChatDemo } from '@/components/qiflow/chat/AIChatDemo';
+'use client';
+
+import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { useAnalysisContext } from '@/contexts/analysis-context';
 import { LocaleLink } from '@/i18n/navigation';
-import { ArrowLeft, Brain, Shield, Sparkles } from 'lucide-react';
+import {
+  ArrowLeft,
+  Brain,
+  Compass,
+  Home as HomeIcon,
+  Shield,
+  Sparkles,
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function AIChatPage() {
-  // 模拟数据上下文（实际应从用户会话或数据库获取）
-  const mockContext = {
-    // 暂时不提供数据，展示护栏功能
-    baziData: null,
-    fengshuiData: null,
-  };
+  const router = useRouter();
+  const analysisContext = useAnalysisContext();
+  const [hasContext, setHasContext] = useState(false);
+
+  useEffect(() => {
+    // 检查是否有上下文数据
+    const hasData = !!(
+      analysisContext?.userInput || analysisContext?.analysisResult
+    );
+    setHasContext(hasData);
+  }, [analysisContext?.userInput, analysisContext?.analysisResult]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
@@ -66,8 +90,70 @@ export default function AIChatPage() {
           </div>
         </div>
 
-        {/* AI聊天组件 */}
-        <AIChatDemo context={mockContext} />
+        {/* 上下文状态提示 */}
+        {hasContext ? (
+          <Card className="mb-6 border-2 border-green-200 bg-green-50">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-green-800">
+                    智能模式已启用
+                  </h3>
+                  <p className="text-sm text-green-700">
+                    AI 已加载您的八字
+                    {analysisContext?.userInput?.house ? '和风水' : ''}
+                    信息，可以为您提供个性化建议
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="mb-6 border-2 border-amber-200 bg-amber-50">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center">
+                  <Brain className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-amber-800">通用对话模式</h3>
+                  <p className="text-sm text-amber-700">
+                    当前未加载分析数据。如需个性化建议，请先进行八字或风水分析。
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* AI聊天组件（上下文增强版） */}
+        <div className="max-w-4xl mx-auto">
+          <Card className="shadow-2xl border-2 border-purple-200">
+            <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100">
+              <CardTitle className="flex items-center gap-2">
+                <Sparkles className="w-6 h-6 text-purple-600" />
+                AI 智能咨询
+              </CardTitle>
+              <CardDescription>
+                {hasContext
+                  ? '基于您的八字和风水数据，为您提供专业建议'
+                  : '可以回答通用命理风水问题，个性化建议需先进行分析'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              {/* 悬浮版 AI-Chat 会自动显示在右下角 */}
+              <div className="p-6 text-center text-gray-500">
+                <Sparkles className="w-16 h-16 mx-auto mb-4 text-purple-300" />
+                <p className="text-lg">请点击右下角的 AI 对话按钮开始咨询</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <AIChatWithContext />
 
         {/* 测试说明 */}
         <div className="mt-8 p-6 bg-amber-50 border border-amber-200 rounded-lg max-w-4xl mx-auto">

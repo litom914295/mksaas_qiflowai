@@ -136,11 +136,11 @@ class ConversationStateMachine {
           retries: this.maxRetries,
           delay: 500,
           backoff: 'exponential',
-          shouldRetry: (error) => {
+          shouldRetry: (error: any) => {
             // 只重试系统级错误，不重试业务逻辑错误
             return error instanceof QiFlowApiError ? error.retryable : false;
           },
-          onError: (error, attempt) => {
+          onError: (error: any, attempt: any) => {
             console.warn(`[StateMachine] Transition retry ${attempt}:`, {
               from: current.current,
               trigger,
@@ -148,7 +148,7 @@ class ConversationStateMachine {
               traceId,
             });
           },
-        }
+        } as any
       );
     } catch (error) {
       this.metrics.failedTransitions++;

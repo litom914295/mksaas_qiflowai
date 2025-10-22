@@ -373,7 +373,7 @@ export function getRoutePerformanceTracker(): RoutePerformanceTracker {
       getSlowRoutes: () => [],
       clearMetrics: () => {},
       exportMetrics: () => '{}',
-    } as RoutePerformanceTracker;
+    } as unknown as RoutePerformanceTracker;
   }
 
   if (!tracker) {

@@ -3,7 +3,8 @@
  */
 
 import { pgTable, serial, text, timestamp, jsonb, integer, uuid } from 'drizzle-orm/pg-core';
-import { users } from './auth';
+// 引用主schema中的user表
+import { user } from '../schema';
 
 /**
  * 分析历史记录表
@@ -13,7 +14,7 @@ export const analysisHistory = pgTable('analysis_history', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: text('user_id')
     .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
+    .references(() => user.id, { onDelete: 'cascade' }),
   
   // 个人信息
   name: text('name').notNull(),
@@ -56,7 +57,7 @@ export const analysisFeedback = pgTable('analysis_feedback', {
   
   userId: text('user_id')
     .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
+    .references(() => user.id, { onDelete: 'cascade' }),
   
   // 评分 (1-5星)
   rating: integer('rating').notNull(),
@@ -112,7 +113,7 @@ export const analysisFavorites = pgTable('analysis_favorites', {
   
   userId: text('user_id')
     .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
+    .references(() => user.id, { onDelete: 'cascade' }),
   
   analysisId: uuid('analysis_id')
     .notNull()

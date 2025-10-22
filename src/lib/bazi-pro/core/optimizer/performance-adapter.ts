@@ -15,22 +15,22 @@ export interface PerformanceOptimizer {
  */
 export class PerformanceManager {
   private optimizers: Map<string, PerformanceOptimizer> = new Map();
-  private activeOptimizer: string = 'default';
-  
+  private activeOptimizer = 'default';
+
   /**
    * 注册优化器
    */
   public register(optimizer: PerformanceOptimizer): void {
     this.optimizers.set(optimizer.name, optimizer);
   }
-  
+
   /**
    * 选择最佳优化器
    */
   public async selectBestOptimizer(): Promise<string> {
-    let bestTime = Infinity;
+    let bestTime = Number.POSITIVE_INFINITY;
     let bestOptimizer = 'default';
-    
+
     for (const [name, optimizer] of this.optimizers) {
       if (await optimizer.isAvailable()) {
         const benchmarkTime = await optimizer.benchmark();
@@ -40,11 +40,11 @@ export class PerformanceManager {
         }
       }
     }
-    
+
     this.activeOptimizer = bestOptimizer;
     return bestOptimizer;
   }
-  
+
   /**
    * 获取当前优化器
    */
@@ -58,16 +58,16 @@ export class PerformanceManager {
  */
 export class DefaultOptimizer implements PerformanceOptimizer {
   name = 'default';
-  
+
   async isAvailable(): Promise<boolean> {
     return true;
   }
-  
+
   async calculate(input: any): Promise<any> {
     // 使用现有的JavaScript实现
     return input;
   }
-  
+
   async benchmark(): Promise<number> {
     const start = Date.now();
     // 执行基准测试
@@ -82,25 +82,25 @@ export class DefaultOptimizer implements PerformanceOptimizer {
 export class WasmOptimizer implements PerformanceOptimizer {
   name = 'wasm';
   private wasmModule: any = null;
-  
+
   async isAvailable(): Promise<boolean> {
     // 检查是否支持WebAssembly
     return typeof WebAssembly !== 'undefined';
   }
-  
+
   async loadModule(): Promise<void> {
     if (!this.wasmModule) {
       // 未来实现：加载WASM模块
       // this.wasmModule = await import('./bazi_calculator.wasm');
     }
   }
-  
+
   async calculate(input: any): Promise<any> {
     await this.loadModule();
     // 未来实现：调用WASM函数
     return input;
   }
-  
+
   async benchmark(): Promise<number> {
     const start = Date.now();
     await this.calculate({ test: true });
@@ -115,11 +115,11 @@ export class WorkerPoolOptimizer implements PerformanceOptimizer {
   name = 'worker-pool';
   private workers: Worker[] = [];
   private readonly MAX_WORKERS = 4;
-  
+
   async isAvailable(): Promise<boolean> {
     return typeof Worker !== 'undefined';
   }
-  
+
   private initWorkers(): void {
     if (this.workers.length === 0) {
       for (let i = 0; i < this.MAX_WORKERS; i++) {
@@ -128,7 +128,7 @@ export class WorkerPoolOptimizer implements PerformanceOptimizer {
       }
     }
   }
-  
+
   async calculate(input: any): Promise<any> {
     this.initWorkers();
     // 分配任务给空闲的Worker
@@ -137,14 +137,14 @@ export class WorkerPoolOptimizer implements PerformanceOptimizer {
       resolve(input);
     });
   }
-  
+
   async benchmark(): Promise<number> {
     const start = Date.now();
     await Promise.all([
       this.calculate({ test: 1 }),
       this.calculate({ test: 2 }),
       this.calculate({ test: 3 }),
-      this.calculate({ test: 4 })
+      this.calculate({ test: 4 }),
     ]);
     return (Date.now() - start) / 4;
   }

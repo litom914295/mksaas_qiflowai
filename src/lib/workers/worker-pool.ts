@@ -3,9 +3,9 @@
  * 用于处理CPU密集型的八字计算任务
  */
 
-import { Worker } from 'worker_threads';
 import { EventEmitter } from 'events';
 import path from 'path';
+import { Worker } from 'worker_threads';
 
 interface WorkerTask {
   id: string;
@@ -47,19 +47,19 @@ export class WorkerPool extends EventEmitter {
 
   constructor(workerScript: string, config: WorkerPoolConfig = {}) {
     super();
-    
+
     this.workerScript = workerScript;
     this.config = {
       minWorkers: config.minWorkers || 2,
       maxWorkers: config.maxWorkers || 4,
       workerTimeout: config.workerTimeout || 60000, // 60秒
       taskTimeout: config.taskTimeout || 30000, // 30秒
-      autoScale: config.autoScale !== false
+      autoScale: config.autoScale !== false,
     };
 
     // 初始化最小数量的worker
     this.initializeWorkers();
-    
+
     // 定期清理空闲worker
     setInterval(() => this.cleanupIdleWorkers(), 30000);
   }
@@ -105,7 +105,7 @@ export class WorkerPool extends EventEmitter {
       worker,
       busy: false,
       taskCount: 0,
-      lastUsed: Date.now()
+      lastUsed: Date.now(),
     });
 
     this.emit('worker:created', workerId);
@@ -129,7 +129,7 @@ export class WorkerPool extends EventEmitter {
         data,
         resolve,
         reject,
-        startTime: Date.now()
+        startTime: Date.now(),
       };
 
       // 设置任务超时
@@ -144,12 +144,12 @@ export class WorkerPool extends EventEmitter {
       // 包装resolve和reject以清除超时
       const originalResolve = task.resolve;
       const originalReject = task.reject;
-      
+
       task.resolve = (value) => {
         clearTimeout(timeout);
         originalResolve(value);
       };
-      
+
       task.reject = (error) => {
         clearTimeout(timeout);
         originalReject(error);
@@ -171,7 +171,7 @@ export class WorkerPool extends EventEmitter {
 
     // 查找空闲的worker
     let idleWorker: WorkerInfo | undefined;
-    
+
     for (const [workerId, info] of this.workers) {
       if (!info.busy) {
         idleWorker = info;
@@ -208,13 +208,13 @@ export class WorkerPool extends EventEmitter {
     idleWorker.worker.postMessage({
       id: task.id,
       type: task.type,
-      data: task.data
+      data: task.data,
     });
 
     // 记录任务分配
     this.emit('task:assigned', {
       taskId: task.id,
-      workerId: idleWorker.worker.threadId
+      workerId: idleWorker.worker.threadId,
     });
   }
 
@@ -232,8 +232,8 @@ export class WorkerPool extends EventEmitter {
     workerInfo.lastUsed = Date.now();
 
     // 查找对应的任务
-    const taskIndex = this.taskQueue.findIndex(t => t.id === message.id);
-    
+    const taskIndex = this.taskQueue.findIndex((t) => t.id === message.id);
+
     if (taskIndex !== -1) {
       const task = this.taskQueue[taskIndex];
       this.taskQueue.splice(taskIndex, 1);
@@ -250,7 +250,7 @@ export class WorkerPool extends EventEmitter {
       this.emit('task:completed', {
         taskId: task.id,
         workerId,
-        duration
+        duration,
       });
     }
 
@@ -358,7 +358,7 @@ export class WorkerPool extends EventEmitter {
       workers: this.workers.size,
       busyWorkers,
       queueLength: this.taskQueue.length,
-      totalTasks
+      totalTasks,
     };
   }
 
@@ -370,22 +370,24 @@ export class WorkerPool extends EventEmitter {
 
     // 等待所有任务完成
     while (this.taskQueue.length > 0) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     // 终止所有worker
     const promises: Promise<void>[] = [];
-    
+
     for (const [workerId, info] of this.workers) {
-      promises.push(new Promise<void>((resolve) => {
-        info.worker.once('exit', () => resolve());
-        info.worker.terminate();
-      }));
+      promises.push(
+        new Promise<void>((resolve) => {
+          info.worker.once('exit', () => resolve());
+          info.worker.terminate();
+        })
+      );
     }
 
     await Promise.all(promises);
     this.workers.clear();
-    
+
     console.log('Worker pool shut down');
   }
 }
@@ -402,7 +404,7 @@ export function getWorkerPool(): WorkerPool {
     globalPool = new WorkerPool(workerScript, {
       minWorkers: 2,
       maxWorkers: 4,
-      autoScale: true
+      autoScale: true,
     });
   }
   return globalPool;

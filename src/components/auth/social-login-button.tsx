@@ -55,13 +55,10 @@ export const SocialLoginButton = ({
         provider: provider,
         /**
          * a url to redirect after the user authenticates with the provider
+         * (BetterAuth social.signIn supports only `callbackURL` here)
          * @default "/"
          */
-        callbackURL: callbackUrl,
-        /**
-         * a url to redirect if an error occurs during the sign in process
-         */
-        errorCallbackURL: Routes.AuthError,
+        callbackURL: callbackUrl || Routes.AuthError,
         /**
          * a url to redirect if the user is newly registered
          */

@@ -3,7 +3,7 @@
  * POST /api/bazi/analyze
  */
 
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 // 请求参数验证
@@ -19,22 +19,22 @@ export async function POST(request: NextRequest) {
     // 1. 参数验证
     const body = await request.json();
     const validationResult = AnalyzeRequestSchema.safeParse(body);
-    
+
     if (!validationResult.success) {
       return NextResponse.json(
-        { 
+        {
           error: '参数错误',
-          details: validationResult.error.flatten() 
+          details: validationResult.error.flatten(),
         },
         { status: 400 }
       );
     }
 
     const params = validationResult.data;
-    
+
     // 2. 解析日期时间
     const datetime = new Date(params.datetime);
-    if (isNaN(datetime.getTime())) {
+    if (Number.isNaN(datetime.getTime())) {
       return NextResponse.json(
         { error: '无效的日期时间格式' },
         { status: 400 }
@@ -50,7 +50,6 @@ export async function POST(request: NextRequest) {
       success: true,
       data: mockResult,
     });
-
   } catch (error: any) {
     console.error('八字分析错误:', error);
     return NextResponse.json(
@@ -70,8 +69,32 @@ function generateMockBaziAnalysis(datetime: Date, gender: string) {
   const hour = datetime.getHours();
 
   // 简化的天干地支数组
-  const heavenlyStems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
-  const earthlyBranches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+  const heavenlyStems = [
+    '甲',
+    '乙',
+    '丙',
+    '丁',
+    '戊',
+    '己',
+    '庚',
+    '辛',
+    '壬',
+    '癸',
+  ];
+  const earthlyBranches = [
+    '子',
+    '丑',
+    '寅',
+    '卯',
+    '辰',
+    '巳',
+    '午',
+    '未',
+    '申',
+    '酉',
+    '戌',
+    '亥',
+  ];
   const elements = ['木', '火', '土', '金', '水'];
 
   // 模拟四柱计算
@@ -87,29 +110,29 @@ function generateMockBaziAnalysis(datetime: Date, gender: string) {
   return {
     chart: {
       pillars: {
-        year: { 
-          heavenlyStem: yearStem, 
+        year: {
+          heavenlyStem: yearStem,
           earthlyBranch: yearBranch,
           nayin: '海中金',
-          hiddenStems: [yearBranch]
+          hiddenStems: [yearBranch],
         },
-        month: { 
-          heavenlyStem: monthStem, 
+        month: {
+          heavenlyStem: monthStem,
           earthlyBranch: monthBranch,
           nayin: '炉中火',
-          hiddenStems: [monthBranch]
+          hiddenStems: [monthBranch],
         },
-        day: { 
-          heavenlyStem: dayStem, 
+        day: {
+          heavenlyStem: dayStem,
           earthlyBranch: dayBranch,
           nayin: '大林木',
-          hiddenStems: [dayBranch]
+          hiddenStems: [dayBranch],
         },
-        hour: { 
-          heavenlyStem: hourStem, 
+        hour: {
+          heavenlyStem: hourStem,
           earthlyBranch: hourBranch,
           nayin: '路旁土',
-          hiddenStems: [hourBranch]
+          hiddenStems: [hourBranch],
         },
       },
       dayMaster: dayStem,
@@ -128,7 +151,7 @@ function generateMockBaziAnalysis(datetime: Date, gender: string) {
         strongest: '土',
         weakest: '火',
         balanced: false,
-      }
+      },
     },
     yongshen: {
       primary: {
@@ -147,17 +170,19 @@ function generateMockBaziAnalysis(datetime: Date, gender: string) {
         '适宜从事金融、法律、机械等属金行业',
         '居住环境宜西方或西北方',
         '穿衣可选白色、金色、银色',
-      ]
+      ],
     },
     pattern: {
       primary: '正官格',
       strength: 75,
-      details: [{
-        name: '正官格',
-        description: '日主中和，正官有力，为人正直，适合从事管理工作',
-        advantages: ['正直守信', '责任心强', '善于管理'],
-        challenges: ['过于保守', '缺乏变通'],
-      }],
+      details: [
+        {
+          name: '正官格',
+          description: '日主中和，正官有力，为人正直，适合从事管理工作',
+          advantages: ['正直守信', '责任心强', '善于管理'],
+          challenges: ['过于保守', '缺乏变通'],
+        },
+      ],
       subPatterns: ['食神生财'],
     },
     shensha: {
@@ -166,14 +191,14 @@ function generateMockBaziAnalysis(datetime: Date, gender: string) {
           name: '天乙贵人',
           description: '遇事有贵人相助，化险为夷',
           strength: 85,
-          location: '年支'
+          location: '年支',
         },
         {
           name: '文昌星',
           description: '聪明好学，利于学业和文化事业',
           strength: 70,
-          location: '月支'
-        }
+          location: '月支',
+        },
       ],
       xiongShen: [
         {
@@ -181,9 +206,9 @@ function generateMockBaziAnalysis(datetime: Date, gender: string) {
           description: '感情易有波折，需注意人际关系',
           strength: 50,
           location: '日支',
-          advice: '多与人交往，培养社交能力'
-        }
-      ]
+          advice: '多与人交往，培养社交能力',
+        },
+      ],
     },
     interpretation: {
       summary: {
@@ -197,7 +222,7 @@ function generateMockBaziAnalysis(datetime: Date, gender: string) {
           '有时过于谨慎，错失机会',
           '人际关系需要主动经营',
           '健康方面注意脾胃保养',
-        ]
+        ],
       },
       detailed: {
         personality: [
@@ -224,8 +249,8 @@ function generateMockBaziAnalysis(datetime: Date, gender: string) {
           '整体健康状况良好',
           '注意脾胃消化系统保养',
           '适度运动，保持规律作息',
-        ]
-      }
-    }
+        ],
+      },
+    },
   };
 }

@@ -1,15 +1,22 @@
 'use client';
 
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Mail, Lock, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { AlertCircle, Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function SignInPage() {
   const router = useRouter();
@@ -60,7 +67,9 @@ export default function SignInPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">管理后台登录</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            管理后台登录
+          </CardTitle>
           <CardDescription className="text-center">
             请输入您的邮箱和密码登录系统
           </CardDescription>
@@ -73,7 +82,7 @@ export default function SignInPage() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            
+
             <div className="space-y-2">
               <Label htmlFor="email">邮箱地址</Label>
               <div className="relative">
@@ -158,11 +167,7 @@ export default function SignInPage() {
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -172,10 +177,13 @@ export default function SignInPage() {
                 '登录'
               )}
             </Button>
-            
+
             <div className="text-sm text-center text-gray-600">
               还没有账号？{' '}
-              <Link href="/auth/signup" className="text-primary hover:underline">
+              <Link
+                href="/auth/signup"
+                className="text-primary hover:underline"
+              >
                 注册账号
               </Link>
             </div>

@@ -69,7 +69,11 @@ export async function POST(req: NextRequest) {
     const REQUIRED_CREDITS = 30;
     const balanceResult = await getCreditBalanceAction();
 
-    if (!balanceResult?.data || !balanceResult.data.success || (balanceResult.data.credits ?? 0) < REQUIRED_CREDITS) {
+    if (
+      !balanceResult?.data ||
+      !balanceResult.data.success ||
+      (balanceResult.data.credits ?? 0) < REQUIRED_CREDITS
+    ) {
       return NextResponse.json(
         {
           success: false,
@@ -141,12 +145,15 @@ export async function POST(req: NextRequest) {
         gender: personal.gender,
         // 从八字分析结果提取五行信息
         favorableElements: [baziAnalysisResult.wuxing.favorableElement as any],
-        unfavorableElements: [baziAnalysisResult.wuxing.unfavorableElement as any],
+        unfavorableElements: [
+          baziAnalysisResult.wuxing.unfavorableElement as any,
+        ],
       },
       house: {
         facing: direction,
         buildYear: observationDate.getFullYear(),
-        period: ((Math.floor((observationDate.getFullYear() - 1864) / 20) % 9) + 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9,
+        period: ((Math.floor((observationDate.getFullYear() - 1864) / 20) % 9) +
+          1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9,
       },
       time: {
         currentYear: observationDate.getFullYear(),
@@ -210,7 +217,8 @@ export async function POST(req: NextRequest) {
         personalized: personalizedAdvice,
 
         // 房间布局建议
-        roomAdvice: fengshuiResult.personalizedAnalysis?.roomRecommendations || [],
+        roomAdvice:
+          fengshuiResult.personalizedAnalysis?.roomRecommendations || [],
 
         // 月度运势
         monthlyForecast,

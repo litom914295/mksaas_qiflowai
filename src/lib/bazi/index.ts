@@ -19,7 +19,17 @@ import { createEnhancedBaziCalculator } from './enhanced-calculator';
 export async function computeBaziSmart(
   input: EnhancedBirthData
 ): Promise<EnhancedBaziResult | null> {
-  return await calculateBaziUnified(input);
+  try {
+    // 优先使用专业版计算器
+    const { professionalBaziCalculator } = await import('./integrate-pro');
+    const result = await professionalBaziCalculator.calculateProfessional(input);
+    console.log('[Bazi Smart] 使用专业版计算器成功');
+    return result;
+  } catch (error) {
+    console.warn('[Bazi Smart] 专业版计算器失败，回退到标准版:', error);
+    // 回退到标准版
+    return await calculateBaziUnified(input);
+  }
 }
 
 /**

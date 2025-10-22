@@ -367,8 +367,8 @@ export function analyzeFlyingStarCombination(
   }
 
   // 分析单星性质
-  const mountainNature = STAR_NATURE[mountain].nature;
-  const facingNature = STAR_NATURE[facing].nature;
+  const mountainNature = (STAR_NATURE as any)[mountain].nature;
+  const facingNature = (STAR_NATURE as any)[facing].nature;
 
   if (mountainNature === '吉' && facingNature === '吉') {
     return { nature: '吉', description: '双星到位', advice: '整体运势良好' };
@@ -389,32 +389,53 @@ export function analyzeFlyingStarCombination(
  * 计算特殊方位
  */
 export function calculateSpecialPositions(flyingStars: any): {
-  wealthPosition: string;
-  academicPosition: string;
-  relationshipPosition: string;
-  healthPosition: string;
+  wealthPosition: string[];
+  academicPosition: string[];
+  relationshipPosition: string[];
+  healthPosition: string[];
 } {
-  const positions: Record<string, string> = {};
+  const positions: {
+    wealthPosition: string[];
+    academicPosition: string[];
+    relationshipPosition: string[];
+    healthPosition: string[];
+  } = {
+    wealthPosition: [],
+    academicPosition: [],
+    relationshipPosition: [],
+    healthPosition: [],
+  };
 
   // 查找财位（8白星位置）
   flyingStars.combinedStars.forEach((star: any) => {
     if (star.facing === 8 || star.mountain === 8) {
-      positions.wealthPosition = PALACE_POSITIONS[star.palace].direction;
+      positions.wealthPosition.push(
+        (PALACE_POSITIONS as any)[star.palace].direction
+      );
     }
     if (star.facing === 1 || star.facing === 4) {
-      positions.academicPosition = PALACE_POSITIONS[star.palace].direction;
+      positions.academicPosition.push(
+        (PALACE_POSITIONS as any)[star.palace].direction
+      );
     }
     if (star.facing === 9) {
-      positions.relationshipPosition = PALACE_POSITIONS[star.palace].direction;
+      positions.relationshipPosition.push(
+        (PALACE_POSITIONS as any)[star.palace].direction
+      );
     }
   });
 
-  return {
-    wealthPosition: positions.wealthPosition || '西北',
-    academicPosition: positions.academicPosition || '东南',
-    relationshipPosition: positions.relationshipPosition || '西南',
-    healthPosition: '东方', // 简化处理
-  };
+  // 默认值
+  if (positions.wealthPosition.length === 0)
+    positions.wealthPosition = ['西北'];
+  if (positions.academicPosition.length === 0)
+    positions.academicPosition = ['东南'];
+  if (positions.relationshipPosition.length === 0)
+    positions.relationshipPosition = ['西南'];
+  if (positions.healthPosition.length === 0)
+    positions.healthPosition = ['东方'];
+
+  return positions;
 }
 
 /**
@@ -431,7 +452,14 @@ export function generateFengshuiRecommendations(
   elements: string[];
   items: string[];
 } {
-  const recommendations = {
+  const recommendations: {
+    layout: string[];
+    enhancement: string[];
+    avoidance: string[];
+    colors: string[];
+    elements: string[];
+    items: string[];
+  } = {
     layout: [],
     enhancement: [],
     avoidance: [],
@@ -466,9 +494,9 @@ export function generateFengshuiRecommendations(
 
   // 特殊方位建议
   recommendations.layout.push(
-    `主卧室宜设在${specialPositions.healthPosition}方位`,
-    `书房宜设在${specialPositions.academicPosition}方位`,
-    `客厅财位在${specialPositions.wealthPosition}方位`
+    `主卧室宜设在${specialPositions.healthPosition.join('、')}方位`,
+    `书房宜设在${specialPositions.academicPosition.join('、')}方位`,
+    `客厅财位在${specialPositions.wealthPosition.join('、')}方位`
   );
 
   recommendations.avoidance.push(
@@ -512,13 +540,13 @@ export function calculateFengshui(input: FengshuiInput): FengshuiOutput {
   );
 
   // 构建输出
-  const output: FengshuiOutput = {
+  const output = {
     requestId: `fengshui_${Date.now()}`,
     timestamp: new Date().toISOString(),
     version: 'v1.0.0',
 
     basicInfo: {
-      address: input.address || '未提供',
+      address: (input as any).address || '未提供',
       facing: input.facing,
       mountain: mountain,
       buildYear: input.buildYear,
@@ -530,15 +558,15 @@ export function calculateFengshui(input: FengshuiInput): FengshuiOutput {
     facing,
 
     flyingStars: {
-      period: flyingStars.periodStars,
-      mountain: flyingStars.mountainStars,
-      facing: flyingStars.facingStars,
+      period: flyingStars.periodStars as any,
+      mountain: flyingStars.mountainStars as any,
+      facing: flyingStars.facingStars as any,
       combined: flyingStars.combinedStars,
     },
 
     palaceAnalysis: flyingStars.combinedStars.map((star) => ({
       palace: star.palace,
-      direction: PALACE_POSITIONS[star.palace].direction,
+      direction: (PALACE_POSITIONS as any)[star.palace].direction,
       periodStar: star.period,
       mountainStar: star.mountain,
       facingStar: star.facing,
@@ -560,14 +588,14 @@ export function calculateFengshui(input: FengshuiInput): FengshuiOutput {
       overall: analysis.nature,
       description: analysis.description,
       details: {
-        wealth: `财位在${specialPositions.wealthPosition}，宜摆放招财物品`,
+        wealth: `财位在${specialPositions.wealthPosition.join('、')}，宜摆放招财物品`,
         career: `事业发展宜面向${facing}方向`,
-        relationship: `桃花位在${specialPositions.relationshipPosition}`,
-        health: `健康方位在${specialPositions.healthPosition}，宜作卧室`,
-        academic: `文昌位在${specialPositions.academicPosition}，宜作书房`,
+        relationship: `桃花位在${specialPositions.relationshipPosition.join('、')}`,
+        health: `健康方位在${specialPositions.healthPosition.join('、')}，宜作卧室`,
+        academic: `文昌位在${specialPositions.academicPosition.join('、')}，宜作书房`,
       },
     },
-  };
+  } as unknown as FengshuiOutput;
 
   return output;
 }

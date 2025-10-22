@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { useEffect } from 'react'
-import { authClient } from '@/lib/auth-client'
-import { websiteConfig } from '@/config/website'
+import { websiteConfig } from '@/config/website';
+import { authClient } from '@/lib/auth-client';
+import { useEffect } from 'react';
 
 /**
  * DailySigninHandler
@@ -10,26 +10,28 @@ import { websiteConfig } from '@/config/website'
  * - 每天最多一次，依赖 localStorage 标记
  */
 export function DailySigninHandler() {
-  const { data: session } = authClient.useSession()
+  const { data: session } = authClient.useSession();
 
   useEffect(() => {
-    if (!websiteConfig.credits.enableCredits) return
-    if (!websiteConfig.credits.dailySignin?.enable) return
-    if (!session?.user?.id) return
+    if (!websiteConfig.credits.enableCredits) return;
+    if (!websiteConfig.credits.dailySignin?.enable) return;
+    if (!session?.user?.id) return;
 
-    const key = 'qf_daily_signin_date'
-    const today = new Date().toISOString().slice(0, 10)
-    const last = typeof window !== 'undefined' ? localStorage.getItem(key) : null
-    if (last === today) return
-
-    ;(async () => {
+    const key = 'qf_daily_signin_date';
+    const today = new Date().toISOString().slice(0, 10);
+    const last =
+      typeof window !== 'undefined' ? localStorage.getItem(key) : null;
+    if (last === today) return;
+    (async () => {
       try {
-        const res = await fetch('/api/credits/daily-signin', { method: 'POST' })
-        const data = await res.json()
-        if (data?.success) localStorage.setItem(key, today)
+        const res = await fetch('/api/credits/daily-signin', {
+          method: 'POST',
+        });
+        const data = await res.json();
+        if (data?.success) localStorage.setItem(key, today);
       } catch {}
-    })()
-  }, [session?.user?.id])
+    })();
+  }, [session?.user?.id]);
 
-  return null
+  return null;
 }

@@ -5,10 +5,10 @@ import type {
   ProviderConfig,
 } from '../types';
 
-// const mapToDeepSeek = (messages: AIMessage[]) =>
-messages
-  .map((m) => ({ role: m.role, content: m.content, name: m.name }))
-  .filter(Boolean);
+const mapToDeepSeek = (messages: any[]) =>
+  messages
+    .map((m) => ({ role: m.role, content: m.content, name: m.name }))
+    .filter(Boolean);
 
 export const createDeepSeekClient = (
   config: ProviderConfig

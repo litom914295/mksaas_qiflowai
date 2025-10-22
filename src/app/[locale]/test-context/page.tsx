@@ -40,7 +40,6 @@ export default function TestContextPage() {
         house: {
           facing: 180,
           buildYear: 2015,
-          floor: 8,
         },
       });
       console.log('✅ 已设置数据');

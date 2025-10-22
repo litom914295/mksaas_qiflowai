@@ -1,8 +1,11 @@
-import { Skeleton } from "@/components/ui/skeleton"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // 表格加载骨架
-export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; columns?: number }) {
+export function TableSkeleton({
+  rows = 5,
+  columns = 4,
+}: { rows?: number; columns?: number }) {
   return (
     <div className="w-full space-y-4">
       <div className="flex items-center justify-between">
@@ -31,7 +34,7 @@ export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; column
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // 卡片加载骨架
@@ -49,7 +52,7 @@ export function CardSkeleton() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 // 页面加载骨架
@@ -67,22 +70,26 @@ export function PageSkeleton() {
       </div>
       <TableSkeleton />
     </div>
-  )
+  );
 }
 
 // 加载中组件
-export function LoadingSpinner({ size = "default" }: { size?: "small" | "default" | "large" }) {
+export function LoadingSpinner({
+  size = 'default',
+}: { size?: 'small' | 'default' | 'large' }) {
   const sizeClasses = {
-    small: "h-4 w-4",
-    default: "h-8 w-8",
-    large: "h-12 w-12"
-  }
+    small: 'h-4 w-4',
+    default: 'h-8 w-8',
+    large: 'h-12 w-12',
+  };
 
   return (
     <div className="flex items-center justify-center p-4">
-      <div className={`${sizeClasses[size]} animate-spin rounded-full border-2 border-primary border-t-transparent`} />
+      <div
+        className={`${sizeClasses[size]} animate-spin rounded-full border-2 border-primary border-t-transparent`}
+      />
     </div>
-  )
+  );
 }
 
 // 全屏加载
@@ -94,5 +101,5 @@ export function FullPageLoader() {
         <p className="mt-4 text-sm text-muted-foreground">加载中...</p>
       </div>
     </div>
-  )
+  );
 }

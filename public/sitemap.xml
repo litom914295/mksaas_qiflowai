@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  部署前请更新: 将 your-domain.com 替换为实际域名
+  或者使用 next-sitemap 包自动生成: npm install next-sitemap
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://your-domain.com/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- English Homepage -->
+  <url>
+    <loc>https://your-domain.com/en</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://your-domain.com/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://your-domain.com/en"/>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Chinese Homepage -->
+  <url>
+    <loc>https://your-domain.com/zh-CN</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://your-domain.com/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://your-domain.com/en"/>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- About Page -->
+  <url>
+    <loc>https://your-domain.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Pricing Page -->
+  <url>
+    <loc>https://your-domain.com/pricing</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Contact Page -->
+  <url>
+    <loc>https://your-domain.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Docs -->
+  <url>
+    <loc>https://your-domain.com/docs</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- 
+    TODO: Add more URLs dynamically
+    - Blog posts
+    - Product pages
+    - Documentation pages
+    Consider using next-sitemap package for automatic generation
+  -->
+  
+</urlset>

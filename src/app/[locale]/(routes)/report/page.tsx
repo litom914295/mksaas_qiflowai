@@ -1,45 +1,59 @@
 'use client';
 
 import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
-import { BaziAnalysisResult } from '@/components/qiflow/analysis/bazi-analysis-result';
-import { ReportFengshuiAnalysis } from '@/components/qiflow/analysis/report-fengshui-analysis';
+import { BaziAnalysisPage } from '@/components/bazi/analysis/bazi-analysis-page';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Calendar, Compass, Loader2, RefreshCw } from 'lucide-react';
+import { useAnalysisContext } from '@/contexts/analysis-context';
+import { useCreditBalance } from '@/hooks/use-credits';
+import { authClient } from '@/lib/auth-client';
+import { ArrowLeft, Calendar, Loader2, RefreshCw } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAnalysisContext } from '@/contexts/analysis-context';
 
 export default function ReportPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const analysisContext = useAnalysisContext();
+  const { data: session } = authClient.useSession();
+  const { data: creditsAvailable = 0 } = useCreditBalance();
   const [formData, setFormData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [isContextSynced, setIsContextSynced] = useState(false);
 
   // 使用 useMemo 生成稳定的 sessionId，避免 hydration 错误
-  const sessionId = useMemo(() => `fengshui_${Date.now()}`, []);
-  
+  const sessionId = useMemo(() => `bazi_${Date.now()}`, []);
+
   // 在组件顶层定义所有Hook，避免条件渲染影响
-  // 使用 useMemo 稳定 birthData 对象，避免不必要的重新渲染
-  const birthData = useMemo(() => {
+  // 使用 useMemo 稳定 personalData 对象，避免不必要的重新渲染
+  const personalData = useMemo(() => {
     if (!formData?.personal) return null;
+    // 组合 birthDate 和 birthTime 成 datetime 格式 (YYYY-MM-DD HH:mm)
+    const datetime = `${formData.personal.birthDate}T${formData.personal.birthTime || '00:00'}`;
     return {
-      datetime: `${formData.personal.birthDate}T${formData.personal.birthTime}`,
+      datetime,
       gender: formData.personal.gender as 'male' | 'female',
-      timezone: 'Asia/Shanghai',
-      isTimeKnown: true,
+      timezone: formData.personal.birthCity || undefined,
+      isTimeKnown: !!formData.personal.birthTime,
     };
-  }, [formData?.personal?.birthDate, formData?.personal?.birthTime, formData?.personal?.gender]);
-  
+  }, [
+    formData?.personal?.birthDate,
+    formData?.personal?.birthTime,
+    formData?.personal?.gender,
+    formData?.personal?.birthCity,
+  ]);
+
   // 八字分析完成回调（使用useCallback确保稳定性）
-  const handleBaziAnalysisComplete = useCallback((baziResult: any) => {
-    if (baziResult && analysisContext) {
+  const handleBaziAnalysisComplete = useCallback(
+    (baziResult: any) => {
+      // 防止重复处理：检查是否已经同步过
+      if (!baziResult || !analysisContext || isContextSynced) {
+        return;
+      }
+
       console.log('📢 [Report Page] 八字分析完成，正在同步结果...');
-      
+
       try {
         // 将八字分析结果传递给AnalysisContext
         // 将EnhancedBaziResult转换为ComprehensiveAnalysisResult格式
@@ -49,51 +63,69 @@ export default function ReportPage() {
               period: 9, // 九运
               years: '2024-2043',
               sitting: baziResult.pillars?.year?.branch || '未知',
-              facing: baziResult.pillars?.day?.branch || '未知'
-            }
+              facing: baziResult.pillars?.day?.branch || '未知',
+            },
           },
           pillars: baziResult.pillars,
           elements: baziResult.elements,
           yongshen: baziResult.yongshen?.primary,
           pattern: baziResult.pattern?.primary?.name,
-          scoring: baziResult.scoring ? {
-            overall: {
-              score: baziResult.scoring.overall?.score || 75,
-              level: baziResult.scoring.overall?.level || '中等',
-              dimensions: [
-                { dimension: 'health', score: baziResult.scoring.health || 75 },
-                { dimension: 'wealth', score: baziResult.scoring.wealth || 75 },
-                { dimension: 'relationship', score: baziResult.scoring.relationship || 75 },
-                { dimension: 'career', score: baziResult.scoring.career || 75 },
-              ]
-            }
-          } : undefined,
+          scoring: baziResult.scoring
+            ? {
+                overall: {
+                  score: baziResult.scoring.overall?.score || 75,
+                  level: baziResult.scoring.overall?.level || '中等',
+                  dimensions: [
+                    {
+                      dimension: 'health',
+                      score: baziResult.scoring.health || 75,
+                    },
+                    {
+                      dimension: 'wealth',
+                      score: baziResult.scoring.wealth || 75,
+                    },
+                    {
+                      dimension: 'relationship',
+                      score: baziResult.scoring.relationship || 75,
+                    },
+                    {
+                      dimension: 'career',
+                      score: baziResult.scoring.career || 75,
+                    },
+                  ],
+                },
+              }
+            : undefined,
           insights: {
-            keyFindings: baziResult.insights?.map((insight: any) => ({
-              title: insight.category || '重要发现',
-              description: insight.content || insight.message || '无描述',
-              impact: insight.importance || 'medium'
-            })) || [],
-            criticalLocations: []
+            keyFindings:
+              baziResult.insights?.map((insight: any) => ({
+                title: insight.category || '重要发现',
+                description: insight.content || insight.message || '无描述',
+                impact: insight.importance || 'medium',
+              })) || [],
+            criticalLocations: [],
           },
-          warnings: baziResult.warnings?.map((warning: any) => ({
-            category: warning.category || '通用',
-            title: warning.title || '需要注意',
-            severity: warning.severity || 'medium'
-          })) || []
+          warnings:
+            baziResult.warnings?.map((warning: any) => ({
+              category: warning.category || '通用',
+              title: warning.title || '需要注意',
+              severity: warning.severity || 'medium',
+            })) || [],
         };
-        
+
         analysisContext.setAnalysisResult(comprehensiveResult as any);
+        setIsContextSynced(true); // 标记已同步
         console.log('✅ [Report Page] 八字分析结果已同步到AI上下文');
       } catch (error) {
         console.error('❌ [Report Page] 同步八字分析结果失败:', error);
       }
-    }
-  }, [analysisContext]);
-  
+    },
+    [analysisContext, isContextSynced]
+  );
+
   // 手动同步按钮处理
   const handleManualSync = useCallback(() => {
-    if (formData && formData.personal && analysisContext) {
+    if (formData?.personal && analysisContext) {
       console.log('🔄 [Report Page] 手动触发数据同步...');
       setIsContextSynced(false); // 重置状态以触发 useEffect
     }
@@ -105,24 +137,42 @@ export default function ReportPage() {
   }, []);
 
   useEffect(() => {
-    const dataParam = searchParams.get('data');
+    // 优先级顺序：
+    // 1. sessionStorage (analysisFormData) - 最新的表单提交
+    // 2. URL 参数 (data) - 兼容旧版本
+    // 3. localStorage (formHistory) - 历史记录
 
-    if (dataParam) {
-      try {
+    try {
+      // 1. 先尝试从 sessionStorage 读取
+      const sessionData = sessionStorage.getItem('analysisFormData');
+      if (sessionData) {
+        console.log('📊 [报告页面] 从 sessionStorage 加载数据');
+        const data = JSON.parse(sessionData);
+        setFormData(data);
+        // 清理 sessionStorage 避免重复使用
+        sessionStorage.removeItem('analysisFormData');
+        setIsLoading(false);
+        return;
+      }
+
+      // 2. 其次尝试从 URL 参数读取
+      const dataParam = searchParams.get('data');
+      if (dataParam) {
+        console.log('📊 [报告页面] 从 URL 参数加载数据');
         const data = JSON.parse(decodeURIComponent(dataParam));
         setFormData(data);
-      } catch (error) {
-        console.error('解析数据失败:', error);
+        setIsLoading(false);
+        return;
       }
-    } else {
-      try {
-        const history = JSON.parse(localStorage.getItem('formHistory') || '[]');
-        if (history.length > 0) {
-          setFormData(history[0]);
-        }
-      } catch (error) {
-        console.error('从localStorage加载失败:', error);
+
+      // 3. 最后尝试从 localStorage 历史记录读取
+      const history = JSON.parse(localStorage.getItem('formHistory') || '[]');
+      if (history.length > 0) {
+        console.log('📊 [报告页面] 从 localStorage 历史记录加载数据');
+        setFormData(history[0]);
       }
+    } catch (error) {
+      console.error('❌ [报告页面] 加载数据失败:', error);
     }
 
     setIsLoading(false);
@@ -130,21 +180,20 @@ export default function ReportPage() {
 
   // 当 formData 加载完成后，自动同步到 AnalysisContext
   useEffect(() => {
-    if (formData && formData.personal && analysisContext && !isContextSynced) {
-      console.log('📊 [Report Page] 检测到分析数据，开始同步到 AI 聊天上下文...');
-      
+    if (formData?.personal && analysisContext && !isContextSynced) {
+      console.log(
+        '📊 [Report Page] 检测到分析数据，开始同步到 AI 聊天上下文...'
+      );
+
       try {
         // 解析出生日期和时间
         const birthDate = new Date(formData.personal.birthDate);
-        const [birthHourStr] = (formData.personal.birthTime || '00:00').split(':');
-        const birthHour = parseInt(birthHourStr, 10);
+        const [birthHourStr] = (formData.personal.birthTime || '00:00').split(
+          ':'
+        );
+        const birthHour = Number.parseInt(birthHourStr, 10);
 
-        // 解析房屋信息（如果有）
-        const hasHouseInfo = formData.house?.direction;
-        const houseFacing = hasHouseInfo ? parseInt(formData.house.direction, 10) || 180 : 180;
-        const buildYear = new Date().getFullYear();
-
-        // 设置用户输入数据
+        // 设置用户输入数据（仅八字相关）
         analysisContext.setUserInput({
           personal: {
             name: formData.personal.name || undefined,
@@ -153,13 +202,8 @@ export default function ReportPage() {
             birthYear: birthDate.getFullYear(),
             birthMonth: birthDate.getMonth() + 1,
             birthDay: birthDate.getDate(),
-            birthHour: isNaN(birthHour) ? undefined : birthHour,
+            birthHour: Number.isNaN(birthHour) ? undefined : birthHour,
             gender: formData.personal.gender as 'male' | 'female',
-          },
-          house: {
-            direction: formData.house?.direction,
-            facing: houseFacing,
-            buildYear: buildYear,
           },
         });
 
@@ -172,7 +216,7 @@ export default function ReportPage() {
         // 激活 AI 聊天上下文
         analysisContext.activateAIChat();
         setIsContextSynced(true);
-        
+
         console.log('✅ [Report Page] 数据已成功同步到 AI 聊天上下文');
         console.log('📊 用户输入:', analysisContext.userInput);
         console.log('📈 分析结果存在:', !!analysisContext.analysisResult);
@@ -214,30 +258,7 @@ export default function ReportPage() {
     );
   }
 
-  // birthData 已经在组件顶部定义
-
-  // 检查房屋朝向是否有效（不是空字符串且可以转换为数字）
-  const houseDirection = formData.house?.direction;
-  const hasHouseDirection = houseDirection && !isNaN(Number.parseInt(houseDirection));
-  
-  const houseInfo = hasHouseDirection
-    ? {
-        sittingDirection: getChineseDirection(
-          Number.parseInt(houseDirection)
-        ),
-        facingDirection: getChineseDirection(
-          (Number.parseInt(houseDirection) + 180) % 360
-        ),
-        period: 9,
-        buildingYear: new Date().getFullYear(),
-      }
-    : {
-        sittingDirection: '北',
-        facingDirection: '南',
-        period: 9,
-        buildingYear: new Date().getFullYear(),
-      };
-
+  // personalData 已经在组件顶部定义
   // handleBaziAnalysisComplete 和 handleManualSync 已经在组件顶部定义
 
   return (
@@ -254,7 +275,7 @@ export default function ReportPage() {
             <ArrowLeft className="w-4 h-4" />
             返回
           </Button>
-          
+
           {/* 手动同步按钮 */}
           {analysisContext && (
             <Button
@@ -264,7 +285,9 @@ export default function ReportPage() {
               className="gap-2 border-purple-300 text-purple-700 hover:bg-purple-50"
               title="将当前分析数据同步到 AI 聊天，使 AI 能够基于您的数据回答问题"
             >
-              <RefreshCw className={`w-4 h-4 ${!isContextSynced ? 'animate-spin' : ''}`} />
+              <RefreshCw
+                className={`w-4 h-4 ${!isContextSynced ? 'animate-spin' : ''}`}
+              />
               {isContextSynced ? '数据已同步到 AI 聊天' : '同步数据到 AI 聊天'}
             </Button>
           )}
@@ -273,7 +296,7 @@ export default function ReportPage() {
         {/* 标题 */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            {formData.personal.name}的命理风水分析
+            {formData.personal.name}的八字命理分析
           </h1>
           <p className="text-gray-600">
             {mounted && (
@@ -318,78 +341,30 @@ export default function ReportPage() {
           </CardContent>
         </Card>
 
-        {/* 分析标签页 */}
-        <Tabs defaultValue="bazi" className="space-y-6">
-          <TabsList
-            className={`grid w-full ${hasHouseDirection ? 'grid-cols-2' : 'grid-cols-1'}`}
-          >
-            <TabsTrigger
-              value="bazi"
-              className="flex items-center justify-center gap-2 py-3"
-            >
-              <Calendar className="w-4 h-4" />
-              <span className="hidden sm:inline">八字命理分析</span>
-              <span className="sm:hidden">八字</span>
-            </TabsTrigger>
-            {hasHouseDirection && (
-              <TabsTrigger
-                value="fengshui"
-                className="flex items-center justify-center gap-2 py-3"
-              >
-                <Compass className="w-4 h-4" />
-                <span className="hidden sm:inline">风水布局分析</span>
-                <span className="sm:hidden">风水</span>
-              </TabsTrigger>
-            )}
-          </TabsList>
-
-          <TabsContent value="bazi">
-            {birthData ? (
-              <BaziAnalysisResult 
-                birthData={birthData} 
-                onAnalysisComplete={handleBaziAnalysisComplete}
-              />
-            ) : (
-              <div className="p-8 text-center">
-                <p className="text-gray-600">无法加载八字分析，请检查出生信息是否完整。</p>
-              </div>
-            )}
-          </TabsContent>
-
-          {hasHouseDirection && (
-            <TabsContent value="fengshui">
-              <ReportFengshuiAnalysis houseInfo={houseInfo} />
-            </TabsContent>
+        {/* 八字分析内容 - 专业版 */}
+        <div className="space-y-6">
+          {personalData ? (
+            <BaziAnalysisPage
+              birthData={{
+                ...personalData,
+                name: formData.personal.name,
+                location: formData.personal.birthCity,
+              }}
+              onAnalysisComplete={handleBaziAnalysisComplete}
+              isPremium={session?.user?.id ? true : false}
+              creditsAvailable={creditsAvailable}
+            />
+          ) : (
+            <Card>
+              <CardContent className="p-8 text-center">
+                <p className="text-gray-600">
+                  无法加载八字分析，请检查出生信息是否完整。
+                </p>
+              </CardContent>
+            </Card>
           )}
-        </Tabs>
-
-        {!hasHouseDirection && (
-          <Card className="mt-6 border-2 border-blue-200 bg-blue-50">
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <p className="text-blue-900 font-semibold mb-2">
-                  💡 想获得更准确的风水分析？
-                </p>
-                <p className="text-blue-800 mb-4">
-                  您尚未填写房屋朝向信息，补充后可获得专业风水分析
-                </p>
-                <Button
-                  onClick={() => router.push('/zh-CN/unified-form')}
-                  className="bg-blue-600 hover:bg-blue-700"
-                >
-                  补充房屋信息
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+        </div>
       </div>
     </div>
   );
-}
-
-function getChineseDirection(degree: number): string {
-  const directions = ['北', '东北', '东', '东南', '南', '西南', '西', '西北'];
-  const index = Math.round(degree / 45) % 8;
-  return directions[index];
 }

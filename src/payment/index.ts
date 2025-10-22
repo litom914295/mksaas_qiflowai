@@ -34,11 +34,12 @@ export const getPaymentProvider = (): PaymentProvider => {
  */
 export const initializePaymentProvider = (): PaymentProvider => {
   if (!paymentProvider) {
-    if (websiteConfig.payment.provider === 'stripe') {
+    const config = websiteConfig as any;
+    if (config?.payment?.provider === 'stripe') {
       paymentProvider = new StripeProvider();
     } else {
       throw new Error(
-        `Unsupported payment provider: ${websiteConfig.payment.provider}`
+        `Unsupported payment provider: ${config?.payment?.provider ?? 'unknown'}`
       );
     }
   }

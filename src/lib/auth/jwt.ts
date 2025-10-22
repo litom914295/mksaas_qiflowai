@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET || 'default-secret-key';
+const JWT_SECRET =
+  process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET || 'default-secret-key';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '30d';
 
 export type JWTPayload = {
@@ -22,12 +23,12 @@ export function generateToken(
     {
       ...payload,
       iat: Math.floor(Date.now() / 1000),
-    },
+    } as any,
     JWT_SECRET,
     {
       expiresIn,
       algorithm: 'HS256',
-    }
+    } as jwt.SignOptions
   );
 }
 
@@ -76,7 +77,11 @@ export function generateApiKey(userId: string): string {
 /**
  * 生成刷新令牌
  */
-export function generateRefreshToken(userId: string, email: string, role: string): string {
+export function generateRefreshToken(
+  userId: string,
+  email: string,
+  role: string
+): string {
   return generateToken(
     {
       userId,

@@ -47,6 +47,7 @@ export enum Routes {
   // QiFlow routes
   QiflowBazi = '/analysis/bazi',
   QiflowXuankong = '/analysis/xuankong',
+  AnalysisHistory = '/analysis/history',
 
   // block routes
   MagicuiBlocks = '/magicui',
@@ -85,10 +86,11 @@ export const protectedRoutes = [
   Routes.SettingsCredits,
   Routes.SettingsSecurity,
   Routes.SettingsNotifications,
+  Routes.AnalysisHistory,
 ];
 
 /**
  * The default redirect path after logging in
  */
 export const DEFAULT_LOGIN_REDIRECT =
-  websiteConfig.routes.defaultLoginRedirect ?? Routes.Dashboard;
+  (websiteConfig as any)?.routes?.defaultLoginRedirect ?? Routes.Dashboard;

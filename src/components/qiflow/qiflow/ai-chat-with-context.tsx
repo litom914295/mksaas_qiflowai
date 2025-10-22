@@ -1,21 +1,23 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
 import { useAnalysisContext } from '@/contexts/analysis-context';
+import { Loader2, MessageCircle, Send, X } from 'lucide-react';
+import { useState } from 'react';
 
 /**
  * AI 聊天组件 - 基于分析上下文
  */
 export function AIChatWithContext() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
+  const [messages, setMessages] = useState<
+    Array<{ role: 'user' | 'assistant'; content: string }>
+  >([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const analysisContext = useAnalysisContext();
 
   const handleSend = async () => {
@@ -26,7 +28,7 @@ export function AIChatWithContext() {
     setIsLoading(true);
 
     // 添加用户消息
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
 
     try {
       // 调用 AI 聊天 API，传递上下文
@@ -49,14 +51,20 @@ export function AIChatWithContext() {
       }
 
       const data = await response.json();
-      
+
       // 添加 AI 回复
-      setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: data.reply },
+      ]);
     } catch (error) {
       console.error('AI 聊天错误:', error);
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: '抱歉，我现在无法回答您的问题，请稍后再试。' }
+        {
+          role: 'assistant',
+          content: '抱歉，我现在无法回答您的问题，请稍后再试。',
+        },
       ]);
     } finally {
       setIsLoading(false);
@@ -82,11 +90,7 @@ export function AIChatWithContext() {
           <MessageCircle className="h-5 w-5 text-purple-600" />
           <h3 className="font-semibold">AI 命理助手</h3>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setIsOpen(false)}
-        >
+        <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)}>
           <X className="h-4 w-4" />
         </Button>
       </div>
@@ -99,7 +103,7 @@ export function AIChatWithContext() {
             <p className="mt-2">我可以基于您的八字分析结果回答问题。</p>
           </div>
         )}
-        
+
         {messages.map((msg, idx) => (
           <div
             key={idx}
@@ -116,7 +120,7 @@ export function AIChatWithContext() {
             </div>
           </div>
         ))}
-        
+
         {isLoading && (
           <div className="flex justify-start">
             <div className="bg-gray-100 rounded-lg p-3">

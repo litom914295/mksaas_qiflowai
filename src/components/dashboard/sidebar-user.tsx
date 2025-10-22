@@ -82,7 +82,7 @@ export function SidebarUser({ user, className }: SidebarUserProps) {
           // TanStack Query automatically handles cache invalidation on sign out
           router.replace('/');
         },
-        onError: (error) => {
+        onError: (error: Error) => {
           console.error('sign out error:', error);
           toast.error(t('Common.logoutFailed'));
         },

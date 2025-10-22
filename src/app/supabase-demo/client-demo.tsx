@@ -1,40 +1,45 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { supabaseBrowser } from '@/lib/supabase-client'
+import { supabaseBrowser } from '@/lib/supabase-client';
+import { useEffect, useState } from 'react';
 
 export function SupabaseClientDemo() {
-  const [status, setStatus] = useState<'loading' | 'connected' | 'error'>('loading')
-  const [userEmail, setUserEmail] = useState<string | null>(null)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [status, setStatus] = useState<'loading' | 'connected' | 'error'>(
+    'loading'
+  );
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     async function checkConnection() {
       try {
         // 测试浏览器端 Supabase 客户端
-        const { data, error } = await supabaseBrowser.auth.getUser()
-        
+        const { data, error } = await supabaseBrowser.auth.getUser();
+
         if (error) {
           // 未登录也算正常连接
-          if (error.message.includes('session') || error.message.includes('JWT')) {
-            setStatus('connected')
-            setUserEmail(null)
+          if (
+            error.message.includes('session') ||
+            error.message.includes('JWT')
+          ) {
+            setStatus('connected');
+            setUserEmail(null);
           } else {
-            setStatus('error')
-            setErrorMessage(error.message)
+            setStatus('error');
+            setErrorMessage(error.message);
           }
         } else {
-          setStatus('connected')
-          setUserEmail(data.user?.email ?? null)
+          setStatus('connected');
+          setUserEmail(data.user?.email ?? null);
         }
       } catch (err: any) {
-        setStatus('error')
-        setErrorMessage(err?.message ?? '未知错误')
+        setStatus('error');
+        setErrorMessage(err?.message ?? '未知错误');
       }
     }
 
-    checkConnection()
-  }, [])
+    checkConnection();
+  }, []);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
@@ -42,7 +47,7 @@ export function SupabaseClientDemo() {
         <span className="text-2xl">💻</span>
         客户端测试 (Browser)
       </h2>
-      
+
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <span className="font-medium text-slate-700">连接状态:</span>
@@ -80,7 +85,9 @@ export function SupabaseClientDemo() {
 
         {userEmail && (
           <div className="mt-4 p-4 bg-slate-50 rounded-md">
-            <p className="text-sm text-slate-600 mb-1">用户信息（客户端获取）：</p>
+            <p className="text-sm text-slate-600 mb-1">
+              用户信息（客户端获取）：
+            </p>
             <p className="text-sm font-mono text-slate-800">
               Email: {userEmail}
             </p>
@@ -103,5 +110,5 @@ export function SupabaseClientDemo() {
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -1,12 +1,10 @@
 'use client';
 
 import { getCreditBalanceAction } from '@/actions/get-credit-balance';
-import MaintenancePage from './maintenance';
-import { AIMasterChatButton } from '@/components/qiflow/ai-master-chat-button';
+import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
+// import { HistoryQuickFill } from '@/components/history/history-quick-fill'; // 已移除
 import { CityLocationPicker } from '@/components/qiflow/city-location-picker';
-import { HistoryQuickFill } from '@/components/qiflow/history-quick-fill';
 import { HouseLayoutUpload } from '@/components/qiflow/house-layout-upload';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,13 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
@@ -35,29 +26,23 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAnonymousTrial } from '@/hooks/use-anonymous-trial';
+import { useAnalysisContext } from '@/contexts/analysis-context';
+import { useCreditBalance } from '@/hooks/use-credits';
 import { authClient } from '@/lib/auth-client';
 import {
-  AlertCircle,
-  Calendar,
   CheckCircle2,
   ChevronDown,
   ChevronUp,
-  Coins,
   Compass,
-  Gift,
-  History,
   Home,
-  MapPin,
   Sparkles,
   Star,
   Upload,
   User,
-  Zap,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useAnalysisContext } from '@/contexts/analysis-context';
+import MaintenancePage from './maintenance';
 
 type CalendarType = 'solar' | 'lunar';
 
@@ -90,13 +75,17 @@ const testimonials = [
 
 export default function UnifiedFormPage() {
   // 维护模式开关 - 设置为true启用维护模式
-  const MAINTENANCE_MODE = true;
+  const MAINTENANCE_MODE = false;
   // 新系统重定向开关
-  const REDIRECT_TO_NEW_SYSTEM = true;
-  
+  const REDIRECT_TO_NEW_SYSTEM = false;
+
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const analysisContext = useAnalysisContext();
+
+  // 🔥 关键修复：使用 TanStack Query hook 获取实时积分余额
+  const { data: creditsAvailable = 0, isLoading: isLoadingCredits } =
+    useCreditBalance();
 
   const [formData, setFormData] = useState<FormData>({
     personal: {
@@ -119,33 +108,7 @@ export default function UnifiedFormPage() {
   const [progress, setProgress] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // 新增：积分和引擎相关状态
-  const [engineUsed, setEngineUsed] = useState<'local' | 'unified'>('local');
-  const [showSignupPrompt, setShowSignupPrompt] = useState(false);
-  const [showCreditPrompt, setShowCreditPrompt] = useState(false);
   const [creditsRequired, setCreditsRequired] = useState(0);
-  const [creditsAvailable, setCreditsAvailable] = useState(0);
-
-  // 匿名试用Hook
-  const baziTrial = useAnonymousTrial('bazi');
-  const completeTrial = useAnonymousTrial('complete');
-
-  // 客户端状态管理（避免 hydration 错误）
-  const [baziTrialsRemaining, setBaziTrialsRemaining] = useState<number | null>(
-    null
-  );
-  const [completeTrialsRemaining, setCompleteTrialsRemaining] = useState<
-    number | null
-  >(null);
-  const [isMounted, setIsMounted] = useState(false);
-
-  // 挂载后读取试用次数
-  useEffect(() => {
-    setIsMounted(true);
-    setBaziTrialsRemaining(baziTrial.remainingTrials());
-    setCompleteTrialsRemaining(completeTrial.remainingTrials());
-  }, []);
 
   // 计算填写进度
   useEffect(() => {
@@ -174,16 +137,8 @@ export default function UnifiedFormPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // 获取用户积分余额
-  useEffect(() => {
-    if (session?.user && !isPending) {
-      getCreditBalanceAction().then((result) => {
-        if (result?.data?.success && result.data.credits !== undefined) {
-          setCreditsAvailable(result.data.credits);
-        }
-      });
-    }
-  }, [session, isPending]);
+  // 🔥 关键修复：不再需要手动获取积分,useCreditBalance() hook会自动处理
+  // 当签到成功后,queryClient.invalidateQueries会自动触发这个hook重新获取
 
   // 计算所需积分
   useEffect(() => {
@@ -197,6 +152,39 @@ export default function UnifiedFormPage() {
     setFormData(data);
     if (data.house.direction || data.house.roomCount) {
       setShowHouseInfo(true);
+    }
+
+    // 自动设置 AI-Chat 上下文
+    if (analysisContext) {
+      const birthDate = data.personal.birthDate
+        ? new Date(data.personal.birthDate)
+        : null;
+      const birthHour = data.personal.birthTime
+        ? Number.parseInt(data.personal.birthTime.split(':')[0])
+        : undefined;
+
+      analysisContext.setUserInput({
+        personal: {
+          name: data.personal.name,
+          gender: data.personal.gender === 'male' ? 'male' : 'female',
+          birthDate: data.personal.birthDate,
+          birthTime: data.personal.birthTime,
+          birthYear: birthDate?.getFullYear(),
+          birthMonth: birthDate ? birthDate.getMonth() + 1 : undefined,
+          birthDay: birthDate?.getDate(),
+          birthHour: Number.isNaN(birthHour as number) ? undefined : birthHour,
+        },
+        house:
+          data.house.direction || data.house.roomCount
+            ? {
+                direction: data.house.direction,
+                facing: data.house.direction
+                  ? Number.parseInt(data.house.direction)
+                  : undefined,
+              }
+            : undefined,
+      });
+      console.log('✅ [Unified Form] AI-Chat 上下文已设置');
     }
   };
 
@@ -222,7 +210,7 @@ export default function UnifiedFormPage() {
     }));
   };
 
-  // 提交表单 - 重构版本
+  // 提交表单 - 保存数据并跳转到分析页面
   const handleSubmit = async (e?: React.MouseEvent<HTMLButtonElement>) => {
     if (e) {
       e.preventDefault();
@@ -230,7 +218,7 @@ export default function UnifiedFormPage() {
     }
 
     console.log('='.repeat(50));
-    console.log('🚀 [积分系统] 开始提交分析');
+    console.log('🚀 [首页] 开始提交表单');
 
     // 1. 验证必填项
     if (
@@ -246,238 +234,68 @@ export default function UnifiedFormPage() {
     setIsSubmitting(true);
 
     try {
-      // 2. 判断分析类型
-      const hasHouseInfo =
-        showHouseInfo && formData.house.direction && formData.house.roomCount;
-      const analysisType = hasHouseInfo ? 'complete' : 'bazi';
-      const requiredCredits = hasHouseInfo ? 30 : 10;
-      const isLoggedIn = session?.user && !isPending;
+      // 2. 保存数据到 localStorage
+      console.log('💾 保存表单数据到 localStorage...');
 
-      console.log('📊 分析类型:', analysisType);
-      console.log('💰 需要积分:', requiredCredits);
-      console.log('🔑 登录状态:', isLoggedIn);
-
-      // 3. 匿名用户检查试用次数
-      if (!isLoggedIn) {
-        const trial = analysisType === 'bazi' ? baziTrial : completeTrial;
-
-        if (!trial.canTrial()) {
-          console.log('⚠️ 试用次数用尽');
-          setShowSignupPrompt(true);
-          setIsSubmitting(false);
-          return;
-        }
-
-        console.log('✅ 匿名试用，剩余次数:', trial.remainingTrials());
-        // 使用本地引擎
-        await analyzeWithLocalEngine(formData, analysisType);
-        trial.incrementTrial();
-        // 更新显示的试用次数
-        if (analysisType === 'bazi') {
-          setBaziTrialsRemaining(baziTrial.remainingTrials());
-        } else {
-          setCompleteTrialsRemaining(completeTrial.remainingTrials());
-        }
-        return;
-      }
-
-      // 4. 登录用户检查积分
-      const canUseUnified = creditsAvailable >= requiredCredits;
-
-      if (!canUseUnified) {
-        console.log('⚠️ 积分不足，显示提示');
-        setShowCreditPrompt(true);
-        setIsSubmitting(false);
-        return;
-      }
-
-      // 5. 调用统一引擎 API
-      console.log('✨ 使用统一引擎，开始分析...');
-      await analyzeWithUnifiedEngine(formData, analysisType);
-    } catch (error) {
-      console.error('❌ 分析失败:', error);
-      alert('分析失败，请再试一次');
-      setIsSubmitting(false);
-    }
-  };
-
-  // 本地引擎分析（匿名用户或积分不足时使用）
-  const analyzeWithLocalEngine = async (
-    data: FormData,
-    type: 'bazi' | 'complete'
-  ) => {
-    console.log('📱 使用本地引擎分析...');
-    setEngineUsed('local');
-
-    // 同步用户输入到 AnalysisContext
-    if (analysisContext) {
-      console.log('🔄 同步用户输入到 AI 聊天上下文...');
-      
-      // 解析出生日期和时间
-      const birthDate = new Date(data.personal.birthDate);
-      const [birthHourStr] = data.personal.birthTime.split(':');
-      const birthHour = parseInt(birthHourStr, 10);
-
-      // 解析房屋朝向（如果有）
-      const houseFacing = type === 'complete' ? parseInt(data.house.direction, 10) || 180 : 180;
-      const buildYear = new Date().getFullYear(); // 默认当前年份
-
-      analysisContext.setUserInput({
-        personal: {
-          birthYear: birthDate.getFullYear(),
-          birthMonth: birthDate.getMonth() + 1,
-          birthDay: birthDate.getDate(),
-          birthHour: isNaN(birthHour) ? undefined : birthHour,
-          gender: data.personal.gender as 'male' | 'female',
-        },
-        house: {
-          facing: houseFacing,
-          buildYear: buildYear,
-        },
-      });
-
-      // 激活AI聊天上下文
-      analysisContext.activateAIChat();
-      console.log('✅ AI 聊天上下文已激活');
-    }
-
-    // 保存到历史记录
-    try {
-      const existingHistory = localStorage.getItem('formHistory') || '[]';
-      const history = JSON.parse(existingHistory);
-      const newEntry = { ...data, timestamp: Date.now() };
-      history.unshift(newEntry);
-      localStorage.setItem('formHistory', JSON.stringify(history.slice(0, 5)));
-    } catch (e) {
-      console.error('保存历史失败:', e);
-    }
-
-    // 模拟本地分析过程
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // 跳转到报告页面，标记为本地引擎
-    const dataParam = encodeURIComponent(
-      JSON.stringify({ ...data, engineUsed: 'local' })
-    );
-    window.location.href = `/zh-CN/report?data=${dataParam}`;
-  };
-
-  // 统一引擎分析（登录用户且积分充足）
-  const analyzeWithUnifiedEngine = async (
-    data: FormData,
-    type: 'bazi' | 'complete'
-  ) => {
-    console.log('✨ 使用统一引擎API分析...');
-
-    try {
-      const endpoint =
-        type === 'bazi'
-          ? '/api/qiflow/bazi-unified'
-          : '/api/qiflow/complete-unified';
-      const requestBody =
-        type === 'bazi'
-          ? data.personal
-          : { personal: data.personal, house: data.house };
-
-      console.log('📞 调用API:', endpoint);
-
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        // API失败，降级到本地引擎
-        console.warn('⚠️ 统一引擎失败，降级到本地引擎');
-        await analyzeWithLocalEngine(data, type);
-        return;
-      }
-
-      if (result.needsLogin) {
-        alert('请先登录');
-        setIsSubmitting(false);
-        return;
-      }
-
-      if (result.needsCredits) {
-        setShowCreditPrompt(true);
-        setIsSubmitting(false);
-        return;
-      }
-
-      // 成功！
-      console.log('✅ 分析完成，消耗', result.data.creditsUsed, '积分');
-      setEngineUsed('unified');
-
-      // 同步用户输入和分析结果到 AnalysisContext
-      if (analysisContext) {
-        console.log('🔄 同步完整分析数据到 AI 聊天上下文...');
-        
-        // 解析出生日期和时间
-        const birthDate = new Date(data.personal.birthDate);
-        const [birthHourStr] = data.personal.birthTime.split(':');
-        const birthHour = parseInt(birthHourStr, 10);
-
-        // 解析房屋朝向（如果有）
-        const houseFacing = type === 'complete' ? parseInt(data.house.direction, 10) || 180 : 180;
-        const buildYear = new Date().getFullYear(); // 默认当前年份
-
-        // 设置用户输入
-        analysisContext.setUserInput({
-          personal: {
-            birthYear: birthDate.getFullYear(),
-            birthMonth: birthDate.getMonth() + 1,
-            birthDay: birthDate.getDate(),
-            birthHour: isNaN(birthHour) ? undefined : birthHour,
-            gender: data.personal.gender as 'male' | 'female',
-          },
-          house: {
-            facing: houseFacing,
-            buildYear: buildYear,
-          },
-        });
-
-        // 设置分析结果
-        analysisContext.setAnalysisResult(result.data);
-
-        // 激活AI聊天
-        analysisContext.activateAIChat();
-        
-        console.log('✅ 完整分析数据已同步到 AI 聊天上下文');
-        console.log('📊 用户输入:', analysisContext.userInput);
-        console.log('📋 分析结果摘要:', result.data.summary || '(无摘要)');
-      }
-
-      // 保存到历史记录
+      // 保存到 formHistory（作为历史记录数组）
       try {
         const existingHistory = localStorage.getItem('formHistory') || '[]';
         const history = JSON.parse(existingHistory);
-        const newEntry = { ...data, timestamp: Date.now() };
+        const newEntry = { ...formData, timestamp: Date.now() };
         history.unshift(newEntry);
         localStorage.setItem(
           'formHistory',
           JSON.stringify(history.slice(0, 5))
         );
+        console.log('✅ 已保存到 formHistory');
       } catch (e) {
-        console.error('保存历史失败:', e);
+        console.error('❌ 保存 formHistory 失败:', e);
       }
 
-      // 跳转到报告页面
-      const reportData = {
-        ...data,
-        engineUsed: 'unified',
-        creditsUsed: result.data.creditsUsed,
-        analysisResult: result.data,
-      };
-      const dataParam = encodeURIComponent(JSON.stringify(reportData));
-      window.location.href = `/zh-CN/report?data=${dataParam}`;
+      // 同时保存到 lastBaziForm（备用）
+      try {
+        localStorage.setItem('lastBaziForm', JSON.stringify(formData));
+        console.log('✅ 已保存到 lastBaziForm（备用）');
+      } catch (e) {
+        console.error('❌ 保存 lastBaziForm 失败:', e);
+      }
+
+      // 3. 同步到 AnalysisContext
+      if (analysisContext) {
+        console.log('🔄 同步用户输入到 AnalysisContext...');
+        const birthDate = new Date(formData.personal.birthDate);
+        const [birthHourStr] = formData.personal.birthTime.split(':');
+        const birthHour = Number.parseInt(birthHourStr, 10);
+
+        analysisContext.setUserInput({
+          personal: {
+            birthYear: birthDate.getFullYear(),
+            birthMonth: birthDate.getMonth() + 1,
+            birthDay: birthDate.getDate(),
+            birthHour: Number.isNaN(birthHour) ? undefined : birthHour,
+            gender: formData.personal.gender as 'male' | 'female',
+          },
+          house: formData.house.direction
+            ? {
+                facing: Number.parseInt(formData.house.direction, 10) || 180,
+                buildYear: new Date().getFullYear(),
+              }
+            : undefined,
+        });
+        console.log('✅ AnalysisContext 已同步');
+      }
+
+      // 4. 保存到 sessionStorage 并跳转到报告页面
+      console.log('🔀 跳转到报告页面...');
+      sessionStorage.setItem('analysisFormData', JSON.stringify(formData));
+      await new Promise((resolve) => setTimeout(resolve, 300)); // 确保数据保存完成
+
+      // 跳转到报告页面（不在URL中传递数据）
+      router.push('/zh-CN/report');
     } catch (error) {
-      console.error('❌ API调用失败:', error);
-      // 降级到本地引擎
-      await analyzeWithLocalEngine(data, type);
+      console.error('❌ 提交失败:', error);
+      alert('提交失败，请再试一次');
+      setIsSubmitting(false);
     }
   };
 
@@ -486,7 +304,7 @@ export default function UnifiedFormPage() {
     useEffect(() => {
       router.push('/zh-CN/bazi-analysis');
     }, []);
-    
+
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card className="max-w-md">
@@ -502,12 +320,12 @@ export default function UnifiedFormPage() {
       </div>
     );
   }
-  
+
   // 如果处于维护模式，显示维护页面
   if (MAINTENANCE_MODE) {
     return <MaintenancePage />;
   }
-  
+
   // 检查是否可以提交
   const canSubmit =
     formData.personal.name &&
@@ -528,8 +346,8 @@ export default function UnifiedFormPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50">
-      {/* AI大师悬浮按钮 */}
-      <AIMasterChatButton />
+      {/* AI大师悬浮按钮（上下文增强版） */}
+      <AIChatWithContext />
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* 头部 */}
@@ -618,34 +436,8 @@ export default function UnifiedFormPage() {
               </Card>
             )}
 
-            {/* 匿名用户：试用提示 */}
-            {!session && isMounted && (
-              <Alert className="border-purple-200 bg-purple-50">
-                <Sparkles className="h-4 w-4 text-purple-600" />
-                <AlertTitle>免费试用</AlertTitle>
-                <AlertDescription>
-                  您还有{' '}
-                  <strong className="text-purple-600">
-                    {baziTrialsRemaining ?? 0}
-                  </strong>{' '}
-                  次八字分析试用，
-                  <strong className="text-purple-600">
-                    {completeTrialsRemaining ?? 0}
-                  </strong>{' '}
-                  次完整分析试用。
-                  <Button
-                    variant="link"
-                    className="ml-2 p-0 h-auto text-purple-600"
-                    onClick={() => router.push('/auth/signin')}
-                  >
-                    注册获取100积分新手礼包 →
-                  </Button>
-                </AlertDescription>
-              </Alert>
-            )}
-
             {/* 历史快速填充 */}
-            <HistoryQuickFill onQuickFill={handleQuickFill} />
+            {/* <HistoryQuickFill onQuickFill={handleQuickFill} /> */}
 
             {/* 个人信息 */}
             <Card className="shadow-lg border-2 border-purple-100">
@@ -1025,101 +817,6 @@ export default function UnifiedFormPage() {
           </div>
         </div>
       </div>
-
-      {/* 试用用尽提示对话框 */}
-      <Dialog open={showSignupPrompt} onOpenChange={setShowSignupPrompt}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Gift className="w-5 h-5 text-purple-600" />
-              免费试用已用完
-            </DialogTitle>
-            <DialogDescription>
-              您已使用完3次免费试用。注册账号即可获得100积分新手礼包，
-              足够进行10次八字分析或3次完整分析！
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <h4 className="font-semibold mb-2">注册即享：</h4>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-purple-600" />
-                  100积分新手礼包
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-purple-600" />
-                  保存分析历史记录
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-purple-600" />
-                  个性化推荐建议
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-purple-600" />
-                  AI大师24/7在线答疑
-                </li>
-              </ul>
-            </div>
-            <Button
-              className="w-full"
-              onClick={() => router.push('/auth/signin')}
-            >
-              立即注册领取礼包
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* 积分不足提示对话框 */}
-      <Dialog open={showCreditPrompt} onOpenChange={setShowCreditPrompt}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Coins className="w-5 h-5 text-yellow-600" />
-              积分不足
-            </DialogTitle>
-            <DialogDescription>
-              {creditsRequired === 10
-                ? '八字分析需要10积分，您当前余额不足。'
-                : '完整分析需要30积分，您当前余额不足。'}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <span className="text-sm text-gray-600">当前余额</span>
-              <span className="text-2xl font-bold">{creditsAvailable}</span>
-            </div>
-            <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
-              <span className="text-sm text-gray-600">所需积分</span>
-              <span className="text-2xl font-bold text-red-600">
-                {creditsRequired}
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setShowCreditPrompt(false);
-                  // 使用本地引擎继续
-                  const hasHouseInfo =
-                    showHouseInfo &&
-                    formData.house.direction &&
-                    formData.house.roomCount;
-                  const type = hasHouseInfo ? 'complete' : 'bazi';
-                  analyzeWithLocalEngine(formData, type);
-                }}
-              >
-                使用基础引擎
-              </Button>
-              <Button onClick={() => router.push('/settings/credits')}>
-                <Zap className="w-4 h-4 mr-2" />
-                充值积分
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
