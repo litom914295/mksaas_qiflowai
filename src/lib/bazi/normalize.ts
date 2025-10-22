@@ -5,6 +5,64 @@
 
 import type { EnhancedBaziResult } from './enhanced-calculator';
 
+// ========== 农历日期格式化 ==========
+
+/**
+ * 农历日期对象结构
+ */
+export type LunarDateLike = {
+  year: number;
+  month: number;
+  day: number;
+  isLeap?: boolean;
+};
+
+/**
+ * 格式化农历日期为可读字符串
+ * @param lunar 农历日期对象
+ * @param options 格式化选项
+ * @returns 格式化后的农历日期字符串，例如："2024年闰04月08日"
+ */
+export function formatLunarDate(
+  lunar: LunarDateLike | null | undefined,
+  options?: { padZero?: boolean; showLeap?: boolean }
+): string {
+  if (!lunar) return '';
+
+  const { padZero = true, showLeap = true } = options || {};
+
+  try {
+    const year = lunar.year;
+    const month = lunar.month;
+    const day = lunar.day;
+    const isLeap = lunar.isLeap || false;
+
+    // 验证输入有效性
+    if (
+      typeof year !== 'number' ||
+      typeof month !== 'number' ||
+      typeof day !== 'number'
+    ) {
+      console.warn('[formatLunarDate] 无效的输入数据:', lunar);
+      return '';
+    }
+
+    // 格式化月份
+    const monthStr = padZero ? String(month).padStart(2, '0') : String(month);
+
+    // 格式化日期
+    const dayStr = padZero ? String(day).padStart(2, '0') : String(day);
+
+    // 添加闰月标识
+    const leapPrefix = showLeap && isLeap ? '闰' : '';
+
+    return `${year}年${leapPrefix}${monthStr}月${dayStr}日`;
+  } catch (error) {
+    console.error('[formatLunarDate] 格式化失败:', error);
+    return '';
+  }
+}
+
 // ========== 统一的数据模型定义 ==========
 
 /**
@@ -244,28 +302,38 @@ export function normalizeBaziResult(
 ): BaziAnalysisModel | null {
   if (!result) return null;
 
+  // 调试：输出完整的原始数据结构
+  console.log('[normalize] 原始 EnhancedBaziResult 数据:', {
+    pillars: result.pillars,
+    elements: result.elements,
+    tenGodsAnalysis: result.tenGodsAnalysis,
+    pattern: result.pattern,
+    luckPillars: result.luckPillars,
+    keys: Object.keys(result),
+  });
+
   try {
     // 提取基础信息
     const base = extractBaseInfo(result, additionalInfo);
-    
+
     // 提取核心指标
     const metrics = extractMetrics(result);
-    
+
     // 提取用神信息
     const useful = extractUsefulGods(result);
-    
+
     // 提取十神信息
     const tenGods = extractTenGods(result);
-    
+
     // 提取格局信息
     const patterns = extractPatterns(result);
-    
+
     // 提取运势信息
     const luck = extractLuckInfo(result);
-    
+
     // 提取领域洞察
     const insights = extractInsights(result);
-    
+
     // 提取专业建议
     const advice = extractAdvice(result);
 
@@ -292,7 +360,7 @@ function extractBaseInfo(
   additionalInfo?: any
 ): BaziAnalysisModel['base'] {
   const pillars = result.pillars || {};
-  
+
   // 调试日志：输出原始四柱数据
   console.log('[normalize] 原始四柱数据:', {
     year: pillars.year,
@@ -300,13 +368,16 @@ function extractBaseInfo(
     day: pillars.day,
     hour: pillars.hour,
   });
-  
+
   return {
     name: additionalInfo?.name,
     gender: additionalInfo?.gender || 'male',
     birth: {
       datetime: additionalInfo?.datetime || '',
-      lunar: (result as any).lunar?.date || '',
+      lunar:
+        (result as any).lunarText ||
+        formatLunarDate((result as any).lunar) ||
+        '',
       timezone: additionalInfo?.timezone || 'Asia/Shanghai',
       location: additionalInfo?.location,
     },
@@ -319,7 +390,9 @@ function extractBaseInfo(
     dayMaster: {
       stem: pillars.day?.stem || pillars.day?.gan || '',
       element: (pillars.day as any)?.element || '',
-      chinese: (pillars.day?.stem || pillars.day?.gan || '') + (pillars.day?.branch || pillars.day?.zhi || ''),
+      chinese:
+        (pillars.day?.stem || pillars.day?.gan || '') +
+        (pillars.day?.branch || pillars.day?.zhi || ''),
     },
   };
 }
@@ -343,19 +416,21 @@ function extractPillarInfo(pillar: any): PillarInfo {
     naYin: pillar.naYin || pillar.nayin,
     tenGod: pillar.tenGod,
   };
-  
+
   console.log('[extractPillarInfo] 提取结果:', extracted);
-  
+
   return extracted;
 }
 
-function extractMetrics(result: EnhancedBaziResult): BaziAnalysisModel['metrics'] {
+function extractMetrics(
+  result: EnhancedBaziResult
+): BaziAnalysisModel['metrics'] {
   const elements: any = result.elements || {};
   const dayMasterStrength = result.dayMasterStrength || {};
-  
+
   // 计算整体评分
   const overallScore = calculateOverallScore(result);
-  
+
   return {
     overall: {
       score: overallScore,
@@ -382,16 +457,18 @@ function extractMetrics(result: EnhancedBaziResult): BaziAnalysisModel['metrics'
   };
 }
 
-function extractUsefulGods(result: EnhancedBaziResult): BaziAnalysisModel['useful'] {
+function extractUsefulGods(
+  result: EnhancedBaziResult
+): BaziAnalysisModel['useful'] {
   const favorableElements = result.favorableElements || {};
   const yongshen = (result as any).yongshen || {};
-  
+
   // 构建有利元素列表
   const favorable: ElementInfo[] = [
     ...(favorableElements.primary || []),
     ...(favorableElements.secondary || []),
   ]
-    .filter(elem => elem && typeof elem === 'string') // 过滤无效元素
+    .filter((elem) => elem && typeof elem === 'string') // 过滤无效元素
     .map((elem, index) => ({
       element: elem,
       chinese: getElementChinese(elem),
@@ -399,11 +476,11 @@ function extractUsefulGods(result: EnhancedBaziResult): BaziAnalysisModel['usefu
       reason: favorableElements.explanation || '',
       suggestions: getElementSuggestions(elem),
     }));
-  
+
   // 构建不利元素列表
   const unfavorable: ElementInfo[] = (
-    favorableElements.unfavorable || 
-    yongshen.unfavorable || 
+    favorableElements.unfavorable ||
+    yongshen.unfavorable ||
     []
   )
     .filter((elem: any) => elem && typeof elem === 'string') // 过滤无效元素
@@ -414,7 +491,7 @@ function extractUsefulGods(result: EnhancedBaziResult): BaziAnalysisModel['usefu
       reason: '需要避免或减少',
       suggestions: getElementAvoidance(elem),
     }));
-  
+
   return {
     favorableElements: favorable,
     unfavorableElements: unfavorable,
@@ -423,11 +500,35 @@ function extractUsefulGods(result: EnhancedBaziResult): BaziAnalysisModel['usefu
   };
 }
 
-function extractTenGods(result: EnhancedBaziResult): BaziAnalysisModel['tenGods'] {
+function extractTenGods(
+  result: EnhancedBaziResult
+): BaziAnalysisModel['tenGods'] {
   const tenGodsAnalysis = result.tenGodsAnalysis || {};
   const profile: TenGodItem[] = [];
   const dominant: string[] = [];
-  
+
+  // 调试：输出十神数据结构
+  console.log('[extractTenGods] 十神原始数据:', tenGodsAnalysis);
+  console.log(
+    '[extractTenGods] 是否为对象:',
+    typeof tenGodsAnalysis,
+    Array.isArray(tenGodsAnalysis)
+  );
+
+  // 如果 tenGodsAnalysis 为空或不是对象，生成默认数据
+  if (
+    !tenGodsAnalysis ||
+    typeof tenGodsAnalysis !== 'object' ||
+    Object.keys(tenGodsAnalysis).length === 0
+  ) {
+    console.warn('[extractTenGods] 十神数据为空，生成默认数据');
+    return {
+      profile: generateDefaultTenGods(),
+      dominant: [],
+      characteristics: ['数据加载中', '请稍候'],
+    };
+  }
+
   // 处理十神数据
   Object.entries(tenGodsAnalysis).forEach(([name, data]: [string, any]) => {
     const item: TenGodItem = {
@@ -440,14 +541,24 @@ function extractTenGods(result: EnhancedBaziResult): BaziAnalysisModel['tenGods'
       opportunities: data.opportunities,
       risks: data.risks,
     };
-    
+
     profile.push(item);
-    
+
     if (data.strength > 70) {
       dominant.push(name);
     }
   });
-  
+
+  // 如果 profile 为空，生成默认数据
+  if (profile.length === 0) {
+    console.warn('[extractTenGods] profile 为空，生成默认数据');
+    return {
+      profile: generateDefaultTenGods(),
+      dominant: [],
+      characteristics: ['数据加载中', '请稍候'],
+    };
+  }
+
   return {
     profile,
     dominant,
@@ -455,9 +566,11 @@ function extractTenGods(result: EnhancedBaziResult): BaziAnalysisModel['tenGods'
   };
 }
 
-function extractPatterns(result: EnhancedBaziResult): BaziAnalysisModel['patterns'] {
+function extractPatterns(
+  result: EnhancedBaziResult
+): BaziAnalysisModel['patterns'] {
   const pattern: any = result.pattern || {};
-  
+
   return {
     main: {
       name: pattern.primary || '未定格',
@@ -467,64 +580,88 @@ function extractPatterns(result: EnhancedBaziResult): BaziAnalysisModel['pattern
       conditions: [],
       breakingFactors: undefined,
     },
-    secondary: (Array.isArray(pattern.secondary) ? pattern.secondary : []).map((p: any) => ({
-      name: typeof p === 'string' ? p : p.name || '',
-      chinese: typeof p === 'string' ? p : p.chinese || '',
-      type: '',
-      score: 0,
-      conditions: [],
-    })),
+    secondary: (Array.isArray(pattern.secondary) ? pattern.secondary : []).map(
+      (p: any) => ({
+        name: typeof p === 'string' ? p : p.name || '',
+        chinese: typeof p === 'string' ? p : p.chinese || '',
+        type: '',
+        score: 0,
+        conditions: [],
+      })
+    ),
     stability: pattern.stability || 0,
     rationale: pattern.rationale || '',
   };
 }
 
-function extractLuckInfo(result: EnhancedBaziResult): BaziAnalysisModel['luck'] {
+function extractLuckInfo(
+  result: EnhancedBaziResult
+): BaziAnalysisModel['luck'] {
   const luckPillars = result.luckPillars || [];
   const currentAge = calculateAge(result);
   
+  // 获取出生年份
+  const birthYear = result.birthData?.datetime 
+    ? new Date(result.birthData.datetime).getFullYear()
+    : new Date().getFullYear() - 30; // 默认30岁
+
   // 构建大运时间线
-  const daYunTimeline: DaYunPeriod[] = luckPillars.map((pillar: any, index: number) => ({
-    period: index + 1,
-    ageRange: [pillar.startAge, pillar.endAge],
-    yearRange: [pillar.startYear, pillar.endYear],
-    heavenlyStem: pillar.heavenlyStem,
-    earthlyBranch: pillar.earthlyBranch,
-    element: pillar.element,
-    theme: pillar.theme || generateDaYunTheme(pillar),
-    fortune: {
-      overall: pillar.score || 60,
-      career: pillar.careerScore || 60,
-      wealth: pillar.wealthScore || 60,
-      relationship: pillar.relationshipScore || 60,
-      health: pillar.healthScore || 60,
-    },
-  }));
-  
+  const daYunTimeline: DaYunPeriod[] = luckPillars.map(
+    (pillar: any, index: number) => {
+      // 计算年份范围
+      const startYear = pillar.startYear || birthYear + pillar.startAge;
+      const endYear = pillar.endYear || birthYear + pillar.endAge;
+      
+      return {
+        period: pillar.period || index + 1,
+        ageRange: [pillar.startAge || 0, pillar.endAge || 0],
+        yearRange: [startYear, endYear],
+        heavenlyStem: pillar.heavenlyStem || '',
+        earthlyBranch: pillar.earthlyBranch || '',
+        element: pillar.element || pillar.stemElement || '',
+        theme: pillar.theme || pillar.description || generateDaYunTheme(pillar),
+        fortune: {
+          overall: pillar.score || 60,
+          career: pillar.careerScore || 60,
+          wealth: pillar.wealthScore || 60,
+          relationship: pillar.relationshipScore || 60,
+          health: pillar.healthScore || 60,
+        },
+      };
+    }
+  );
+
   // 找出当前大运
   const currentDaYun = daYunTimeline.find(
-    d => currentAge >= d.ageRange[0] && currentAge <= d.ageRange[1]
+    (d) => currentAge >= d.ageRange[0] && currentAge <= d.ageRange[1]
   );
-  
+
   return {
     currentDaYun,
-    daYunTimeline,
+    timeline: daYunTimeline,  // 修正字段名
     currentYear: generateCurrentYearLuck(result),
     annualForecast: generateAnnualForecast(result, 5), // 未来5年
   };
 }
 
-function extractInsights(result: EnhancedBaziResult): BaziAnalysisModel['insights'] {
+function extractInsights(
+  result: EnhancedBaziResult
+): BaziAnalysisModel['insights'] {
   // 优先从 interpretation 中提取真实的 AI 生成数据
   const interpretation = (result as any).interpretation;
-  
+
   if (interpretation) {
     return {
       personality: {
         strengths: interpretation.personality?.traits || [],
-        weaknesses: interpretation.personality?.behavior?.filter((b: string) => b.includes('避免') || b.includes('注意')) || [],
-        communicationStyle: interpretation.personality?.mindset?.[0] || '直接坦率，注重逻辑',
-        decisionMaking: interpretation.personality?.mindset?.[1] || '理性分析，谨慎决策',
+        weaknesses:
+          interpretation.personality?.behavior?.filter(
+            (b: string) => b.includes('避免') || b.includes('注意')
+          ) || [],
+        communicationStyle:
+          interpretation.personality?.mindset?.[0] || '直接坦率，注重逻辑',
+        decisionMaking:
+          interpretation.personality?.mindset?.[1] || '理性分析，谨慎决策',
         growthAdvice: interpretation.spirituality?.growth || [],
       },
       careerWealth: {
@@ -552,12 +689,12 @@ function extractInsights(result: EnhancedBaziResult): BaziAnalysisModel['insight
       dailyFortune: generateDailyFortune(result),
     };
   }
-  
+
   // 回退到基于八字数据的生成（如果没有 interpretation）
   const tenGods = result.tenGodsAnalysis || {};
   const elements = result.elements || {};
   const pattern = result.pattern || {};
-  
+
   return {
     personality: generatePersonalityInsight(tenGods, elements),
     careerWealth: generateCareerInsight(result),
@@ -566,10 +703,12 @@ function extractInsights(result: EnhancedBaziResult): BaziAnalysisModel['insight
   };
 }
 
-function extractAdvice(result: EnhancedBaziResult): BaziAnalysisModel['advice'] {
+function extractAdvice(
+  result: EnhancedBaziResult
+): BaziAnalysisModel['advice'] {
   const favorable = result.favorableElements || {};
   const pattern = result.pattern || {};
-  
+
   return {
     actionableTips: generateActionableTips(result),
     cautions: generateCautions(result),
@@ -582,24 +721,24 @@ function extractAdvice(result: EnhancedBaziResult): BaziAnalysisModel['advice'] 
 function calculateOverallScore(result: EnhancedBaziResult): number {
   // 综合评分算法
   let score = 60; // 基础分
-  
+
   // 日主强弱加分
   if (result.dayMasterStrength?.strength === 'balanced') {
     score += 10;
   }
-  
+
   // 格局加分
   const pattern: any = result.pattern || {};
   if (pattern.stability) {
     score += pattern.stability * 0.2;
   }
-  
+
   // 五行平衡加分
   const elements: any = result.elements || {};
   if (elements.balance?.status === 'balanced') {
     score += 10;
   }
-  
+
   return Math.min(100, Math.max(0, score));
 }
 
@@ -673,7 +812,7 @@ function getElementSuggestions(element: string): any {
       items: ['水景', '鱼缸'],
     },
   };
-  
+
   return suggestions[element.toLowerCase()] || {};
 }
 
@@ -687,22 +826,22 @@ function getElementAvoidance(element: string): any {
 
 function getTenGodChinese(name: string): string {
   const map: Record<string, string> = {
-    'bijian': '比肩',
-    'jiecai': '劫财',
-    'shishen': '食神',
-    'shangguan': '伤官',
-    'zhengcai': '正财',
-    'piancai': '偏财',
-    'zhengguan': '正官',
-    'qisha': '七杀',
-    'zhengyin': '正印',
-    'pianyin': '偏印',
+    bijian: '比肩',
+    jiecai: '劫财',
+    shishen: '食神',
+    shangguan: '伤官',
+    zhengcai: '正财',
+    piancai: '偏财',
+    zhengguan: '正官',
+    qisha: '七杀',
+    zhengyin: '正印',
+    pianyin: '偏印',
   };
   return map[name] || name;
 }
 
 function generateRemedies(favorable: ElementInfo[]): ActionItem[] {
-  return favorable.slice(0, 3).map(elem => ({
+  return favorable.slice(0, 3).map((elem) => ({
     category: '五行补救',
     title: `增强${elem.chinese}元素`,
     description: `建议多接触${elem.suggestions?.colors?.join('、')}等颜色，选择${elem.suggestions?.directions?.join('、')}方位`,
@@ -711,7 +850,7 @@ function generateRemedies(favorable: ElementInfo[]): ActionItem[] {
 }
 
 function generateAvoidance(unfavorable: ElementInfo[]): ActionItem[] {
-  return unfavorable.slice(0, 2).map(elem => ({
+  return unfavorable.slice(0, 2).map((elem) => ({
     category: '五行避忌',
     title: `减少${elem.chinese}元素`,
     description: `避免过多${elem.chinese}属性的环境和物品`,
@@ -721,26 +860,84 @@ function generateAvoidance(unfavorable: ElementInfo[]): ActionItem[] {
 
 function generateCharacteristics(dominant: string[]): string[] {
   const characteristics: string[] = [];
-  
+
   if (dominant.includes('bijian')) characteristics.push('独立自主');
   if (dominant.includes('shishen')) characteristics.push('才华横溢');
   if (dominant.includes('zhengcai')) characteristics.push('稳重务实');
   if (dominant.includes('zhengguan')) characteristics.push('责任心强');
   if (dominant.includes('zhengyin')) characteristics.push('学习能力强');
-  
+
   return characteristics;
 }
 
 function calculateAge(result: any): number {
-  // 简化的年龄计算
+  // 从结果中提取出生年份计算年龄
   const currentYear = new Date().getFullYear();
-  const birthYear = 1990; // 需要从result中提取
+  let birthYear = 1990; // 默认值
+  
+  // 尝试从多个可能的位置获取出生年份
+  if (result?.birthData?.datetime) {
+    birthYear = new Date(result.birthData.datetime).getFullYear();
+  } else if (result?.solar?.year) {
+    birthYear = result.solar.year;
+  } else if (result?.fourPillars?.year?.year) {
+    birthYear = result.fourPillars.year.year;
+  }
+  
   return currentYear - birthYear;
 }
 
 function generateDaYunTheme(pillar: any): string {
-  // 根据大运干支生成主题
-  return '事业发展期';
+  // 根据大运的天干地支生成主题描述
+  if (!pillar) return '运势发展期';
+  
+  const themes: Record<string, string> = {
+    '甲子': '开拓创新期',
+    '乙丑': '稳健发展期',
+    '丙寅': '光明进取期',
+    '丁卯': '灵活变通期',
+    '戊辰': '稳固基础期',
+    '己巳': '转型提升期',
+    '庚午': '果断决策期',
+    '辛未': '精细管理期',
+    '壬申': '流动发展期',
+    '癸酉': '深度积累期',
+    '甲戌': '突破创新期',
+    '乙亥': '合作共赢期',
+    // 添加更多组合...
+  };
+  
+  // 尝试获取天干地支
+  let ganZhi = '';
+  if (pillar.stem && pillar.branch) {
+    ganZhi = pillar.stem + pillar.branch;
+  } else if (pillar.gan && pillar.zhi) {
+    ganZhi = pillar.gan + pillar.zhi;
+  } else if (typeof pillar === 'string') {
+    ganZhi = pillar;
+  }
+  
+  // 返回对应主题或默认主题
+  if (themes[ganZhi]) {
+    return themes[ganZhi];
+  }
+  
+  // 根据天干生成默认主题
+  const stemThemes: Record<string, string> = {
+    '甲': '成长发展期',
+    '乙': '柔韧适应期',
+    '丙': '光明向上期',
+    '丁': '内在提升期',
+    '戊': '稳定积累期',
+    '己': '转化调整期',
+    '庚': '坚定执行期',
+    '辛': '精进完善期',
+    '壬': '智慧流动期',
+    '癸': '深度沉淀期',
+  };
+  
+  const firstChar = ganZhi[0] || pillar.stem || pillar.gan || '';
+  return stemThemes[firstChar] || '运势发展期';
 }
 
 function generateCurrentYearLuck(result: any): AnnualLuck {
@@ -761,7 +958,7 @@ function generateCurrentYearLuck(result: any): AnnualLuck {
 function generateAnnualForecast(result: any, years: number): AnnualLuck[] {
   const forecast: AnnualLuck[] = [];
   const currentYear = new Date().getFullYear();
-  
+
   for (let i = 0; i < years; i++) {
     forecast.push({
       year: currentYear + i,
@@ -775,11 +972,14 @@ function generateAnnualForecast(result: any, years: number): AnnualLuck[] {
       unfavorable: [],
     });
   }
-  
+
   return forecast;
 }
 
-function generatePersonalityInsight(tenGods: any, elements: any): PersonalityInsight {
+function generatePersonalityInsight(
+  tenGods: any,
+  elements: any
+): PersonalityInsight {
   return {
     strengths: ['责任心强', '有领导力', '善于规划'],
     weaknesses: ['过于谨慎', '缺乏灵活性'],
@@ -870,17 +1070,31 @@ function generateCautions(result: any): ActionItem[] {
 }
 
 function generateYearlyFocus(result: any): string[] {
-  return [
-    '事业稳步发展',
-    '人际关系维护',
-    '健康管理加强',
-    '财富稳健积累',
+  return ['事业稳步发展', '人际关系维护', '健康管理加强', '财富稳健积累'];
+}
+
+function generateDefaultTenGods(): TenGodItem[] {
+  const defaultGods = [
+    { name: 'bijian', chinese: '比肩', count: 1, strength: 50 },
+    { name: 'jiecai', chinese: '劫财', count: 1, strength: 45 },
+    { name: 'shishen', chinese: '食神', count: 1, strength: 55 },
+    { name: 'shangguan', chinese: '伤官', count: 1, strength: 48 },
+    { name: 'zhengcai', chinese: '正财', count: 1, strength: 60 },
+    { name: 'piancai', chinese: '偏财', count: 1, strength: 52 },
+    { name: 'zhengguan', chinese: '正官', count: 1, strength: 58 },
+    { name: 'qisha', chinese: '七杀', count: 1, strength: 47 },
+    { name: 'zhengyin', chinese: '正印', count: 1, strength: 53 },
+    { name: 'pianyin', chinese: '偏印', count: 1, strength: 49 },
   ];
+
+  return defaultGods.map((god) => ({
+    ...god,
+    trend: 'stable' as const,
+    keywords: ['数据加载中'],
+    opportunities: ['请稍候'],
+    risks: [],
+  }));
 }
 
 // 导出工具函数
-export {
-  getElementChinese,
-  getScoreLevel,
-  getTenGodChinese,
-};
+export { getElementChinese, getScoreLevel, getTenGodChinese };
