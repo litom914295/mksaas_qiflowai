@@ -25,7 +25,12 @@ import {
 import { useEffect, useState } from 'react';
 
 interface EnhancedLoadingProps {
-  stage?: 'initializing' | 'calculating' | 'analyzing' | 'generating' | 'finalizing';
+  stage?:
+    | 'initializing'
+    | 'calculating'
+    | 'analyzing'
+    | 'generating'
+    | 'finalizing';
   progress?: number;
   message?: string;
 }
@@ -79,10 +84,10 @@ const tips = [
   '合理的风水布局能够改善运势',
 ];
 
-export function EnhancedLoading({ 
-  stage = 'calculating', 
-  progress, 
-  message 
+export function EnhancedLoading({
+  stage = 'calculating',
+  progress,
+  message,
 }: EnhancedLoadingProps) {
   const [currentStage, setCurrentStage] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -97,7 +102,7 @@ export function EnhancedLoading({
     }
 
     const timer = setInterval(() => {
-      setLoadingProgress(prev => {
+      setLoadingProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
           return 100;
@@ -111,13 +116,13 @@ export function EnhancedLoading({
 
   // 切换加载阶段
   useEffect(() => {
-    const currentStageIndex = loadingStages.findIndex(s => s.id === stage);
+    const currentStageIndex = loadingStages.findIndex((s) => s.id === stage);
     if (currentStageIndex !== -1) {
       setCurrentStage(currentStageIndex);
     }
 
     const timer = setInterval(() => {
-      setCurrentStage(prev => (prev + 1) % loadingStages.length);
+      setCurrentStage((prev) => (prev + 1) % loadingStages.length);
     }, 3000);
 
     return () => clearInterval(timer);
@@ -126,7 +131,7 @@ export function EnhancedLoading({
   // 切换小贴士
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTip(prev => (prev + 1) % tips.length);
+      setCurrentTip((prev) => (prev + 1) % tips.length);
     }, 4000);
 
     return () => clearInterval(timer);
@@ -136,8 +141,9 @@ export function EnhancedLoading({
   useEffect(() => {
     const elements = ['year', 'month', 'day', 'hour', 'elements', 'gods'];
     const timer = setInterval(() => {
-      const randomElement = elements[Math.floor(Math.random() * elements.length)];
-      setAnimatedElements(prev => {
+      const randomElement =
+        elements[Math.floor(Math.random() * elements.length)];
+      setAnimatedElements((prev) => {
         const newElements = [...prev, randomElement];
         return newElements.slice(-3); // 保持最多3个动画元素
       });
@@ -201,10 +207,7 @@ export function EnhancedLoading({
                   {Math.round(loadingProgress)}%
                 </span>
               </div>
-              <Progress 
-                value={loadingProgress} 
-                className="h-3 bg-gray-100"
-              />
+              <Progress value={loadingProgress} className="h-3 bg-gray-100" />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>开始分析</span>
                 <span>即将完成</span>
@@ -217,22 +220,32 @@ export function EnhancedLoading({
                 const StageIcon = stageData.icon;
                 const isActive = index === currentStage;
                 const isCompleted = index < currentStage;
-                
+
                 return (
                   <div key={stageData.id} className="text-center">
-                    <div className={`
+                    <div
+                      className={`
                       w-10 h-10 rounded-full flex items-center justify-center mb-1 transition-all duration-300
-                      ${isActive ? 'bg-purple-500 text-white scale-110' :
-                        isCompleted ? 'bg-green-500 text-white' :
-                        'bg-gray-200 text-gray-400'}
-                    `}>
+                      ${
+                        isActive
+                          ? 'bg-purple-500 text-white scale-110'
+                          : isCompleted
+                            ? 'bg-green-500 text-white'
+                            : 'bg-gray-200 text-gray-400'
+                      }
+                    `}
+                    >
                       <StageIcon className="w-4 h-4" />
                     </div>
-                    <span className={`text-xs ${
-                      isActive ? 'text-purple-600 font-medium' :
-                      isCompleted ? 'text-green-600' :
-                      'text-gray-500'
-                    }`}>
+                    <span
+                      className={`text-xs ${
+                        isActive
+                          ? 'text-purple-600 font-medium'
+                          : isCompleted
+                            ? 'text-green-600'
+                            : 'text-gray-500'
+                      }`}
+                    >
                       {stageData.label.slice(0, 4)}
                     </span>
                   </div>
@@ -250,14 +263,19 @@ export function EnhancedLoading({
               ].map(({ label, icon: ItemIcon, key }) => {
                 const isAnimated = animatedElements.includes(key);
                 return (
-                  <div key={key} className={`
+                  <div
+                    key={key}
+                    className={`
                     p-3 rounded-lg border transition-all duration-500
                     ${isAnimated ? 'border-purple-300 bg-purple-50 shadow-md' : 'border-gray-200 bg-gray-50'}
-                  `}>
+                  `}
+                  >
                     <div className="flex items-center justify-center mb-1">
-                      <ItemIcon className={`w-4 h-4 ${
-                        isAnimated ? 'text-purple-600' : 'text-gray-400'
-                      }`} />
+                      <ItemIcon
+                        className={`w-4 h-4 ${
+                          isAnimated ? 'text-purple-600' : 'text-gray-400'
+                        }`}
+                      />
                     </div>
                     <p className="text-xs text-center text-gray-600">{label}</p>
                     <div className="text-center mt-1">
@@ -280,7 +298,9 @@ export function EnhancedLoading({
                     <Lightbulb className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-blue-800 mb-1">命理小知识</h4>
+                    <h4 className="font-medium text-blue-800 mb-1">
+                      命理小知识
+                    </h4>
                     <p className="text-sm text-blue-700 leading-relaxed">
                       {tips[currentTip]}
                     </p>
@@ -291,7 +311,9 @@ export function EnhancedLoading({
 
             {/* 底部功能预览 */}
             <div className="mt-6 pt-4 border-t border-gray-200">
-              <p className="text-sm text-gray-600 text-center mb-3">即将为您展示</p>
+              <p className="text-sm text-gray-600 text-center mb-3">
+                即将为您展示
+              </p>
               <div className="flex flex-wrap justify-center gap-2">
                 {[
                   { label: '四柱排盘', icon: Calendar },

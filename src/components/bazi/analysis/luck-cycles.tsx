@@ -55,10 +55,10 @@ const getLifeStage = (age: number) => {
 
 export function LuckCyclesAnalysis({ data }: LuckCyclesAnalysisProps) {
   const { luck, base } = data;
-  
+
   // 添加安全检查，确保有 timeline 数据
   const daYunTimeline = luck?.timeline || luck?.daYunTimeline || [];
-  
+
   const [selectedDaYun, setSelectedDaYun] = useState(
     luck?.currentDaYun?.period || 1
   );
@@ -252,29 +252,29 @@ export function LuckCyclesAnalysis({ data }: LuckCyclesAnalysisProps) {
                   const isSelected = daYun.period === selectedDaYun;
                   const isPast = daYun.yearRange[1] < currentYear;
 
-                return (
-                  <Button
-                    key={daYun.period}
-                    variant={isSelected ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setSelectedDaYun(daYun.period)}
-                    className={`flex-shrink-0 ${
-                      isCurrent ? 'ring-2 ring-purple-400' : ''
-                    } ${isPast ? 'opacity-60' : ''}`}
-                  >
-                    <div className="text-center">
-                      <p className="text-xs">
-                        {daYun.ageRange[0]}-{daYun.ageRange[1]}岁
-                      </p>
-                      <p className="font-bold">
-                        {daYun.heavenlyStem}
-                        {daYun.earthlyBranch}
-                      </p>
-                      {isCurrent && (
-                        <Badge className="mt-1 h-4 text-xs px-1">当前</Badge>
-                      )}
-                    </div>
-                  </Button>
+                  return (
+                    <Button
+                      key={daYun.period}
+                      variant={isSelected ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setSelectedDaYun(daYun.period)}
+                      className={`flex-shrink-0 ${
+                        isCurrent ? 'ring-2 ring-purple-400' : ''
+                      } ${isPast ? 'opacity-60' : ''}`}
+                    >
+                      <div className="text-center">
+                        <p className="text-xs">
+                          {daYun.ageRange[0]}-{daYun.ageRange[1]}岁
+                        </p>
+                        <p className="font-bold">
+                          {daYun.heavenlyStem}
+                          {daYun.earthlyBranch}
+                        </p>
+                        {isCurrent && (
+                          <Badge className="mt-1 h-4 text-xs px-1">当前</Badge>
+                        )}
+                      </div>
+                    </Button>
                   );
                 })
               ) : (
@@ -547,27 +547,27 @@ export function LuckCyclesAnalysis({ data }: LuckCyclesAnalysisProps) {
               daYunTimeline
                 .filter((d) => d.fortune.overall >= 75)
                 .map((period) => (
-                <div
-                  key={period.period}
-                  className="flex items-center justify-between p-3 bg-white rounded-lg hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
-                      {period.period}
+                  <div
+                    key={period.period}
+                    className="flex items-center justify-between p-3 bg-white rounded-lg hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                        {period.period}
+                      </div>
+                      <div>
+                        <p className="font-medium">
+                          {period.ageRange[0]}-{period.ageRange[1]}岁 黄金期
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {period.heavenlyStem}
+                          {period.earthlyBranch}运 • {period.theme}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">
-                        {period.ageRange[0]}-{period.ageRange[1]}岁 黄金期
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        {period.heavenlyStem}
-                        {period.earthlyBranch}运 • {period.theme}
-                      </p>
-                    </div>
-                  </div>
-                  <Badge className="bg-purple-100 text-purple-700">
-                    运势 {period.fortune.overall}
-                  </Badge>
+                    <Badge className="bg-purple-100 text-purple-700">
+                      运势 {period.fortune.overall}
+                    </Badge>
                   </div>
                 ))
             ) : (

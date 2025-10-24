@@ -22,7 +22,8 @@ export async function computeBaziSmart(
   try {
     // 优先使用专业版计算器
     const { professionalBaziCalculator } = await import('./integrate-pro');
-    const result = await professionalBaziCalculator.calculateProfessional(input);
+    const result =
+      await professionalBaziCalculator.calculateProfessional(input);
     console.log('[Bazi Smart] 使用专业版计算器成功');
     return result;
   } catch (error) {

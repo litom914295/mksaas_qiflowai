@@ -29,6 +29,10 @@ import { useAnalysisContext } from '@/contexts/analysis-context';
 import { useCreditBalance } from '@/hooks/use-credits';
 import { creditsKeys } from '@/hooks/use-credits';
 import { authClient } from '@/lib/auth-client';
+import type {
+  AnalysisResult,
+  BaziFormData as BaziFormDataType,
+} from '@/types/bazi-analysis';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   AlertCircle,
@@ -54,7 +58,6 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import type { AnalysisResult, BaziFormData as BaziFormDataType } from '@/types/bazi-analysis';
 
 // 扩展表单类型以匹配当前使用
 interface BaziFormData {

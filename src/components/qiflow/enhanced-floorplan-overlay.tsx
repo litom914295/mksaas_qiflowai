@@ -1,36 +1,14 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { 
-  Upload, 
-  RotateCw, 
-  Compass, 
-  Info, 
-  ZoomIn, 
-  ZoomOut, 
-  Download,
-  Eye,
-  EyeOff,
-  Grid3x3,
-  Move,
-  Save,
-  Settings,
-  X,
-  AlertCircle,
-  CheckCircle2,
-  Maximize2,
-  Home,
-  Sparkles,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Slider } from '@/components/ui/slider';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -39,14 +17,45 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { getLayoutSuggestion, type LayoutSuggestion } from '@/lib/qiflow/xuankong/layout-suggestions';
-import type { PlateCell, Mountain } from '@/lib/qiflow/xuankong/types';
+import {
+  type LayoutSuggestion,
+  getLayoutSuggestion,
+} from '@/lib/qiflow/xuankong/layout-suggestions';
+import type { Mountain, PlateCell } from '@/lib/qiflow/xuankong/types';
+import {
+  AlertCircle,
+  CheckCircle2,
+  Compass,
+  Download,
+  Eye,
+  EyeOff,
+  Grid3x3,
+  Home,
+  Info,
+  Maximize2,
+  Move,
+  RotateCw,
+  Save,
+  Settings,
+  Sparkles,
+  Upload,
+  X,
+  ZoomIn,
+  ZoomOut,
+} from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface EnhancedFloorplanOverlayProps {
   flyingStarData?: {
@@ -70,14 +79,17 @@ const PALACE_POSITIONS = [
   { id: 6, row: 2, col: 2, name: '乾宫', direction: '西北', angle: 315 },
 ];
 
-export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: EnhancedFloorplanOverlayProps) {
+export function EnhancedFloorplanOverlay({
+  flyingStarData,
+  analysisResult,
+}: EnhancedFloorplanOverlayProps) {
   // 数据提取
   const data = flyingStarData || {
     facing: '子' as Mountain,
     facingDegree: analysisResult?.metadata?.facingDegree || 0,
     plate: analysisResult?.basicAnalysis?.plates?.period || [],
   };
-  
+
   // 状态管理
   const [floorplanImage, setFloorplanImage] = useState<string | null>(null);
   const [rotation, setRotation] = useState(0);
@@ -92,31 +104,34 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [viewMode, setViewMode] = useState<'split' | 'overlay'>('overlay');
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // 处理图片上传
-  const handleImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const imageUrl = event.target?.result as string;
-        setFloorplanImage(imageUrl);
-        autoAlignFloorplan();
-      };
-      reader.readAsDataURL(file);
-    }
-  }, []);
+  const handleImageUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const imageUrl = event.target?.result as string;
+          setFloorplanImage(imageUrl);
+          autoAlignFloorplan();
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    []
+  );
 
   // 自动旋转对准功能
   const autoAlignFloorplan = useCallback(() => {
     const rotationAngle = data.facingDegree;
     setRotation(rotationAngle);
     setAutoRotated(true);
-    
+
     // 显示成功提示
     setTimeout(() => {
       setAutoRotated(false);
@@ -157,7 +172,7 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
   // 导出功能
   const handleExport = useCallback(() => {
     if (!canvasRef.current || !floorplanImage) return;
-    
+
     const canvas = canvasRef.current;
     canvas.toBlob((blob) => {
       if (blob) {
@@ -172,7 +187,9 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
   }, [floorplanImage]);
 
   // 获取宫位建议
-  const getPalaceSuggestion = (palaceIndex: number): LayoutSuggestion | null => {
+  const getPalaceSuggestion = (
+    palaceIndex: number
+  ): LayoutSuggestion | null => {
     const cell = data.plate.find((c) => c.palace === palaceIndex);
     if (!cell) return null;
     return getLayoutSuggestion(cell.mountainStar, cell.facingStar);
@@ -227,7 +244,7 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                   <Sparkles className="h-5 w-5 text-white" />
                 </div>
               </div>
-              
+
               <div className="text-center space-y-3">
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                   上传户型图
@@ -244,8 +261,8 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                 onChange={handleImageUpload}
                 className="hidden"
               />
-              
-              <Button 
+
+              <Button
                 onClick={() => fileInputRef.current?.click()}
                 size="lg"
                 className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-6 text-lg shadow-xl"
@@ -329,9 +346,14 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                   <div>
                     <CardTitle className="text-lg">户型图分析工作台</CardTitle>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-                      <span>{data.facing} ({data.facingDegree}°)</span>
+                      <span>
+                        {data.facing} ({data.facingDegree}°)
+                      </span>
                       {autoRotated && (
-                        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300 animate-pulse">
+                        <Badge
+                          variant="outline"
+                          className="bg-green-50 text-green-700 border-green-300 animate-pulse"
+                        >
                           <CheckCircle2 className="h-3 w-3 mr-1" />
                           已自动对准
                         </Badge>
@@ -343,17 +365,21 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Button variant="outline" size="sm" onClick={handleExport}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleExport}
+                        >
                           <Download className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>导出分析图</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                  
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <Upload className="mr-2 h-4 w-4" />
@@ -387,7 +413,7 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                     <TabsTrigger value="transform">变换</TabsTrigger>
                     <TabsTrigger value="display">显示</TabsTrigger>
                   </TabsList>
-                  
+
                   <TabsContent value="transform" className="space-y-4 mt-4">
                     {/* 旋转控制 */}
                     <div className="space-y-3">
@@ -400,7 +426,9 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                           <Input
                             type="number"
                             value={Math.round(rotation)}
-                            onChange={(e) => setRotation(Number(e.target.value) % 360)}
+                            onChange={(e) =>
+                              setRotation(Number(e.target.value) % 360)
+                            }
                             className="w-16 h-8 text-xs text-center"
                           />
                           <span className="text-xs text-gray-500">°</span>
@@ -420,10 +448,13 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                             key={angle}
                             variant="outline"
                             size="sm"
-                            onClick={() => setRotation((prev) => (prev + angle) % 360)}
+                            onClick={() =>
+                              setRotation((prev) => (prev + angle) % 360)
+                            }
                             className="text-xs"
                           >
-                            {angle > 0 ? '+' : ''}{angle}°
+                            {angle > 0 ? '+' : ''}
+                            {angle}°
                           </Button>
                         ))}
                       </div>
@@ -558,7 +589,7 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
 
             {/* 右侧预览区域 */}
             <Card className="p-4 bg-gradient-to-br from-gray-50 to-gray-100">
-              <div 
+              <div
                 ref={containerRef}
                 className="relative aspect-square bg-white rounded-lg overflow-hidden shadow-inner cursor-move"
                 onMouseDown={handleMouseDown}
@@ -584,15 +615,19 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
 
                 {/* 九宫格叠加层 */}
                 {showOverlay && (
-                  <div 
+                  <div
                     className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-0 p-4 pointer-events-none"
                     style={{ opacity: overlayOpacity }}
                   >
                     {PALACE_POSITIONS.map((pos) => {
                       const cell = data.plate.find((c) => c.palace === pos.id);
-                      const suggestion = cell ? getPalaceSuggestion(pos.id) : null;
-                      const colors = suggestion ? getSuggestionColor(suggestion.type) : getSuggestionColor('general');
-                      
+                      const suggestion = cell
+                        ? getPalaceSuggestion(pos.id)
+                        : null;
+                      const colors = suggestion
+                        ? getSuggestionColor(suggestion.type)
+                        : getSuggestionColor('general');
+
                       return (
                         <div
                           key={pos.id}
@@ -610,11 +645,14 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                             <>
                               {/* 宫位名称 */}
                               <div className="absolute top-2 left-2">
-                                <Badge variant="secondary" className="text-xs bg-white/90 backdrop-blur-sm shadow-sm">
+                                <Badge
+                                  variant="secondary"
+                                  className="text-xs bg-white/90 backdrop-blur-sm shadow-sm"
+                                >
                                   {pos.name}
                                 </Badge>
                               </div>
-                              
+
                               {/* 飞星数据 */}
                               {cell && (
                                 <div className="absolute top-2 right-2 flex flex-col gap-1">
@@ -626,11 +664,13 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                                   </div>
                                 </div>
                               )}
-                              
+
                               {/* 吉凶标识 */}
                               {suggestion && (
                                 <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
-                                  <Badge className={`${colors.badge} text-white text-xs shadow-lg`}>
+                                  <Badge
+                                    className={`${colors.badge} text-white text-xs shadow-lg`}
+                                  >
                                     {suggestion.title}
                                   </Badge>
                                 </div>
@@ -685,19 +725,25 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
             <Card className="border-2 border-purple-200 shadow-2xl">
               {(() => {
                 const suggestion = getPalaceSuggestion(selectedPalace);
-                const cell = data.plate.find((c) => c.palace === selectedPalace);
-                const position = PALACE_POSITIONS.find((p) => p.id === selectedPalace);
-                
+                const cell = data.plate.find(
+                  (c) => c.palace === selectedPalace
+                );
+                const position = PALACE_POSITIONS.find(
+                  (p) => p.id === selectedPalace
+                );
+
                 if (!suggestion || !cell || !position) return null;
-                
+
                 const colors = getSuggestionColor(suggestion.type);
-                
+
                 return (
                   <div>
                     <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50 border-b">
                       <div className="flex items-start justify-between">
                         <div className="flex items-center gap-3">
-                          <div className={`w-12 h-12 ${colors.badge} rounded-lg flex items-center justify-center shadow-lg`}>
+                          <div
+                            className={`w-12 h-12 ${colors.badge} rounded-lg flex items-center justify-center shadow-lg`}
+                          >
                             <Home className="h-6 w-6 text-white" />
                           </div>
                           <div>
@@ -705,7 +751,8 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                               {position.name} - {suggestion.title}
                             </CardTitle>
                             <CardDescription className="mt-1">
-                              {position.direction}方位 · 山星{cell.mountainStar} 向星{cell.facingStar}
+                              {position.direction}方位 · 山星{cell.mountainStar}{' '}
+                              向星{cell.facingStar}
                             </CardDescription>
                           </div>
                         </div>
@@ -718,16 +765,22 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                         </Button>
                       </div>
                     </CardHeader>
-                    
+
                     <CardContent className="pt-6 space-y-6">
                       {/* 吉凶属性 */}
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-gray-600">吉凶属性：</span>
+                        <span className="text-sm font-medium text-gray-600">
+                          吉凶属性：
+                        </span>
                         <Badge className={`${colors.badge} text-white`}>
-                          {suggestion.type === 'auspicious' ? '吉' : suggestion.type === 'inauspicious' ? '凶' : '中性'}
+                          {suggestion.type === 'auspicious'
+                            ? '吉'
+                            : suggestion.type === 'inauspicious'
+                              ? '凶'
+                              : '中性'}
                         </Badge>
                       </div>
-                      
+
                       {/* 风水解析 */}
                       <div>
                         <h4 className="font-semibold mb-2 flex items-center gap-2 text-gray-900">
@@ -738,7 +791,7 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                           {suggestion.description}
                         </p>
                       </div>
-                      
+
                       {/* 增强建议 */}
                       {suggestion.enhance && suggestion.enhance.length > 0 && (
                         <div>
@@ -748,81 +801,118 @@ export function EnhancedFloorplanOverlay({ flyingStarData, analysisResult }: Enh
                           </h4>
                           <div className="grid gap-2">
                             {suggestion.enhance.map((item, idx) => (
-                              <div key={idx} className="flex items-start gap-2 bg-green-50 p-3 rounded-lg">
+                              <div
+                                key={idx}
+                                className="flex items-start gap-2 bg-green-50 p-3 rounded-lg"
+                              >
                                 <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                                <span className="text-sm text-gray-700">{item}</span>
+                                <span className="text-sm text-gray-700">
+                                  {item}
+                                </span>
                               </div>
                             ))}
                           </div>
                         </div>
                       )}
-                      
+
                       {/* 化解方法 */}
-                      {suggestion.dissolve && suggestion.dissolve.length > 0 && (
-                        <div>
-                          <h4 className="font-semibold mb-3 flex items-center gap-2 text-red-700">
-                            <AlertCircle className="h-4 w-4" />
-                            化解方法
-                          </h4>
-                          <div className="grid gap-2">
-                            {suggestion.dissolve.map((item, idx) => (
-                              <div key={idx} className="flex items-start gap-2 bg-red-50 p-3 rounded-lg">
-                                <AlertCircle className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-                                <span className="text-sm text-gray-700">{item}</span>
-                              </div>
-                            ))}
+                      {suggestion.dissolve &&
+                        suggestion.dissolve.length > 0 && (
+                          <div>
+                            <h4 className="font-semibold mb-3 flex items-center gap-2 text-red-700">
+                              <AlertCircle className="h-4 w-4" />
+                              化解方法
+                            </h4>
+                            <div className="grid gap-2">
+                              {suggestion.dissolve.map((item, idx) => (
+                                <div
+                                  key={idx}
+                                  className="flex items-start gap-2 bg-red-50 p-3 rounded-lg"
+                                >
+                                  <AlertCircle className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
+                                  <span className="text-sm text-gray-700">
+                                    {item}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                      
+                        )}
+
                       {/* 房间推荐 */}
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
-                          <h4 className="font-semibold mb-2 text-sm text-gray-700">✅ 适合房间</h4>
+                          <h4 className="font-semibold mb-2 text-sm text-gray-700">
+                            ✅ 适合房间
+                          </h4>
                           <div className="flex flex-wrap gap-2">
                             {suggestion.suitableRooms.map((room, idx) => (
-                              <Badge key={idx} variant="secondary" className="bg-blue-100 text-blue-800">
+                              <Badge
+                                key={idx}
+                                variant="secondary"
+                                className="bg-blue-100 text-blue-800"
+                              >
                                 {room}
                               </Badge>
                             ))}
                           </div>
                         </div>
-                        
-                        {suggestion.avoidRooms && suggestion.avoidRooms.length > 0 && (
-                          <div>
-                            <h4 className="font-semibold mb-2 text-sm text-gray-700">❌ 避免房间</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {suggestion.avoidRooms.map((room, idx) => (
-                                <Badge key={idx} variant="secondary" className="bg-red-100 text-red-800">
-                                  {room}
-                                </Badge>
-                              ))}
+
+                        {suggestion.avoidRooms &&
+                          suggestion.avoidRooms.length > 0 && (
+                            <div>
+                              <h4 className="font-semibold mb-2 text-sm text-gray-700">
+                                ❌ 避免房间
+                              </h4>
+                              <div className="flex flex-wrap gap-2">
+                                {suggestion.avoidRooms.map((room, idx) => (
+                                  <Badge
+                                    key={idx}
+                                    variant="secondary"
+                                    className="bg-red-100 text-red-800"
+                                  >
+                                    {room}
+                                  </Badge>
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
                       </div>
-                      
+
                       {/* 配色和物品推荐 */}
                       <div className="grid md:grid-cols-2 gap-4">
-                        {suggestion.colorScheme && suggestion.colorScheme.length > 0 && (
-                          <div>
-                            <h4 className="font-semibold mb-2 text-sm text-gray-700">🎨 推荐色系</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {suggestion.colorScheme.map((color, idx) => (
-                                <Badge key={idx} variant="secondary" className="bg-purple-100 text-purple-800">
-                                  {color}
-                                </Badge>
-                              ))}
+                        {suggestion.colorScheme &&
+                          suggestion.colorScheme.length > 0 && (
+                            <div>
+                              <h4 className="font-semibold mb-2 text-sm text-gray-700">
+                                🎨 推荐色系
+                              </h4>
+                              <div className="flex flex-wrap gap-2">
+                                {suggestion.colorScheme.map((color, idx) => (
+                                  <Badge
+                                    key={idx}
+                                    variant="secondary"
+                                    className="bg-purple-100 text-purple-800"
+                                  >
+                                    {color}
+                                  </Badge>
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        )}
-                        
+                          )}
+
                         {suggestion.items && suggestion.items.length > 0 && (
                           <div>
-                            <h4 className="font-semibold mb-2 text-sm text-gray-700">🏺 推荐物品</h4>
+                            <h4 className="font-semibold mb-2 text-sm text-gray-700">
+                              🏺 推荐物品
+                            </h4>
                             <div className="flex flex-wrap gap-2">
                               {suggestion.items.map((item, idx) => (
-                                <Badge key={idx} variant="secondary" className="bg-amber-100 text-amber-800">
+                                <Badge
+                                  key={idx}
+                                  variant="secondary"
+                                  className="bg-amber-100 text-amber-800"
+                                >
                                   {item}
                                 </Badge>
                               ))}

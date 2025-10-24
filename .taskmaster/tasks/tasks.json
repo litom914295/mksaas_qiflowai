@@ -39,9 +39,7 @@
             "不遗留硬编码中文/英文字符串"
           ],
           "testStrategy": "手动切换语言验证，Playwright 断言关键文案存在",
-          "dependencies": [
-            "1"
-          ]
+          "dependencies": ["1"]
         },
         {
           "id": "3",
@@ -74,9 +72,7 @@
             "i18n 支持"
           ],
           "testStrategy": "通过 ?state=empty|error|limited|timeout 参数测试各态",
-          "dependencies": [
-            "2"
-          ]
+          "dependencies": ["2"]
         },
         {
           "id": "5",
@@ -91,9 +87,7 @@
             "样式与品牌色调一致"
           ],
           "testStrategy": "在三个落地页中验证引导条显示",
-          "dependencies": [
-            "3"
-          ]
+          "dependencies": ["3"]
         },
         {
           "id": "6",
@@ -108,10 +102,7 @@
             "默认 ok 态显示 BaziAnalysisPage 组件"
           ],
           "testStrategy": "访问 /zh-CN/bazi-analysis?state=empty 等参数验证",
-          "dependencies": [
-            "4",
-            "5"
-          ]
+          "dependencies": ["4", "5"]
         },
         {
           "id": "7",
@@ -126,10 +117,7 @@
             "默认 ok 态显示 EnhancedChatInterface 组件"
           ],
           "testStrategy": "访问 /zh-CN/chat?state=limited 等参数验证",
-          "dependencies": [
-            "4",
-            "5"
-          ]
+          "dependencies": ["4", "5"]
         },
         {
           "id": "8",
@@ -144,10 +132,7 @@
             "默认 ok 态显示占位内容与跳转按钮"
           ],
           "testStrategy": "访问 /zh-CN/compass-analysis?state=error 等参数验证",
-          "dependencies": [
-            "4",
-            "5"
-          ]
+          "dependencies": ["4", "5"]
         },
         {
           "id": "9",
@@ -163,10 +148,7 @@
             "测试通过：功能卡片导航至 bazi-analysis"
           ],
           "testStrategy": "npx playwright test 命令执行",
-          "dependencies": [
-            "1",
-            "3"
-          ]
+          "dependencies": ["1", "3"]
         },
         {
           "id": "10",
@@ -182,9 +164,7 @@
             "Hover 交互保留"
           ],
           "testStrategy": "手动检查样式与交互，E2E 测试不回归",
-          "dependencies": [
-            "1"
-          ]
+          "dependencies": ["1"]
         },
         {
           "id": "11",
@@ -199,9 +179,7 @@
             "主题切换按钮（如有）正常工作"
           ],
           "testStrategy": "手动切换系统主题验证",
-          "dependencies": [
-            "1"
-          ]
+          "dependencies": ["1"]
         },
         {
           "id": "12",
@@ -216,9 +194,7 @@
             "切换流畅无闪烁"
           ],
           "testStrategy": "手动切换主题验证 Logo 显示",
-          "dependencies": [
-            "11"
-          ]
+          "dependencies": ["11"]
         },
         {
           "id": "13",
@@ -234,9 +210,7 @@
             "CTA 按钮在小屏幕竖向排列"
           ],
           "testStrategy": "Chrome DevTools 设备模拟，Playwright viewport 测试",
-          "dependencies": [
-            "1"
-          ]
+          "dependencies": ["1"]
         },
         {
           "id": "14",
@@ -252,9 +226,7 @@
             "Lighthouse Performance 评分 > 90"
           ],
           "testStrategy": "Lighthouse CI 集成，PageSpeed Insights 验证",
-          "dependencies": [
-            "1"
-          ]
+          "dependencies": ["1"]
         },
         {
           "id": "15",
@@ -270,9 +242,7 @@
             "robots.txt 允许索引"
           ],
           "testStrategy": "手动检查页面源码，Google Search Console 验证",
-          "dependencies": [
-            "1"
-          ]
+          "dependencies": ["1"]
         },
         {
           "id": "16",
@@ -288,9 +258,7 @@
             "三级降级策略正确执行"
           ],
           "testStrategy": "Mock 积分余额测试降级逻辑，集成测试完整流程",
-          "dependencies": [
-            "4"
-          ]
+          "dependencies": ["4"]
         },
         {
           "id": "17",
@@ -470,9 +438,7 @@
         "details": "包含子任务：\n1. 用户认证（登录/登出/会话管理）\n2. RBAC权限模型实现\n3. 路由保护中间件\n4. MFA多因素认证集成\n5. API Token服务间认证\n\n技术要求：\n- NextAuth.js认证\n- JWT + Session混合\n- RBAC权限矩阵\n- 中间件路由保护\n- TOTP/SMS多因素认证\n\n验收标准：\n- 登录功能完整可用\n- 权限控制生效\n- 未授权访问被拦截\n- MFA认证流程正常",
         "testStrategy": "认证流程集成测试和权限控制单元测试",
         "status": "done",
-        "dependencies": [
-          1
-        ],
+        "dependencies": [1],
         "priority": "medium",
         "subtasks": []
       },
@@ -483,9 +449,7 @@
         "details": "包含子任务：\n1. 用户列表（查询、分页、筛选）\n2. 用户CRUD（创建、编辑、删除用户）\n3. 角色管理（角色创建与权限分配）\n4. 批量操作（用户批量导入导出）\n5. 登录日志（用户活动追踪记录）\n\n功能特性：\n- 用户信息管理\n- 角色权限分配\n- 批量用户操作\n- 用户行为审计\n- 数据导入导出\n\n验收标准：\n- 用户CRUD功能完整\n- 角色管理可用\n- 批量操作正常\n- 日志记录完整",
         "testStrategy": "用户管理流程E2E测试和权限分配单元测试",
         "status": "done",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2],
         "priority": "medium",
         "subtasks": []
       },
@@ -496,9 +460,7 @@
         "details": "包含子任务：\n1. Markdown富文本编辑器\n2. 文章CRUD与状态管理\n3. 内容分类与标签系统\n4. 轻量审批工作流\n5. 文件上传与CDN集成\n6. 内容版本管理与回滚\n\n技术特性：\n- Markdown编辑器\n- 内容状态流转\n- 多级分类管理\n- 审核发布流程\n- 资源管理系统\n- 版本控制功能\n\n验收标准：\n- 编辑器功能完整\n- 内容发布流程畅通\n- 分类标签正常\n- 审核机制有效",
         "testStrategy": "内容发布流程E2E测试和编辑器功能测试",
         "status": "done",
-        "dependencies": [
-          3
-        ],
+        "dependencies": [3],
         "priority": "medium",
         "subtasks": []
       },
@@ -509,9 +471,7 @@
         "details": "包含子任务：\n1. 订单管理（查询与状态管理）\n2. 退款处理（申请与审批流程）\n3. 促销活动配置管理\n4. 消息中心（站内信与通知模板）\n5. 客服工单流转管理\n\n业务功能：\n- 订单全生命周期管理\n- 退款审批与处理\n- 营销活动配置\n- 多渠道消息推送\n- 工单系统管理\n\n验收标准：\n- 订单流程完整\n- 退款机制正常\n- 活动配置可用\n- 消息推送正常\n- 工单处理有效",
         "testStrategy": "订单退款流程集成测试和活动配置功能测试",
         "status": "done",
-        "dependencies": [
-          3
-        ],
+        "dependencies": [3],
         "priority": "medium",
         "subtasks": []
       },
@@ -522,10 +482,7 @@
         "details": "包含子任务：\n1. 核心指标实时展示看板\n2. 自定义报表设计器\n3. 异步导出服务\n4. 异常指标监控告警\n5. 数据API开放接口\n\n数据功能：\n- DAU/留存/营收指标\n- 可视化图表展示\n- 自定义报表生成\n- 大数据量异步导出\n- 实时监控告警\n- 开放数据API\n\n验收标准：\n- 核心指标准确展示\n- 报表生成正常\n- 导出功能完整\n- 监控告警有效\n- API接口可用",
         "testStrategy": "数据准确性测试和报表生成性能测试",
         "status": "done",
-        "dependencies": [
-          4,
-          5
-        ],
+        "dependencies": [4, 5],
         "priority": "medium",
         "subtasks": []
       },
@@ -536,9 +493,7 @@
         "details": "包含子任务：\n1. 全局系统参数配置管理\n2. 敏感环境变量安全管理\n3. 操作日志查询导出\n4. 功能开关与灰度发布\n5. 第三方集成Webhook推送\n\n系统功能：\n- 系统参数配置\n- 环境变量管理\n- 审计日志系统\n- 特性开关控制\n- Webhook集成\n\n验收标准：\n- 配置管理完整\n- 环境变量安全\n- 审计日志可查\n- 开关控制有效\n- Webhook正常推送",
         "testStrategy": "系统配置功能测试和审计日志完整性测试",
         "status": "done",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2],
         "priority": "medium",
         "subtasks": []
       },
@@ -549,10 +504,7 @@
         "details": "包含子任务：\n1. 核心业务逻辑单元测试\n2. API接口集成测试\n3. 端到端流程E2E测试\n4. 负载与压力性能测试\n5. 生产环境部署配置\n6. 用户手册与API文档完善\n\n测试部署：\n- 单元测试覆盖率>80%\n- 集成测试全覆盖\n- E2E测试核心流程\n- 性能压力测试\n- CI/CD自动部署\n- 完整技术文档\n\n验收标准：\n- 所有测试通过\n- 性能指标达标\n- 生产环境稳定\n- 文档完整可用",
         "testStrategy": "全面测试策略包含单元、集成、E2E和性能测试",
         "status": "done",
-        "dependencies": [
-          6,
-          7
-        ],
+        "dependencies": [6, 7],
         "priority": "medium",
         "subtasks": []
       }
@@ -636,9 +588,7 @@
         "details": "API实现要点：\n- Zod Schema验证（birthDate必填、birthTime可选）\n- calculateBaZi轻量级模式（只计算日柱+五行）\n- AI生成运势（Redis缓存24h，key: fortune:{dayPillar}:{date}）\n- 速率限制：IP级别每日5次\n- 异步记录到instant_previews表\n- 响应时间目标：< 2秒\n\n参考：@TECH_GUIDE API设计 > 即时体验API",
         "testStrategy": "单元测试 + 集成测试 + 速率限制测试",
         "status": "done",
-        "dependencies": [
-          1
-        ],
+        "dependencies": [1],
         "priority": "medium",
         "subtasks": []
       },
@@ -649,9 +599,7 @@
         "details": "组件实现：\n1. InstantTrySection.tsx（表单+状态管理）\n2. InstantResultEnhanced.tsx（结果展示）\n3. WuxingRadarChart.tsx（Recharts雷达图）\n4. useInstantPreview Hook（React Query）\n\n关键功能：\n- React Hook Form + Zod验证\n- 速率限制友好提示\n- 模糊化完整报告预览\n- CTA强化（立即注册按钮）\n\n参考：@TECH_GUIDE 前端架构 > 即时体验组件",
         "testStrategy": "组件测试 + 集成测试",
         "status": "done",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2],
         "priority": "medium",
         "subtasks": []
       }
@@ -898,9 +846,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          1
-        ],
+        "dependencies": [1],
         "priority": "high",
         "subtasks": []
       },
@@ -911,9 +857,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2],
         "priority": "high",
         "subtasks": []
       },
@@ -924,9 +868,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          3
-        ],
+        "dependencies": [3],
         "priority": "high",
         "subtasks": []
       },
@@ -937,9 +879,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          4
-        ],
+        "dependencies": [4],
         "priority": "high",
         "subtasks": []
       },
@@ -950,9 +890,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          4
-        ],
+        "dependencies": [4],
         "priority": "high",
         "subtasks": []
       },
@@ -963,10 +901,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          5,
-          6
-        ],
+        "dependencies": [5, 6],
         "priority": "medium",
         "subtasks": []
       },
@@ -977,10 +912,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          5,
-          6
-        ],
+        "dependencies": [5, 6],
         "priority": "medium",
         "subtasks": []
       },
@@ -991,10 +923,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          7,
-          8
-        ],
+        "dependencies": [7, 8],
         "priority": "medium",
         "subtasks": []
       },
@@ -1005,10 +934,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          7,
-          8
-        ],
+        "dependencies": [7, 8],
         "priority": "medium",
         "subtasks": []
       },
@@ -1019,10 +945,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          7,
-          8
-        ],
+        "dependencies": [7, 8],
         "priority": "medium",
         "subtasks": []
       },
@@ -1033,11 +956,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          9,
-          10,
-          11
-        ],
+        "dependencies": [9, 10, 11],
         "priority": "high",
         "subtasks": []
       },
@@ -1048,9 +967,7 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [
-          12
-        ],
+        "dependencies": [12],
         "priority": "low",
         "subtasks": []
       }

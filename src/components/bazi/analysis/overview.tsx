@@ -68,7 +68,10 @@ export function BaziOverview({ data }: BaziOverviewProps) {
                 <Target className="w-5 h-5 text-purple-600" />
                 整体评分
               </CardTitle>
-              <Badge variant="outline" className={getScoreColor(metrics.overall.score)}>
+              <Badge
+                variant="outline"
+                className={getScoreColor(metrics.overall.score)}
+              >
                 {metrics.overall.level}
               </Badge>
             </div>
@@ -76,15 +79,14 @@ export function BaziOverview({ data }: BaziOverviewProps) {
           <CardContent>
             <div className="space-y-3">
               <div className="flex items-end gap-2">
-                <span className={`text-3xl font-bold ${getScoreColor(metrics.overall.score)}`}>
+                <span
+                  className={`text-3xl font-bold ${getScoreColor(metrics.overall.score)}`}
+                >
                   {metrics.overall.score}
                 </span>
                 <span className="text-gray-500 text-sm mb-1">/ 100分</span>
               </div>
-              <Progress 
-                value={metrics.overall.score} 
-                className="h-2"
-              />
+              <Progress value={metrics.overall.score} className="h-2" />
               <p className="text-sm text-gray-600">
                 {metrics.overall.description}
               </p>
@@ -106,8 +108,12 @@ export function BaziOverview({ data }: BaziOverviewProps) {
           <CardContent>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <Badge 
-                  variant={metrics.dayMasterStrength.level === 'balanced' ? 'default' : 'secondary'}
+                <Badge
+                  variant={
+                    metrics.dayMasterStrength.level === 'balanced'
+                      ? 'default'
+                      : 'secondary'
+                  }
                   className="text-base px-3 py-1"
                 >
                   {metrics.dayMasterStrength.level === 'strong' && '身强'}
@@ -119,7 +125,8 @@ export function BaziOverview({ data }: BaziOverviewProps) {
                 </span>
               </div>
               <p className="text-sm text-gray-600 leading-relaxed">
-                {metrics.dayMasterStrength.description || '日主能量处于适中状态'}
+                {metrics.dayMasterStrength.description ||
+                  '日主能量处于适中状态'}
               </p>
             </div>
           </CardContent>
@@ -133,9 +140,7 @@ export function BaziOverview({ data }: BaziOverviewProps) {
                 <BarChart3 className="w-5 h-5 text-indigo-600" />
                 命理格局
               </CardTitle>
-              <Badge variant="outline">
-                稳定度 {patterns.stability}%
-              </Badge>
+              <Badge variant="outline">稳定度 {patterns.stability}%</Badge>
             </div>
           </CardHeader>
           <CardContent>
@@ -153,7 +158,10 @@ export function BaziOverview({ data }: BaziOverviewProps) {
               </p>
               {patterns.secondary.length > 0 && (
                 <div className="text-xs text-gray-500">
-                  次格局: {patterns.secondary.map(p => p.chinese || p.name).join('、')}
+                  次格局:{' '}
+                  {patterns.secondary
+                    .map((p) => p.chinese || p.name)
+                    .join('、')}
                 </div>
               )}
             </div>
@@ -193,14 +201,11 @@ export function BaziOverview({ data }: BaziOverviewProps) {
                     <span className="font-medium">{elementNames[element]}</span>
                     <span className="text-gray-600">{score}%</span>
                   </div>
-                  <Progress
-                    value={score}
-                    className="h-3"
-                  />
+                  <Progress value={score} className="h-3" />
                 </div>
               );
             })}
-            
+
             {/* 平衡状态提示 */}
             <div className="pt-2 border-t">
               <div className="flex items-start gap-2">
@@ -213,16 +218,18 @@ export function BaziOverview({ data }: BaziOverviewProps) {
                   <>
                     <AlertCircle className="w-4 h-4 text-orange-600 mt-0.5" />
                     <div className="text-sm space-y-1">
-                      {metrics.balance.excess && metrics.balance.excess.length > 0 && (
-                        <p className="text-orange-700">
-                          过旺: {metrics.balance.excess.join('、')}
-                        </p>
-                      )}
-                      {metrics.balance.shortage && metrics.balance.shortage.length > 0 && (
-                        <p className="text-orange-700">
-                          不足: {metrics.balance.shortage.join('、')}
-                        </p>
-                      )}
+                      {metrics.balance.excess &&
+                        metrics.balance.excess.length > 0 && (
+                          <p className="text-orange-700">
+                            过旺: {metrics.balance.excess.join('、')}
+                          </p>
+                        )}
+                      {metrics.balance.shortage &&
+                        metrics.balance.shortage.length > 0 && (
+                          <p className="text-orange-700">
+                            不足: {metrics.balance.shortage.join('、')}
+                          </p>
+                        )}
                     </div>
                   </>
                 )}
@@ -246,8 +253,8 @@ export function BaziOverview({ data }: BaziOverviewProps) {
             <div className="space-y-3">
               {useful.favorableElements.slice(0, 3).map((elem, idx) => (
                 <div key={idx} className="flex items-start gap-2">
-                  <Badge 
-                    variant="outline" 
+                  <Badge
+                    variant="outline"
                     className="bg-green-100 text-green-800 border-green-300 mt-0.5"
                   >
                     {elem.chinese}
@@ -256,8 +263,11 @@ export function BaziOverview({ data }: BaziOverviewProps) {
                     <p className="text-sm text-gray-700">{elem.reason}</p>
                     {elem.suggestions && (
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {elem.suggestions.colors?.slice(0, 2).map(color => (
-                          <span key={color} className="text-xs px-1.5 py-0.5 bg-white rounded">
+                        {elem.suggestions.colors?.slice(0, 2).map((color) => (
+                          <span
+                            key={color}
+                            className="text-xs px-1.5 py-0.5 bg-white rounded"
+                          >
                             {color}
                           </span>
                         ))}
@@ -283,7 +293,7 @@ export function BaziOverview({ data }: BaziOverviewProps) {
               {useful.unfavorableElements.length > 0 ? (
                 useful.unfavorableElements.slice(0, 2).map((elem, idx) => (
                   <div key={idx} className="flex items-start gap-2">
-                    <Badge 
+                    <Badge
                       variant="outline"
                       className="bg-orange-100 text-orange-800 border-orange-300 mt-0.5"
                     >
@@ -316,8 +326,12 @@ export function BaziOverview({ data }: BaziOverviewProps) {
               <div key={idx} className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-medium text-gray-800">{remedy.title}</p>
-                  <p className="text-xs text-gray-600 mt-0.5">{remedy.description}</p>
+                  <p className="text-sm font-medium text-gray-800">
+                    {remedy.title}
+                  </p>
+                  <p className="text-xs text-gray-600 mt-0.5">
+                    {remedy.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -325,8 +339,12 @@ export function BaziOverview({ data }: BaziOverviewProps) {
               <div key={idx} className="flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-medium text-gray-800">{avoid.title}</p>
-                  <p className="text-xs text-gray-600 mt-0.5">{avoid.description}</p>
+                  <p className="text-sm font-medium text-gray-800">
+                    {avoid.title}
+                  </p>
+                  <p className="text-xs text-gray-600 mt-0.5">
+                    {avoid.description}
+                  </p>
                 </div>
               </div>
             ))}

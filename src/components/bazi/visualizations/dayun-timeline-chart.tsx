@@ -1,21 +1,21 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Minus, TrendingDown, TrendingUp } from 'lucide-react';
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
   Area,
   AreaChart,
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
   ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 interface DayunPeriod {
   period: number;
@@ -60,7 +60,7 @@ export function DayunTimelineChart({
   }));
 
   // 找出当前大运
-  const currentPeriod = chartData.find(p => p.isCurrent);
+  const currentPeriod = chartData.find((p) => p.isCurrent);
 
   // 自定义提示框
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -79,8 +79,12 @@ export function DayunTimelineChart({
               />
               <span>{entry.name}:</span>
               <span className="font-semibold">{entry.value}分</span>
-              {entry.value >= 70 && <TrendingUp className="w-3 h-3 text-green-500" />}
-              {entry.value <= 30 && <TrendingDown className="w-3 h-3 text-red-500" />}
+              {entry.value >= 70 && (
+                <TrendingUp className="w-3 h-3 text-green-500" />
+              )}
+              {entry.value <= 30 && (
+                <TrendingDown className="w-3 h-3 text-red-500" />
+              )}
             </div>
           ))}
           {data.isCurrent && (
@@ -96,10 +100,12 @@ export function DayunTimelineChart({
 
   // 获取运势评价
   const getFortuneLevel = (score: number) => {
-    if (score >= 80) return { label: '大吉', color: 'text-green-600', icon: '🌟' };
+    if (score >= 80)
+      return { label: '大吉', color: 'text-green-600', icon: '🌟' };
     if (score >= 60) return { label: '吉', color: 'text-blue-600', icon: '⭐' };
     if (score >= 40) return { label: '平', color: 'text-gray-600', icon: '☆' };
-    if (score >= 20) return { label: '凶', color: 'text-orange-600', icon: '⚠️' };
+    if (score >= 20)
+      return { label: '凶', color: 'text-orange-600', icon: '⚠️' };
     return { label: '大凶', color: 'text-red-600', icon: '❌' };
   };
 
@@ -121,8 +127,8 @@ export function DayunTimelineChart({
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1}/>
+                <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -139,16 +145,13 @@ export function DayunTimelineChart({
               label={{ value: '运势评分', angle: -90, position: 'insideLeft' }}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend
-              wrapperStyle={{ fontSize: '12px' }}
-              iconType="line"
-            />
-            
+            <Legend wrapperStyle={{ fontSize: '12px' }} iconType="line" />
+
             {/* 参考线 */}
             <ReferenceLine y={50} stroke="#9ca3af" strokeDasharray="3 3" />
             <ReferenceLine y={70} stroke="#10b981" strokeDasharray="3 3" />
             <ReferenceLine y={30} stroke="#ef4444" strokeDasharray="3 3" />
-            
+
             {/* 综合运势面积图 */}
             <Area
               type="monotone"
@@ -157,7 +160,7 @@ export function DayunTimelineChart({
               strokeWidth={2}
               fill="url(#colorGradient)"
             />
-            
+
             {/* 分项运势线 */}
             <Line
               type="monotone"
@@ -200,16 +203,18 @@ export function DayunTimelineChart({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {data.map((period) => {
               const fortune = getFortuneLevel(period.score);
-              const isCurrent = currentAge >= period.startAge && currentAge <= period.endAge;
-              
+              const isCurrent =
+                currentAge >= period.startAge && currentAge <= period.endAge;
+
               return (
                 <div
                   key={period.period}
                   className={`
                     p-3 rounded-lg border transition-all
-                    ${isCurrent
-                      ? 'border-purple-500 bg-purple-50 shadow-md'
-                      : 'border-gray-200 hover:border-gray-300'
+                    ${
+                      isCurrent
+                        ? 'border-purple-500 bg-purple-50 shadow-md'
+                        : 'border-gray-200 hover:border-gray-300'
                     }
                   `}
                 >
@@ -222,7 +227,8 @@ export function DayunTimelineChart({
                         {period.startAge}-{period.endAge}岁
                       </div>
                       <div className="text-lg font-bold text-purple-600 mt-1">
-                        {period.heavenlyStem}{period.earthlyBranch}
+                        {period.heavenlyStem}
+                        {period.earthlyBranch}
                       </div>
                     </div>
                     <div className="text-right">
@@ -232,7 +238,7 @@ export function DayunTimelineChart({
                       </div>
                     </div>
                   </div>
-                  
+
                   {isCurrent && (
                     <Badge className="mt-2" variant="default">
                       当前大运
@@ -252,9 +258,14 @@ export function DayunTimelineChart({
           <p className="text-sm text-purple-800">
             {currentPeriod ? (
               <>
-                您当前处于第{data.findIndex(p => p.startAge <= currentAge && p.endAge >= currentAge) + 1}大运，
-                运势评分{currentPeriod.综合运势}分，
-                {currentPeriod.综合运势 >= 60 ? '整体运势良好，宜把握机遇，积极进取。' : '运势略有起伏，宜稳中求进，审慎决策。'}
+                您当前处于第
+                {data.findIndex(
+                  (p) => p.startAge <= currentAge && p.endAge >= currentAge
+                ) + 1}
+                大运， 运势评分{currentPeriod.综合运势}分，
+                {currentPeriod.综合运势 >= 60
+                  ? '整体运势良好，宜把握机遇，积极进取。'
+                  : '运势略有起伏，宜稳中求进，审慎决策。'}
               </>
             ) : (
               '暂无当前大运信息'

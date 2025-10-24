@@ -521,7 +521,8 @@ export class IntelligentInterpreter {
     const careers: string[] = [];
 
     // pattern.mainPattern 本身就是类型字符串，不是对象
-    const type = typeof pattern?.mainPattern === 'string' ? pattern.mainPattern : '';
+    const type =
+      typeof pattern?.mainPattern === 'string' ? pattern.mainPattern : '';
 
     // 根据格局推荐职业
     switch (type) {
@@ -558,7 +559,8 @@ export class IntelligentInterpreter {
     const styles: string[] = [];
 
     // pattern.mainPattern 本身就是类型字符串，不是对象
-    const type = typeof pattern?.mainPattern === 'string' ? pattern.mainPattern : '';
+    const type =
+      typeof pattern?.mainPattern === 'string' ? pattern.mainPattern : '';
 
     if (type.includes('jian') || type.includes('yue')) {
       styles.push('独立自主', '追求卓越', '勇于担当');
@@ -572,8 +574,12 @@ export class IntelligentInterpreter {
   }
 
   private generateCareerAdvice(yongshen: any, pattern: any): string[] {
-    const recs: string[] = Array.isArray(pattern?.recommendations) ? pattern.recommendations : [];
-    const careerRec = recs.find((r: string) => typeof r === 'string' && r.includes('事业'));
+    const recs: string[] = Array.isArray(pattern?.recommendations)
+      ? pattern.recommendations
+      : [];
+    const careerRec = recs.find(
+      (r: string) => typeof r === 'string' && r.includes('事业')
+    );
     return [
       `发展${yongshen.primary.element}相关行业更有利`,
       `避免${yongshen.avoid.element}属性过重的工作`,
@@ -622,8 +628,12 @@ export class IntelligentInterpreter {
     if (level === 'beginner') {
       return ['理性消费，量入为出', '建立应急储备金', '学习投资理财知识'];
     }
-    const recs: string[] = Array.isArray(pattern?.recommendations) ? pattern.recommendations : [];
-    const wealthRec = recs.find((r: string) => typeof r === 'string' && r.includes('财'));
+    const recs: string[] = Array.isArray(pattern?.recommendations)
+      ? pattern.recommendations
+      : [];
+    const wealthRec = recs.find(
+      (r: string) => typeof r === 'string' && r.includes('财')
+    );
     return [
       `加强${yongshen.primary.element}属性提升财运`,
       `流年遇${yongshen.primary.element}运财运更佳`,

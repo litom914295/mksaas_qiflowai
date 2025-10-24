@@ -21,8 +21,8 @@ import {
   Download,
   Eye,
   Home,
-  Lightbulb,
   Info,
+  Lightbulb,
   Loader2,
   MapPin,
   RefreshCw,
@@ -34,22 +34,22 @@ import {
 } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
+import { EnhancedFloorplanOverlay } from '@/components/qiflow/enhanced-floorplan-overlay';
+import { KnowledgePanel } from '@/components/xuankong/knowledge-panel';
 // 导入子组件
 import { BasicAnalysisView } from './basic-analysis-view';
 import { ChengmenjueAnalysisView } from './chengmenjue-analysis-view';
-import { LingzhengAnalysisView } from './lingzheng-analysis-view';
-import { TiguaAnalysisView } from './tigua-analysis-view';
-import { QixingdajieAnalysisView } from './qixingdajie-analysis-view';
-import { SanbanguaAnalysisView } from './sanbangua-analysis-view';
-import { XuankongdaguaAnalysisView } from './xuankongdagua-analysis-view';
 import { FanfuyinAnalysisView } from './fanfuyin-analysis-view';
+import { LingzhengAnalysisView } from './lingzheng-analysis-view';
 import { LiunianAnalysisView } from './liunian-analysis-view';
 import { OptimizedFlyingStarGrid } from './optimized-flying-star-grid';
 import { OverallAssessmentView } from './overall-assessment-view';
 import { PersonalizedAnalysisView } from './personalized-analysis-view';
+import { QixingdajieAnalysisView } from './qixingdajie-analysis-view';
+import { SanbanguaAnalysisView } from './sanbangua-analysis-view';
 import { SmartRecommendationsView } from './smart-recommendations-view';
-import { KnowledgePanel } from '@/components/xuankong/knowledge-panel';
-import { EnhancedFloorplanOverlay } from '@/components/qiflow/enhanced-floorplan-overlay';
+import { TiguaAnalysisView } from './tigua-analysis-view';
+import { XuankongdaguaAnalysisView } from './xuankongdagua-analysis-view';
 
 interface EnhancedComprehensivePanelProps {
   analysisResult: ComprehensiveAnalysisResult | null;
@@ -68,7 +68,7 @@ interface EnhancedComprehensivePanelProps {
 
 /**
  * 增强版玄空飞星综合分析面板
- * 
+ *
  * 整合了：
  * - ComprehensiveAnalysisPanel 的完整分析功能
  * - FlyingStarAnalysis 的优秀视觉效果和交互设计
@@ -140,7 +140,9 @@ export function EnhancedComprehensivePanel({
       <Card className={className}>
         <CardContent className="flex flex-col items-center justify-center py-16">
           <AlertCircle className="h-16 w-16 text-gray-400 mb-4" />
-          <p className="text-lg font-semibold text-gray-900 mb-2">暂无分析结果</p>
+          <p className="text-lg font-semibold text-gray-900 mb-2">
+            暂无分析结果
+          </p>
           <p className="text-sm text-gray-600 text-center max-w-md">
             请先输入房屋坐向、建筑年份等信息，然后点击"开始分析"按钮
           </p>
@@ -234,7 +236,9 @@ export function EnhancedComprehensivePanel({
                 className={`${ratingInfo.bgLight} rounded-2xl p-6 text-center border-2 ${ratingInfo.textColor.replace('text', 'border')}`}
               >
                 <div className="flex items-baseline justify-center gap-2 mb-2">
-                  <span className="text-6xl font-bold">{overallAssessment.score}</span>
+                  <span className="text-6xl font-bold">
+                    {overallAssessment.score}
+                  </span>
                   <span className="text-2xl text-gray-500">/100</span>
                 </div>
                 <p className={`text-sm font-semibold ${ratingInfo.textColor}`}>
@@ -300,7 +304,12 @@ export function EnhancedComprehensivePanel({
             </div>
             <div className="flex gap-2">
               {onRefresh && (
-                <Button variant="ghost" size="sm" onClick={onRefresh} className="h-8">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onRefresh}
+                  className="h-8"
+                >
                   <RefreshCw className="h-3 w-3 mr-1" />
                   刷新
                 </Button>
@@ -329,7 +338,11 @@ export function EnhancedComprehensivePanel({
       </Card>
 
       {/* Tab导航内容 - 与八字页面完全一致的样式 */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-4"
+      >
         <div className="bg-white rounded-2xl shadow-xl p-4">
           <TabsList className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-9 gap-3 h-auto p-0 bg-transparent">
             {[
@@ -345,7 +358,7 @@ export function EnhancedComprehensivePanel({
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
-              
+
               return (
                 <TabsTrigger
                   key={tab.id}
@@ -360,9 +373,13 @@ export function EnhancedComprehensivePanel({
                   `}
                 >
                   <div className="relative">
-                    <Icon className={`w-6 h-6 ${isActive ? 'text-white' : 'text-purple-600'}`} />
+                    <Icon
+                      className={`w-6 h-6 ${isActive ? 'text-white' : 'text-purple-600'}`}
+                    />
                   </div>
-                  <span className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-gray-700'}`}>
+                  <span
+                    className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-gray-700'}`}
+                  >
                     {tab.label}
                   </span>
                 </TabsTrigger>
@@ -388,66 +405,74 @@ export function EnhancedComprehensivePanel({
         <TabsContent value="palaces" className="space-y-6">
           {/* 飞星盘卡片 */}
           <Card className="shadow-lg">
-                <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg">
-                        <Star className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl">九宫飞星盘</CardTitle>
-                        <CardDescription className="mt-1">
-                          点击宫位查看详细信息
-                        </CardDescription>
-                      </div>
-                    </div>
-                    <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-                      {houseInfo?.period || 9}运飞星
-                    </Badge>
+            <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg">
+                    <Star className="w-5 h-5 text-white" />
                   </div>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  {analysisResult.basicAnalysis?.plates?.period ? (
-                    <div className="flex flex-col items-center">
-                      <OptimizedFlyingStarGrid
-                        plate={analysisResult.basicAnalysis.plates.period}
-                        showDetails={showDetails}
-                        onCellClick={(palace) => {
-                          console.log('查看宫位:', palace);
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <Sparkles className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                      <p className="text-lg font-semibold text-gray-900 mb-2">飞星排盘</p>
-                      <p className="text-sm text-gray-600">
-                        飞星盘显示九宫方位的吉凶星曜分布<br/>
-                        根据 {houseInfo?.period || 9}运 {houseInfo?.sitting}山{houseInfo?.facing}向 计算
-                      </p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                  <div>
+                    <CardTitle className="text-xl">九宫飞星盘</CardTitle>
+                    <CardDescription className="mt-1">
+                      点击宫位查看详细信息
+                    </CardDescription>
+                  </div>
+                </div>
+                <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                  {houseInfo?.period || 9}运飞星
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-6">
+              {analysisResult.basicAnalysis?.plates?.period ? (
+                <div className="flex flex-col items-center">
+                  <OptimizedFlyingStarGrid
+                    plate={analysisResult.basicAnalysis.plates.period}
+                    showDetails={showDetails}
+                    onCellClick={(palace) => {
+                      console.log('查看宫位:', palace);
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <Sparkles className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <p className="text-lg font-semibold text-gray-900 mb-2">
+                    飞星排盘
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    飞星盘显示九宫方位的吉凶星曜分布
+                    <br />
+                    根据 {houseInfo?.period || 9}运 {houseInfo?.sitting}山
+                    {houseInfo?.facing}向 计算
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-              {/* 说明卡片 */}
-              <Card className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 border-2 border-blue-200">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl shadow-lg">
-                      <Info className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 mb-2">📚 飞星盘使用说明</h4>
-                      <div className="space-y-2 text-sm text-gray-700">
-                        <p>• 每个宫位显示三个数字：天盘星（运星）、山盘星、向盘星</p>
-                        <p>• 不同颜色代表不同的飞星，每颗星有其独特的意义</p>
-                        <p>• 吉星宫位适合作为主要活动区域，凶星宫位需要化解</p>
-                        <p>• 点击宫位可查看更详细的星曜组合分析</p>
-                      </div>
-                    </div>
+          {/* 说明卡片 */}
+          <Card className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 border-2 border-blue-200">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl shadow-lg">
+                  <Info className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-gray-900 mb-2">
+                    📚 飞星盘使用说明
+                  </h4>
+                  <div className="space-y-2 text-sm text-gray-700">
+                    <p>
+                      • 每个宫位显示三个数字：天盘星（运星）、山盘星、向盘星
+                    </p>
+                    <p>• 不同颜色代表不同的飞星，每颗星有其独特的意义</p>
+                    <p>• 吉星宫位适合作为主要活动区域，凶星宫位需要化解</p>
+                    <p>• 点击宫位可查看更详细的星曜组合分析</p>
                   </div>
-                </CardContent>
+                </div>
+              </div>
+            </CardContent>
           </Card>
         </TabsContent>
 
@@ -525,7 +550,8 @@ export function EnhancedComprehensivePanel({
                 <div>
                   <CardTitle className="text-xl">高级理论体系</CardTitle>
                   <CardDescription className="mt-1">
-                    替卦、零正、城门诀、七星打劫、三般卦、玄空大卦、反伏吟 - 玄空风水的核心精髓
+                    替卦、零正、城门诀、七星打劫、三般卦、玄空大卦、反伏吟 -
+                    玄空风水的核心精髓
                   </CardDescription>
                 </div>
               </div>
@@ -570,7 +596,9 @@ export function EnhancedComprehensivePanel({
                   ) : (
                     <div className="text-center py-12 text-muted-foreground">
                       <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                      <p className="text-sm">替卦理论用于判断特殊格局和应期，需要启用高级分析</p>
+                      <p className="text-sm">
+                        替卦理论用于判断特殊格局和应期，需要启用高级分析
+                      </p>
                     </div>
                   )}
                 </TabsContent>
@@ -582,7 +610,9 @@ export function EnhancedComprehensivePanel({
                   ) : (
                     <div className="text-center py-12 text-muted-foreground">
                       <MapPin className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                      <p className="text-sm">零正理论用于判断水法布局和财运方位，需要启用高级分析</p>
+                      <p className="text-sm">
+                        零正理论用于判断水法布局和财运方位，需要启用高级分析
+                      </p>
                     </div>
                   )}
                 </TabsContent>
@@ -594,7 +624,9 @@ export function EnhancedComprehensivePanel({
                   ) : (
                     <div className="text-center py-12 text-muted-foreground">
                       <Shield className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                      <p className="text-sm">城门诀用于判断门户方位的吉凶和催财方法，需要启用高级分析</p>
+                      <p className="text-sm">
+                        城门诀用于判断门户方位的吉凶和催财方法，需要启用高级分析
+                      </p>
                     </div>
                   )}
                 </TabsContent>
@@ -641,7 +673,10 @@ export function EnhancedComprehensivePanel({
                 风水布局需因地制宜，切勿生搬硬套。
               </p>
               <div className="flex items-center gap-4 mt-3 text-xs text-gray-600">
-                <span>📊 分析维度: {metadata.analysisDepth === 'full' ? '完整' : '标准'}</span>
+                <span>
+                  📊 分析维度:{' '}
+                  {metadata.analysisDepth === 'full' ? '完整' : '标准'}
+                </span>
                 <span>🔍 数据准确度: 95%+</span>
                 <span>⚡ 实时更新</span>
               </div>

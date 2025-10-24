@@ -25,7 +25,7 @@ interface PerformanceReport {
 export class BaziPerformanceMonitor {
   private metrics: Map<string, PerformanceMetric> = new Map();
   private thresholds: Map<string, number> = new Map();
-  private enabled: boolean = true;
+  private enabled = true;
 
   constructor() {
     // 设置默认性能阈值（毫秒）
@@ -97,11 +97,7 @@ export class BaziPerformanceMonitor {
   /**
    * 使用装饰器模式测量同步函数性能
    */
-  measureSync<T>(
-    name: string,
-    fn: () => T,
-    metadata?: Record<string, any>
-  ): T {
+  measureSync<T>(name: string, fn: () => T, metadata?: Record<string, any>): T {
     this.start(name, metadata);
     try {
       const result = fn();
@@ -115,8 +111,8 @@ export class BaziPerformanceMonitor {
    * 生成性能报告
    */
   generateReport(): PerformanceReport {
-    const metrics = Array.from(this.metrics.values()).filter(m => m.duration);
-    
+    const metrics = Array.from(this.metrics.values()).filter((m) => m.duration);
+
     if (metrics.length === 0) {
       return {
         totalTime: 0,
@@ -131,18 +127,22 @@ export class BaziPerformanceMonitor {
     }
 
     const totalTime = metrics.reduce((sum, m) => sum + (m.duration || 0), 0);
-    const sortedMetrics = [...metrics].sort((a, b) => (b.duration || 0) - (a.duration || 0));
-    
+    const sortedMetrics = [...metrics].sort(
+      (a, b) => (b.duration || 0) - (a.duration || 0)
+    );
+
     const warnings: string[] = [];
-    
+
     // 检查总时间
     const totalThreshold = this.thresholds.get('total');
     if (totalThreshold && totalTime > totalThreshold) {
-      warnings.push(`Total calculation time (${totalTime.toFixed(2)}ms) exceeded threshold (${totalThreshold}ms)`);
+      warnings.push(
+        `Total calculation time (${totalTime.toFixed(2)}ms) exceeded threshold (${totalThreshold}ms)`
+      );
     }
 
     // 检查单个指标
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       const threshold = this.thresholds.get(metric.name);
       if (threshold && metric.duration && metric.duration > threshold) {
         warnings.push(
@@ -168,35 +168,39 @@ export class BaziPerformanceMonitor {
    */
   logReport(): void {
     const report = this.generateReport();
-    
+
     console.group('🎯 八字计算性能报告');
     console.log(`📊 总耗时: ${report.totalTime.toFixed(2)}ms`);
-    
+
     if (report.metrics.length > 0) {
       console.table(
-        report.metrics.map(m => ({
+        report.metrics.map((m) => ({
           名称: m.name,
           耗时: `${m.duration?.toFixed(2)}ms`,
-          占比: `${((m.duration || 0) / report.totalTime * 100).toFixed(1)}%`,
+          占比: `${(((m.duration || 0) / report.totalTime) * 100).toFixed(1)}%`,
         }))
       );
-      
+
       if (report.summary.slowest) {
-        console.log(`🐢 最慢: ${report.summary.slowest.name} (${report.summary.slowest.duration?.toFixed(2)}ms)`);
+        console.log(
+          `🐢 最慢: ${report.summary.slowest.name} (${report.summary.slowest.duration?.toFixed(2)}ms)`
+        );
       }
-      
+
       if (report.summary.fastest) {
-        console.log(`🚀 最快: ${report.summary.fastest.name} (${report.summary.fastest.duration?.toFixed(2)}ms)`);
+        console.log(
+          `🚀 最快: ${report.summary.fastest.name} (${report.summary.fastest.duration?.toFixed(2)}ms)`
+        );
       }
-      
+
       console.log(`📈 平均: ${report.summary.average.toFixed(2)}ms`);
     }
-    
+
     if (report.warnings.length > 0) {
       console.warn('⚠️ 性能警告:');
-      report.warnings.forEach(warning => console.warn(`  - ${warning}`));
+      report.warnings.forEach((warning) => console.warn(`  - ${warning}`));
     }
-    
+
     console.groupEnd();
   }
 
@@ -250,7 +254,7 @@ export const globalMonitor = new BaziPerformanceMonitor();
  */
 export class BaziBenchmark {
   private monitor: BaziPerformanceMonitor;
-  
+
   constructor() {
     this.monitor = new BaziPerformanceMonitor();
   }
@@ -264,42 +268,50 @@ export class BaziBenchmark {
       data: any;
       fn: (data: any) => Promise<any>;
     }>,
-    iterations: number = 10
+    iterations = 10
   ): Promise<{
     results: Map<string, number[]>;
-    summary: Map<string, { avg: number; min: number; max: number; std: number }>;
+    summary: Map<
+      string,
+      { avg: number; min: number; max: number; std: number }
+    >;
   }> {
     const results = new Map<string, number[]>();
 
     for (const testCase of testCases) {
       const times: number[] = [];
-      
+
       console.log(`Running benchmark: ${testCase.name}...`);
-      
+
       for (let i = 0; i < iterations; i++) {
         this.monitor.clear();
         const startTime = performance.now();
-        
+
         await testCase.fn(testCase.data);
-        
+
         const endTime = performance.now();
         const duration = endTime - startTime;
         times.push(duration);
       }
-      
+
       results.set(testCase.name, times);
     }
 
     // 计算统计信息
-    const summary = new Map<string, { avg: number; min: number; max: number; std: number }>();
-    
+    const summary = new Map<
+      string,
+      { avg: number; min: number; max: number; std: number }
+    >();
+
     results.forEach((times, name) => {
       const avg = times.reduce((a, b) => a + b, 0) / times.length;
       const min = Math.min(...times);
       const max = Math.max(...times);
-      const variance = times.reduce((sum, time) => sum + Math.pow(time - avg, 2), 0) / times.length;
+      const variance =
+        times.reduce((sum, time) => sum + Math.pow(time - avg, 2), 0) /
+        times.length;
       const std = Math.sqrt(variance);
-      
+
       summary.set(name, { avg, min, max, std });
     });
 
@@ -313,7 +325,7 @@ export class BaziBenchmark {
     summary: Map<string, { avg: number; min: number; max: number; std: number }>
   ): void {
     console.group('📊 基准测试结果');
-    
+
     const data = Array.from(summary.entries()).map(([name, stats]) => ({
       测试名称: name,
       平均耗时: `${stats.avg.toFixed(2)}ms`,
@@ -321,7 +333,7 @@ export class BaziBenchmark {
       最大耗时: `${stats.max.toFixed(2)}ms`,
       标准差: `${stats.std.toFixed(2)}ms`,
     }));
-    
+
     console.table(data);
     console.groupEnd();
   }
@@ -346,22 +358,36 @@ export class PerformanceOptimizer {
     // 分析最慢的操作
     if (report.summary.slowest) {
       const slowest = report.summary.slowest;
-      
-      if (slowest.name.includes('interpretation') && slowest.duration && slowest.duration > 200) {
+
+      if (
+        slowest.name.includes('interpretation') &&
+        slowest.duration &&
+        slowest.duration > 200
+      ) {
         suggestions.push('AI解读可以考虑异步加载或分批处理');
       }
-      
-      if (slowest.name.includes('dayun') && slowest.duration && slowest.duration > 150) {
+
+      if (
+        slowest.name.includes('dayun') &&
+        slowest.duration &&
+        slowest.duration > 150
+      ) {
         suggestions.push('大运计算可以考虑预计算或延迟加载');
       }
-      
-      if (slowest.name.includes('pattern') && slowest.duration && slowest.duration > 100) {
+
+      if (
+        slowest.name.includes('pattern') &&
+        slowest.duration &&
+        slowest.duration > 100
+      ) {
         suggestions.push('格局检测可以优化匹配算法或使用索引');
       }
     }
 
     // 检查是否有过多的小操作
-    const smallOperations = report.metrics.filter(m => m.duration && m.duration < 10);
+    const smallOperations = report.metrics.filter(
+      (m) => m.duration && m.duration < 10
+    );
     if (smallOperations.length > 20) {
       suggestions.push('考虑合并小操作以减少函数调用开销');
     }
@@ -371,7 +397,10 @@ export class PerformanceOptimizer {
 }
 
 // 导出便捷函数
-export function startMeasure(name: string, metadata?: Record<string, any>): void {
+export function startMeasure(
+  name: string,
+  metadata?: Record<string, any>
+): void {
   globalMonitor.start(name, metadata);
 }
 

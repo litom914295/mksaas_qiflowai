@@ -1,32 +1,22 @@
 'use client';
 
+import { EnhancedError } from '@/components/bazi/analysis/enhanced-error';
+import { EnhancedLoading } from '@/components/bazi/analysis/enhanced-loading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { EnhancedLoading } from '@/components/bazi/analysis/enhanced-loading';
-import { EnhancedError } from '@/components/bazi/analysis/enhanced-error';
-import {
-  type BaziAnalysisModel,
-  normalizeBaziResult,
-} from '@/lib/bazi/normalize';
 import {
   type EnhancedBaziResult,
   type EnhancedBirthData,
   computeBaziSmart,
 } from '@/lib/bazi';
-import { BaziOverview } from './overview';
-import { TenGodsAnalysis } from './ten-gods';
-import { LuckCyclesAnalysis } from './luck-cycles';
-import { DailyFortune } from './daily-fortune';
-import { ProfessionalAdvice } from './professional-advice';
-import { ElementsAnalysis } from './elements-analysis';
-import { PillarsDetail } from './pillars-detail';
-import { PatternAnalysis } from './pattern-analysis';
-import { PersonalityInsight } from './personality-insight';
-import { CareerWealth } from './career-wealth';
-import { HealthMarriage } from './health-marriage';
+import {
+  type BaziAnalysisModel,
+  normalizeBaziResult,
+} from '@/lib/bazi/normalize';
+import confetti from 'canvas-confetti';
 import {
   Activity,
   AlertCircle,
@@ -49,9 +39,19 @@ import {
   User,
   Zap,
 } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import confetti from 'canvas-confetti';
+import { useCallback, useEffect, useState } from 'react';
+import { CareerWealth } from './career-wealth';
+import { DailyFortune } from './daily-fortune';
+import { ElementsAnalysis } from './elements-analysis';
+import { HealthMarriage } from './health-marriage';
+import { LuckCyclesAnalysis } from './luck-cycles';
+import { BaziOverview } from './overview';
+import { PatternAnalysis } from './pattern-analysis';
+import { PersonalityInsight } from './personality-insight';
+import { PillarsDetail } from './pillars-detail';
+import { ProfessionalAdvice } from './professional-advice';
+import { TenGodsAnalysis } from './ten-gods';
 
 interface BaziAnalysisPageProps {
   birthData: {
@@ -108,7 +108,7 @@ export function BaziAnalysisPage({
 
         if (normalizedData) {
           setResult(normalizedData);
-          
+
           // 触发庆祝动画
           setTimeout(() => {
             confetti({
@@ -136,22 +136,22 @@ export function BaziAnalysisPage({
   // 处理Tab切换 - 部分内容需要付费
   const handleTabChange = (value: string) => {
     const premiumTabs = ['tenGods', 'luck', 'career', 'daily', 'advice'];
-    
+
     if (premiumTabs.includes(value) && !isPremium && creditsAvailable < 10) {
       setShowUpgradeModal(true);
       return;
     }
-    
+
     setActiveTab(value);
   };
 
-if (loading) {
+  if (loading) {
     return <EnhancedLoading stage="calculating" />;
   }
 
-if (error) {
+  if (error) {
     return (
-      <EnhancedError 
+      <EnhancedError
         error={error}
         onRetry={analyzeBazi}
         onReset={() => router.refresh?.()}
@@ -198,7 +198,7 @@ if (error) {
                 </Badge>
               )}
             </div>
-            
+
             <div className="flex items-center gap-3">
               {/* 积分/会员状态 */}
               {isPremium ? (
@@ -207,19 +207,17 @@ if (error) {
                   专业版
                 </Badge>
               ) : (
-                <Badge variant="outline">
-                  剩余积分: {creditsAvailable}
-                </Badge>
+                <Badge variant="outline">剩余积分: {creditsAvailable}</Badge>
               )}
-              
+
               {/* 操作按钮 */}
               <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-1" />
                 导出PDF
               </Button>
-              
+
               {!isPremium && (
-                <Button 
+                <Button
                   size="sm"
                   className="bg-gradient-to-r from-purple-600 to-pink-600"
                   onClick={() => router.push('/settings/credits')}
@@ -249,7 +247,9 @@ if (error) {
                 <div>
                   <span className="text-gray-600">出生时间:</span>
                   <span className="ml-2 font-medium">
-                    {new Date(result.base.birth.datetime).toLocaleString('zh-CN')}
+                    {new Date(result.base.birth.datetime).toLocaleString(
+                      'zh-CN'
+                    )}
                   </span>
                 </div>
                 <div>
@@ -265,7 +265,7 @@ if (error) {
                   </span>
                 </div>
               </div>
-              
+
               {/* 评分展示 */}
               <div className="text-center">
                 <div className="text-3xl font-bold text-purple-600">
@@ -281,12 +281,17 @@ if (error) {
         </Card>
 
         {/* Tab导航内容 */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4">
+        <Tabs
+          value={activeTab}
+          onValueChange={handleTabChange}
+          className="space-y-4"
+        >
           <TabsList className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-11 h-auto p-1 bg-white/80 backdrop-blur">
             {tabs.map((tab) => {
               const Icon = tab.icon;
-              const isLocked = tab.premium && !isPremium && creditsAvailable < 10;
-              
+              const isLocked =
+                tab.premium && !isPremium && creditsAvailable < 10;
+
               return (
                 <TabsTrigger
                   key={tab.id}
@@ -303,7 +308,9 @@ if (error) {
                       <Crown className="w-3 h-3 absolute -top-1 -right-1 text-amber-500" />
                     )}
                   </div>
-                  <span className="truncate w-full text-center">{tab.label}</span>
+                  <span className="truncate w-full text-center">
+                    {tab.label}
+                  </span>
                 </TabsTrigger>
               );
             })}
@@ -312,7 +319,7 @@ if (error) {
           {/* 总览 Tab */}
           <TabsContent value="overview" className="space-y-6">
             <BaziOverview data={result} />
-            
+
             {/* 引导升级卡片 */}
             {!isPremium && (
               <Card className="border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50">
@@ -329,12 +336,18 @@ if (error) {
                         升级专业版，获取十神解读、大运流年、每日运势等深度内容
                       </p>
                       <div className="flex items-center gap-4 text-sm">
-                        <span className="text-gray-600 line-through">￥299</span>
-                        <span className="text-2xl font-bold text-red-600">￥99</span>
-                        <Badge className="bg-red-100 text-red-700">限时优惠</Badge>
+                        <span className="text-gray-600 line-through">
+                          ￥299
+                        </span>
+                        <span className="text-2xl font-bold text-red-600">
+                          ￥99
+                        </span>
+                        <Badge className="bg-red-100 text-red-700">
+                          限时优惠
+                        </Badge>
                       </div>
                     </div>
-                    <Button 
+                    <Button
                       className="bg-gradient-to-r from-amber-500 to-orange-500"
                       onClick={() => router.push('/settings/credits')}
                     >
@@ -370,7 +383,7 @@ if (error) {
                     <p className="text-gray-600">
                       深度解析您的性格特质、职业倾向、人际关系模式
                     </p>
-                    <Button 
+                    <Button
                       className="bg-gradient-to-r from-purple-600 to-pink-600"
                       onClick={() => router.push('/settings/credits')}
                     >
@@ -396,7 +409,7 @@ if (error) {
                     <p className="text-gray-600">
                       查看一生运势走向、关键时期提醒、流年详细分析
                     </p>
-                    <Button 
+                    <Button
                       className="bg-gradient-to-r from-purple-600 to-pink-600"
                       onClick={() => router.push('/settings/credits')}
                     >
@@ -422,7 +435,7 @@ if (error) {
                     <p className="text-gray-600">
                       基于节气变化的每日运势、时辰吉凶、专业建议
                     </p>
-                    <Button 
+                    <Button
                       className="bg-gradient-to-r from-purple-600 to-pink-600"
                       onClick={() => router.push('/settings/credits')}
                     >
@@ -448,7 +461,7 @@ if (error) {
                     <p className="text-gray-600">
                       个性化改运方案、风水布局、生活指导、21天改运计划
                     </p>
-                    <Button 
+                    <Button
                       className="bg-gradient-to-r from-purple-600 to-pink-600"
                       onClick={() => router.push('/settings/credits')}
                     >
@@ -480,11 +493,13 @@ if (error) {
                 <CardContent className="pt-6">
                   <div className="text-center py-8 space-y-4">
                     <Lock className="w-12 h-12 mx-auto text-gray-400" />
-                    <h3 className="text-lg font-semibold">升级解锁事业财运分析</h3>
+                    <h3 className="text-lg font-semibold">
+                      升级解锁事业财运分析
+                    </h3>
                     <p className="text-gray-600">
                       深度解析职业方向、财运模式、发展机遇和关键时期
                     </p>
-                    <Button 
+                    <Button
                       className="bg-gradient-to-r from-purple-600 to-pink-600"
                       onClick={() => router.push('/settings/credits')}
                     >
@@ -509,35 +524,29 @@ if (error) {
             <CardContent className="pt-6 text-center">
               <MessageSquare className="w-8 h-8 mx-auto text-purple-600 mb-2" />
               <h4 className="font-semibold mb-1">AI大师咨询</h4>
-              <p className="text-sm text-gray-600 mb-3">
-                一对一解答您的疑问
-              </p>
+              <p className="text-sm text-gray-600 mb-3">一对一解答您的疑问</p>
               <Button variant="outline" size="sm">
                 立即咨询
               </Button>
             </CardContent>
           </Card>
-          
+
           <Card className="border-blue-200">
             <CardContent className="pt-6 text-center">
               <TrendingUp className="w-8 h-8 mx-auto text-blue-600 mb-2" />
               <h4 className="font-semibold mb-1">流年运势</h4>
-              <p className="text-sm text-gray-600 mb-3">
-                查看未来一年详细运势
-              </p>
+              <p className="text-sm text-gray-600 mb-3">查看未来一年详细运势</p>
               <Button variant="outline" size="sm">
                 查看详情
               </Button>
             </CardContent>
           </Card>
-          
+
           <Card className="border-green-200">
             <CardContent className="pt-6 text-center">
               <Target className="w-8 h-8 mx-auto text-green-600 mb-2" />
               <h4 className="font-semibold mb-1">风水布局</h4>
-              <p className="text-sm text-gray-600 mb-3">
-                个性化家居风水建议
-              </p>
+              <p className="text-sm text-gray-600 mb-3">个性化家居风水建议</p>
               <Button variant="outline" size="sm">
                 立即测算
               </Button>

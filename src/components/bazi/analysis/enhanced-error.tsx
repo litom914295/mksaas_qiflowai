@@ -35,28 +35,32 @@ interface EnhancedErrorProps {
 function analyzeError(error: string | Error) {
   const errorMessage = typeof error === 'string' ? error : error.message;
   const lowerError = errorMessage.toLowerCase();
-  
+
   // 网络相关错误
-  if (lowerError.includes('network') || lowerError.includes('fetch') || 
-      lowerError.includes('timeout') || lowerError.includes('connection')) {
+  if (
+    lowerError.includes('network') ||
+    lowerError.includes('fetch') ||
+    lowerError.includes('timeout') ||
+    lowerError.includes('connection')
+  ) {
     return {
       type: 'network',
       title: '网络连接问题',
       icon: WifiOff,
       severity: 'warning',
       description: '无法连接到八字分析服务器',
-      suggestions: [
-        '检查您的网络连接',
-        '等待几秒后重试',
-        '尝试刷新页面',
-      ],
+      suggestions: ['检查您的网络连接', '等待几秒后重试', '尝试刷新页面'],
       recoverable: true,
     };
   }
-  
+
   // 数据验证错误
-  if (lowerError.includes('birth') || lowerError.includes('date') || 
-      lowerError.includes('time') || lowerError.includes('invalid')) {
+  if (
+    lowerError.includes('birth') ||
+    lowerError.includes('date') ||
+    lowerError.includes('time') ||
+    lowerError.includes('invalid')
+  ) {
     return {
       type: 'validation',
       title: '出生信息验证失败',
@@ -71,10 +75,13 @@ function analyzeError(error: string | Error) {
       recoverable: true,
     };
   }
-  
+
   // 计算错误
-  if (lowerError.includes('calculate') || lowerError.includes('computation') ||
-      lowerError.includes('analysis')) {
+  if (
+    lowerError.includes('calculate') ||
+    lowerError.includes('computation') ||
+    lowerError.includes('analysis')
+  ) {
     return {
       type: 'calculation',
       title: '八字计算错误',
@@ -89,28 +96,31 @@ function analyzeError(error: string | Error) {
       recoverable: true,
     };
   }
-  
+
   // 权限错误
-  if (lowerError.includes('permission') || lowerError.includes('auth') ||
-      lowerError.includes('credits') || lowerError.includes('premium')) {
+  if (
+    lowerError.includes('permission') ||
+    lowerError.includes('auth') ||
+    lowerError.includes('credits') ||
+    lowerError.includes('premium')
+  ) {
     return {
       type: 'permission',
       title: '权限不足',
       icon: Shield,
       severity: 'warning',
       description: '您的账户权限不足以执行此操作',
-      suggestions: [
-        '检查您的会员状态',
-        '确认积分余额充足',
-        '考虑升级到专业版',
-      ],
+      suggestions: ['检查您的会员状态', '确认积分余额充足', '考虑升级到专业版'],
       recoverable: false,
     };
   }
-  
+
   // 服务器错误
-  if (lowerError.includes('server') || lowerError.includes('500') ||
-      lowerError.includes('internal')) {
+  if (
+    lowerError.includes('server') ||
+    lowerError.includes('500') ||
+    lowerError.includes('internal')
+  ) {
     return {
       type: 'server',
       title: '服务器内部错误',
@@ -125,7 +135,7 @@ function analyzeError(error: string | Error) {
       recoverable: true,
     };
   }
-  
+
   // 默认未知错误
   return {
     type: 'unknown',
@@ -133,59 +143,55 @@ function analyzeError(error: string | Error) {
     icon: HelpCircle,
     severity: 'error' as const,
     description: errorMessage,
-    suggestions: [
-      '尝试重新分析',
-      '检查输入信息',
-      '联系技术支持',
-    ],
+    suggestions: ['尝试重新分析', '检查输入信息', '联系技术支持'],
     recoverable: true,
   };
 }
 
 // 错误代码映射
 const errorCodes = {
-  'INVALID_BIRTH_DATE': {
+  INVALID_BIRTH_DATE: {
     title: '出生日期无效',
     description: '请输入有效的出生日期',
     code: 'E001',
   },
-  'INVALID_BIRTH_TIME': {
+  INVALID_BIRTH_TIME: {
     title: '出生时间无效',
     description: '请输入有效的出生时间',
     code: 'E002',
   },
-  'NETWORK_ERROR': {
+  NETWORK_ERROR: {
     title: '网络连接失败',
     description: '请检查网络连接后重试',
     code: 'E003',
   },
-  'SERVER_ERROR': {
+  SERVER_ERROR: {
     title: '服务器错误',
     description: '服务器暂时无法处理请求',
     code: 'E004',
   },
-  'PERMISSION_DENIED': {
+  PERMISSION_DENIED: {
     title: '权限不足',
     description: '需要升级会员或充值积分',
     code: 'E005',
   },
 };
 
-export function EnhancedError({ 
-  error, 
-  onRetry, 
-  onReset, 
-  context 
+export function EnhancedError({
+  error,
+  onRetry,
+  onReset,
+  context,
 }: EnhancedErrorProps) {
   const [isRetrying, setIsRetrying] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  
+
   const errorAnalysis = analyzeError(error);
   const ErrorIcon = errorAnalysis.icon;
-  
+
   const handleRetry = async () => {
     if (!onRetry) return;
-    
+
     setIsRetrying(true);
     try {
       await onRetry();
@@ -195,23 +201,31 @@ export function EnhancedError({
       setIsRetrying(false);
     }
   };
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-red-50 via-white to-orange-50 flex items-center justify-center">
       <div className="max-w-2xl w-full mx-auto px-4">
         {/* 主错误卡片 */}
-        <Card className={`border-2 ${
-          errorAnalysis.severity === 'error' ? 'border-red-300 bg-red-50/50' :
-          errorAnalysis.severity === 'warning' ? 'border-orange-300 bg-orange-50/50' :
-          'border-gray-300 bg-gray-50/50'
-        } shadow-xl`}>
+        <Card
+          className={`border-2 ${
+            errorAnalysis.severity === 'error'
+              ? 'border-red-300 bg-red-50/50'
+              : errorAnalysis.severity === 'warning'
+                ? 'border-orange-300 bg-orange-50/50'
+                : 'border-gray-300 bg-gray-50/50'
+          } shadow-xl`}
+        >
           <CardHeader>
             <CardTitle className="flex items-center gap-3">
-              <div className={`p-3 rounded-full ${
-                errorAnalysis.severity === 'error' ? 'bg-red-500' :
-                errorAnalysis.severity === 'warning' ? 'bg-orange-500' :
-                'bg-gray-500'
-              }`}>
+              <div
+                className={`p-3 rounded-full ${
+                  errorAnalysis.severity === 'error'
+                    ? 'bg-red-500'
+                    : errorAnalysis.severity === 'warning'
+                      ? 'bg-orange-500'
+                      : 'bg-gray-500'
+                }`}
+              >
                 <ErrorIcon className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -224,7 +238,7 @@ export function EnhancedError({
               </div>
             </CardTitle>
           </CardHeader>
-          
+
           <CardContent className="space-y-6">
             {/* 错误描述 */}
             <div className="p-4 bg-white rounded-lg border">
@@ -232,7 +246,7 @@ export function EnhancedError({
               <p className="text-gray-700 text-sm leading-relaxed">
                 {errorAnalysis.description}
               </p>
-              
+
               {/* 上下文信息 */}
               {context && (
                 <div className="mt-3 pt-3 border-t border-gray-200">
@@ -257,7 +271,7 @@ export function EnhancedError({
                 </div>
               )}
             </div>
-            
+
             {/* 解决建议 */}
             <div className="p-4 bg-blue-50 rounded-lg">
               <h3 className="font-medium mb-3 flex items-center gap-2">
@@ -275,11 +289,11 @@ export function EnhancedError({
                 ))}
               </ul>
             </div>
-            
+
             {/* 操作按钮 */}
             <div className="flex flex-col sm:flex-row gap-3">
               {errorAnalysis.recoverable && onRetry && (
-                <Button 
+                <Button
                   onClick={handleRetry}
                   disabled={isRetrying}
                   className="flex-1"
@@ -297,22 +311,18 @@ export function EnhancedError({
                   )}
                 </Button>
               )}
-              
+
               {onReset && (
-                <Button 
-                  variant="outline" 
-                  onClick={onReset}
-                  className="flex-1"
-                >
+                <Button variant="outline" onClick={onReset} className="flex-1">
                   <Settings className="w-4 h-4 mr-2" />
                   重新设置
                 </Button>
               )}
-              
+
               {!errorAnalysis.recoverable && (
-                <Button 
+                <Button
                   variant="outline"
-                  onClick={() => window.location.href = '/settings/credits'}
+                  onClick={() => (window.location.href = '/settings/credits')}
                   className="flex-1"
                 >
                   <Shield className="w-4 h-4 mr-2" />
@@ -320,7 +330,7 @@ export function EnhancedError({
                 </Button>
               )}
             </div>
-            
+
             {/* 详细信息切换 */}
             <div className="pt-4 border-t border-gray-200">
               <Button
@@ -332,30 +342,46 @@ export function EnhancedError({
                 <HelpCircle className="w-4 h-4 mr-1" />
                 {showDetails ? '隐藏' : '显示'}技术详情
               </Button>
-              
+
               {showDetails && (
                 <div className="mt-3 p-3 bg-gray-100 rounded text-xs font-mono">
                   <div className="space-y-1">
-                    <div><span className="font-medium">错误类型：</span>{errorAnalysis.type}</div>
-                    <div><span className="font-medium">错误消息：</span>{typeof error === 'string' ? error : error.message}</div>
+                    <div>
+                      <span className="font-medium">错误类型：</span>
+                      {errorAnalysis.type}
+                    </div>
+                    <div>
+                      <span className="font-medium">错误消息：</span>
+                      {typeof error === 'string' ? error : error.message}
+                    </div>
                     {typeof error === 'object' && error.stack && (
-                      <div><span className="font-medium">调用栈：</span><pre className="mt-1 text-xs overflow-x-auto">{error.stack}</pre></div>
+                      <div>
+                        <span className="font-medium">调用栈：</span>
+                        <pre className="mt-1 text-xs overflow-x-auto">
+                          {error.stack}
+                        </pre>
+                      </div>
                     )}
-                    <div><span className="font-medium">时间戳：</span>{new Date().toLocaleString()}</div>
+                    <div>
+                      <span className="font-medium">时间戳：</span>
+                      {new Date().toLocaleString()}
+                    </div>
                   </div>
                 </div>
               )}
             </div>
           </CardContent>
         </Card>
-        
+
         {/* 底部帮助信息 */}
         <div className="mt-6 text-center">
           <Card className="border-gray-200">
             <CardContent className="pt-4">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <HelpCircle className="w-4 h-4 text-gray-500" />
-                <span className="text-sm font-medium text-gray-700">需要帮助？</span>
+                <span className="text-sm font-medium text-gray-700">
+                  需要帮助？
+                </span>
               </div>
               <p className="text-xs text-gray-600 mb-3">
                 如果问题持续存在，请联系我们的技术支持团队

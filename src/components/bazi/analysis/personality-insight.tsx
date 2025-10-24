@@ -34,16 +34,17 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
   const personality = insights.personality;
 
   // 如果没有性格数据，显示默认提示
-  if (!personality || (!personality.strengths?.length && !personality.weaknesses?.length)) {
+  if (
+    !personality ||
+    (!personality.strengths?.length && !personality.weaknesses?.length)
+  ) {
     return (
       <Card>
         <CardContent className="pt-6">
           <div className="text-center py-8 space-y-4">
             <User className="w-12 h-12 mx-auto text-gray-400" />
             <h3 className="text-lg font-semibold">性格分析生成中</h3>
-            <p className="text-gray-600">
-              正在基于您的八字进行深度性格分析...
-            </p>
+            <p className="text-gray-600">正在基于您的八字进行深度性格分析...</p>
           </div>
         </CardContent>
       </Card>
@@ -70,9 +71,9 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
                   {personality.strengths?.length || 0} 项
                 </Badge>
               </div>
-              <Progress 
-                value={Math.min(100, (personality.strengths?.length || 0) * 15)} 
-                className="h-2" 
+              <Progress
+                value={Math.min(100, (personality.strengths?.length || 0) * 15)}
+                className="h-2"
               />
               <p className="text-xs text-gray-600 mt-2">
                 您具有多方面的性格优势，这些是您的核心竞争力
@@ -83,13 +84,19 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
             <div className="p-4 bg-white rounded-lg shadow-sm">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-medium text-gray-800">改进空间</h4>
-                <Badge variant="outline" className="border-orange-300 text-orange-700">
+                <Badge
+                  variant="outline"
+                  className="border-orange-300 text-orange-700"
+                >
                   {personality.weaknesses?.length || 0} 项
                 </Badge>
               </div>
-              <Progress 
-                value={Math.min(100, (personality.weaknesses?.length || 0) * 15)} 
-                className="h-2" 
+              <Progress
+                value={Math.min(
+                  100,
+                  (personality.weaknesses?.length || 0) * 15
+                )}
+                className="h-2"
               />
               <p className="text-xs text-gray-600 mt-2">
                 了解并改进这些方面，将助您全面发展
@@ -109,7 +116,7 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
                   {personality.communicationStyle || '待分析'}
                 </p>
               </div>
-              
+
               <div>
                 <h4 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
                   <Brain className="w-4 h-4" />
@@ -136,7 +143,7 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {personality.strengths.map((strength, idx) => (
-                <div 
+                <div
                   key={idx}
                   className="flex items-start gap-3 p-4 rounded-lg bg-green-50 border border-green-200 hover:shadow-md transition-shadow"
                 >
@@ -144,7 +151,10 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
                   <div className="flex-1">
                     <p className="text-gray-800 font-medium">{strength}</p>
                   </div>
-                  <Badge variant="outline" className="bg-white text-green-700 border-green-300">
+                  <Badge
+                    variant="outline"
+                    className="bg-white text-green-700 border-green-300"
+                  >
                     优势
                   </Badge>
                 </div>
@@ -174,7 +184,7 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
           <CardContent>
             <div className="space-y-3">
               {personality.weaknesses.map((weakness, idx) => (
-                <div 
+                <div
                   key={idx}
                   className="flex items-start gap-3 p-4 rounded-lg bg-orange-50 border border-orange-200"
                 >
@@ -209,7 +219,7 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
           <CardContent>
             <div className="space-y-3">
               {personality.growthAdvice.map((advice, idx) => (
-                <div 
+                <div
                   key={idx}
                   className="flex items-start gap-3 p-4 rounded-lg bg-purple-50 border border-purple-200"
                 >
@@ -217,7 +227,10 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
                   <div className="flex-1">
                     <p className="text-gray-800">{advice}</p>
                   </div>
-                  <Badge variant="outline" className="bg-white text-purple-700 border-purple-300">
+                  <Badge
+                    variant="outline"
+                    className="bg-white text-purple-700 border-purple-300"
+                  >
                     建议
                   </Badge>
                 </div>
@@ -239,7 +252,7 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {tenGods.characteristics.map((char, idx) => (
-                <Badge 
+                <Badge
                   key={idx}
                   variant="outline"
                   className="px-3 py-1 bg-indigo-50 text-indigo-800 border-indigo-300"
@@ -282,14 +295,29 @@ export function PersonalityInsight({ data }: PersonalityInsightProps) {
               <div className="p-4 bg-white rounded-lg border border-cyan-200">
                 <h4 className="font-medium text-cyan-900 mb-2">格局特点</h4>
                 <p className="text-sm text-gray-700">
-                  {patterns.main.chinese === '正官格' && '正直守信、责任感强、做事有原则、适合管理工作'}
-                  {patterns.main.chinese === '正财格' && '勤劳踏实、理财能力强、重视家庭、稳健可靠'}
-                  {patterns.main.chinese === '食神格' && '温和善良、才华横溢、享受生活、人缘好'}
-                  {patterns.main.chinese === '伤官格' && '聪明灵活、创新能力强、个性独特、表达力强'}
-                  {patterns.main.chinese === '偏财格' && '善于交际、把握机会、财运起伏、慷慨大方'}
-                  {patterns.main.chinese === '正印格' && '好学上进、品德高尚、文化修养好、慈悲为怀'}
-                  {patterns.main.chinese === '七杀格' && '性格刚毅、执行力强、有魄力、竞争意识强'}
-                  {!['正官格', '正财格', '食神格', '伤官格', '偏财格', '正印格', '七杀格'].includes(patterns.main.chinese) && 
+                  {patterns.main.chinese === '正官格' &&
+                    '正直守信、责任感强、做事有原则、适合管理工作'}
+                  {patterns.main.chinese === '正财格' &&
+                    '勤劳踏实、理财能力强、重视家庭、稳健可靠'}
+                  {patterns.main.chinese === '食神格' &&
+                    '温和善良、才华横溢、享受生活、人缘好'}
+                  {patterns.main.chinese === '伤官格' &&
+                    '聪明灵活、创新能力强、个性独特、表达力强'}
+                  {patterns.main.chinese === '偏财格' &&
+                    '善于交际、把握机会、财运起伏、慷慨大方'}
+                  {patterns.main.chinese === '正印格' &&
+                    '好学上进、品德高尚、文化修养好、慈悲为怀'}
+                  {patterns.main.chinese === '七杀格' &&
+                    '性格刚毅、执行力强、有魄力、竞争意识强'}
+                  {![
+                    '正官格',
+                    '正财格',
+                    '食神格',
+                    '伤官格',
+                    '偏财格',
+                    '正印格',
+                    '七杀格',
+                  ].includes(patterns.main.chinese) &&
                     '您的格局具有独特的性格影响，建议结合具体八字详细分析'}
                 </p>
               </div>

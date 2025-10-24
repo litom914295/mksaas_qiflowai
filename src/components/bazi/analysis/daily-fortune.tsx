@@ -69,12 +69,12 @@ const solarTerms = [
 function getCurrentSolarTerm(date: Date) {
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  
+
   // 找出当前节气
   for (let i = 0; i < solarTerms.length; i++) {
     const current = solarTerms[i];
     const next = solarTerms[(i + 1) % solarTerms.length];
-    
+
     if (
       (month === current.month && day >= current.day) ||
       (month === next.month && day < next.day)
@@ -82,7 +82,7 @@ function getCurrentSolarTerm(date: Date) {
       return current;
     }
   }
-  
+
   return solarTerms[0]; // 默认返回立春
 }
 
@@ -90,37 +90,41 @@ function getCurrentSolarTerm(date: Date) {
 function calculateDailyScore(
   baziData: BaziAnalysisModel,
   date: Date,
-  solarTerm: typeof solarTerms[0]
+  solarTerm: (typeof solarTerms)[0]
 ) {
   let score = 60; // 基础分
-  
+
   // 根据用神与节气五行匹配度调整分数
   const favorable = baziData.useful.favorableElements;
   const unfavorable = baziData.useful.unfavorableElements;
-  
+
   // 节气五行与用神匹配
-  if (favorable.some(e => e.element.toLowerCase().includes(solarTerm.element))) {
+  if (
+    favorable.some((e) => e.element.toLowerCase().includes(solarTerm.element))
+  ) {
     score += 15;
   }
-  
+
   // 节气五行与忌神冲突
-  if (unfavorable.some(e => e.element.toLowerCase().includes(solarTerm.element))) {
+  if (
+    unfavorable.some((e) => e.element.toLowerCase().includes(solarTerm.element))
+  ) {
     score -= 10;
   }
-  
+
   // 根据节气能量状态调整
   if (solarTerm.energy === 'balanced') {
     score += 5; // 平衡期适合所有人
   } else if (solarTerm.energy === 'peak' || solarTerm.energy === 'rising') {
     score += 8; // 上升期利于行动
   }
-  
+
   // 根据星期调整（示例）
   const dayOfWeek = date.getDay();
   if (dayOfWeek === 1 || dayOfWeek === 4) {
     score += 5; // 周一、周四吉利
   }
-  
+
   // 确保分数在合理范围
   return Math.min(100, Math.max(0, score));
 }
@@ -145,32 +149,32 @@ export function DailyFortune({ data }: DailyFortuneProps) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [activeTab, setActiveTab] = useState('today');
-  
+
   // 更新当前时辰
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentHour(new Date().getHours());
     }, 60000); // 每分钟更新
-    
+
     return () => clearInterval(timer);
   }, []);
-  
+
   // 获取当前节气
   const currentSolarTerm = useMemo(() => {
     return getCurrentSolarTerm(selectedDate);
   }, [selectedDate]);
-  
+
   // 计算今日运势
   const todayFortune = useMemo(() => {
     const score = calculateDailyScore(data, selectedDate, currentSolarTerm);
-    
+
     // 根据分数生成建议
     const suggestions = {
       lucky: [] as string[],
       unlucky: [] as string[],
       advice: '',
     };
-    
+
     if (score >= 80) {
       suggestions.lucky = ['签约', '投资', '求职', '表白', '搬家'];
       suggestions.unlucky = ['保守等待'];
@@ -184,30 +188,34 @@ export function DailyFortune({ data }: DailyFortuneProps) {
       suggestions.unlucky = ['重大决策', '投资', '出行'];
       suggestions.advice = '今日宜静不宜动，适合休养生息';
     }
-    
+
     return {
       score,
       suggestions,
       solarTerm: currentSolarTerm,
     };
   }, [data, selectedDate, currentSolarTerm]);
-  
+
   // 获取当前时辰
   const currentHourData = useMemo(() => {
-    const hourIndex = Math.floor((currentHour + 1) % 24 / 2);
+    const hourIndex = Math.floor(((currentHour + 1) % 24) / 2);
     return hourlyFortune[hourIndex];
   }, [currentHour]);
-  
+
   // 计算时辰吉凶
-  const getHourFortune = (hourData: typeof hourlyFortune[0]) => {
+  const getHourFortune = (hourData: (typeof hourlyFortune)[0]) => {
     const favorable = data.useful.favorableElements;
     const elementMap: Record<string, string> = {
-      wood: '木', fire: '火', earth: '土', metal: '金', water: '水'
+      wood: '木',
+      fire: '火',
+      earth: '土',
+      metal: '金',
+      water: '水',
     };
-    
+
     const hourElement = elementMap[hourData.element];
-    const isGood = favorable.some(e => e.chinese === hourElement);
-    
+    const isGood = favorable.some((e) => e.chinese === hourElement);
+
     return {
       isGood,
       score: isGood ? 80 : 40,
@@ -242,11 +250,15 @@ export function DailyFortune({ data }: DailyFortuneProps) {
               <div>
                 <p className="text-sm text-gray-600 mb-1">综合运势指数</p>
                 <div className="flex items-baseline gap-2">
-                  <span className={`text-4xl font-bold ${
-                    todayFortune.score >= 80 ? 'text-purple-600' :
-                    todayFortune.score >= 60 ? 'text-blue-600' :
-                    'text-orange-600'
-                  }`}>
+                  <span
+                    className={`text-4xl font-bold ${
+                      todayFortune.score >= 80
+                        ? 'text-purple-600'
+                        : todayFortune.score >= 60
+                          ? 'text-blue-600'
+                          : 'text-orange-600'
+                    }`}
+                  >
                     {todayFortune.score}
                   </span>
                   <span className="text-gray-500">/ 100</span>
@@ -256,11 +268,15 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                 </p>
               </div>
               <div className="text-center">
-                <div className={`w-24 h-24 rounded-full flex items-center justify-center ${
-                  todayFortune.score >= 80 ? 'bg-gradient-to-br from-purple-400 to-pink-400' :
-                  todayFortune.score >= 60 ? 'bg-gradient-to-br from-blue-400 to-cyan-400' :
-                  'bg-gradient-to-br from-orange-400 to-yellow-400'
-                }`}>
+                <div
+                  className={`w-24 h-24 rounded-full flex items-center justify-center ${
+                    todayFortune.score >= 80
+                      ? 'bg-gradient-to-br from-purple-400 to-pink-400'
+                      : todayFortune.score >= 60
+                        ? 'bg-gradient-to-br from-blue-400 to-cyan-400'
+                        : 'bg-gradient-to-br from-orange-400 to-yellow-400'
+                  }`}
+                >
                   {todayFortune.score >= 80 ? (
                     <Crown className="w-12 h-12 text-white" />
                   ) : todayFortune.score >= 60 ? (
@@ -269,13 +285,21 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                     <Shield className="w-12 h-12 text-white" />
                   )}
                 </div>
-                <Badge className="mt-2" variant={
-                  todayFortune.score >= 80 ? 'default' :
-                  todayFortune.score >= 60 ? 'secondary' :
-                  'outline'
-                }>
-                  {todayFortune.score >= 80 ? '大吉' :
-                   todayFortune.score >= 60 ? '中吉' : '小吉'}
+                <Badge
+                  className="mt-2"
+                  variant={
+                    todayFortune.score >= 80
+                      ? 'default'
+                      : todayFortune.score >= 60
+                        ? 'secondary'
+                        : 'outline'
+                  }
+                >
+                  {todayFortune.score >= 80
+                    ? '大吉'
+                    : todayFortune.score >= 60
+                      ? '中吉'
+                      : '小吉'}
                 </Badge>
               </div>
             </div>
@@ -289,11 +313,16 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                     节气：{currentSolarTerm.name}
                   </h4>
                   <p className="text-sm text-gray-700">
-                    {currentSolarTerm.element === 'wood' && '木气生发，适合开始新计划'}
-                    {currentSolarTerm.element === 'fire' && '火气旺盛，注意调节情绪'}
-                    {currentSolarTerm.element === 'earth' && '土气平和，宜守不宜攻'}
-                    {currentSolarTerm.element === 'metal' && '金气收敛，适合总结整理'}
-                    {currentSolarTerm.element === 'water' && '水气流动，利于沟通交流'}
+                    {currentSolarTerm.element === 'wood' &&
+                      '木气生发，适合开始新计划'}
+                    {currentSolarTerm.element === 'fire' &&
+                      '火气旺盛，注意调节情绪'}
+                    {currentSolarTerm.element === 'earth' &&
+                      '土气平和，宜守不宜攻'}
+                    {currentSolarTerm.element === 'metal' &&
+                      '金气收敛，适合总结整理'}
+                    {currentSolarTerm.element === 'water' &&
+                      '水气流动，利于沟通交流'}
                   </p>
                   <div className="flex items-center gap-2 mt-2">
                     <Badge variant="outline" className="text-xs">
@@ -311,8 +340,7 @@ export function DailyFortune({ data }: DailyFortuneProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 bg-green-50 rounded-lg">
                 <h4 className="font-medium text-green-800 mb-2 flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4" />
-                  宜
+                  <TrendingUp className="w-4 h-4" />宜
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {todayFortune.suggestions.lucky.map((item, idx) => (
@@ -322,11 +350,10 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                   ))}
                 </div>
               </div>
-              
+
               <div className="p-4 bg-orange-50 rounded-lg">
                 <h4 className="font-medium text-orange-800 mb-2 flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4" />
-                  忌
+                  <AlertTriangle className="w-4 h-4" />忌
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {todayFortune.suggestions.unlucky.map((item, idx) => (
@@ -357,23 +384,25 @@ export function DailyFortune({ data }: DailyFortuneProps) {
             {hourlyFortune.map((hour) => {
               const fortune = getHourFortune(hour);
               const isCurrent = hour === currentHourData;
-              
+
               return (
                 <div
                   key={hour.hour}
                   className={`p-3 rounded-lg border-2 transition-all ${
-                    isCurrent 
-                      ? 'border-purple-400 bg-purple-50 shadow-md' 
+                    isCurrent
+                      ? 'border-purple-400 bg-purple-50 shadow-md'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className={`font-medium ${
-                      isCurrent ? 'text-purple-800' : 'text-gray-800'
-                    }`}>
+                    <span
+                      className={`font-medium ${
+                        isCurrent ? 'text-purple-800' : 'text-gray-800'
+                      }`}
+                    >
                       {hour.hour}
                     </span>
-                    <Badge 
+                    <Badge
                       variant={fortune.isGood ? 'default' : 'secondary'}
                       className="text-xs"
                     >
@@ -412,91 +441,116 @@ export function DailyFortune({ data }: DailyFortuneProps) {
               <TabsTrigger value="wealth">财运</TabsTrigger>
               <TabsTrigger value="health">健康</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="today" className="space-y-4 mt-4">
               <div className="p-4 bg-purple-50 rounded-lg">
                 <h4 className="font-medium text-purple-800 mb-2">能量节律</h4>
                 <p className="text-sm text-gray-700 mb-3">
-                  今日{currentSolarTerm.element}气{
-                    currentSolarTerm.energy === 'rising' ? '上升' :
-                    currentSolarTerm.energy === 'balanced' ? '平衡' :
-                    currentSolarTerm.energy === 'peak' ? '达到顶峰' :
-                    '收敛'
-                  }，配合您的{data.base.dayMaster.chinese}日主，
-                  {todayFortune.score >= 70 ? '能量场和谐，利于行动' : '需要调节平衡'}。
+                  今日{currentSolarTerm.element}气
+                  {currentSolarTerm.energy === 'rising'
+                    ? '上升'
+                    : currentSolarTerm.energy === 'balanced'
+                      ? '平衡'
+                      : currentSolarTerm.energy === 'peak'
+                        ? '达到顶峰'
+                        : '收敛'}
+                  ，配合您的{data.base.dayMaster.chinese}日主，
+                  {todayFortune.score >= 70
+                    ? '能量场和谐，利于行动'
+                    : '需要调节平衡'}
+                  。
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <Sunrise className="w-4 h-4 text-amber-600" />
-                    <span className="text-sm">早晨：{hourlyFortune[3].activity}</span>
+                    <span className="text-sm">
+                      早晨：{hourlyFortune[3].activity}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Sun className="w-4 h-4 text-amber-600" />
-                    <span className="text-sm">午间：{hourlyFortune[5].activity}</span>
+                    <span className="text-sm">
+                      午间：{hourlyFortune[5].activity}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Moon className="w-4 h-4 text-blue-600" />
-                    <span className="text-sm">晚间：{hourlyFortune[10].activity}</span>
+                    <span className="text-sm">
+                      晚间：{hourlyFortune[10].activity}
+                    </span>
                   </div>
                 </div>
               </div>
             </TabsContent>
-            
+
             <TabsContent value="career" className="space-y-4 mt-4">
               <div className="p-4 bg-blue-50 rounded-lg">
                 <h4 className="font-medium text-blue-800 mb-2">事业指引</h4>
                 <p className="text-sm text-gray-700 mb-3">
-                  基于您的十神配置和当前运势，今日事业运势{
-                    todayFortune.score >= 70 ? '旺盛' : '平稳'
-                  }。
+                  基于您的十神配置和当前运势，今日事业运势
+                  {todayFortune.score >= 70 ? '旺盛' : '平稳'}。
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <Target className="w-4 h-4 text-blue-600 mt-0.5" />
                     <span>
-                      {todayFortune.score >= 70 
+                      {todayFortune.score >= 70
                         ? '适合开展新项目，主动出击'
                         : '宜守成，完善现有工作'}
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Target className="w-4 h-4 text-blue-600 mt-0.5" />
-                    <span>贵人方位：{data.useful.favorableElements[0]?.suggestions?.directions?.[0] || '东南'}</span>
+                    <span>
+                      贵人方位：
+                      {data.useful.favorableElements[0]?.suggestions
+                        ?.directions?.[0] || '东南'}
+                    </span>
                   </li>
                 </ul>
               </div>
             </TabsContent>
-            
+
             <TabsContent value="wealth" className="space-y-4 mt-4">
               <div className="p-4 bg-green-50 rounded-lg">
                 <h4 className="font-medium text-green-800 mb-2">财运分析</h4>
                 <p className="text-sm text-gray-700 mb-3">
-                  {currentSolarTerm.element === 'metal' 
-                    ? '金气旺盛，利于投资理财' 
+                  {currentSolarTerm.element === 'metal'
+                    ? '金气旺盛，利于投资理财'
                     : currentSolarTerm.element === 'water'
-                    ? '水主流通，适合资金周转'
-                    : '财运平稳，宜积累不宜冒进'}
+                      ? '水主流通，适合资金周转'
+                      : '财运平稳，宜积累不宜冒进'}
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">财运指数</span>
                   <div className="flex items-center gap-2">
-                    <Progress value={todayFortune.score * 0.8} className="w-24 h-2" />
-                    <span className="text-sm font-medium">{Math.round(todayFortune.score * 0.8)}%</span>
+                    <Progress
+                      value={todayFortune.score * 0.8}
+                      className="w-24 h-2"
+                    />
+                    <span className="text-sm font-medium">
+                      {Math.round(todayFortune.score * 0.8)}%
+                    </span>
                   </div>
                 </div>
               </div>
             </TabsContent>
-            
+
             <TabsContent value="health" className="space-y-4 mt-4">
               <div className="p-4 bg-orange-50 rounded-lg">
                 <h4 className="font-medium text-orange-800 mb-2">健康提醒</h4>
                 <p className="text-sm text-gray-700 mb-3">
                   {currentSolarTerm.name}时节，
-                  {currentSolarTerm.element === 'wood' && '注意肝胆保养，多做伸展运动'}
-                  {currentSolarTerm.element === 'fire' && '注意心血管健康，避免过度劳累'}
-                  {currentSolarTerm.element === 'earth' && '注意脾胃调理，饮食清淡'}
-                  {currentSolarTerm.element === 'metal' && '注意呼吸系统，保持空气流通'}
-                  {currentSolarTerm.element === 'water' && '注意肾脏保养，避免受寒'}
+                  {currentSolarTerm.element === 'wood' &&
+                    '注意肝胆保养，多做伸展运动'}
+                  {currentSolarTerm.element === 'fire' &&
+                    '注意心血管健康，避免过度劳累'}
+                  {currentSolarTerm.element === 'earth' &&
+                    '注意脾胃调理，饮食清淡'}
+                  {currentSolarTerm.element === 'metal' &&
+                    '注意呼吸系统，保持空气流通'}
+                  {currentSolarTerm.element === 'water' &&
+                    '注意肾脏保养，避免受寒'}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <Badge variant="outline">
@@ -528,22 +582,40 @@ export function DailyFortune({ data }: DailyFortuneProps) {
               const futureDate = new Date(selectedDate);
               futureDate.setDate(futureDate.getDate() + dayOffset);
               const futureSolarTerm = getCurrentSolarTerm(futureDate);
-              const futureScore = calculateDailyScore(data, futureDate, futureSolarTerm);
-              
+              const futureScore = calculateDailyScore(
+                data,
+                futureDate,
+                futureSolarTerm
+              );
+
               return (
-                <div key={dayOffset} className="p-4 border rounded-lg hover:shadow-md transition-shadow">
+                <div
+                  key={dayOffset}
+                  className="p-4 border rounded-lg hover:shadow-md transition-shadow"
+                >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium">
-                      {futureDate.toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' })}
+                      {futureDate.toLocaleDateString('zh-CN', {
+                        month: 'numeric',
+                        day: 'numeric',
+                      })}
                     </span>
                     <Badge variant="outline" className="text-xs">
                       {futureSolarTerm.name}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-gray-800">{futureScore}</span>
-                    <Badge variant={futureScore >= 70 ? 'default' : 'secondary'}>
-                      {futureScore >= 80 ? '大吉' : futureScore >= 60 ? '中吉' : '小吉'}
+                    <span className="text-2xl font-bold text-gray-800">
+                      {futureScore}
+                    </span>
+                    <Badge
+                      variant={futureScore >= 70 ? 'default' : 'secondary'}
+                    >
+                      {futureScore >= 80
+                        ? '大吉'
+                        : futureScore >= 60
+                          ? '中吉'
+                          : '小吉'}
                     </Badge>
                   </div>
                   <p className="text-xs text-gray-600 mt-2">

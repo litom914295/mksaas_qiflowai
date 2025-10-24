@@ -2,14 +2,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
+  Legend,
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
   Radar,
   RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
   ResponsiveContainer,
   Tooltip,
-  Legend,
 } from 'recharts';
 
 interface WuxingRadarChartProps {
@@ -78,12 +78,8 @@ export function WuxingRadarChart({
       return (
         <div className="bg-white p-3 rounded-lg shadow-lg border">
           <p className="font-semibold text-sm">{data.element}</p>
-          <p className="text-xs text-gray-600">
-            力量值: {data.value}
-          </p>
-          <p className="text-xs text-gray-600">
-            占比: {data.percentage}%
-          </p>
+          <p className="text-xs text-gray-600">力量值: {data.value}</p>
+          <p className="text-xs text-gray-600">占比: {data.percentage}%</p>
         </div>
       );
     }
@@ -145,9 +141,7 @@ export function WuxingRadarChart({
               >
                 {item.element}
               </div>
-              <span className="text-xs text-gray-600">
-                {item.percentage}%
-              </span>
+              <span className="text-xs text-gray-600">{item.percentage}%</span>
             </div>
           ))}
         </div>

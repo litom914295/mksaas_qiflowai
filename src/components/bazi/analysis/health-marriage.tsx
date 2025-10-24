@@ -19,8 +19,8 @@ import {
   Lightbulb,
   Shield,
   Sparkles,
-  Users,
   Stethoscope,
+  Users,
 } from 'lucide-react';
 
 interface HealthMarriageProps {
@@ -32,9 +32,11 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
   const healthMarriage = insights.healthMarriage;
 
   // 如果没有健康婚姻数据，显示默认提示
-  if (!healthMarriage || 
-      (!healthMarriage.healthFocus?.organs?.length && 
-       !healthMarriage.marriage?.advice?.length)) {
+  if (
+    !healthMarriage ||
+    (!healthMarriage.healthFocus?.organs?.length &&
+      !healthMarriage.marriage?.advice?.length)
+  ) {
     return (
       <Card>
         <CardContent className="pt-6">
@@ -70,9 +72,12 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
                   {healthMarriage.healthFocus?.concerns?.length || 0} 项
                 </Badge>
               </div>
-              <Progress 
-                value={Math.min(100, (healthMarriage.healthFocus?.concerns?.length || 0) * 20)} 
-                className="h-2" 
+              <Progress
+                value={Math.min(
+                  100,
+                  (healthMarriage.healthFocus?.concerns?.length || 0) * 20
+                )}
+                className="h-2"
               />
               <p className="text-xs text-gray-600 mt-2">
                 需要重点关注的健康方面
@@ -87,9 +92,12 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
                   {healthMarriage.marriage?.advice?.length || 0} 条
                 </Badge>
               </div>
-              <Progress 
-                value={Math.min(100, (healthMarriage.marriage?.advice?.length || 0) * 20)} 
-                className="h-2" 
+              <Progress
+                value={Math.min(
+                  100,
+                  (healthMarriage.marriage?.advice?.length || 0) * 20
+                )}
+                className="h-2"
               />
               <p className="text-xs text-gray-600 mt-2">
                 婚姻感情方面的专业建议
@@ -110,70 +118,73 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             {/* 体质特点 */}
-            {healthMarriage.healthFocus.organs && healthMarriage.healthFocus.organs.length > 0 && (
-              <div className="p-4 rounded-lg bg-green-50 border border-green-200">
-                <h4 className="font-medium text-green-900 mb-3 flex items-center gap-2">
-                  <Stethoscope className="w-4 h-4" />
-                  易感器官系统
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {healthMarriage.healthFocus.organs.map((organ, idx) => (
-                    <Badge 
-                      key={idx}
-                      variant="outline"
-                      className="px-3 py-1 bg-white text-green-800 border-green-300"
-                    >
-                      {organ}
-                    </Badge>
-                  ))}
+            {healthMarriage.healthFocus.organs &&
+              healthMarriage.healthFocus.organs.length > 0 && (
+                <div className="p-4 rounded-lg bg-green-50 border border-green-200">
+                  <h4 className="font-medium text-green-900 mb-3 flex items-center gap-2">
+                    <Stethoscope className="w-4 h-4" />
+                    易感器官系统
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {healthMarriage.healthFocus.organs.map((organ, idx) => (
+                      <Badge
+                        key={idx}
+                        variant="outline"
+                        className="px-3 py-1 bg-white text-green-800 border-green-300"
+                      >
+                        {organ}
+                      </Badge>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600 mt-3">
+                    这些器官系统需要特别关注保养，建议定期体检。
+                  </p>
                 </div>
-                <p className="text-sm text-gray-600 mt-3">
-                  这些器官系统需要特别关注保养，建议定期体检。
-                </p>
-              </div>
-            )}
+              )}
 
             {/* 健康隐患 */}
-            {healthMarriage.healthFocus.concerns && healthMarriage.healthFocus.concerns.length > 0 && (
-              <div>
-                <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-orange-600" />
-                  健康提醒
-                </h4>
-                <div className="space-y-2">
-                  {healthMarriage.healthFocus.concerns.map((concern, idx) => (
-                    <div 
-                      key={idx}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-orange-50 border border-orange-200"
-                    >
-                      <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
-                      <p className="text-sm text-gray-800">{concern}</p>
-                    </div>
-                  ))}
+            {healthMarriage.healthFocus.concerns &&
+              healthMarriage.healthFocus.concerns.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-orange-600" />
+                    健康提醒
+                  </h4>
+                  <div className="space-y-2">
+                    {healthMarriage.healthFocus.concerns.map((concern, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 p-3 rounded-lg bg-orange-50 border border-orange-200"
+                      >
+                        <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-gray-800">{concern}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* 养生建议 */}
-            {healthMarriage.healthFocus.lifestyle && healthMarriage.healthFocus.lifestyle.length > 0 && (
-              <div>
-                <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
-                  <Lightbulb className="w-4 h-4 text-blue-600" />
-                  养生建议
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {healthMarriage.healthFocus.lifestyle.map((advice, idx) => (
-                    <div 
-                      key={idx}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-blue-50 border border-blue-200"
-                    >
-                      <CheckCircle2 className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <p className="text-sm text-gray-800">{advice}</p>
-                    </div>
-                  ))}
+            {healthMarriage.healthFocus.lifestyle &&
+              healthMarriage.healthFocus.lifestyle.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-blue-600" />
+                    养生建议
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {healthMarriage.healthFocus.lifestyle.map((advice, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 p-3 rounded-lg bg-blue-50 border border-blue-200"
+                      >
+                        <CheckCircle2 className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-gray-800">{advice}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* 五行养生 */}
             <div className="p-4 rounded-lg bg-gradient-to-r from-teal-50 to-emerald-50 border-2 border-teal-200">
@@ -184,11 +195,16 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
               <p className="text-sm text-gray-800">
                 根据您的用神{useful.favorableElements[0]?.chinese || ''}，
                 建议多接触相应五行属性的食物、颜色和方位。
-                {useful.favorableElements[0]?.chinese === '木' && '多食绿色蔬菜、酸味食物，多晨练。'}
-                {useful.favorableElements[0]?.chinese === '火' && '适当晒太阳、多食红色食物、苦味有益。'}
-                {useful.favorableElements[0]?.chinese === '土' && '多食黄色食物、甘味食品，保持脾胃健康。'}
-                {useful.favorableElements[0]?.chinese === '金' && '多食白色食物、辛味调料，注意呼吸系统。'}
-                {useful.favorableElements[0]?.chinese === '水' && '多饮水、食黑色食物、咸味适度，保护肾脏。'}
+                {useful.favorableElements[0]?.chinese === '木' &&
+                  '多食绿色蔬菜、酸味食物，多晨练。'}
+                {useful.favorableElements[0]?.chinese === '火' &&
+                  '适当晒太阳、多食红色食物、苦味有益。'}
+                {useful.favorableElements[0]?.chinese === '土' &&
+                  '多食黄色食物、甘味食品，保持脾胃健康。'}
+                {useful.favorableElements[0]?.chinese === '金' &&
+                  '多食白色食物、辛味调料，注意呼吸系统。'}
+                {useful.favorableElements[0]?.chinese === '水' &&
+                  '多饮水、食黑色食物、咸味适度，保护肾脏。'}
               </p>
             </div>
           </CardContent>
@@ -219,69 +235,72 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
             )}
 
             {/* 婚姻时机 */}
-            {healthMarriage.marriage.timing && healthMarriage.marriage.timing.length > 0 && (
-              <div>
-                <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-purple-600" />
-                  婚姻时机
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {healthMarriage.marriage.timing.map((time, idx) => (
-                    <Badge 
-                      key={idx}
-                      className="px-3 py-2 bg-purple-100 text-purple-800 border border-purple-300"
-                    >
-                      {time}
-                    </Badge>
-                  ))}
+            {healthMarriage.marriage.timing &&
+              healthMarriage.marriage.timing.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-purple-600" />
+                    婚姻时机
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {healthMarriage.marriage.timing.map((time, idx) => (
+                      <Badge
+                        key={idx}
+                        className="px-3 py-2 bg-purple-100 text-purple-800 border border-purple-300"
+                      >
+                        {time}
+                      </Badge>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600 mt-3">
+                    这些时期是您婚姻感情方面的重要机遇期，建议把握时机。
+                  </p>
                 </div>
-                <p className="text-sm text-gray-600 mt-3">
-                  这些时期是您婚姻感情方面的重要机遇期，建议把握时机。
-                </p>
-              </div>
-            )}
+              )}
 
             {/* 婚姻建议 */}
-            {healthMarriage.marriage.advice && healthMarriage.marriage.advice.length > 0 && (
-              <div>
-                <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-pink-600" />
-                  婚姻建议
-                </h4>
-                <div className="space-y-2">
-                  {healthMarriage.marriage.advice.map((advice, idx) => (
-                    <div 
-                      key={idx}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-pink-50 border border-pink-200"
-                    >
-                      <Heart className="w-5 h-5 text-pink-600 mt-0.5 flex-shrink-0" />
-                      <p className="text-sm text-gray-800">{advice}</p>
-                    </div>
-                  ))}
+            {healthMarriage.marriage.advice &&
+              healthMarriage.marriage.advice.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-pink-600" />
+                    婚姻建议
+                  </h4>
+                  <div className="space-y-2">
+                    {healthMarriage.marriage.advice.map((advice, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 p-3 rounded-lg bg-pink-50 border border-pink-200"
+                      >
+                        <Heart className="w-5 h-5 text-pink-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-gray-800">{advice}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* 注意事项 */}
-            {healthMarriage.marriage.cautions && healthMarriage.marriage.cautions.length > 0 && (
-              <div>
-                <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-amber-600" />
-                  注意事项
-                </h4>
-                <div className="space-y-2">
-                  {healthMarriage.marriage.cautions.map((caution, idx) => (
-                    <div 
-                      key={idx}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-amber-50 border border-amber-200"
-                    >
-                      <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
-                      <p className="text-sm text-gray-800">{caution}</p>
-                    </div>
-                  ))}
+            {healthMarriage.marriage.cautions &&
+              healthMarriage.marriage.cautions.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-amber-600" />
+                    注意事项
+                  </h4>
+                  <div className="space-y-2">
+                    {healthMarriage.marriage.cautions.map((caution, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 p-3 rounded-lg bg-amber-50 border border-amber-200"
+                      >
+                        <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-gray-800">{caution}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* 格局影响 */}
             <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-rose-100 border-2 border-pink-300">
@@ -291,14 +310,29 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
               </h4>
               <p className="text-sm text-gray-800">
                 您的{patterns.main.chinese}格局，
-                {patterns.main.chinese === '正官格' && '婚姻关系稳定，配偶有责任心，适合传统婚姻模式。'}
-                {patterns.main.chinese === '正财格' && '婚姻美满，配偶顾家，适合早婚，家庭和睦。'}
-                {patterns.main.chinese === '食神格' && '婚姻幸福，配偶温和，享受浪漫生活。'}
-                {patterns.main.chinese === '伤官格' && '感情丰富，需要理解和包容，晚婚较好。'}
-                {patterns.main.chinese === '偏财格' && '异性缘佳，桃花较旺，需注意专一。'}
-                {patterns.main.chinese === '正印格' && '精神契合重要，寻求灵魂伴侣，重视精神交流。'}
-                {patterns.main.chinese === '七杀格' && '配偶性格强势，需要相互理解和包容。'}
-                {!['正官格', '正财格', '食神格', '伤官格', '偏财格', '正印格', '七杀格'].includes(patterns.main.chinese) && 
+                {patterns.main.chinese === '正官格' &&
+                  '婚姻关系稳定，配偶有责任心，适合传统婚姻模式。'}
+                {patterns.main.chinese === '正财格' &&
+                  '婚姻美满，配偶顾家，适合早婚，家庭和睦。'}
+                {patterns.main.chinese === '食神格' &&
+                  '婚姻幸福，配偶温和，享受浪漫生活。'}
+                {patterns.main.chinese === '伤官格' &&
+                  '感情丰富，需要理解和包容，晚婚较好。'}
+                {patterns.main.chinese === '偏财格' &&
+                  '异性缘佳，桃花较旺，需注意专一。'}
+                {patterns.main.chinese === '正印格' &&
+                  '精神契合重要，寻求灵魂伴侣，重视精神交流。'}
+                {patterns.main.chinese === '七杀格' &&
+                  '配偶性格强势，需要相互理解和包容。'}
+                {![
+                  '正官格',
+                  '正财格',
+                  '食神格',
+                  '伤官格',
+                  '偏财格',
+                  '正印格',
+                  '七杀格',
+                ].includes(patterns.main.chinese) &&
                   '您的格局对婚姻有独特影响，建议结合具体情况分析。'}
               </p>
             </div>
@@ -320,7 +354,8 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
               <h4 className="font-semibold text-indigo-900 mb-2">健康方面</h4>
               <p className="text-sm text-gray-700">
                 建议根据五行平衡状态调理身体，重点关注
-                {healthMarriage.healthFocus?.organs?.slice(0, 2).join('、') || '相关系统'}
+                {healthMarriage.healthFocus?.organs?.slice(0, 2).join('、') ||
+                  '相关系统'}
                 的保养。保持良好作息，适度运动，定期体检。
               </p>
             </div>
@@ -328,8 +363,8 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
             <div className="p-4 bg-white rounded-lg border border-indigo-200">
               <h4 className="font-semibold text-indigo-900 mb-2">婚姻方面</h4>
               <p className="text-sm text-gray-700">
-                {healthMarriage.marriage?.partnerProfile 
-                  ? `您的理想配偶特征为：${healthMarriage.marriage.partnerProfile.slice(0, 50)}...` 
+                {healthMarriage.marriage?.partnerProfile
+                  ? `您的理想配偶特征为：${healthMarriage.marriage.partnerProfile.slice(0, 50)}...`
                   : '建议寻找性格互补、志同道合的伴侣。'}
                 注重精神交流，培养共同兴趣，维系长久感情。
               </p>

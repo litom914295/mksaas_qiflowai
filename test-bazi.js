@@ -53,10 +53,26 @@ async function testBaziCalculation() {
         console.log('  姓名:', normalized.base.name);
         console.log('  日主:', normalized.base.dayMaster);
         console.log('  四柱:');
-        console.log('    年:', normalized.base.pillars.year.heavenlyStem + normalized.base.pillars.year.earthlyBranch);
-        console.log('    月:', normalized.base.pillars.month.heavenlyStem + normalized.base.pillars.month.earthlyBranch);
-        console.log('    日:', normalized.base.pillars.day.heavenlyStem + normalized.base.pillars.day.earthlyBranch);
-        console.log('    时:', normalized.base.pillars.hour.heavenlyStem + normalized.base.pillars.hour.earthlyBranch);
+        console.log(
+          '    年:',
+          normalized.base.pillars.year.heavenlyStem +
+            normalized.base.pillars.year.earthlyBranch
+        );
+        console.log(
+          '    月:',
+          normalized.base.pillars.month.heavenlyStem +
+            normalized.base.pillars.month.earthlyBranch
+        );
+        console.log(
+          '    日:',
+          normalized.base.pillars.day.heavenlyStem +
+            normalized.base.pillars.day.earthlyBranch
+        );
+        console.log(
+          '    时:',
+          normalized.base.pillars.hour.heavenlyStem +
+            normalized.base.pillars.hour.earthlyBranch
+        );
 
         console.log('\n✅ 测试通过！数据流程正常。');
       } else {

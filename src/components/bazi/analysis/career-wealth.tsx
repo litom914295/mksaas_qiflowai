@@ -35,7 +35,10 @@ export function CareerWealth({ data }: CareerWealthProps) {
   const career = insights.careerWealth;
 
   // 如果没有事业财运数据，显示默认提示
-  if (!career || (!career.suitableFields?.length && !career.positions?.length)) {
+  if (
+    !career ||
+    (!career.suitableFields?.length && !career.positions?.length)
+  ) {
     return (
       <Card>
         <CardContent className="pt-6">
@@ -71,9 +74,9 @@ export function CareerWealth({ data }: CareerWealthProps) {
                   {career.suitableFields?.length || 0} 个
                 </Badge>
               </div>
-              <Progress 
-                value={Math.min(100, (career.suitableFields?.length || 0) * 12)} 
-                className="h-2" 
+              <Progress
+                value={Math.min(100, (career.suitableFields?.length || 0) * 12)}
+                className="h-2"
               />
               <p className="text-xs text-gray-600 mt-2">
                 您适合多个职业发展领域
@@ -88,30 +91,29 @@ export function CareerWealth({ data }: CareerWealthProps) {
                   {career.opportunities?.length || 0} 项
                 </Badge>
               </div>
-              <Progress 
-                value={Math.min(100, (career.opportunities?.length || 0) * 12)} 
-                className="h-2" 
+              <Progress
+                value={Math.min(100, (career.opportunities?.length || 0) * 12)}
+                className="h-2"
               />
-              <p className="text-xs text-gray-600 mt-2">
-                潜在的发展机会与方向
-              </p>
+              <p className="text-xs text-gray-600 mt-2">潜在的发展机会与方向</p>
             </div>
 
             {/* 风险提示 */}
             <div className="p-4 bg-white rounded-lg shadow-sm">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-medium text-gray-800">风险提示</h4>
-                <Badge variant="outline" className="border-orange-300 text-orange-700">
+                <Badge
+                  variant="outline"
+                  className="border-orange-300 text-orange-700"
+                >
                   {career.risks?.length || 0} 项
                 </Badge>
               </div>
-              <Progress 
-                value={Math.min(100, (career.risks?.length || 0) * 15)} 
-                className="h-2" 
+              <Progress
+                value={Math.min(100, (career.risks?.length || 0) * 15)}
+                className="h-2"
               />
-              <p className="text-xs text-gray-600 mt-2">
-                需要注意的职业风险
-              </p>
+              <p className="text-xs text-gray-600 mt-2">需要注意的职业风险</p>
             </div>
           </div>
 
@@ -122,11 +124,9 @@ export function CareerWealth({ data }: CareerWealthProps) {
                 <Users className="w-4 h-4" />
                 工作风格
               </h4>
-              <p className="text-gray-700">
-                {career.workStyle || '待分析'}
-              </p>
+              <p className="text-gray-700">{career.workStyle || '待分析'}</p>
             </div>
-            
+
             <div className="p-4 rounded-lg bg-white border-2 border-amber-200">
               <h4 className="font-medium text-amber-900 mb-2 flex items-center gap-2">
                 <Wallet className="w-4 h-4" />
@@ -152,7 +152,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {career.suitableFields.map((field, idx) => (
-                <div 
+                <div
                   key={idx}
                   className="flex items-center gap-3 p-4 rounded-lg bg-blue-50 border border-blue-200 hover:shadow-md transition-shadow"
                 >
@@ -190,7 +190,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {career.positions.map((position, idx) => (
-                <Badge 
+                <Badge
                   key={idx}
                   className="px-4 py-2 text-sm bg-green-100 text-green-800 border border-green-300 hover:bg-green-200 transition-colors"
                 >
@@ -219,7 +219,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
             <CardContent>
               <div className="space-y-3">
                 {career.opportunities.map((opportunity, idx) => (
-                  <div 
+                  <div
                     key={idx}
                     className="flex items-start gap-3 p-3 rounded-lg bg-emerald-50 border border-emerald-200"
                   >
@@ -244,7 +244,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
             <CardContent>
               <div className="space-y-3">
                 {career.risks.map((risk, idx) => (
-                  <div 
+                  <div
                     key={idx}
                     className="flex items-start gap-3 p-3 rounded-lg bg-orange-50 border border-orange-200"
                   >
@@ -270,7 +270,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
           <CardContent>
             <div className="space-y-3">
               {career.keyPeriods.map((period, idx) => (
-                <div 
+                <div
                   key={idx}
                   className="flex items-start gap-3 p-4 rounded-lg bg-purple-50 border border-purple-200"
                 >
@@ -278,7 +278,10 @@ export function CareerWealth({ data }: CareerWealthProps) {
                   <div className="flex-1">
                     <p className="text-gray-800">{period}</p>
                   </div>
-                  <Badge variant="outline" className="bg-white text-purple-700 border-purple-300">
+                  <Badge
+                    variant="outline"
+                    className="bg-white text-purple-700 border-purple-300"
+                  >
                     关键期
                   </Badge>
                 </div>
@@ -314,17 +317,22 @@ export function CareerWealth({ data }: CareerWealthProps) {
               </h4>
               <div className="space-y-2">
                 {tenGods.profile
-                  .filter(god => god.chinese.includes('财'))
+                  .filter((god) => god.chinese.includes('财'))
                   .map((god, idx) => (
-                    <div key={idx} className="flex items-center justify-between">
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between"
+                    >
                       <span className="text-gray-700">{god.chinese}</span>
                       <div className="flex items-center gap-2">
                         <Progress value={god.strength} className="w-32 h-2" />
-                        <span className="text-sm text-gray-600">{god.strength}%</span>
+                        <span className="text-sm text-gray-600">
+                          {god.strength}%
+                        </span>
                       </div>
                     </div>
                   ))}
-                {!tenGods.profile.some(god => god.chinese.includes('财')) && (
+                {!tenGods.profile.some((god) => god.chinese.includes('财')) && (
                   <p className="text-sm text-gray-600">
                     八字中财星较弱，建议通过后天努力和时机把握来增强财运
                   </p>
@@ -340,17 +348,28 @@ export function CareerWealth({ data }: CareerWealthProps) {
               </h4>
               <div className="space-y-2">
                 {tenGods.profile
-                  .filter(god => god.chinese.includes('官') || god.chinese.includes('杀'))
+                  .filter(
+                    (god) =>
+                      god.chinese.includes('官') || god.chinese.includes('杀')
+                  )
                   .map((god, idx) => (
-                    <div key={idx} className="flex items-center justify-between">
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between"
+                    >
                       <span className="text-gray-700">{god.chinese}</span>
                       <div className="flex items-center gap-2">
                         <Progress value={god.strength} className="w-32 h-2" />
-                        <span className="text-sm text-gray-600">{god.strength}%</span>
+                        <span className="text-sm text-gray-600">
+                          {god.strength}%
+                        </span>
                       </div>
                     </div>
                   ))}
-                {!tenGods.profile.some(god => god.chinese.includes('官') || god.chinese.includes('杀')) && (
+                {!tenGods.profile.some(
+                  (god) =>
+                    god.chinese.includes('官') || god.chinese.includes('杀')
+                ) && (
                   <p className="text-sm text-gray-600">
                     八字中官星较弱，建议发展自由职业或创业，避免受制于人
                   </p>
@@ -365,10 +384,10 @@ export function CareerWealth({ data }: CareerWealthProps) {
                 综合建议
               </h4>
               <p className="text-sm text-gray-800">
-                根据您的八字配置，建议结合{patterns.main.chinese}的特点，
-                在{career.suitableFields?.[0] || '适合的领域'}中深耕发展。
-                注重{career.workStyle}的工作方式，
-                把握{career.keyPeriods?.[0] || '关键时期'}的发展机会。
+                根据您的八字配置，建议结合{patterns.main.chinese}的特点， 在
+                {career.suitableFields?.[0] || '适合的领域'}中深耕发展。 注重
+                {career.workStyle}的工作方式， 把握
+                {career.keyPeriods?.[0] || '关键时期'}的发展机会。
               </p>
             </div>
           </div>

@@ -23,9 +23,10 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   // 获取国际化消息（仅在开发环境记录性能）
-  const startTime = process.env.NODE_ENV === 'development' ? performance.now() : 0;
+  const startTime =
+    process.env.NODE_ENV === 'development' ? performance.now() : 0;
   const messages = await getMessages();
-  
+
   if (process.env.NODE_ENV === 'development' && startTime > 0) {
     const duration = performance.now() - startTime;
     console.log(`[i18n] getMessages took ${duration.toFixed(2)}ms`);

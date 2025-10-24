@@ -30,12 +30,31 @@ interface ElementsAnalysisProps {
 }
 
 // 五行颜色映射
-const elementColors: Record<string, {bg: string, text: string, border: string}> = {
-  wood: { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300' },
+const elementColors: Record<
+  string,
+  { bg: string; text: string; border: string }
+> = {
+  wood: {
+    bg: 'bg-green-100',
+    text: 'text-green-800',
+    border: 'border-green-300',
+  },
   fire: { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-300' },
-  earth: { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300' },
-  metal: { bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-300' },
-  water: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300' },
+  earth: {
+    bg: 'bg-yellow-100',
+    text: 'text-yellow-800',
+    border: 'border-yellow-300',
+  },
+  metal: {
+    bg: 'bg-gray-100',
+    text: 'text-gray-800',
+    border: 'border-gray-300',
+  },
+  water: {
+    bg: 'bg-blue-100',
+    text: 'text-blue-800',
+    border: 'border-blue-300',
+  },
 };
 
 // 五行中文映射
@@ -76,26 +95,26 @@ const elementRelations = {
 
 // 地支藏干
 const hiddenStems: Record<string, string[]> = {
-  '子': ['癸'],
-  '丑': ['己', '癸', '辛'],
-  '寅': ['甲', '丙', '戊'],
-  '卯': ['乙'],
-  '辰': ['戊', '乙', '癸'],
-  '巳': ['丙', '庚', '戊'],
-  '午': ['丁', '己'],
-  '未': ['己', '丁', '乙'],
-  '申': ['庚', '壬', '戊'],
-  '酉': ['辛'],
-  '戌': ['戊', '辛', '丁'],
-  '亥': ['壬', '甲'],
+  子: ['癸'],
+  丑: ['己', '癸', '辛'],
+  寅: ['甲', '丙', '戊'],
+  卯: ['乙'],
+  辰: ['戊', '乙', '癸'],
+  巳: ['丙', '庚', '戊'],
+  午: ['丁', '己'],
+  未: ['己', '丁', '乙'],
+  申: ['庚', '壬', '戊'],
+  酉: ['辛'],
+  戌: ['戊', '辛', '丁'],
+  亥: ['壬', '甲'],
 };
 
 // 月令旺相休囚死
 const monthlyStates = {
-  '春': { wang: '木', xiang: '火', xiu: '水', qiu: '金', si: '土' },
-  '夏': { wang: '火', xiang: '土', xiu: '木', qiu: '水', si: '金' },
-  '秋': { wang: '金', xiang: '水', xiu: '土', qiu: '火', si: '木' },
-  '冬': { wang: '水', xiang: '木', xiu: '金', qiu: '土', si: '火' },
+  春: { wang: '木', xiang: '火', xiu: '水', qiu: '金', si: '土' },
+  夏: { wang: '火', xiang: '土', xiu: '木', qiu: '水', si: '金' },
+  秋: { wang: '金', xiang: '水', xiu: '土', qiu: '火', si: '木' },
+  冬: { wang: '水', xiang: '木', xiu: '金', qiu: '土', si: '火' },
 };
 
 export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
@@ -118,11 +137,17 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
   const seasonalState = monthlyStates[season];
 
   // 计算五行相对强度
-  const getStrengthLevel = (score: number): {label: string, color: string, icon: any} => {
-    if (score >= 30) return { label: '极旺', color: 'text-green-600', icon: TrendingUp };
-    if (score >= 20) return { label: '偏旺', color: 'text-blue-600', icon: ArrowUp };
-    if (score >= 15) return { label: '平和', color: 'text-gray-600', icon: ArrowRight };
-    if (score >= 10) return { label: '偏弱', color: 'text-orange-600', icon: ArrowDown };
+  const getStrengthLevel = (
+    score: number
+  ): { label: string; color: string; icon: any } => {
+    if (score >= 30)
+      return { label: '极旺', color: 'text-green-600', icon: TrendingUp };
+    if (score >= 20)
+      return { label: '偏旺', color: 'text-blue-600', icon: ArrowUp };
+    if (score >= 15)
+      return { label: '平和', color: 'text-gray-600', icon: ArrowRight };
+    if (score >= 10)
+      return { label: '偏弱', color: 'text-orange-600', icon: ArrowDown };
     return { label: '极弱', color: 'text-red-600', icon: TrendingDown };
   };
 
@@ -147,10 +172,14 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                 <div key={element} className="space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-lg">{elementIcons[elementNames[element]]}</span>
-                      <span className="font-medium">{elementNames[element]}</span>
-                      <Badge 
-                        variant="outline" 
+                      <span className="text-lg">
+                        {elementIcons[elementNames[element]]}
+                      </span>
+                      <span className="font-medium">
+                        {elementNames[element]}
+                      </span>
+                      <Badge
+                        variant="outline"
                         className={`${colors.bg} ${colors.text} ${colors.border}`}
                       >
                         {score}%
@@ -185,12 +214,14 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                 <div>
                   <p className="font-medium text-orange-800">五行失衡</p>
                   <div className="text-sm text-gray-700 mt-1 space-y-1">
-                    {metrics.balance.excess && metrics.balance.excess.length > 0 && (
-                      <p>• 过旺五行: {metrics.balance.excess.join('、')}</p>
-                    )}
-                    {metrics.balance.shortage && metrics.balance.shortage.length > 0 && (
-                      <p>• 不足五行: {metrics.balance.shortage.join('、')}</p>
-                    )}
+                    {metrics.balance.excess &&
+                      metrics.balance.excess.length > 0 && (
+                        <p>• 过旺五行: {metrics.balance.excess.join('、')}</p>
+                      )}
+                    {metrics.balance.shortage &&
+                      metrics.balance.shortage.length > 0 && (
+                        <p>• 不足五行: {metrics.balance.shortage.join('、')}</p>
+                      )}
                     <p className="mt-2 text-orange-700">
                       建议通过补足不足五行来达到平衡,可参考用神建议。
                     </p>
@@ -222,7 +253,8 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {['year', 'month', 'day', 'hour'].map((pillar, index) => {
-                  const pillarData = base.pillars[pillar as keyof typeof base.pillars];
+                  const pillarData =
+                    base.pillars[pillar as keyof typeof base.pillars];
                   const branch = pillarData.earthlyBranch;
                   const stems = hiddenStems[branch] || [];
                   const pillarNames = ['年支', '月支', '日支', '时支'];
@@ -240,14 +272,16 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                           <div className="text-sm text-gray-600">藏干:</div>
                           <div className="space-y-1">
                             {stems.map((stem, idx) => (
-                              <Badge 
-                                key={idx} 
-                                variant="outline" 
+                              <Badge
+                                key={idx}
+                                variant="outline"
                                 className="text-sm mx-0.5"
                               >
                                 {stem}
                                 {idx === 0 && stems.length > 1 && ' (本气)'}
-                                {idx === stems.length - 1 && stems.length > 2 && ' (余气)'}
+                                {idx === stems.length - 1 &&
+                                  stems.length > 2 &&
+                                  ' (余气)'}
                               </Badge>
                             ))}
                           </div>
@@ -303,24 +337,51 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                 {/* 五行状态 */}
                 <div className="grid grid-cols-5 gap-3">
                   {[
-                    { state: '旺', key: 'wang', desc: '当令最强', color: 'bg-green-100 text-green-800 border-green-300' },
-                    { state: '相', key: 'xiang', desc: '次强', color: 'bg-blue-100 text-blue-800 border-blue-300' },
-                    { state: '休', key: 'xiu', desc: '平常', color: 'bg-gray-100 text-gray-800 border-gray-300' },
-                    { state: '囚', key: 'qiu', desc: '较弱', color: 'bg-orange-100 text-orange-800 border-orange-300' },
-                    { state: '死', key: 'si', desc: '最弱', color: 'bg-red-100 text-red-800 border-red-300' },
+                    {
+                      state: '旺',
+                      key: 'wang',
+                      desc: '当令最强',
+                      color: 'bg-green-100 text-green-800 border-green-300',
+                    },
+                    {
+                      state: '相',
+                      key: 'xiang',
+                      desc: '次强',
+                      color: 'bg-blue-100 text-blue-800 border-blue-300',
+                    },
+                    {
+                      state: '休',
+                      key: 'xiu',
+                      desc: '平常',
+                      color: 'bg-gray-100 text-gray-800 border-gray-300',
+                    },
+                    {
+                      state: '囚',
+                      key: 'qiu',
+                      desc: '较弱',
+                      color: 'bg-orange-100 text-orange-800 border-orange-300',
+                    },
+                    {
+                      state: '死',
+                      key: 'si',
+                      desc: '最弱',
+                      color: 'bg-red-100 text-red-800 border-red-300',
+                    },
                   ].map(({ state, key, desc, color }) => (
                     <div key={state} className="text-center">
                       <div className={`p-3 rounded-lg border-2 ${color}`}>
                         <div className="font-bold text-lg mb-1">{state}</div>
                         <div className="text-2xl mb-2">
-                          {elementIcons[seasonalState[key as keyof typeof seasonalState]]}
+                          {
+                            elementIcons[
+                              seasonalState[key as keyof typeof seasonalState]
+                            ]
+                          }
                         </div>
                         <div className="text-xs font-medium">
                           {seasonalState[key as keyof typeof seasonalState]}
                         </div>
-                        <div className="text-xs text-gray-600 mt-1">
-                          {desc}
-                        </div>
+                        <div className="text-xs text-gray-600 mt-1">{desc}</div>
                       </div>
                     </div>
                   ))}
@@ -338,10 +399,19 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                     <p>• 休囚死的五行失月令之力,需其他支撑</p>
                     <p className="mt-2 text-blue-800">
                       您的日主{base.dayMaster.chinese}在{season}季
-                      {seasonalState.wang === elementNames[base.dayMaster.element] ? '得令而旺' : 
-                       seasonalState.xiang === elementNames[base.dayMaster.element] ? '得生而相' :
-                       seasonalState.xiu === elementNames[base.dayMaster.element] ? '泄气为休' :
-                       seasonalState.qiu === elementNames[base.dayMaster.element] ? '受克为囚' : '克令为死'}
+                      {seasonalState.wang ===
+                      elementNames[base.dayMaster.element]
+                        ? '得令而旺'
+                        : seasonalState.xiang ===
+                            elementNames[base.dayMaster.element]
+                          ? '得生而相'
+                          : seasonalState.xiu ===
+                              elementNames[base.dayMaster.element]
+                            ? '泄气为休'
+                            : seasonalState.qiu ===
+                                elementNames[base.dayMaster.element]
+                              ? '受克为囚'
+                              : '克令为死'}
                     </p>
                   </div>
                 </div>
@@ -368,21 +438,37 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                     五行相生(生助关系)
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
-                    {['wood', 'fire', 'earth', 'metal', 'water'].map((element) => {
-                      const generates = elementRelations.generates[element as keyof typeof elementRelations.generates];
-                      return (
-                        <div key={element} className="p-3 rounded-lg bg-green-50 border border-green-200">
-                          <div className="text-center space-y-1">
-                            <div className="text-2xl">{elementIcons[elementNames[element]]}</div>
-                            <div className="text-sm font-medium">{elementNames[element]}</div>
-                            <ArrowDown className="w-4 h-4 mx-auto text-green-600" />
-                            <div className="text-xs text-gray-600">生</div>
-                            <div className="text-2xl">{elementIcons[elementNames[generates]]}</div>
-                            <div className="text-sm font-medium">{elementNames[generates]}</div>
+                    {['wood', 'fire', 'earth', 'metal', 'water'].map(
+                      (element) => {
+                        const generates =
+                          elementRelations.generates[
+                            element as keyof typeof elementRelations.generates
+                          ];
+                        return (
+                          <div
+                            key={element}
+                            className="p-3 rounded-lg bg-green-50 border border-green-200"
+                          >
+                            <div className="text-center space-y-1">
+                              <div className="text-2xl">
+                                {elementIcons[elementNames[element]]}
+                              </div>
+                              <div className="text-sm font-medium">
+                                {elementNames[element]}
+                              </div>
+                              <ArrowDown className="w-4 h-4 mx-auto text-green-600" />
+                              <div className="text-xs text-gray-600">生</div>
+                              <div className="text-2xl">
+                                {elementIcons[elementNames[generates]]}
+                              </div>
+                              <div className="text-sm font-medium">
+                                {elementNames[generates]}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      }
+                    )}
                   </div>
                   <p className="text-sm text-gray-600 mt-3">
                     木生火 → 火生土 → 土生金 → 金生水 → 水生木
@@ -396,21 +482,37 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                     五行相克(克制关系)
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
-                    {['wood', 'fire', 'earth', 'metal', 'water'].map((element) => {
-                      const controls = elementRelations.controls[element as keyof typeof elementRelations.controls];
-                      return (
-                        <div key={element} className="p-3 rounded-lg bg-red-50 border border-red-200">
-                          <div className="text-center space-y-1">
-                            <div className="text-2xl">{elementIcons[elementNames[element]]}</div>
-                            <div className="text-sm font-medium">{elementNames[element]}</div>
-                            <Zap className="w-4 h-4 mx-auto text-red-600" />
-                            <div className="text-xs text-gray-600">克</div>
-                            <div className="text-2xl">{elementIcons[elementNames[controls]]}</div>
-                            <div className="text-sm font-medium">{elementNames[controls]}</div>
+                    {['wood', 'fire', 'earth', 'metal', 'water'].map(
+                      (element) => {
+                        const controls =
+                          elementRelations.controls[
+                            element as keyof typeof elementRelations.controls
+                          ];
+                        return (
+                          <div
+                            key={element}
+                            className="p-3 rounded-lg bg-red-50 border border-red-200"
+                          >
+                            <div className="text-center space-y-1">
+                              <div className="text-2xl">
+                                {elementIcons[elementNames[element]]}
+                              </div>
+                              <div className="text-sm font-medium">
+                                {elementNames[element]}
+                              </div>
+                              <Zap className="w-4 h-4 mx-auto text-red-600" />
+                              <div className="text-xs text-gray-600">克</div>
+                              <div className="text-2xl">
+                                {elementIcons[elementNames[controls]]}
+                              </div>
+                              <div className="text-sm font-medium">
+                                {elementNames[controls]}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      }
+                    )}
                   </div>
                   <p className="text-sm text-gray-600 mt-3">
                     木克土 → 土克水 → 水克火 → 火克金 → 金克木
@@ -424,11 +526,21 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                     生克在命理中的应用
                   </h4>
                   <div className="text-sm text-gray-700 space-y-1">
-                    <p>• <strong>生我者</strong>为印星,给予支持和庇护</p>
-                    <p>• <strong>我生者</strong>为食伤,代表才华和输出</p>
-                    <p>• <strong>克我者</strong>为官杀,带来压力和规范</p>
-                    <p>• <strong>我克者</strong>为财星,表示财富和管理</p>
-                    <p>• <strong>同我者</strong>为比劫,象征竞争和助力</p>
+                    <p>
+                      • <strong>生我者</strong>为印星,给予支持和庇护
+                    </p>
+                    <p>
+                      • <strong>我生者</strong>为食伤,代表才华和输出
+                    </p>
+                    <p>
+                      • <strong>克我者</strong>为官杀,带来压力和规范
+                    </p>
+                    <p>
+                      • <strong>我克者</strong>为财星,表示财富和管理
+                    </p>
+                    <p>
+                      • <strong>同我者</strong>为比劫,象征竞争和助力
+                    </p>
                   </div>
                 </div>
               </div>

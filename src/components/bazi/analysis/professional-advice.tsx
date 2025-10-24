@@ -41,40 +41,40 @@ function generateFortuneSuggestions(data: BaziAnalysisModel) {
   const suggestions = [];
   const favorable = data.useful.favorableElements;
   const unfavorable = data.useful.unfavorableElements;
-  
+
   // 根据用神生成建议
   if (favorable.length > 0) {
     const primaryElement = favorable[0];
     const elementAdvice = {
-      '金': {
+      金: {
         colors: ['白色', '金色', '银色'],
         directions: ['西', '西北'],
         industries: ['金融', '科技', '制造'],
         items: ['金属饰品', '白水晶', '钟表'],
         activities: ['投资理财', '学习技术', '佩戴金饰'],
       },
-      '木': {
+      木: {
         colors: ['绿色', '青色', '翠绿'],
         directions: ['东', '东南'],
         industries: ['教育', '医疗', '园艺'],
         items: ['绿植', '木制品', '书籍'],
         activities: ['种植花草', '晨练运动', '读书学习'],
       },
-      '水': {
+      水: {
         colors: ['黑色', '蓝色', '灰色'],
         directions: ['北'],
         industries: ['贸易', '物流', '传媒'],
         items: ['鱼缸', '流水摆件', '黑曜石'],
         activities: ['游泳', '旅行', '饮水养生'],
       },
-      '火': {
+      火: {
         colors: ['红色', '紫色', '橙色'],
         directions: ['南'],
         industries: ['娱乐', '餐饮', '能源'],
         items: ['红色饰品', '灯具', '电器'],
         activities: ['社交聚会', '艺术创作', '烹饪美食'],
       },
-      '土': {
+      土: {
         colors: ['黄色', '棕色', '咖啡色'],
         directions: ['中央', '东北', '西南'],
         industries: ['房地产', '建筑', '农业'],
@@ -82,8 +82,9 @@ function generateFortuneSuggestions(data: BaziAnalysisModel) {
         activities: ['登山', '园艺', '冥想'],
       },
     };
-    
-    const advice = elementAdvice[primaryElement.chinese as keyof typeof elementAdvice];
+
+    const advice =
+      elementAdvice[primaryElement.chinese as keyof typeof elementAdvice];
     if (advice) {
       suggestions.push({
         type: 'favorable',
@@ -92,7 +93,7 @@ function generateFortuneSuggestions(data: BaziAnalysisModel) {
       });
     }
   }
-  
+
   // 根据忌神生成化解建议
   if (unfavorable.length > 0) {
     const primaryUnfavorable = unfavorable[0];
@@ -102,14 +103,14 @@ function generateFortuneSuggestions(data: BaziAnalysisModel) {
       advice: `避免过多接触${primaryUnfavorable.chinese}属性的环境和事物`,
     });
   }
-  
+
   return suggestions;
 }
 
 // 生成改运方案
 function generateImprovementPlan(data: BaziAnalysisModel) {
   const plans = [];
-  
+
   // 根据五行平衡状态
   if (data.metrics.balance.status === 'imbalanced') {
     plans.push({
@@ -122,48 +123,42 @@ function generateImprovementPlan(data: BaziAnalysisModel) {
       ],
     });
   }
-  
+
   // 根据十神配置
-  const hasWealth = data.tenGods.profile.some(god => 
-    god.chinese.includes('财') && god.count > 0
+  const hasWealth = data.tenGods.profile.some(
+    (god) => god.chinese.includes('财') && god.count > 0
   );
-  const hasOfficial = data.tenGods.profile.some(god => 
-    (god.chinese.includes('官') || god.chinese.includes('杀')) && god.count > 0
+  const hasOfficial = data.tenGods.profile.some(
+    (god) =>
+      (god.chinese.includes('官') || god.chinese.includes('杀')) &&
+      god.count > 0
   );
-  
+
   if (!hasWealth) {
     plans.push({
       title: '增强财运',
       priority: 'medium',
-      actions: [
-        '佩戴招财饰品',
-        '调整办公室风水',
-        '培养理财意识',
-      ],
+      actions: ['佩戴招财饰品', '调整办公室风水', '培养理财意识'],
     });
   }
-  
+
   if (!hasOfficial) {
     plans.push({
       title: '提升事业运',
       priority: 'medium',
-      actions: [
-        '增强个人能力',
-        '扩展人脉关系',
-        '把握关键时机',
-      ],
+      actions: ['增强个人能力', '扩展人脉关系', '把握关键时机'],
     });
   }
-  
+
   return plans;
 }
 
 export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
   const [activeTab, setActiveTab] = useState('fortune');
-  
+
   const fortuneSuggestions = generateFortuneSuggestions(data);
   const improvementPlans = generateImprovementPlan(data);
-  
+
   return (
     <div className="space-y-6">
       {/* 整体运势评估 */}
@@ -185,17 +180,15 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                 {data.metrics.overall.level}
               </Badge>
             </div>
-            
+
             <div className="text-center p-4 bg-white rounded-lg">
               <div className="text-2xl font-bold text-blue-600 mb-1">
                 {data.useful.favorableElements[0]?.chinese || '水'}
               </div>
               <div className="text-sm text-gray-600">用神元素</div>
-              <Badge className="mt-2 bg-blue-100 text-blue-700">
-                重点补充
-              </Badge>
+              <Badge className="mt-2 bg-blue-100 text-blue-700">重点补充</Badge>
             </div>
-            
+
             <div className="text-center p-4 bg-white rounded-lg">
               <div className="text-2xl font-bold text-green-600 mb-1">
                 {data.metrics.balance.status === 'balanced' ? '平衡' : '待调'}
@@ -221,11 +214,14 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
         {/* 开运方法 */}
         <TabsContent value="fortune" className="space-y-4 mt-4">
           {fortuneSuggestions.map((suggestion, idx) => (
-            <Card key={idx} className={
-              suggestion.type === 'favorable' 
-                ? 'border-green-200 bg-gradient-to-r from-green-50 to-emerald-50'
-                : 'border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50'
-            }>
+            <Card
+              key={idx}
+              className={
+                suggestion.type === 'favorable'
+                  ? 'border-green-200 bg-gradient-to-r from-green-50 to-emerald-50'
+                  : 'border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50'
+              }
+            >
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   {suggestion.type === 'favorable' ? (
@@ -251,49 +247,60 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                           幸运颜色
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {('colors' in suggestion ? suggestion.colors : []).map((color: string, i: number) => (
+                          {('colors' in suggestion
+                            ? suggestion.colors
+                            : []
+                          ).map((color: string, i: number) => (
                             <Badge key={i} variant="outline">
                               {color}
                             </Badge>
                           ))}
                         </div>
                       </div>
-                      
+
                       <div>
                         <h4 className="font-medium mb-2 flex items-center gap-1">
                           <Compass className="w-4 h-4" />
                           吉利方位
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {('directions' in suggestion ? suggestion.directions : []).map((dir: string, i: number) => (
+                          {('directions' in suggestion
+                            ? suggestion.directions
+                            : []
+                          ).map((dir: string, i: number) => (
                             <Badge key={i} variant="outline">
                               {dir}方
                             </Badge>
                           ))}
                         </div>
                       </div>
-                      
+
                       <div>
                         <h4 className="font-medium mb-2 flex items-center gap-1">
                           <Gem className="w-4 h-4" />
                           开运物品
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {('items' in suggestion ? suggestion.items : []).map((item: string, i: number) => (
-                            <Badge key={i} variant="outline">
-                              {item}
-                            </Badge>
-                          ))}
+                          {('items' in suggestion ? suggestion.items : []).map(
+                            (item: string, i: number) => (
+                              <Badge key={i} variant="outline">
+                                {item}
+                              </Badge>
+                            )
+                          )}
                         </div>
                       </div>
-                      
+
                       <div>
                         <h4 className="font-medium mb-2 flex items-center gap-1">
                           <Target className="w-4 h-4" />
                           适合行业
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {('industries' in suggestion ? suggestion.industries : []).map((industry: string, i: number) => (
+                          {('industries' in suggestion
+                            ? suggestion.industries
+                            : []
+                          ).map((industry: string, i: number) => (
                             <Badge key={i} variant="outline">
                               {industry}
                             </Badge>
@@ -301,14 +308,17 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h4 className="font-medium mb-2 flex items-center gap-1">
                         <Zap className="w-4 h-4" />
                         建议活动
                       </h4>
                       <ul className="space-y-1 text-sm text-gray-700">
-                        {('activities' in suggestion ? suggestion.activities : []).map((activity: string, i: number) => (
+                        {('activities' in suggestion
+                          ? suggestion.activities
+                          : []
+                        ).map((activity: string, i: number) => (
                           <li key={i} className="flex items-center gap-2">
                             <CheckCircle className="w-3 h-3 text-green-600" />
                             {activity}
@@ -318,7 +328,7 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                     </div>
                   </>
                 )}
-                
+
                 {suggestion.type === 'avoid' && (
                   <p className="text-gray-700">{suggestion.advice}</p>
                 )}
@@ -337,13 +347,20 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                     <Shield className="w-5 h-5 text-blue-600" />
                     {plan.title}
                   </span>
-                  <Badge variant={
-                    plan.priority === 'high' ? 'destructive' :
-                    plan.priority === 'medium' ? 'default' :
-                    'secondary'
-                  }>
-                    {plan.priority === 'high' ? '重要' :
-                     plan.priority === 'medium' ? '建议' : '可选'}
+                  <Badge
+                    variant={
+                      plan.priority === 'high'
+                        ? 'destructive'
+                        : plan.priority === 'medium'
+                          ? 'default'
+                          : 'secondary'
+                    }
+                  >
+                    {plan.priority === 'high'
+                      ? '重要'
+                      : plan.priority === 'medium'
+                        ? '建议'
+                        : '可选'}
                   </Badge>
                 </CardTitle>
               </CardHeader>
@@ -359,7 +376,7 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
               </CardContent>
             </Card>
           ))}
-          
+
           {/* 执行时间建议 */}
           <Card className="border-purple-200">
             <CardHeader>
@@ -404,24 +421,34 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                     财位布局
                   </h4>
                   <ul className="space-y-1 text-sm text-gray-700">
-                    <li>• 客厅{data.useful.favorableElements[0]?.suggestions?.directions?.[0] || '东南'}角摆放绿植</li>
+                    <li>
+                      • 客厅
+                      {data.useful.favorableElements[0]?.suggestions
+                        ?.directions?.[0] || '东南'}
+                      角摆放绿植
+                    </li>
                     <li>• 保持光线明亮通透</li>
                     <li>• 避免杂物堆积</li>
                   </ul>
                 </div>
-                
+
                 <div className="p-4 bg-purple-50 rounded-lg">
                   <h4 className="font-medium mb-2 flex items-center gap-2">
                     <Users className="w-4 h-4" />
                     文昌位布局
                   </h4>
                   <ul className="space-y-1 text-sm text-gray-700">
-                    <li>• 书房设在{data.useful.favorableElements[0]?.suggestions?.directions?.[1] || '东北'}方</li>
+                    <li>
+                      • 书房设在
+                      {data.useful.favorableElements[0]?.suggestions
+                        ?.directions?.[1] || '东北'}
+                      方
+                    </li>
                     <li>• 摆放文昌塔或毛笔</li>
                     <li>• 保持整洁有序</li>
                   </ul>
                 </div>
-                
+
                 <div className="p-4 bg-green-50 rounded-lg">
                   <h4 className="font-medium mb-2 flex items-center gap-2">
                     <Leaf className="w-4 h-4" />
@@ -433,7 +460,7 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                     <li>• 保持空气流通</li>
                   </ul>
                 </div>
-                
+
                 <div className="p-4 bg-amber-50 rounded-lg">
                   <h4 className="font-medium mb-2 flex items-center gap-2">
                     <Star className="w-4 h-4" />
@@ -446,16 +473,21 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                   </ul>
                 </div>
               </div>
-              
+
               <div className="p-4 bg-yellow-50 rounded-lg">
                 <h4 className="font-medium mb-2">化煞建议</h4>
                 <p className="text-sm text-gray-700">
                   根据您的八字，建议在家中
-                  {data.useful.unfavorableElements[0]?.chinese === '金' && '避免过多金属装饰'}
-                  {data.useful.unfavorableElements[0]?.chinese === '木' && '减少木质家具'}
-                  {data.useful.unfavorableElements[0]?.chinese === '水' && '控制水景装饰'}
-                  {data.useful.unfavorableElements[0]?.chinese === '火' && '避免红色装饰过多'}
-                  {data.useful.unfavorableElements[0]?.chinese === '土' && '减少陶瓷摆件'}
+                  {data.useful.unfavorableElements[0]?.chinese === '金' &&
+                    '避免过多金属装饰'}
+                  {data.useful.unfavorableElements[0]?.chinese === '木' &&
+                    '减少木质家具'}
+                  {data.useful.unfavorableElements[0]?.chinese === '水' &&
+                    '控制水景装饰'}
+                  {data.useful.unfavorableElements[0]?.chinese === '火' &&
+                    '避免红色装饰过多'}
+                  {data.useful.unfavorableElements[0]?.chinese === '土' &&
+                    '减少陶瓷摆件'}
                   ，可在相应位置摆放化煞物品。
                 </p>
               </div>
@@ -491,7 +523,7 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                     </li>
                   </ul>
                 </div>
-                
+
                 <div className="p-4 bg-blue-50 rounded-lg">
                   <h4 className="font-medium mb-2">饮食调理</h4>
                   <ul className="space-y-1 text-sm text-gray-700">
@@ -561,7 +593,7 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                     </li>
                   </ul>
                 </div>
-                
+
                 <div className="p-4 bg-purple-50 rounded-lg">
                   <h4 className="font-medium mb-2">心理调节</h4>
                   <ul className="space-y-1 text-sm text-gray-700">
@@ -579,13 +611,16 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                     </li>
                   </ul>
                 </div>
-                
+
                 <div className="p-4 bg-orange-50 rounded-lg">
                   <h4 className="font-medium mb-2">社交建议</h4>
                   <ul className="space-y-1 text-sm text-gray-700">
                     <li className="flex items-center gap-2">
                       <CheckCircle className="w-3 h-3 text-orange-600" />
-                      贵人方位：{data.useful.favorableElements[0]?.suggestions?.directions?.[0] || '东南'}方
+                      贵人方位：
+                      {data.useful.favorableElements[0]?.suggestions
+                        ?.directions?.[0] || '东南'}
+                      方
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle className="w-3 h-3 text-orange-600" />
@@ -600,7 +635,7 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
               </div>
             </CardContent>
           </Card>
-          
+
           {/* 21天改运计划 */}
           <Card className="border-2 border-amber-200">
             <CardHeader>
@@ -613,34 +648,40 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
               <div className="space-y-3">
                 <div className="p-3 bg-amber-50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium">第1-7天：环境调整期</span>
+                    <span className="text-sm font-medium">
+                      第1-7天：环境调整期
+                    </span>
                     <Badge variant="outline">基础</Badge>
                   </div>
                   <p className="text-sm text-gray-600">
                     清理居住环境，调整风水布局，佩戴开运饰品
                   </p>
                 </div>
-                
+
                 <div className="p-3 bg-amber-50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium">第8-14天：习惯养成期</span>
+                    <span className="text-sm font-medium">
+                      第8-14天：习惯养成期
+                    </span>
                     <Badge variant="outline">进阶</Badge>
                   </div>
                   <p className="text-sm text-gray-600">
                     调整作息时间，改善饮食习惯，开始冥想练习
                   </p>
                 </div>
-                
+
                 <div className="p-3 bg-amber-50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium">第15-21天：能量提升期</span>
+                    <span className="text-sm font-medium">
+                      第15-21天：能量提升期
+                    </span>
                     <Badge variant="outline">巩固</Badge>
                   </div>
                   <p className="text-sm text-gray-600">
                     保持良好状态，观察改变，记录进步，调整优化
                   </p>
                 </div>
-                
+
                 <div className="mt-4">
                   <Progress value={33} className="h-2" />
                   <p className="text-xs text-gray-600 mt-2">

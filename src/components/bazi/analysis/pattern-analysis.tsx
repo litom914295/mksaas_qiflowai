@@ -25,18 +25,22 @@ interface PatternAnalysisProps {
 }
 
 // 格局详细信息库
-const patternInfo: Record<string, {
-  description: string;
-  conditions: string[];
-  characteristics: string[];
-  yongshen: string[];
-  jishen: string[];
-  strengths: string[];
-  weaknesses: string[];
-  recommendations: string[];
-}> = {
-  '正官格': {
-    description: '正官透出有力,品行端正,责任心强,适合从事管理、公职等稳定工作。',
+const patternInfo: Record<
+  string,
+  {
+    description: string;
+    conditions: string[];
+    characteristics: string[];
+    yongshen: string[];
+    jishen: string[];
+    strengths: string[];
+    weaknesses: string[];
+    recommendations: string[];
+  }
+> = {
+  正官格: {
+    description:
+      '正官透出有力,品行端正,责任心强,适合从事管理、公职等稳定工作。',
     conditions: [
       '月令或月干透正官',
       '正官有力不受伤',
@@ -61,7 +65,7 @@ const patternInfo: Record<string, {
       '避免过于冒险的投资',
     ],
   },
-  '正财格': {
+  正财格: {
     description: '正财透出有根,理财能力强,勤俭持家,财运稳定,适合实业经营。',
     conditions: [
       '月令或月干透正财',
@@ -87,8 +91,9 @@ const patternInfo: Record<string, {
       '避免与人合伙容易产生纠纷',
     ],
   },
-  '食神格': {
-    description: '食神透出有力,心地善良,才华横溢,享受生活,适合艺术创作、餐饮服务等。',
+  食神格: {
+    description:
+      '食神透出有力,心地善良,才华横溢,享受生活,适合艺术创作、餐饮服务等。',
     conditions: [
       '月令或月干透食神',
       '日主中和或略强',
@@ -113,7 +118,7 @@ const patternInfo: Record<string, {
       '避免过度享乐',
     ],
   },
-  '伤官格': {
+  伤官格: {
     description: '伤官透出有力,聪明伶俐,才华横溢,但性格叛逆,需要得当引导。',
     conditions: [
       '月令或月干透伤官',
@@ -139,14 +144,9 @@ const patternInfo: Record<string, {
       '避免官非是非',
     ],
   },
-  '偏财格': {
+  偏财格: {
     description: '偏财透出有力,财运机遇多,善于交际,适合商业投资、金融贸易等。',
-    conditions: [
-      '月令或月干透偏财',
-      '日主强旺',
-      '财星不过旺',
-      '有食伤生财',
-    ],
+    conditions: ['月令或月干透偏财', '日主强旺', '财星不过旺', '有食伤生财'],
     characteristics: [
       '善于把握机会',
       '交际能力强',
@@ -165,8 +165,9 @@ const patternInfo: Record<string, {
       '注意财务安全',
     ],
   },
-  '正印格': {
-    description: '正印透出有力,品行端正,学识渊博,仁慈宽厚,适合教育、文化等工作。',
+  正印格: {
+    description:
+      '正印透出有力,品行端正,学识渊博,仁慈宽厚,适合教育、文化等工作。',
     conditions: [
       '月令或月干透正印',
       '印星有力不过旺',
@@ -191,7 +192,7 @@ const patternInfo: Record<string, {
       '培养独立能力',
     ],
   },
-  '七杀格': {
+  七杀格: {
     description: '七杀透出有力,性格刚强,有魄力和执行力,适合军警、竞争性行业。',
     conditions: [
       '月令或月干透七杀',
@@ -222,35 +223,43 @@ const patternInfo: Record<string, {
 export function PatternAnalysis({ data }: PatternAnalysisProps) {
   const { patterns, metrics, useful } = data;
   const mainPattern = patterns.main;
-  const patternDetails = patternInfo[mainPattern.chinese] || patternInfo[mainPattern.name];
+  const patternDetails =
+    patternInfo[mainPattern.chinese] || patternInfo[mainPattern.name];
 
   // 格局层次评定
-  const getPatternLevel = (score: number): {label: string, color: string, description: string} => {
-    if (score >= 90) return {
-      label: '上上格',
-      color: 'text-purple-700',
-      description: '格局纯正,层次极高,一生福禄双全',
-    };
-    if (score >= 80) return {
-      label: '上格',
-      color: 'text-blue-700',
-      description: '格局清纯,层次很高,事业有成',
-    };
-    if (score >= 70) return {
-      label: '中上格',
-      color: 'text-green-700',
-      description: '格局良好,层次较高,稳步发展',
-    };
-    if (score >= 60) return {
-      label: '中格',
-      color: 'text-yellow-700',
-      description: '格局中等,有成就机会',
-    };
-    if (score >= 50) return {
-      label: '中下格',
-      color: 'text-orange-700',
-      description: '格局一般,需努力奋斗',
-    };
+  const getPatternLevel = (
+    score: number
+  ): { label: string; color: string; description: string } => {
+    if (score >= 90)
+      return {
+        label: '上上格',
+        color: 'text-purple-700',
+        description: '格局纯正,层次极高,一生福禄双全',
+      };
+    if (score >= 80)
+      return {
+        label: '上格',
+        color: 'text-blue-700',
+        description: '格局清纯,层次很高,事业有成',
+      };
+    if (score >= 70)
+      return {
+        label: '中上格',
+        color: 'text-green-700',
+        description: '格局良好,层次较高,稳步发展',
+      };
+    if (score >= 60)
+      return {
+        label: '中格',
+        color: 'text-yellow-700',
+        description: '格局中等,有成就机会',
+      };
+    if (score >= 50)
+      return {
+        label: '中下格',
+        color: 'text-orange-700',
+        description: '格局一般,需努力奋斗',
+      };
     return {
       label: '下格',
       color: 'text-red-700',
@@ -277,9 +286,7 @@ export function PatternAnalysis({ data }: PatternAnalysisProps) {
               <div className="text-2xl font-bold text-indigo-700 mb-2">
                 {mainPattern.chinese || mainPattern.name}
               </div>
-              <Badge className="bg-indigo-600">
-                {patternLevel.label}
-              </Badge>
+              <Badge className="bg-indigo-600">{patternLevel.label}</Badge>
             </div>
 
             <div className="text-center p-4 bg-white rounded-lg shadow-sm">
@@ -322,7 +329,10 @@ export function PatternAnalysis({ data }: PatternAnalysisProps) {
           <CardContent>
             <div className="space-y-3">
               {patternDetails.conditions.map((condition, idx) => (
-                <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-gray-50">
+                <div
+                  key={idx}
+                  className="flex items-start gap-3 p-3 rounded-lg bg-gray-50"
+                >
                   <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <span className="text-gray-700">{condition}</span>
                 </div>
@@ -335,10 +345,12 @@ export function PatternAnalysis({ data }: PatternAnalysisProps) {
                 格局说明
               </h4>
               <p className="text-sm text-gray-700">
-                您的八字基本符合{mainPattern.chinese}的成格条件,
-                成格度为{mainPattern.score}%,属于{patternLevel.label}。
+                您的八字基本符合{mainPattern.chinese}的成格条件, 成格度为
+                {mainPattern.score}%,属于{patternLevel.label}。
                 {mainPattern.score >= 80 && '格局清纯,发展潜力大。'}
-                {mainPattern.score >= 60 && mainPattern.score < 80 && '格局良好,需把握机遇。'}
+                {mainPattern.score >= 60 &&
+                  mainPattern.score < 80 &&
+                  '格局良好,需把握机遇。'}
                 {mainPattern.score < 60 && '格局一般,需要多努力奋斗。'}
               </p>
             </div>
@@ -404,7 +416,11 @@ export function PatternAnalysis({ data }: PatternAnalysisProps) {
                 <h4 className="font-medium text-green-900 mb-3">格局用神</h4>
                 <div className="flex flex-wrap gap-2">
                   {patternDetails.yongshen.map((god, idx) => (
-                    <Badge key={idx} variant="outline" className="bg-green-100 text-green-800 border-green-300">
+                    <Badge
+                      key={idx}
+                      variant="outline"
+                      className="bg-green-100 text-green-800 border-green-300"
+                    >
                       {god}
                     </Badge>
                   ))}
@@ -418,7 +434,11 @@ export function PatternAnalysis({ data }: PatternAnalysisProps) {
                 <h4 className="font-medium text-red-900 mb-3">格局忌神</h4>
                 <div className="flex flex-wrap gap-2">
                   {patternDetails.jishen.map((god, idx) => (
-                    <Badge key={idx} variant="outline" className="bg-red-100 text-red-800 border-red-300">
+                    <Badge
+                      key={idx}
+                      variant="outline"
+                      className="bg-red-100 text-red-800 border-red-300"
+                    >
                       {god}
                     </Badge>
                   ))}
@@ -444,7 +464,10 @@ export function PatternAnalysis({ data }: PatternAnalysisProps) {
           <CardContent>
             <div className="space-y-3">
               {patternDetails.recommendations.map((rec, idx) => (
-                <div key={idx} className="flex items-start gap-3 p-4 rounded-lg bg-purple-50 border border-purple-200">
+                <div
+                  key={idx}
+                  className="flex items-start gap-3 p-4 rounded-lg bg-purple-50 border border-purple-200"
+                >
                   <Award className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
                   <span className="text-gray-700">{rec}</span>
                 </div>
@@ -466,7 +489,10 @@ export function PatternAnalysis({ data }: PatternAnalysisProps) {
           <CardContent>
             <div className="flex flex-wrap gap-3">
               {patterns.secondary.map((pattern, idx) => (
-                <div key={idx} className="p-3 rounded-lg bg-blue-50 border border-blue-200">
+                <div
+                  key={idx}
+                  className="p-3 rounded-lg bg-blue-50 border border-blue-200"
+                >
                   <div className="font-medium text-blue-900">
                     {pattern.chinese || pattern.name}
                   </div>

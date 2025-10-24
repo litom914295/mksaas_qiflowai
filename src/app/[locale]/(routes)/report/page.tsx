@@ -1,13 +1,19 @@
 'use client';
 
-import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
 import { BaziAnalysisPage } from '@/components/bazi/analysis/bazi-analysis-page';
+import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
+import { EnhancedComprehensivePanel } from '@/components/qiflow/xuankong/enhanced-comprehensive-panel';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAnalysisContext } from '@/contexts/analysis-context';
 import { useCreditBalance } from '@/hooks/use-credits';
 import { authClient } from '@/lib/auth-client';
-import { ArrowLeft, Calendar, Loader2, RefreshCw } from 'lucide-react';
+import {
+  type ComprehensiveAnalysisResult,
+  runComprehensiveAnalysis,
+} from '@/lib/qiflow/xuankong/comprehensive-engine';
+import { ArrowLeft, Loader2, RefreshCw, Sparkles } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -22,14 +28,38 @@ export default function ReportPage() {
   const [mounted, setMounted] = useState(false);
   const [isContextSynced, setIsContextSynced] = useState(false);
 
+  // 玄空增强面板状态
+  const [activeMainTab, setActiveMainTab] = useState<'bazi' | 'xuankong'>(
+    'bazi'
+  );
+  const [xuankongLoading, setXuankongLoading] = useState(false);
+  const [xuankongResult, setXuankongResult] =
+    useState<ComprehensiveAnalysisResult | null>(null);
+
   // 使用 useMemo 生成稳定的 sessionId，避免 hydration 错误
   const sessionId = useMemo(() => `bazi_${Date.now()}`, []);
+
+  // 检查是否有房屋信息（决定是否显示玄空Tab）
+  const hasHouseInfo = useMemo(() => {
+    if (!formData?.house) return false;
+    // 只要有任何房屋相关信息，就认为用户有风水分析需求
+    return !!(
+      formData.house.direction ||
+      formData.house.roomCount ||
+      formData.house.completionYear ||
+      formData.house.completionMonth
+    );
+  }, [
+    formData?.house?.direction,
+    formData?.house?.roomCount,
+    formData?.house?.completionYear,
+    formData?.house?.completionMonth,
+  ]);
 
   // 在组件顶层定义所有Hook，避免条件渲染影响
   // 使用 useMemo 稳定 personalData 对象，避免不必要的重新渲染
   const personalData = useMemo(() => {
     if (!formData?.personal) return null;
-    // 组合 birthDate 和 birthTime 成 datetime 格式 (YYYY-MM-DD HH:mm)
     const datetime = `${formData.personal.birthDate}T${formData.personal.birthTime || '00:00'}`;
     return {
       datetime,
@@ -47,20 +77,13 @@ export default function ReportPage() {
   // 八字分析完成回调（使用useCallback确保稳定性）
   const handleBaziAnalysisComplete = useCallback(
     (baziResult: any) => {
-      // 防止重复处理：检查是否已经同步过
-      if (!baziResult || !analysisContext || isContextSynced) {
-        return;
-      }
-
-      console.log('📢 [Report Page] 八字分析完成，正在同步结果...');
+      if (!baziResult || !analysisContext || isContextSynced) return;
 
       try {
-        // 将八字分析结果传递给AnalysisContext
-        // 将EnhancedBaziResult转换为ComprehensiveAnalysisResult格式
         const comprehensiveResult = {
           basic: {
             yuanPan: {
-              period: 9, // 九运
+              period: 9,
               years: '2024-2043',
               sitting: baziResult.pillars?.year?.branch || '未知',
               facing: baziResult.pillars?.day?.branch || '未知',
@@ -96,15 +119,12 @@ export default function ReportPage() {
                 },
               }
             : undefined,
-          insights: {
-            keyFindings:
-              baziResult.insights?.map((insight: any) => ({
-                title: insight.category || '重要发现',
-                description: insight.content || insight.message || '无描述',
-                impact: insight.importance || 'medium',
-              })) || [],
-            criticalLocations: [],
-          },
+          insights:
+            baziResult.insights?.map((insight: any) => ({
+              title: insight.category || '重要发现',
+              description: insight.content || insight.message || '无描述',
+              impact: insight.importance || 'medium',
+            })) || [],
           warnings:
             baziResult.warnings?.map((warning: any) => ({
               category: warning.category || '通用',
@@ -114,20 +134,105 @@ export default function ReportPage() {
         };
 
         analysisContext.setAnalysisResult(comprehensiveResult as any);
-        setIsContextSynced(true); // 标记已同步
-        console.log('✅ [Report Page] 八字分析结果已同步到AI上下文');
+        setIsContextSynced(true);
       } catch (error) {
-        console.error('❌ [Report Page] 同步八字分析结果失败:', error);
+        console.error('同步八字分析结果失败:', error);
       }
     },
     [analysisContext, isContextSynced]
   );
 
+  // 玄空：一键生成示例分析（用于在报告页直接查看增强面板）
+  const generateXuankong = useCallback(async () => {
+    try {
+      setXuankongLoading(true);
+
+      // 基于表单推导用户画像（最小集），用于启用个性化分析
+      let userProfile: any = undefined;
+      try {
+        const bd = formData?.personal?.birthDate
+          ? new Date(formData.personal.birthDate)
+          : null;
+        if (bd) {
+          const h = (() => {
+            const t = (formData.personal.birthTime || '00:00').split(':');
+            const hh = Number.parseInt(t[0], 10);
+            return Number.isNaN(hh) ? undefined : hh;
+          })();
+          userProfile = {
+            birthYear: bd.getFullYear(),
+            birthMonth: bd.getMonth() + 1,
+            birthDay: bd.getDate(),
+            birthHour: h,
+            gender: formData.personal.gender === 'male' ? 'male' : 'female',
+            occupation: 'general',
+            livingHabits: {
+              workFromHome: true,
+              frequentTraveling: false,
+              hasChildren: false,
+              elderlyLiving: false,
+              petsOwner: false,
+            },
+            familyStatus: 'single',
+          };
+        }
+      } catch {}
+
+      const res = await runComprehensiveAnalysis({
+        observedAt: new Date(),
+        facing: { degrees: 180 },
+        includeLiunian: true,
+        includePersonalization: !!userProfile,
+        includeTiguaAnalysis: true,
+        includeLingzheng: true,
+        includeChengmenjue: true,
+        includeTimeSelection: false,
+        userProfile,
+        config: { applyTiGua: true, applyFanGua: false },
+      });
+      setXuankongResult(res);
+    } catch (e) {
+      console.error('玄空综合分析失败', e);
+    } finally {
+      setXuankongLoading(false);
+    }
+  }, [formData]);
+
+  // 自动触发玄空分析：当切换到玄空Tab且尚无结果时
+  useEffect(() => {
+    if (activeMainTab === 'xuankong' && !xuankongResult && !xuankongLoading) {
+      void generateXuankong();
+    }
+  }, [activeMainTab, xuankongResult, xuankongLoading, generateXuankong]);
+
+  // 后台预加载玄空分析：在八字分析完成且数据同步后自动触发（仅当有房屋信息时）
+  useEffect(() => {
+    if (
+      hasHouseInfo &&
+      isContextSynced &&
+      formData?.personal &&
+      !xuankongResult &&
+      !xuankongLoading
+    ) {
+      // 延迟500ms后开始预加载，避免阻塞八字分析的渲染
+      const timer = setTimeout(() => {
+        void generateXuankong();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [
+    hasHouseInfo,
+    isContextSynced,
+    formData,
+    xuankongResult,
+    xuankongLoading,
+    generateXuankong,
+  ]);
+
   // 手动同步按钮处理
   const handleManualSync = useCallback(() => {
     if (formData?.personal && analysisContext) {
-      console.log('🔄 [Report Page] 手动触发数据同步...');
-      setIsContextSynced(false); // 重置状态以触发 useEffect
+      setIsContextSynced(false);
     }
   }, [formData, analysisContext]);
 
@@ -137,42 +242,30 @@ export default function ReportPage() {
   }, []);
 
   useEffect(() => {
-    // 优先级顺序：
-    // 1. sessionStorage (analysisFormData) - 最新的表单提交
-    // 2. URL 参数 (data) - 兼容旧版本
-    // 3. localStorage (formHistory) - 历史记录
-
     try {
-      // 1. 先尝试从 sessionStorage 读取
       const sessionData = sessionStorage.getItem('analysisFormData');
       if (sessionData) {
-        console.log('📊 [报告页面] 从 sessionStorage 加载数据');
         const data = JSON.parse(sessionData);
         setFormData(data);
-        // 清理 sessionStorage 避免重复使用
         sessionStorage.removeItem('analysisFormData');
         setIsLoading(false);
         return;
       }
 
-      // 2. 其次尝试从 URL 参数读取
       const dataParam = searchParams.get('data');
       if (dataParam) {
-        console.log('📊 [报告页面] 从 URL 参数加载数据');
         const data = JSON.parse(decodeURIComponent(dataParam));
         setFormData(data);
         setIsLoading(false);
         return;
       }
 
-      // 3. 最后尝试从 localStorage 历史记录读取
       const history = JSON.parse(localStorage.getItem('formHistory') || '[]');
       if (history.length > 0) {
-        console.log('📊 [报告页面] 从 localStorage 历史记录加载数据');
         setFormData(history[0]);
       }
     } catch (error) {
-      console.error('❌ [报告页面] 加载数据失败:', error);
+      console.error('加载数据失败:', error);
     }
 
     setIsLoading(false);
@@ -181,19 +274,13 @@ export default function ReportPage() {
   // 当 formData 加载完成后，自动同步到 AnalysisContext
   useEffect(() => {
     if (formData?.personal && analysisContext && !isContextSynced) {
-      console.log(
-        '📊 [Report Page] 检测到分析数据，开始同步到 AI 聊天上下文...'
-      );
-
       try {
-        // 解析出生日期和时间
         const birthDate = new Date(formData.personal.birthDate);
         const [birthHourStr] = (formData.personal.birthTime || '00:00').split(
           ':'
         );
         const birthHour = Number.parseInt(birthHourStr, 10);
 
-        // 设置用户输入数据（仅八字相关）
         analysisContext.setUserInput({
           personal: {
             name: formData.personal.name || undefined,
@@ -207,21 +294,14 @@ export default function ReportPage() {
           },
         });
 
-        // 如果有分析结果，也设置上去
         if (formData.analysisResult) {
           analysisContext.setAnalysisResult(formData.analysisResult);
-          console.log('📋 [Report Page] 分析结果也已同步');
         }
 
-        // 激活 AI 聊天上下文
         analysisContext.activateAIChat();
         setIsContextSynced(true);
-
-        console.log('✅ [Report Page] 数据已成功同步到 AI 聊天上下文');
-        console.log('📊 用户输入:', analysisContext.userInput);
-        console.log('📈 分析结果存在:', !!analysisContext.analysisResult);
       } catch (error) {
-        console.error('❌ [Report Page] 同步数据到上下文失败:', error);
+        console.error('同步数据到上下文失败:', error);
       }
     }
   }, [formData, analysisContext, isContextSynced]);
@@ -258,9 +338,6 @@ export default function ReportPage() {
     );
   }
 
-  // personalData 已经在组件顶部定义
-  // handleBaziAnalysisComplete 和 handleManualSync 已经在组件顶部定义
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 py-8">
       <AIChatWithContext />
@@ -276,7 +353,6 @@ export default function ReportPage() {
             返回
           </Button>
 
-          {/* 手动同步按钮 */}
           {analysisContext && (
             <Button
               variant="outline"
@@ -296,10 +372,10 @@ export default function ReportPage() {
         {/* 标题 */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            {formData.personal.name}的八字命理分析
+            {formData.personal.name}的分析报告
           </h1>
           <p className="text-gray-600">
-            {mounted && (
+            {mounted ? (
               <>
                 生成时间：{new Date().toLocaleDateString('zh-CN')}{' '}
                 {new Date().toLocaleTimeString('zh-CN', {
@@ -307,63 +383,151 @@ export default function ReportPage() {
                   minute: '2-digit',
                 })}
               </>
+            ) : (
+              '生成时间：加载中...'
             )}
-            {!mounted && '生成时间：加载中...'}
           </p>
         </div>
 
-        {/* 基本信息卡片 */}
-        <Card className="mb-6 border-2 border-purple-200">
-          <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100">
-            <CardTitle>基本信息</CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div>
-                <p className="text-sm text-gray-500">姓名</p>
-                <p className="font-medium">{formData.personal.name}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">性别</p>
-                <p className="font-medium">
-                  {formData.personal.gender === 'male' ? '男' : '女'}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">出生日期</p>
-                <p className="font-medium">{formData.personal.birthDate}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">出生时间</p>
-                <p className="font-medium">{formData.personal.birthTime}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* 八字分析内容 - 专业版 */}
-        <div className="space-y-6">
-          {personalData ? (
-            <BaziAnalysisPage
-              birthData={{
-                ...personalData,
-                name: formData.personal.name,
-                location: formData.personal.birthCity,
-              }}
-              onAnalysisComplete={handleBaziAnalysisComplete}
-              isPremium={session?.user?.id ? true : false}
-              creditsAvailable={creditsAvailable}
-            />
-          ) : (
-            <Card>
-              <CardContent className="p-8 text-center">
-                <p className="text-gray-600">
-                  无法加载八字分析，请检查出生信息是否完整。
-                </p>
+        {/* 顶层：并列两个Tab（八字 / 玄空飞星增强版）*/}
+        {/* 如果没有房屋信息，隐藏 Tabs，直接显示八字分析 */}
+        {!hasHouseInfo ? (
+          // 仅八字分析（无Tab）
+          <div className="space-y-6">
+            <Card className="mb-6 border-2 border-purple-200">
+              <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100">
+                <CardTitle>基本信息</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">姓名</p>
+                    <p className="font-medium">{formData.personal.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">性别</p>
+                    <p className="font-medium">
+                      {formData.personal.gender === 'male' ? '男' : '女'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">出生日期</p>
+                    <p className="font-medium">{formData.personal.birthDate}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">出生时间</p>
+                    <p className="font-medium">{formData.personal.birthTime}</p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
-          )}
-        </div>
+
+            {personalData ? (
+              <BaziAnalysisPage
+                birthData={{
+                  ...personalData,
+                  name: formData.personal.name,
+                  location: formData.personal.birthCity,
+                }}
+                onAnalysisComplete={handleBaziAnalysisComplete}
+                isPremium={session?.user?.id ? true : false}
+                creditsAvailable={creditsAvailable}
+              />
+            ) : (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-600">
+                    无法加载八字分析，请检查出生信息是否完整。
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        ) : (
+          // 八字 + 风水组合分析（有Tab）
+          <Tabs
+            value={activeMainTab}
+            onValueChange={(v) => setActiveMainTab(v as any)}
+            className="space-y-6"
+          >
+            <TabsList className="grid grid-cols-2 h-auto p-1 bg-white/80 backdrop-blur">
+              <TabsTrigger value="bazi">八字专业报告</TabsTrigger>
+              <TabsTrigger value="xuankong">玄空飞星（增强版）</TabsTrigger>
+            </TabsList>
+
+            {/* 八字 Tab */}
+            <TabsContent value="bazi" className="space-y-6">
+              <Card className="mb-6 border-2 border-purple-200">
+                <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100">
+                  <CardTitle>基本信息</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                      <p className="text-sm text-gray-500">姓名</p>
+                      <p className="font-medium">{formData.personal.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">性别</p>
+                      <p className="font-medium">
+                        {formData.personal.gender === 'male' ? '男' : '女'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">出生日期</p>
+                      <p className="font-medium">
+                        {formData.personal.birthDate}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">出生时间</p>
+                      <p className="font-medium">
+                        {formData.personal.birthTime}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {personalData ? (
+                <BaziAnalysisPage
+                  birthData={{
+                    ...personalData,
+                    name: formData.personal.name,
+                    location: formData.personal.birthCity,
+                  }}
+                  onAnalysisComplete={handleBaziAnalysisComplete}
+                  isPremium={session?.user?.id ? true : false}
+                  creditsAvailable={creditsAvailable}
+                />
+              ) : (
+                <Card>
+                  <CardContent className="p-8 text-center">
+                    <p className="text-gray-600">
+                      无法加载八字分析，请检查出生信息是否完整。
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </TabsContent>
+
+            {/* 玄空飞星增强版 Tab */}
+            <TabsContent value="xuankong" className="space-y-6">
+              <Card className="border-2 border-blue-200">
+                <CardHeader className="bg-gradient-to-r from-blue-100 to-purple-100">
+                  <CardTitle>玄空飞星综合分析（增强版）</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <EnhancedComprehensivePanel
+                    analysisResult={xuankongResult}
+                    isLoading={xuankongLoading}
+                    onRefresh={generateXuankong}
+                  />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        )}
       </div>
     </div>
   );

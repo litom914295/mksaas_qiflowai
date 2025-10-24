@@ -25,12 +25,31 @@ interface ElementsAnalysisProps {
 }
 
 // 五行颜色映射
-const elementColors: Record<string, {bg: string, text: string, border: string}> = {
-  wood: { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300' },
+const elementColors: Record<
+  string,
+  { bg: string; text: string; border: string }
+> = {
+  wood: {
+    bg: 'bg-green-100',
+    text: 'text-green-800',
+    border: 'border-green-300',
+  },
   fire: { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-300' },
-  earth: { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300' },
-  metal: { bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-300' },
-  water: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300' },
+  earth: {
+    bg: 'bg-yellow-100',
+    text: 'text-yellow-800',
+    border: 'border-yellow-300',
+  },
+  metal: {
+    bg: 'bg-gray-100',
+    text: 'text-gray-800',
+    border: 'border-gray-300',
+  },
+  water: {
+    bg: 'bg-blue-100',
+    text: 'text-blue-800',
+    border: 'border-blue-300',
+  },
 };
 
 // 五行中文映射
@@ -55,11 +74,17 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
   const { metrics } = data;
 
   // 计算五行相对强度
-  const getStrengthLevel = (score: number): {label: string, color: string, icon: any} => {
-    if (score >= 30) return { label: '极旺', color: 'text-green-600', icon: TrendingUp };
-    if (score >= 20) return { label: '偏旺', color: 'text-blue-600', icon: ArrowUp };
-    if (score >= 15) return { label: '平和', color: 'text-gray-600', icon: ArrowRight };
-    if (score >= 10) return { label: '偏弱', color: 'text-orange-600', icon: ArrowDown };
+  const getStrengthLevel = (
+    score: number
+  ): { label: string; color: string; icon: any } => {
+    if (score >= 30)
+      return { label: '极旺', color: 'text-green-600', icon: TrendingUp };
+    if (score >= 20)
+      return { label: '偏旺', color: 'text-blue-600', icon: ArrowUp };
+    if (score >= 15)
+      return { label: '平和', color: 'text-gray-600', icon: ArrowRight };
+    if (score >= 10)
+      return { label: '偏弱', color: 'text-orange-600', icon: ArrowDown };
     return { label: '极弱', color: 'text-red-600', icon: TrendingDown };
   };
 
@@ -85,9 +110,11 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-lg">{elementIcons[element]}</span>
-                      <span className="font-medium">{elementNames[element]}</span>
-                      <Badge 
-                        variant="outline" 
+                      <span className="font-medium">
+                        {elementNames[element]}
+                      </span>
+                      <Badge
+                        variant="outline"
                         className={`${colors.bg} ${colors.text} ${colors.border}`}
                       >
                         {score}%
@@ -122,12 +149,14 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                 <div>
                   <p className="font-medium text-orange-800">五行失衡</p>
                   <div className="text-sm text-gray-700 mt-1 space-y-1">
-                    {metrics.balance.excess && metrics.balance.excess.length > 0 && (
-                      <p>• 过旺五行: {metrics.balance.excess.join('、')}</p>
-                    )}
-                    {metrics.balance.shortage && metrics.balance.shortage.length > 0 && (
-                      <p>• 不足五行: {metrics.balance.shortage.join('、')}</p>
-                    )}
+                    {metrics.balance.excess &&
+                      metrics.balance.excess.length > 0 && (
+                        <p>• 过旺五行: {metrics.balance.excess.join('、')}</p>
+                      )}
+                    {metrics.balance.shortage &&
+                      metrics.balance.shortage.length > 0 && (
+                        <p>• 不足五行: {metrics.balance.shortage.join('、')}</p>
+                      )}
                     <p className="mt-2 text-orange-700">
                       建议通过补足不足五行来达到平衡，可参考用神建议。
                     </p>

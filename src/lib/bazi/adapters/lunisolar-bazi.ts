@@ -46,7 +46,10 @@ function initializeLunisolar() {
     // 确保插件是函数
     if (typeof char8exPlugin !== 'function') {
       console.error('[Lunisolar] char8ex 插件不是函数:', typeof char8exPlugin);
-      console.error('[Lunisolar] char8exModule 内容:', Object.keys(char8exModule));
+      console.error(
+        '[Lunisolar] char8exModule 内容:',
+        Object.keys(char8exModule)
+      );
     }
 
     // 扩展 Lunisolar
@@ -83,7 +86,10 @@ export class LunisolarBaziAdapter {
     console.log('========== LunisolarBaziAdapter 构造 ==========');
     console.log('原始 birthData.calendarType:', birthData.calendarType);
     this.birthData = this.normalizeBirthData(birthData);
-    console.log('标准化后 birthData.calendarType:', this.birthData.calendarType);
+    console.log(
+      '标准化后 birthData.calendarType:',
+      this.birthData.calendarType
+    );
     this.initialize();
   }
 
@@ -182,20 +188,30 @@ export class LunisolarBaziAdapter {
         const [datePart, timePart] = datetime.split('T');
         const [year, month, day] = datePart.split('-').map(Number);
         const timeStr = timePart || '00:00';
-        
-        console.log('[LunisolarBaziAdapter] 阴历输入:', { year, month, day, time: timeStr });
-        
+
+        console.log('[LunisolarBaziAdapter] 阴历输入:', {
+          year,
+          month,
+          day,
+          time: timeStr,
+        });
+
         // 先创建阴历日期（只有年月日）
         const lunarDate = lunisolar.fromLunar({ year, month, day });
         // 然后在转换后的阳历日期上设置时间
         const solarDateStr = lunarDate.format('YYYY-MM-DD');
         this.lsDate = lunisolar(`${solarDateStr} ${timeStr}`);
-        
+
         // 记录转换后的阳历日期供界面显示
         this.solarDateForDisplay = this.lsDate.format('YYYY-MM-DD HH:mm:ss');
-        
-        console.log('[LunisolarBaziAdapter] 阴历转换后的阳历日期:', this.solarDateForDisplay);
-        console.log('[LunisolarBaziAdapter] 注意：lunisolar 可以直接用阴历计算八字，不需要转换');
+
+        console.log(
+          '[LunisolarBaziAdapter] 阴历转换后的阳历日期:',
+          this.solarDateForDisplay
+        );
+        console.log(
+          '[LunisolarBaziAdapter] 注意：lunisolar 可以直接用阴历计算八字，不需要转换'
+        );
       } else {
         // 阳历直接创建
         this.lsDate = lunisolar(datetime);
@@ -239,7 +255,8 @@ export class LunisolarBaziAdapter {
    * 生成缓存键
    */
   private getCacheKey(): string {
-    const { datetime, gender, longitude, latitude, calendarType } = this.birthData;
+    const { datetime, gender, longitude, latitude, calendarType } =
+      this.birthData;
     return `${datetime}-${gender}-${calendarType || 'solar'}-${longitude || 0}-${latitude || 0}`;
   }
 
@@ -271,18 +288,29 @@ export class LunisolarBaziAdapter {
     const cacheKey = this.getCacheKey();
     console.log('[LunisolarBaziAdapter] 生成的缓存键:', cacheKey);
     console.log('[LunisolarBaziAdapter] 当前缓存数量:', resultCache.size);
-    console.log('[LunisolarBaziAdapter] 所有缓存键:', Array.from(resultCache.keys()));
+    console.log(
+      '[LunisolarBaziAdapter] 所有缓存键:',
+      Array.from(resultCache.keys())
+    );
 
     // 临时：强制清除缓存以测试修复
     if (this.birthData.calendarType === 'lunar') {
-      console.log('[LunisolarBaziAdapter] 🔄 阴历输入，强制重新计算（跳过缓存）');
+      console.log(
+        '[LunisolarBaziAdapter] 🔄 阴历输入，强制重新计算（跳过缓存）'
+      );
       // 不使用缓存，直接继续计算
     } else {
       // 检查缓存
       const cached = resultCache.get(cacheKey);
       if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-        console.log('[LunisolarBaziAdapter] ⚠️ 使用缓存结果，缓存键匹配:', cacheKey);
-        console.log('[LunisolarBaziAdapter] 缓存时间:', new Date(cached.timestamp).toISOString());
+        console.log(
+          '[LunisolarBaziAdapter] ⚠️ 使用缓存结果，缓存键匹配:',
+          cacheKey
+        );
+        console.log(
+          '[LunisolarBaziAdapter] 缓存时间:',
+          new Date(cached.timestamp).toISOString()
+        );
         return cached.result;
       }
     }

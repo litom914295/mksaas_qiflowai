@@ -107,7 +107,7 @@ export class MonthlyStateAnalyzer {
       });
       throw new Error(
         `Invalid month branch: ${monthBranch} (type: ${typeof monthBranch}). ` +
-        `Expected one of: ${Object.keys(MonthlyStateAnalyzer.BRANCH_ELEMENTS).join(', ')}`
+          `Expected one of: ${Object.keys(MonthlyStateAnalyzer.BRANCH_ELEMENTS).join(', ')}`
       );
     }
 
@@ -120,7 +120,7 @@ export class MonthlyStateAnalyzer {
       });
       throw new Error(
         `Invalid month branch: ${monthBranch}. ` +
-        `Expected one of: ${Object.keys(MonthlyStateAnalyzer.BRANCH_ELEMENTS).join(', ')}`
+          `Expected one of: ${Object.keys(MonthlyStateAnalyzer.BRANCH_ELEMENTS).join(', ')}`
       );
     }
 

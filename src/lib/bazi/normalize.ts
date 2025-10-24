@@ -599,9 +599,9 @@ function extractLuckInfo(
 ): BaziAnalysisModel['luck'] {
   const luckPillars = result.luckPillars || [];
   const currentAge = calculateAge(result);
-  
+
   // 获取出生年份
-  const birthYear = result.birthData?.datetime 
+  const birthYear = result.birthData?.datetime
     ? new Date(result.birthData.datetime).getFullYear()
     : new Date().getFullYear() - 30; // 默认30岁
 
@@ -611,7 +611,7 @@ function extractLuckInfo(
       // 计算年份范围
       const startYear = pillar.startYear || birthYear + pillar.startAge;
       const endYear = pillar.endYear || birthYear + pillar.endAge;
-      
+
       return {
         period: pillar.period || index + 1,
         ageRange: [pillar.startAge || 0, pillar.endAge || 0],
@@ -638,7 +638,7 @@ function extractLuckInfo(
 
   return {
     currentDaYun,
-    timeline: daYunTimeline,  // 修正字段名
+    timeline: daYunTimeline, // 修正字段名
     currentYear: generateCurrentYearLuck(result),
     annualForecast: generateAnnualForecast(result, 5), // 未来5年
   };
@@ -874,7 +874,7 @@ function calculateAge(result: any): number {
   // 从结果中提取出生年份计算年龄
   const currentYear = new Date().getFullYear();
   let birthYear = 1990; // 默认值
-  
+
   // 尝试从多个可能的位置获取出生年份
   if (result?.birthData?.datetime) {
     birthYear = new Date(result.birthData.datetime).getFullYear();
@@ -883,30 +883,30 @@ function calculateAge(result: any): number {
   } else if (result?.fourPillars?.year?.year) {
     birthYear = result.fourPillars.year.year;
   }
-  
+
   return currentYear - birthYear;
 }
 
 function generateDaYunTheme(pillar: any): string {
   // 根据大运的天干地支生成主题描述
   if (!pillar) return '运势发展期';
-  
+
   const themes: Record<string, string> = {
-    '甲子': '开拓创新期',
-    '乙丑': '稳健发展期',
-    '丙寅': '光明进取期',
-    '丁卯': '灵活变通期',
-    '戊辰': '稳固基础期',
-    '己巳': '转型提升期',
-    '庚午': '果断决策期',
-    '辛未': '精细管理期',
-    '壬申': '流动发展期',
-    '癸酉': '深度积累期',
-    '甲戌': '突破创新期',
-    '乙亥': '合作共赢期',
+    甲子: '开拓创新期',
+    乙丑: '稳健发展期',
+    丙寅: '光明进取期',
+    丁卯: '灵活变通期',
+    戊辰: '稳固基础期',
+    己巳: '转型提升期',
+    庚午: '果断决策期',
+    辛未: '精细管理期',
+    壬申: '流动发展期',
+    癸酉: '深度积累期',
+    甲戌: '突破创新期',
+    乙亥: '合作共赢期',
     // 添加更多组合...
   };
-  
+
   // 尝试获取天干地支
   let ganZhi = '';
   if (pillar.stem && pillar.branch) {
@@ -916,26 +916,26 @@ function generateDaYunTheme(pillar: any): string {
   } else if (typeof pillar === 'string') {
     ganZhi = pillar;
   }
-  
+
   // 返回对应主题或默认主题
   if (themes[ganZhi]) {
     return themes[ganZhi];
   }
-  
+
   // 根据天干生成默认主题
   const stemThemes: Record<string, string> = {
-    '甲': '成长发展期',
-    '乙': '柔韧适应期',
-    '丙': '光明向上期',
-    '丁': '内在提升期',
-    '戊': '稳定积累期',
-    '己': '转化调整期',
-    '庚': '坚定执行期',
-    '辛': '精进完善期',
-    '壬': '智慧流动期',
-    '癸': '深度沉淀期',
+    甲: '成长发展期',
+    乙: '柔韧适应期',
+    丙: '光明向上期',
+    丁: '内在提升期',
+    戊: '稳定积累期',
+    己: '转化调整期',
+    庚: '坚定执行期',
+    辛: '精进完善期',
+    壬: '智慧流动期',
+    癸: '深度沉淀期',
   };
-  
+
   const firstChar = ganZhi[0] || pillar.stem || pillar.gan || '';
   return stemThemes[firstChar] || '运势发展期';
 }

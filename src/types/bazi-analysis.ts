@@ -122,35 +122,35 @@ export interface AnalysisResult {
   // 基础信息
   inputData?: InputData;
   bazi?: BaziInfo;
-  
+
   // 五行分析
   wuxing?: WuxingAnalysis;
-  
+
   // 性格分析
   personality?: PersonalityAnalysis;
-  
+
   // 事业财运
   career?: CareerAnalysis;
   wealth?: WealthAnalysis;
-  
+
   // 健康情感
   health?: HealthAnalysis;
   relationships?: RelationshipsAnalysis;
-  
+
   // 大运流年
   luckCycles?: LuckCycle[];
   currentLuck?: LuckCycle;
-  
+
   // 今日运势
   dailyFortune?: DailyFortune;
-  
+
   // 专业建议
   advice?: {
     shortTerm?: string[];
     longTerm?: string[];
     improvement?: string[];
   };
-  
+
   // 元数据
   metadata?: {
     calculatedAt?: string;
@@ -158,7 +158,7 @@ export interface AnalysisResult {
     accuracy?: number;
     mode?: 'standard' | 'professional' | 'enhanced';
   };
-  
+
   // 错误信息
   error?: {
     message?: string;
@@ -186,6 +186,4 @@ export interface BaziFormData {
 }
 
 // 导出所有类型
-export type {
-  AnalysisResult as default,
-};
+export type { AnalysisResult as default };

@@ -4,7 +4,7 @@
  * 验证对 undefined 的安全处理
  */
 
-import { BaziAnalysisModel } from '../src/lib/bazi/normalize';
+import type { BaziAnalysisModel } from '../src/lib/bazi/normalize';
 
 // 模拟测试数据
 const testCases = [
@@ -121,33 +121,37 @@ const testCases = [
 // 模拟组件逻辑
 function simulateComponent(data: Partial<BaziAnalysisModel>) {
   const { luck, base } = data;
-  
+
   try {
     // 模拟组件中的逻辑
     const daYunTimeline = luck?.timeline || luck?.daYunTimeline || [];
     const selectedDaYun = luck?.currentDaYun?.period || 1;
-    
+
     console.log('  daYunTimeline长度:', daYunTimeline.length);
     console.log('  selectedDaYun:', selectedDaYun);
-    
+
     // 模拟 find 操作
-    const selectedDaYunDetail = daYunTimeline.length > 0 
-      ? daYunTimeline.find((d: any) => d.period === selectedDaYun)
-      : null;
-      
-    console.log('  selectedDaYunDetail:', selectedDaYunDetail ? '找到' : '未找到');
-    
+    const selectedDaYunDetail =
+      daYunTimeline.length > 0
+        ? daYunTimeline.find((d: any) => d.period === selectedDaYun)
+        : null;
+
+    console.log(
+      '  selectedDaYunDetail:',
+      selectedDaYunDetail ? '找到' : '未找到'
+    );
+
     // 模拟访问 currentDaYun
     if (luck?.currentDaYun) {
       console.log('  currentDaYun存在:', luck.currentDaYun.theme);
     } else {
       console.log('  currentDaYun不存在');
     }
-    
+
     // 模拟访问 annualForecast
     const annualForecast = luck?.annualForecast || [];
     console.log('  annualForecast长度:', annualForecast.length);
-    
+
     console.log('  ✅ 测试通过');
     return true;
   } catch (error: any) {

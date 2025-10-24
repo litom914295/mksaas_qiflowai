@@ -62,13 +62,16 @@ const tenGodColors: Record<string, string> = {
 };
 
 // 十神详细解释
-const tenGodDetails: Record<string, {
-  category: string;
-  traits: string[];
-  career: string[];
-  relationships: string;
-  advice: string;
-}> = {
+const tenGodDetails: Record<
+  string,
+  {
+    category: string;
+    traits: string[];
+    career: string[];
+    relationships: string;
+    advice: string;
+  }
+> = {
   比肩: {
     category: '比劫星',
     traits: ['独立自主', '竞争意识强', '坚持己见', '重视朋友'],
@@ -154,10 +157,11 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
       印星: 0,
     };
 
-    tenGods.profile.forEach(god => {
+    tenGods.profile.forEach((god) => {
       const detail = tenGodDetails[god.chinese];
       if (detail) {
-        categoryCount[detail.category] = (categoryCount[detail.category] || 0) + god.count;
+        categoryCount[detail.category] =
+          (categoryCount[detail.category] || 0) + god.count;
       }
     });
 
@@ -166,9 +170,10 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
 
   // 找出最强的十神
   const dominantGod = useMemo(() => {
-    return tenGods.profile.reduce((max, current) => 
-      current.strength > max.strength ? current : max
-    , tenGods.profile[0]);
+    return tenGods.profile.reduce(
+      (max, current) => (current.strength > max.strength ? current : max),
+      tenGods.profile[0]
+    );
   }, [tenGods.profile]);
 
   return (
@@ -190,12 +195,11 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
                 <div className="flex items-center gap-2">
                   {dominantGod && (
                     <>
-                      {tenGodIcons[dominantGod.chinese] && 
+                      {tenGodIcons[dominantGod.chinese] &&
                         (() => {
                           const Icon = tenGodIcons[dominantGod.chinese];
                           return <Icon className="w-5 h-5 text-purple-600" />;
-                        })()
-                      }
+                        })()}
                       <span className="text-xl font-bold text-purple-800">
                         {dominantGod.chinese}
                       </span>
@@ -206,7 +210,9 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
                   )}
                 </div>
                 <p className="text-sm text-gray-600 mt-2">
-                  {tenGodDetails[dominantGod?.chinese]?.traits.slice(0, 2).join('、')}
+                  {tenGodDetails[dominantGod?.chinese]?.traits
+                    .slice(0, 2)
+                    .join('、')}
                 </p>
               </div>
               <div className="text-right">
@@ -242,25 +248,31 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
           const isWeak = god.strength < 30;
 
           return (
-            <Card 
+            <Card
               key={god.name}
               className={`border-2 transition-all hover:shadow-lg ${
-                isStrong ? 'border-purple-300 bg-purple-50/50' : 
-                isWeak ? 'border-gray-200 bg-gray-50/50' : 
-                'border-gray-200'
+                isStrong
+                  ? 'border-purple-300 bg-purple-50/50'
+                  : isWeak
+                    ? 'border-gray-200 bg-gray-50/50'
+                    : 'border-gray-200'
               }`}
             >
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <div className={`p-2 rounded-lg ${
-                      tenGodColors[god.chinese] || 'bg-gray-100'
-                    }`}>
+                    <div
+                      className={`p-2 rounded-lg ${
+                        tenGodColors[god.chinese] || 'bg-gray-100'
+                      }`}
+                    >
                       <Icon className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-lg">{god.chinese}</h3>
-                      <p className="text-xs text-gray-500">{detail?.category}</p>
+                      <p className="text-xs text-gray-500">
+                        {detail?.category}
+                      </p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -277,11 +289,15 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
-                    <p className={`text-2xl font-bold ${
-                      isStrong ? 'text-purple-600' : 
-                      isWeak ? 'text-gray-400' : 
-                      'text-gray-700'
-                    }`}>
+                    <p
+                      className={`text-2xl font-bold ${
+                        isStrong
+                          ? 'text-purple-600'
+                          : isWeak
+                            ? 'text-gray-400'
+                            : 'text-gray-700'
+                      }`}
+                    >
                       {god.strength}%
                     </p>
                   </div>
@@ -290,17 +306,13 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
               <CardContent className="space-y-3">
                 {/* 强度条 */}
                 <Progress value={god.strength} className="h-2" />
-                
+
                 {/* 性格特征 */}
                 <div>
                   <p className="text-xs text-gray-500 mb-1">性格特征</p>
                   <div className="flex flex-wrap gap-1">
-                    {detail?.traits.map(trait => (
-                      <Badge 
-                        key={trait}
-                        variant="outline"
-                        className="text-xs"
-                      >
+                    {detail?.traits.map((trait) => (
+                      <Badge key={trait} variant="outline" className="text-xs">
                         {trait}
                       </Badge>
                     ))}
@@ -373,15 +385,18 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
           <div className="space-y-4">
             {/* 性格总结 */}
             <div className="p-4 bg-white rounded-lg">
-              <h4 className="font-semibold mb-2 text-amber-800">综合性格分析</h4>
+              <h4 className="font-semibold mb-2 text-amber-800">
+                综合性格分析
+              </h4>
               <p className="text-sm text-gray-700 leading-relaxed">
                 根据您的十神组合，您是一个
                 {tenGods.characteristics.join('、')}的人。
                 {dominantGod && tenGodDetails[dominantGod.chinese] && (
                   <>
                     主导十神{dominantGod.chinese}赋予您
-                    {tenGodDetails[dominantGod.chinese].traits[0]}的特质，
-                    在{tenGodDetails[dominantGod.chinese].relationships}方面表现突出。
+                    {tenGodDetails[dominantGod.chinese].traits[0]}的特质， 在
+                    {tenGodDetails[dominantGod.chinese].relationships}
+                    方面表现突出。
                   </>
                 )}
               </p>
@@ -403,20 +418,24 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
                   <Target className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
                   <p className="text-sm text-gray-700">
                     善用您的{tenGods.characteristics[0]}特质，在
-                    {tenGodDetails[dominantGod?.chinese]?.career[0]}等领域可以获得更好发展
+                    {tenGodDetails[dominantGod?.chinese]?.career[0]}
+                    等领域可以获得更好发展
                   </p>
                 </div>
               </div>
             </div>
 
             {/* 注意事项 */}
-            {tenGods.profile.filter(g => g.strength < 30).length > 0 && (
+            {tenGods.profile.filter((g) => g.strength < 30).length > 0 && (
               <div className="p-4 bg-orange-50 rounded-lg">
-                <h4 className="font-semibold mb-2 text-orange-800">需要加强的方面</h4>
+                <h4 className="font-semibold mb-2 text-orange-800">
+                  需要加强的方面
+                </h4>
                 <p className="text-sm text-gray-700">
-                  您的{tenGods.profile
-                    .filter(g => g.strength < 30)
-                    .map(g => g.chinese)
+                  您的
+                  {tenGods.profile
+                    .filter((g) => g.strength < 30)
+                    .map((g) => g.chinese)
                     .join('、')}
                   能量较弱，可以通过相关活动和环境来补充这些能量。
                 </p>

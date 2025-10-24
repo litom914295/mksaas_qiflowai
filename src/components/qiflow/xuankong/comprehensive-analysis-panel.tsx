@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
+import { FloorplanOverlay } from '@/components/qiflow/floorplan-overlay';
 // 导入子组件
 import { BasicAnalysisView } from './basic-analysis-view';
 import { ChengmenjueAnalysisView } from './chengmenjue-analysis-view';
@@ -29,7 +30,6 @@ import { OverallAssessmentView } from './overall-assessment-view';
 import { PersonalizedAnalysisView } from './personalized-analysis-view';
 import { SmartRecommendationsView } from './smart-recommendations-view';
 import { TiguaAnalysisView } from './tigua-analysis-view';
-import { FloorplanOverlay } from '@/components/qiflow/floorplan-overlay';
 
 // 导入新增的增强组件（暂时注释掉，避免错误）
 // import { SimpleEnhancedPlate } from './enhanced-plate-simple';
@@ -229,10 +229,16 @@ export function ComprehensiveAnalysisPanel({
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <CardHeader className="border-b overflow-x-auto">
             <TabsList className="flex w-full min-w-max gap-1 h-auto flex-wrap">
-              <TabsTrigger value="overview" className="text-xs min-w-[60px] flex-shrink-0">
+              <TabsTrigger
+                value="overview"
+                className="text-xs min-w-[60px] flex-shrink-0"
+              >
                 总览
               </TabsTrigger>
-              <TabsTrigger value="basic" className="text-xs min-w-[70px] flex-shrink-0">
+              <TabsTrigger
+                value="basic"
+                className="text-xs min-w-[70px] flex-shrink-0"
+              >
                 基础分析
               </TabsTrigger>
               <TabsTrigger
@@ -249,7 +255,10 @@ export function ComprehensiveAnalysisPanel({
               >
                 个性化
               </TabsTrigger>
-              <TabsTrigger value="recommendations" className="text-xs min-w-[70px] flex-shrink-0">
+              <TabsTrigger
+                value="recommendations"
+                className="text-xs min-w-[70px] flex-shrink-0"
+              >
                 智能推荐
               </TabsTrigger>
               <TabsTrigger
@@ -273,7 +282,10 @@ export function ComprehensiveAnalysisPanel({
               >
                 城门诀
               </TabsTrigger>
-              <TabsTrigger value="floorplan" className="text-xs min-w-[70px] flex-shrink-0">
+              <TabsTrigger
+                value="floorplan"
+                className="text-xs min-w-[70px] flex-shrink-0"
+              >
                 户型叠加
               </TabsTrigger>
             </TabsList>
