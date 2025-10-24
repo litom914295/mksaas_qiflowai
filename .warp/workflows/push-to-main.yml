@@ -1,0 +1,172 @@
+name: 推送到主分支
+description: 提交所有更改，推送到主分支，并验证推送是否成功完成
+version: 1.0.0
+
+# 工作流元数据
+metadata:
+  author: Warp Assistant
+  created: 2025-10-24
+  tags: 
+    - git
+    - deploy
+    - main-branch
+  category: deployment
+
+# 工作流参数
+parameters:
+  commit_message:
+    type: string
+    description: 提交消息
+    default: "feat: 更新代码"
+    required: false
+  
+  auto_add_all:
+    type: boolean
+    description: 是否自动添加所有更改
+    default: true
+    required: false
+
+# 工作流步骤
+steps:
+  - name: 检查仓库状态
+    description: 检查当前Git仓库状态和分支信息
+    commands:
+      - git status
+      - git branch --show-current
+    continue_on_error: false
+
+  - name: 显示未跟踪的文件
+    description: 列出所有未跟踪的文件
+    commands:
+      - git status -u
+    continue_on_error: true
+
+  - name: 添加所有更改
+    description: 将所有更改添加到暂存区
+    commands:
+      - git add -A
+    when: "{{ parameters.auto_add_all }}"
+    continue_on_error: false
+
+  - name: 显示暂存的更改
+    description: 显示即将提交的更改摘要
+    commands:
+      - git diff --cached --stat
+    continue_on_error: true
+
+  - name: 提交更改
+    description: 创建新的提交
+    commands:
+      - git commit -m "{{ parameters.commit_message }}"
+    continue_on_error: false
+    skip_if_no_changes: true
+
+  - name: 获取当前分支
+    description: 保存当前分支名称
+    commands:
+      - $current_branch = git branch --show-current
+      - Write-Host "当前分支：$current_branch"
+    shell: powershell
+    continue_on_error: false
+
+  - name: 切换到主分支
+    description: 如果不在主分支，切换到主分支
+    commands:
+      - |
+        $current = git branch --show-current
+        if ($current -ne "main") {
+          Write-Host "从 $current 切换到 main 分支..."
+          git checkout main
+          git pull origin main --rebase
+        } else {
+          Write-Host "已在 main 分支"
+        }
+    shell: powershell
+    continue_on_error: false
+
+  - name: 合并更改
+    description: 如果从其他分支切换过来，合并更改
+    commands:
+      - |
+        $current_branch = git branch --show-current
+        $previous = git rev-parse --abbrev-ref @{-1} 2>$null
+        if ($previous -and $previous -ne "main" -and $previous -ne "HEAD") {
+          Write-Host "合并 $previous 分支到 main..."
+          git merge $previous --no-ff -m "Merge branch '$previous' into main"
+        }
+    shell: powershell
+    continue_on_error: true
+
+  - name: 推送到远程主分支
+    description: 将本地主分支推送到远程仓库
+    commands:
+      - git push origin main
+    continue_on_error: false
+    retry:
+      max_attempts: 3
+      delay: 5
+
+  - name: 验证推送状态
+    description: 验证本地和远程是否同步
+    commands:
+      - git fetch origin
+      - git status
+      - git log --oneline -n 5
+    continue_on_error: false
+
+  - name: 显示最新提交信息
+    description: 显示推送后的最新提交详情
+    commands:
+      - |
+        Write-Host "========================================" -ForegroundColor Green
+        Write-Host "✅ 推送成功完成！" -ForegroundColor Green
+        Write-Host "========================================" -ForegroundColor Green
+        Write-Host ""
+        Write-Host "最新提交信息：" -ForegroundColor Cyan
+        git log --pretty=format:"%h - %an, %ar : %s" -n 5
+        Write-Host ""
+        Write-Host ""
+        Write-Host "远程仓库状态：" -ForegroundColor Cyan
+        git remote -v
+        Write-Host ""
+        $url = git remote get-url origin
+        if ($url -match "github.com[:/](.+)\.git") {
+          $repo = $matches[1]
+          Write-Host "GitHub 仓库：https://github.com/$repo" -ForegroundColor Yellow
+          Write-Host "查看提交历史：https://github.com/$repo/commits/main" -ForegroundColor Yellow
+        }
+    shell: powershell
+    continue_on_error: true
+
+  - name: 清理工作
+    description: 可选的清理步骤
+    commands:
+      - |
+        Write-Host "工作流执行完成" -ForegroundColor Green
+        $status = git status --porcelain
+        if ($status) {
+          Write-Host "⚠️ 警告：仍有未提交的更改" -ForegroundColor Yellow
+          git status --short
+        } else {
+          Write-Host "✅ 工作目录干净" -ForegroundColor Green
+        }
+    shell: powershell
+    continue_on_error: true
+
+# 错误处理
+on_error:
+  - name: 错误恢复
+    description: 发生错误时的恢复步骤
+    commands:
+      - Write-Host "❌ 工作流执行失败" -ForegroundColor Red
+      - git status
+      - Write-Host "请手动检查并解决问题" -ForegroundColor Yellow
+
+# 成功回调
+on_success:
+  - name: 成功通知
+    description: 工作流成功完成后的操作
+    commands:
+      - |
+        $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        Write-Host "✅ 所有更改已于 $timestamp 成功推送到主分支" -ForegroundColor Green
