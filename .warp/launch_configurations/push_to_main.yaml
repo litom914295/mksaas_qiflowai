@@ -1,0 +1,71 @@
+name: "🚀 Push to Main"
+description: "Commit all changes and push to main branch with verification"
+icon: "git-merge"
+category: "Git Operations"
+tags:
+  - git
+  - deploy
+  - main
+  - push
+
+# 配置快捷键（可选）
+hotkey: "ctrl+shift+p"
+
+# 工作流配置
+workflow:
+  # 使用的脚本文件
+  script: ".warp/workflows/push.ps1"
+  
+  # 运行时环境
+  shell: "powershell"
+  
+  # 是否在新终端窗口中运行
+  new_terminal: false
+  
+  # 是否需要确认
+  requires_confirmation: true
+  
+  # 确认提示信息
+  confirmation_message: "This will commit and push all changes to the main branch. Continue?"
+
+# 参数配置
+parameters:
+  - name: "message"
+    type: "string"
+    label: "Commit Message"
+    description: "Enter commit message"
+    default: "feat: update code"
+    required: true
+    prompt: true
+
+# 环境检查
+pre_checks:
+  - type: "file_exists"
+    path: ".git"
+    error_message: "Not a git repository"
+  
+  - type: "command_available"
+    command: "git"
+    error_message: "Git is not installed"
+
+# 执行步骤
+steps:
+  - name: "Run Push Workflow"
+    command: |
+      $message = Read-Host -Prompt "Enter commit message (or press Enter for default)"
+      if ([string]::IsNullOrWhiteSpace($message)) {
+        $message = "feat: update code"
+      }
+      & .\.warp\workflows\push.ps1 -Message $message
+
+# 成功后的操作
+on_success:
+  show_notification: true
+  notification_title: "Push Successful"
+  notification_message: "Changes have been pushed to main branch"
+  
+# 失败后的操作  
+on_failure:
+  show_notification: true
+  notification_title: "Push Failed"
+  notification_message: "Please check the output for errors"

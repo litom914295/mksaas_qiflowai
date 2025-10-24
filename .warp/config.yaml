@@ -1,0 +1,67 @@
+# Warp Configuration File
+version: "1.0"
+project_name: "MkSaaS QiFlow AI"
+
+# 启用的功能
+features:
+  workflows: true
+  launch_configurations: true
+  custom_commands: true
+  auto_complete: true
+
+# 工作流设置
+workflows:
+  # 默认显示在Starter Workflows中
+  show_in_starter: true
+  
+  # 工作流目录
+  directory: ".warp/workflows"
+  
+  # 启动配置目录
+  launch_directory: ".warp/launch_configurations"
+  
+  # 自动加载的配置文件
+  auto_load:
+    - "git_workflows.json"
+    - "push_to_main.yaml"
+
+# 快速操作栏
+quick_actions:
+  - id: "push_main"
+    name: "Push to Main"
+    icon: "🚀"
+    command: ".warp/workflows/push.ps1"
+    hotkey: "ctrl+shift+p"
+    
+  - id: "git_status"
+    name: "Git Status"
+    icon: "📊"
+    command: "git status"
+    hotkey: "ctrl+shift+g"
+    
+  - id: "git_pull"
+    name: "Pull Latest"
+    icon: "🔄"
+    command: "git pull origin main --rebase"
+    hotkey: "ctrl+shift+u"
+
+# 自定义命令
+custom_commands:
+  push:
+    description: "Push to main branch"
+    script: ".warp/workflows/push.ps1"
+    
+  deploy:
+    description: "Deploy application"
+    command: "npm run deploy"
+    
+  test:
+    description: "Run tests"
+    command: "npm test"
+
+# 终端设置
+terminal:
+  default_shell: "powershell"
+  startup_commands:
+    - "Write-Host 'Welcome to MkSaaS QiFlow AI Project' -ForegroundColor Cyan"
+    - "git status --short"
