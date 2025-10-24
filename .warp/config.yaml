@@ -8,6 +8,7 @@ features:
   launch_configurations: true
   custom_commands: true
   auto_complete: true
+  preserve_default_commands: true  # 保留Warp默认命令
 
 # 工作流设置
 workflows:
