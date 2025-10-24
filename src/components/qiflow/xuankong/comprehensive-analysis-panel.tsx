@@ -29,6 +29,7 @@ import { OverallAssessmentView } from './overall-assessment-view';
 import { PersonalizedAnalysisView } from './personalized-analysis-view';
 import { SmartRecommendationsView } from './smart-recommendations-view';
 import { TiguaAnalysisView } from './tigua-analysis-view';
+import { FloorplanOverlay } from '@/components/qiflow/floorplan-overlay';
 
 // 导入新增的增强组件（暂时注释掉，避免错误）
 // import { SimpleEnhancedPlate } from './enhanced-plate-simple';
@@ -226,51 +227,54 @@ export function ComprehensiveAnalysisPanel({
       {/* 主要内容标签页 */}
       <Card>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <CardHeader className="border-b">
-            <TabsList className="grid w-full grid-cols-8 gap-1">
-              <TabsTrigger value="overview" className="text-xs">
+          <CardHeader className="border-b overflow-x-auto">
+            <TabsList className="flex w-full min-w-max gap-1 h-auto flex-wrap">
+              <TabsTrigger value="overview" className="text-xs min-w-[60px] flex-shrink-0">
                 总览
               </TabsTrigger>
-              <TabsTrigger value="basic" className="text-xs">
+              <TabsTrigger value="basic" className="text-xs min-w-[70px] flex-shrink-0">
                 基础分析
               </TabsTrigger>
               <TabsTrigger
                 value="liunian"
-                className="text-xs"
+                className="text-xs min-w-[70px] flex-shrink-0"
                 disabled={!analysisResult.liunianAnalysis}
               >
                 流年分析
               </TabsTrigger>
               <TabsTrigger
                 value="personal"
-                className="text-xs"
+                className="text-xs min-w-[60px] flex-shrink-0"
                 disabled={!analysisResult.personalizedAnalysis}
               >
                 个性化
               </TabsTrigger>
-              <TabsTrigger value="recommendations" className="text-xs">
+              <TabsTrigger value="recommendations" className="text-xs min-w-[70px] flex-shrink-0">
                 智能推荐
               </TabsTrigger>
               <TabsTrigger
                 value="tigua"
-                className="text-xs"
+                className="text-xs min-w-[70px] flex-shrink-0"
                 disabled={!analysisResult.tiguaAnalysis}
               >
                 替卦分析
               </TabsTrigger>
               <TabsTrigger
                 value="lingzheng"
-                className="text-xs"
+                className="text-xs min-w-[70px] flex-shrink-0"
                 disabled={!analysisResult.lingzhengAnalysis}
               >
                 零正理论
               </TabsTrigger>
               <TabsTrigger
                 value="chengmen"
-                className="text-xs"
+                className="text-xs min-w-[60px] flex-shrink-0"
                 disabled={!analysisResult.chengmenjueAnalysis}
               >
                 城门诀
+              </TabsTrigger>
+              <TabsTrigger value="floorplan" className="text-xs min-w-[70px] flex-shrink-0">
+                户型叠加
               </TabsTrigger>
             </TabsList>
           </CardHeader>
@@ -327,6 +331,11 @@ export function ComprehensiveAnalysisPanel({
               {analysisResult.chengmenjueAnalysis && (
                 <ChengmenjueAnalysisView analysisResult={analysisResult} />
               )}
+            </TabsContent>
+
+            {/* 户型叠加 */}
+            <TabsContent value="floorplan" className="mt-0">
+              <FloorplanOverlay analysisResult={analysisResult} />
             </TabsContent>
           </CardContent>
         </Tabs>
