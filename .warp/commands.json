@@ -1,0 +1,131 @@
+{
+  "version": "1.0",
+  "commands": [
+    {
+      "id": "quick_push",
+      "name": "🚀 Push to Main",
+      "description": "One-click push all changes to main branch",
+      "icon": "rocket",
+      "category": "Git",
+      "pinned": true,
+      "shortcut": "ctrl+shift+p",
+      "action": {
+        "type": "terminal",
+        "command": ".warp\\workflows\\push.ps1",
+        "autoExecute": false,
+        "requireConfirmation": false
+      },
+      "parameters": [
+        {
+          "name": "message",
+          "placeholder": "Commit message",
+          "default": "feat: update code",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "quick_commit",
+      "name": "💾 Quick Commit",
+      "description": "Stage and commit all changes",
+      "icon": "save",
+      "category": "Git",
+      "pinned": true,
+      "shortcut": "ctrl+shift+c",
+      "action": {
+        "type": "terminal",
+        "command": "git add -A && git commit -m \"${message:chore: quick update}\"",
+        "autoExecute": false
+      }
+    },
+    {
+      "id": "sync_remote",
+      "name": "🔄 Sync with Remote",
+      "description": "Pull latest changes from remote",
+      "icon": "sync",
+      "category": "Git",
+      "pinned": true,
+      "shortcut": "ctrl+shift+s",
+      "action": {
+        "type": "terminal",
+        "command": "git pull origin main --rebase",
+        "autoExecute": true
+      }
+    },
+    {
+      "id": "git_status",
+      "name": "📊 Git Status",
+      "description": "Check repository status",
+      "icon": "info",
+      "category": "Git",
+      "shortcut": "ctrl+shift+g",
+      "action": {
+        "type": "terminal",
+        "command": "git status",
+        "autoExecute": true
+      }
+    },
+    {
+      "id": "squash_commits",
+      "name": "📦 Squash Commits",
+      "description": "Squash last N commits",
+      "icon": "compress",
+      "category": "Git",
+      "action": {
+        "type": "terminal",
+        "command": "git reset --soft HEAD~${num:2} && git commit -m \"${message:feat: squashed commits}\"",
+        "autoExecute": false
+      }
+    },
+    {
+      "id": "undo_last",
+      "name": "↩️ Undo Last Commit",
+      "description": "Undo the last commit but keep changes",
+      "icon": "undo",
+      "category": "Git",
+      "action": {
+        "type": "terminal",
+        "command": "git reset HEAD~",
+        "autoExecute": false,
+        "requireConfirmation": true
+      }
+    },
+    {
+      "id": "build_project",
+      "name": "🏗️ Build Project",
+      "description": "Build the Next.js application",
+      "icon": "build",
+      "category": "Development",
+      "action": {
+        "type": "terminal",
+        "command": "npm run build",
+        "autoExecute": false
+      }
+    },
+    {
+      "id": "dev_server",
+      "name": "🚀 Start Dev Server",
+      "description": "Start development server",
+      "icon": "play",
+      "category": "Development",
+      "shortcut": "ctrl+shift+d",
+      "action": {
+        "type": "terminal",
+        "command": "npm run dev",
+        "autoExecute": true
+      }
+    },
+    {
+      "id": "run_tests",
+      "name": "🧪 Run Tests",
+      "description": "Execute test suite",
+      "icon": "test",
+      "category": "Testing",
+      "action": {
+        "type": "terminal",
+        "command": "npm test",
+        "autoExecute": false
+      }
+    }
+  ]
+}

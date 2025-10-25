@@ -25,6 +25,16 @@ workflows:
   auto_load:
     - "git_workflows.json"
     - "push_to_main.yaml"
+    - "enhanced_git_workflows.json"
+    
+# 快捷访问配置
+quick_access:
+  enabled: true
+  quickbar: ".warp/quickbar.yaml"
+  commands: ".warp/commands.json"
+  launcher: ".warp/launcher.json"
+  show_in_ui: true
+  pin_to_top: true
 
 # 快速操作栏
 quick_actions:
