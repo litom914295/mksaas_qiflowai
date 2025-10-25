@@ -59,10 +59,10 @@ import {
   ZoomIn,
   ZoomOut,
 } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { toast } from '@/components/ui/use-toast';
+import { authClient } from '@/lib/auth-client';
 import { useFloorplanPersist } from '@/hooks/use-floorplan-persist';
 import { uploadFloorplanImage } from '@/lib/qiflow/floorplan-storage';
 import { checkLocalStorageQuota } from '@/lib/qiflow/storage-quota';
@@ -100,7 +100,7 @@ export function EnhancedFloorplanOverlay({
   onAnalysisIdChange,
 }: EnhancedFloorplanOverlayProps) {
   // 会话管理
-  const { data: session } = useSession();
+  const { data: session } = authClient.useSession();
   const userId = session?.user?.id;
 
   // 数据提取
