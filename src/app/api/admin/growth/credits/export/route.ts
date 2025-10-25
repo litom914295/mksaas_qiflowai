@@ -39,7 +39,7 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
         '创建时间',
       ];
 
-      const csvRows = transactions.map((t) => [
+      const csvRows = transactions.map((t: (typeof transactions)[number]) => [
         t.id,
         t.userId,
         t.user.name || '',
@@ -52,7 +52,7 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
       ]);
 
       const csv = [csvHeaders, ...csvRows]
-        .map((row) => row.map((cell) => `"${cell}"`).join(','))
+        .map((row) => row.map((cell: string | number) => `"${cell}"`).join(','))
         .join('\n');
 
       // 添加BOM以支持Excel打开中文
@@ -94,15 +94,15 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
       });
 
       // 计算统计数据
-      const usersWithStats = users.map((user) => {
+      const usersWithStats = users.map((user: (typeof users)[number]) => {
         const totalEarned = user.creditTransactions
-          .filter((t) => t.amount > 0)
-          .reduce((sum, t) => sum + t.amount, 0);
+          .filter((t: { amount: number }) => t.amount > 0)
+          .reduce((sum: number, t: { amount: number }) => sum + t.amount, 0);
 
         const totalSpent = Math.abs(
           user.creditTransactions
-            .filter((t) => t.amount < 0)
-            .reduce((sum, t) => sum + t.amount, 0)
+            .filter((t: { amount: number }) => t.amount < 0)
+            .reduce((sum: number, t: { amount: number }) => sum + t.amount, 0)
         );
 
         return {
@@ -131,20 +131,22 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
         '注册时间',
       ];
 
-      const csvRows = usersWithStats.map((u) => [
-        u.id,
-        u.name,
-        u.email,
-        u.balance,
-        u.totalEarned,
-        u.totalSpent,
-        u.signInStreak,
-        u.lastSignIn,
-        u.createdAt,
-      ]);
+      const csvRows = usersWithStats.map(
+        (u: (typeof usersWithStats)[number]) => [
+          u.id,
+          u.name,
+          u.email,
+          u.balance,
+          u.totalEarned,
+          u.totalSpent,
+          u.signInStreak,
+          u.lastSignIn,
+          u.createdAt,
+        ]
+      );
 
       const csv = [csvHeaders, ...csvRows]
-        .map((row) => row.map((cell) => `"${cell}"`).join(','))
+        .map((row) => row.map((cell: string | number) => `"${cell}"`).join(','))
         .join('\n');
 
       // 添加BOM

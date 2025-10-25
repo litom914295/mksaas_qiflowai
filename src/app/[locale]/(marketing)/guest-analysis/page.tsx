@@ -8,12 +8,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function GuestAnalysis({
+export default async function GuestAnalysis({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const sp = (k: string) => (searchParams?.[k] as string) || '';
+  const params = await searchParams;
+  const sp = (k: string) => (params?.[k] as string) || '';
   const name = sp('name') || '测试用户';
   const birthDate = sp('birthDate') || '1990-05-15';
   const birthTime = sp('birthTime') || '14:30';

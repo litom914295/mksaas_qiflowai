@@ -40,9 +40,18 @@ import {
   Upload,
   User,
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import MaintenancePage from './maintenance';
+
+const CompassPickerDialog = dynamic(
+  () =>
+    import('@/components/compass/compass-picker-dialog').then(
+      (m) => m.CompassPickerDialog
+    ),
+  { ssr: false }
+);
 
 type CalendarType = 'solar' | 'lunar';
 
@@ -56,10 +65,12 @@ interface PersonalInfo {
 }
 
 interface HouseInfo {
-  direction: string;
+  direction: string; // 统一存储为“真北参考”的度数（0-360）
   roomCount: string;
   layoutImage: string | null;
   standardLayout: string;
+  northRef?: 'magnetic' | 'true';
+  declination?: number; // 磁偏角，度
 }
 
 interface FormData {
@@ -109,6 +120,7 @@ export default function UnifiedFormPage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [creditsRequired, setCreditsRequired] = useState(0);
+  const [compassOpen, setCompassOpen] = useState(false);
 
   // 计算填写进度
   useEffect(() => {
@@ -332,6 +344,18 @@ export default function UnifiedFormPage() {
     formData.personal.birthDate &&
     formData.personal.birthTime &&
     formData.personal.gender;
+
+  // 朝向变化 → 同步到 AnalysisContext（实时）
+  useEffect(() => {
+    if (!analysisContext) return;
+    const d = Number.parseInt(formData.house.direction || '');
+    if (!Number.isNaN(d)) {
+      analysisContext.setUserInput({
+        personal: undefined,
+        house: { facing: d },
+      });
+    }
+  }, [formData.house.direction, analysisContext]);
 
   // 调试日志
   useEffect(() => {
@@ -621,7 +645,11 @@ export default function UnifiedFormPage() {
                         min="0"
                         max="360"
                       />
-                      <Button variant="outline" className="whitespace-nowrap">
+                      <Button
+                        variant="outline"
+                        className="whitespace-nowrap"
+                        onClick={() => setCompassOpen(true)}
+                      >
                         <Compass className="w-4 h-4 mr-2" />
                         罗盘定位
                       </Button>
@@ -817,6 +845,25 @@ export default function UnifiedFormPage() {
           </div>
         </div>
       </div>
+
+      {/* 罗盘拾取器弹窗 */}
+      <CompassPickerDialog
+        open={compassOpen}
+        onOpenChange={setCompassOpen}
+        value={Number.parseInt(formData.house.direction || '0') || 0}
+        onChange={(deg, meta) => {
+          handleHouseChange('direction', String(Math.round(deg)));
+          if (meta?.northRef)
+            handleHouseChange('northRef', meta.northRef as any);
+          if (typeof meta?.declination === 'number')
+            handleHouseChange('declination', String(meta.declination));
+        }}
+        onConfirm={(deg) => {
+          handleHouseChange('direction', String(Math.round(deg)));
+          setCompassOpen(false);
+        }}
+        snapStep={1}
+      />
     </div>
   );
 }

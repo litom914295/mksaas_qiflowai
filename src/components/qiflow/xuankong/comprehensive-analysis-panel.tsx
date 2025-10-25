@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
-import { FloorplanOverlay } from '@/components/qiflow/floorplan-overlay';
+import { EnhancedFloorplanOverlay } from '@/components/qiflow/enhanced-floorplan-overlay';
 // 导入子组件
 import { BasicAnalysisView } from './basic-analysis-view';
 import { ChengmenjueAnalysisView } from './chengmenjue-analysis-view';
@@ -347,7 +347,7 @@ export function ComprehensiveAnalysisPanel({
 
             {/* 户型叠加 */}
             <TabsContent value="floorplan" className="mt-0">
-              <FloorplanOverlay analysisResult={analysisResult} />
+              <EnhancedFloorplanOverlay analysisResult={analysisResult} />
             </TabsContent>
           </CardContent>
         </Tabs>

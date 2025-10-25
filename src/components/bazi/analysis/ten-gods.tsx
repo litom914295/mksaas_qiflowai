@@ -239,6 +239,392 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
         </CardContent>
       </Card>
 
+      {/* 十神力量雷达图 */}
+      <Card className="border-2 border-indigo-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="w-5 h-5 text-indigo-600" />
+            十神力量分布雷达图
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="relative w-full h-80 bg-white rounded-lg p-6">
+            {/* SVG 雷达图 */}
+            <svg
+              viewBox="0 0 400 400"
+              className="w-full h-full"
+              style={{ maxHeight: '320px' }}
+            >
+              {/* 背景同心圆 */}
+              {[20, 40, 60, 80, 100].map((radius, idx) => (
+                <circle
+                  key={radius}
+                  cx="200"
+                  cy="200"
+                  r={radius * 1.5}
+                  fill="none"
+                  stroke="#e5e7eb"
+                  strokeWidth="1"
+                  opacity={0.5 - idx * 0.08}
+                />
+              ))}
+
+              {/* 十条坐标轴线 */}
+              {tenGods.profile.slice(0, 10).map((god, idx) => {
+                const angle = (idx * 36 - 90) * (Math.PI / 180);
+                const x2 = 200 + Math.cos(angle) * 150;
+                const y2 = 200 + Math.sin(angle) * 150;
+                return (
+                  <line
+                    key={god.name}
+                    x1="200"
+                    y1="200"
+                    x2={x2}
+                    y2={y2}
+                    stroke="#d1d5db"
+                    strokeWidth="1"
+                  />
+                );
+              })}
+
+              {/* 数据多边形 */}
+              <polygon
+                points={tenGods.profile
+                  .slice(0, 10)
+                  .map((god, idx) => {
+                    const angle = (idx * 36 - 90) * (Math.PI / 180);
+                    const radius = (god.strength / 100) * 150;
+                    const x = 200 + Math.cos(angle) * radius;
+                    const y = 200 + Math.sin(angle) * radius;
+                    return `${x},${y}`;
+                  })
+                  .join(' ')}
+                fill="rgba(147, 51, 234, 0.2)"
+                stroke="rgb(147, 51, 234)"
+                strokeWidth="2"
+              />
+
+              {/* 数据点 */}
+              {tenGods.profile.slice(0, 10).map((god, idx) => {
+                const angle = (idx * 36 - 90) * (Math.PI / 180);
+                const radius = (god.strength / 100) * 150;
+                const x = 200 + Math.cos(angle) * radius;
+                const y = 200 + Math.sin(angle) * radius;
+                return (
+                  <circle
+                    key={`point-${god.name}`}
+                    cx={x}
+                    cy={y}
+                    r="4"
+                    fill="rgb(147, 51, 234)"
+                  />
+                );
+              })}
+
+              {/* 标签 */}
+              {tenGods.profile.slice(0, 10).map((god, idx) => {
+                const angle = (idx * 36 - 90) * (Math.PI / 180);
+                const labelRadius = 170;
+                const x = 200 + Math.cos(angle) * labelRadius;
+                const y = 200 + Math.sin(angle) * labelRadius;
+                return (
+                  <text
+                    key={`label-${god.name}`}
+                    x={x}
+                    y={y}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="12"
+                    fontWeight="600"
+                    fill="#4b5563"
+                  >
+                    {god.chinese}
+                  </text>
+                );
+              })}
+            </svg>
+          </div>
+
+          {/* 图例 */}
+          <div className="flex items-center justify-center gap-6 mt-4 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-purple-600"></div>
+              <span className="text-gray-600">十神力量</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-1 bg-gray-300"></div>
+              <span className="text-gray-600">基准线</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 十神数量统计柱状图 */}
+      <Card className="border-2 border-blue-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Briefcase className="w-5 h-5 text-blue-600" />
+            十神出现频次统计
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {tenGods.profile
+              .slice()
+              .sort((a, b) => b.count - a.count)
+              .map((god) => {
+                const Icon = tenGodIcons[god.chinese] || Star;
+                const percentage = (god.count / 8) * 100; // 假设最多8个
+                return (
+                  <div key={god.name} className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`p-1.5 rounded ${
+                            tenGodColors[god.chinese] || 'bg-gray-100'
+                          }`}
+                        >
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <span className="font-medium text-gray-800">
+                          {god.chinese}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="text-xs">
+                          {god.count} 次
+                        </Badge>
+                        <span className="text-sm text-gray-600 min-w-[50px] text-right">
+                          {god.strength}%
+                        </span>
+                      </div>
+                    </div>
+                    <div className="relative h-6 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-400 to-purple-500 transition-all"
+                        style={{ width: `${Math.min(percentage, 100)}%` }}
+                      ></div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-xs font-medium text-gray-700">
+                          {god.count > 0
+                            ? `出现 ${god.count} 次`
+                            : '未出现'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+
+          <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+            <p className="text-sm text-gray-700">
+              <strong className="text-blue-900">提示：</strong>
+              十神出现频次越高，说明该十神对您的影响越大。
+              结合力量分布可以更全面地了解自己的性格特质。
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 十神互动关系图 */}
+      <Card className="border-2 border-emerald-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="w-5 h-5 text-emerald-600" />
+            十神互动关系图
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="relative w-full h-96 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg p-6">
+            <svg
+              viewBox="0 0 500 500"
+              className="w-full h-full"
+              style={{ maxHeight: '360px' }}
+            >
+              {/* 定义箭头标记 */}
+              <defs>
+                <marker
+                  id="arrowhead-positive"
+                  markerWidth="10"
+                  markerHeight="7"
+                  refX="9"
+                  refY="3.5"
+                  orient="auto"
+                >
+                  <polygon
+                    points="0 0, 10 3.5, 0 7"
+                    fill="#10b981"
+                    opacity="0.6"
+                  />
+                </marker>
+                <marker
+                  id="arrowhead-negative"
+                  markerWidth="10"
+                  markerHeight="7"
+                  refX="9"
+                  refY="3.5"
+                  orient="auto"
+                >
+                  <polygon
+                    points="0 0, 10 3.5, 0 7"
+                    fill="#ef4444"
+                    opacity="0.6"
+                  />
+                </marker>
+              </defs>
+
+              {/* 绘制关系线 - 只显示主要关系 */}
+              {(() => {
+                const relationships = [
+                  // 正相互促进关系（绿色）
+                  { from: 0, to: 2, type: 'positive' }, // 比肩 -> 食神
+                  { from: 2, to: 4, type: 'positive' }, // 食神 -> 正财
+                  { from: 4, to: 6, type: 'positive' }, // 正财 -> 正官
+                  { from: 6, to: 8, type: 'positive' }, // 正官 -> 正印
+                  { from: 8, to: 0, type: 'positive' }, // 正印 -> 比肩
+                  // 负相克制关系（红色）
+                  { from: 3, to: 6, type: 'negative' }, // 伤官 -> 正官
+                  { from: 7, to: 0, type: 'negative' }, // 七杀 -> 比肩
+                ];
+
+                return relationships.map((rel, idx) => {
+                  const fromGod = tenGods.profile[rel.from];
+                  const toGod = tenGods.profile[rel.to];
+                  if (!fromGod || !toGod) return null;
+
+                  const fromAngle = (rel.from * 36 - 90) * (Math.PI / 180);
+                  const toAngle = (rel.to * 36 - 90) * (Math.PI / 180);
+                  const radius = 120;
+
+                  const x1 = 250 + Math.cos(fromAngle) * radius;
+                  const y1 = 250 + Math.sin(fromAngle) * radius;
+                  const x2 = 250 + Math.cos(toAngle) * radius;
+                  const y2 = 250 + Math.sin(toAngle) * radius;
+
+                  // 计算控制点以形成弧线
+                  const midX = (x1 + x2) / 2;
+                  const midY = (y1 + y2) / 2;
+                  const dx = x2 - x1;
+                  const dy = y2 - y1;
+                  const offset = 30;
+                  const controlX = midX + (-dy / Math.sqrt(dx * dx + dy * dy)) * offset;
+                  const controlY = midY + (dx / Math.sqrt(dx * dx + dy * dy)) * offset;
+
+                  return (
+                    <path
+                      key={`rel-${idx}`}
+                      d={`M ${x1} ${y1} Q ${controlX} ${controlY} ${x2} ${y2}`}
+                      fill="none"
+                      stroke={rel.type === 'positive' ? '#10b981' : '#ef4444'}
+                      strokeWidth="2"
+                      opacity="0.4"
+                      markerEnd={`url(#arrowhead-${rel.type})`}
+                    />
+                  );
+                });
+              })()}
+
+              {/* 十神节点 */}
+              {tenGods.profile.slice(0, 10).map((god, idx) => {
+                const angle = (idx * 36 - 90) * (Math.PI / 180);
+                const radius = 120;
+                const x = 250 + Math.cos(angle) * radius;
+                const y = 250 + Math.sin(angle) * radius;
+                const size = Math.max(20, (god.strength / 100) * 40);
+
+                return (
+                  <g key={`node-${god.name}`}>
+                    {/* 节点圆圈 */}
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r={size}
+                      fill="white"
+                      stroke={god.strength > 60 ? '#9333ea' : '#d1d5db'}
+                      strokeWidth="3"
+                      className="hover:stroke-purple-600 transition-colors cursor-pointer"
+                    />
+                    {/* 节点内填充 */}
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r={size * 0.7}
+                      fill={god.strength > 60 ? '#f3e8ff' : '#f9fafb'}
+                      opacity="0.8"
+                    />
+                    {/* 文字标签 */}
+                    <text
+                      x={x}
+                      y={y}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fontSize="12"
+                      fontWeight="700"
+                      fill={god.strength > 60 ? '#7c3aed' : '#6b7280'}
+                    >
+                      {god.chinese}
+                    </text>
+                    {/* 力量标注 */}
+                    <text
+                      x={x}
+                      y={y + size + 15}
+                      textAnchor="middle"
+                      fontSize="10"
+                      fill="#9ca3af"
+                    >
+                      {god.strength}%
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* 中心标签 */}
+              <circle cx="250" cy="250" r="35" fill="white" opacity="0.9" />
+              <circle cx="250" cy="250" r="30" fill="#f3e8ff" />
+              <text
+                x="250"
+                y="250"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#7c3aed"
+              >
+                十神
+              </text>
+            </svg>
+          </div>
+
+          {/* 关系说明 */}
+          <div className="mt-4 space-y-2">
+            <div className="flex items-center justify-center gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-0.5 bg-green-500"></div>
+                <span className="text-gray-600">相生相助</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-0.5 bg-red-500"></div>
+                <span className="text-gray-600">相克相制</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full border-2 border-purple-600 bg-purple-50"></div>
+                <span className="text-gray-600">强势十神</span>
+              </div>
+            </div>
+
+            <div className="p-3 bg-emerald-50 rounded-lg">
+              <p className="text-sm text-gray-700">
+                <strong className="text-emerald-900">关系解读：</strong>
+                图中展示了十神之间的主要相互作用。绿色箭头表示相生关系，
+                红色箭头表示相克关系。节点大小表示十神力量，紫色边框为强势十神。
+                理解这些关系可以帮助您更好地把握自己的性格特点和人生走向。
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* 十神详细分析网格 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {tenGods.profile.map((god) => {
@@ -372,6 +758,76 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
           );
         })}
       </div>
+
+      {/* 十神特征标签云 */}
+      <Card className="border-2 border-cyan-200 bg-gradient-to-br from-cyan-50 to-blue-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Brain className="w-5 h-5 text-cyan-600" />
+            性格特征标签云
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* 根据十神分类展示特征标签 */}
+            {Object.entries(statistics)
+              .filter(([_, count]) => count > 0)
+              .map(([category, count]) => {
+                const categoryGods = tenGods.profile.filter(
+                  (god) => tenGodDetails[god.chinese]?.category === category
+                );
+                const allTraits = categoryGods.flatMap(
+                  (god) => tenGodDetails[god.chinese]?.traits || []
+                );
+
+                return (
+                  <div key={category} className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-gradient-to-r from-cyan-600 to-blue-600">
+                        {category}
+                      </Badge>
+                      <span className="text-xs text-gray-500">
+                        出现 {count} 次
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {[...new Set(allTraits)].map((trait, idx) => (
+                        <Badge
+                          key={`${category}-${idx}`}
+                          variant="outline"
+                          className="px-3 py-1 text-sm hover:bg-cyan-100 hover:border-cyan-400 transition-colors cursor-pointer"
+                          style={{
+                            fontSize: `${0.75 + Math.random() * 0.25}rem`,
+                          }}
+                        >
+                          {trait}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+
+            {/* 全局特征标签 */}
+            <div className="mt-4 p-4 bg-white rounded-lg">
+              <h4 className="font-semibold mb-3 text-cyan-800 flex items-center gap-2">
+                <Sparkles className="w-4 h-4" />
+                综合性格特征
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {tenGods.characteristics.map((char, idx) => (
+                  <Badge
+                    key={idx}
+                    className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer"
+                  >
+                    {char}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* 十神组合解读 */}
       <Card className="border-2 border-amber-200 bg-amber-50/30">

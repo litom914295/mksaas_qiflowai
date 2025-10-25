@@ -1,9 +1,9 @@
 'use client';
 
-import { GuestAnalysisPage } from '@/components/analysis/guest-analysis-page';
 import { RecommendationCard } from '@/components/feedback/recommendation-card';
 import { ReportExport } from '@/components/feedback/report-export';
 import { AIChatPopup } from '@/components/home/ai-chat-popup';
+import GuestAnalysisPage from '@/components/qiflow/analysis/guest-analysis-page';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/enhanced-card';

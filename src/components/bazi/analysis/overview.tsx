@@ -12,7 +12,11 @@ import {
   AlertCircle,
   BarChart3,
   CheckCircle,
+  Heart,
   Info,
+  Shield,
+  Sparkles,
+  Star,
   Target,
   TrendingDown,
   TrendingUp,
@@ -58,6 +62,217 @@ export function BaziOverview({ data }: BaziOverviewProps) {
 
   return (
     <div className="space-y-6">
+      {/* 命局总览雷达图 */}
+      <Card className="border-2 border-indigo-200 bg-gradient-to-br from-indigo-50 to-purple-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Star className="w-6 h-6 text-indigo-600" />
+            命局总览雷达图
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="relative w-full h-96 bg-white rounded-lg p-6">
+            <svg
+              viewBox="0 0 500 500"
+              className="w-full h-full"
+              style={{ maxHeight: '384px' }}
+            >
+              {/* 背景同心圆 */}
+              {[20, 40, 60, 80, 100].map((percentage, idx) => (
+                <circle
+                  key={percentage}
+                  cx="250"
+                  cy="250"
+                  r={(percentage / 100) * 180}
+                  fill="none"
+                  stroke="#e5e7eb"
+                  strokeWidth="1.5"
+                  opacity={0.6 - idx * 0.1}
+                />
+              ))}
+
+              {/* 六条坐标轴线 */}
+              {[
+                { label: '总评', score: metrics.overall.score, icon: '🎯' },
+                { label: '格局', score: patterns.main.score, icon: '🏆' },
+                { label: '五行', score: metrics.balance.status === 'balanced' ? 90 : 60, icon: '⚖️' },
+                { label: '日主', score: metrics.dayMasterStrength.score, icon: '⚡' },
+                { label: '用神', score: useful.favorableElements.length > 0 ? 85 : 50, icon: '✨' },
+                { label: '运势', score: patterns.stability, icon: '📊' },
+              ].map((_, idx) => {
+                const angle = (idx * 60 - 90) * (Math.PI / 180);
+                const x2 = 250 + Math.cos(angle) * 180;
+                const y2 = 250 + Math.sin(angle) * 180;
+                return (
+                  <line
+                    key={idx}
+                    x1="250"
+                    y1="250"
+                    x2={x2}
+                    y2={y2}
+                    stroke="#9ca3af"
+                    strokeWidth="2"
+                  />
+                );
+              })}
+
+              {/* 数据多边形 */}
+              <polygon
+                points={[
+                  { label: '总评', score: metrics.overall.score },
+                  { label: '格局', score: patterns.main.score },
+                  { label: '五行', score: metrics.balance.status === 'balanced' ? 90 : 60 },
+                  { label: '日主', score: metrics.dayMasterStrength.score },
+                  { label: '用神', score: useful.favorableElements.length > 0 ? 85 : 50 },
+                  { label: '运势', score: patterns.stability },
+                ]
+                  .map((item, idx) => {
+                    const angle = (idx * 60 - 90) * (Math.PI / 180);
+                    const radius = (item.score / 100) * 180;
+                    const x = 250 + Math.cos(angle) * radius;
+                    const y = 250 + Math.sin(angle) * radius;
+                    return `${x},${y}`;
+                  })
+                  .join(' ')}
+                fill="rgba(99, 102, 241, 0.2)"
+                stroke="rgb(99, 102, 241)"
+                strokeWidth="3"
+              />
+
+              {/* 数据点 */}
+              {[
+                { label: '总评', score: metrics.overall.score, color: '#8b5cf6' },
+                { label: '格局', score: patterns.main.score, color: '#6366f1' },
+                { label: '五行', score: metrics.balance.status === 'balanced' ? 90 : 60, color: '#14b8a6' },
+                { label: '日主', score: metrics.dayMasterStrength.score, color: '#f59e0b' },
+                { label: '用神', score: useful.favorableElements.length > 0 ? 85 : 50, color: '#10b981' },
+                { label: '运势', score: patterns.stability, color: '#ec4899' },
+              ].map((item, idx) => {
+                const angle = (idx * 60 - 90) * (Math.PI / 180);
+                const radius = (item.score / 100) * 180;
+                const x = 250 + Math.cos(angle) * radius;
+                const y = 250 + Math.sin(angle) * radius;
+
+                return (
+                  <g key={`point-${idx}`}>
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r="6"
+                      fill={item.color}
+                      stroke="white"
+                      strokeWidth="2.5"
+                    />
+                  </g>
+                );
+              })}
+
+              {/* 标签 */}
+              {[
+                { label: '总评', score: metrics.overall.score, icon: '🎯' },
+                { label: '格局', score: patterns.main.score, icon: '🏆' },
+                { label: '五行', score: metrics.balance.status === 'balanced' ? 90 : 60, icon: '⚖️' },
+                { label: '日主', score: metrics.dayMasterStrength.score, icon: '⚡' },
+                { label: '用神', score: useful.favorableElements.length > 0 ? 85 : 50, icon: '✨' },
+                { label: '运势', score: patterns.stability, icon: '📊' },
+              ].map((item, idx) => {
+                const angle = (idx * 60 - 90) * (Math.PI / 180);
+                const labelRadius = 210;
+                const x = 250 + Math.cos(angle) * labelRadius;
+                const y = 250 + Math.sin(angle) * labelRadius;
+
+                return (
+                  <g key={`label-${idx}`}>
+                    <text
+                      x={x}
+                      y={y - 10}
+                      textAnchor="middle"
+                      fontSize="18"
+                    >
+                      {item.icon}
+                    </text>
+                    <text
+                      x={x}
+                      y={y + 10}
+                      textAnchor="middle"
+                      fontSize="14"
+                      fontWeight="600"
+                      fill="#4b5563"
+                    >
+                      {item.label}
+                    </text>
+                    <text
+                      x={x}
+                      y={y + 26}
+                      textAnchor="middle"
+                      fontSize="12"
+                      fontWeight="500"
+                      fill="#6b7280"
+                    >
+                      {item.score}%
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* 中心标签 */}
+              <circle cx="250" cy="250" r="40" fill="white" opacity="0.95" />
+              <circle cx="250" cy="250" r="35" fill="#eef2ff" />
+              <text
+                x="250"
+                y="255"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#6366f1"
+              >
+                命局
+              </text>
+            </svg>
+          </div>
+
+          {/* 图例和解读 */}
+          <div className="mt-4 space-y-3">
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-2 text-xs">
+              {[
+                { label: '总评', color: '#8b5cf6', score: metrics.overall.score },
+                { label: '格局', color: '#6366f1', score: patterns.main.score },
+                { label: '五行', color: '#14b8a6', score: metrics.balance.status === 'balanced' ? 90 : 60 },
+                { label: '日主', color: '#f59e0b', score: metrics.dayMasterStrength.score },
+                { label: '用神', color: '#10b981', score: useful.favorableElements.length > 0 ? 85 : 50 },
+                { label: '运势', color: '#ec4899', score: patterns.stability },
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-center gap-1.5">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: item.color }}
+                  ></div>
+                  <span className="text-gray-700">
+                    {item.label} {item.score}%
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border-2 border-indigo-200">
+              <p className="text-sm text-gray-800">
+                <strong className="text-indigo-900">💡 命局解读：</strong>
+                雷达图展示了您六大核心命理指标。面积越大表示命局越好。
+                当前您的
+                <strong className="text-indigo-800">
+                  {patterns.main.chinese || patterns.main.name}
+                </strong>
+                格局，总评{metrics.overall.score}分，
+                {metrics.overall.score >= 80 && '命格优越，运势亨通。'}
+                {metrics.overall.score >= 60 && metrics.overall.score < 80 && '命格良好，有发展潜力。'}
+                {metrics.overall.score < 60 && '需要加强调理，把握机遇。'}
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* 顶部核心指标卡片组 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* 整体评分卡片 */}

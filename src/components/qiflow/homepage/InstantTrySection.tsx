@@ -4,17 +4,27 @@
 // 功能：用户输入生日，获取八字分析预览
 
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { useInstantPreview } from '@/hooks/useInstantPreview';
 import { trackInstantTryUsage } from '@/lib/analytics/conversion-tracking';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Compass, ChevronDown, ChevronUp, Home } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import dynamic from 'next/dynamic';
 import { InstantResultEnhanced } from './InstantResultEnhanced';
+
+const CompassPickerDialog = dynamic(
+  () =>
+    import('@/components/compass/compass-picker-dialog').then(
+      (m) => m.CompassPickerDialog
+    ),
+  { ssr: false }
+);
 
 // 表单验证Schema
 const formSchema = z.object({

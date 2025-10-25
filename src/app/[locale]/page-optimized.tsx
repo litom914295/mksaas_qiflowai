@@ -25,10 +25,7 @@ import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 
 // 懒加载重型组件
 const GuestAnalysisPage = dynamic(
-  () =>
-    import('@/components/analysis/guest-analysis-page').then((mod) => ({
-      default: mod.GuestAnalysisPage,
-    })),
+  () => import('@/components/qiflow/analysis/guest-analysis-page'),
   {
     loading: () => <div className="p-8 text-center">加载分析组件...</div>,
     ssr: false,

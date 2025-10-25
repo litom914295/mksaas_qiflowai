@@ -980,12 +980,136 @@ function generatePersonalityInsight(
   tenGods: any,
   elements: any
 ): PersonalityInsight {
+  const strengths: string[] = [];
+  const weaknesses: string[] = [];
+  const growthAdvice: string[] = [];
+  let communicationStyle = '待分析';
+  let decisionMaking = '待分析';
+
+  // 基于十神分析性格特征
+  if (tenGods?.distribution) {
+    const dist = tenGods.distribution;
+
+    // 比肩劫财多 - 独立自主
+    if ((dist.bijian || 0) + (dist.jiecai || 0) >= 2) {
+      strengths.push('独立自主，不依赖他人');
+      strengths.push('意志坚定，有主见');
+      weaknesses.push('过于自我，不易妥协');
+      communicationStyle = '直接坦率，个性鲜明';
+      decisionMaking = '果断独立，相信自己的判断';
+    }
+
+    // 食神伤官多 - 才华横溢
+    if ((dist.shishen || 0) + (dist.shangguan || 0) >= 2) {
+      strengths.push('才华横溢，表达力强');
+      strengths.push('创新能力强，思维活跃');
+      weaknesses.push('情绪化，易冲动');
+      communicationStyle = '善于表达，能言善辩';
+      growthAdvice.push('学会控制情绪，理性思考');
+    }
+
+    // 正财偏财多 - 理财能力
+    if ((dist.zhengcai || 0) + (dist.piancai || 0) >= 2) {
+      strengths.push('理财能力强，财运亨通');
+      strengths.push('务实勤劳，善于积累');
+      weaknesses.push('过于注重物质，忽视精神');
+      decisionMaking = '理性务实，注重实际利益';
+      growthAdvice.push('平衡物质与精神追求');
+    }
+
+    // 正官七杀多 - 领导力
+    if ((dist.zhengguan || 0) + (dist.qisha || 0) >= 2) {
+      strengths.push('领导能力强，有威严');
+      strengths.push('责任心强，目标明确');
+      weaknesses.push('过于严格，压力大');
+      communicationStyle = '严谨认真，注重规矩';
+      decisionMaking = '理性分析，目标导向';
+      growthAdvice.push('学会放松，减轻压力');
+    }
+
+    // 正印偏印多 - 学习能力
+    if ((dist.zhengyin || 0) + (dist.pianyin || 0) >= 2) {
+      strengths.push('学习能力强，善于思考');
+      strengths.push('品德高尚，有涵养');
+      weaknesses.push('依赖性强，缺乏行动力');
+      communicationStyle = '温和谦逊，善于倾听';
+      decisionMaking = '深思熟虑，注重长远';
+      growthAdvice.push('培养独立性，敢于行动');
+    }
+  }
+
+  // 基于五行分析性格
+  if (elements?.score) {
+    const scores = elements.score;
+    const max = Math.max(
+      scores.wood || 0,
+      scores.fire || 0,
+      scores.earth || 0,
+      scores.metal || 0,
+      scores.water || 0
+    );
+
+    // 木旺 - 仁慈
+    if (scores.wood === max && scores.wood > 25) {
+      strengths.push('仁慈善良，富有同情心');
+      strengths.push('积极向上，充满活力');
+    }
+
+    // 火旺 - 热情
+    if (scores.fire === max && scores.fire > 25) {
+      strengths.push('热情开朗，充满激情');
+      strengths.push('有感染力，善于社交');
+    }
+
+    // 土旺 - 稳重
+    if (scores.earth === max && scores.earth > 25) {
+      strengths.push('稳重可靠，值得信赖');
+      strengths.push('脚踏实地，务实肯干');
+    }
+
+    // 金旺 - 果断
+    if (scores.metal === max && scores.metal > 25) {
+      strengths.push('果断决绝，执行力强');
+      strengths.push('原则性强，坚持正义');
+    }
+
+    // 水旺 - 智慧
+    if (scores.water === max && scores.water > 25) {
+      strengths.push('聪明智慧，善于谋略');
+      strengths.push('灵活变通，适应力强');
+    }
+  }
+
+  // 如果没有生成任何特征，使用默认值
+  if (strengths.length === 0) {
+    strengths.push('性格稳重，做事认真');
+    strengths.push('有责任心，值得信赖');
+  }
+
+  if (weaknesses.length === 0) {
+    weaknesses.push('需要增强自信心');
+    weaknesses.push('有时过于谨慎');
+  }
+
+  if (growthAdvice.length === 0) {
+    growthAdvice.push('保持积极心态，持续学习成长');
+    growthAdvice.push('平衡工作与生活，注重身心健康');
+  }
+
+  if (communicationStyle === '待分析') {
+    communicationStyle = '平和稳重，注重沟通效果';
+  }
+
+  if (decisionMaking === '待分析') {
+    decisionMaking = '理性分析，综合权衡利弊';
+  }
+
   return {
-    strengths: ['责任心强', '有领导力', '善于规划'],
-    weaknesses: ['过于谨慎', '缺乏灵活性'],
-    communicationStyle: '直接坦率，注重逻辑',
-    decisionMaking: '理性分析，谨慎决策',
-    growthAdvice: ['培养创新思维', '增强适应能力'],
+    strengths: [...new Set(strengths)], // 去重
+    weaknesses: [...new Set(weaknesses)],
+    communicationStyle,
+    decisionMaking,
+    growthAdvice: [...new Set(growthAdvice)],
   };
 }
 

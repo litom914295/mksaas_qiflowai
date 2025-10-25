@@ -8,7 +8,7 @@ import { type NextRequest, NextResponse } from 'next/server';
  */
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth();
+    const { session } = await auth.api.getSession({ headers: request.headers });
     if (!session?.user?.id) {
       return NextResponse.json({ error: '请先登录' }, { status: 401 });
     }
@@ -70,13 +70,15 @@ export async function GET(request: NextRequest) {
         totalInvites: user.totalInvites,
         successfulInvites: user.successfulInvites,
         totalRewards: referralRewards._sum.amount || 0,
-        referrals: user.referralsGiven.map((r) => ({
-          id: r.id,
-          status: r.status,
-          userName: r.referred.name || '新用户',
-          createdAt: r.createdAt.toISOString(),
-          activatedAt: r.activatedAt?.toISOString(),
-        })),
+        referrals: user.referralsGiven.map(
+          (r: (typeof user.referralsGiven)[number]) => ({
+            id: r.id,
+            status: r.status,
+            userName: r.referred.name || '新用户',
+            createdAt: r.createdAt.toISOString(),
+            activatedAt: r.activatedAt?.toISOString(),
+          })
+        ),
       },
     });
   } catch (error) {

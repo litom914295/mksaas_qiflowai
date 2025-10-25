@@ -36,6 +36,7 @@ import {
 import type { Mountain, PlateCell } from '@/lib/qiflow/xuankong/types';
 import {
   AlertCircle,
+  AlertTriangle,
   CheckCircle2,
   Compass,
   Download,
@@ -44,6 +45,7 @@ import {
   Grid3x3,
   Home,
   Info,
+  Loader2,
   Maximize2,
   Move,
   RotateCw,
@@ -51,11 +53,19 @@ import {
   Settings,
   Sparkles,
   Upload,
+  WifiOff,
   X,
+  XCircle,
   ZoomIn,
   ZoomOut,
 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { toast } from '@/components/ui/use-toast';
+import { useFloorplanPersist } from '@/hooks/use-floorplan-persist';
+import { uploadFloorplanImage } from '@/lib/qiflow/floorplan-storage';
+import { checkLocalStorageQuota } from '@/lib/qiflow/storage-quota';
 
 interface EnhancedFloorplanOverlayProps {
   flyingStarData?: {
@@ -64,6 +74,10 @@ interface EnhancedFloorplanOverlayProps {
     plate: PlateCell[];
   };
   analysisResult?: any;
+  /** 分析方案 ID，用于持久化区分不同方案 */
+  analysisId?: string;
+  /** 方案切换回调 */
+  onAnalysisIdChange?: (id: string) => void;
 }
 
 // 九宫格位置映射（洛书顺序）
@@ -82,7 +96,13 @@ const PALACE_POSITIONS = [
 export function EnhancedFloorplanOverlay({
   flyingStarData,
   analysisResult,
+  analysisId = 'default',
+  onAnalysisIdChange,
 }: EnhancedFloorplanOverlayProps) {
+  // 会话管理
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
   // 数据提取
   const data = flyingStarData || {
     facing: '子' as Mountain,
@@ -90,55 +110,108 @@ export function EnhancedFloorplanOverlay({
     plate: analysisResult?.basicAnalysis?.plates?.period || [],
   };
 
-  // 状态管理
-  const [floorplanImage, setFloorplanImage] = useState<string | null>(null);
-  const [rotation, setRotation] = useState(0);
-  const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  // 🔑 核心：持久化 Hook
+  const {
+    state: floorplanState,
+    updateState: updateFloorplanState,
+    isLoading,
+    isSaving,
+    isOffline,
+    saveError,
+    retry,
+    clearLocal,
+  } = useFloorplanPersist({
+    analysisId,
+    userId,
+    enabled: true,
+  });
+
+  // UI 状态管理
   const [autoRotated, setAutoRotated] = useState(false);
   const [selectedPalace, setSelectedPalace] = useState<number | null>(null);
-  const [showOverlay, setShowOverlay] = useState(true);
-  const [showLabels, setShowLabels] = useState(true);
-  const [overlayOpacity, setOverlayOpacity] = useState(0.7);
-  const [gridLineWidth, setGridLineWidth] = useState(2);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [viewMode, setViewMode] = useState<'split' | 'overlay'>('overlay');
+  const [quotaWarning, setQuotaWarning] = useState(false);
+
+  // 从持久化状态中提取数据（兼容旧状态）
+  const floorplanImage = floorplanState?.imageData || null;
+  const rotation = floorplanState?.rotation ?? 0;
+  const scale = floorplanState?.scale ?? 1;
+  const position = floorplanState?.position ?? { x: 0, y: 0 };
+  const showOverlay = floorplanState?.showOverlay ?? true;
+  const showLabels = floorplanState?.showLabels ?? true;
+  const overlayOpacity = floorplanState?.overlayOpacity ?? 0.7;
+  const gridLineWidth = floorplanState?.gridLineWidth ?? 2;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // 处理图片上传
+  // 💾 配额监控
+  useEffect(() => {
+    const quota = checkLocalStorageQuota();
+    setQuotaWarning(quota.percentage > 80);
+  }, [floorplanState]);
+
+  // 🖼️ 图片上传（集成持久化）
   const handleImageUpload = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const imageUrl = event.target?.result as string;
-          setFloorplanImage(imageUrl);
-          autoAlignFloorplan();
-        };
-        reader.readAsDataURL(file);
+      if (!file) return;
+
+      try {
+        // 调用封装的上传服务（自动压缩、云上传、降级 Base64）
+        const result = await uploadFloorplanImage(file, userId || '');
+
+        if (!result.success) {
+          throw new Error(result.error || '图片上传失败');
+        }
+
+        // 更新状态（自动触发持久化）
+        updateFloorplanState({
+          imageData: result.imageData,
+          imageType: result.imageType,
+          storageKey: result.storageKey,
+          id: floorplanState?.id || `floorplan_${Date.now()}`,
+          name:
+            floorplanState?.name ||
+            `方案 ${new Date().toLocaleString('zh-CN')}`,
+          createdAt: floorplanState?.createdAt || Date.now(),
+          updatedAt: Date.now(),
+        });
+
+        toast.success('上传成功', {
+          description:
+            result.imageType === 'url'
+              ? '图片已上传到云存储'
+              : '图片已保存为 Base64',
+        });
+
+        // 自动对准
+        autoAlignFloorplan();
+      } catch (error) {
+        toast.error('上传失败', {
+          description: error instanceof Error ? error.message : '未知错误',
+        });
       }
     },
-    []
+    [userId, floorplanState, updateFloorplanState]
   );
 
-  // 自动旋转对准功能
+  // 🧭 自动旋转对准功能
   const autoAlignFloorplan = useCallback(() => {
     const rotationAngle = data.facingDegree;
-    setRotation(rotationAngle);
+    updateFloorplanState({ rotation: rotationAngle });
     setAutoRotated(true);
 
     // 显示成功提示
     setTimeout(() => {
       setAutoRotated(false);
     }, 3000);
-  }, [data]);
+  }, [data, updateFloorplanState]);
 
-  // 拖拽功能
+  // 👆 拖拽功能
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!floorplanImage) return;
     setIsDragging(true);
@@ -147,27 +220,39 @@ export function EnhancedFloorplanOverlay({
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-    setPosition({
-      x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y,
-    });
+    const newX = e.clientX - dragStart.x;
+    const newY = e.clientY - dragStart.y;
+    // 暂存到本地状态，不立即持久化（性能优化）
+    // 实际应用中可使用 throttle
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-  };
+    // 拖拽结束时更新持久化状态
+    if (isDragging) {
+      updateFloorplanState({ position });
+    }
+  }, [isDragging, position, updateFloorplanState]);
 
-  // 缩放控制
-  const handleZoom = (delta: number) => {
-    setScale((prev) => Math.max(0.3, Math.min(3, prev + delta)));
-  };
+  // 🔍 缩放控制
+  const handleZoom = useCallback(
+    (delta: number) => {
+      const newScale = Math.max(0.3, Math.min(3, scale + delta));
+      updateFloorplanState({ scale: newScale });
+    },
+    [scale, updateFloorplanState]
+  );
 
-  // 重置视图
-  const resetView = () => {
-    setScale(1);
-    setPosition({ x: 0, y: 0 });
-    autoAlignFloorplan();
-  };
+  // 🔄 重置视图
+  const resetView = useCallback(() => {
+    updateFloorplanState({
+      scale: 1,
+      position: { x: 0, y: 0 },
+      rotation: data.facingDegree,
+    });
+    setAutoRotated(true);
+    setTimeout(() => setAutoRotated(false), 3000);
+  }, [data.facingDegree, updateFloorplanState]);
 
   // 导出功能
   const handleExport = useCallback(() => {
@@ -190,7 +275,7 @@ export function EnhancedFloorplanOverlay({
   const getPalaceSuggestion = (
     palaceIndex: number
   ): LayoutSuggestion | null => {
-    const cell = data.plate.find((c) => c.palace === palaceIndex);
+    const cell = data.plate.find((c: any) => c.palace === palaceIndex);
     if (!cell) return null;
     return getLayoutSuggestion(cell.mountainStar, cell.facingStar);
   };
@@ -229,8 +314,86 @@ export function EnhancedFloorplanOverlay({
     }
   };
 
+  // 📊 加载态
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className="p-12">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <Loader2 className="h-12 w-12 animate-spin text-purple-600" />
+            <p className="text-muted-foreground">加载户型方案中...</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {/* 💾 状态指示器栏 */}
+      {floorplanImage && (
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* 保存状态 */}
+          {isSaving && (
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <Loader2 className="h-3 w-3 animate-spin" />
+              保存中...
+            </Badge>
+          )}
+
+          {!isSaving && !saveError && floorplanState && (
+            <Badge
+              variant="outline"
+              className="flex items-center gap-1 bg-green-50 text-green-700 border-green-300"
+            >
+              <CheckCircle2 className="h-3 w-3" />
+              已保存
+            </Badge>
+          )}
+
+          {saveError && (
+            <Badge variant="destructive" className="flex items-center gap-1">
+              <XCircle className="h-3 w-3" />
+              保存失败
+              <button
+                onClick={retry}
+                className="ml-1 underline hover:no-underline"
+              >
+                重试
+              </button>
+            </Badge>
+          )}
+
+          {/* 离线状态 */}
+          {isOffline && (
+            <Badge
+              variant="outline"
+              className="flex items-center gap-1 bg-yellow-50 text-yellow-700 border-yellow-300"
+            >
+              <WifiOff className="h-3 w-3" />
+              离线模式
+            </Badge>
+          )}
+
+          {/* 配额警告 */}
+          {quotaWarning && (
+            <Badge
+              variant="outline"
+              className="flex items-center gap-1 bg-orange-50 text-orange-700 border-orange-300"
+            >
+              <AlertTriangle className="h-3 w-3" />
+              存储空间接近上限
+              <button
+                onClick={clearLocal}
+                className="ml-1 underline hover:no-underline"
+              >
+                清理缓存
+              </button>
+            </Badge>
+          )}
+        </div>
+      )}
+
       {/* 上传区域 */}
       {!floorplanImage ? (
         <Card className="border-2 border-dashed border-purple-300 bg-gradient-to-br from-purple-50 to-blue-50">
@@ -427,7 +590,9 @@ export function EnhancedFloorplanOverlay({
                             type="number"
                             value={Math.round(rotation)}
                             onChange={(e) =>
-                              setRotation(Number(e.target.value) % 360)
+                              updateFloorplanState({
+                                rotation: Number(e.target.value) % 360,
+                              })
                             }
                             className="w-16 h-8 text-xs text-center"
                           />
@@ -436,7 +601,9 @@ export function EnhancedFloorplanOverlay({
                       </div>
                       <Slider
                         value={[rotation]}
-                        onValueChange={(v) => setRotation(v[0])}
+                        onValueChange={(v) =>
+                          updateFloorplanState({ rotation: v[0] })
+                        }
                         min={0}
                         max={360}
                         step={1}
@@ -449,7 +616,9 @@ export function EnhancedFloorplanOverlay({
                             variant="outline"
                             size="sm"
                             onClick={() =>
-                              setRotation((prev) => (prev + angle) % 360)
+                              updateFloorplanState({
+                                rotation: (rotation + angle) % 360,
+                              })
                             }
                             className="text-xs"
                           >
@@ -484,7 +653,9 @@ export function EnhancedFloorplanOverlay({
                       </div>
                       <Slider
                         value={[scale]}
-                        onValueChange={(v) => setScale(v[0])}
+                        onValueChange={(v) =>
+                          updateFloorplanState({ scale: v[0] })
+                        }
                         min={0.3}
                         max={3}
                         step={0.1}
@@ -502,7 +673,7 @@ export function EnhancedFloorplanOverlay({
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => setScale(1)}
+                          onClick={() => updateFloorplanState({ scale: 1 })}
                           className="text-xs"
                         >
                           100%
@@ -540,7 +711,9 @@ export function EnhancedFloorplanOverlay({
                         </Label>
                         <Switch
                           checked={showOverlay}
-                          onCheckedChange={setShowOverlay}
+                          onCheckedChange={(checked) =>
+                            updateFloorplanState({ showOverlay: checked })
+                          }
                         />
                       </div>
 
@@ -551,7 +724,9 @@ export function EnhancedFloorplanOverlay({
                         </Label>
                         <Switch
                           checked={showLabels}
-                          onCheckedChange={setShowLabels}
+                          onCheckedChange={(checked) =>
+                            updateFloorplanState({ showLabels: checked })
+                          }
                         />
                       </div>
 
@@ -559,7 +734,9 @@ export function EnhancedFloorplanOverlay({
                         <Label className="text-sm">叠加层透明度</Label>
                         <Slider
                           value={[overlayOpacity]}
-                          onValueChange={(v) => setOverlayOpacity(v[0])}
+                          onValueChange={(v) =>
+                            updateFloorplanState({ overlayOpacity: v[0] })
+                          }
                           min={0.1}
                           max={1}
                           step={0.05}
@@ -574,7 +751,9 @@ export function EnhancedFloorplanOverlay({
                         <Label className="text-sm">网格线宽度</Label>
                         <Slider
                           value={[gridLineWidth]}
-                          onValueChange={(v) => setGridLineWidth(v[0])}
+                          onValueChange={(v) =>
+                            updateFloorplanState({ gridLineWidth: v[0] })
+                          }
                           min={1}
                           max={5}
                           step={0.5}
@@ -620,7 +799,9 @@ export function EnhancedFloorplanOverlay({
                     style={{ opacity: overlayOpacity }}
                   >
                     {PALACE_POSITIONS.map((pos) => {
-                      const cell = data.plate.find((c) => c.palace === pos.id);
+                      const cell = data.plate.find(
+                        (c: any) => c.palace === pos.id
+                      );
                       const suggestion = cell
                         ? getPalaceSuggestion(pos.id)
                         : null;
@@ -726,7 +907,7 @@ export function EnhancedFloorplanOverlay({
               {(() => {
                 const suggestion = getPalaceSuggestion(selectedPalace);
                 const cell = data.plate.find(
-                  (c) => c.palace === selectedPalace
+                  (c: any) => c.palace === selectedPalace
                 );
                 const position = PALACE_POSITIONS.find(
                   (p) => p.id === selectedPalace

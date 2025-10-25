@@ -299,6 +299,411 @@ export function CareerWealth({ data }: CareerWealthProps) {
         </Card>
       )}
 
+      {/* 财运周期分析 */}
+      <Card className="border-2 border-indigo-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-indigo-600" />
+            财运周期与发展阶段
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* 财运类型 */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div
+                className={`p-4 rounded-lg border-2 ${
+                  tenGods.profile.some(
+                    (g) => g.chinese === '正财' && g.strength > 60
+                  )
+                    ? 'border-green-300 bg-green-50'
+                    : 'border-gray-200 bg-gray-50'
+                }`}
+              >
+                <h5 className="font-medium text-gray-800 mb-2">正财型</h5>
+                <p className="text-sm text-gray-600 mb-2">
+                  稳健积累、工资收入
+                </p>
+                <div className="text-2xl font-bold text-green-600">
+                  {tenGods.profile.find((g) => g.chinese === '正财')
+                    ?.strength || 0}
+                  %
+                </div>
+              </div>
+
+              <div
+                className={`p-4 rounded-lg border-2 ${
+                  tenGods.profile.some(
+                    (g) => g.chinese === '偏财' && g.strength > 60
+                  )
+                    ? 'border-blue-300 bg-blue-50'
+                    : 'border-gray-200 bg-gray-50'
+                }`}
+              >
+                <h5 className="font-medium text-gray-800 mb-2">偏财型</h5>
+                <p className="text-sm text-gray-600 mb-2">
+                  投资理财、灵活收入
+                </p>
+                <div className="text-2xl font-bold text-blue-600">
+                  {tenGods.profile.find((g) => g.chinese === '偏财')
+                    ?.strength || 0}
+                  %
+                </div>
+              </div>
+
+              <div className="p-4 rounded-lg border-2 border-gray-200 bg-gray-50">
+                <h5 className="font-medium text-gray-800 mb-2">综合评分</h5>
+                <p className="text-sm text-gray-600 mb-2">财运总体水平</p>
+                <div className="text-2xl font-bold text-purple-600">
+                  {
+                    Math.round(
+                      ((tenGods.profile.find((g) => g.chinese === '正财')
+                        ?.strength || 0) +
+                        (tenGods.profile.find((g) => g.chinese === '偏财')
+                          ?.strength || 0)) /
+                        2
+                    )
+                  }
+                  %
+                </div>
+              </div>
+            </div>
+
+            {/* 事业发展阶段建议 */}
+            <div className="p-4 bg-white rounded-lg border-2 border-indigo-200">
+              <h5 className="font-medium text-indigo-900 mb-3">
+                事业发展阶段建议
+              </h5>
+              <div className="space-y-3">
+                {[
+                  {
+                    age: '25-35岁',
+                    stage: '积累期',
+                    advice:
+                      '注重知识和经验积累，建立专业基础，多尝试不同领域',
+                  },
+                  {
+                    age: '35-45岁',
+                    stage: '上升期',
+                    advice:
+                      '大胆发展，争取管理岗位，可适度投资理财，扩大事业版图',
+                  },
+                  {
+                    age: '45-60岁',
+                    stage: '成熟期',
+                    advice:
+                      '稳健经营，注重传帮带教，延伸业务链，平衡工作与生活',
+                  },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-start gap-3 p-3 bg-indigo-50 rounded-lg"
+                  >
+                    <Badge className="bg-indigo-600 mt-0.5">{item.age}</Badge>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-800 mb-1">
+                        {item.stage}
+                      </p>
+                      <p className="text-sm text-gray-600">{item.advice}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 投资理财建议 */}
+      <Card className="border-2 border-emerald-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <DollarSign className="w-5 h-5 text-emerald-600" />
+            投资理财建议
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* 适合的投资类型 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 bg-white rounded-lg border border-emerald-200">
+                <h5 className="font-medium text-emerald-900 mb-3">
+                  适合投资类型
+                </h5>
+                <ul className="space-y-2">
+                  {[
+                    tenGods.profile.some(
+                      (g) => g.chinese === '偏财' && g.strength > 60
+                    )
+                      ? '股票、基金等金融产品'
+                      : null,
+                    tenGods.profile.some(
+                      (g) => g.chinese === '正财' && g.strength > 60
+                    )
+                      ? '房产、储蓄、固定收益'
+                      : null,
+                    data.useful.favorableElements.some(
+                      (e) => e.chinese === '土'
+                    )
+                      ? '房地产、土地投资'
+                      : null,
+                    data.useful.favorableElements.some(
+                      (e) => e.chinese === '金'
+                    )
+                      ? '金融、珠宝、贵金属'
+                      : null,
+                    data.useful.favorableElements.some(
+                      (e) => e.chinese === '水'
+                    )
+                      ? '流动资产、贸易、物流'
+                      : null,
+                    '稳健型理财产品',
+                  ]
+                    .filter(Boolean)
+                    .slice(0, 4)
+                    .map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-center gap-2 text-sm text-gray-700"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+
+              <div className="p-4 bg-white rounded-lg border border-orange-200">
+                <h5 className="font-medium text-orange-900 mb-3">
+                  需谨慎领域
+                </h5>
+                <ul className="space-y-2">
+                  {[
+                    tenGods.profile.some(
+                      (g) => g.chinese === '偏财' && g.strength < 30
+                    )
+                      ? '高风险投机和赌博'
+                      : null,
+                    tenGods.profile.some(
+                      (g) => g.chinese === '劫财' && g.strength > 60
+                    )
+                      ? '合伙业务，谨防财产纠纷'
+                      : null,
+                    '不熟悉的领域投资',
+                    '过度加杠杆的金融产品',
+                  ]
+                    .filter(Boolean)
+                    .slice(0, 4)
+                    .map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-center gap-2 text-sm text-gray-700"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* 风险承受能力 */}
+            <div className="p-4 bg-white rounded-lg border-2 border-emerald-200">
+              <h5 className="font-medium text-emerald-900 mb-3">
+                风险承受能力评估
+              </h5>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">投资风险等级</span>
+                  <Badge
+                    variant={
+                      tenGods.profile.some(
+                        (g) => g.chinese === '偏财' && g.strength > 60
+                      )
+                        ? 'default'
+                        : 'secondary'
+                    }
+                  >
+                    {tenGods.profile.some(
+                      (g) => g.chinese === '偏财' && g.strength > 60
+                    )
+                      ? '中高风险'
+                      : '低风险'}
+                  </Badge>
+                </div>
+                <Progress
+                  value={
+                    tenGods.profile.find((g) => g.chinese === '偏财')
+                      ?.strength || 30
+                  }
+                  className="h-2"
+                />
+                <p className="text-xs text-gray-600 mt-2">
+                  {tenGods.profile.some(
+                    (g) => g.chinese === '偏财' && g.strength > 60
+                  )
+                    ? '您的八字偏财较旺，适合适度投资，但需注意风险控制'
+                    : '您的八字财运偏稳健，建议以保守型投资为主'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 贵人方位和幸运色彩 */}
+      <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-purple-600" />
+            贵人方位与幸运元素
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* 贵人方位 */}
+            <div className="p-4 bg-white rounded-lg">
+              <h5 className="font-medium text-purple-900 mb-3">
+                贵人方位
+              </h5>
+              <div className="space-y-2">
+                {data.useful.favorableElements
+                  .slice(0, 2)
+                  .map((elem) => elem.suggestions?.directions || [])
+                  .flat()
+                  .slice(0, 3)
+                  .map((dir, idx) => (
+                    <Badge
+                      key={idx}
+                      className="mr-2 bg-purple-100 text-purple-800"
+                    >
+                      {dir}
+                    </Badge>
+                  ))}
+                {data.useful.favorableElements[0]?.suggestions?.directions
+                  ?.length === 0 && (
+                  <div className="space-y-1">
+                    <Badge className="mr-2 bg-purple-100 text-purple-800">
+                      东南
+                    </Badge>
+                    <Badge className="mr-2 bg-purple-100 text-purple-800">
+                      南方
+                    </Badge>
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-gray-600 mt-2">
+                事业发展、办公座位合适朝向
+              </p>
+            </div>
+
+            {/* 幸运颜色 */}
+            <div className="p-4 bg-white rounded-lg">
+              <h5 className="font-medium text-purple-900 mb-3">
+                幸运颜色
+              </h5>
+              <div className="flex flex-wrap gap-2">
+                {data.useful.favorableElements
+                  .slice(0, 2)
+                  .map((elem) => elem.suggestions?.colors || [])
+                  .flat()
+                  .slice(0, 4)
+                  .map((color, idx) => (
+                    <div key={idx} className="flex items-center gap-1">
+                      <div
+                        className="w-6 h-6 rounded-full border-2 border-gray-300"
+                        style={{
+                          backgroundColor:
+                            color === '绿色'
+                              ? '#22c55e'
+                              : color === '蓝色'
+                                ? '#3b82f6'
+                                : color === '红色'
+                                  ? '#ef4444'
+                                  : color === '黄色'
+                                    ? '#eab308'
+                                    : color === '白色'
+                                      ? '#f3f4f6'
+                                      : '#000000',
+                        }}
+                      ></div>
+                      <span className="text-xs text-gray-700">{color}</span>
+                    </div>
+                  ))}
+                {data.useful.favorableElements[0]?.suggestions?.colors
+                  ?.length === 0 && (
+                  <>
+                    <div className="flex items-center gap-1">
+                      <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-gray-300"></div>
+                      <span className="text-xs text-gray-700">蓝色</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-gray-300"></div>
+                      <span className="text-xs text-gray-700">绿色</span>
+                    </div>
+                  </>
+                )}
+              </div>
+              <p className="text-xs text-gray-600 mt-2">
+                服装、装饰、办公环境合适颜色
+              </p>
+            </div>
+
+            {/* 合适行业 */}
+            <div className="p-4 bg-white rounded-lg">
+              <h5 className="font-medium text-purple-900 mb-3">
+                有利行业五行
+              </h5>
+              <div className="space-y-2">
+                {data.useful.favorableElements
+                  .slice(0, 2)
+                  .map((elem, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <Badge variant="outline">{elem.chinese}行</Badge>
+                      <span className="text-xs text-gray-600">
+                        {elem.suggestions?.industries?.[0] || '相关行业'}
+                      </span>
+                    </div>
+                  ))}
+              </div>
+              <p className="text-xs text-gray-600 mt-2">
+                选择五行相合的行业发展更顺遂
+              </p>
+            </div>
+          </div>
+
+          {/* 综合应用建议 */}
+          <div className="mt-4 p-4 bg-white rounded-lg border-2 border-purple-200">
+            <h5 className="font-medium text-purple-900 mb-2 flex items-center gap-2">
+              <Lightbulb className="w-4 h-4" />
+              综合应用建议
+            </h5>
+            <p className="text-sm text-gray-700">
+              在找工作、创业或搜索业务伙伴时，可优先考虑
+              <strong>
+                {data.useful.favorableElements[0]?.suggestions?.directions?.[0] ||
+                  '东南'}
+              </strong>
+              方向的机会。办公室装修多使用
+              <strong>
+                {
+                  data.useful.favorableElements[0]?.suggestions?.colors?.[0] ||
+                    '蓝色'
+                }
+              </strong>
+              等幸运色调。选择
+              <strong>
+                {data.useful.favorableElements[0]?.chinese || '水'}行
+              </strong>
+              相关的行业，如
+              {data.useful.favorableElements[0]?.suggestions?.industries?.[0] ||
+                '金融、科技'}
+              等，能增强财运。
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* 基于十神的事业财运补充 */}
       <Card className="border-2 border-teal-200 bg-gradient-to-r from-teal-50 to-cyan-50">
         <CardHeader>

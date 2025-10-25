@@ -1,7 +1,7 @@
 'use client';
 
 import { ComprehensiveScore } from '@/components/analysis/comprehensive-score';
-import { GuestAnalysisPage } from '@/components/analysis/guest-analysis-page';
+import GuestAnalysisPage from '@/components/qiflow/analysis/guest-analysis-page';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/enhanced-card';

@@ -34,8 +34,17 @@ import {
   Star,
   User,
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+const CompassPickerDialog = dynamic(
+  () =>
+    import('@/components/compass/compass-picker-dialog').then(
+      (m) => m.CompassPickerDialog
+    ),
+  { ssr: false }
+);
 
 type CalendarType = 'solar' | 'lunar';
 
@@ -53,6 +62,8 @@ interface HouseInfo {
   roomCount: string;
   completionYear: number;
   completionMonth: number;
+  northRef?: 'magnetic' | 'true';
+  declination?: number;
 }
 
 interface FormData {
@@ -91,6 +102,7 @@ export default function UnifiedAnalysisForm() {
   const [progress, setProgress] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [compassOpen, setCompassOpen] = useState(false);
 
   // 计算填写进度
   useEffect(() => {
@@ -424,20 +436,32 @@ export default function UnifiedAnalysisForm() {
                         <Compass className="w-4 h-4" />
                         房屋朝向（度数）
                       </Label>
-                      <Input
-                        id="direction"
-                        type="number"
-                        placeholder="输入度数（0-360）"
-                        value={formData.house.direction}
-                        onChange={(e) =>
-                          handleHouseChange('direction', e.target.value)
-                        }
-                        min="0"
-                        max="360"
-                        className="mt-1"
-                      />
+                      <div className="flex gap-2">
+                        <Input
+                          id="direction"
+                          type="number"
+                          placeholder="输入度数（0-360）"
+                          value={formData.house.direction}
+                          onChange={(e) =>
+                            handleHouseChange('direction', e.target.value)
+                          }
+                          min="0"
+                          max="360"
+                          className="mt-1"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="whitespace-nowrap mt-1"
+                          onClick={() => setCompassOpen(true)}
+                        >
+                          <Compass className="w-4 h-4 mr-2" />
+                          罗盘定位
+                        </Button>
+                      </div>
                       <p className="text-xs text-gray-500 mt-1">
-                        提示：0° 为正北，90° 为正东，180° 为正南，270° 为正西
+                        提示：使用罗盘定位可获得更精确的方向（0° 为正北，90°
+                        为正东，180° 为正南，270° 为正西）
                       </p>
                     </div>
 
@@ -643,6 +667,25 @@ export default function UnifiedAnalysisForm() {
           </div>
         </form>
       </div>
+
+      {/* 罗盘拾取器弹窗 */}
+      <CompassPickerDialog
+        open={compassOpen}
+        onOpenChange={setCompassOpen}
+        value={Number.parseInt(formData.house.direction || '0') || 0}
+        onChange={(deg, meta) => {
+          handleHouseChange('direction', String(Math.round(deg)));
+          if (meta?.northRef)
+            handleHouseChange('northRef', meta.northRef as any);
+          if (typeof meta?.declination === 'number')
+            handleHouseChange('declination', meta.declination);
+        }}
+        onConfirm={(deg) => {
+          handleHouseChange('direction', String(Math.round(deg)));
+          setCompassOpen(false);
+        }}
+        snapStep={1}
+      />
     </div>
   );
 }

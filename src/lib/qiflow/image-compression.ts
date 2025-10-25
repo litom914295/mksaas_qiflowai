@@ -47,10 +47,10 @@ export async function compressImage(
       try {
         // 计算缩放后的尺寸（保持宽高比）
         let { width, height } = img;
-        
+
         if (width > maxWidth || height > maxHeight) {
           const aspectRatio = width / height;
-          
+
           if (width > height) {
             width = maxWidth;
             height = Math.round(width / aspectRatio);
@@ -108,7 +108,7 @@ export async function compressImage(
 export async function imageToBase64(file: File | Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    
+
     reader.onload = (e) => {
       if (e.target?.result) {
         resolve(e.target.result as string);
@@ -116,7 +116,7 @@ export async function imageToBase64(file: File | Blob): Promise<string> {
         reject(new Error('Base64 转换失败'));
       }
     };
-    
+
     reader.onerror = () => reject(new Error('文件读取失败'));
     reader.readAsDataURL(file);
   });
@@ -130,7 +130,7 @@ export async function imageToBase64(file: File | Blob): Promise<string> {
 export async function getImageDimensions(file: File): Promise<ImageDimensions> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    
+
     img.onload = () => {
       resolve({
         width: img.width,
@@ -138,11 +138,11 @@ export async function getImageDimensions(file: File): Promise<ImageDimensions> {
         aspectRatio: img.width / img.height,
       });
     };
-    
+
     img.onerror = () => {
       reject(new Error('无法读取图片尺寸'));
     };
-    
+
     const reader = new FileReader();
     reader.onload = (e) => {
       if (e.target?.result) {
@@ -170,7 +170,7 @@ export function isValidImage(file: File): boolean {
  * @param maxSizeMB 最大尺寸（MB）
  * @returns 是否超过限制
  */
-export function isFileSizeExceeded(file: File, maxSizeMB: number = 10): boolean {
+export function isFileSizeExceeded(file: File, maxSizeMB = 10): boolean {
   const maxSizeBytes = maxSizeMB * 1024 * 1024;
   return file.size > maxSizeBytes;
 }

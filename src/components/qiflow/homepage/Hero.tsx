@@ -95,7 +95,7 @@ export const Hero = async ({ variant = 'A' }: HeroProps) => {
           <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 md:gap-4 w-full max-w-2xl">
             {/* 主CTA - 最大视觉权重 */}
             <LocaleLink
-              href="/analysis/bazi"
+              href="/unified-form"
               className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-sky-500 px-8 py-4 text-lg font-bold text-black shadow-2xl shadow-amber-500/30 transition-all hover:scale-105 hover:shadow-amber-500/50 focus:outline-none focus:ring-4 focus:ring-amber-400/50 w-full sm:w-auto"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
@@ -110,7 +110,7 @@ export const Hero = async ({ variant = 'A' }: HeroProps) => {
             <div className="flex flex-wrap gap-3 w-full sm:w-auto">
               {/* 次CTA - 降低决策压力 */}
               <LocaleLink
-                href="/showcase"
+                href="/unified-form"
                 className="group rounded-lg border border-white/30 bg-white/10 px-5 py-3 text-base font-medium text-white backdrop-blur transition-all hover:bg-white/20 hover:border-white/50 focus:outline-none focus:ring-2 focus:ring-sky-400"
               >
                 <span className="flex items-center gap-2">

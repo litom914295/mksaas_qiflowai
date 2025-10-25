@@ -84,18 +84,20 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
     });
 
     // 格式化交易记录
-    const formattedTransactions = transactions.map((t) => ({
-      id: t.id,
-      userId: t.userId,
-      userName: t.user.name || 'Unknown',
-      userEmail: t.user.email || '',
-      type: t.type,
-      amount: t.amount,
-      balance: t.user.credits,
-      description: t.description || '',
-      metadata: t.metadata,
-      createdAt: t.createdAt.toISOString(),
-    }));
+    const formattedTransactions = transactions.map(
+      (t: (typeof transactions)[number]) => ({
+        id: t.id,
+        userId: t.userId,
+        userName: t.user.name || 'Unknown',
+        userEmail: t.user.email || '',
+        type: t.type,
+        amount: t.amount,
+        balance: t.user.credits,
+        description: t.description || '',
+        metadata: t.metadata,
+        createdAt: t.createdAt.toISOString(),
+      })
+    );
 
     return NextResponse.json({
       transactions: formattedTransactions,

@@ -5,16 +5,16 @@
  * 监听用户登录，自动迁移 localStorage 中的匿名数据到数据库
  */
 
-import { useEffect, useState } from 'react';
-import { useSession } from '@/lib/client'; // 根据项目实际路径调整
-import { FloorplanStorageKeys } from '@/types/floorplan';
-import type { MigrationDataItem, FloorplanState } from '@/types/floorplan';
 import { migrateAnonymousData } from '@/actions/qiflow/floorplan-state';
-import { cleanAnonymousFloorplanCache } from '@/lib/qiflow/storage-quota';
-import { CheckCircle2, Loader2, X, AlertTriangle } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { authClient } from '@/lib/auth-client'; // 使用项目的 auth client
+import { cleanAnonymousFloorplanCache } from '@/lib/qiflow/storage-quota';
+import { FloorplanStorageKeys } from '@/types/floorplan';
+import type { FloorplanState, MigrationDataItem } from '@/types/floorplan';
+import { AlertTriangle, CheckCircle2, Loader2, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface MigrationStatus {
   isChecking: boolean;
@@ -31,7 +31,7 @@ interface MigrationStatus {
  * 放置在全局布局或认证后的页面中
  */
 export function FloorplanMigrationHandler() {
-  const session = useSession();
+  const { data: session } = authClient.useSession();
   const [status, setStatus] = useState<MigrationStatus>({
     isChecking: false,
     isMigrating: false,
@@ -53,14 +53,14 @@ export function FloorplanMigrationHandler() {
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        
+
         if (key && FloorplanStorageKeys.isAnonymousKey(key)) {
           try {
             const value = localStorage.getItem(key);
             if (value) {
               const state = JSON.parse(value) as FloorplanState;
               const analysisId = FloorplanStorageKeys.extractAnalysisId(key);
-              
+
               if (analysisId && state.imageData) {
                 anonymousData.push({ key, state, analysisId });
               }
@@ -144,15 +144,17 @@ export function FloorplanMigrationHandler() {
 
     // 扫描匿名数据
     setStatus((prev) => ({ ...prev, isChecking: true }));
-    
+
     const anonymousData = scanAnonymousData();
-    
+
     setStatus((prev) => ({ ...prev, isChecking: false }));
 
     if (anonymousData.length > 0) {
-      console.log(`[Migration] 发现 ${anonymousData.length} 个匿名户型方案，开始迁移...`);
+      console.log(
+        `[Migration] 发现 ${anonymousData.length} 个匿名户型方案，开始迁移...`
+      );
       performMigration(anonymousData);
-      
+
       // 标记为已迁移（本次会话）
       sessionStorage.setItem(migrationKey, 'true');
     }
@@ -172,7 +174,7 @@ export function FloorplanMigrationHandler() {
       errors: [],
       completed: false,
     });
-    
+
     const anonymousData = scanAnonymousData();
     if (anonymousData.length > 0) {
       performMigration(anonymousData);
@@ -207,14 +209,14 @@ export function FloorplanMigrationHandler() {
               {status.completed && status.failedCount > 0 && (
                 <AlertTriangle className="h-5 w-5 text-yellow-600" />
               )}
-              
+
               <h3 className="font-semibold text-gray-900">
                 {status.isMigrating && '正在迁移户型数据...'}
                 {status.completed && status.failedCount === 0 && '迁移完成！'}
                 {status.completed && status.failedCount > 0 && '迁移部分成功'}
               </h3>
             </div>
-            
+
             {!status.isMigrating && (
               <Button
                 variant="ghost"
@@ -231,8 +233,8 @@ export function FloorplanMigrationHandler() {
           <div className="space-y-2">
             {status.isMigrating && (
               <>
-                <Progress 
-                  value={(status.migratedCount / status.foundCount) * 100} 
+                <Progress
+                  value={(status.migratedCount / status.foundCount) * 100}
                   className="h-2"
                 />
                 <p className="text-sm text-gray-600">
@@ -245,7 +247,11 @@ export function FloorplanMigrationHandler() {
               <>
                 <div className="text-sm space-y-1">
                   <p className="text-gray-700">
-                    ✅ 成功迁移 <span className="font-semibold">{status.migratedCount}</span> 个方案
+                    ✅ 成功迁移{' '}
+                    <span className="font-semibold">
+                      {status.migratedCount}
+                    </span>{' '}
+                    个方案
                   </p>
                   {status.failedCount > 0 && (
                     <p className="text-yellow-700">
@@ -299,7 +305,7 @@ export function FloorplanMigrationHandler() {
  * 轻量级版本 - 仅后台迁移，不显示 UI
  */
 export function FloorplanMigrationHandlerSilent() {
-  const session = useSession();
+  const { data: session } = authClient.useSession();
 
   useEffect(() => {
     if (!session?.user?.id) return;
@@ -327,12 +333,16 @@ export function FloorplanMigrationHandlerSilent() {
         }
 
         if (anonymousData.length > 0) {
-          console.log(`[Migration Silent] 发现 ${anonymousData.length} 个匿名方案`);
+          console.log(
+            `[Migration Silent] 发现 ${anonymousData.length} 个匿名方案`
+          );
           const result = await migrateAnonymousData(anonymousData);
-          
+
           if (result.success) {
             cleanAnonymousFloorplanCache();
-            console.log(`[Migration Silent] 迁移完成: ${result.migratedCount} 成功`);
+            console.log(
+              `[Migration Silent] 迁移完成: ${result.migratedCount} 成功`
+            );
           }
         }
 

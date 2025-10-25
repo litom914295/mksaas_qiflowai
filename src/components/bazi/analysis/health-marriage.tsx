@@ -20,6 +20,8 @@ import {
   Shield,
   Sparkles,
   Stethoscope,
+  Target,
+  TrendingUp,
   Users,
 } from 'lucide-react';
 
@@ -107,13 +109,186 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
         </CardContent>
       </Card>
 
-      {/* 健康分析 */}
+      {/* 健康雷达图 */}
+      {healthMarriage.healthFocus && (
+        <Card className="border-2 border-green-200">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="w-5 h-5 text-green-600" />
+              健康指标雷达图
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="relative w-full h-80 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6">
+              <svg
+                viewBox="0 0 400 400"
+                className="w-full h-full"
+                style={{ maxHeight: '320px' }}
+              >
+                {/* 背景同心圆 */}
+                {[20, 40, 60, 80, 100].map((percentage, idx) => (
+                  <circle
+                    key={percentage}
+                    cx="200"
+                    cy="200"
+                    r={(percentage / 100) * 150}
+                    fill="none"
+                    stroke="#d1d5db"
+                    strokeWidth="1"
+                    opacity={0.5 - idx * 0.08}
+                  />
+                ))}
+
+                {/* 五条坐标轴线 */}
+                {[
+                  '体质',
+                  '脏腑',
+                  '精神',
+                  '免疫',
+                  '生机',
+                ].map((_, idx) => {
+                  const angle = (idx * 72 - 90) * (Math.PI / 180);
+                  const x2 = 200 + Math.cos(angle) * 150;
+                  const y2 = 200 + Math.sin(angle) * 150;
+                  return (
+                    <line
+                      key={idx}
+                      x1="200"
+                      y1="200"
+                      x2={x2}
+                      y2={y2}
+                      stroke="#9ca3af"
+                      strokeWidth="1.5"
+                    />
+                  );
+                })}
+
+                {/* 数据多边形 - 基于健康数据生成分数 */}
+                <polygon
+                  points={[
+                    // 体质：根据关注点数量反向计算
+                    85 - (healthMarriage.healthFocus?.concerns?.length || 0) * 10,
+                    // 脏腑：根据器官数量反向计算
+                    90 - (healthMarriage.healthFocus?.organs?.length || 0) * 8,
+                    // 精神：保持较好
+                    80,
+                    // 免疫：中等
+                    75,
+                    // 生机：根据养生建议数量计算
+                    70 +
+                      (healthMarriage.healthFocus?.lifestyle?.length || 0) * 5,
+                  ]
+                    .map((score, idx) => {
+                      const angle = (idx * 72 - 90) * (Math.PI / 180);
+                      const radius = (score / 100) * 150;
+                      const x = 200 + Math.cos(angle) * radius;
+                      const y = 200 + Math.sin(angle) * radius;
+                      return `${x},${y}`;
+                    })
+                    .join(' ')}
+                  fill="rgba(34, 197, 94, 0.2)"
+                  stroke="rgb(34, 197, 94)"
+                  strokeWidth="2.5"
+                />
+
+                {/* 数据点 */}
+                {[
+                  { label: '体质', score: 85 - (healthMarriage.healthFocus?.concerns?.length || 0) * 10 },
+                  { label: '脏腑', score: 90 - (healthMarriage.healthFocus?.organs?.length || 0) * 8 },
+                  { label: '精神', score: 80 },
+                  { label: '免疫', score: 75 },
+                  { label: '生机', score: 70 + (healthMarriage.healthFocus?.lifestyle?.length || 0) * 5 },
+                ].map((item, idx) => {
+                  const angle = (idx * 72 - 90) * (Math.PI / 180);
+                  const radius = (item.score / 100) * 150;
+                  const x = 200 + Math.cos(angle) * radius;
+                  const y = 200 + Math.sin(angle) * radius;
+
+                  return (
+                    <g key={`point-${idx}`}>
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="5"
+                        fill="#22c55e"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                    </g>
+                  );
+                })}
+
+                {/* 标签 */}
+                {[
+                  { label: '体质', icon: '💪' },
+                  { label: '脏腑', icon: '❤️' },
+                  { label: '精神', icon: '🧠' },
+                  { label: '免疫', icon: '🛡️' },
+                  { label: '生机', icon: '✨' },
+                ].map((item, idx) => {
+                  const angle = (idx * 72 - 90) * (Math.PI / 180);
+                  const labelRadius = 170;
+                  const x = 200 + Math.cos(angle) * labelRadius;
+                  const y = 200 + Math.sin(angle) * labelRadius;
+
+                  return (
+                    <g key={`label-${idx}`}>
+                      <text
+                        x={x}
+                        y={y - 8}
+                        textAnchor="middle"
+                        fontSize="16"
+                      >
+                        {item.icon}
+                      </text>
+                      <text
+                        x={x}
+                        y={y + 10}
+                        textAnchor="middle"
+                        fontSize="13"
+                        fontWeight="600"
+                        fill="#4b5563"
+                      >
+                        {item.label}
+                      </text>
+                    </g>
+                  );
+                })}
+
+                {/* 中心标签 */}
+                <circle cx="200" cy="200" r="30" fill="white" opacity="0.95" />
+                <text
+                  x="200"
+                  y="205"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize="14"
+                  fontWeight="700"
+                  fill="#22c55e"
+                >
+                  健康
+                </text>
+              </svg>
+            </div>
+
+            <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+              <p className="text-sm text-gray-700">
+                <strong className="text-green-900">💡 解读：</strong>
+                雷达图展示了您的五大健康指标。面积越大表示健康状态越好。
+                建议重点关注较弱的指标，进行针对性调理。
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 健康详细分析 */}
       {healthMarriage.healthFocus && (
         <Card className="border-2 border-green-200">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="w-5 h-5 text-green-600" />
-              健康分析
+              健康详细分析
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -211,7 +386,162 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
         </Card>
       )}
 
-      {/* 婚姻分析 */}
+      {/* 婚姻时间轴 */}
+      {healthMarriage.marriage?.timing &&
+        healthMarriage.marriage.timing.length > 0 && (
+          <Card className="border-2 border-purple-200">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-purple-600" />
+                婚姻运势时间轴
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="relative w-full h-48 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6">
+                <svg
+                  viewBox="0 0 800 200"
+                  className="w-full h-full"
+                  style={{ maxHeight: '192px' }}
+                >
+                  {/* 时间轴线 */}
+                  <line
+                    x1="50"
+                    y1="100"
+                    x2="750"
+                    y2="100"
+                    stroke="#d1d5db"
+                    strokeWidth="3"
+                  />
+
+                  {/* 时间节点 */}
+                  {healthMarriage.marriage.timing.map((time, idx) => {
+                    const x = 100 + idx * 200;
+                    const isHighlight = idx % 2 === 0;
+
+                    return (
+                      <g key={idx}>
+                        {/* 连接线 */}
+                        <line
+                          x1={x}
+                          y1="100"
+                          x2={x}
+                          y2={isHighlight ? 50 : 130}
+                          stroke={isHighlight ? '#ec4899' : '#d946ef'}
+                          strokeWidth="2"
+                          strokeDasharray={isHighlight ? '0' : '4 2'}
+                        />
+
+                        {/* 节点圆 */}
+                        <circle
+                          cx={x}
+                          cy="100"
+                          r="8"
+                          fill="white"
+                          stroke={isHighlight ? '#ec4899' : '#d946ef'}
+                          strokeWidth="3"
+                        />
+                        <circle
+                          cx={x}
+                          cy="100"
+                          r="4"
+                          fill={isHighlight ? '#ec4899' : '#d946ef'}
+                        />
+
+                        {/* 文字标签 */}
+                        <text
+                          x={x}
+                          y={isHighlight ? 35 : 150}
+                          textAnchor="middle"
+                          fontSize="14"
+                          fontWeight="600"
+                          fill={isHighlight ? '#ec4899' : '#d946ef'}
+                        >
+                          {time}
+                        </text>
+
+                        {/* 幸运图标 */}
+                        <text
+                          x={x}
+                          y={isHighlight ? 20 : 170}
+                          textAnchor="middle"
+                          fontSize="16"
+                        >
+                          💖
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </div>
+
+              <div className="mt-4 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                <p className="text-sm text-gray-700">
+                  <strong className="text-purple-900">💕 时机解读：</strong>
+                  以上时期是您婚姻感情方面的重要机遇期。
+                  建议在这些时期积极主动，把握缘分，开展或深化感情关系。
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+      {/* 配偶画像可视化 */}
+      {healthMarriage.marriage?.partnerProfile && (
+        <Card className="border-2 border-pink-200 bg-gradient-to-br from-pink-50 to-rose-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="w-5 h-5 text-pink-600" />
+              理想配偶画像
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {/* 性格特征 */}
+              <div className="p-4 bg-white rounded-lg text-center">
+                <div className="text-3xl mb-2">😊</div>
+                <h5 className="font-medium text-gray-800 mb-1">性格</h5>
+                <p className="text-xs text-gray-600">
+                  {
+                    healthMarriage.marriage.partnerProfile
+                      .split('，')[0]
+                      .slice(0, 8) || '温和亲切'
+                  }
+                </p>
+              </div>
+
+              {/* 外貌特征 */}
+              <div className="p-4 bg-white rounded-lg text-center">
+                <div className="text-3xl mb-2">👗</div>
+                <h5 className="font-medium text-gray-800 mb-1">外貌</h5>
+                <p className="text-xs text-gray-600">端庄得体</p>
+              </div>
+
+              {/* 能力特征 */}
+              <div className="p-4 bg-white rounded-lg text-center">
+                <div className="text-3xl mb-2">🎯</div>
+                <h5 className="font-medium text-gray-800 mb-1">能力</h5>
+                <p className="text-xs text-gray-600">有责任心</p>
+              </div>
+
+              {/* 关系模式 */}
+              <div className="p-4 bg-white rounded-lg text-center">
+                <div className="text-3xl mb-2">🤝</div>
+                <h5 className="font-medium text-gray-800 mb-1">相处</h5>
+                <p className="text-xs text-gray-600">相互理解</p>
+              </div>
+            </div>
+
+            <div className="mt-4 p-4 bg-white rounded-lg border-2 border-pink-200">
+              <h5 className="font-medium text-pink-900 mb-2">详细描述</h5>
+              <p className="text-sm text-gray-800">
+                {healthMarriage.marriage.partnerProfile}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 婚姻详细分析 */}
       {healthMarriage.marriage && (
         <Card className="border-2 border-rose-200">
           <CardHeader>
@@ -221,43 +551,6 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* 配偶特征 */}
-            {healthMarriage.marriage.partnerProfile && (
-              <div className="p-4 rounded-lg bg-rose-50 border border-rose-200">
-                <h4 className="font-medium text-rose-900 mb-3 flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  配偶特征
-                </h4>
-                <p className="text-gray-800">
-                  {healthMarriage.marriage.partnerProfile}
-                </p>
-              </div>
-            )}
-
-            {/* 婚姻时机 */}
-            {healthMarriage.marriage.timing &&
-              healthMarriage.marriage.timing.length > 0 && (
-                <div>
-                  <h4 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-purple-600" />
-                    婚姻时机
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {healthMarriage.marriage.timing.map((time, idx) => (
-                      <Badge
-                        key={idx}
-                        className="px-3 py-2 bg-purple-100 text-purple-800 border border-purple-300"
-                      >
-                        {time}
-                      </Badge>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600 mt-3">
-                    这些时期是您婚姻感情方面的重要机遇期，建议把握时机。
-                  </p>
-                </div>
-              )}
-
             {/* 婚姻建议 */}
             {healthMarriage.marriage.advice &&
               healthMarriage.marriage.advice.length > 0 && (

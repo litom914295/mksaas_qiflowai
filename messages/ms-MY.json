@@ -351,6 +351,22 @@
         "desc": "One-click key pillars, Ten Gods relations and near-term trends."
       },
       "compass": {
+        "pickerTitle": "Pemilih Kompas",
+        "pickerDesc": "Letakkan telefon rata dan pusing perlahan, atau laras secara manual. Klik “Guna hala ini” apabila selesai.",
+        "manual": "Manual",
+        "use_this_bearing": "Guna hala ini",
+        "cancel": "Batal",
+        "bearingLabel": "Hala",
+        "degreeLabel": "Darjah",
+        "limitedTip": "Peranti tidak disokong atau kebenaran ditolak. Mod manual diaktifkan.",
+        "timeoutTip": "Tiada data sensor. Sila benarkan semula atau guna mod manual.",
+        "errorTip": "Ralat sensor. Sila cuba lagi atau guna mod manual.",
+        "reference": "Rujukan",
+        "magnetic_north": "Utara magnet",
+        "true_north": "Utara sebenar",
+        "magnetic_declination": "Sesaran magnet",
+        "get_declination": "Dapatkan deklinasi",
+        "locating": "Mendapatkan lokasi...",
         "title": "Feng Shui Compass",
         "desc": "Preview key directions and Nine Palaces tips to support site selection & optimization."
       },
@@ -581,6 +597,27 @@
     "high_accuracy": "High Accuracy",
     "medium_accuracy": "Medium Accuracy",
     "low_accuracy": "Low Accuracy"
+  },
+  "compass": {
+    "pickerTitle": "Pengukuran Kompas",
+    "pickerDesc": "Letakkan peranti secara mendatar dan putarkan perlahan, atau laraskan sudut secara manual. Selepas selesai, tekan “Guna Arah Ini”.",
+    "reference": "Rujukan",
+    "magnetic_north": "Utara Magnetik",
+    "true_north": "Utara Sejati",
+    "locating": "Menentukan lokasi…",
+    "get_declination": "Dapatkan Sisihan Magnet",
+    "magnetic_declination": "Sisihan Magnet",
+    "bearingLabel": "Arah",
+    "degreeLabel": "Darjah",
+    "accuracy": "Ketepatan",
+    "start_measurement": "Mula Ukur",
+    "stop_measurement": "Henti Ukur",
+    "manual": "Manual",
+    "limitedTip": "Peranti tidak disokong atau kebenaran ditolak; beralih ke mod manual.",
+    "timeoutTip": "Gagal mendapatkan data sensor. Cuba benarkan semula atau guna mod manual.",
+    "errorTip": "Ralat sensor. Sila cuba lagi atau guna mod manual.",
+    "cancel": "Batal",
+    "use_this_bearing": "Guna Arah Ini"
   },
   "Compliance": {
     "ageVerification": {

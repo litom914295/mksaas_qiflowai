@@ -133,15 +133,8 @@ export function BaziAnalysisPage({
     analyzeBazi();
   }, [analyzeBazi]);
 
-  // 处理Tab切换 - 部分内容需要付费
+  // 处理Tab切换 - 所有内容免费开放
   const handleTabChange = (value: string) => {
-    const premiumTabs = ['tenGods', 'luck', 'career', 'daily', 'advice'];
-
-    if (premiumTabs.includes(value) && !isPremium && creditsAvailable < 10) {
-      setShowUpgradeModal(true);
-      return;
-    }
-
     setActiveTab(value);
   };
 
@@ -164,19 +157,19 @@ export function BaziAnalysisPage({
     return null;
   }
 
-  // Tab配置
+  // Tab配置 - 所有tab均为免费
   const tabs = [
     { id: 'overview', label: '命理总览', icon: BarChart3, free: true },
     { id: 'pillars', label: '四柱排盘', icon: Calendar, free: true },
     { id: 'elements', label: '五行分析', icon: Activity, free: true },
-    { id: 'tenGods', label: '十神解读', icon: Star, premium: true },
+    { id: 'tenGods', label: '十神解读', icon: Star, free: true },
     { id: 'patterns', label: '格局详解', icon: Zap, free: true },
-    { id: 'luck', label: '大运流年', icon: TrendingUp, premium: true },
+    { id: 'luck', label: '大运流年', icon: TrendingUp, free: true },
     { id: 'personality', label: '性格特征', icon: User, free: true },
-    { id: 'career', label: '事业财运', icon: Target, premium: true },
+    { id: 'career', label: '事业财运', icon: Target, free: true },
     { id: 'health', label: '健康婚姻', icon: Heart, free: true },
-    { id: 'daily', label: '今日运势', icon: Clock, premium: true },
-    { id: 'advice', label: '专业建议', icon: Lightbulb, premium: true },
+    { id: 'daily', label: '今日运势', icon: Clock, free: true },
+    { id: 'advice', label: '专业建议', icon: Lightbulb, free: true },
   ];
 
   return (
@@ -289,24 +282,15 @@ export function BaziAnalysisPage({
           <TabsList className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-11 h-auto p-1 bg-white/80 backdrop-blur">
             {tabs.map((tab) => {
               const Icon = tab.icon;
-              const isLocked =
-                tab.premium && !isPremium && creditsAvailable < 10;
 
               return (
                 <TabsTrigger
                   key={tab.id}
                   value={tab.id}
                   className="flex flex-col items-center gap-1 py-2 px-1 text-xs relative"
-                  disabled={isLocked}
                 >
                   <div className="relative">
                     <Icon className="w-4 h-4" />
-                    {isLocked && (
-                      <Lock className="w-3 h-3 absolute -top-1 -right-1 text-gray-400" />
-                    )}
-                    {tab.premium && !isLocked && (
-                      <Crown className="w-3 h-3 absolute -top-1 -right-1 text-amber-500" />
-                    )}
                   </div>
                   <span className="truncate w-full text-center">
                     {tab.label}
@@ -370,108 +354,24 @@ export function BaziAnalysisPage({
             <ElementsAnalysis data={result} />
           </TabsContent>
 
-          {/* 十神解读 Tab - 付费内容 */}
+          {/* 十神解读 Tab */}
           <TabsContent value="tenGods" className="space-y-6">
-            {isPremium || creditsAvailable >= 10 ? (
-              <TenGodsAnalysis data={result} />
-            ) : (
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center py-8 space-y-4">
-                    <Lock className="w-12 h-12 mx-auto text-gray-400" />
-                    <h3 className="text-lg font-semibold">升级解锁十神解读</h3>
-                    <p className="text-gray-600">
-                      深度解析您的性格特质、职业倾向、人际关系模式
-                    </p>
-                    <Button
-                      className="bg-gradient-to-r from-purple-600 to-pink-600"
-                      onClick={() => router.push('/settings/credits')}
-                    >
-                      <Crown className="w-4 h-4 mr-1" />
-                      立即升级
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <TenGodsAnalysis data={result} />
           </TabsContent>
 
-          {/* 大运流年 Tab - 付费内容 */}
+          {/* 大运流年 Tab */}
           <TabsContent value="luck" className="space-y-6">
-            {isPremium || creditsAvailable >= 10 ? (
-              <LuckCyclesAnalysis data={result} />
-            ) : (
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center py-8 space-y-4">
-                    <Lock className="w-12 h-12 mx-auto text-gray-400" />
-                    <h3 className="text-lg font-semibold">升级解锁大运流年</h3>
-                    <p className="text-gray-600">
-                      查看一生运势走向、关键时期提醒、流年详细分析
-                    </p>
-                    <Button
-                      className="bg-gradient-to-r from-purple-600 to-pink-600"
-                      onClick={() => router.push('/settings/credits')}
-                    >
-                      <Crown className="w-4 h-4 mr-1" />
-                      立即升级
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <LuckCyclesAnalysis data={result} />
           </TabsContent>
 
-          {/* 每日运势 Tab - 付费内容 */}
+          {/* 今日运势 Tab */}
           <TabsContent value="daily" className="space-y-6">
-            {isPremium || creditsAvailable >= 10 ? (
-              <DailyFortune data={result} />
-            ) : (
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center py-8 space-y-4">
-                    <Lock className="w-12 h-12 mx-auto text-gray-400" />
-                    <h3 className="text-lg font-semibold">升级解锁每日运势</h3>
-                    <p className="text-gray-600">
-                      基于节气变化的每日运势、时辰吉凶、专业建议
-                    </p>
-                    <Button
-                      className="bg-gradient-to-r from-purple-600 to-pink-600"
-                      onClick={() => router.push('/settings/credits')}
-                    >
-                      <Crown className="w-4 h-4 mr-1" />
-                      立即升级
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <DailyFortune data={result} />
           </TabsContent>
 
-          {/* 专业建议 Tab - 付费内容 */}
+          {/* 专业建议 Tab */}
           <TabsContent value="advice" className="space-y-6">
-            {isPremium || creditsAvailable >= 10 ? (
-              <ProfessionalAdvice data={result} />
-            ) : (
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center py-8 space-y-4">
-                    <Lock className="w-12 h-12 mx-auto text-gray-400" />
-                    <h3 className="text-lg font-semibold">升级解锁专业建议</h3>
-                    <p className="text-gray-600">
-                      个性化改运方案、风水布局、生活指导、21天改运计划
-                    </p>
-                    <Button
-                      className="bg-gradient-to-r from-purple-600 to-pink-600"
-                      onClick={() => router.push('/settings/credits')}
-                    >
-                      <Crown className="w-4 h-4 mr-1" />
-                      立即升级
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <ProfessionalAdvice data={result} />
           </TabsContent>
 
           {/* 格局详解 Tab */}
@@ -479,40 +379,17 @@ export function BaziAnalysisPage({
             <PatternAnalysis data={result} />
           </TabsContent>
 
-          {/* 性格特征 Tab - 免费内容 */}
+          {/* 性格特征 Tab */}
           <TabsContent value="personality" className="space-y-6">
             <PersonalityInsight data={result} />
           </TabsContent>
 
-          {/* 事业财运 Tab - 付费内容 */}
+          {/* 事业财运 Tab */}
           <TabsContent value="career" className="space-y-6">
-            {isPremium || creditsAvailable >= 10 ? (
-              <CareerWealth data={result} />
-            ) : (
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center py-8 space-y-4">
-                    <Lock className="w-12 h-12 mx-auto text-gray-400" />
-                    <h3 className="text-lg font-semibold">
-                      升级解锁事业财运分析
-                    </h3>
-                    <p className="text-gray-600">
-                      深度解析职业方向、财运模式、发展机遇和关键时期
-                    </p>
-                    <Button
-                      className="bg-gradient-to-r from-purple-600 to-pink-600"
-                      onClick={() => router.push('/settings/credits')}
-                    >
-                      <Crown className="w-4 h-4 mr-1" />
-                      立即升级
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <CareerWealth data={result} />
           </TabsContent>
 
-          {/* 健康婚姻 Tab - 免费内容 */}
+          {/* 健康婚姻 Tab */}
           <TabsContent value="health" className="space-y-6">
             <HealthMarriage data={result} />
           </TabsContent>

@@ -231,6 +231,57 @@ export default function EnhancedReportPage() {
 
   const hasHouseInfo = formData.house?.direction;
 
+  // 24山数据与坐朝计算
+  const mountains = [
+    { name: '子', degree: 0, desc: '正北' },
+    { name: '癸', degree: 15, desc: '北偏东' },
+    { name: '丑', degree: 30, desc: '东北偏北' },
+    { name: '艮', degree: 45, desc: '东北' },
+    { name: '寅', degree: 60, desc: '东北偏东' },
+    { name: '甲', degree: 75, desc: '东偏北' },
+    { name: '卯', degree: 90, desc: '正东' },
+    { name: '乙', degree: 105, desc: '东偏南' },
+    { name: '辰', degree: 120, desc: '东南偏东' },
+    { name: '巽', degree: 135, desc: '东南' },
+    { name: '巳', degree: 150, desc: '东南偏南' },
+    { name: '丙', degree: 165, desc: '南偏东' },
+    { name: '午', degree: 180, desc: '正南' },
+    { name: '丁', degree: 195, desc: '南偏西' },
+    { name: '未', degree: 210, desc: '西南偏南' },
+    { name: '坤', degree: 225, desc: '西南' },
+    { name: '申', degree: 240, desc: '西南偏西' },
+    { name: '庚', degree: 255, desc: '西偏南' },
+    { name: '酉', degree: 270, desc: '正西' },
+    { name: '辛', degree: 285, desc: '西偏北' },
+    { name: '戌', degree: 300, desc: '西北偏西' },
+    { name: '乾', degree: 315, desc: '西北' },
+    { name: '亥', degree: 330, desc: '西北偏北' },
+    { name: '壬', degree: 345, desc: '北偏西' },
+  ];
+  const norm = (d: number) => ((d % 360) + 360) % 360;
+  const closest = (d: number) =>
+    mountains.reduce((a, b) =>
+      Math.min(
+        Math.abs(norm(d) - a.degree),
+        Math.abs(norm(d) - a.degree + 360),
+        Math.abs(norm(d) - a.degree - 360)
+      ) <=
+      Math.min(
+        Math.abs(norm(d) - b.degree),
+        Math.abs(norm(d) - b.degree + 360),
+        Math.abs(norm(d) - b.degree - 360)
+      )
+        ? a
+        : b
+    );
+  const facingDeg = hasHouseInfo
+    ? Number.parseInt(formData.house.direction)
+    : 0;
+  const facingMountain = hasHouseInfo ? closest(facingDeg) : null;
+  const sittingMountain = hasHouseInfo
+    ? closest((facingDeg + 180) % 360)
+    : null;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 py-8">
       <AIMasterChatButton />
@@ -320,6 +371,67 @@ export default function EnhancedReportPage() {
             )}
           </CardContent>
         </Card>
+
+        {/* 房屋朝向（24山 + 坐朝文案） */}
+        {hasHouseInfo && (
+          <Card className="mb-8 border-2 border-blue-200 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-blue-100 to-cyan-100">
+              <CardTitle className="flex items-center gap-2">
+                <Compass className="w-5 h-5" /> 房屋朝向（二十四山）
+              </CardTitle>
+              <CardDescription>
+                基于您填写的角度，自动换算二十四山坐向
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-sm">
+                <div className="rounded border bg-card p-3">
+                  <div className="text-muted-foreground mb-1">度数</div>
+                  <div className="font-mono text-lg">{facingDeg}°</div>
+                </div>
+                <div className="rounded border bg-card p-3">
+                  <div className="text-muted-foreground mb-1">朝向</div>
+                  <div className="font-semibold text-lg">
+                    {facingMountain?.name}（{facingMountain?.desc}）
+                  </div>
+                </div>
+                <div className="rounded border bg-card p-3">
+                  <div className="text-muted-foreground mb-1">坐向</div>
+                  <div className="font-semibold text-lg">
+                    {sittingMountain?.name}（{sittingMountain?.desc}）
+                  </div>
+                </div>
+                <div className="rounded border bg-card p-3">
+                  <div className="text-muted-foreground mb-1">北向基准</div>
+                  <div className="font-semibold text-lg">
+                    {formData?.house?.northRef === 'true'
+                      ? '真北'
+                      : formData?.house?.northRef === 'magnetic'
+                        ? '磁北'
+                        : '—'}
+                  </div>
+                </div>
+                <div className="rounded border bg-card p-3">
+                  <div className="text-muted-foreground mb-1">磁偏角</div>
+                  <div className="font-mono text-lg">
+                    {typeof formData?.house?.declination !== 'undefined' &&
+                    formData?.house?.declination !== null &&
+                    formData?.house?.declination !== ''
+                      ? `${Number(formData.house.declination).toFixed(1)}°`
+                      : '—'}
+                  </div>
+                </div>
+                <div className="rounded border bg-card p-3 md:col-span-2 col-span-2">
+                  <div className="text-muted-foreground mb-1">坐朝文案</div>
+                  <div className="font-semibold">
+                    坐{sittingMountain?.name}（{sittingMountain?.desc}）朝
+                    {facingMountain?.name}（{facingMountain?.desc}）
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* 核心价值提示 */}
         {hasHouseInfo && (

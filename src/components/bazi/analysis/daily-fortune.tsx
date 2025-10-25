@@ -425,6 +425,242 @@ export function DailyFortune({ data }: DailyFortuneProps) {
         </CardContent>
       </Card>
 
+      {/* 24小时能量波动 */}
+      <Card className="border-2 border-indigo-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="w-5 h-5 text-indigo-600" />
+            24小时能量波动
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* 能量曲线 */}
+            <div className="relative h-48 bg-white rounded-lg p-4">
+              <div className="absolute inset-0 flex items-end justify-around px-4 pb-4">
+                {hourlyFortune.map((hour, idx) => {
+                  const fortune = getHourFortune(hour);
+                  const isCurrent = hour === currentHourData;
+                  const height = `${fortune.score}%`;
+                  
+                  return (
+                    <div
+                      key={idx}
+                      className="relative flex flex-col items-center group"
+                      style={{ width: '7%' }}
+                    >
+                      {/* 柱子 */}
+                      <div
+                        className={`w-full rounded-t transition-all ${
+                          isCurrent
+                            ? 'bg-gradient-to-t from-indigo-500 to-indigo-300'
+                            : fortune.isGood
+                              ? 'bg-gradient-to-t from-green-400 to-green-200'
+                              : 'bg-gradient-to-t from-gray-400 to-gray-200'
+                        }`}
+                        style={{ height }}
+                      >
+                        {isCurrent && (
+                          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                            <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></div>
+                          </div>
+                        )}
+                      </div>
+                      {/* 标签 */}
+                      <div className="mt-1 text-center">
+                        <p className="text-xs font-medium text-gray-600">
+                          {hour.hour.replace('时', '')}
+                        </p>
+                      </div>
+                      {/* 悬浮提示 */}
+                      <div className="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded p-2 whitespace-nowrap z-10">
+                        <div>{hour.hour}</div>
+                        <div>{hour.time}</div>
+                        <div>运势: {fortune.label}</div>
+                        <div>宜: {hour.activity}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 时间段说明 */}
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded bg-green-400"></div>
+                <span className="text-gray-600">吉时</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded bg-gray-400"></div>
+                <span className="text-gray-600">平时</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded bg-indigo-500"></div>
+                <span className="text-gray-600">当前时辰</span>
+              </div>
+            </div>
+
+            {/* 能量趋势分析 */}
+            <div className="p-3 bg-indigo-50 rounded-lg">
+              <p className="text-sm text-gray-700">
+                <strong className="text-indigo-900">能量分析：</strong>
+                今日能量最旺盛的时辰为
+                <strong className="text-indigo-800">
+                  {hourlyFortune
+                    .map((h, idx) => ({ h, fortune: getHourFortune(h), idx }))
+                    .sort((a, b) => b.fortune.score - a.fortune.score)[0]
+                    .h.hour}
+                </strong>
+                ，建议在此时段进行重要事务。
+                当前时辰({currentHourData.hour})
+                {getHourFortune(currentHourData).isGood
+                  ? '运势较好，适合行动'
+                  : '宜静不宜动，适合休息'}
+                。
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 当前时辰幸运元素实时推荐 */}
+      <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-purple-600" />
+            当前时辰幸运元素
+            <Badge className="ml-2 bg-purple-600">{currentHourData.hour}</Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* 幸运颜色 */}
+            <div className="p-4 bg-white rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="text-2xl">🎨</div>
+                <h5 className="font-medium text-gray-800">幸运颜色</h5>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {data.useful.favorableElements[0]?.suggestions?.colors
+                  ?.slice(0, 2)
+                  .map((color, idx) => (
+                    <div key={idx} className="flex items-center gap-1">
+                      <div
+                        className="w-6 h-6 rounded-full border-2 border-gray-300"
+                        style={{
+                          backgroundColor:
+                            color === '绿色'
+                              ? '#22c55e'
+                              : color === '蓝色'
+                                ? '#3b82f6'
+                                : color === '红色'
+                                  ? '#ef4444'
+                                  : color === '黄色'
+                                    ? '#eab308'
+                                    : '#f3f4f6',
+                        }}
+                      ></div>
+                      <span className="text-xs text-gray-700">{color}</span>
+                    </div>
+                  )) || [
+                  <Badge key="default" variant="outline">
+                    蓝色
+                  </Badge>,
+                ]}
+              </div>
+            </div>
+
+            {/* 吉利方位 */}
+            <div className="p-4 bg-white rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="text-2xl">🧭</div>
+                <h5 className="font-medium text-gray-800">吉利方位</h5>
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {data.useful.favorableElements[0]?.suggestions?.directions
+                  ?.slice(0, 2)
+                  .map((dir, idx) => (
+                    <Badge key={idx} variant="outline">
+                      {dir}
+                    </Badge>
+                  )) || [
+                  <Badge key="default" variant="outline">
+                    东南
+                  </Badge>,
+                ]}
+              </div>
+            </div>
+
+            {/* 适宜活动 */}
+            <div className="p-4 bg-white rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="text-2xl">🎯</div>
+                <h5 className="font-medium text-gray-800">适宜活动</h5>
+              </div>
+              <p className="text-sm text-gray-700">{currentHourData.activity}</p>
+            </div>
+
+            {/* 避免事项 */}
+            <div className="p-4 bg-white rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="text-2xl">⚠️</div>
+                <h5 className="font-medium text-gray-800">避免事项</h5>
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {todayFortune.suggestions.unlucky.slice(0, 2).map((item, idx) => (
+                  <Badge key={idx} variant="outline" className="text-xs">
+                    {item}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* 实时建议 */}
+          <div className="mt-4 p-4 bg-white rounded-lg border-2 border-purple-200">
+            <div className="flex items-start gap-2">
+              <Sparkles className="w-5 h-5 text-purple-600 mt-0.5" />
+              <div>
+                <h5 className="font-medium text-purple-900 mb-1">
+                  当前时辰实时建议
+                </h5>
+                <p className="text-sm text-gray-700">
+                  {getHourFortune(currentHourData).isGood ? (
+                    <>
+                      现在是<strong className="text-purple-800">吉时</strong>
+                      ，能量场较好。建议穿着
+                      <strong>
+                        {
+                          data.useful.favorableElements[0]?.suggestions
+                            ?.colors?.[0] || '蓝色'
+                        }
+                      </strong>
+                      系服装，面朝
+                      <strong>
+                        {
+                          data.useful.favorableElements[0]?.suggestions
+                            ?.directions?.[0] || '东南'
+                        }
+                      </strong>
+                      方向，进行{currentHourData.activity}等活动。
+                    </>
+                  ) : (
+                    <>
+                      当前时辰能量较平稳，建议以
+                      <strong className="text-purple-800">
+                        {currentHourData.activity}
+                      </strong>
+                      为主，保持平和心态，避免重大决策。
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* 专业建议 */}
       <Card className="border-2 border-amber-200">
         <CardHeader>

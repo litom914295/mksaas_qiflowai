@@ -17,13 +17,13 @@ export const CTASection = async ({ variant = 'A' }: CTASectionProps) => {
         <p className="mt-2 text-sm text-slate-300">{t('cta.subtitle')}</p>
         <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
           <LocaleLink
-            href="/guest-analysis"
+            href="/unified-form"
             className="rounded-md bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-3 text-sm font-semibold text-black shadow-lg hover:shadow-xl transition-all hover:scale-105"
           >
             {(t as any)('cta.viewFullAnalysis') || '🎯 查看完整分析流程'}
           </LocaleLink>
           <LocaleLink
-            href="/analysis/bazi"
+            href="/unified-form"
             className="rounded-md bg-amber-400 px-5 py-2.5 text-sm font-medium text-black hover:bg-amber-500 transition-colors"
           >
             {t('cta.startBazi')}

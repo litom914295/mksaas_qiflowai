@@ -7,6 +7,7 @@
 
 import { getDb } from '@/db';
 import { fengshuiAnalysis } from '@/db/schema-qiflow';
+import { deleteCloudFile } from '@/lib/qiflow/floorplan-storage';
 import { getSession } from '@/lib/server';
 import type {
   FloorplanState,
@@ -14,9 +15,8 @@ import type {
   MigrationResult,
   SaveResult,
 } from '@/types/floorplan';
-import { eq, and, desc } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { deleteCloudFile } from '@/lib/qiflow/floorplan-storage';
 
 /**
  * Zod Schema - 户型图状态验证
@@ -87,7 +87,10 @@ export async function saveFloorplanState(
       await db
         .update(fengshuiAnalysis)
         .set({
-          floorPlanUrl: validatedState.imageType === 'url' ? validatedState.imageData : null,
+          floorPlanUrl:
+            validatedState.imageType === 'url'
+              ? validatedState.imageData
+              : null,
           floorPlanData: validatedState as any, // 存储完整状态
           updatedAt: now,
         })
@@ -96,7 +99,7 @@ export async function saveFloorplanState(
       // 4b. 创建新记录（边缘情况：如果分析记录不存在）
       // 注意：通常不应该走到这里，因为分析记录应该在玄空分析时创建
       console.warn('[Floorplan State] 创建新的风水分析记录:', analysisId);
-      
+
       // 这里需要基础的风水分析数据，暂时使用占位符
       await db.insert(fengshuiAnalysis).values({
         id: analysisId,
@@ -108,7 +111,8 @@ export async function saveFloorplanState(
         period: 9,
         flyingStars: {},
         analysis: {},
-        floorPlanUrl: validatedState.imageType === 'url' ? validatedState.imageData : null,
+        floorPlanUrl:
+          validatedState.imageType === 'url' ? validatedState.imageData : null,
         floorPlanData: validatedState as any,
         creditsUsed: 0,
         createdAt: now,
@@ -122,11 +126,11 @@ export async function saveFloorplanState(
     };
   } catch (error) {
     console.error('[Floorplan State] 保存失败:', error);
-    
+
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        error: `数据验证失败: ${error.errors.map(e => e.message).join(', ')}`,
+        error: `数据验证失败: ${error.issues.map((e: z.ZodIssue) => e.message).join(', ')}`,
       };
     }
 
@@ -435,7 +439,7 @@ export async function migrateAnonymousData(
       try {
         // 检查是否已存在
         const existing = await loadFloorplanState(item.analysisId);
-        
+
         if (existing) {
           // 如果已存在，比较时间戳，保留较新的
           if (item.state.updatedAt > existing.updatedAt) {
@@ -458,7 +462,11 @@ export async function migrateAnonymousData(
           result.migratedCount++;
         }
       } catch (error) {
-        console.error('[Floorplan State] 迁移单项失败:', item.analysisId, error);
+        console.error(
+          '[Floorplan State] 迁移单项失败:',
+          item.analysisId,
+          error
+        );
         result.failedCount++;
         result.errors.push({
           analysisId: item.analysisId,

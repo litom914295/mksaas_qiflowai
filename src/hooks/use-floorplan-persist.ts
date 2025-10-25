@@ -5,28 +5,28 @@
  * 实现 localStorage 缓存 + 数据库持久化的混合策略
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FloorplanStorageKeys } from '@/types/floorplan';
-import type { FloorplanState, SaveResult } from '@/types/floorplan';
 import {
   loadFloorplanState,
   saveFloorplanState,
 } from '@/actions/qiflow/floorplan-state';
 import { autoCleanIfNeeded } from '@/lib/qiflow/storage-quota';
+import { FloorplanStorageKeys } from '@/types/floorplan';
+import type { FloorplanState, SaveResult } from '@/types/floorplan';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface UseFloorplanPersistOptions {
   /** 分析 ID */
   analysisId: string;
-  
+
   /** 用户 ID（可选，未登录时为空） */
   userId?: string;
-  
+
   /** 防抖延迟（毫秒） */
   debounceMs?: number;
-  
+
   /** 自动保存间隔（毫秒，0 表示禁用） */
   autoSaveIntervalMs?: number;
-  
+
   /** 是否启用持久化（用于灰度开关） */
   enabled?: boolean;
 }
@@ -34,28 +34,32 @@ interface UseFloorplanPersistOptions {
 interface UseFloorplanPersistReturn {
   /** 当前状态 */
   state: FloorplanState | null;
-  
+
   /** 更新状态 */
-  updateState: (updates: Partial<FloorplanState> | ((prev: FloorplanState | null) => FloorplanState | null)) => void;
-  
+  updateState: (
+    updates:
+      | Partial<FloorplanState>
+      | ((prev: FloorplanState | null) => FloorplanState | null)
+  ) => void;
+
   /** 是否正在加载 */
   isLoading: boolean;
-  
+
   /** 是否正在保存 */
   isSaving: boolean;
-  
+
   /** 是否离线 */
   isOffline: boolean;
-  
+
   /** 保存错误 */
   saveError: string | null;
-  
+
   /** 手动重试保存 */
   retry: () => void;
-  
+
   /** 手动刷新（从数据库加载） */
   refresh: () => Promise<void>;
-  
+
   /** 清除本地缓存 */
   clearLocal: () => void;
 }
@@ -108,7 +112,7 @@ export function useFloorplanPersist(
     try {
       const key = getStorageKey();
       const stored = localStorage.getItem(key);
-      
+
       if (stored) {
         const parsed = JSON.parse(stored) as FloorplanState;
         console.log('[Floorplan Persist] 从 localStorage 加载:', analysisId);
@@ -117,81 +121,88 @@ export function useFloorplanPersist(
     } catch (error) {
       console.error('[Floorplan Persist] localStorage 加载失败:', error);
     }
-    
+
     return null;
   }, [enabled, getStorageKey, analysisId]);
 
   /**
    * 保存到 localStorage
    */
-  const saveToLocal = useCallback((data: FloorplanState) => {
-    if (!enabled) return;
+  const saveToLocal = useCallback(
+    (data: FloorplanState) => {
+      if (!enabled) return;
 
-    try {
-      const key = getStorageKey();
-      localStorage.setItem(key, JSON.stringify(data));
-      console.log('[Floorplan Persist] 已保存到 localStorage:', analysisId);
-      
-      // 检查并自动清理过期缓存
-      autoCleanIfNeeded();
-    } catch (error) {
-      console.error('[Floorplan Persist] localStorage 保存失败:', error);
-      
-      // 如果是配额错误，尝试清理
-      if (error instanceof Error && error.name === 'QuotaExceededError') {
+      try {
+        const key = getStorageKey();
+        localStorage.setItem(key, JSON.stringify(data));
+        console.log('[Floorplan Persist] 已保存到 localStorage:', analysisId);
+
+        // 检查并自动清理过期缓存
         autoCleanIfNeeded();
-        // 重试一次
-        try {
-          localStorage.setItem(getStorageKey(), JSON.stringify(data));
-        } catch (retryError) {
-          console.error('[Floorplan Persist] 重试保存失败:', retryError);
+      } catch (error) {
+        console.error('[Floorplan Persist] localStorage 保存失败:', error);
+
+        // 如果是配额错误，尝试清理
+        if (error instanceof Error && error.name === 'QuotaExceededError') {
+          autoCleanIfNeeded();
+          // 重试一次
+          try {
+            localStorage.setItem(getStorageKey(), JSON.stringify(data));
+          } catch (retryError) {
+            console.error('[Floorplan Persist] 重试保存失败:', retryError);
+          }
         }
       }
-    }
-  }, [enabled, getStorageKey, analysisId]);
+    },
+    [enabled, getStorageKey, analysisId]
+  );
 
   /**
    * 从数据库加载
    */
-  const loadFromDatabase = useCallback(async (): Promise<FloorplanState | null> => {
-    if (!enabled || !userId) return null;
+  const loadFromDatabase =
+    useCallback(async (): Promise<FloorplanState | null> => {
+      if (!enabled || !userId) return null;
 
-    try {
-      console.log('[Floorplan Persist] 从数据库加载:', analysisId);
-      const data = await loadFloorplanState(analysisId);
-      return data;
-    } catch (error) {
-      console.error('[Floorplan Persist] 数据库加载失败:', error);
-      return null;
-    }
-  }, [enabled, userId, analysisId]);
+      try {
+        console.log('[Floorplan Persist] 从数据库加载:', analysisId);
+        const data = await loadFloorplanState(analysisId);
+        return data;
+      } catch (error) {
+        console.error('[Floorplan Persist] 数据库加载失败:', error);
+        return null;
+      }
+    }, [enabled, userId, analysisId]);
 
   /**
    * 保存到数据库
    */
-  const saveToDatabase = useCallback(async (data: FloorplanState): Promise<SaveResult> => {
-    if (!enabled || !userId) {
-      return { success: false, error: '未登录' };
-    }
-
-    try {
-      console.log('[Floorplan Persist] 保存到数据库:', analysisId);
-      const result = await saveFloorplanState(analysisId, data);
-      
-      if (result.success) {
-        lastSaveTimeRef.current = Date.now();
-        setSaveError(null);
+  const saveToDatabase = useCallback(
+    async (data: FloorplanState): Promise<SaveResult> => {
+      if (!enabled || !userId) {
+        return { success: false, error: '未登录' };
       }
-      
-      return result;
-    } catch (error) {
-      console.error('[Floorplan Persist] 数据库保存失败:', error);
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : '保存失败',
-      };
-    }
-  }, [enabled, userId, analysisId]);
+
+      try {
+        console.log('[Floorplan Persist] 保存到数据库:', analysisId);
+        const result = await saveFloorplanState(analysisId, data);
+
+        if (result.success) {
+          lastSaveTimeRef.current = Date.now();
+          setSaveError(null);
+        }
+
+        return result;
+      } catch (error) {
+        console.error('[Floorplan Persist] 数据库保存失败:', error);
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : '保存失败',
+        };
+      }
+    },
+    [enabled, userId, analysisId]
+  );
 
   /**
    * 执行实际保存（防抖后调用）
@@ -209,7 +220,7 @@ export function useFloorplanPersist(
     // 2. 如果在线且已登录，保存到数据库
     if (!isOffline && userId) {
       const result = await saveToDatabase(dataToSave);
-      
+
       if (!result.success) {
         setSaveError(result.error || '保存失败');
         // 保存失败时，标记为待保存（稍后重试）
@@ -225,42 +236,47 @@ export function useFloorplanPersist(
   /**
    * 更新状态
    */
-  const updateState = useCallback((
-    updates: Partial<FloorplanState> | ((prev: FloorplanState | null) => FloorplanState | null)
-  ) => {
-    setState((prev) => {
-      let newState: FloorplanState | null;
-      
-      if (typeof updates === 'function') {
-        newState = updates(prev);
-      } else if (prev) {
-        newState = {
-          ...prev,
-          ...updates,
-          updatedAt: Date.now(),
-        };
-      } else {
-        return prev;
-      }
+  const updateState = useCallback(
+    (
+      updates:
+        | Partial<FloorplanState>
+        | ((prev: FloorplanState | null) => FloorplanState | null)
+    ) => {
+      setState((prev) => {
+        let newState: FloorplanState | null;
 
-      if (newState) {
-        // 标记为待保存
-        pendingSaveRef.current = newState;
-
-        // 清除旧的防抖计时器
-        if (debounceTimerRef.current) {
-          clearTimeout(debounceTimerRef.current);
+        if (typeof updates === 'function') {
+          newState = updates(prev);
+        } else if (prev) {
+          newState = {
+            ...prev,
+            ...updates,
+            updatedAt: Date.now(),
+          };
+        } else {
+          return prev;
         }
 
-        // 设置新的防抖计时器
-        debounceTimerRef.current = setTimeout(() => {
-          performSave();
-        }, debounceMs);
-      }
+        if (newState) {
+          // 标记为待保存
+          pendingSaveRef.current = newState;
 
-      return newState;
-    });
-  }, [debounceMs, performSave]);
+          // 清除旧的防抖计时器
+          if (debounceTimerRef.current) {
+            clearTimeout(debounceTimerRef.current);
+          }
+
+          // 设置新的防抖计时器
+          debounceTimerRef.current = setTimeout(() => {
+            performSave();
+          }, debounceMs);
+        }
+
+        return newState;
+      });
+    },
+    [debounceMs, performSave]
+  );
 
   /**
    * 手动重试保存
@@ -278,12 +294,12 @@ export function useFloorplanPersist(
   const refresh = useCallback(async () => {
     setIsLoading(true);
     const dbData = await loadFromDatabase();
-    
+
     if (dbData && isMountedRef.current) {
       setState(dbData);
       saveToLocal(dbData);
     }
-    
+
     if (isMountedRef.current) {
       setIsLoading(false);
     }
@@ -324,7 +340,7 @@ export function useFloorplanPersist(
       // 2. 后台从数据库加载（如果已登录）
       if (userId) {
         const dbData = await loadFromDatabase();
-        
+
         if (!cancelled && dbData) {
           // 比较时间戳，使用较新的数据
           if (!localData || dbData.updatedAt > localData.updatedAt) {
@@ -342,7 +358,14 @@ export function useFloorplanPersist(
     return () => {
       cancelled = true;
     };
-  }, [enabled, userId, analysisId, loadFromLocal, loadFromDatabase, saveToLocal]);
+  }, [
+    enabled,
+    userId,
+    analysisId,
+    loadFromLocal,
+    loadFromDatabase,
+    saveToLocal,
+  ]);
 
   /**
    * 自动保存定时器
@@ -370,7 +393,7 @@ export function useFloorplanPersist(
     const handleOnline = () => {
       console.log('[Floorplan Persist] 网络恢复');
       setIsOffline(false);
-      
+
       // 网络恢复后，立即保存待保存的数据
       if (pendingSaveRef.current) {
         performSave();
@@ -420,7 +443,7 @@ export function useFloorplanPersist(
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
-      
+
       // 清除计时器
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
@@ -428,7 +451,7 @@ export function useFloorplanPersist(
       if (autoSaveTimerRef.current) {
         clearInterval(autoSaveTimerRef.current);
       }
-      
+
       // 最后一次保存到 localStorage
       if (pendingSaveRef.current) {
         saveToLocal(pendingSaveRef.current);

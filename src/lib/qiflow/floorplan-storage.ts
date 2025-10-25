@@ -5,18 +5,30 @@
  * 处理图片上传到云存储或降级为 Base64
  */
 
+import type {
+  CloudStorageConfig,
+  CloudUploadStrategy,
+} from '@/types/floorplan';
+import { DEFAULT_CLOUD_STORAGE_CONFIG } from '@/types/floorplan';
 import { v4 as uuidv4 } from 'uuid';
 import {
   compressImage,
   imageToBase64,
-  isValidImage,
   isFileSizeExceeded,
+  isValidImage,
 } from './image-compression';
-import type {
-  CloudStorageConfig,
-  DEFAULT_CLOUD_STORAGE_CONFIG,
-  UploadResult,
-} from '@/types/floorplan';
+
+/**
+ * 上传结果类型
+ */
+export interface UploadResult {
+  success: boolean;
+  imageData: string; // Base64 或 URL
+  imageType: 'base64' | 'url';
+  storageKey?: string; // 仅当 imageType = 'url' 时存在
+  fallbackReason?: string; // 降级原因
+  error?: string; // 错误信息
+}
 
 /**
  * 上传户型图到云存储
@@ -63,7 +75,7 @@ export async function uploadFloorplanImage(
     if (config.freeTierStrategy !== 'deny') {
       try {
         const uploadResult = await uploadToCloud(compressedBlob, userId);
-        
+
         if (uploadResult.success) {
           console.log('[Floorplan Storage] 云上传成功:', uploadResult.url);
           return {
@@ -73,7 +85,10 @@ export async function uploadFloorplanImage(
             storageKey: uploadResult.key,
           };
         } else {
-          console.warn('[Floorplan Storage] 云上传失败，降级到 Base64:', uploadResult.error);
+          console.warn(
+            '[Floorplan Storage] 云上传失败，降级到 Base64:',
+            uploadResult.error
+          );
         }
       } catch (cloudError) {
         console.error('[Floorplan Storage] 云上传异常:', cloudError);
@@ -83,14 +98,15 @@ export async function uploadFloorplanImage(
     // 4. 降级为 Base64
     console.log('[Floorplan Storage] 使用 Base64 存储...');
     const base64 = await imageToBase64(compressedBlob);
-    
+
     return {
       success: true,
       imageData: base64,
       imageType: 'base64',
-      fallbackReason: config.freeTierStrategy === 'deny' 
-        ? '策略禁止云上传' 
-        : '云上传失败，已降级',
+      fallbackReason:
+        config.freeTierStrategy === 'deny'
+          ? '策略禁止云上传'
+          : '云上传失败，已降级',
     };
   } catch (error) {
     console.error('[Floorplan Storage] 图片处理失败:', error);
@@ -113,11 +129,11 @@ async function uploadToCloud(
   try {
     const filename = `${uuidv4()}.jpg`;
     const path = `floorplans/${userId}`;
-    
-    // 创建 FormData
+
+    // 创建 FormData（适配现有接口使用 folder 参数）
     const formData = new FormData();
     formData.append('file', blob, filename);
-    formData.append('path', path);
+    formData.append('folder', path);
 
     // 调用上传 API
     const response = await fetch('/api/storage/upload', {
@@ -134,17 +150,21 @@ async function uploadToCloud(
     }
 
     const result = await response.json();
-    
-    if (result.url && result.key) {
+
+    // 兼容现有接口返回格式 {url, key} 或 {publicUrl, path}
+    const url = result.url || result.publicUrl;
+    const key = result.key || result.path;
+
+    if (url) {
       return {
         success: true,
-        url: result.url,
-        key: result.key,
+        url,
+        key,
       };
     } else {
       return {
         success: false,
-        error: '上传响应格式错误',
+        error: '上传响应格式错误：缺少 url 字段',
       };
     }
   } catch (error) {

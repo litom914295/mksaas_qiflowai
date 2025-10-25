@@ -29,7 +29,8 @@ export async function GET(request: NextRequest) {
         `[管理员接口] 获取交易记录, userId=${userId}, page=${page}, limit=${limit}`
       );
 
-      let transactionsQuery = db
+      // 构建query，根据是否有userId添加条件
+      const baseQuery = db
         .select({
           id: creditTransaction.id,
           userId: creditTransaction.userId,
@@ -47,27 +48,26 @@ export async function GET(request: NextRequest) {
         })
         .from(creditTransaction)
         .leftJoin(user, eq(creditTransaction.userId, user.id))
-        .leftJoin(userCredit, eq(creditTransaction.userId, userCredit.userId))
+        .leftJoin(userCredit, eq(creditTransaction.userId, userCredit.userId));
+
+      const transactionsQuery = userId
+        ? baseQuery.where(eq(creditTransaction.userId, userId))
+        : baseQuery;
+
+      const transactions = await transactionsQuery
         .orderBy(desc(creditTransaction.createdAt))
         .limit(limit)
         .offset((page - 1) * limit);
 
-      // 如果指定了用户ID，添加过滤条件
-      if (userId) {
-        transactionsQuery = transactionsQuery.where(
-          eq(creditTransaction.userId, userId)
-        );
-      }
-
-      const transactions = await transactionsQuery;
-
       // 获取总数（简化版本，实际生产环境可能需要更精确的count）
-      let countQuery = db
+      const baseCountQuery = db
         .select({ count: creditTransaction.id })
         .from(creditTransaction);
-      if (userId) {
-        countQuery = countQuery.where(eq(creditTransaction.userId, userId));
-      }
+
+      const countQuery = userId
+        ? baseCountQuery.where(eq(creditTransaction.userId, userId))
+        : baseCountQuery;
+
       const countResult = await countQuery;
       const total = countResult.length;
 

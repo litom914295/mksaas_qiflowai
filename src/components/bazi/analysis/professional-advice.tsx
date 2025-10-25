@@ -337,45 +337,92 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
           ))}
         </TabsContent>
 
-        {/* 改运方案 */}
+        {/* 改运方案进度追踪 */}
         <TabsContent value="improve" className="space-y-4 mt-4">
-          {improvementPlans.map((plan, idx) => (
-            <Card key={idx}>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center justify-between">
-                  <span className="flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-blue-600" />
-                    {plan.title}
-                  </span>
-                  <Badge
-                    variant={
-                      plan.priority === 'high'
-                        ? 'destructive'
+          {improvementPlans.map((plan, idx) => {
+            // 计算模拟进度
+            const progress = plan.priority === 'high' ? 30 : plan.priority === 'medium' ? 45 : 60;
+            
+            return (
+              <Card key={idx} className="border-2">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Shield className="w-5 h-5 text-blue-600" />
+                      {plan.title}
+                    </CardTitle>
+                    <Badge
+                      variant={
+                        plan.priority === 'high'
+                          ? 'destructive'
+                          : plan.priority === 'medium'
+                            ? 'default'
+                            : 'secondary'
+                      }
+                    >
+                      {plan.priority === 'high'
+                        ? '重要'
                         : plan.priority === 'medium'
-                          ? 'default'
-                          : 'secondary'
-                    }
-                  >
-                    {plan.priority === 'high'
-                      ? '重要'
-                      : plan.priority === 'medium'
-                        ? '建议'
-                        : '可选'}
-                  </Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {plan.actions.map((action, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <Target className="w-4 h-4 text-blue-600 mt-0.5" />
-                      <span className="text-sm">{action}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ))}
+                          ? '建议'
+                          : '可选'}
+                    </Badge>
+                  </div>
+                  
+                  {/* 进度条 */}
+                  <div className="mt-4 space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">实施进度</span>
+                      <span className="font-medium text-blue-600">{progress}%</span>
+                    </div>
+                    <Progress value={progress} className="h-2" />
+                    <p className="text-xs text-gray-500">
+                      {progress < 40 && '建议尽快开始实施'}
+                      {progress >= 40 && progress < 70 && '正在进行中，保持坚持'}
+                      {progress >= 70 && '已达成良好效果'}
+                    </p>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {/* 行动项清单 */}
+                  <div className="space-y-2">
+                    {plan.actions.map((action, i) => {
+                      const isCompleted = i < Math.floor(plan.actions.length * (progress / 100));
+                      return (
+                        <div
+                          key={i}
+                          className={`flex items-start gap-3 p-3 rounded-lg border-2 transition-all ${
+                            isCompleted
+                              ? 'bg-green-50 border-green-200'
+                              : 'bg-gray-50 border-gray-200'
+                          }`}
+                        >
+                          {isCompleted ? (
+                            <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                          ) : (
+                            <div className="w-5 h-5 rounded-full border-2 border-gray-300 mt-0.5 flex-shrink-0"></div>
+                          )}
+                          <div className="flex-1">
+                            <span
+                              className={`text-sm ${
+                                isCompleted ? 'line-through text-gray-500' : 'text-gray-800'
+                              }`}
+                            >
+                              {action}
+                            </span>
+                            {isCompleted && (
+                              <Badge className="ml-2 bg-green-600 text-white text-xs">
+                                已完成
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
 
           {/* 执行时间建议 */}
           <Card className="border-purple-200">

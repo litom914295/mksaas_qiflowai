@@ -1,7 +1,9 @@
 'use client';
 
+import { ReportExport as ReportExportShare } from '@/components/feedback/report-export';
 import BaziApiResult from '@/components/qiflow/analysis/bazi-api-result';
-import { ReportExportShare } from '@/components/reports/report-export-share';
+import { FengshuiDisplay } from '@/components/qiflow/xuankong/fengshui-display';
+import { FlyingStarAnalysis } from '@/components/qiflow/xuankong/flying-star-analysis';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import type { LuckPillarAnalysis } from '@/lib/bazi/luck-pillars';
@@ -18,7 +20,7 @@ import type {
   Wall,
   Window,
 } from '@/lib/image-processing/types';
-import type { BaziReportData } from '@/lib/reports/types';
+import type { ReportData } from '@/lib/reports/types';
 import type {
   RoomMappingResult,
   SpaceMappingResult,
@@ -38,14 +40,13 @@ import {
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import { FengshuiDisplay } from './fengshui-display';
-import { FlyingStarAnalysis } from './flying-star-analysis';
-import { StandardFloorPlan } from './standard-floor-plan';
+// import { StandardFloorPlan } from './standard-floor-plan'; // TODO: 创建或找到这个组件
 
-// 导入新的罗盘组件
-import CompassThemeSelector from '@/components/compass/compass-theme-selector';
-import SimpleCompass from '@/components/compass/simple-compass';
-import type { CompassThemeKey } from '@/lib/compass/themes';
+// 导入新的罗盘组件 (TODO: 创建这些组件)
+// import CompassThemeSelector from '@/components/compass/compass-theme-selector';
+// import SimpleCompass from '@/components/compass/simple-compass';
+// import type { CompassThemeKey } from '@/lib/compass/themes';
+type CompassThemeKey = string; // temporary type
 
 interface PersonalData {
   name: string;
@@ -91,7 +92,7 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
 
   // Complete report data state
   const [completeReportData, setCompleteReportData] =
-    useState<BaziReportData | null>(null);
+    useState<ReportData | null>(null);
   const [luckPillarsData] = useState<LuckPillarAnalysis[]>([]);
 
   // Bazi analysis completion callback
@@ -101,18 +102,24 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
 
       // Build complete report data
       if (result && analysisData) {
-        const reportData: BaziReportData = {
-          personalInfo: {
-            name: analysisData.personal.name,
-            gender: analysisData.personal.gender,
-            birthDate: analysisData.personal.birthDate,
-            birthTime: analysisData.personal.birthTime || '12:00:00',
-            birthLocation: analysisData.personal.location,
+        const reportData: ReportData = {
+          id: `report-${Date.now()}`,
+          title: `分析报告 - ${analysisData.personal.name}`,
+          content: JSON.stringify(result),
+          type: 'comprehensive',
+          createdAt: new Date(),
+          metadata: {
+            personalInfo: {
+              name: analysisData.personal.name,
+              gender: analysisData.personal.gender,
+              birthDate: analysisData.personal.birthDate,
+              birthTime: analysisData.personal.birthTime || '12:00:00',
+              birthLocation: analysisData.personal.location,
+            },
+            baziAnalysis: result,
+            luckPillarsAnalysis: luckPillarsData,
+            fengshuiAnalysis: analysisData.fengshuiResult,
           },
-          baziAnalysis: result,
-          luckPillarsAnalysis: luckPillarsData,
-          fengshuiAnalysis: analysisData.fengshuiResult,
-          generatedAt: new Date(),
         };
 
         setCompleteReportData(reportData);
@@ -615,10 +622,10 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
             <Home className="w-5 h-5 text-green-600" />
             {t('guestAnalysis.houseForm.selectFloorPlan')}
           </h4>
-          <StandardFloorPlan
-            onFloorPlanSelect={handleFloorPlanSelect}
-            selectedFloorPlan={selectedFloorPlan}
-          />
+          {/* StandardFloorPlan 组件暂时不可用 */}
+          <div className="text-center py-8 text-gray-500">
+            <p>户型图选择功能待开发</p>
+          </div>
         </div>
 
         {/* Compass component */}
@@ -627,29 +634,10 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
             <Compass className="w-5 h-5 text-blue-600" />
             {t('guestAnalysis.houseForm.digitalCompass')}
           </h4>
-          {/* 罗盘主题选择器 */}
-          <div className="mb-6">
-            <h5 className="text-md font-semibold text-gray-900 mb-3 flex items-center gap-2">
-              <div className="w-4 h-4 bg-purple-600 rounded" />
-              选择罗盘样式
-            </h5>
-            <CompassThemeSelector
-              currentTheme={selectedCompassTheme}
-              onThemeChange={setSelectedCompassTheme}
-            />
-          </div>
-
-          {/* 风水罗盘组件 */}
-          <div className="mb-4">
-            <SimpleCompass
-              theme={selectedCompassTheme}
-              onDirectionChange={handleCompassOrientation}
-              interactive={true}
-              enableAnimation={true}
-              showDetailedInfo={true}
-              width={400}
-              height={400}
-            />
+          {/* 罗盘组件暂时不可用 */}
+          <div className="text-center py-8 text-gray-500">
+            <p>罗盘功能待开发</p>
+            <p className="text-sm mt-2">请直接输入方位角度</p>
           </div>
           {compassOrientation !== null && (
             <div className="mt-4 p-3 bg-blue-50 rounded-lg">
@@ -854,9 +842,7 @@ export function GuestAnalysisPage({}: GuestAnalysisPageProps = {}) {
       )}
 
       {/* Report export and sharing functionality */}
-      {completeReportData && (
-        <ReportExportShare reportData={completeReportData} className="mt-8" />
-      )}
+      {completeReportData && <ReportExportShare data={completeReportData} />}
     </div>
   );
 

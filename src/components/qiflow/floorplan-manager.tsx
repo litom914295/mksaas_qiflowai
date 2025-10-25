@@ -1,39 +1,5 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { toast } from "@/components/ui/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,27 +9,61 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
-  Plus,
-  MoreVertical,
-  Pencil,
-  Trash2,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Skeleton } from '@/components/ui/skeleton';
+import { toast } from '@/components/ui/use-toast';
+import {
+  AlertCircle,
+  Calendar,
   Copy,
   FileImage,
-  Calendar,
-  AlertCircle,
-} from "lucide-react";
+  MoreVertical,
+  Pencil,
+  Plus,
+  Trash2,
+} from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { FloorplanState } from "@/types/floorplan";
 import {
-  listFloorplanStates,
-  createFloorplanState,
-  renameFloorplanState,
-  deleteFloorplanState,
   batchDeleteFloorplanStates,
-} from "@/actions/qiflow/floorplan-state";
-import { cn } from "@/lib/utils";
+  createFloorplanState,
+  deleteFloorplanState,
+  listFloorplanStates,
+  renameFloorplanState,
+} from '@/actions/qiflow/floorplan-state';
+import { cn } from '@/lib/utils';
+import type { FloorplanState } from '@/types/floorplan';
 
 interface FloorplanManagerProps {
   /** 当前激活的方案 ID */
@@ -85,7 +85,7 @@ interface FloorplanPlanItem {
   id: string;
   name: string;
   imageData?: string;
-  imageType?: "url" | "base64";
+  imageType?: 'url' | 'base64';
   createdAt: number;
   updatedAt: number;
   isCurrent: boolean;
@@ -93,7 +93,7 @@ interface FloorplanPlanItem {
 
 /**
  * Floorplan 方案管理器组件
- * 
+ *
  * 功能：
  * - 显示用户所有保存的户型方案列表
  * - 创建新方案（空白或复制当前）
@@ -101,7 +101,7 @@ interface FloorplanPlanItem {
  * - 删除方案（单个或批量）
  * - 切换当前激活方案
  * - 四态支持：Empty / Error / Loading / Timeout
- * 
+ *
  * @example
  * <FloorplanManager
  *   currentAnalysisId={analysisId}
@@ -126,14 +126,14 @@ export function FloorplanManager({
 
   // 创建方案对话框状态
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [newPlanName, setNewPlanName] = useState("");
+  const [newPlanName, setNewPlanName] = useState('');
   const [copyCurrentParams, setCopyCurrentParams] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
 
   // 重命名对话框状态
   const [renameDialogOpen, setRenameDialogOpen] = useState(false);
   const [renamePlanId, setRenamePlanId] = useState<string | null>(null);
-  const [renameValue, setRenameValue] = useState("");
+  const [renameValue, setRenameValue] = useState('');
   const [isRenaming, setIsRenaming] = useState(false);
 
   // 删除确认对话框
@@ -164,7 +164,7 @@ export function FloorplanManager({
       clearTimeout(timeoutId);
 
       if (!result.success || !result.data) {
-        setError(result.error || "加载方案列表失败");
+        setError(result.error || '加载方案列表失败');
         setPlans([]);
         return;
       }
@@ -182,7 +182,7 @@ export function FloorplanManager({
       setPlans(items);
     } catch (err) {
       clearTimeout(timeoutId);
-      setError(err instanceof Error ? err.message : "未知错误");
+      setError(err instanceof Error ? err.message : '未知错误');
       setPlans([]);
     } finally {
       setIsLoading(false);
@@ -195,17 +195,17 @@ export function FloorplanManager({
   const handleCreate = async () => {
     if (!userId) {
       toast({
-        title: "需要登录",
-        description: "请先登录后再创建方案",
-        variant: "destructive",
+        title: '需要登录',
+        description: '请先登录后再创建方案',
+        variant: 'destructive',
       });
       return;
     }
 
     if (!newPlanName.trim()) {
       toast({
-        title: "方案名称不能为空",
-        variant: "destructive",
+        title: '方案名称不能为空',
+        variant: 'destructive',
       });
       return;
     }
@@ -213,42 +213,43 @@ export function FloorplanManager({
     setIsCreating(true);
 
     try {
-      const initialState = copyCurrentParams && currentState
-        ? {
-            ...currentState,
-            name: newPlanName,
-            id: undefined, // 生成新 ID
-            createdAt: Date.now(),
-            updatedAt: Date.now(),
-          }
-        : {
-            name: newPlanName,
-            imageData: "",
-            imageType: "url" as const,
-            rotation: 0,
-            scale: 1,
-            position: { x: 0, y: 0 },
-            showOverlay: true,
-            showLabels: true,
-            overlayOpacity: 0.5,
-            gridLineWidth: 1,
-            createdAt: Date.now(),
-            updatedAt: Date.now(),
-          };
+      const initialState =
+        copyCurrentParams && currentState
+          ? {
+              ...currentState,
+              name: newPlanName,
+              id: undefined, // 生成新 ID
+              createdAt: Date.now(),
+              updatedAt: Date.now(),
+            }
+          : {
+              name: newPlanName,
+              imageData: '',
+              imageType: 'url' as const,
+              rotation: 0,
+              scale: 1,
+              position: { x: 0, y: 0 },
+              showOverlay: true,
+              showLabels: true,
+              overlayOpacity: 0.5,
+              gridLineWidth: 1,
+              createdAt: Date.now(),
+              updatedAt: Date.now(),
+            };
 
       const result = await createFloorplanState(userId, initialState);
 
       if (!result.success || !result.data) {
-        throw new Error(result.error || "创建方案失败");
+        throw new Error(result.error || '创建方案失败');
       }
 
       toast({
-        title: "创建成功",
+        title: '创建成功',
         description: `方案 "${newPlanName}" 已创建`,
       });
 
       setIsCreateDialogOpen(false);
-      setNewPlanName("");
+      setNewPlanName('');
       setCopyCurrentParams(false);
 
       // 刷新列表并切换到新方案
@@ -256,9 +257,9 @@ export function FloorplanManager({
       onSwitchPlan(result.data.id);
     } catch (err) {
       toast({
-        title: "创建失败",
-        description: err instanceof Error ? err.message : "未知错误",
-        variant: "destructive",
+        title: '创建失败',
+        description: err instanceof Error ? err.message : '未知错误',
+        variant: 'destructive',
       });
     } finally {
       setIsCreating(false);
@@ -273,8 +274,8 @@ export function FloorplanManager({
 
     if (!renameValue.trim()) {
       toast({
-        title: "方案名称不能为空",
-        variant: "destructive",
+        title: '方案名称不能为空',
+        variant: 'destructive',
       });
       return;
     }
@@ -282,26 +283,30 @@ export function FloorplanManager({
     setIsRenaming(true);
 
     try {
-      const result = await renameFloorplanState(userId, renamePlanId, renameValue);
+      const result = await renameFloorplanState(
+        userId,
+        renamePlanId,
+        renameValue
+      );
 
       if (!result.success) {
-        throw new Error(result.error || "重命名失败");
+        throw new Error(result.error || '重命名失败');
       }
 
       toast({
-        title: "重命名成功",
+        title: '重命名成功',
       });
 
       setRenameDialogOpen(false);
       setRenamePlanId(null);
-      setRenameValue("");
+      setRenameValue('');
 
       await loadPlans();
     } catch (err) {
       toast({
-        title: "重命名失败",
-        description: err instanceof Error ? err.message : "未知错误",
-        variant: "destructive",
+        title: '重命名失败',
+        description: err instanceof Error ? err.message : '未知错误',
+        variant: 'destructive',
       });
     } finally {
       setIsRenaming(false);
@@ -320,11 +325,11 @@ export function FloorplanManager({
       const result = await deleteFloorplanState(userId, deletePlanId);
 
       if (!result.success) {
-        throw new Error(result.error || "删除失败");
+        throw new Error(result.error || '删除失败');
       }
 
       toast({
-        title: "删除成功",
+        title: '删除成功',
       });
 
       setDeleteDialogOpen(false);
@@ -341,9 +346,9 @@ export function FloorplanManager({
       await loadPlans();
     } catch (err) {
       toast({
-        title: "删除失败",
-        description: err instanceof Error ? err.message : "未知错误",
-        variant: "destructive",
+        title: '删除失败',
+        description: err instanceof Error ? err.message : '未知错误',
+        variant: 'destructive',
       });
     } finally {
       setIsDeleting(false);
@@ -387,7 +392,7 @@ export function FloorplanManager({
    */
   if (!isLoading && !error && !isTimeout && plans.length === 0) {
     return (
-      <Card className={cn("w-full", className)}>
+      <Card className={cn('w-full', className)}>
         <CardHeader>
           <CardTitle>户型方案管理</CardTitle>
           <CardDescription>还没有保存的户型方案</CardDescription>
@@ -395,10 +400,14 @@ export function FloorplanManager({
         <CardContent className="flex flex-col items-center justify-center py-12">
           <FileImage className="h-16 w-16 text-muted-foreground mb-4" />
           <p className="text-muted-foreground text-center mb-6">
-            创建您的第一个户型方案<br />
+            创建您的第一个户型方案
+            <br />
             保存并管理多套户型叠加配置
           </p>
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+          <Dialog
+            open={isCreateDialogOpen}
+            onOpenChange={setIsCreateDialogOpen}
+          >
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
@@ -425,7 +434,7 @@ export function FloorplanManager({
    */
   if (error) {
     return (
-      <Card className={cn("w-full border-destructive", className)}>
+      <Card className={cn('w-full border-destructive', className)}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-destructive">
             <AlertCircle className="h-5 w-5" />
@@ -447,7 +456,7 @@ export function FloorplanManager({
    */
   if (isTimeout) {
     return (
-      <Card className={cn("w-full border-warning", className)}>
+      <Card className={cn('w-full border-warning', className)}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-warning">
             <AlertCircle className="h-5 w-5" />
@@ -455,9 +464,7 @@ export function FloorplanManager({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground mb-4">
-            网络连接较慢，请稍后重试
-          </p>
+          <p className="text-muted-foreground mb-4">网络连接较慢，请稍后重试</p>
           <Button onClick={loadPlans} variant="outline">
             重试
           </Button>
@@ -471,7 +478,7 @@ export function FloorplanManager({
    */
   if (isLoading) {
     return (
-      <Card className={cn("w-full", className)}>
+      <Card className={cn('w-full', className)}>
         <CardHeader>
           <CardTitle>户型方案管理</CardTitle>
           <CardDescription>加载中...</CardDescription>
@@ -495,7 +502,7 @@ export function FloorplanManager({
    * 正常展示态
    */
   return (
-    <Card className={cn("w-full", className)}>
+    <Card className={cn('w-full', className)}>
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle>户型方案管理</CardTitle>
@@ -528,8 +535,8 @@ export function FloorplanManager({
           <Card
             key={plan.id}
             className={cn(
-              "cursor-pointer transition-all hover:shadow-md",
-              plan.isCurrent && "ring-2 ring-primary"
+              'cursor-pointer transition-all hover:shadow-md',
+              plan.isCurrent && 'ring-2 ring-primary'
             )}
             onClick={() => !plan.isCurrent && onSwitchPlan(plan.id)}
           >
@@ -561,7 +568,7 @@ export function FloorplanManager({
                   <h4 className="font-medium truncate">{plan.name}</h4>
                   <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
                     <Calendar className="h-3 w-3" />
-                    {new Date(plan.updatedAt).toLocaleDateString("zh-CN")}
+                    {new Date(plan.updatedAt).toLocaleDateString('zh-CN')}
                   </p>
                 </div>
 
@@ -633,7 +640,7 @@ export function FloorplanManager({
               取消
             </Button>
             <Button onClick={handleRename} disabled={isRenaming}>
-              {isRenaming ? "重命名中..." : "确认"}
+              {isRenaming ? '重命名中...' : '确认'}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -655,7 +662,7 @@ export function FloorplanManager({
               disabled={isDeleting}
               className="bg-destructive hover:bg-destructive/90"
             >
-              {isDeleting ? "删除中..." : "确认删除"}
+              {isDeleting ? '删除中...' : '确认删除'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -688,9 +695,7 @@ function CreatePlanDialog({
     <DialogContent>
       <DialogHeader>
         <DialogTitle>创建新方案</DialogTitle>
-        <DialogDescription>
-          创建一个新的户型叠加方案
-        </DialogDescription>
+        <DialogDescription>创建一个新的户型叠加方案</DialogDescription>
       </DialogHeader>
       <div className="grid gap-4 py-4">
         <div className="grid gap-2">
@@ -721,15 +726,18 @@ function CreatePlanDialog({
         <Button
           variant="outline"
           onClick={() => {
-            setNewPlanName("");
+            setNewPlanName('');
             setCopyCurrentParams(false);
           }}
           disabled={isCreating}
         >
           取消
         </Button>
-        <Button onClick={onConfirm} disabled={isCreating || !newPlanName.trim()}>
-          {isCreating ? "创建中..." : "创建"}
+        <Button
+          onClick={onConfirm}
+          disabled={isCreating || !newPlanName.trim()}
+        >
+          {isCreating ? '创建中...' : '创建'}
         </Button>
       </DialogFooter>
     </DialogContent>

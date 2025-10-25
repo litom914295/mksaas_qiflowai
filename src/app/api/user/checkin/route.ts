@@ -8,7 +8,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     // 获取当前用户
-    const session = await auth();
+    const { session } = await auth.api.getSession({ headers: request.headers });
     if (!session?.user?.id) {
       return NextResponse.json({ error: '请先登录' }, { status: 401 });
     }
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     today.setHours(0, 0, 0, 0);
 
     // 使用事务确保数据一致性
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: typeof prisma) => {
       // 检查今天是否已签到
       const existingCheckIn = await tx.checkIn.findUnique({
         where: {
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth();
+    const { session } = await auth.api.getSession({ headers: request.headers });
     if (!session?.user?.id) {
       return NextResponse.json({ error: '请先登录' }, { status: 401 });
     }

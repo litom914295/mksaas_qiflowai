@@ -53,7 +53,7 @@ export function checkLocalStorageQuota(): StorageQuotaInfo {
  * @param keepDays 保留天数，超过此天数的缓存将被清理
  * @returns 清理的项目数量
  */
-export function cleanOldFloorplanCache(keepDays: number = 7): number {
+export function cleanOldFloorplanCache(keepDays = 7): number {
   let cleanedCount = 0;
   const cutoffTime = Date.now() - keepDays * 24 * 60 * 60 * 1000;
   const keysToRemove: string[] = [];
@@ -62,13 +62,13 @@ export function cleanOldFloorplanCache(keepDays: number = 7): number {
     // 扫描所有 floorplan 相关的键
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      
+
       if (key && key.startsWith('floorplan_')) {
         try {
           const value = localStorage.getItem(key);
           if (value) {
             const data = JSON.parse(value);
-            
+
             // 检查 updatedAt 时间戳
             if (data.updatedAt && data.updatedAt < cutoffTime) {
               keysToRemove.push(key);
@@ -107,7 +107,7 @@ export function cleanAnonymousFloorplanCache(): number {
     // 扫描所有匿名用户的缓存
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      
+
       if (key && key.startsWith('floorplan_anonymous_')) {
         keysToRemove.push(key);
       }
@@ -149,10 +149,10 @@ export function getFloorplanCacheStats(): {
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      
+
       if (key && key.startsWith('floorplan_')) {
         totalCount++;
-        
+
         if (key.startsWith('floorplan_anonymous_')) {
           anonymousCount++;
         } else {
@@ -212,8 +212,8 @@ export function formatBytes(bytes: number): string {
 export function canSafelyStore(estimatedSize: number): boolean {
   const quota = checkLocalStorageQuota();
   const safeThreshold = quota.total * 0.9; // 保留10%的安全余量
-  
-  return (quota.used + estimatedSize) < safeThreshold;
+
+  return quota.used + estimatedSize < safeThreshold;
 }
 
 /**
@@ -222,24 +222,24 @@ export function canSafelyStore(estimatedSize: number): boolean {
  */
 export function autoCleanIfNeeded(): boolean {
   const quota = checkLocalStorageQuota();
-  
+
   if (quota.isNearLimit) {
     console.log('[Storage Quota] 检测到存储空间接近上限，开始自动清理...');
-    
+
     // 先清理30天以上的旧数据
     let cleaned = cleanOldFloorplanCache(30);
-    
+
     // 如果还是接近上限，清理7天以上的数据
     const quotaAfter = checkLocalStorageQuota();
     if (quotaAfter.isNearLimit) {
       cleaned += cleanOldFloorplanCache(7);
     }
-    
+
     if (cleaned > 0) {
       console.log(`[Storage Quota] 自动清理完成，清理了 ${cleaned} 个缓存项`);
       return true;
     }
   }
-  
+
   return false;
 }

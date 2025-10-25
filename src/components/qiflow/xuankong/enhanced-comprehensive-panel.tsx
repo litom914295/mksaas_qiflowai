@@ -443,8 +443,8 @@ export function EnhancedComprehensivePanel({
                   <p className="text-sm text-gray-600">
                     飞星盘显示九宫方位的吉凶星曜分布
                     <br />
-                    根据 {houseInfo?.period || 9}运 {houseInfo?.sitting}山
-                    {houseInfo?.facing}向 计算
+                    根据 {houseInfo?.period || 9}运 {houseInfo?.sittingDirection}山
+                    {houseInfo?.facingDirection}向 计算
                   </p>
                 </div>
               )}

@@ -659,6 +659,27 @@
     "medium_accuracy": "Medium Accuracy",
     "low_accuracy": "Low Accuracy"
   },
+  "compass": {
+    "pickerTitle": "羅盤定位",
+    "pickerDesc": "將手機平放並緩慢旋轉，或手動微調角度。完成後點擊「使用此朝向」。",
+    "reference": "參考基準",
+    "magnetic_north": "磁北",
+    "true_north": "真北",
+    "locating": "定位中…",
+    "get_declination": "取得磁偏角",
+    "magnetic_declination": "磁偏角",
+    "bearingLabel": "方位",
+    "degreeLabel": "度數",
+    "accuracy": "精度",
+    "start_measurement": "開始測量",
+    "stop_measurement": "停止測量",
+    "manual": "手動",
+    "limitedTip": "裝置不支援或權限被拒，已進入手動模式。",
+    "timeoutTip": "未能取得感測器資料，請嘗試重新授權或使用手動模式。",
+    "errorTip": "感測器異常，請重試或改用手動。",
+    "cancel": "取消",
+    "use_this_bearing": "使用此朝向"
+  },
   "Compliance": {
     "ageVerification": {
       "title": "TODO: 18+ 年龄验证",
@@ -3449,6 +3470,24 @@
     "bottomHint": "💡 無需註冊 · 3分鐘生成 · 首次體驗免費",
     "mobileUsers": "12萬+用戶",
     "mobileAccuracy": "98%準確"
+  },
+  "compass": {
+    "pickerTitle": "羅盤定位",
+    "pickerDesc": "請將手機平放並緩慢旋轉，或使用手動微調角度。完成後點擊「使用此朝向」。",
+    "manual": "手動",
+    "use_this_bearing": "使用此朝向",
+    "cancel": "取消",
+    "bearingLabel": "方位",
+    "degreeLabel": "度數",
+    "limitedTip": "裝置不支援或權限被拒，已進入手動模式。",
+    "timeoutTip": "未取得感測資料，請重新授權或改用手動模式。",
+    "errorTip": "感測器異常，請重試或改用手動。",
+    "reference": "指北基準",
+    "magnetic_north": "磁北",
+    "true_north": "真北",
+    "magnetic_declination": "磁偏角",
+    "get_declination": "取得磁偏角",
+    "locating": "定位中..."
   },
   "faqs": {
     "title": "常見問題",

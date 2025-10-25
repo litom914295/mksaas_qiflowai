@@ -57,7 +57,7 @@ export function LuckCyclesAnalysis({ data }: LuckCyclesAnalysisProps) {
   const { luck, base } = data;
 
   // 添加安全检查，确保有 timeline 数据
-  const daYunTimeline = luck?.timeline || luck?.daYunTimeline || [];
+  const daYunTimeline = luck?.daYunTimeline || [];
 
   const [selectedDaYun, setSelectedDaYun] = useState(
     luck?.currentDaYun?.period || 1
@@ -530,6 +530,242 @@ export function LuckCyclesAnalysis({ data }: LuckCyclesAnalysisProps) {
               </TabsContent>
             ))}
           </Tabs>
+        </CardContent>
+      </Card>
+
+      {/* 大运与命局互动分析 */}
+      {selectedDaYunDetail && (
+        <Card className="border-2 border-blue-200 bg-blue-50/30">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="w-5 h-5 text-blue-600" />
+              大运与命局互动分析
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {/* 天干地支组合 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-white rounded-lg">
+                  <h5 className="font-medium text-blue-800 mb-2">天干组合</h5>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">大运天干</span>
+                      <span className="font-medium text-lg">
+                        {selectedDaYunDetail.heavenlyStem}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">日干</span>
+                      <span className="font-medium text-lg">
+                        {base.dayMaster.stem}
+                      </span>
+                    </div>
+                    <div className="mt-2 p-2 bg-blue-50 rounded text-sm text-gray-700">
+                      {selectedDaYunDetail.heavenlyStem === base.dayMaster.stem
+                        ? '比肩助身，同道相扶，利于合作发展'
+                        : '天干相生相克，注意把握节奏'}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-white rounded-lg">
+                  <h5 className="font-medium text-blue-800 mb-2">五行影响</h5>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">大运五行</span>
+                      <Badge>{selectedDaYunDetail.element}</Badge>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">喜用神</span>
+                      <div className="flex gap-1">
+                        {data.useful.favorableElements.slice(0, 2).map((e) => (
+                          <Badge key={e.element} variant="outline">
+                            {e.chinese}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mt-2 p-2 bg-green-50 rounded text-sm text-gray-700">
+                      {data.useful.favorableElements.some(
+                        (e) => e.element === selectedDaYunDetail.element
+                      )
+                        ? '五行相合，运势顺遂，把握机会！'
+                        : '五行需平衡，注意调节'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 适宜/不宜事项 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-green-50 rounded-lg">
+                  <h5 className="font-medium text-green-800 mb-3 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4" />
+                    本大运适宜
+                  </h5>
+                  <ul className="space-y-2">
+                    {[
+                      selectedDaYunDetail.fortune.career >= 70
+                        ? '拓展事业，争取晋升'
+                        : null,
+                      selectedDaYunDetail.fortune.wealth >= 70
+                        ? '投资理财，积累财富'
+                        : null,
+                      selectedDaYunDetail.fortune.relationship >= 70
+                        ? '婚恋交友，拓展人脉'
+                        : null,
+                      '学习进修，提升能力',
+                    ]
+                      .filter(Boolean)
+                      .map((item, idx) => (
+                        <li
+                          key={idx}
+                          className="text-sm text-gray-700 flex items-start gap-2"
+                        >
+                          <span className="text-green-600 mt-0.5">✓</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+
+                <div className="p-4 bg-orange-50 rounded-lg">
+                  <h5 className="font-medium text-orange-800 mb-3 flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4" />
+                    本大运需注意
+                  </h5>
+                  <ul className="space-y-2">
+                    {[
+                      selectedDaYunDetail.fortune.health < 60
+                        ? '关注身体健康，定期检查'
+                        : null,
+                      selectedDaYunDetail.fortune.career < 60
+                        ? '事业保守为主，避免冒进'
+                        : null,
+                      selectedDaYunDetail.fortune.wealth < 60
+                        ? '谨慎投资理财，防范风险'
+                        : null,
+                      '保持平和心态，稳步前进',
+                    ]
+                      .filter(Boolean)
+                      .map((item, idx) => (
+                        <li
+                          key={idx}
+                          className="text-sm text-gray-700 flex items-start gap-2"
+                        >
+                          <span className="text-orange-600 mt-0.5">!</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 运势曲线图 */}
+      <Card className="border-2 border-indigo-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-indigo-600" />
+            一生运势曲线
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* 曲线图说明 */}
+            <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+                <span className="text-gray-600">综合运势</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <span className="text-gray-600">事业</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                <span className="text-gray-600">财运</span>
+              </div>
+            </div>
+
+            {/* 简化的运势曲线 - 使用柱状图风格 */}
+            <div className="relative h-64 bg-white rounded-lg p-4">
+              <div className="absolute inset-0 flex items-end justify-around p-4">
+                {daYunTimeline.map((period, idx) => {
+                  const isCurrent =
+                    period.period === luck?.currentDaYun?.period;
+                  const height = `${period.fortune.overall}%`;
+                  const color = isCurrent
+                    ? 'bg-gradient-to-t from-purple-500 to-purple-300'
+                    : period.fortune.overall >= 70
+                      ? 'bg-gradient-to-t from-green-500 to-green-300'
+                      : period.fortune.overall >= 50
+                        ? 'bg-gradient-to-t from-blue-500 to-blue-300'
+                        : 'bg-gradient-to-t from-orange-500 to-orange-300';
+
+                  return (
+                    <div
+                      key={idx}
+                      className="relative flex flex-col items-center group"
+                      style={{ width: `${90 / daYunTimeline.length}%` }}
+                    >
+                      {/* 柱子 */}
+                      <div
+                        className={`w-full rounded-t-lg transition-all hover:opacity-80 cursor-pointer ${
+                          color
+                        } ${isCurrent ? 'ring-2 ring-purple-400 ring-offset-2' : ''}`}
+                        style={{ height }}
+                        title={`${period.heavenlyStem}${period.earthlyBranch}运: ${period.fortune.overall}分`}
+                      >
+                        {isCurrent && (
+                          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                            <Badge className="bg-purple-600">当前</Badge>
+                          </div>
+                        )}
+                      </div>
+                      {/* 标签 */}
+                      <div className="mt-2 text-center">
+                        <p className="text-xs font-medium">
+                          {period.heavenlyStem}
+                          {period.earthlyBranch}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {period.ageRange[0]}-{period.ageRange[1]}
+                        </p>
+                      </div>
+                      {/* 悬浮提示 */}
+                      <div className="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded p-2 whitespace-nowrap z-10">
+                        <div>运势: {period.fortune.overall}分</div>
+                        <div>事业: {period.fortune.career}分</div>
+                        <div>财运: {period.fortune.wealth}分</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 曲线分析说明 */}
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-700">
+                <strong className="text-gray-800">运势分析：</strong>
+                纵观一生大运，您的
+                {daYunTimeline.filter((d) => d.fortune.overall >= 75).length >0
+                  ? `在${daYunTimeline
+                      .filter((d) => d.fortune.overall >= 75)
+                      .map(
+                        (d) => `${d.ageRange[0]}-${d.ageRange[1]}岁`
+                      )
+                      .join('、')}处于运势高峰期`
+                  : '运势相对平稳'}
+                ，建议在高峰期把握机遇，低谷期稳健发展。
+              </p>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
