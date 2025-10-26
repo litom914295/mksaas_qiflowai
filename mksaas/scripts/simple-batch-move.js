@@ -11,13 +11,18 @@ const ATTIC_DIR = '.attic';
 const DATE_STAMP = new Date().toISOString().split('T')[0];
 const ATTIC_TARGET_DIR = path.join(ATTIC_DIR, DATE_STAMP);
 
-// 白名单和黑名单模式 - 专注于静态资源
+// 白名单和黑名单模式 - 逐步扩展到组件
 const whitelistPatterns = [
     /^public\/.*\.(png|jpg|jpeg|gif|svg|ico|webp)$/i,
-    // 暂时只移动静态资源
-    // /^components\/.*\.tsx?$/,
-    // /^src\/.*\.tsx?$/,
-    // /^app\/.*\.tsx?$/
+    // 明显未使用的组件文件夹
+    /^src\/components\/animate-ui\/.*\.tsx?$/,
+    /^src\/components\/magicui\/.*\.tsx?$/,
+    /^src\/components\/tailark\/.*\.tsx?$/,
+    /^src\/components\/blocks\/.*\.tsx?$/,
+    // 测试和开发文件
+    /^src\/.*\/__tests__\/.*\.tsx?$/,
+    /^src\/.*\.test\.tsx?$/,
+    /^src\/.*\.spec\.tsx?$/,
 ];
 
 const denylistPatterns = [
@@ -111,10 +116,16 @@ function moveBatch(files) {
 }
 
 function quickImportCheck() {
-    console.log('🔍 执行快速检查（静态资源无需类型检查）...');
-    // 对于静态资源文件，无需执行类型检查
-    console.log('✅ 静态资源检查通过');
-    return true;
+    console.log('🔍 执行快速类型检查...');
+    try {
+        // 使用较短的超时时间快速检查
+        execSync('npx tsc --noEmit --skipLibCheck', { stdio: 'ignore', timeout: 15000 });
+        console.log('✅ 类型检查通过');
+        return true;
+    } catch (error) {
+        console.warn('⚠️  类型检查失败，停止移动');
+        return false;
+    }
 }
 
 async function main() {
