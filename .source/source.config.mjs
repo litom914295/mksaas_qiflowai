@@ -40,18 +40,16 @@ var pages = defineCollections({
 var author = defineCollections({
   type: "doc",
   dir: "content/author",
-  schema: z.object({
+  schema: frontmatterSchema.extend({
     name: z.string(),
-    avatar: z.string(),
-    description: z.string().optional()
+    avatar: z.string()
   })
 });
 var category = defineCollections({
   type: "doc",
   dir: "content/category",
-  schema: z.object({
-    name: z.string(),
-    description: z.string().optional()
+  schema: frontmatterSchema.extend({
+    name: z.string()
   })
 });
 var blog = defineCollections({

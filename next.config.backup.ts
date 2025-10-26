@@ -30,15 +30,12 @@ const nextConfig: NextConfig = {
     config: any,
     { dev, isServer }: { dev: boolean; isServer: boolean }
   ) => {
-    // MDX 支持 - 确保 MDX 文件正确被处理
-    config.module = config.module || {};
-    config.module.rules = config.module.rules || [];
-    
     // 开发环境优化
     if (dev) {
-      // 减少文件监听开销
+      // Windows 环境：启用轮询以避免 ENOENT 错误
+      const isWindows = process.platform === 'win32';
       config.watchOptions = {
-        poll: false, // 禁用轮询，使用原生文件系统事件
+        poll: isWindows ? 1000 : false, // Windows 使用轮询，其他平台使用原生事件
         aggregateTimeout: 300, // 增加聚合延迟，减少编译次数
         ignored: [
           '**/node_modules/**',
@@ -65,6 +62,11 @@ const nextConfig: NextConfig = {
         removeEmptyChunks: false,
       };
 
+      // 使用 Next.js 默认缓存配置
+      // 在 Windows 上避免自定义缓存配置以避免文件系统问题
+
+      // 开发环境不修改 devtool，使用 Next.js 默认配置
+      // config.devtool = 'eval-cheap-module-source-map';
     }
 
     // 优化模块解析
@@ -86,24 +88,49 @@ const nextConfig: NextConfig = {
     return config;
   },
 
-  // 实验性特性：显式禁用可能导致 Windows 下竞态的功能
+  // 实验性特性
   experimental: {
-    webpackBuildWorker: false,
-    optimizePackageImports: [],
+    // 开发环境禁用 CSS 优化以加快编译
+    optimizeCss: process.env.NODE_ENV === 'production',
+    // 优化大型包的导入 - 这是关键优化！
+    optimizePackageImports: [
+      'lucide-react',
+      '@radix-ui/react-icons',
+      '@tabler/icons-react',
+      'date-fns',
+      'recharts',
+      '@radix-ui/react-accordion',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-popover',
+      '@radix-ui/react-select',
+      '@radix-ui/react-tabs',
+      '@radix-ui/react-toast',
+      '@radix-ui/react-tooltip',
+      'framer-motion',
+      'react-countup',
+      'three',
+      'fabric',
+      'konva',
+      '@tanstack/react-query',
+      'next-intl',
+    ],
+    // 并行编译路由以加快构建
+    webpackBuildWorker: true,
   },
 
-  // Turbopack 配置 (替代已弃用的 experimental.turbo)
-  turbopack: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-    resolveAlias: {
-      '@': './src',
-    },
-  },
+  // 禁用 Turbopack，使用标准 Webpack
+  // turbopack: {
+  //   rules: {
+  //     '*.svg': {
+  //       loaders: ['@svgr/webpack'],
+  //       as: '*.js',
+  //     },
+  //   },
+  //   resolveAlias: {
+  //     '@': './src',
+  //   },
+  // },
 
   // https://nextjs.org/docs/architecture/nextjs-compiler#remove-console
   // Remove all console.* calls in production only
@@ -200,7 +227,7 @@ const nextConfig: NextConfig = {
  * https://fumadocs.dev/docs/ui/manual-installation
  * https://fumadocs.dev/docs/mdx/plugin
  */
-// MDX plugin disabled for stability
+// const withMDX = createMDX(); // disabled for isolation
 
 /**
  * Webpack Bundle Analyzer
@@ -210,8 +237,7 @@ const nextConfig: NextConfig = {
 //   enabled: process.env.ANALYZE === 'true',
 // });
 
-// 明确指向 i18n 请求配置，避免默认路径差异
-const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
+const withNextIntl = createNextIntlPlugin();
 const withMDX = createMDX();
 
 // 应用所有配置包装器

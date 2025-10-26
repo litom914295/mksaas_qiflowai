@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "set NEXT_DISABLE_TURBOPACK=1&& next dev",
     "dev:fast": "node scripts/fast-dev.js",
     "dev:fast:clean": "node scripts/fast-dev.js --clean",
     "dev:webpack": "next dev",
@@ -137,6 +137,7 @@
     "@types/speakeasy": "^2.0.10",
     "@types/three": "^0.180.0",
     "@uiw/react-md-editor": "^4.0.8",
+    "@upstash/redis": "^1.35.6",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "ai": "^5.0.0",

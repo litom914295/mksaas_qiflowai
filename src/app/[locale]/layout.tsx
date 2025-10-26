@@ -27,9 +27,11 @@ export default async function LocaleLayout({
     process.env.NODE_ENV === 'development' ? performance.now() : 0;
   const messages = await getMessages();
 
-  if (process.env.NODE_ENV === 'development' && startTime > 0) {
-    const duration = performance.now() - startTime;
-    console.log(`[i18n] getMessages took ${duration.toFixed(2)}ms`);
+  if (process.env.NODE_ENV === 'development') {
+    const duration = startTime > 0 ? performance.now() - startTime : 0;
+    console.log(`[i18n] locale=${locale}, messagesLoaded=${
+      !!messages && typeof messages === 'object'
+    }, took=${duration.toFixed(2)}ms`);
   }
 
   return (
