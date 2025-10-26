@@ -629,7 +629,7 @@
         "description": "实现社会证明区，展示用户数据指标（10000+ 用户、50000+ 报告、98% 满意度）和精选用户评价墙（3-5条），使用 CountUp 动画和 Shadcn Card 组件。",
         "details": "技术栈：Shadcn UI Card + CountUp.js + TailwindCSS\\n\\n核心要求：\\n- 数据指标：10000+ 用户、50000+ 分析报告、98% 满意度\\n- 用户评价墙：3-5 条精选评价（头像、姓名缩写、星级、内容）\\n- 权威认证标识（可选）：AI 技术支持、数据加密保护\\n- 数字滚动动画效果\\n- 评价墙支持左右滑动或自动轮播\\n\\n数据来源：\\n- 从数据库实时拉取统计数据（或使用静态配置）\\n- 评价内容需经过敏感词过滤\\n\\n相关文件：\\n- 需要创建 Social Proof 组件\\n- 可能需要创建 testimonials.json 配置文件",
         "testStrategy": "单元测试：CountUp 动画、评价轮播功能；集成测试：数据加载和敏感词过滤",
-        "status": "pending",
+        "status": "in-progress",
         "dependencies": [],
         "priority": "high",
         "subtasks": []
