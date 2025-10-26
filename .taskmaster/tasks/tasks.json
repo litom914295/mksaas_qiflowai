@@ -292,6 +292,32 @@
           "dependencies": []
         }
       ]
+    },
+    "cleanup-20251026": {
+      "tasks": [
+        {"id": "1", "title": "创建清理分支 chore/cleanup-unused/20251026", "status": "done", "priority": "high", "description": "为清理工作建立独立分支，避免影响主线"},
+        {"id": "2", "title": "建立 .attic 与 artifacts 结构", "status": "done", "priority": "high", "description": "创建 .attic/{YYYY-MM-DD} 与 mksaas/artifacts 目录，保证可回滚与审计"},
+        {"id": "3", "title": "基线构建/测试校验", "status": "done", "priority": "high", "description": "在任何移动前先确保 build 与 tests 能通过或记录现状"},
+        {"id": "4", "title": "运行 Knip 导出 JSON 报告", "status": "done", "priority": "medium", "description": "npx knip --reporter json -> mksaas/knip-report.json"},
+        {"id": "5", "title": "修复 knip 报告 BOM/编码问题", "status": "done", "priority": "medium", "description": "确保 knip-report.json 可被脚本可靠解析"},
+        {"id": "6", "title": "生成候选列表 candidates.json", "status": "done", "priority": "high", "description": "汇总候选文件并去重"},
+        {"id": "7", "title": "应用白名单/黑名单并剔除不存在文件", "status": "done", "priority": "high", "description": "保护关键路径与配置文件，避免误删"},
+        {"id": "8", "title": "实现 PowerShell 批量移动脚本", "status": "done", "priority": "medium", "description": "mksaas/scripts/gates/run-obvious-move.ps1"},
+        {"id": "9", "title": "修复 PS 脚本引号与编码兼容性", "status": "done", "priority": "medium", "description": "解决 Windows 下字符串/管道/CRLF 等问题"},
+        {"id": "10", "title": "实现 Node 批量移动脚本（含快速校验）", "status": "done", "priority": "high", "description": "mksaas/scripts/gates/batch-move.js 与 simple-batch-move.js"},
+        {"id": "11", "title": "第一批移动与快速验证", "status": "done", "priority": "high", "description": "小批量尝试，验证流程与回滚能力"},
+        {"id": "12", "title": "修复缺失模块（icons/use-auth）", "status": "done", "priority": "high", "description": "恢复 '@/components/icons' 与 '@/components/auth/hooks/use-auth' 兼容导出"},
+        {"id": "13", "title": "恢复 MDX/Next 配置，确保 .source 加载", "status": "done", "priority": "high", "description": "启用 fumadocs-mdx 插件与 pageExtensions"},
+        {"id": "14", "title": "批量移动静态资源 public/*（多批）", "status": "done", "priority": "high", "description": "安全移动未引用的图片/图标到 .attic"},
+        {"id": "15", "title": "提交静态资源批次提交", "status": "done", "priority": "medium", "description": "记录变更与说明"},
+        {"id": "16", "title": "移动 animate-ui 与测试文件（不影响生产）", "status": "done", "priority": "medium", "description": "将开发/演示/测试文件迁入 .attic"},
+        {"id": "17", "title": "提交动画与测试文件批次提交", "status": "done", "priority": "medium", "description": "记录变更与说明"},
+        {"id": "18", "title": "生成清理总结报告", "status": "done", "priority": "low", "description": "mksaas/cleanup-summary-2025-10-26.md"},
+        {"id": "19", "title": "Round2 候选复核（src/components/ui 等）", "status": "pending", "priority": "medium", "description": "对 round2 候选执行引用检查与小批移动"},
+        {"id": "20", "title": "类型错误修复计划并启动", "status": "pending", "priority": "high", "description": "整理 TS 错误，分批修复，避免与清理相互影响"},
+        {"id": "21", "title": "全量构建 + 类型检查通过", "status": "pending", "priority": "high", "description": "保证构建无误后再考虑删除 attic 中长期无用文件"},
+        {"id": "22", "title": "发起 PR 与评审", "status": "pending", "priority": "medium", "description": "发起清理 PR，附带审计与回滚说明"}
+      ]
     }
   },
   "growth-p0": {
