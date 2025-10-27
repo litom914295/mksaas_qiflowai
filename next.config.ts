@@ -11,7 +11,12 @@ const nextConfig: NextConfig = {
   ...(process.env.DOCKER_BUILD === 'true' && { output: 'standalone' }),
 
   /* config options here */
-  devIndicators: false,
+  // Next.js 15: devIndicators 需要是对象类型
+  devIndicators: {
+    appIsrStatus: false,
+    buildActivity: false,
+    buildActivityPosition: 'bottom-right',
+  },
 
   // Ensure .tsx/.jsx pages are recognized alongside MDX
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
@@ -22,8 +27,12 @@ const nextConfig: NextConfig = {
   // 性能优化：启用压缩
   compress: true,
 
-  // 关闭 Typed Routes，避免对不存在的路由进行类型校验
-  typedRoutes: false,
+  // Next.js 15: typedRoutes 已移到 experimental
+  experimental: {
+    webpackBuildWorker: false,
+    optimizePackageImports: [],
+    // typedRoutes 已在 Next.js 15 中正式移除，无需配置
+  },
 
   // Webpack 优化配置
   webpack: (
@@ -86,24 +95,9 @@ const nextConfig: NextConfig = {
     return config;
   },
 
-  // 实验性特性：显式禁用可能导致 Windows 下竞态的功能
-  experimental: {
-    webpackBuildWorker: false,
-    optimizePackageImports: [],
-  },
-
-  // Turbopack 配置 (替代已弃用的 experimental.turbo)
-  turbopack: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-    resolveAlias: {
-      '@': './src',
-    },
-  },
+  // Next.js 15: Turbopack 配置已移除，不再需要在根配置中声明
+  // Turbopack 现在通过命令行 `--turbo` 启用
+  // SVG 加载器可在 webpack 配置中自定义
 
   // https://nextjs.org/docs/architecture/nextjs-compiler#remove-console
   // Remove all console.* calls in production only

@@ -16,7 +16,34 @@ export async function POST(
   try {
     // 登录请求
     if (path === 'sign-in/email') {
-      const body = await request.json();
+      // 检查 Content-Type
+      const contentType = request.headers.get('content-type');
+      if (!contentType?.includes('application/json')) {
+        return NextResponse.json(
+          { error: 'Invalid content type' },
+          { status: 400 }
+        );
+      }
+
+      // 安全解析 JSON,防止空 body 错误
+      let body: any;
+      try {
+        body = await request.json();
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        return NextResponse.json(
+          { error: 'Invalid request body' },
+          { status: 400 }
+        );
+      }
+
+      if (!body || !body.email || !body.password) {
+        return NextResponse.json(
+          { error: 'Email and password are required' },
+          { status: 400 }
+        );
+      }
+
       const { email, password } = body;
 
       const result = await auth.api.signIn(email, password);
@@ -62,7 +89,34 @@ export async function POST(
 
     // 注册请求
     if (path === 'sign-up/email') {
-      const body = await request.json();
+      // 检查 Content-Type
+      const contentType = request.headers.get('content-type');
+      if (!contentType?.includes('application/json')) {
+        return NextResponse.json(
+          { error: 'Invalid content type' },
+          { status: 400 }
+        );
+      }
+
+      // 安全解析 JSON
+      let body: any;
+      try {
+        body = await request.json();
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        return NextResponse.json(
+          { error: 'Invalid request body' },
+          { status: 400 }
+        );
+      }
+
+      if (!body || !body.email || !body.password) {
+        return NextResponse.json(
+          { error: 'Email and password are required' },
+          { status: 400 }
+        );
+      }
+
       const { email, password, name } = body;
 
       const result = await auth.api.signUp(email, password, name);

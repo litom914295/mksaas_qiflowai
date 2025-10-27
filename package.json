@@ -171,7 +171,7 @@
     "lucide-react": "^0.483.0",
     "lunar-javascript": "^1.7.5",
     "motion": "^12.4.3",
-    "next": "^15.5.2",
+    "next": "15.1.8",
     "next-auth": "^4.24.11",
     "next-intl": "^4.0.0",
     "next-safe-action": "^7.10.4",
