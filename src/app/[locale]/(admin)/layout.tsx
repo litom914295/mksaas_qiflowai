@@ -30,7 +30,7 @@ export default async function AdminLayout({
         {/* 主内容区 */}
         <div className="flex flex-1 flex-col overflow-hidden">
           {/* 顶部导航 */}
-          <AdminHeader user={currentUser} locale={locale} />
+          <AdminHeader user={currentUser as any} locale={locale} />
 
           {/* 内容区域 */}
           <main className="flex-1 overflow-y-auto bg-muted/10">

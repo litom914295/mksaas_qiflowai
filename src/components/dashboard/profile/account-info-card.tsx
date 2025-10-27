@@ -32,12 +32,12 @@ interface AccountInfoCardProps {
  */
 export function AccountInfoCard({ className }: AccountInfoCardProps) {
   const t = useTranslations('Dashboard.settings.profile');
-  const { data: session, isLoading } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
 
   const user = session?.user;
 
   // Render loading skeleton
-  if (isLoading) {
+  if (isPending) {
     return (
       <Card className={cn('w-full', className)}>
         <CardHeader>
@@ -84,6 +84,8 @@ export function AccountInfoCard({ className }: AccountInfoCardProps) {
   // Check if email is verified (you might have this field in your user object)
   const isEmailVerified = user.emailVerified !== null;
 
+  const phone = (user as any)?.phone as string | undefined;
+
   const accountInfo = [
     {
       icon: UserIcon,
@@ -100,8 +102,8 @@ export function AccountInfoCard({ className }: AccountInfoCardProps) {
     {
       icon: PhoneIcon,
       label: '手机号码',
-      value: user.phone || '未绑定',
-      verified: !!user.phone,
+      value: phone || '未绑定',
+      verified: !!phone,
     },
     {
       icon: CalendarIcon,

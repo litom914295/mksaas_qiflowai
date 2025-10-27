@@ -2,8 +2,7 @@
  * 管理员权限验证中间件
  */
 
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/lib/auth';
 import { type NextRequest, NextResponse } from 'next/server';
 
 export type AdminRole = 'admin' | 'superadmin';
@@ -22,8 +21,8 @@ export async function verifyAdminAuth(
 ) {
   const { requiredRole = 'admin', logAction = true } = options;
 
-  // 获取会话
-  const session = await getServerSession(authOptions);
+  // 获取会话（Better Auth）
+  const session = await auth.api.getSession({ headers: request.headers });
 
   // 验证登录状态
   if (!session || !session.user) {
@@ -37,8 +36,7 @@ export async function verifyAdminAuth(
   }
 
   // 验证角色
-  const userRole = session.user.role;
-  // 对于 NextAuth，只支持 'admin' 和 'user'，superadmin 会被映射为 admin
+  const userRole = (session.user as any)?.role ?? 'user';
   const hasPermission = userRole === requiredRole || userRole === 'admin';
 
   if (!hasPermission) {
