@@ -3,9 +3,8 @@
  * 提供所有监控相关的数据库操作
  */
 
-// @ts-ignore - Prisma client
-import { prisma } from '@/lib/prisma';
-import type { Prisma } from '@prisma/client';
+// 使用 Supabase 兼容 prisma 封装
+import { prisma } from '@/lib/db/prisma';
 
 /**
  * 错误日志查询

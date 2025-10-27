@@ -105,7 +105,7 @@ export default function BaziAnalysisPage() {
     console.log('🔍 尝试加载表单数据...');
 
     // 1. 从 URL 参数读取
-    const urlData = searchParams.get('data');
+    const urlData = searchParams?.get('data') || null;
     if (urlData) {
       try {
         const decoded = JSON.parse(decodeURIComponent(urlData));

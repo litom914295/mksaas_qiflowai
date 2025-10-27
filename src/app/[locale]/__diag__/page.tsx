@@ -1,5 +1,5 @@
-import { routing } from '@/i18n/routing';
 import { getDefaultMessages } from '@/i18n/messages';
+import { routing } from '@/i18n/routing';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
@@ -46,7 +46,9 @@ export default async function I18nDiag({
   return (
     <div style={{ padding: 24 }}>
       <h1>i18n 诊断</h1>
-      <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(info, null, 2)}</pre>
+      <pre style={{ whiteSpace: 'pre-wrap' }}>
+        {JSON.stringify(info, null, 2)}
+      </pre>
     </div>
   );
 }

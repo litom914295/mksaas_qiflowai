@@ -406,9 +406,7 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
                       ></div>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <span className="text-xs font-medium text-gray-700">
-                          {god.count > 0
-                            ? `出现 ${god.count} 次`
-                            : '未出现'}
+                          {god.count > 0 ? `出现 ${god.count} 次` : '未出现'}
                         </span>
                       </div>
                     </div>
@@ -508,8 +506,10 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
                   const dx = x2 - x1;
                   const dy = y2 - y1;
                   const offset = 30;
-                  const controlX = midX + (-dy / Math.sqrt(dx * dx + dy * dy)) * offset;
-                  const controlY = midY + (dx / Math.sqrt(dx * dx + dy * dy)) * offset;
+                  const controlX =
+                    midX + (-dy / Math.sqrt(dx * dx + dy * dy)) * offset;
+                  const controlY =
+                    midY + (dx / Math.sqrt(dx * dx + dy * dy)) * offset;
 
                   return (
                     <path

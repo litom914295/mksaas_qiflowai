@@ -38,7 +38,7 @@ export const RegisterForm = ({
 }: RegisterFormProps) => {
   const t = useTranslations('AuthPage.register');
   const searchParams = useSearchParams();
-  const paramCallbackUrl = searchParams.get('callbackUrl');
+  const paramCallbackUrl = searchParams?.get('callbackUrl');
   // Use prop callback URL or param callback URL if provided, otherwise use the default login redirect
   const locale = useLocale();
   const defaultCallbackUrl = getUrlWithLocaleInCallbackUrl(

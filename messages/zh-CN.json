@@ -355,9 +355,10 @@
       "hint": "计费口径：aiChat=5、deepInterpretation=30、bazi=10、xuankong=20、pdfExport=5；余额不足将自动降级到简版结果。"
     },
     "trust": {
-      "professional": "专业方法",
+      "professional": "专业准确",
+      "instant": "极速响应",
       "ai": "AI 加持",
-      "privacy": "隐私安全",
+      "privacy": "隐私保护",
       "users": "用户信赖使用",
       "accuracy": "算法准确率"
     },
@@ -3667,12 +3668,7 @@
         "name": "免费体验",
         "description": "适合初次尝试的用户",
         "price": "0",
-        "features": [
-          "基础八字分析",
-          "每月5次查询",
-          "标准报告导出",
-          "社区支持"
-        ]
+        "features": ["基础八字分析", "每月5次查询", "标准报告导出", "社区支持"]
       },
       "basic": {
         "name": "基础版",

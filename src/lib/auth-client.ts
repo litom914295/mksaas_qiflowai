@@ -8,8 +8,5 @@ import { getBaseUrl } from './urls/urls';
  */
 export const authClient = createAuthClient({
   baseURL: getBaseUrl(),
-  plugins: [
-    adminClient(),
-    inferAdditionalFields<typeof auth>(),
-  ],
+  plugins: [adminClient(), inferAdditionalFields<typeof auth>()],
 });

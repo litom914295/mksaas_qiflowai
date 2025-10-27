@@ -3,7 +3,11 @@
  * 将不同来源的八字计算结果统一为UI友好的结构
  */
 
-import type { EnhancedBaziResult } from './enhanced-calculator';
+import type {
+  DayMasterStrengthResult,
+  EnhancedBaziResult,
+  FavorableElementsResult,
+} from './enhanced-calculator';
 
 // ========== 农历日期格式化 ==========
 
@@ -426,7 +430,8 @@ function extractMetrics(
   result: EnhancedBaziResult
 ): BaziAnalysisModel['metrics'] {
   const elements: any = result.elements || {};
-  const dayMasterStrength = result.dayMasterStrength || {};
+  const dayMasterStrength = (result.dayMasterStrength ||
+    {}) as Partial<DayMasterStrengthResult>;
 
   // 计算整体评分
   const overallScore = calculateOverallScore(result);
@@ -438,9 +443,9 @@ function extractMetrics(
       description: getScoreDescription(overallScore),
     },
     dayMasterStrength: {
-      level: dayMasterStrength.strength || 'balanced',
-      score: dayMasterStrength.score || 50,
-      description: dayMasterStrength.factors?.join('；') || '',
+      level: (dayMasterStrength.strength as any) || 'balanced',
+      score: (dayMasterStrength.score as any) || 50,
+      description: (dayMasterStrength.factors as any)?.join('；') || '',
     },
     elementScores: {
       wood: elements.wood || elements['木'] || 0,
@@ -460,7 +465,8 @@ function extractMetrics(
 function extractUsefulGods(
   result: EnhancedBaziResult
 ): BaziAnalysisModel['useful'] {
-  const favorableElements = result.favorableElements || {};
+  const favorableElements = (result.favorableElements ||
+    {}) as Partial<FavorableElementsResult>;
   const yongshen = (result as any).yongshen || {};
 
   // 构建有利元素列表
@@ -601,8 +607,9 @@ function extractLuckInfo(
   const currentAge = calculateAge(result);
 
   // 获取出生年份
-  const birthYear = result.birthData?.datetime
-    ? new Date(result.birthData.datetime).getFullYear()
+  const _anyResult = result as any;
+  const birthYear = _anyResult.birthData?.datetime
+    ? new Date(_anyResult.birthData.datetime).getFullYear()
     : new Date().getFullYear() - 30; // 默认30岁
 
   // 构建大运时间线
@@ -638,7 +645,7 @@ function extractLuckInfo(
 
   return {
     currentDaYun,
-    timeline: daYunTimeline, // 修正字段名
+    daYunTimeline: daYunTimeline,
     currentYear: generateCurrentYearLuck(result),
     annualForecast: generateAnnualForecast(result, 5), // 未来5年
   };

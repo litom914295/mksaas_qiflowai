@@ -1,5 +1,9 @@
-import { XuankongAnalysisPage } from '@/components/qiflow/xuankong/xuankong-analysis-page';
+import { ComprehensiveAnalysisPanel } from '@/components/qiflow/xuankong';
 
 export default function XuankongAnalysisRoute() {
-  return <XuankongAnalysisPage />;
+  return (
+    <div className="container mx-auto p-6">
+      <ComprehensiveAnalysisPanel analysisResult={null} />
+    </div>
+  );
 }

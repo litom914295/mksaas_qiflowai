@@ -1,10 +1,14 @@
 'use client';
 
 import { BaziAnalysisPage } from '@/components/bazi/analysis/bazi-analysis-page';
+import { Footer } from '@/components/layout/footer';
+import { Navbar } from '@/components/layout/navbar';
 import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
 import { EnhancedComprehensivePanel } from '@/components/qiflow/xuankong/enhanced-comprehensive-panel';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAnalysisContext } from '@/contexts/analysis-context';
 import { useCreditBalance } from '@/hooks/use-credits';
@@ -13,9 +17,87 @@ import {
   type ComprehensiveAnalysisResult,
   runComprehensiveAnalysis,
 } from '@/lib/qiflow/xuankong/comprehensive-engine';
-import { ArrowLeft, Loader2, RefreshCw, Sparkles } from 'lucide-react';
+import {
+  ArrowLeft,
+  Compass,
+  Heart,
+  Home,
+  Loader2,
+  RefreshCw,
+  Shield,
+  Sparkles,
+  TrendingUp,
+  Zap,
+} from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+
+// 五行与颜色/方位的对应关系
+const wuxingMapping = {
+  wood: {
+    name: '木',
+    color: 'green',
+    direction: ['东', '东南'],
+    element: '🌳',
+    description: '适合摆放绿色植物，增强木能量',
+  },
+  fire: {
+    name: '火',
+    color: 'red',
+    direction: ['南'],
+    element: '🔥',
+    description: '适合使用红色装饰，提升火能量',
+  },
+  earth: {
+    name: '土',
+    color: 'yellow',
+    direction: ['中', '西南', '东北'],
+    element: '🏔️',
+    description: '适合陶瓷装饰，加强土能量',
+  },
+  metal: {
+    name: '金',
+    color: 'white',
+    direction: ['西', '西北'],
+    element: '⚡',
+    description: '适合金属摆件，强化金能量',
+  },
+  water: {
+    name: '水',
+    color: 'blue',
+    direction: ['北'],
+    element: '💧',
+    description: '适合水景布置，提升水能量',
+  },
+};
+
+// 24山数据
+const mountains = [
+  { name: '子', degree: 0, desc: '正北' },
+  { name: '癸', degree: 15, desc: '北偏东' },
+  { name: '丑', degree: 30, desc: '东北偏北' },
+  { name: '艮', degree: 45, desc: '东北' },
+  { name: '寅', degree: 60, desc: '东北偏东' },
+  { name: '甲', degree: 75, desc: '东偏北' },
+  { name: '卯', degree: 90, desc: '正东' },
+  { name: '乙', degree: 105, desc: '东偏南' },
+  { name: '辰', degree: 120, desc: '东南偏东' },
+  { name: '巽', degree: 135, desc: '东南' },
+  { name: '巳', degree: 150, desc: '东南偏南' },
+  { name: '丙', degree: 165, desc: '南偏东' },
+  { name: '午', degree: 180, desc: '正南' },
+  { name: '丁', degree: 195, desc: '南偏西' },
+  { name: '未', degree: 210, desc: '西南偏南' },
+  { name: '坤', degree: 225, desc: '西南' },
+  { name: '申', degree: 240, desc: '西南偏西' },
+  { name: '庚', degree: 255, desc: '西偏南' },
+  { name: '酉', degree: 270, desc: '正西' },
+  { name: '辛', degree: 285, desc: '西偏北' },
+  { name: '戌', degree: 300, desc: '西北偏西' },
+  { name: '乾', degree: 315, desc: '西北' },
+  { name: '亥', degree: 330, desc: '西北偏北' },
+  { name: '壬', degree: 345, desc: '北偏西' },
+];
 
 export default function ReportPage() {
   const searchParams = useSearchParams();
@@ -29,12 +111,13 @@ export default function ReportPage() {
   const [isContextSynced, setIsContextSynced] = useState(false);
 
   // 玄空增强面板状态
-  const [activeMainTab, setActiveMainTab] = useState<'bazi' | 'xuankong'>(
-    'bazi'
-  );
+  const [activeMainTab, setActiveMainTab] = useState<
+    'bazi' | 'xuankong' | 'integrated'
+  >('bazi');
   const [xuankongLoading, setXuankongLoading] = useState(false);
   const [xuankongResult, setXuankongResult] =
     useState<ComprehensiveAnalysisResult | null>(null);
+  const [baziResult, setBaziResult] = useState<any>(null);
 
   // 使用 useMemo 生成稳定的 sessionId，避免 hydration 错误
   const sessionId = useMemo(() => `bazi_${Date.now()}`, []);
@@ -74,10 +157,43 @@ export default function ReportPage() {
     formData?.personal?.birthCity,
   ]);
 
+  // 24山计算工具
+  const norm = useCallback((d: number) => ((d % 360) + 360) % 360, []);
+  const closest = useCallback(
+    (d: number) =>
+      mountains.reduce((a, b) =>
+        Math.min(
+          Math.abs(norm(d) - a.degree),
+          Math.abs(norm(d) - a.degree + 360),
+          Math.abs(norm(d) - a.degree - 360)
+        ) <=
+        Math.min(
+          Math.abs(norm(d) - b.degree),
+          Math.abs(norm(d) - b.degree + 360),
+          Math.abs(norm(d) - b.degree - 360)
+        )
+          ? a
+          : b
+      ),
+    [norm]
+  );
+
+  // 房屋朝向计算
+  const facingDeg = hasHouseInfo
+    ? Number.parseInt(formData.house.direction)
+    : 0;
+  const facingMountain = hasHouseInfo ? closest(facingDeg) : null;
+  const sittingMountain = hasHouseInfo
+    ? closest((facingDeg + 180) % 360)
+    : null;
+
   // 八字分析完成回调（使用useCallback确保稳定性）
   const handleBaziAnalysisComplete = useCallback(
-    (baziResult: any) => {
-      if (!baziResult || !analysisContext || isContextSynced) return;
+    (result: any) => {
+      if (!result || !analysisContext || isContextSynced) return;
+
+      // 保存八字结果用于整合建议
+      setBaziResult(result);
 
       try {
         const comprehensiveResult = {
@@ -85,48 +201,48 @@ export default function ReportPage() {
             yuanPan: {
               period: 9,
               years: '2024-2043',
-              sitting: baziResult.pillars?.year?.branch || '未知',
-              facing: baziResult.pillars?.day?.branch || '未知',
+              sitting: result.pillars?.year?.branch || '未知',
+              facing: result.pillars?.day?.branch || '未知',
             },
           },
-          pillars: baziResult.pillars,
-          elements: baziResult.elements,
-          yongshen: baziResult.yongshen?.primary,
-          pattern: baziResult.pattern?.primary?.name,
-          scoring: baziResult.scoring
+          pillars: result.pillars,
+          elements: result.elements,
+          yongshen: result.yongshen?.primary,
+          pattern: result.pattern?.primary?.name,
+          scoring: result.scoring
             ? {
                 overall: {
-                  score: baziResult.scoring.overall?.score || 75,
-                  level: baziResult.scoring.overall?.level || '中等',
+                  score: result.scoring.overall?.score || 75,
+                  level: result.scoring.overall?.level || '中等',
                   dimensions: [
                     {
                       dimension: 'health',
-                      score: baziResult.scoring.health || 75,
+                      score: result.scoring.health || 75,
                     },
                     {
                       dimension: 'wealth',
-                      score: baziResult.scoring.wealth || 75,
+                      score: result.scoring.wealth || 75,
                     },
                     {
                       dimension: 'relationship',
-                      score: baziResult.scoring.relationship || 75,
+                      score: result.scoring.relationship || 75,
                     },
                     {
                       dimension: 'career',
-                      score: baziResult.scoring.career || 75,
+                      score: result.scoring.career || 75,
                     },
                   ],
                 },
               }
             : undefined,
           insights:
-            baziResult.insights?.map((insight: any) => ({
+            result.insights?.map((insight: any) => ({
               title: insight.category || '重要发现',
               description: insight.content || insight.message || '无描述',
               impact: insight.importance || 'medium',
             })) || [],
           warnings:
-            baziResult.warnings?.map((warning: any) => ({
+            result.warnings?.map((warning: any) => ({
               category: warning.category || '通用',
               title: warning.title || '需要注意',
               severity: warning.severity || 'medium',
@@ -252,7 +368,7 @@ export default function ReportPage() {
         return;
       }
 
-      const dataParam = searchParams.get('data');
+      const dataParam = searchParams?.get('data');
       if (dataParam) {
         const data = JSON.parse(decodeURIComponent(dataParam));
         setFormData(data);
@@ -339,124 +455,184 @@ export default function ReportPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 py-8">
-      <AIChatWithContext />
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex flex-col">
+      {/* 导航栏 */}
+      <Navbar scroll={true} />
 
-      <div className="container mx-auto px-4">
-        <div className="mb-6 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={() => router.back()}
-            className="gap-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            返回
-          </Button>
+      {/* 主内容区域 */}
+      <div className="flex-1">
+        <AIChatWithContext />
 
-          {analysisContext && (
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-6 flex items-center justify-between">
             <Button
-              variant="outline"
-              size="sm"
-              onClick={handleManualSync}
-              className="gap-2 border-purple-300 text-purple-700 hover:bg-purple-50"
-              title="将当前分析数据同步到 AI 聊天，使 AI 能够基于您的数据回答问题"
+              variant="ghost"
+              onClick={() => router.back()}
+              className="gap-2"
             >
-              <RefreshCw
-                className={`w-4 h-4 ${!isContextSynced ? 'animate-spin' : ''}`}
-              />
-              {isContextSynced ? '数据已同步到 AI 聊天' : '同步数据到 AI 聊天'}
+              <ArrowLeft className="w-4 h-4" />
+              返回
             </Button>
-          )}
-        </div>
 
-        {/* 标题 */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            {formData.personal.name}的分析报告
-          </h1>
-          <p className="text-gray-600">
-            {mounted ? (
-              <>
-                生成时间：{new Date().toLocaleDateString('zh-CN')}{' '}
-                {new Date().toLocaleTimeString('zh-CN', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </>
-            ) : (
-              '生成时间：加载中...'
+            {analysisContext && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleManualSync}
+                className="gap-2 border-purple-300 text-purple-700 hover:bg-purple-50"
+                title="将当前分析数据同步到 AI 聊天，使 AI 能够基于您的数据回答问题"
+              >
+                <RefreshCw
+                  className={`w-4 h-4 ${!isContextSynced ? 'animate-spin' : ''}`}
+                />
+                {isContextSynced
+                  ? '数据已同步到 AI 聊天'
+                  : '同步数据到 AI 聊天'}
+              </Button>
             )}
-          </p>
-        </div>
+          </div>
 
-        {/* 顶层：并列两个Tab（八字 / 玄空飞星增强版）*/}
-        {/* 如果没有房屋信息，隐藏 Tabs，直接显示八字分析 */}
-        {!hasHouseInfo ? (
-          // 仅八字分析（无Tab）
-          <div className="space-y-6">
-            <Card className="mb-6 border-2 border-purple-200">
-              <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100">
-                <CardTitle>基本信息</CardTitle>
+          {/* 标题 */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              {formData.personal.name}的分析报告
+            </h1>
+            <p className="text-gray-600">
+              {mounted ? (
+                <>
+                  生成时间：{new Date().toLocaleDateString('zh-CN')}{' '}
+                  {new Date().toLocaleTimeString('zh-CN', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </>
+              ) : (
+                '生成时间：加载中...'
+              )}
+            </p>
+          </div>
+
+          {/* 房屋朝向卡片（仅在有房屋信息时显示） */}
+          {hasHouseInfo && (
+            <Card className="mb-6 border-2 border-blue-200 shadow-lg">
+              <CardHeader className="bg-gradient-to-r from-blue-100 to-cyan-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Compass className="w-5 h-5" /> 房屋朝向（二十四山）
+                </CardTitle>
+                <CardDescription>
+                  基于您填写的角度，自动换算二十四山坐向
+                </CardDescription>
               </CardHeader>
               <CardContent className="pt-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-500">姓名</p>
-                    <p className="font-medium">{formData.personal.name}</p>
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-sm">
+                  <div className="rounded border bg-card p-3">
+                    <div className="text-muted-foreground mb-1">度数</div>
+                    <div className="font-mono text-lg">{facingDeg}°</div>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-500">性别</p>
-                    <p className="font-medium">
-                      {formData.personal.gender === 'male' ? '男' : '女'}
-                    </p>
+                  <div className="rounded border bg-card p-3">
+                    <div className="text-muted-foreground mb-1">朝向</div>
+                    <div className="font-semibold text-lg">
+                      {facingMountain?.name}（{facingMountain?.desc}）
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-500">出生日期</p>
-                    <p className="font-medium">{formData.personal.birthDate}</p>
+                  <div className="rounded border bg-card p-3">
+                    <div className="text-muted-foreground mb-1">坐向</div>
+                    <div className="font-semibold text-lg">
+                      {sittingMountain?.name}（{sittingMountain?.desc}）
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-500">出生时间</p>
-                    <p className="font-medium">{formData.personal.birthTime}</p>
+                  <div className="rounded border bg-card p-3">
+                    <div className="text-muted-foreground mb-1">北向基准</div>
+                    <div className="font-semibold text-lg">
+                      {formData?.house?.northRef === 'true'
+                        ? '真北'
+                        : formData?.house?.northRef === 'magnetic'
+                          ? '磁北'
+                          : '—'}
+                    </div>
+                  </div>
+                  <div className="rounded border bg-card p-3">
+                    <div className="text-muted-foreground mb-1">磁偏角</div>
+                    <div className="font-mono text-lg">
+                      {typeof formData?.house?.declination !== 'undefined' &&
+                      formData?.house?.declination !== null &&
+                      formData?.house?.declination !== ''
+                        ? `${Number(formData.house.declination).toFixed(1)}°`
+                        : '—'}
+                    </div>
+                  </div>
+                  <div className="rounded border bg-card p-3 md:col-span-2 col-span-2">
+                    <div className="text-muted-foreground mb-1">坐朝文案</div>
+                    <div className="font-semibold">
+                      坐{sittingMountain?.name}（{sittingMountain?.desc}）朝
+                      {facingMountain?.name}（{facingMountain?.desc}）
+                    </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
+          )}
 
-            {personalData ? (
-              <BaziAnalysisPage
-                birthData={{
-                  ...personalData,
-                  name: formData.personal.name,
-                  location: formData.personal.birthCity,
-                }}
-                onAnalysisComplete={handleBaziAnalysisComplete}
-                isPremium={session?.user?.id ? true : false}
-                creditsAvailable={creditsAvailable}
-              />
-            ) : (
-              <Card>
-                <CardContent className="p-8 text-center">
-                  <p className="text-gray-600">
-                    无法加载八字分析，请检查出生信息是否完整。
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        ) : (
-          // 八字 + 风水组合分析（有Tab）
-          <Tabs
-            value={activeMainTab}
-            onValueChange={(v) => setActiveMainTab(v as any)}
-            className="space-y-6"
-          >
-            <TabsList className="grid grid-cols-2 h-auto p-1 bg-white/80 backdrop-blur">
-              <TabsTrigger value="bazi">八字专业报告</TabsTrigger>
-              <TabsTrigger value="xuankong">玄空飞星（增强版）</TabsTrigger>
-            </TabsList>
+          {/* 核心价值提示卡片（仅在有房屋信息时显示） */}
+          {hasHouseInfo && (
+            <Card className="mb-6 border-2 border-gradient bg-gradient-to-r from-purple-50 via-pink-50 to-blue-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-purple-700">
+                  <Zap className="w-5 h-5" />
+                  为什么需要结合八字做风水分析？
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <TrendingUp className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">
+                        个性化匹配
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        根据您的八字五行喜忌，推荐最适合您的风水布局
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Heart className="w-5 h-5 text-pink-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">
+                        命理协同
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        风水布局与您的命格相配合，事半功倍
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">
+                        避免冲突
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        避免使用与您命理相冲的风水布局方案
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
-            {/* 八字 Tab */}
-            <TabsContent value="bazi" className="space-y-6">
+          {/* 顶层：并列两个Tab（八字 / 玄空飞星增强版）*/}
+          {/* 如果没有房屋信息，隐藏 Tabs，直接显示八字分析 */}
+          {!hasHouseInfo ? (
+            // 仅八字分析（无Tab）
+            <div className="space-y-6">
               <Card className="mb-6 border-2 border-purple-200">
                 <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100">
                   <CardTitle>基本信息</CardTitle>
@@ -509,26 +685,265 @@ export default function ReportPage() {
                   </CardContent>
                 </Card>
               )}
-            </TabsContent>
+            </div>
+          ) : (
+            // 八字 + 风水组合分析（有Tab）
+            <Tabs
+              value={activeMainTab}
+              onValueChange={(v) => setActiveMainTab(v as any)}
+              className="space-y-6"
+            >
+              <TabsList className="grid grid-cols-3 h-auto p-1 bg-white/80 backdrop-blur">
+                <TabsTrigger value="bazi">八字专业报告</TabsTrigger>
+                <TabsTrigger value="xuankong">玄空飞星（增强版）</TabsTrigger>
+                <TabsTrigger value="integrated">
+                  <Sparkles className="w-4 h-4 mr-1" />
+                  整合建议
+                </TabsTrigger>
+              </TabsList>
 
-            {/* 玄空飞星增强版 Tab */}
-            <TabsContent value="xuankong" className="space-y-6">
-              <Card className="border-2 border-blue-200">
-                <CardHeader className="bg-gradient-to-r from-blue-100 to-purple-100">
-                  <CardTitle>玄空飞星综合分析（增强版）</CardTitle>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  <EnhancedComprehensivePanel
-                    analysisResult={xuankongResult}
-                    isLoading={xuankongLoading}
-                    onRefresh={generateXuankong}
+              {/* 八字 Tab */}
+              <TabsContent value="bazi" className="space-y-6">
+                <Card className="mb-6 border-2 border-purple-200">
+                  <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100">
+                    <CardTitle>基本信息</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div>
+                        <p className="text-sm text-gray-500">姓名</p>
+                        <p className="font-medium">{formData.personal.name}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">性别</p>
+                        <p className="font-medium">
+                          {formData.personal.gender === 'male' ? '男' : '女'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">出生日期</p>
+                        <p className="font-medium">
+                          {formData.personal.birthDate}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">出生时间</p>
+                        <p className="font-medium">
+                          {formData.personal.birthTime}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {personalData ? (
+                  <BaziAnalysisPage
+                    birthData={{
+                      ...personalData,
+                      name: formData.personal.name,
+                      location: formData.personal.birthCity,
+                    }}
+                    onAnalysisComplete={handleBaziAnalysisComplete}
+                    isPremium={session?.user?.id ? true : false}
+                    creditsAvailable={creditsAvailable}
                   />
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        )}
+                ) : (
+                  <Card>
+                    <CardContent className="p-8 text-center">
+                      <p className="text-gray-600">
+                        无法加载八字分析，请检查出生信息是否完整。
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+              </TabsContent>
+
+              {/* 玄空飞星增强版 Tab */}
+              <TabsContent value="xuankong" className="space-y-6">
+                <Card className="border-2 border-blue-200">
+                  <CardHeader className="bg-gradient-to-r from-blue-100 to-purple-100">
+                    <CardTitle>玄空飞星综合分析（增强版）</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <EnhancedComprehensivePanel
+                      analysisResult={xuankongResult}
+                      isLoading={xuankongLoading}
+                      onRefresh={generateXuankong}
+                    />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              {/* 整合建议 Tab */}
+              <TabsContent value="integrated" className="space-y-6">
+                <Card className="border-2 border-gradient shadow-xl bg-gradient-to-br from-purple-50 to-pink-50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-purple-600" />
+                      八字与风水的完美结合
+                    </CardTitle>
+                    <CardDescription>
+                      综合您的命理与居住环境，提供最佳优化方案
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    {baziResult && xuankongResult ? (
+                      <div className="space-y-6">
+                        {/* 五行匹配建议 */}
+                        <div className="bg-white rounded-lg p-6 shadow-md">
+                          <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                            <Home className="w-5 h-5 text-purple-600" />
+                            五行能量平衡方案
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {Array.isArray(baziResult.favorableElements) &&
+                              baziResult.favorableElements.map(
+                                (element: string) => {
+                                  const mapping =
+                                    wuxingMapping[
+                                      element as keyof typeof wuxingMapping
+                                    ];
+                                  if (!mapping) return null;
+
+                                  return (
+                                    <div
+                                      key={element}
+                                      className="border-2 border-green-200 rounded-lg p-4 bg-green-50"
+                                    >
+                                      <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-2xl">
+                                          {mapping.element}
+                                        </span>
+                                        <h4 className="font-semibold text-green-900">
+                                          强化{mapping.name}能量（喜用神）
+                                        </h4>
+                                      </div>
+                                      <p className="text-sm text-green-800 mb-2">
+                                        {mapping.description}
+                                      </p>
+                                      <p className="text-xs text-green-700">
+                                        推荐方位：{mapping.direction.join('、')}
+                                      </p>
+                                    </div>
+                                  );
+                                }
+                              )}
+
+                            {Array.isArray(baziResult.unfavorableElements) &&
+                              baziResult.unfavorableElements.map(
+                                (element: string) => {
+                                  const mapping =
+                                    wuxingMapping[
+                                      element as keyof typeof wuxingMapping
+                                    ];
+                                  if (!mapping) return null;
+
+                                  return (
+                                    <div
+                                      key={element}
+                                      className="border-2 border-red-200 rounded-lg p-4 bg-red-50"
+                                    >
+                                      <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-2xl">
+                                          {mapping.element}
+                                        </span>
+                                        <h4 className="font-semibold text-red-900">
+                                          避免{mapping.name}能量（忌神）
+                                        </h4>
+                                      </div>
+                                      <p className="text-sm text-red-800 mb-2">
+                                        减少{mapping.color}色装饰，避免过多
+                                        {mapping.name}属性物品
+                                      </p>
+                                      <p className="text-xs text-red-700">
+                                        注意方位：{mapping.direction.join('、')}
+                                      </p>
+                                    </div>
+                                  );
+                                }
+                              )}
+
+                            {/* 如果没有五行数据，显示提示 */}
+                            {!Array.isArray(baziResult.favorableElements) &&
+                              !Array.isArray(
+                                baziResult.unfavorableElements
+                              ) && (
+                                <div className="col-span-full text-center py-8">
+                                  <p className="text-gray-600">
+                                    八字分析结果中没有五行喜忌信息
+                                  </p>
+                                  <p className="text-sm text-gray-500 mt-2">
+                                    请稍后再试或重新进行八字分析
+                                  </p>
+                                </div>
+                              )}
+                          </div>
+                        </div>
+
+                        {/* 行动建议 */}
+                        <div className="bg-white rounded-lg p-6 shadow-md">
+                          <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                            <Zap className="w-5 h-5 text-blue-600" />
+                            立即可执行的优化步骤
+                          </h3>
+                          <ol className="space-y-3">
+                            <li className="flex items-start gap-3">
+                              <Badge className="mt-1">1</Badge>
+                              <div>
+                                <p className="font-medium">
+                                  根据八字喜用神调整主卧颜色
+                                </p>
+                                <p className="text-sm text-gray-600 mt-1">
+                                  选择与您喜用神相对应的色系进行装饰
+                                </p>
+                              </div>
+                            </li>
+                            <li className="flex items-start gap-3">
+                              <Badge className="mt-1">2</Badge>
+                              <div>
+                                <p className="font-medium">
+                                  在吉位摆放对应五行的物品
+                                </p>
+                                <p className="text-sm text-gray-600 mt-1">
+                                  结合风水飞星吉位与您的喜用神，放置相应元素
+                                </p>
+                              </div>
+                            </li>
+                            <li className="flex items-start gap-3">
+                              <Badge className="mt-1">3</Badge>
+                              <div>
+                                <p className="font-medium">
+                                  避开凶位与忌神的组合
+                                </p>
+                                <p className="text-sm text-gray-600 mt-1">
+                                  减少在凶位使用与您忌神相关的颜色和物品
+                                </p>
+                              </div>
+                            </li>
+                          </ol>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center py-12">
+                        <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-purple-600" />
+                        <p className="text-gray-600">
+                          正在生成个性化整合建议...
+                        </p>
+                        <p className="text-sm text-gray-500 mt-2">
+                          请先完成八字分析和玄空风水分析
+                        </p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          )}
+        </div>
       </div>
+
+      {/* 页脚 */}
+      <Footer />
     </div>
   );
 }

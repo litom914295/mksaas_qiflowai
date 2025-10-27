@@ -29,9 +29,11 @@ export default async function LocaleLayout({
 
   if (process.env.NODE_ENV === 'development') {
     const duration = startTime > 0 ? performance.now() - startTime : 0;
-    console.log(`[i18n] locale=${locale}, messagesLoaded=${
-      !!messages && typeof messages === 'object'
-    }, took=${duration.toFixed(2)}ms`);
+    console.log(
+      `[i18n] locale=${locale}, messagesLoaded=${
+        !!messages && typeof messages === 'object'
+      }, took=${duration.toFixed(2)}ms`
+    );
   }
 
   return (

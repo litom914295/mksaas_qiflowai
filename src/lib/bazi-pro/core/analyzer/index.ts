@@ -172,15 +172,19 @@ export class BaziAnalyzer {
     latitude?: number;
   }): Promise<BaziAnalysisResult> {
     // Step 1: 计算四柱
-    const fourPillars = await fourPillarsCalculator.calculate({
-      year: params.year,
-      month: params.month,
-      day: params.day,
-      hour: params.hour,
-      minute: params.minute || 0,
-      longitude: params.longitude || 120, // 默认东经120度（北京）
-      latitude: params.latitude || 39.9, // 默认39.9度
-    });
+    const birthInfo = {
+      date: `${params.year}-${String(params.month).padStart(2, '0')}-${String(
+        params.day
+      ).padStart(2, '0')}`,
+      time: `${String(params.hour).padStart(2, '0')}:${String(
+        params.minute || 0
+      ).padStart(2, '0')}`,
+      longitude: params.longitude ?? 120, // 默认东经120度（北京）
+      isLunar: false,
+      gender: params.gender === '男' ? 'male' : 'female',
+    } as const;
+
+    const fourPillars = fourPillarsCalculator.calculate(birthInfo);
 
     // Step 2: 计算十神
     const tenGods = tenGodsCalculator.calculate(fourPillars);
@@ -251,16 +255,25 @@ export class BaziAnalyzer {
       basicInfo: {
         name: params.name,
         gender: params.gender,
-        birthDate: `${params.year}-${String(params.month).padStart(2, '0')}-${String(params.day).padStart(2, '0')}`,
-        birthTime: `${String(params.hour).padStart(2, '0')}:${String(params.minute || 0).padStart(2, '0')}`,
+        birthDate: `${params.year}-${String(params.month).padStart(2, '0')}-${String(
+          params.day
+        ).padStart(2, '0')}`,
+        birthTime: `${String(params.hour).padStart(2, '0')}:${String(
+          params.minute || 0
+        ).padStart(2, '0')}`,
         location: params.longitude
           ? {
               longitude: params.longitude,
               latitude: params.latitude,
             }
           : undefined,
-        solarTime: (fourPillars as any).solarTime || '',
-        lunarDate: (fourPillars as any).lunarDate || '',
+        solarTime: fourPillars.realSolarTime.toISOString(),
+        lunarDate: `${fourPillars.lunarDate.year}-${String(
+          fourPillars.lunarDate.month
+        ).padStart(2, '0')}-${String(fourPillars.lunarDate.day).padStart(
+          2,
+          '0'
+        )}${fourPillars.lunarDate.isLeap ? '(闰月)' : ''}`,
       },
 
       fourPillars: {

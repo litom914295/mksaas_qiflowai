@@ -42,7 +42,7 @@ const nextConfig: NextConfig = {
     // MDX 支持 - 确保 MDX 文件正确被处理
     config.module = config.module || {};
     config.module.rules = config.module.rules || [];
-    
+
     // 开发环境优化
     if (dev) {
       // 减少文件监听开销
@@ -73,7 +73,6 @@ const nextConfig: NextConfig = {
         removeAvailableModules: false,
         removeEmptyChunks: false,
       };
-
     }
 
     // 优化模块解析

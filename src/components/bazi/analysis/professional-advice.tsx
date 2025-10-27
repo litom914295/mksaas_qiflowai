@@ -341,8 +341,13 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
         <TabsContent value="improve" className="space-y-4 mt-4">
           {improvementPlans.map((plan, idx) => {
             // 计算模拟进度
-            const progress = plan.priority === 'high' ? 30 : plan.priority === 'medium' ? 45 : 60;
-            
+            const progress =
+              plan.priority === 'high'
+                ? 30
+                : plan.priority === 'medium'
+                  ? 45
+                  : 60;
+
             return (
               <Card key={idx} className="border-2">
                 <CardHeader>
@@ -367,17 +372,21 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                           : '可选'}
                     </Badge>
                   </div>
-                  
+
                   {/* 进度条 */}
                   <div className="mt-4 space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600">实施进度</span>
-                      <span className="font-medium text-blue-600">{progress}%</span>
+                      <span className="font-medium text-blue-600">
+                        {progress}%
+                      </span>
                     </div>
                     <Progress value={progress} className="h-2" />
                     <p className="text-xs text-gray-500">
                       {progress < 40 && '建议尽快开始实施'}
-                      {progress >= 40 && progress < 70 && '正在进行中，保持坚持'}
+                      {progress >= 40 &&
+                        progress < 70 &&
+                        '正在进行中，保持坚持'}
                       {progress >= 70 && '已达成良好效果'}
                     </p>
                   </div>
@@ -386,7 +395,8 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                   {/* 行动项清单 */}
                   <div className="space-y-2">
                     {plan.actions.map((action, i) => {
-                      const isCompleted = i < Math.floor(plan.actions.length * (progress / 100));
+                      const isCompleted =
+                        i < Math.floor(plan.actions.length * (progress / 100));
                       return (
                         <div
                           key={i}
@@ -404,7 +414,9 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                           <div className="flex-1">
                             <span
                               className={`text-sm ${
-                                isCompleted ? 'line-through text-gray-500' : 'text-gray-800'
+                                isCompleted
+                                  ? 'line-through text-gray-500'
+                                  : 'text-gray-800'
                               }`}
                             >
                               {action}

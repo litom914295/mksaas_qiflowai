@@ -321,9 +321,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
                 }`}
               >
                 <h5 className="font-medium text-gray-800 mb-2">正财型</h5>
-                <p className="text-sm text-gray-600 mb-2">
-                  稳健积累、工资收入
-                </p>
+                <p className="text-sm text-gray-600 mb-2">稳健积累、工资收入</p>
                 <div className="text-2xl font-bold text-green-600">
                   {tenGods.profile.find((g) => g.chinese === '正财')
                     ?.strength || 0}
@@ -341,9 +339,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
                 }`}
               >
                 <h5 className="font-medium text-gray-800 mb-2">偏财型</h5>
-                <p className="text-sm text-gray-600 mb-2">
-                  投资理财、灵活收入
-                </p>
+                <p className="text-sm text-gray-600 mb-2">投资理财、灵活收入</p>
                 <div className="text-2xl font-bold text-blue-600">
                   {tenGods.profile.find((g) => g.chinese === '偏财')
                     ?.strength || 0}
@@ -355,15 +351,13 @@ export function CareerWealth({ data }: CareerWealthProps) {
                 <h5 className="font-medium text-gray-800 mb-2">综合评分</h5>
                 <p className="text-sm text-gray-600 mb-2">财运总体水平</p>
                 <div className="text-2xl font-bold text-purple-600">
-                  {
-                    Math.round(
-                      ((tenGods.profile.find((g) => g.chinese === '正财')
-                        ?.strength || 0) +
-                        (tenGods.profile.find((g) => g.chinese === '偏财')
-                          ?.strength || 0)) /
-                        2
-                    )
-                  }
+                  {Math.round(
+                    ((tenGods.profile.find((g) => g.chinese === '正财')
+                      ?.strength || 0) +
+                      (tenGods.profile.find((g) => g.chinese === '偏财')
+                        ?.strength || 0)) /
+                      2
+                  )}
                   %
                 </div>
               </div>
@@ -379,8 +373,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
                   {
                     age: '25-35岁',
                     stage: '积累期',
-                    advice:
-                      '注重知识和经验积累，建立专业基础，多尝试不同领域',
+                    advice: '注重知识和经验积累，建立专业基础，多尝试不同领域',
                   },
                   {
                     age: '35-45岁',
@@ -474,9 +467,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
               </div>
 
               <div className="p-4 bg-white rounded-lg border border-orange-200">
-                <h5 className="font-medium text-orange-900 mb-3">
-                  需谨慎领域
-                </h5>
+                <h5 className="font-medium text-orange-900 mb-3">需谨慎领域</h5>
                 <ul className="space-y-2">
                   {[
                     tenGods.profile.some(
@@ -563,14 +554,11 @@ export function CareerWealth({ data }: CareerWealthProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* 贵人方位 */}
             <div className="p-4 bg-white rounded-lg">
-              <h5 className="font-medium text-purple-900 mb-3">
-                贵人方位
-              </h5>
+              <h5 className="font-medium text-purple-900 mb-3">贵人方位</h5>
               <div className="space-y-2">
                 {data.useful.favorableElements
                   .slice(0, 2)
-                  .map((elem) => elem.suggestions?.directions || [])
-                  .flat()
+                  .flatMap((elem) => elem.suggestions?.directions || [])
                   .slice(0, 3)
                   .map((dir, idx) => (
                     <Badge
@@ -599,14 +587,11 @@ export function CareerWealth({ data }: CareerWealthProps) {
 
             {/* 幸运颜色 */}
             <div className="p-4 bg-white rounded-lg">
-              <h5 className="font-medium text-purple-900 mb-3">
-                幸运颜色
-              </h5>
+              <h5 className="font-medium text-purple-900 mb-3">幸运颜色</h5>
               <div className="flex flex-wrap gap-2">
                 {data.useful.favorableElements
                   .slice(0, 2)
-                  .map((elem) => elem.suggestions?.colors || [])
-                  .flat()
+                  .flatMap((elem) => elem.suggestions?.colors || [])
                   .slice(0, 4)
                   .map((color, idx) => (
                     <div key={idx} className="flex items-center gap-1">
@@ -651,20 +636,16 @@ export function CareerWealth({ data }: CareerWealthProps) {
 
             {/* 合适行业 */}
             <div className="p-4 bg-white rounded-lg">
-              <h5 className="font-medium text-purple-900 mb-3">
-                有利行业五行
-              </h5>
+              <h5 className="font-medium text-purple-900 mb-3">有利行业五行</h5>
               <div className="space-y-2">
-                {data.useful.favorableElements
-                  .slice(0, 2)
-                  .map((elem, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <Badge variant="outline">{elem.chinese}行</Badge>
-                      <span className="text-xs text-gray-600">
-                        {elem.suggestions?.industries?.[0] || '相关行业'}
-                      </span>
-                    </div>
-                  ))}
+                {data.useful.favorableElements.slice(0, 2).map((elem, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Badge variant="outline">{elem.chinese}行</Badge>
+                    <span className="text-xs text-gray-600">
+                      {elem.suggestions?.industries?.[0] || '相关行业'}
+                    </span>
+                  </div>
+                ))}
               </div>
               <p className="text-xs text-gray-600 mt-2">
                 选择五行相合的行业发展更顺遂
@@ -681,15 +662,13 @@ export function CareerWealth({ data }: CareerWealthProps) {
             <p className="text-sm text-gray-700">
               在找工作、创业或搜索业务伙伴时，可优先考虑
               <strong>
-                {data.useful.favorableElements[0]?.suggestions?.directions?.[0] ||
-                  '东南'}
+                {data.useful.favorableElements[0]?.suggestions
+                  ?.directions?.[0] || '东南'}
               </strong>
               方向的机会。办公室装修多使用
               <strong>
-                {
-                  data.useful.favorableElements[0]?.suggestions?.colors?.[0] ||
-                    '蓝色'
-                }
+                {data.useful.favorableElements[0]?.suggestions?.colors?.[0] ||
+                  '蓝色'}
               </strong>
               等幸运色调。选择
               <strong>

@@ -1,7 +1,6 @@
-import { authOptions } from '@/lib/auth';
+import { verifyAuth } from '@/lib/auth';
 import { deleteFile } from '@/storage';
 import { StorageError } from '@/storage/types';
-import { getServerSession } from 'next-auth';
 import { type NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -13,7 +12,9 @@ import { type NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     // 1. 验证用户登录状态（可选：根据需求决定是否需要）
-    const session = await getServerSession(authOptions);
+    const { authenticated, userId } = await verifyAuth(
+      request as unknown as Request
+    );
 
     // 2. 解析请求体
     const body = await request.json();
@@ -28,11 +29,11 @@ export async function POST(request: NextRequest) {
 
     // 3. 验证用户权限（可选：检查文件是否属于当前用户）
     // 例如：检查 key 是否以 `floorplans/${userId}/` 开头
-    if (session?.user?.id && key.startsWith('floorplans/')) {
+    if (authenticated && userId && key.startsWith('floorplans/')) {
       const keyUserId = key.split('/')[1];
-      if (keyUserId !== session.user.id) {
+      if (keyUserId !== userId) {
         console.warn(
-          `[Storage Delete] 权限拒绝: 用户 ${session.user.id} 尝试删除其他用户的文件 ${key}`
+          `[Storage Delete] 权限拒绝: 用户 ${userId} 尝试删除其他用户的文件 ${key}`
         );
         return NextResponse.json(
           { error: 'Permission denied' },
@@ -71,7 +72,9 @@ export async function POST(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const { authenticated, userId } = await verifyAuth(
+      request as unknown as Request
+    );
     const body = await request.json();
     const { keys } = body;
 
@@ -83,11 +86,11 @@ export async function DELETE(request: NextRequest) {
     }
 
     // 验证权限
-    if (session?.user?.id) {
+    if (authenticated && userId) {
       for (const key of keys) {
         if (key.startsWith('floorplans/')) {
           const keyUserId = key.split('/')[1];
-          if (keyUserId !== session.user.id) {
+          if (keyUserId !== userId) {
             return NextResponse.json(
               { error: `Permission denied for key: ${key}` },
               { status: 403 }

@@ -1,5 +1,5 @@
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { verifyAuth } from '@/lib/auth';
+import { prisma } from '@/lib/db/prisma';
 import { type NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -8,12 +8,12 @@ import { type NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     // 获取当前用户
-    const { session } = await auth.api.getSession({ headers: request.headers });
-    if (!session?.user?.id) {
+    const { authenticated, userId } = await verifyAuth(
+      request as unknown as Request
+    );
+    if (!authenticated || !userId) {
       return NextResponse.json({ error: '请先登录' }, { status: 401 });
     }
-
-    const userId = session.user.id;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -139,12 +139,12 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const { session } = await auth.api.getSession({ headers: request.headers });
-    if (!session?.user?.id) {
+    const { authenticated, userId } = await verifyAuth(
+      request as unknown as Request
+    );
+    if (!authenticated || !userId) {
       return NextResponse.json({ error: '请先登录' }, { status: 401 });
     }
-
-    const userId = session.user.id;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 

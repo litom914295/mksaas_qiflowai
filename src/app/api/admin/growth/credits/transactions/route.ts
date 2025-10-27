@@ -1,5 +1,5 @@
+import { prisma } from '@/lib/db/prisma';
 import { withAdminAuth } from '@/lib/middleware/adminAuth';
-import { prisma } from '@/lib/prisma';
 import { type NextRequest, NextResponse } from 'next/server';
 
 /**

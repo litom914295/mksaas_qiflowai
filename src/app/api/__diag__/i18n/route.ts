@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { routing } from '@/i18n/routing';
+import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 

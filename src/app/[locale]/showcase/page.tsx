@@ -35,7 +35,7 @@ export default function ShowcasePage() {
       icon: <Sparkles className="h-8 w-8" />,
       title: '八字命理分析',
       description: '基于专业算法的个人化命理洞察，结合传统十神理论与现代AI技术',
-      href: '/analysis/bazi',
+      href: '/report',
       badge: '新上线',
       color: 'from-purple-500 to-pink-500',
     },
@@ -43,7 +43,7 @@ export default function ShowcasePage() {
       icon: <Compass className="h-8 w-8" />,
       title: '玄空飞星罗盘',
       description: '精确测量方位，智能生成风水布局建议，助力优化居住与工作空间',
-      href: '/analysis/xuankong',
+      href: '/report',
       badge: '热门',
       color: 'from-blue-500 to-cyan-500',
     },
@@ -227,12 +227,12 @@ export default function ShowcasePage() {
             立即体验QiFlow AI，获取专业的命理风水分析
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <LocaleLink href="/analysis/bazi">
+            <LocaleLink href="/report">
               <Button size="lg" className="w-full sm:w-auto">
                 开始八字分析
               </Button>
             </LocaleLink>
-            <LocaleLink href="/analysis/xuankong">
+            <LocaleLink href="/report">
               <Button size="lg" variant="outline" className="w-full sm:w-auto">
                 使用风水罗盘
               </Button>

@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 
 export default function PaymentSuccessPage() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get('orderId');
+  const orderId = searchParams?.get('orderId');
 
   useEffect(() => {
     // 触发庆祝动画

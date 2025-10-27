@@ -140,13 +140,7 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
                 ))}
 
                 {/* 五条坐标轴线 */}
-                {[
-                  '体质',
-                  '脏腑',
-                  '精神',
-                  '免疫',
-                  '生机',
-                ].map((_, idx) => {
+                {['体质', '脏腑', '精神', '免疫', '生机'].map((_, idx) => {
                   const angle = (idx * 72 - 90) * (Math.PI / 180);
                   const x2 = 200 + Math.cos(angle) * 150;
                   const y2 = 200 + Math.sin(angle) * 150;
@@ -167,7 +161,8 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
                 <polygon
                   points={[
                     // 体质：根据关注点数量反向计算
-                    85 - (healthMarriage.healthFocus?.concerns?.length || 0) * 10,
+                    85 -
+                      (healthMarriage.healthFocus?.concerns?.length || 0) * 10,
                     // 脏腑：根据器官数量反向计算
                     90 - (healthMarriage.healthFocus?.organs?.length || 0) * 8,
                     // 精神：保持较好
@@ -193,11 +188,26 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
 
                 {/* 数据点 */}
                 {[
-                  { label: '体质', score: 85 - (healthMarriage.healthFocus?.concerns?.length || 0) * 10 },
-                  { label: '脏腑', score: 90 - (healthMarriage.healthFocus?.organs?.length || 0) * 8 },
+                  {
+                    label: '体质',
+                    score:
+                      85 -
+                      (healthMarriage.healthFocus?.concerns?.length || 0) * 10,
+                  },
+                  {
+                    label: '脏腑',
+                    score:
+                      90 -
+                      (healthMarriage.healthFocus?.organs?.length || 0) * 8,
+                  },
                   { label: '精神', score: 80 },
                   { label: '免疫', score: 75 },
-                  { label: '生机', score: 70 + (healthMarriage.healthFocus?.lifestyle?.length || 0) * 5 },
+                  {
+                    label: '生机',
+                    score:
+                      70 +
+                      (healthMarriage.healthFocus?.lifestyle?.length || 0) * 5,
+                  },
                 ].map((item, idx) => {
                   const angle = (idx * 72 - 90) * (Math.PI / 180);
                   const radius = (item.score / 100) * 150;
@@ -233,12 +243,7 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
 
                   return (
                     <g key={`label-${idx}`}>
-                      <text
-                        x={x}
-                        y={y - 8}
-                        textAnchor="middle"
-                        fontSize="16"
-                      >
+                      <text x={x} y={y - 8} textAnchor="middle" fontSize="16">
                         {item.icon}
                       </text>
                       <text
@@ -501,11 +506,9 @@ export function HealthMarriage({ data }: HealthMarriageProps) {
                 <div className="text-3xl mb-2">😊</div>
                 <h5 className="font-medium text-gray-800 mb-1">性格</h5>
                 <p className="text-xs text-gray-600">
-                  {
-                    healthMarriage.marriage.partnerProfile
-                      .split('，')[0]
-                      .slice(0, 8) || '温和亲切'
-                  }
+                  {healthMarriage.marriage.partnerProfile
+                    .split('，')[0]
+                    .slice(0, 8) || '温和亲切'}
                 </p>
               </div>
 

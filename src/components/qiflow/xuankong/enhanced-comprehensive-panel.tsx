@@ -443,8 +443,9 @@ export function EnhancedComprehensivePanel({
                   <p className="text-sm text-gray-600">
                     飞星盘显示九宫方位的吉凶星曜分布
                     <br />
-                    根据 {houseInfo?.period || 9}运 {houseInfo?.sittingDirection}山
-                    {houseInfo?.facingDirection}向 计算
+                    根据 {houseInfo?.period || 9}运{' '}
+                    {houseInfo?.sittingDirection}山{houseInfo?.facingDirection}
+                    向 计算
                   </p>
                 </div>
               )}
@@ -675,7 +676,7 @@ export function EnhancedComprehensivePanel({
               <div className="flex items-center gap-4 mt-3 text-xs text-gray-600">
                 <span>
                   📊 分析维度:{' '}
-{metadata.analysisDepth === 'comprehensive' ? '完整' : '标准'}
+                  {metadata.analysisDepth === 'comprehensive' ? '完整' : '标准'}
                 </span>
                 <span>🔍 数据准确度: 95%+</span>
                 <span>⚡ 实时更新</span>

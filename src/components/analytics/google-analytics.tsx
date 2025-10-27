@@ -10,7 +10,7 @@ export function GoogleAnalytics() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const url = pathname + searchParams.toString();
+    const url = (pathname || '') + (searchParams?.toString() ?? '');
     pageview(url);
   }, [pathname, searchParams]);
 

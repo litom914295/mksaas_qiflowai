@@ -5,7 +5,7 @@ const path = require('path');
 
 const ARTIFACTS = 'mksaas/artifacts/cleanup/2025-10-26';
 const ATTIC = '.attic/2025-10-26';
-const BATCH_SIZE = parseInt(process.argv[2]) || 50;
+const BATCH_SIZE = Number.parseInt(process.argv[2]) || 50;
 const SKIP_TESTS = process.argv.includes('--skip-tests');
 
 // 读取文件
@@ -48,7 +48,10 @@ function quickVerify() {
   // 超快验证:仅检查导入语法
   try {
     console.log('🔍 Quick import check...');
-    execSync('npx tsc --noEmit --skipLibCheck --noResolve', { stdio: 'pipe', timeout: 10000 });
+    execSync('npx tsc --noEmit --skipLibCheck --noResolve', {
+      stdio: 'pipe',
+      timeout: 10000,
+    });
     return true;
   } catch {
     // 超时或语法错误时返回 true(继续),因为某些错误在实际构建时可能不影响
@@ -73,10 +76,13 @@ function checkReferences(file) {
   // 快速别名引用检查
   const basename = path.basename(file, path.extname(file));
   try {
-    const result = execSync(`git grep -l "@/.*${basename}" -- "*.ts" "*.tsx" "*.js" "*.jsx"`, {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
+    const result = execSync(
+      `git grep -l "@/.*${basename}" -- "*.ts" "*.tsx" "*.js" "*.jsx"`,
+      {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      }
+    );
     return result.trim().split('\n').filter(Boolean).length > 0;
   } catch {
     return false;
@@ -87,13 +93,13 @@ function checkReferences(file) {
 async function main() {
   const candidates = readJSON(`${ARTIFACTS}/candidates.json`);
   const denylist = readJSON(`${ARTIFACTS}/denylist.json`) || { paths: [] };
-  
+
   if (!candidates || !candidates.files || candidates.files.length === 0) {
     console.log('✅ No more candidates to process');
     return;
   }
 
-  let files = candidates.files.filter(f => {
+  const files = candidates.files.filter((f) => {
     // 过滤掉 denylist 和不存在的文件
     if (denylist.paths.includes(f)) return false;
     if (!fs.existsSync(f)) {
@@ -103,14 +109,18 @@ async function main() {
     return true;
   });
 
-  console.log(`📦 Processing ${files.length} candidates in batches of ${BATCH_SIZE}`);
+  console.log(
+    `📦 Processing ${files.length} candidates in batches of ${BATCH_SIZE}`
+  );
 
   let movedCount = 0;
   let failedCount = 0;
 
   for (let i = 0; i < files.length; i += BATCH_SIZE) {
     const batch = files.slice(i, i + BATCH_SIZE);
-    console.log(`\n📋 Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${batch.length} files`);
+    console.log(
+      `\n📋 Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${batch.length} files`
+    );
 
     const batchMoved = [];
     const batchFailed = [];
@@ -135,8 +145,10 @@ async function main() {
     }
 
     if (batchMoved.length > 0) {
-      appendLog(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: Moved ${batchMoved.length} files`);
-      
+      appendLog(
+        `Batch ${Math.floor(i / BATCH_SIZE) + 1}: Moved ${batchMoved.length} files`
+      );
+
       // 快速验证
       if (!quickVerify()) {
         console.log('❌ Quick verification failed, rolling back batch...');
@@ -144,9 +156,11 @@ async function main() {
           const dest = path.join(ATTIC, file);
           gitMove(dest, file);
         }
-        appendLog(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: ROLLBACK - verification failed`);
+        appendLog(
+          `Batch ${Math.floor(i / BATCH_SIZE) + 1}: ROLLBACK - verification failed`
+        );
         failedCount += batchMoved.length;
-        
+
         // 添加到 denylist
         denylist.paths.push(...batchMoved);
       } else {
@@ -157,12 +171,16 @@ async function main() {
 
     if (batchFailed.length > 0) {
       failedCount += batchFailed.length;
-      appendLog(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: Failed ${batchFailed.length} files`);
+      appendLog(
+        `Batch ${Math.floor(i / BATCH_SIZE) + 1}: Failed ${batchFailed.length} files`
+      );
     }
   }
 
   // 更新候选文件列表
-  candidates.files = candidates.files.filter(f => !denylist.paths.includes(f));
+  candidates.files = candidates.files.filter(
+    (f) => !denylist.paths.includes(f)
+  );
   writeJSON(`${ARTIFACTS}/candidates.json`, candidates);
   writeJSON(`${ARTIFACTS}/denylist.json`, denylist);
 
@@ -170,7 +188,9 @@ async function main() {
   console.log('\n🔍 Running final full verification...');
   if (fullVerify()) {
     console.log('✅ Full verification passed!');
-    appendLog(`Summary: Moved ${movedCount}, Failed ${failedCount}, Remaining ${candidates.files.length}`);
+    appendLog(
+      `Summary: Moved ${movedCount}, Failed ${failedCount}, Remaining ${candidates.files.length}`
+    );
   } else {
     console.log('⚠️  Full verification failed - check build output');
   }

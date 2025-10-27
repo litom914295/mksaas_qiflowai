@@ -95,9 +95,21 @@ export function BaziOverview({ data }: BaziOverviewProps) {
               {[
                 { label: '总评', score: metrics.overall.score, icon: '🎯' },
                 { label: '格局', score: patterns.main.score, icon: '🏆' },
-                { label: '五行', score: metrics.balance.status === 'balanced' ? 90 : 60, icon: '⚖️' },
-                { label: '日主', score: metrics.dayMasterStrength.score, icon: '⚡' },
-                { label: '用神', score: useful.favorableElements.length > 0 ? 85 : 50, icon: '✨' },
+                {
+                  label: '五行',
+                  score: metrics.balance.status === 'balanced' ? 90 : 60,
+                  icon: '⚖️',
+                },
+                {
+                  label: '日主',
+                  score: metrics.dayMasterStrength.score,
+                  icon: '⚡',
+                },
+                {
+                  label: '用神',
+                  score: useful.favorableElements.length > 0 ? 85 : 50,
+                  icon: '✨',
+                },
                 { label: '运势', score: patterns.stability, icon: '📊' },
               ].map((_, idx) => {
                 const angle = (idx * 60 - 90) * (Math.PI / 180);
@@ -121,9 +133,15 @@ export function BaziOverview({ data }: BaziOverviewProps) {
                 points={[
                   { label: '总评', score: metrics.overall.score },
                   { label: '格局', score: patterns.main.score },
-                  { label: '五行', score: metrics.balance.status === 'balanced' ? 90 : 60 },
+                  {
+                    label: '五行',
+                    score: metrics.balance.status === 'balanced' ? 90 : 60,
+                  },
                   { label: '日主', score: metrics.dayMasterStrength.score },
-                  { label: '用神', score: useful.favorableElements.length > 0 ? 85 : 50 },
+                  {
+                    label: '用神',
+                    score: useful.favorableElements.length > 0 ? 85 : 50,
+                  },
                   { label: '运势', score: patterns.stability },
                 ]
                   .map((item, idx) => {
@@ -141,11 +159,27 @@ export function BaziOverview({ data }: BaziOverviewProps) {
 
               {/* 数据点 */}
               {[
-                { label: '总评', score: metrics.overall.score, color: '#8b5cf6' },
+                {
+                  label: '总评',
+                  score: metrics.overall.score,
+                  color: '#8b5cf6',
+                },
                 { label: '格局', score: patterns.main.score, color: '#6366f1' },
-                { label: '五行', score: metrics.balance.status === 'balanced' ? 90 : 60, color: '#14b8a6' },
-                { label: '日主', score: metrics.dayMasterStrength.score, color: '#f59e0b' },
-                { label: '用神', score: useful.favorableElements.length > 0 ? 85 : 50, color: '#10b981' },
+                {
+                  label: '五行',
+                  score: metrics.balance.status === 'balanced' ? 90 : 60,
+                  color: '#14b8a6',
+                },
+                {
+                  label: '日主',
+                  score: metrics.dayMasterStrength.score,
+                  color: '#f59e0b',
+                },
+                {
+                  label: '用神',
+                  score: useful.favorableElements.length > 0 ? 85 : 50,
+                  color: '#10b981',
+                },
                 { label: '运势', score: patterns.stability, color: '#ec4899' },
               ].map((item, idx) => {
                 const angle = (idx * 60 - 90) * (Math.PI / 180);
@@ -171,9 +205,21 @@ export function BaziOverview({ data }: BaziOverviewProps) {
               {[
                 { label: '总评', score: metrics.overall.score, icon: '🎯' },
                 { label: '格局', score: patterns.main.score, icon: '🏆' },
-                { label: '五行', score: metrics.balance.status === 'balanced' ? 90 : 60, icon: '⚖️' },
-                { label: '日主', score: metrics.dayMasterStrength.score, icon: '⚡' },
-                { label: '用神', score: useful.favorableElements.length > 0 ? 85 : 50, icon: '✨' },
+                {
+                  label: '五行',
+                  score: metrics.balance.status === 'balanced' ? 90 : 60,
+                  icon: '⚖️',
+                },
+                {
+                  label: '日主',
+                  score: metrics.dayMasterStrength.score,
+                  icon: '⚡',
+                },
+                {
+                  label: '用神',
+                  score: useful.favorableElements.length > 0 ? 85 : 50,
+                  icon: '✨',
+                },
                 { label: '运势', score: patterns.stability, icon: '📊' },
               ].map((item, idx) => {
                 const angle = (idx * 60 - 90) * (Math.PI / 180);
@@ -183,12 +229,7 @@ export function BaziOverview({ data }: BaziOverviewProps) {
 
                 return (
                   <g key={`label-${idx}`}>
-                    <text
-                      x={x}
-                      y={y - 10}
-                      textAnchor="middle"
-                      fontSize="18"
-                    >
+                    <text x={x} y={y - 10} textAnchor="middle" fontSize="18">
                       {item.icon}
                     </text>
                     <text
@@ -236,11 +277,27 @@ export function BaziOverview({ data }: BaziOverviewProps) {
           <div className="mt-4 space-y-3">
             <div className="grid grid-cols-3 md:grid-cols-6 gap-2 text-xs">
               {[
-                { label: '总评', color: '#8b5cf6', score: metrics.overall.score },
+                {
+                  label: '总评',
+                  color: '#8b5cf6',
+                  score: metrics.overall.score,
+                },
                 { label: '格局', color: '#6366f1', score: patterns.main.score },
-                { label: '五行', color: '#14b8a6', score: metrics.balance.status === 'balanced' ? 90 : 60 },
-                { label: '日主', color: '#f59e0b', score: metrics.dayMasterStrength.score },
-                { label: '用神', color: '#10b981', score: useful.favorableElements.length > 0 ? 85 : 50 },
+                {
+                  label: '五行',
+                  color: '#14b8a6',
+                  score: metrics.balance.status === 'balanced' ? 90 : 60,
+                },
+                {
+                  label: '日主',
+                  color: '#f59e0b',
+                  score: metrics.dayMasterStrength.score,
+                },
+                {
+                  label: '用神',
+                  color: '#10b981',
+                  score: useful.favorableElements.length > 0 ? 85 : 50,
+                },
                 { label: '运势', color: '#ec4899', score: patterns.stability },
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-1.5">
@@ -258,14 +315,15 @@ export function BaziOverview({ data }: BaziOverviewProps) {
             <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border-2 border-indigo-200">
               <p className="text-sm text-gray-800">
                 <strong className="text-indigo-900">💡 命局解读：</strong>
-                雷达图展示了您六大核心命理指标。面积越大表示命局越好。
-                当前您的
+                雷达图展示了您六大核心命理指标。面积越大表示命局越好。 当前您的
                 <strong className="text-indigo-800">
                   {patterns.main.chinese || patterns.main.name}
                 </strong>
                 格局，总评{metrics.overall.score}分，
                 {metrics.overall.score >= 80 && '命格优越，运势亨通。'}
-                {metrics.overall.score >= 60 && metrics.overall.score < 80 && '命格良好，有发展潜力。'}
+                {metrics.overall.score >= 60 &&
+                  metrics.overall.score < 80 &&
+                  '命格良好，有发展潜力。'}
                 {metrics.overall.score < 60 && '需要加强调理，把握机遇。'}
               </p>
             </div>

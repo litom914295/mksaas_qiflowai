@@ -5,7 +5,8 @@ export default function RootPage() {
     <main className="p-10">
       <h1 className="text-2xl font-bold">Root Fallback</h1>
       <p className="mt-2 text-muted-foreground">
-        This page should not be reachable. Middleware should handle the redirect.
+        This page should not be reachable. Middleware should handle the
+        redirect.
       </p>
     </main>
   );

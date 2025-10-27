@@ -145,8 +145,12 @@ export const supabaseAdmin: any = {
   from: () => ({
     select: () => ({ data: [] }),
     insert: () => ({ select: () => ({ single: () => ({ data: null }) }) }),
-    update: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null }) }) }) }),
-    delete: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null }) }) }) }),
+    update: () => ({
+      eq: () => ({ select: () => ({ single: () => ({ data: null }) }) }),
+    }),
+    delete: () => ({
+      eq: () => ({ select: () => ({ single: () => ({ data: null }) }) }),
+    }),
     eq: () => ({ select: () => ({ single: () => ({ data: null }) }) }),
   }),
 };

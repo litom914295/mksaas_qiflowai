@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * 认证系统快速修复验证脚本 (v5.1.1)
- * 
+ *
  * 用途: 验证刚才的修复是否生效
  */
 
@@ -35,8 +35,12 @@ if (hasDevIndicatorsObject && hasTypedRoutesRemoved && hasTurbopackRemoved) {
   console.log('   ✅ Next.js 15 配置已修复\n');
 } else {
   console.log('   ⚠️  部分配置可能仍有问题:');
-  console.log(`      devIndicators 对象格式: ${hasDevIndicatorsObject ? '✅' : '❌'}`);
-  console.log(`      typedRoutes 已移除: ${hasTypedRoutesRemoved ? '✅' : '❌'}`);
+  console.log(
+    `      devIndicators 对象格式: ${hasDevIndicatorsObject ? '✅' : '❌'}`
+  );
+  console.log(
+    `      typedRoutes 已移除: ${hasTypedRoutesRemoved ? '✅' : '❌'}`
+  );
   console.log(`      turbopack 已移除: ${hasTurbopackRemoved ? '✅' : '❌'}\n`);
 }
 
@@ -45,18 +49,25 @@ console.log('✅ 检查 3: 环境变量配置');
 const envFile = path.join(__dirname, '../.env.local');
 if (fs.existsSync(envFile)) {
   const envContent = fs.readFileSync(envFile, 'utf-8');
-  
+
   const hasSupabaseUrl = envContent.includes('NEXT_PUBLIC_SUPABASE_URL=');
-  const hasSupabaseAnonKey = envContent.includes('NEXT_PUBLIC_SUPABASE_ANON_KEY=');
+  const hasSupabaseAnonKey = envContent.includes(
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY='
+  );
   const hasServiceKey = envContent.includes('SUPABASE_SERVICE_ROLE_KEY=');
   const hasDatabaseUrl = envContent.includes('DATABASE_URL=');
-  
+
   console.log(`   Supabase URL: ${hasSupabaseUrl ? '✅' : '❌'}`);
   console.log(`   Supabase Anon Key: ${hasSupabaseAnonKey ? '✅' : '❌'}`);
   console.log(`   Service Role Key: ${hasServiceKey ? '✅' : '❌'}`);
   console.log(`   Database URL: ${hasDatabaseUrl ? '✅' : '❌'}\n`);
-  
-  if (!hasSupabaseUrl || !hasSupabaseAnonKey || !hasServiceKey || !hasDatabaseUrl) {
+
+  if (
+    !hasSupabaseUrl ||
+    !hasSupabaseAnonKey ||
+    !hasServiceKey ||
+    !hasDatabaseUrl
+  ) {
     console.log('   ⚠️  部分环境变量缺失，可能影响认证功能\n');
   }
 } else {

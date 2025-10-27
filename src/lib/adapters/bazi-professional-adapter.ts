@@ -129,7 +129,12 @@ export function adaptToProfessionalBaziData(
 
   // 生成神煞数据（模拟）
   const jiShenPool = [
-    { name: '天乙贵人', strength: 85, description: '遇事有贵人相助，逢凶化吉', advice: '多与贵人接触，谦逊受教' },
+    {
+      name: '天乙贵人',
+      strength: 85,
+      description: '遇事有贵人相助，逢凶化吉',
+      advice: '多与贵人接触，谦逊受教',
+    },
     {
       name: '文昌星',
       strength: 75,
@@ -142,9 +147,24 @@ export function adaptToProfessionalBaziData(
       description: '心地善良，福德深厚，得天庇佑',
       advice: '多行善事，积累人脉与口碑',
     },
-    { name: '月德贵人', strength: 78, description: '品行端正，得长辈提携', advice: '尊师重道，稳健推进' },
-    { name: '福星贵人', strength: 72, description: '福气深厚，生活安康顺遂', advice: '保持感恩心态，稳中求进' },
-    { name: '天喜星', strength: 70, description: '喜事临门，婚姻美满', advice: '把握合作与联结机会' },
+    {
+      name: '月德贵人',
+      strength: 78,
+      description: '品行端正，得长辈提携',
+      advice: '尊师重道，稳健推进',
+    },
+    {
+      name: '福星贵人',
+      strength: 72,
+      description: '福气深厚，生活安康顺遂',
+      advice: '保持感恩心态，稳中求进',
+    },
+    {
+      name: '天喜星',
+      strength: 70,
+      description: '喜事临门，婚姻美满',
+      advice: '把握合作与联结机会',
+    },
   ];
 
   const xiongShenPool = [
@@ -154,9 +174,24 @@ export function adaptToProfessionalBaziData(
       description: '性格刚烈，注意控制情绪，避免冲动',
       advice: '遇事先稳后动，练习情绪管理',
     },
-    { name: '劫煞', strength: 60, description: '易有破财之象,需谨慎理财', advice: '分散投资，避免高杠杆' },
-    { name: '孤辰', strength: 55, description: '性格独立，注意加强人际关系', advice: '主动沟通，扩大社交圈' },
-    { name: '亡神', strength: 50, description: '做事需谨慎，避免意外损失', advice: '注意安全合规，流程先行' },
+    {
+      name: '劫煞',
+      strength: 60,
+      description: '易有破财之象,需谨慎理财',
+      advice: '分散投资，避免高杠杆',
+    },
+    {
+      name: '孤辰',
+      strength: 55,
+      description: '性格独立，注意加强人际关系',
+      advice: '主动沟通，扩大社交圈',
+    },
+    {
+      name: '亡神',
+      strength: 50,
+      description: '做事需谨慎，避免意外损失',
+      advice: '注意安全合规，流程先行',
+    },
   ];
 
   // 随机选择2-3个吉神和1-2个凶神

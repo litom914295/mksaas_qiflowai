@@ -1,5 +1,13 @@
+import {
+  AlertCircle,
+  Github,
+  Linkedin,
+  Loader2,
+  Mail,
+  Twitter,
+  Youtube,
+} from 'lucide-react';
 import type { ComponentType, SVGProps } from 'react';
-import { AlertCircle, Loader2, Mail, Github, Linkedin, Youtube, Twitter } from 'lucide-react';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 

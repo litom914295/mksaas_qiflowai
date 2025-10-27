@@ -442,7 +442,7 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                   const fortune = getHourFortune(hour);
                   const isCurrent = hour === currentHourData;
                   const height = `${fortune.score}%`;
-                  
+
                   return (
                     <div
                       key={idx}
@@ -507,13 +507,14 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                 <strong className="text-indigo-900">能量分析：</strong>
                 今日能量最旺盛的时辰为
                 <strong className="text-indigo-800">
-                  {hourlyFortune
-                    .map((h, idx) => ({ h, fortune: getHourFortune(h), idx }))
-                    .sort((a, b) => b.fortune.score - a.fortune.score)[0]
-                    .h.hour}
+                  {
+                    hourlyFortune
+                      .map((h, idx) => ({ h, fortune: getHourFortune(h), idx }))
+                      .sort((a, b) => b.fortune.score - a.fortune.score)[0].h
+                      .hour
+                  }
                 </strong>
-                ，建议在此时段进行重要事务。
-                当前时辰({currentHourData.hour})
+                ，建议在此时段进行重要事务。 当前时辰({currentHourData.hour})
                 {getHourFortune(currentHourData).isGood
                   ? '运势较好，适合行动'
                   : '宜静不宜动，适合休息'}
@@ -598,7 +599,9 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                 <div className="text-2xl">🎯</div>
                 <h5 className="font-medium text-gray-800">适宜活动</h5>
               </div>
-              <p className="text-sm text-gray-700">{currentHourData.activity}</p>
+              <p className="text-sm text-gray-700">
+                {currentHourData.activity}
+              </p>
             </div>
 
             {/* 避免事项 */}
@@ -608,11 +611,13 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                 <h5 className="font-medium text-gray-800">避免事项</h5>
               </div>
               <div className="flex flex-wrap gap-1">
-                {todayFortune.suggestions.unlucky.slice(0, 2).map((item, idx) => (
-                  <Badge key={idx} variant="outline" className="text-xs">
-                    {item}
-                  </Badge>
-                ))}
+                {todayFortune.suggestions.unlucky
+                  .slice(0, 2)
+                  .map((item, idx) => (
+                    <Badge key={idx} variant="outline" className="text-xs">
+                      {item}
+                    </Badge>
+                  ))}
               </div>
             </div>
           </div>
@@ -631,17 +636,13 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                       现在是<strong className="text-purple-800">吉时</strong>
                       ，能量场较好。建议穿着
                       <strong>
-                        {
-                          data.useful.favorableElements[0]?.suggestions
-                            ?.colors?.[0] || '蓝色'
-                        }
+                        {data.useful.favorableElements[0]?.suggestions
+                          ?.colors?.[0] || '蓝色'}
                       </strong>
                       系服装，面朝
                       <strong>
-                        {
-                          data.useful.favorableElements[0]?.suggestions
-                            ?.directions?.[0] || '东南'
-                        }
+                        {data.useful.favorableElements[0]?.suggestions
+                          ?.directions?.[0] || '东南'}
                       </strong>
                       方向，进行{currentHourData.activity}等活动。
                     </>

@@ -7,19 +7,26 @@ if (!ART) {
   console.error('Usage: node prune-candidates.js <ArtifactsDir>');
   process.exit(1);
 }
-const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, ''));
+const readJson = (p) =>
+  JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, ''));
 const cpath = path.join(ART, 'candidates.json');
 const dpath = path.join(ART, 'denylist.json');
 let files = [];
-try { files = readJson(cpath).files || []; } catch {}
+try {
+  files = readJson(cpath).files || [];
+} catch {}
 let deny = [];
-try { deny = readJson(dpath).paths || []; } catch {}
+try {
+  deny = readJson(dpath).paths || [];
+} catch {}
 const ok = [];
 for (const f of files) {
   if (!f || deny.includes(f)) continue;
   try {
     if (!fs.existsSync(f)) continue;
-    execSync(`git --no-pager ls-files --error-unmatch -- "${f}"`, { stdio: 'ignore' });
+    execSync(`git --no-pager ls-files --error-unmatch -- "${f}"`, {
+      stdio: 'ignore',
+    });
     ok.push(f);
   } catch {}
 }

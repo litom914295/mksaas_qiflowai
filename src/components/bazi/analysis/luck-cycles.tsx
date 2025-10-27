@@ -754,12 +754,10 @@ export function LuckCyclesAnalysis({ data }: LuckCyclesAnalysisProps) {
               <p className="text-sm text-gray-700">
                 <strong className="text-gray-800">运势分析：</strong>
                 纵观一生大运，您的
-                {daYunTimeline.filter((d) => d.fortune.overall >= 75).length >0
+                {daYunTimeline.filter((d) => d.fortune.overall >= 75).length > 0
                   ? `在${daYunTimeline
                       .filter((d) => d.fortune.overall >= 75)
-                      .map(
-                        (d) => `${d.ageRange[0]}-${d.ageRange[1]}岁`
-                      )
+                      .map((d) => `${d.ageRange[0]}-${d.ageRange[1]}岁`)
                       .join('、')}处于运势高峰期`
                   : '运势相对平稳'}
                 ，建议在高峰期把握机遇，低谷期稳健发展。

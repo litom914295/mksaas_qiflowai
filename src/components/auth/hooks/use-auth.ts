@@ -1,1 +1,5 @@
-export { useUserAccounts, useHasCredentialProvider, userAccountsKeys } from '@/hooks/use-auth';
+export {
+  useUserAccounts,
+  useHasCredentialProvider,
+  userAccountsKeys,
+} from '@/hooks/use-auth';

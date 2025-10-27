@@ -30,9 +30,20 @@ export const defaultPasswordRequirements: PasswordRequirements = {
  * 常见弱密码列表（部分）
  */
 const commonPasswords = [
-  'password', '123456', '12345678', 'qwerty', 'abc123',
-  'password123', 'admin', 'letmein', 'welcome', 'monkey',
-  '1234567890', 'password1', 'password!', 'admin123',
+  'password',
+  '123456',
+  '12345678',
+  'qwerty',
+  'abc123',
+  'password123',
+  'admin',
+  'letmein',
+  'welcome',
+  'monkey',
+  '1234567890',
+  'password1',
+  'password!',
+  'admin123',
 ];
 
 /**
@@ -61,7 +72,7 @@ export interface PasswordValidationResult {
 /**
  * 检查密码是否包含连续字符
  */
-function hasSequentialChars(password: string, maxSequence: number = 3): boolean {
+function hasSequentialChars(password: string, maxSequence = 3): boolean {
   for (let i = 0; i < password.length - maxSequence + 1; i++) {
     let isSequential = true;
     for (let j = 1; j < maxSequence; j++) {
@@ -80,7 +91,7 @@ function hasSequentialChars(password: string, maxSequence: number = 3): boolean 
 /**
  * 检查密码是否包含重复字符
  */
-function hasRepeatingChars(password: string, maxRepeat: number = 3): boolean {
+function hasRepeatingChars(password: string, maxRepeat = 3): boolean {
   for (let i = 0; i < password.length - maxRepeat + 1; i++) {
     const char = password[i];
     let count = 1;
@@ -106,13 +117,13 @@ function calculateEntropy(password: string): number {
     numbers: 10,
     special: 32,
   };
-  
+
   let poolSize = 0;
   if (/[a-z]/.test(password)) poolSize += charsets.lowercase;
   if (/[A-Z]/.test(password)) poolSize += charsets.uppercase;
   if (/[0-9]/.test(password)) poolSize += charsets.numbers;
   if (/[^a-zA-Z0-9]/.test(password)) poolSize += charsets.special;
-  
+
   const entropy = password.length * Math.log2(poolSize);
   return entropy;
 }
@@ -127,7 +138,7 @@ export function validatePassword(
   const errors: string[] = [];
   const suggestions: string[] = [];
   let score = 0;
-  
+
   // 基本长度检查
   if (password.length < requirements.minLength) {
     errors.push(`密码至少需要 ${requirements.minLength} 个字符`);
@@ -136,43 +147,43 @@ export function validatePassword(
     if (password.length >= 16) score += 10;
     if (password.length >= 20) score += 10;
   }
-  
+
   // 字符类型检查
   if (requirements.requireUppercase && !/[A-Z]/.test(password)) {
     errors.push('密码必须包含至少一个大写字母');
   } else if (requirements.requireUppercase) {
     score += 10;
   }
-  
+
   if (requirements.requireLowercase && !/[a-z]/.test(password)) {
     errors.push('密码必须包含至少一个小写字母');
   } else if (requirements.requireLowercase) {
     score += 10;
   }
-  
+
   if (requirements.requireNumbers && !/[0-9]/.test(password)) {
     errors.push('密码必须包含至少一个数字');
   } else if (requirements.requireNumbers) {
     score += 10;
   }
-  
+
   if (requirements.requireSpecialChars && !/[^a-zA-Z0-9]/.test(password)) {
     errors.push('密码必须包含至少一个特殊字符');
   } else if (requirements.requireSpecialChars) {
     score += 10;
   }
-  
+
   // 常见密码检查
   if (requirements.preventCommonPasswords) {
     const lowerPassword = password.toLowerCase();
-    if (commonPasswords.some(common => lowerPassword.includes(common))) {
+    if (commonPasswords.some((common) => lowerPassword.includes(common))) {
       errors.push('密码包含常见的弱密码模式');
       score -= 20;
     } else {
       score += 10;
     }
   }
-  
+
   // 连续字符检查
   if (requirements.preventSequentialChars && hasSequentialChars(password)) {
     errors.push('密码不应包含连续字符（如 abc, 123）');
@@ -180,7 +191,7 @@ export function validatePassword(
   } else if (requirements.preventSequentialChars) {
     score += 5;
   }
-  
+
   // 重复字符检查
   if (requirements.preventRepeatingChars && hasRepeatingChars(password)) {
     errors.push('密码不应包含过多重复字符');
@@ -188,7 +199,7 @@ export function validatePassword(
   } else if (requirements.preventRepeatingChars) {
     score += 5;
   }
-  
+
   // 计算熵值并调整分数
   const entropy = calculateEntropy(password);
   if (entropy < 30) {
@@ -199,7 +210,7 @@ export function validatePassword(
   } else if (entropy >= 60) {
     score += 10;
   }
-  
+
   // 计算最终强度级别
   let strength: PasswordStrength;
   if (score < 30) {
@@ -215,7 +226,7 @@ export function validatePassword(
   } else {
     strength = PasswordStrength.VERY_STRONG;
   }
-  
+
   // 提供改进建议
   if (errors.length === 0 && strength < PasswordStrength.STRONG) {
     if (!password.match(/[A-Z].*[A-Z]/)) {
@@ -231,7 +242,7 @@ export function validatePassword(
       suggestions.push('建议使用至少 16 个字符的密码');
     }
   }
-  
+
   return {
     isValid: errors.length === 0,
     strength,
@@ -244,30 +255,37 @@ export function validatePassword(
 /**
  * 生成安全的随机密码
  */
-export function generateSecurePassword(length: number = 16): string {
+export function generateSecurePassword(length = 16): string {
   const charset = {
     uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
     lowercase: 'abcdefghijklmnopqrstuvwxyz',
     numbers: '0123456789',
     special: '!@#$%^&*()_+-=[]{}|;:,.<>?',
   };
-  
+
   let password = '';
   const allChars = Object.values(charset).join('');
-  
+
   // 确保包含每种字符类型至少一个
-  password += charset.uppercase[Math.floor(Math.random() * charset.uppercase.length)];
-  password += charset.lowercase[Math.floor(Math.random() * charset.lowercase.length)];
-  password += charset.numbers[Math.floor(Math.random() * charset.numbers.length)];
-  password += charset.special[Math.floor(Math.random() * charset.special.length)];
-  
+  password +=
+    charset.uppercase[Math.floor(Math.random() * charset.uppercase.length)];
+  password +=
+    charset.lowercase[Math.floor(Math.random() * charset.lowercase.length)];
+  password +=
+    charset.numbers[Math.floor(Math.random() * charset.numbers.length)];
+  password +=
+    charset.special[Math.floor(Math.random() * charset.special.length)];
+
   // 填充剩余字符
   for (let i = password.length; i < length; i++) {
     password += allChars[Math.floor(Math.random() * allChars.length)];
   }
-  
+
   // 打乱密码字符顺序
-  return password.split('').sort(() => Math.random() - 0.5).join('');
+  return password
+    .split('')
+    .sort(() => Math.random() - 0.5)
+    .join('');
 }
 
 /**
@@ -280,23 +298,28 @@ export async function checkPasswordBreach(password: string): Promise<boolean> {
     const data = encoder.encode(password);
     const hashBuffer = await crypto.subtle.digest('SHA-1', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
+
     // 使用 k-匿名性：只发送哈希的前5个字符
     const prefix = hashHex.substring(0, 5).toUpperCase();
     const suffix = hashHex.substring(5).toUpperCase();
-    
+
     // 查询 HIBP API
-    const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`, {
-      headers: {
-        'User-Agent': 'QiFlowAI-Security-Check',
-      },
-    });
-    
+    const response = await fetch(
+      `https://api.pwnedpasswords.com/range/${prefix}`,
+      {
+        headers: {
+          'User-Agent': 'QiFlowAI-Security-Check',
+        },
+      }
+    );
+
     if (response.ok) {
       const text = await response.text();
       const hashes = text.split('\n');
-      
+
       // 检查后缀是否在返回的列表中
       for (const hash of hashes) {
         const [hashSuffix] = hash.split(':');
@@ -305,7 +328,7 @@ export async function checkPasswordBreach(password: string): Promise<boolean> {
         }
       }
     }
-    
+
     return false; // 密码未被泄露
   } catch (error) {
     console.error('Failed to check password breach:', error);

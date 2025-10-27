@@ -1,5 +1,6 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -12,7 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
+import { getDirectionFromDegrees } from '@/lib/qiflow/xuankong/converters';
+import {
+  type Mountain,
+  TwentyFourMountainsAnalyzer,
+} from '@/lib/qiflow/xuankong/twenty-four-mountains';
 import {
   SIMPLE_TIME_PERIODS,
   type TIME_PERIODS,
@@ -35,14 +42,10 @@ import {
   User,
   Zap,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { TwentyFourMountainsAnalyzer, type Mountain } from '@/lib/qiflow/xuankong/twenty-four-mountains';
-import { getDirectionFromDegrees } from '@/lib/qiflow/xuankong/converters';
 import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
-import dynamic from 'next/dynamic';
 
 const CompassPickerDialog = dynamic(
   () =>
@@ -57,14 +60,30 @@ const analyzer = new TwentyFourMountainsAnalyzer();
 
 // 24山常量数组（与库保持一致）
 const TWENTY_FOUR_MOUNTAINS: Mountain[] = [
-  '壬', '子', '癸', // 北方三山
-  '丑', '艮', '寅', // 东北三山  
-  '甲', '卯', '乙', // 东方三山
-  '辰', '巽', '巳', // 东南三山
-  '丙', '午', '丁', // 南方三山
-  '未', '坤', '申', // 西南三山
-  '庚', '酉', '辛', // 西方三山
-  '戌', '乾', '亥'  // 西北三山
+  '壬',
+  '子',
+  '癸', // 北方三山
+  '丑',
+  '艮',
+  '寅', // 东北三山
+  '甲',
+  '卯',
+  '乙', // 东方三山
+  '辰',
+  '巽',
+  '巳', // 东南三山
+  '丙',
+  '午',
+  '丁', // 南方三山
+  '未',
+  '坤',
+  '申', // 西南三山
+  '庚',
+  '酉',
+  '辛', // 西方三山
+  '戌',
+  '乾',
+  '亥', // 西北三山
 ];
 
 // 工具函数
@@ -92,8 +111,11 @@ function buildSittingFacing(deg: number) {
 function getCoarseDirectionLabel(deg?: number): string {
   if (deg == null || Number.isNaN(deg)) return '';
   try {
-    return getDirectionFromDegrees ? getDirectionFromDegrees(deg) : 
-      ['北', '东北', '东', '东南', '南', '西南', '西', '西北'][Math.round(normalizeDeg(deg) / 45) % 8];
+    return getDirectionFromDegrees
+      ? getDirectionFromDegrees(deg)
+      : ['北', '东北', '东', '东南', '南', '西南', '西', '西北'][
+          Math.round(normalizeDeg(deg) / 45) % 8
+        ];
   } catch {
     return '';
   }
@@ -227,21 +249,24 @@ export function HeroWithForm() {
 
     // 准备传递给报告页面的数据
     const degreeNum = Number(houseInfo.directionDegree);
-    const persistedHouse = showHouseInfo ? {
-      ...houseInfo,
-      direction: houseInfo.direction || getCoarseDirectionLabel(degreeNum) || '',
-      directionDegree: Number.isNaN(degreeNum) ? undefined : degreeNum,
-      northRef: houseInfo.northRef,
-      declination: houseInfo.declination,
-      sittingMountain: houseInfo.sittingMountain,
-      facingMountain: houseInfo.facingMountain,
-      sittingFacingLabel: houseInfo.sittingFacingLabel,
-    } : {
-      direction: '',
-      roomCount: '',
-      completionYear: '',
-      completionMonth: '',
-    };
+    const persistedHouse = showHouseInfo
+      ? {
+          ...houseInfo,
+          direction:
+            houseInfo.direction || getCoarseDirectionLabel(degreeNum) || '',
+          directionDegree: Number.isNaN(degreeNum) ? undefined : degreeNum,
+          northRef: houseInfo.northRef,
+          declination: houseInfo.declination,
+          sittingMountain: houseInfo.sittingMountain,
+          facingMountain: houseInfo.facingMountain,
+          sittingFacingLabel: houseInfo.sittingFacingLabel,
+        }
+      : {
+          direction: '',
+          roomCount: '',
+          completionYear: '',
+          completionMonth: '',
+        };
 
     const reportData = {
       personal: {
@@ -285,7 +310,10 @@ export function HeroWithForm() {
   };
 
   // 处理房屋信息变化
-  const handleHouseChange = (field: keyof HouseInfo, value: string | number) => {
+  const handleHouseChange = (
+    field: keyof HouseInfo,
+    value: string | number
+  ) => {
     setHouseInfo((prev) => ({
       ...prev,
       [field]: value,
@@ -293,7 +321,11 @@ export function HeroWithForm() {
   };
 
   // 应用罗盘度数并更新坐山朝向
-  const applyDegreeFromCompass = (deg: number, meta?: CompassMeta, follow = autoFollowCompass) => {
+  const applyDegreeFromCompass = (
+    deg: number,
+    meta?: CompassMeta,
+    follow = autoFollowCompass
+  ) => {
     const d = normalizeDeg(deg);
     setHouseInfo((prev) => {
       const next: HouseInfo = {
@@ -781,7 +813,10 @@ export function HeroWithForm() {
                                   placeholder="输入角度"
                                   value={houseInfo.directionDegree || ''}
                                   onChange={(e) =>
-                                    handleHouseChange('directionDegree', e.target.value)
+                                    handleHouseChange(
+                                      'directionDegree',
+                                      e.target.value
+                                    )
                                   }
                                   onBlur={handleDegreeBlur}
                                   min="0"
@@ -801,7 +836,9 @@ export function HeroWithForm() {
                                 title="打开罗盘定位"
                               >
                                 <Compass className="w-4 h-4 text-primary group-hover:rotate-45 transition-transform" />
-                                <span className="ml-1.5 text-xs font-medium">罗盘</span>
+                                <span className="ml-1.5 text-xs font-medium">
+                                  罗盘
+                                </span>
                               </Button>
                             </div>
                             <p className="text-xs text-muted-foreground flex items-center gap-1">
@@ -813,12 +850,14 @@ export function HeroWithForm() {
                           {/* 坐山朝向显示和跟随开关 */}
                           <div className="space-y-2">
                             {/* Chips 区域 */}
-                            {(houseInfo.directionDegree || houseInfo.sittingMountain || houseInfo.facingMountain) && (
+                            {(houseInfo.directionDegree ||
+                              houseInfo.sittingMountain ||
+                              houseInfo.facingMountain) && (
                               <div className="p-2.5 bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-lg">
                                 <div className="flex flex-wrap gap-1.5">
                                   {houseInfo.directionDegree && (
-                                    <Badge 
-                                      variant="secondary" 
+                                    <Badge
+                                      variant="secondary"
                                       className="h-6 px-2.5 text-xs font-medium bg-primary/10 text-primary border-primary/30"
                                     >
                                       <Compass className="w-3 h-3 mr-1" />
@@ -826,24 +865,30 @@ export function HeroWithForm() {
                                     </Badge>
                                   )}
                                   {houseInfo.sittingMountain && (
-                                    <Badge 
-                                      variant="outline" 
+                                    <Badge
+                                      variant="outline"
                                       className="h-6 px-2.5 text-xs font-medium border-primary/30"
                                     >
-                                      坐: <span className="ml-0.5 font-bold text-primary">{houseInfo.sittingMountain}</span>
+                                      坐:{' '}
+                                      <span className="ml-0.5 font-bold text-primary">
+                                        {houseInfo.sittingMountain}
+                                      </span>
                                     </Badge>
                                   )}
                                   {houseInfo.facingMountain && (
-                                    <Badge 
-                                      variant="outline" 
+                                    <Badge
+                                      variant="outline"
                                       className="h-6 px-2.5 text-xs font-medium border-primary/30"
                                     >
-                                      向: <span className="ml-0.5 font-bold text-primary">{houseInfo.facingMountain}</span>
+                                      向:{' '}
+                                      <span className="ml-0.5 font-bold text-primary">
+                                        {houseInfo.facingMountain}
+                                      </span>
                                     </Badge>
                                   )}
                                   {houseInfo.sittingFacingLabel && (
-                                    <Badge 
-                                      variant="default" 
+                                    <Badge
+                                      variant="default"
                                       className="h-6 px-2.5 text-xs font-semibold bg-gradient-to-r from-primary to-primary/80 shadow-sm"
                                     >
                                       {houseInfo.sittingFacingLabel}
@@ -853,7 +898,9 @@ export function HeroWithForm() {
                                 {houseInfo.directionDegree && (
                                   <p className="text-xs text-primary/70 mt-1.5 flex items-center gap-1">
                                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse"></span>
-                                    {getCoarseDirectionLabel(Number(houseInfo.directionDegree))}
+                                    {getCoarseDirectionLabel(
+                                      Number(houseInfo.directionDegree)
+                                    )}
                                   </p>
                                 )}
                               </div>
@@ -862,7 +909,10 @@ export function HeroWithForm() {
                             {/* 跟随罗盘开关 */}
                             <div className="flex items-center justify-between p-2 bg-muted/30 rounded-md border border-border/50">
                               <div className="flex items-center gap-2">
-                                <Label htmlFor="auto-follow" className="text-xs font-medium cursor-pointer">
+                                <Label
+                                  htmlFor="auto-follow"
+                                  className="text-xs font-medium cursor-pointer"
+                                >
                                   {tForm('followCompass')}
                                 </Label>
                                 <span className="text-xs text-muted-foreground">
@@ -894,28 +944,52 @@ export function HeroWithForm() {
                                     <SelectValue placeholder="选择方位" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="north" className="text-sm">
+                                    <SelectItem
+                                      value="north"
+                                      className="text-sm"
+                                    >
                                       北（坐南向北）
                                     </SelectItem>
-                                    <SelectItem value="northeast" className="text-sm">
+                                    <SelectItem
+                                      value="northeast"
+                                      className="text-sm"
+                                    >
                                       东北（坐西南向东北）
                                     </SelectItem>
-                                    <SelectItem value="east" className="text-sm">
+                                    <SelectItem
+                                      value="east"
+                                      className="text-sm"
+                                    >
                                       东（坐西向东）
                                     </SelectItem>
-                                    <SelectItem value="southeast" className="text-sm">
+                                    <SelectItem
+                                      value="southeast"
+                                      className="text-sm"
+                                    >
                                       东南（坐西北向东南）
                                     </SelectItem>
-                                    <SelectItem value="south" className="text-sm">
+                                    <SelectItem
+                                      value="south"
+                                      className="text-sm"
+                                    >
                                       南（坐北向南）
                                     </SelectItem>
-                                    <SelectItem value="southwest" className="text-sm">
+                                    <SelectItem
+                                      value="southwest"
+                                      className="text-sm"
+                                    >
                                       西南（坐东北向西南）
                                     </SelectItem>
-                                    <SelectItem value="west" className="text-sm">
+                                    <SelectItem
+                                      value="west"
+                                      className="text-sm"
+                                    >
                                       西（坐东向西）
                                     </SelectItem>
-                                    <SelectItem value="northwest" className="text-sm">
+                                    <SelectItem
+                                      value="northwest"
+                                      className="text-sm"
+                                    >
                                       西北（坐东南向西北）
                                     </SelectItem>
                                   </SelectContent>
@@ -925,17 +999,22 @@ export function HeroWithForm() {
                               {/* 24山选择 */}
                               <div className="grid grid-cols-2 gap-2">
                                 <div className="space-y-1">
-                                  <Label className="text-xs">{tForm('sitting')}</Label>
+                                  <Label className="text-xs">
+                                    {tForm('sitting')}
+                                  </Label>
                                   <Select
                                     value={houseInfo.sittingMountain || ''}
                                     onValueChange={(value) => {
                                       const sitting = value as Mountain;
                                       const facing = houseInfo.facingMountain;
-                                      const label = sitting && facing ? `${sitting}山${facing}向` : '';
-                                      setHouseInfo(prev => ({
+                                      const label =
+                                        sitting && facing
+                                          ? `${sitting}山${facing}向`
+                                          : '';
+                                      setHouseInfo((prev) => ({
                                         ...prev,
                                         sittingMountain: sitting,
-                                        sittingFacingLabel: label
+                                        sittingFacingLabel: label,
                                       }));
                                     }}
                                   >
@@ -944,7 +1023,11 @@ export function HeroWithForm() {
                                     </SelectTrigger>
                                     <SelectContent className="max-h-[240px]">
                                       {TWENTY_FOUR_MOUNTAINS.map((m) => (
-                                        <SelectItem key={m} value={m} className="text-sm">
+                                        <SelectItem
+                                          key={m}
+                                          value={m}
+                                          className="text-sm"
+                                        >
                                           {m}
                                         </SelectItem>
                                       ))}
@@ -952,17 +1035,22 @@ export function HeroWithForm() {
                                   </Select>
                                 </div>
                                 <div className="space-y-1">
-                                  <Label className="text-xs">{tForm('facing')}</Label>
+                                  <Label className="text-xs">
+                                    {tForm('facing')}
+                                  </Label>
                                   <Select
                                     value={houseInfo.facingMountain || ''}
                                     onValueChange={(value) => {
                                       const facing = value as Mountain;
                                       const sitting = houseInfo.sittingMountain;
-                                      const label = sitting && facing ? `${sitting}山${facing}向` : '';
-                                      setHouseInfo(prev => ({
+                                      const label =
+                                        sitting && facing
+                                          ? `${sitting}山${facing}向`
+                                          : '';
+                                      setHouseInfo((prev) => ({
                                         ...prev,
                                         facingMountain: facing,
-                                        sittingFacingLabel: label
+                                        sittingFacingLabel: label,
                                       }));
                                     }}
                                   >
@@ -971,7 +1059,11 @@ export function HeroWithForm() {
                                     </SelectTrigger>
                                     <SelectContent className="max-h-[240px]">
                                       {TWENTY_FOUR_MOUNTAINS.map((m) => (
-                                        <SelectItem key={m} value={m} className="text-sm">
+                                        <SelectItem
+                                          key={m}
+                                          value={m}
+                                          className="text-sm"
+                                        >
                                           {m}
                                         </SelectItem>
                                       ))}
@@ -981,7 +1073,7 @@ export function HeroWithForm() {
                               </div>
                             </div>
                           )}
-                          
+
                           {/* 房间数量 */}
                           <div className="space-y-1.5">
                             <Label className="text-xs">
@@ -1126,7 +1218,7 @@ export function HeroWithForm() {
           </motion.div>
         </div>
       </div>
-      
+
       {/* 罗盘拾取器弹窗 */}
       {compassOpen && (
         <CompassPickerDialog

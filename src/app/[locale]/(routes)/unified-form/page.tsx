@@ -1,5 +1,8 @@
+/*
 'use client';
 
+import { Footer } from '@/components/layout/footer';
+import { Navbar } from '@/components/layout/navbar';
 import { getCreditBalanceAction } from '@/actions/get-credit-balance';
 import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
 // import { HistoryQuickFill } from '@/components/history/history-quick-fill'; // 已移除
@@ -62,6 +65,19 @@ interface PersonalInfo {
   gender: 'male' | 'female' | '';
   birthCity: string;
   calendarType: CalendarType;
+}
+*/
+'use client';
+import { Footer } from '@/components/layout/footer';
+import { Navbar } from '@/components/layout/navbar';
+export default function UnifiedFormPage() {
+  return (
+    <div className="min-h-screen">
+      <Navbar scroll={true} />
+      <div className="container py-8">表单暂时维护中</div>
+      <Footer />
+    </div>
+  );
 }
 
 interface HouseInfo {
@@ -314,7 +330,7 @@ export default function UnifiedFormPage() {
   // 如果启用重定向到新系统
   if (REDIRECT_TO_NEW_SYSTEM) {
     useEffect(() => {
-      router.push('/zh-CN/bazi-analysis');
+      router.push('/zh-CN/report');
     }, []);
 
     return (
@@ -368,12 +384,18 @@ export default function UnifiedFormPage() {
     });
   }, [canSubmit, formData.personal]);
 
+  // Return the complete form with Navbar and Footer
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50">
-      {/* AI大师悬浮按钮（上下文增强版） */}
-      <AIChatWithContext />
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex flex-col">
+      {/* 导航栏 */}
+      <Navbar scroll={true} />
 
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      {/* 主内容区域 */}
+      <div className="flex-1">
+        {/* AI大师悬浮按钮（上下文增强版） */}
+        <AIChatWithContext />
+
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* 头部 */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full mb-4">
@@ -846,24 +868,27 @@ export default function UnifiedFormPage() {
         </div>
       </div>
 
-      {/* 罗盘拾取器弹窗 */}
-      <CompassPickerDialog
-        open={compassOpen}
-        onOpenChange={setCompassOpen}
-        value={Number.parseInt(formData.house.direction || '0') || 0}
-        onChange={(deg, meta) => {
-          handleHouseChange('direction', String(Math.round(deg)));
-          if (meta?.northRef)
-            handleHouseChange('northRef', meta.northRef as any);
-          if (typeof meta?.declination === 'number')
-            handleHouseChange('declination', String(meta.declination));
-        }}
-        onConfirm={(deg) => {
-          handleHouseChange('direction', String(Math.round(deg)));
-          setCompassOpen(false);
-        }}
-        snapStep={1}
-      />
+        {/* 罗盘拾取器弹窗 */}
+        <CompassPickerDialog
+          open={compassOpen}
+          onOpenChange={setCompassOpen}
+          value={Number.parseInt(formData.house.direction || '0') || 0}
+          onChange={(deg, meta) => {
+            handleHouseChange('direction', String(Math.round(deg)));
+            if (meta?.northRef)
+              handleHouseChange('northRef', meta.northRef as any);
+            if (typeof meta?.declination === 'number')
+              handleHouseChange('declination', String(meta.declination));
+          }}
+          onConfirm={(deg) => {
+            handleHouseChange('direction', String(Math.round(deg)));
+            setCompassOpen(false);
+          }}
+          snapStep={1}
+        />
+
+      {/* 页脚 */}
+      <Footer />
     </div>
   );
 }

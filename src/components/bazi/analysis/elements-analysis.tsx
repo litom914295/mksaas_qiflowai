@@ -528,8 +528,7 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                   相生循环
                 </h5>
                 <p className="text-xs text-gray-700">
-                  木→火→土→金→水→木，外圈绿色箭头表示相生关系，
-                  促进能量流转。
+                  木→火→土→金→水→木，外圈绿色箭头表示相生关系， 促进能量流转。
                 </p>
               </div>
 
@@ -538,8 +537,7 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                   相克循环
                 </h5>
                 <p className="text-xs text-gray-700">
-                  木→土→水→火→金→木，内部红色五角星表示相克关系，
-                  制约能量过盛。
+                  木→土→水→火→金→木，内部红色五角星表示相克关系， 制约能量过盛。
                 </p>
               </div>
             </div>

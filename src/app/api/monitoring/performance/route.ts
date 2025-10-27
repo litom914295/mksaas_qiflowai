@@ -3,8 +3,7 @@
  * GET - 获取性能指标数据
  */
 
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { verifyAuth } from '@/lib/auth';
 import { type NextRequest, NextResponse } from 'next/server';
 
 // 模拟性能数据查询
@@ -122,8 +121,8 @@ async function getPerformanceMetrics(params: {
 export async function GET(request: NextRequest) {
   try {
     // 验证权限
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== 'admin') {
+    const { authenticated } = await verifyAuth(request as unknown as Request);
+    if (!authenticated) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

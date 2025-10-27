@@ -3,14 +3,13 @@
  * GET - 建立 SSE 连接，推送实时监控数据
  */
 
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { verifyAuth } from '@/lib/auth';
 import type { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
   // 验证权限
-  const session = await getServerSession(authOptions);
-  if (!session || session.user.role !== 'admin') {
+  const { authenticated } = await verifyAuth(request as unknown as Request);
+  if (!authenticated) {
     return new Response('Unauthorized', { status: 401 });
   }
 

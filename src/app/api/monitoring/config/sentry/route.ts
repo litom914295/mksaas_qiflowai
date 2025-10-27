@@ -5,8 +5,7 @@
  * PUT - 测试连接
  */
 
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { verifyAuth } from '@/lib/auth';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -35,8 +34,8 @@ let sentryConfig = {
 export async function GET(request: NextRequest) {
   try {
     // 验证权限
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== 'admin') {
+    const { authenticated } = await verifyAuth(request as unknown as Request);
+    if (!authenticated) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -61,8 +60,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // 验证权限
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== 'admin') {
+    const { authenticated, userId } = await verifyAuth(
+      request as unknown as Request
+    );
+    if (!authenticated) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
     // 3. 重新初始化 Sentry
 
     // 记录操作日志
-    console.log(`Sentry config updated by ${session.user.email}`);
+    console.log(`Sentry config updated by ${userId || 'unknown'}`);
 
     return NextResponse.json({
       success: true,
@@ -106,8 +107,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     // 验证权限
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== 'admin') {
+    const { authenticated } = await verifyAuth(request as unknown as Request);
+    if (!authenticated) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

@@ -107,7 +107,8 @@ export function AdminSidebar({ locale }: AdminSidebarProps) {
               {section.items.map((item) => {
                 const fullHref = `/${locale}${item.href}`;
                 const isActive =
-                  pathname === fullHref || pathname.startsWith(fullHref + '/');
+                  pathname === fullHref ||
+                  (pathname?.startsWith(fullHref + '/') ?? false);
                 const Icon = item.icon;
 
                 return (

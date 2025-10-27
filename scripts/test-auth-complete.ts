@@ -1,6 +1,6 @@
 /**
  * Better Auth 完整测试脚本
- * 
+ *
  * 测试项目:
  * 1. 数据库连接
  * 2. 表结构验证
@@ -10,17 +10,24 @@
  * 6. 会话管理
  */
 
-import { config } from 'dotenv';
 import { resolve } from 'path';
+import { config } from 'dotenv';
 
 // 加载环境变量
 config({ path: resolve(process.cwd(), '.env.local') });
 
-import { getDb } from '../src/db';
-import { user, session, account, verification, userCredit, creditTransaction } from '../src/db/schema';
-import { eq, desc, sql } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
+import { desc, eq, sql } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
+import { getDb } from '../src/db';
+import {
+  account,
+  creditTransaction,
+  session,
+  user,
+  userCredit,
+  verification,
+} from '../src/db/schema';
 
 interface TestResult {
   name: string;
@@ -32,7 +39,8 @@ interface TestResult {
 const results: TestResult[] = [];
 
 function log(result: TestResult) {
-  const emoji = result.status === 'passed' ? '✅' : result.status === 'failed' ? '❌' : '⚠️';
+  const emoji =
+    result.status === 'passed' ? '✅' : result.status === 'failed' ? '❌' : '⚠️';
   console.log(`${emoji} ${result.name}`);
   console.log(`   ${result.message}`);
   if (result.details) {
@@ -64,11 +72,17 @@ async function testDatabaseConnection(): Promise<boolean> {
 async function testTableStructure(): Promise<boolean> {
   try {
     const db = await getDb();
-    
+
     // 检查关键表是否存在
-    const tables = ['user', 'session', 'account', 'verification', 'user_credit'];
+    const tables = [
+      'user',
+      'session',
+      'account',
+      'verification',
+      'user_credit',
+    ];
     let allTablesExist = true;
-    
+
     for (const tableName of tables) {
       const result = await db.execute(sql`
         SELECT EXISTS (
@@ -86,7 +100,7 @@ async function testTableStructure(): Promise<boolean> {
         allTablesExist = false;
       }
     }
-    
+
     if (allTablesExist) {
       log({
         name: 'Table Structure',
@@ -95,7 +109,7 @@ async function testTableStructure(): Promise<boolean> {
         details: { tables },
       });
     }
-    
+
     return allTablesExist;
   } catch (error) {
     log({
@@ -107,19 +121,22 @@ async function testTableStructure(): Promise<boolean> {
   }
 }
 
-async function testUserRegistration(): Promise<{ userId: string | null; email: string }> {
+async function testUserRegistration(): Promise<{
+  userId: string | null;
+  email: string;
+}> {
   const testEmail = `test-${Date.now()}@example.com`;
   const testPassword = 'TestPass123!';
   const testName = 'Test User';
-  
+
   try {
     const db = await getDb();
-    
+
     // 创建用户
     const hashedPassword = await bcrypt.hash(testPassword, 10);
     const userId = nanoid();
     const now = new Date();
-    
+
     await db.insert(user).values({
       id: userId,
       email: testEmail,
@@ -130,7 +147,7 @@ async function testUserRegistration(): Promise<{ userId: string | null; email: s
       role: 'user',
       banned: false,
     });
-    
+
     // 创建 account (用于密码登录)
     await db.insert(account).values({
       id: nanoid(),
@@ -141,10 +158,14 @@ async function testUserRegistration(): Promise<{ userId: string | null; email: s
       createdAt: now,
       updatedAt: now,
     });
-    
+
     // 验证用户是否创建成功
-    const createdUser = await db.select().from(user).where(eq(user.email, testEmail)).limit(1);
-    
+    const createdUser = await db
+      .select()
+      .from(user)
+      .where(eq(user.email, testEmail))
+      .limit(1);
+
     if (createdUser.length > 0) {
       log({
         name: 'User Registration',
@@ -178,10 +199,10 @@ async function testUserRegistration(): Promise<{ userId: string | null; email: s
 async function testCreditsInitialization(userId: string): Promise<boolean> {
   try {
     const db = await getDb();
-    
+
     // 创建用户积分记录
     const initialCredits = 100; // 注册赠送积分
-    
+
     await db.insert(userCredit).values({
       id: nanoid(),
       userId,
@@ -189,7 +210,7 @@ async function testCreditsInitialization(userId: string): Promise<boolean> {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    
+
     // 创建积分交易记录
     await db.insert(creditTransaction).values({
       id: nanoid(),
@@ -201,10 +222,14 @@ async function testCreditsInitialization(userId: string): Promise<boolean> {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    
+
     // 验证积分是否正确创建
-    const credits = await db.select().from(userCredit).where(eq(userCredit.userId, userId)).limit(1);
-    
+    const credits = await db
+      .select()
+      .from(userCredit)
+      .where(eq(userCredit.userId, userId))
+      .limit(1);
+
     if (credits.length > 0 && credits[0].currentCredits === initialCredits) {
       log({
         name: 'Credits Initialization',
@@ -237,10 +262,14 @@ async function testCreditsInitialization(userId: string): Promise<boolean> {
 async function testUserLogin(email: string): Promise<boolean> {
   try {
     const db = await getDb();
-    
+
     // 查找用户
-    const users = await db.select().from(user).where(eq(user.email, email)).limit(1);
-    
+    const users = await db
+      .select()
+      .from(user)
+      .where(eq(user.email, email))
+      .limit(1);
+
     if (users.length === 0) {
       log({
         name: 'User Login',
@@ -249,14 +278,14 @@ async function testUserLogin(email: string): Promise<boolean> {
       });
       return false;
     }
-    
+
     const foundUser = users[0];
-    
+
     // 创建会话
     const sessionId = nanoid();
     const token = nanoid(64);
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
-    
+
     await db.insert(session).values({
       id: sessionId,
       userId: foundUser.id,
@@ -267,10 +296,14 @@ async function testUserLogin(email: string): Promise<boolean> {
       ipAddress: '127.0.0.1',
       userAgent: 'Test Script',
     });
-    
+
     // 验证会话是否创建成功
-    const sessions = await db.select().from(session).where(eq(session.userId, foundUser.id)).limit(1);
-    
+    const sessions = await db
+      .select()
+      .from(session)
+      .where(eq(session.userId, foundUser.id))
+      .limit(1);
+
     if (sessions.length > 0) {
       log({
         name: 'User Login',
@@ -304,10 +337,14 @@ async function testUserLogin(email: string): Promise<boolean> {
 async function testSessionPersistence(email: string): Promise<boolean> {
   try {
     const db = await getDb();
-    
+
     // 查找用户
-    const users = await db.select().from(user).where(eq(user.email, email)).limit(1);
-    
+    const users = await db
+      .select()
+      .from(user)
+      .where(eq(user.email, email))
+      .limit(1);
+
     if (users.length === 0) {
       log({
         name: 'Session Persistence',
@@ -316,7 +353,7 @@ async function testSessionPersistence(email: string): Promise<boolean> {
       });
       return false;
     }
-    
+
     // 查找会话
     const sessions = await db
       .select()
@@ -324,11 +361,11 @@ async function testSessionPersistence(email: string): Promise<boolean> {
       .where(eq(session.userId, users[0].id))
       .orderBy(desc(session.createdAt))
       .limit(1);
-    
+
     if (sessions.length > 0) {
       const currentSession = sessions[0];
       const isValid = currentSession.expiresAt > new Date();
-      
+
       if (isValid) {
         log({
           name: 'Session Persistence',
@@ -373,37 +410,41 @@ async function generateReport() {
   console.log('\n' + '='.repeat(60));
   console.log('🎯 Better Auth Test Report');
   console.log('='.repeat(60) + '\n');
-  
-  const passed = results.filter(r => r.status === 'passed').length;
-  const failed = results.filter(r => r.status === 'failed').length;
-  const warnings = results.filter(r => r.status === 'warning').length;
+
+  const passed = results.filter((r) => r.status === 'passed').length;
+  const failed = results.filter((r) => r.status === 'failed').length;
+  const warnings = results.filter((r) => r.status === 'warning').length;
   const total = results.length;
-  
+
   console.log(`📊 Summary:`);
   console.log(`   Total Tests: ${total}`);
   console.log(`   ✅ Passed: ${passed}`);
   console.log(`   ❌ Failed: ${failed}`);
   console.log(`   ⚠️  Warnings: ${warnings}`);
   console.log(`   Success Rate: ${Math.round((passed / total) * 100)}%\n`);
-  
+
   if (failed > 0) {
     console.log('❌ Failed Tests:');
-    results.filter(r => r.status === 'failed').forEach(r => {
-      console.log(`   - ${r.name}: ${r.message}`);
-    });
+    results
+      .filter((r) => r.status === 'failed')
+      .forEach((r) => {
+        console.log(`   - ${r.name}: ${r.message}`);
+      });
     console.log('');
   }
-  
+
   if (warnings > 0) {
     console.log('⚠️  Warnings:');
-    results.filter(r => r.status === 'warning').forEach(r => {
-      console.log(`   - ${r.name}: ${r.message}`);
-    });
+    results
+      .filter((r) => r.status === 'warning')
+      .forEach((r) => {
+        console.log(`   - ${r.name}: ${r.message}`);
+      });
     console.log('');
   }
-  
+
   console.log('='.repeat(60));
-  
+
   if (failed === 0 && warnings === 0) {
     console.log('🎉 All tests passed! Better Auth is working correctly.');
   } else if (failed > 0) {
@@ -412,39 +453,39 @@ async function generateReport() {
   } else {
     console.log('⚠️  Tests completed with warnings.');
   }
-  
+
   console.log('='.repeat(60) + '\n');
 }
 
 async function main() {
   console.log('\n🚀 Starting Better Auth Tests...\n');
-  
+
   // Test 1: Database Connection
   const dbConnected = await testDatabaseConnection();
   if (!dbConnected) {
     console.log('\n❌ Cannot proceed without database connection.\n');
     process.exit(1);
   }
-  
+
   // Test 2: Table Structure
   await testTableStructure();
-  
+
   // Test 3: User Registration
   const { userId, email } = await testUserRegistration();
-  
+
   if (userId) {
     // Test 4: Credits Initialization
     await testCreditsInitialization(userId);
-    
+
     // Test 5: User Login
     await testUserLogin(email);
-    
+
     // Test 6: Session Persistence
     await testSessionPersistence(email);
   } else {
     console.log('\n⚠️  Skipping remaining tests due to registration failure.\n');
   }
-  
+
   // Generate Report
   await generateReport();
 }

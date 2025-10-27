@@ -3,8 +3,7 @@
  * GET - 获取错误列表
  */
 
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { verifyAuth } from '@/lib/auth';
 import { type NextRequest, NextResponse } from 'next/server';
 
 // 模拟数据库查询 - 实际项目中应从数据库或 Sentry 获取
@@ -72,8 +71,8 @@ async function getErrors(params: {
 export async function GET(request: NextRequest) {
   try {
     // 验证权限
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== 'admin') {
+    const { authenticated } = await verifyAuth(request as unknown as Request);
+    if (!authenticated) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

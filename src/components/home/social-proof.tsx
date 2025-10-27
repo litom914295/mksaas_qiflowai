@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import type React from 'react';
 
 // 社会证明组件（支持国际化）
 export const SocialProof: React.FC = () => {

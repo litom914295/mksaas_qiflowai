@@ -67,7 +67,11 @@ export function PaymentMethodSelector({
   children,
   disabled = false,
 }: PaymentMethodSelectorProps) {
-  const tt = (useTranslations as unknown as (ns?: any) => (key: string) => string)('Dashboard.settings.credits.payment');
+  const tt = (
+    useTranslations as unknown as (
+      ns?: any
+    ) => (key: string, values?: Record<string, any>) => string
+  )('Dashboard.settings.credits.payment');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('stripe');
   const [isLoading, setIsLoading] = useState(false);
@@ -200,26 +204,28 @@ export function PaymentMethodSelector({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <CreditCard className="w-5 h-5" />
-              {t('title')}
+              {tt('title')}
             </DialogTitle>
-            <DialogDescription>
-              {t('description', { amount: packageAmount.toLocaleString() })}
-            </DialogDescription>
           </DialogHeader>
 
+          <DialogDescription>
+            {tt('description', { amount: packageAmount.toLocaleString() })}
+          </DialogDescription>
           <div className="space-y-6 py-4">
             {/* 套餐信息 */}
             <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">{t('creditsLabel')}</p>
+                    <p className="text-sm text-gray-600">
+                      {tt('creditsLabel')}
+                    </p>
                     <p className="text-2xl font-bold text-purple-600">
                       {packageAmount.toLocaleString()}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-gray-600">{t('amountLabel')}</p>
+                    <p className="text-sm text-gray-600">{tt('amountLabel')}</p>
                     <p className="text-3xl font-bold">{packagePrice}</p>
                   </div>
                 </div>
@@ -229,7 +235,7 @@ export function PaymentMethodSelector({
             {/* 支付方式选择 */}
             <div className="space-y-3">
               <Label className="text-base font-semibold">
-                {t('methodLabel')}
+                {tt('methodLabel')}
               </Label>
               <RadioGroup
                 value={selectedMethod}
@@ -244,13 +250,13 @@ export function PaymentMethodSelector({
                   <Label htmlFor="stripe" className="flex-1 cursor-pointer">
                     <div className="flex items-center gap-2 mb-1">
                       <CreditCard className="w-5 h-5 text-blue-600" />
-                      <span className="font-semibold">{t('stripe.name')}</span>
+                      <span className="font-semibold">{tt('stripe.name')}</span>
                       <Badge variant="secondary" className="text-xs">
-                        {t('stripe.badge')}
+                        {tt('stripe.badge')}
                       </Badge>
                     </div>
                     <p className="text-sm text-gray-600">
-                      {t('stripe.description')}
+                      {tt('stripe.description')}
                     </p>
                   </Label>
                 </div>
@@ -266,13 +272,13 @@ export function PaymentMethodSelector({
                   <Label htmlFor="wechat" className="flex-1 cursor-not-allowed">
                     <div className="flex items-center gap-2 mb-1">
                       <Smartphone className="w-5 h-5 text-green-600" />
-                      <span className="font-semibold">{t('wechat.name')}</span>
+                      <span className="font-semibold">{tt('wechat.name')}</span>
                       <Badge variant="default" className="text-xs bg-gray-400">
-                        {t('comingSoon')}
+                        {tt('comingSoon')}
                       </Badge>
                     </div>
                     <p className="text-sm text-gray-600">
-                      {t('wechat.description')}
+                      {tt('wechat.description')}
                     </p>
                   </Label>
                 </div>
@@ -288,13 +294,13 @@ export function PaymentMethodSelector({
                   <Label htmlFor="alipay" className="flex-1 cursor-not-allowed">
                     <div className="flex items-center gap-2 mb-1">
                       <Smartphone className="w-5 h-5 text-blue-500" />
-                      <span className="font-semibold">{t('alipay.name')}</span>
+                      <span className="font-semibold">{tt('alipay.name')}</span>
                       <Badge variant="outline" className="text-xs">
-                        {t('comingSoon')}
+                        {tt('comingSoon')}
                       </Badge>
                     </div>
                     <p className="text-sm text-gray-600">
-                      {t('alipay.description')}
+                      {tt('alipay.description')}
                     </p>
                   </Label>
                 </div>
@@ -306,11 +312,11 @@ export function PaymentMethodSelector({
               <div className="flex gap-2">
                 <div className="text-blue-600">ℹ️</div>
                 <div className="flex-1 text-sm text-blue-800">
-                  <p className="font-semibold mb-1">{t('noticeTitle')}</p>
+                  <p className="font-semibold mb-1">{tt('noticeTitle')}</p>
                   <ul className="space-y-1 text-xs">
-                    <li>• {t('notice1')}</li>
-                    <li>• {t('notice2')}</li>
-                    <li>• {t('notice3')}</li>
+                    <li>• {tt('notice1')}</li>
+                    <li>• {tt('notice2')}</li>
+                    <li>• {tt('notice3')}</li>
                   </ul>
                 </div>
               </div>
@@ -324,7 +330,7 @@ export function PaymentMethodSelector({
                 onClick={() => setIsOpen(false)}
                 disabled={isLoading}
               >
-                {t('cancel')}
+                {tt('cancel')}
               </Button>
               <Button
                 className="flex-1"
@@ -334,10 +340,10 @@ export function PaymentMethodSelector({
                 {isLoading ? (
                   <>
                     <Loader2Icon className="mr-2 size-4 animate-spin" />
-                    {t('processing')}
+                    {tt('processing')}
                   </>
                 ) : (
-                  <>{t('confirm', { price: packagePrice })}</>
+                  <>{tt('confirm', { price: packagePrice })}</>
                 )}
               </Button>
             </div>
