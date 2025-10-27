@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 export default function AIChatLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <SimpleHeader title="AI智能咨询" showAuthButtons />
+      <SimpleHeader title="AI智能咨询" />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>

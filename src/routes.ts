@@ -45,7 +45,7 @@ export enum Routes {
   AIAudio = '/ai/audio',
 
   // QiFlow routes
-  QiflowBazi = '/analysis/bazi',
+  QiflowBazi = '/bazi-analysis',
   QiflowXuankong = '/analysis/xuankong',
   AnalysisHistory = '/analysis/history',
 

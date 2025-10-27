@@ -12,13 +12,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { LocaleLink } from '@/i18n/navigation';
+import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
 import {
   SIMPLE_TIME_PERIODS,
   type TIME_PERIODS,
   getDefaultTimeForPeriod,
   getDefaultTimeForSimplePeriod,
 } from '@/lib/time-constants';
+import { Routes } from '@/routes';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -39,7 +40,6 @@ import { Switch } from '@/components/ui/switch';
 import { TwentyFourMountainsAnalyzer, type Mountain } from '@/lib/qiflow/xuankong/twenty-four-mountains';
 import { getDirectionFromDegrees } from '@/lib/qiflow/xuankong/converters';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
 import dynamic from 'next/dynamic';
@@ -133,7 +133,7 @@ interface HouseInfo {
 export function HeroWithForm() {
   const t = useTranslations('BaziHome');
   const tForm = useTranslations('form');
-  const router = useRouter();
+  const router = useLocaleRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -269,7 +269,7 @@ export function HeroWithForm() {
 
     // 跳转到报告页面（不在URL中传递数据，使用sessionStorage）
     try {
-      router.push('/zh-CN/report');
+      router.push('/report');
     } finally {
       // 导航后重置状态（虽然通常会离开页面）
       setTimeout(() => setIsSubmitting(false), 1000);

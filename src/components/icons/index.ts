@@ -1,25 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { AlertCircle, Loader2, Mail } from 'lucide-react';
-
-import { NextjsIcon } from './nextjs';
-import { ProductHuntIcon } from './product-hunt';
-import { ResendIcon } from './resend';
-import { ShadcnuiIcon } from './shadcnui';
-import { StripeIcon } from './stripe';
-import { TailwindcssIcon } from './tailwindcss';
-import { TwitterIcon } from './twitter';
-import { VercelIcon } from './vercel';
-import { GoogleIcon } from './google';
-import { GithubIcon } from './github';
-import { FacebookIcon } from './facebook';
-import { LinkedinIcon } from './linkedin';
-import { InstagramIcon } from './instagram';
-import { YoutubeIcon } from './youtube';
-import { TelegramIcon } from './telegram';
-import { TiktokIcon } from './tiktok';
-import { BlueskyIcon } from './bluesky';
-import { MastodonIcon } from './mastodon';
-import { XIcon } from './x';
+import { AlertCircle, Loader2, Mail, Github, Linkedin, Youtube, Twitter } from 'lucide-react';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -29,26 +9,26 @@ export const Icons: Record<string, IconComponent> = {
   alertCircle: AlertCircle,
   spinner: Loader2,
 
-  // Brand/Logo icons
-  nextjs: NextjsIcon,
-  productHunt: ProductHuntIcon,
-  resend: ResendIcon,
-  shadcnui: ShadcnuiIcon,
-  stripe: StripeIcon,
-  tailwindcss: TailwindcssIcon,
-  twitter: TwitterIcon,
-  vercel: VercelIcon,
-  google: GoogleIcon,
-  github: GithubIcon,
-  facebook: FacebookIcon,
-  linkedin: LinkedinIcon,
-  instagram: InstagramIcon,
-  youtube: YoutubeIcon,
-  telegram: TelegramIcon,
-  tiktok: TiktokIcon,
-  bluesky: BlueskyIcon,
-  mastodon: MastodonIcon,
-  x: XIcon,
+  // Common brands (fallback to lucide icons)
+  github: Github,
+  linkedin: Linkedin,
+  youtube: Youtube,
+  twitter: Twitter,
+
+  // Fallbacks for previously present keys (map to generic icons to avoid runtime break)
+  vercel: AlertCircle,
+  nextjs: AlertCircle,
+  tailwindcss: AlertCircle,
+  stripe: AlertCircle,
+  resend: AlertCircle,
+  google: AlertCircle,
+  productHunt: AlertCircle,
+  instagram: AlertCircle,
+  telegram: AlertCircle,
+  tiktok: AlertCircle,
+  bluesky: AlertCircle,
+  mastodon: AlertCircle,
+  x: Twitter,
 };
 
 export type { SVGProps } from 'react';

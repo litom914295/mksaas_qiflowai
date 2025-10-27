@@ -3346,9 +3346,9 @@
     "timeoutTip": "No sensor data received. Please re-authorize or use manual mode.",
     "errorTip": "Sensor error. Please retry or switch to manual.",
     "reference": "Reference",
-    "magnetic_north": "Magnetic North",
-    "true_north": "True North",
-    "magnetic_declination": "Declination",
+    "magnetic_north": "磁北",
+    "true_north": "真北",
+    "magnetic_declination": "磁気偏角",
     "get_declination": "Get declination",
     "locating": "Locating...",
     "title": "Digital Compass",
@@ -3381,9 +3381,6 @@
     "measuring": "測定中...",
     "calibrate_device": "デバイスを校正",
     "calibration_instructions": "プロンプトに従ってデバイスを校正してください",
-    "magnetic_declination": "磁気偏角",
-    "true_north": "真北",
-    "magnetic_north": "磁北",
     "direction": "方向",
     "degree": "度",
     "measurement_history": "測定履歴",
@@ -3449,7 +3446,6 @@
     "timeAfternoonTooltip": "Afternoon period (12:00-18:00)",
     "timeEvening": "Evening",
     "timeEveningTooltip": "Evening period (18:00-00:00)",
-    "submitButton": "Start Analysis",
     "yearSuffix": "",
     "monthSuffix": "",
     "daySuffix": "",
@@ -3642,5 +3638,14 @@
     },
     "copyright": "© 2024 QiFlowAI. All rights reserved.",
     "madeWith": "Made with ❤️ in China"
+  },
+  "SocialProof": {
+    "registeredUsers": "Registered Users",
+    "reportsGenerated": "Reports Generated",
+    "satisfactionRate": "Satisfaction Rate",
+    "user": "User",
+    "testimonial1": "Great experience! Clear and professional results. Highly recommended to friends!",
+    "testimonial2": "Very accurate analysis, very helpful for my life planning. Thank you!",
+    "testimonial3": "User-friendly interface, easy to operate, detailed and understandable report. Worth recommending!"
   }
 }

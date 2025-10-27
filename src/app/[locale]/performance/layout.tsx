@@ -9,7 +9,7 @@ export default function PerformanceLayout({
 }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <SimpleHeader title="性能监控中心" showAuthButtons />
+      <SimpleHeader title="性能监控中心" />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>
