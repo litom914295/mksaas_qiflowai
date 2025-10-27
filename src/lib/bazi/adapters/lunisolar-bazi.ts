@@ -360,10 +360,24 @@ export class LunisolarBaziAdapter {
       console.log('[LunisolarBaziAdapter] 日主命理:', dayMasterAnalysis);
 
       // 组装结果
+      const yongshenDisplay = {
+        primary: yongshen.primary,
+        secondary: yongshen.secondary,
+        unfavorable: yongshen.unfavorable,
+        explanation: yongshen.explanation,
+      };
+
       const result: EnhancedBaziResult = {
         pillars,
         elements,
-        favorableElements: yongshen, // 用神分析
+        favorableElements: yongshenDisplay,
+        yongshen: {
+          favorable: yongshen.primary,
+          unfavorable: yongshen.unfavorable,
+          primary: yongshen.primary,
+          secondary: yongshen.secondary,
+          explanation: yongshen.explanation,
+        } as any,
         tenGods,
         tenGodsAnalysis: tenGods?.analysis,
         luckPillars,

@@ -46,7 +46,7 @@ export function SanbanguaAnalysisView({
     }
 
     const plate = analysisResult.basicAnalysis.plates.period;
-    const period = analysisResult.metadata.period;
+    const period = (analysisResult as any)?.metadata?.period ?? 0;
     const matchedGroups: typeof sanbanGroups = [];
     const details: string[] = [];
 

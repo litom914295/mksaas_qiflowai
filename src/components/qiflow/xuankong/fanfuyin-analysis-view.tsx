@@ -29,7 +29,7 @@ export function FanfuyinAnalysisView({ analysisResult }: Props) {
     }
 
     const plate = analysisResult.basicAnalysis.plates.period;
-    const period = analysisResult.metadata.period;
+    const period = (analysisResult as any)?.metadata?.period ?? 0;
     const issues: Array<{
       type: '反吟' | '伏吟';
       palace: number;

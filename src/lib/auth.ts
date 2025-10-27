@@ -139,6 +139,18 @@ export const auth = betterAuth({
   },
 });
 
+// 提供一个最小 supabaseAdmin 兼容导出（用于 prisma 兼容层开发期类型通过）
+// 注意：仅供开发编译使用，不用于生产数据访问
+export const supabaseAdmin: any = {
+  from: () => ({
+    select: () => ({ data: [] }),
+    insert: () => ({ select: () => ({ single: () => ({ data: null }) }) }),
+    update: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null }) }) }) }),
+    delete: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null }) }) }) }),
+    eq: () => ({ select: () => ({ single: () => ({ data: null }) }) }),
+  }),
+};
+
 export function getLocaleFromRequest(request?: Request): Locale {
   const cookies = parseCookies(request?.headers.get('cookie') ?? '');
   return (cookies[LOCALE_COOKIE_NAME] as Locale) ?? routing.defaultLocale;

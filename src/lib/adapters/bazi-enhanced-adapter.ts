@@ -157,8 +157,12 @@ export async function adaptToEnhancedProfessionalBaziData(
     { name: '亡神', strength: 50, description: '做事需谨慎，避免意外损失' },
   ];
 
-  const jiShen = jiShenPool.slice(0, 2 + Math.floor(Math.random() * 2));
-  const xiongShen = xiongShenPool.slice(0, 1 + Math.floor(Math.random() * 2));
+  const jiShen = jiShenPool
+    .slice(0, 2 + Math.floor(Math.random() * 2))
+    .map((s) => ({ advice: '', ...s }));
+  const xiongShen = xiongShenPool
+    .slice(0, 1 + Math.floor(Math.random() * 2))
+    .map((s) => ({ advice: '', ...s }));
 
   // 生成命格分析
   const patternNames = ['正格', '从格', '化格', '专旺格', '两神成象'];

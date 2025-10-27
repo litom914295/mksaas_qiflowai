@@ -62,7 +62,7 @@ export function QixingdajieAnalysisView({
     }
 
     const plate = analysisResult.basicAnalysis.plates.period;
-    const period = analysisResult.metadata.period;
+    const period = (analysisResult as any)?.metadata?.period ?? 0;
 
     // 检查每条线
     for (const line of qixingLines) {

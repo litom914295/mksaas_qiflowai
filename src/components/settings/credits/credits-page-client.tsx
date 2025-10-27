@@ -21,6 +21,7 @@ import { toast } from 'sonner';
  */
 export default function CreditsPageClient() {
   const t = useTranslations('Dashboard.settings.credits');
+  const tt = t as unknown as (key: string) => string;
   const searchParams = useSearchParams();
   const localeRouter = useLocaleRouter();
 
@@ -48,15 +49,15 @@ export default function CreditsPageClient() {
         });
         const data = await res.json();
         if (data?.success) {
-          toast.success(t('vouchers.claimSuccess'));
+          toast.success(tt('vouchers.claimSuccess'));
           const url = new URL(window.location.href);
           url.searchParams.delete('gift_token');
           localeRouter.replace(Routes.SettingsCredits + url.search);
         } else {
-          toast.error(data?.error || t('vouchers.claimFailed'));
+          toast.error(data?.error || tt('vouchers.claimFailed'));
         }
       } catch (e) {
-        toast.error(t('vouchers.claimFailed'));
+        toast.error(tt('vouchers.claimFailed'));
       }
     })();
   }, [searchParams, localeRouter]);
@@ -93,7 +94,7 @@ export default function CreditsPageClient() {
 
           {/* My Vouchers */}
           <div className="w-full space-y-3">
-            <h3 className="text-base font-medium">{t('vouchers.title')}</h3>
+            <h3 className="text-base font-medium">{tt('vouchers.title')}</h3>
             <VouchersList />
           </div>
 

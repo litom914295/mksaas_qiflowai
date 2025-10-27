@@ -6,6 +6,7 @@ import React from 'react';
 // 社会证明组件（支持国际化）
 export const SocialProof: React.FC = () => {
   const t = useTranslations('SocialProof');
+  const tt = t as unknown as (key: string) => string;
 
   return (
     <section className="w-full py-10 md:py-16">
@@ -42,7 +43,7 @@ export const SocialProof: React.FC = () => {
                 </div>
               </div>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                {t(`testimonial${i}`)}
+                {tt(`testimonial${i}`)}
               </p>
             </div>
           ))}

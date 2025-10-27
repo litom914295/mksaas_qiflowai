@@ -188,8 +188,8 @@ export async function getDashboardData(): Promise<DashboardData | null> {
 
     const dashboardData: DashboardData = {
       user: {
-        name: session.user.name || '用户',
-        avatar: session.user.image,
+        name: session.user.name ?? '用户',
+        avatar: session.user.image ?? undefined,
         level: '普通会员',
       },
       greeting,

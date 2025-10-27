@@ -67,7 +67,7 @@ export function PaymentMethodSelector({
   children,
   disabled = false,
 }: PaymentMethodSelectorProps) {
-  const t = useTranslations('Dashboard.settings.credits.payment');
+  const tt = (useTranslations as unknown as (ns?: any) => (key: string) => string)('Dashboard.settings.credits.payment');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('stripe');
   const [isLoading, setIsLoading] = useState(false);
@@ -126,11 +126,11 @@ export function PaymentMethodSelector({
             'Create credit checkout session error, result:',
             result
           );
-          toast.error(t('checkoutFailed'));
+          toast.error(tt('checkoutFailed'));
         }
       } else if (selectedMethod === 'wechat') {
         // 微信支付
-        toast.error(t('wechatNotImplemented'));
+        toast.error(tt('wechatNotImplemented'));
         setIsLoading(false);
         return;
         // TODO: 实现微信支付
@@ -153,7 +153,7 @@ export function PaymentMethodSelector({
         // }
       } else if (selectedMethod === 'alipay') {
         // 支付宝支付
-        toast.error(t('alipayNotImplemented'));
+        toast.error(tt('alipayNotImplemented'));
         setIsLoading(false);
         return;
         // TODO: 实现支付宝支付
@@ -177,7 +177,7 @@ export function PaymentMethodSelector({
       }
     } catch (error) {
       console.error('Payment error:', error);
-      toast.error(t('paymentFailed'));
+      toast.error(tt('paymentFailed'));
     } finally {
       setIsLoading(false);
     }

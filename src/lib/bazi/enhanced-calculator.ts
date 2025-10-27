@@ -28,6 +28,10 @@ export interface EnhancedBirthData {
   timezone?: string;
   isTimeKnown?: boolean;
   preferredLocale?: string;
+  // 兼容 Lunisolar 适配器的可选字段
+  calendarType?: 'solar' | 'lunar' | string;
+  longitude?: number;
+  latitude?: number;
 }
 
 export interface EnhancedBaziResult extends BaziResult {
@@ -38,6 +42,11 @@ export interface EnhancedBaziResult extends BaziResult {
   interactions?: BaziInteraction[];
   dayMasterStrength?: DayMasterStrengthResult;
   favorableElements?: FavorableElementsResult;
+  // 兼容字段
+  birthData?: EnhancedBirthData;
+  timestamp?: string;
+  solarDateConverted?: string;
+  isLunarInput?: boolean;
   pattern?: {
     primary: string;
     secondary: string[];
@@ -58,6 +67,12 @@ export interface LuckPillarResult {
   startDate?: Date;
   endDate?: Date;
   strength: 'strong' | 'weak' | 'balanced';
+  // 兼容扩展
+  score?: number;
+  description?: string;
+  favorable?: string[];
+  unfavorable?: string[];
+  keyEvents?: string[];
 }
 
 export interface DailyAnalysisResult {
