@@ -325,30 +325,29 @@ export default function ReportPage() {
     }
   }, [activeMainTab, xuankongResult, xuankongLoading, generateXuankong]);
 
-  // 后台预加载玄空分析：暂时禁用以提升性能
-  // TODO: 考虑在八字分析完成后延迟更长时间(如3秒)再预加载
-  // useEffect(() => {
-  //   if (
-  //     hasHouseInfo &&
-  //     isContextSynced &&
-  //     formData?.personal &&
-  //     !xuankongResult &&
-  //     !xuankongLoading
-  //   ) {
-  //     // 延迟3秒后开始预加载，避免阻塞八字分析
-  //     const timer = setTimeout(() => {
-  //       void generateXuankong();
-  //     }, 3000);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [
-  //   hasHouseInfo,
-  //   isContextSynced,
-  //   formData,
-  //   xuankongResult,
-  //   xuankongLoading,
-  //   generateXuankong,
-  // ]);
+  // 智能后台预加载玄空分析：在八字分析完成后自动开始
+  useEffect(() => {
+    if (
+      hasHouseInfo &&
+      baziResult && // 等待八字分析完成
+      !xuankongResult &&
+      !xuankongLoading
+    ) {
+      // 延迟2秒后开始后台预加载，给八字结果渲染时间
+      console.log('✨ 八字分析完成,准备后台预加载玄空分析...');
+      const timer = setTimeout(() => {
+        console.log('🚀 开始后台预加载玄空分析');
+        void generateXuankong();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [
+    hasHouseInfo,
+    baziResult, // 依赖八字分析结果
+    xuankongResult,
+    xuankongLoading,
+    generateXuankong,
+  ]);
 
   // 手动同步按钮处理
   const handleManualSync = useCallback(() => {
