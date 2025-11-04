@@ -325,29 +325,30 @@ export default function ReportPage() {
     }
   }, [activeMainTab, xuankongResult, xuankongLoading, generateXuankong]);
 
-  // 后台预加载玄空分析：在八字分析完成且数据同步后自动触发（仅当有房屋信息时）
-  useEffect(() => {
-    if (
-      hasHouseInfo &&
-      isContextSynced &&
-      formData?.personal &&
-      !xuankongResult &&
-      !xuankongLoading
-    ) {
-      // 延迟500ms后开始预加载，避免阻塞八字分析的渲染
-      const timer = setTimeout(() => {
-        void generateXuankong();
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [
-    hasHouseInfo,
-    isContextSynced,
-    formData,
-    xuankongResult,
-    xuankongLoading,
-    generateXuankong,
-  ]);
+  // 后台预加载玄空分析：暂时禁用以提升性能
+  // TODO: 考虑在八字分析完成后延迟更长时间(如3秒)再预加载
+  // useEffect(() => {
+  //   if (
+  //     hasHouseInfo &&
+  //     isContextSynced &&
+  //     formData?.personal &&
+  //     !xuankongResult &&
+  //     !xuankongLoading
+  //   ) {
+  //     // 延迟3秒后开始预加载，避免阻塞八字分析
+  //     const timer = setTimeout(() => {
+  //       void generateXuankong();
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [
+  //   hasHouseInfo,
+  //   isContextSynced,
+  //   formData,
+  //   xuankongResult,
+  //   xuankongLoading,
+  //   generateXuankong,
+  // ]);
 
   // 手动同步按钮处理
   const handleManualSync = useCallback(() => {
