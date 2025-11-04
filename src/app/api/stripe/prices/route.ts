@@ -9,16 +9,23 @@ import Stripe from 'stripe';
 export async function GET() {
   try {
     const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    const packages = websiteConfig.credits.packages;
     
+    // 如果没有配置 Stripe,返回配置文件中的默认价格
     if (!stripeSecretKey) {
-      return NextResponse.json(
-        { error: 'Stripe not configured' },
-        { status: 500 }
-      );
+      const prices: Record<string, { amount: number; currency: string }> = {};
+      
+      for (const [, pkg] of Object.entries(packages)) {
+        prices[pkg.id] = {
+          amount: pkg.price.amount,
+          currency: pkg.price.currency,
+        };
+      }
+      
+      return NextResponse.json({ prices });
     }
 
     const stripe = new Stripe(stripeSecretKey);
-    const packages = websiteConfig.credits.packages;
     const prices: Record<string, { amount: number; currency: string }> = {};
 
     // 遍历所有积分包,获取 Stripe 价格

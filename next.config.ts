@@ -11,11 +11,9 @@ const nextConfig: NextConfig = {
   ...(process.env.DOCKER_BUILD === 'true' && { output: 'standalone' }),
 
   /* config options here */
-  // Next.js 15: devIndicators 需要是对象类型
+  // Next.js 15: devIndicators 配置
   devIndicators: {
-    appIsrStatus: false,
-    buildActivity: false,
-    buildActivityPosition: 'bottom-right',
+    position: 'bottom-right', // buildActivityPosition 已重命名为 position
   },
 
   // Ensure .tsx/.jsx pages are recognized alongside MDX
