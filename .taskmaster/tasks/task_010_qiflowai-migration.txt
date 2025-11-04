@@ -1,0 +1,16 @@
+# Task ID: 10
+# Title: 安全与合规
+# Status: pending
+# Dependencies: 1, 7
+# Priority: high
+# Description: 鉴权/速率限制/输入清洗/日志脱敏与合规文案（18+、免责声明、隐私与 DSAR）。
+# Details:
+安全与合规
+- 鉴权：鉴别登录态与付费权限；API 限流与防重放。
+- 日志：不输出敏感信息（PII、支付详情）。
+- 合规：18+、免责声明、隐私与 DSAR。
+成功标准
+- 安全基线通过；风控与审计检查通过；外露信息合规。
+
+# Test Strategy:
+安全基线脚本、灰盒测试、日志抽查与策略验证。

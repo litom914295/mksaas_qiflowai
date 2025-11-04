@@ -1,0 +1,1007 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2025-01-03T04:00:00Z",
+    "source": "@PRD_AI_BAZI_v5.1.1.md",
+    "projectName": "AI Bazi Fengshui Platform"
+  },
+  "tags": {
+    "qiflowai-migration": {
+      "tasks": [
+        {
+          "id": "1",
+          "title": "首页设计与开发（Hero + Features + Pricing）",
+          "status": "done",
+          "priority": "high",
+          "description": "完成首页核心模块：Hero 区、功能介绍、如何运作、计费套餐、信任合规、Footer，支持 i18n。",
+          "details": "已完成：Hero Section、Features、How It Works、Pricing、Compliance、Footer 均已接入 next-intl（zh-CN/en），品牌 Logo/图标占位到位。",
+          "acceptanceCriteria": [
+            "Hero 区显示主标题/副标题/CTA，响应式",
+            "三个功能卡片可点击跳转",
+            "计费套餐显示积分包与功能计费表",
+            "信任合规四项内容清晰展示",
+            "Footer 含关于我们/快速链接/核心功能/关注我们",
+            "i18n 支持 zh-CN/en 切换"
+          ],
+          "testStrategy": "Playwright E2E 测试 CTA 与品牌资源可访问性",
+          "dependencies": []
+        },
+        {
+          "id": "2",
+          "title": "国际化（next-intl）全面落地",
+          "status": "done",
+          "priority": "high",
+          "description": "为首页所有区域接入 i18n，补充 homeV2 文案（zh-CN/en）。",
+          "details": "Hero、Features、HowItWorks、Pricing、Compliance、Footer 全部接入 getTranslations('homeV2.*')。",
+          "acceptanceCriteria": [
+            "所有静态文案均从 locales/zh-CN.json 与 en.json 读取",
+            "语言切换后所有内容正确翻译",
+            "不遗留硬编码中文/英文字符串"
+          ],
+          "testStrategy": "手动切换语言验证，Playwright 断言关键文案存在",
+          "dependencies": ["1"]
+        },
+        {
+          "id": "3",
+          "title": "品牌资源设计与占位（Logo + Icons）",
+          "status": "done",
+          "priority": "medium",
+          "description": "创建品牌 Logo 与核心图标 SVG（八卦/罗盘/AI/盾牌/闪电），支持深浅色模式。",
+          "details": "已创建 /public/brand/logo.svg 与 icons/bagua.svg、luopan.svg、ai.svg、shield.svg、lightning.svg。",
+          "acceptanceCriteria": [
+            "SVG 格式清晰，支持缩放",
+            "图标在 Hero 与 Features 正确显示",
+            "占位 SVG 可后续替换为设计定稿版"
+          ],
+          "testStrategy": "手动检查图标显示，E2E 测试资源可访问性",
+          "dependencies": []
+        },
+        {
+          "id": "4",
+          "title": "四态组件开发（Empty/Error/Limited/Timeout）",
+          "status": "done",
+          "priority": "high",
+          "description": "创建通用 FourStateShell 组件，支持四种状态展示与重试/升级按钮。",
+          "details": "已创建 components/common/four-state-shell.tsx，支持 state 参数切换四态。",
+          "acceptanceCriteria": [
+            "Empty 态显示 \"还没有开始\"",
+            "Error 态显示 \"服务暂不可用\"",
+            "Limited 态显示 \"功能受限\" 并提供升级按钮",
+            "Timeout 态显示 \"分析超时\"",
+            "重试按钮跳转正确",
+            "i18n 支持"
+          ],
+          "testStrategy": "通过 ?state=empty|error|limited|timeout 参数测试各态",
+          "dependencies": ["2"]
+        },
+        {
+          "id": "5",
+          "title": "引导条组件开发（GuidanceBanner）",
+          "status": "done",
+          "priority": "medium",
+          "description": "创建通用引导条组件，根据页面类型显示文案与图标。",
+          "details": "已创建 components/common/guidance-banner.tsx，支持 bazi/compass/chat 类型。",
+          "acceptanceCriteria": [
+            "引导条显示对应图标（八卦/罗盘/AI）",
+            "文案从 i18n 读取",
+            "样式与品牌色调一致"
+          ],
+          "testStrategy": "在三个落地页中验证引导条显示",
+          "dependencies": ["3"]
+        },
+        {
+          "id": "6",
+          "title": "bazi-analysis 落地页改造（引导+四态）",
+          "status": "done",
+          "priority": "high",
+          "description": "为 /[locale]/bazi-analysis 接入 GuidanceBanner 与 FourStateShell。",
+          "details": "已修改 page.tsx，支持 ?state 参数，默认 ok。",
+          "acceptanceCriteria": [
+            "引导条显示 \"填写出生信息\"",
+            "四态切换正常",
+            "默认 ok 态显示 BaziAnalysisPage 组件"
+          ],
+          "testStrategy": "访问 /zh-CN/bazi-analysis?state=empty 等参数验证",
+          "dependencies": ["4", "5"]
+        },
+        {
+          "id": "7",
+          "title": "chat 落地页改造（引导+四态）",
+          "status": "done",
+          "priority": "high",
+          "description": "为 /[locale]/chat 接入 GuidanceBanner 与 FourStateShell。",
+          "details": "已修改 page.tsx，支持 ?state 参数，默认 ok。",
+          "acceptanceCriteria": [
+            "引导条显示 \"实时 AI 咨询\"",
+            "四态切换正常",
+            "默认 ok 态显示 EnhancedChatInterface 组件"
+          ],
+          "testStrategy": "访问 /zh-CN/chat?state=limited 等参数验证",
+          "dependencies": ["4", "5"]
+        },
+        {
+          "id": "8",
+          "title": "compass-analysis 落地页创建（引导+四态）",
+          "status": "done",
+          "priority": "high",
+          "description": "新建 /[locale]/compass-analysis 页面，接入 GuidanceBanner 与 FourStateShell。",
+          "details": "已创建 page.tsx，提供 \"查看示例结果\" 与 \"打开测试页面\" 按钮。",
+          "acceptanceCriteria": [
+            "引导条显示 \"输入地址或使用数字罗盘\"",
+            "四态切换正常",
+            "默认 ok 态显示占位内容与跳转按钮"
+          ],
+          "testStrategy": "访问 /zh-CN/compass-analysis?state=error 等参数验证",
+          "dependencies": ["4", "5"]
+        },
+        {
+          "id": "9",
+          "title": "E2E 测试覆盖（Playwright）",
+          "status": "done",
+          "priority": "medium",
+          "description": "编写 Playwright E2E 测试，覆盖首页关键文案/CTA/品牌资源。",
+          "details": "已创建 tests/e2e/home.spec.ts，检查 Hero 文案、CTA 按钮、SVG 可访问性、功能卡片导航。",
+          "acceptanceCriteria": [
+            "测试通过：Hero 标题可见",
+            "测试通过：CTA 按钮可见",
+            "测试通过：品牌 SVG 可访问（200 OK）",
+            "测试通过：功能卡片导航至 bazi-analysis"
+          ],
+          "testStrategy": "npx playwright test 命令执行",
+          "dependencies": ["1", "3"]
+        },
+        {
+          "id": "10",
+          "title": "Shadcn UI 接入（Button/Card）",
+          "status": "pending",
+          "priority": "medium",
+          "description": "将首页 CTA 按钮与功能卡片替换为 Shadcn UI 组件。",
+          "details": "安装 @shadcn/ui，创建 Button、Card 组件，替换原生 HTML 元素。",
+          "acceptanceCriteria": [
+            "CTA 按钮使用 Shadcn Button 组件",
+            "功能卡片使用 Shadcn Card 组件",
+            "样式保持一致或更优",
+            "Hover 交互保留"
+          ],
+          "testStrategy": "手动检查样式与交互，E2E 测试不回归",
+          "dependencies": ["1"]
+        },
+        {
+          "id": "11",
+          "title": "深色模式支持（Dark Mode）",
+          "status": "pending",
+          "priority": "low",
+          "description": "为首页与落地页添加深色模式支持，响应 prefers-color-scheme 或主题切换。",
+          "details": "在 Tailwind 配置 dark: 前缀，为关键元素添加深色样式。",
+          "acceptanceCriteria": [
+            "浅色模式正常显示",
+            "深色模式背景/文字/渐变自适应",
+            "主题切换按钮（如有）正常工作"
+          ],
+          "testStrategy": "手动切换系统主题验证",
+          "dependencies": ["1"]
+        },
+        {
+          "id": "12",
+          "title": "Logo 深浅色双版本与自适应",
+          "status": "pending",
+          "priority": "low",
+          "description": "创建 logo-dark.svg，并在布局或组件中按主题自动切换。",
+          "details": "新增 /public/brand/logo-dark.svg，修改 Header/Hero 使用条件渲染或 CSS filter。",
+          "acceptanceCriteria": [
+            "浅色模式显示 logo.svg",
+            "深色模式显示 logo-dark.svg 或 filter: invert",
+            "切换流畅无闪烁"
+          ],
+          "testStrategy": "手动切换主题验证 Logo 显示",
+          "dependencies": ["11"]
+        },
+        {
+          "id": "13",
+          "title": "响应式优化（Mobile/Tablet/Desktop）",
+          "status": "pending",
+          "priority": "medium",
+          "description": "确保首页与落地页在移动端/平板/桌面均良好显示。",
+          "details": "使用 Tailwind 断点（sm:/md:/lg:）调整布局、字体、间距。",
+          "acceptanceCriteria": [
+            "移动端（<640px）单列布局，字体适中",
+            "平板（640-1024px）双列或三列布局",
+            "桌面（>1024px）最大宽度限制，居中显示",
+            "CTA 按钮在小屏幕竖向排列"
+          ],
+          "testStrategy": "Chrome DevTools 设备模拟，Playwright viewport 测试",
+          "dependencies": ["1"]
+        },
+        {
+          "id": "14",
+          "title": "性能优化（LCP/CLS/INP）",
+          "status": "pending",
+          "priority": "high",
+          "description": "优化首页加载性能，确保 Core Web Vitals 达标。",
+          "details": "RSC 优化、图片懒加载、Suspense 边界、字体优化、代码分割。",
+          "acceptanceCriteria": [
+            "LCP < 2.5s",
+            "CLS < 0.1",
+            "INP < 200ms",
+            "Lighthouse Performance 评分 > 90"
+          ],
+          "testStrategy": "Lighthouse CI 集成，PageSpeed Insights 验证",
+          "dependencies": ["1"]
+        },
+        {
+          "id": "15",
+          "title": "SEO 优化（Metadata/Sitemap/Robots）",
+          "status": "pending",
+          "priority": "medium",
+          "description": "为首页与落地页添加 SEO 元数据、sitemap.xml、robots.txt。",
+          "details": "使用 Next.js generateMetadata 动态生成 title/description/og:image，生成 sitemap 与 robots。",
+          "acceptanceCriteria": [
+            "首页 title/description 正确",
+            "OG 标签完整",
+            "sitemap.xml 包含所有页面",
+            "robots.txt 允许索引"
+          ],
+          "testStrategy": "手动检查页面源码，Google Search Console 验证",
+          "dependencies": ["1"]
+        },
+        {
+          "id": "16",
+          "title": "积分与计费逻辑实现（后端集成）",
+          "status": "pending",
+          "priority": "high",
+          "description": "实现积分购买、消耗、余额查询、三级降级逻辑。",
+          "details": "后端 API 接口开发，前端页面集成（充值页/积分显示/受限态触发）。",
+          "acceptanceCriteria": [
+            "用户可购买积分包",
+            "功能调用时扣除对应积分",
+            "余额不足触发 Limited 态并引导充值",
+            "三级降级策略正确执行"
+          ],
+          "testStrategy": "Mock 积分余额测试降级逻辑，集成测试完整流程",
+          "dependencies": ["4"]
+        },
+        {
+          "id": "17",
+          "title": "合规功能实现（18+/免责/DSAR/敏感主题拒答）",
+          "status": "pending",
+          "priority": "high",
+          "description": "实现 18+ 年龄验证、免责声明弹窗、DSAR 申请入口、AI 敏感主题拒答。",
+          "details": "注册时验证年龄，首次使用弹出免责声明，Profile 页面提供 DSAR 入口，Chat 组件拒答敏感问题。",
+          "acceptanceCriteria": [
+            "注册时验证年龄 >= 18",
+            "首次访问显示免责声明弹窗，用户需勾选同意",
+            "Profile 页面有 DSAR 申请按钮",
+            "AI Chat 拒答法律/医疗/投资/政治敏感问题"
+          ],
+          "testStrategy": "手动测试注册流程/弹窗/DSAR，Chat 输入敏感问题验证",
+          "dependencies": []
+        },
+        {
+          "id": "18",
+          "title": "监控与日志（Sentry/Analytics）",
+          "status": "pending",
+          "priority": "low",
+          "description": "接入 Sentry 错误监控与 Google Analytics 埋点。",
+          "details": "安装 @sentry/nextjs，配置 Sentry DSN，接入 GA4，埋点关键事件（CTA 点击/充值/功能调用）。",
+          "acceptanceCriteria": [
+            "Sentry 捕获前端错误",
+            "GA4 追踪页面浏览与事件",
+            "关键事件（CTA/充值/功能调用）埋点完整"
+          ],
+          "testStrategy": "触发错误验证 Sentry，手动点击 CTA 验证 GA4 事件",
+          "dependencies": []
+        }
+      ]
+    },
+    "cleanup-20251026": {
+      "tasks": [
+        {"id": "1", "title": "创建清理分支 chore/cleanup-unused/20251026", "status": "done", "priority": "high", "description": "为清理工作建立独立分支，避免影响主线"},
+        {"id": "2", "title": "建立 .attic 与 artifacts 结构", "status": "done", "priority": "high", "description": "创建 .attic/{YYYY-MM-DD} 与 qiflowai/artifacts 目录，保证可回滚与审计"},
+        {"id": "3", "title": "基线构建/测试校验", "status": "done", "priority": "high", "description": "在任何移动前先确保 build 与 tests 能通过或记录现状"},
+        {"id": "4", "title": "运行 Knip 导出 JSON 报告", "status": "done", "priority": "medium", "description": "npx knip --reporter json -> qiflowai/knip-report.json"},
+        {"id": "5", "title": "修复 knip 报告 BOM/编码问题", "status": "done", "priority": "medium", "description": "确保 knip-report.json 可被脚本可靠解析"},
+        {"id": "6", "title": "生成候选列表 candidates.json", "status": "done", "priority": "high", "description": "汇总候选文件并去重"},
+        {"id": "7", "title": "应用白名单/黑名单并剔除不存在文件", "status": "done", "priority": "high", "description": "保护关键路径与配置文件，避免误删"},
+        {"id": "8", "title": "实现 PowerShell 批量移动脚本", "status": "done", "priority": "medium", "description": "qiflowai/scripts/gates/run-obvious-move.ps1"},
+        {"id": "9", "title": "修复 PS 脚本引号与编码兼容性", "status": "done", "priority": "medium", "description": "解决 Windows 下字符串/管道/CRLF 等问题"},
+        {"id": "10", "title": "实现 Node 批量移动脚本（含快速校验）", "status": "done", "priority": "high", "description": "qiflowai/scripts/gates/batch-move.js 与 simple-batch-move.js"},
+        {"id": "11", "title": "第一批移动与快速验证", "status": "done", "priority": "high", "description": "小批量尝试，验证流程与回滚能力"},
+        {"id": "12", "title": "修复缺失模块（icons/use-auth）", "status": "done", "priority": "high", "description": "恢复 '@/components/icons' 与 '@/components/auth/hooks/use-auth' 兼容导出"},
+        {"id": "13", "title": "恢复 MDX/Next 配置，确保 .source 加载", "status": "done", "priority": "high", "description": "启用 fumadocs-mdx 插件与 pageExtensions"},
+        {"id": "14", "title": "批量移动静态资源 public/*（多批）", "status": "done", "priority": "high", "description": "安全移动未引用的图片/图标到 .attic"},
+        {"id": "15", "title": "提交静态资源批次提交", "status": "done", "priority": "medium", "description": "记录变更与说明"},
+        {"id": "16", "title": "移动 animate-ui 与测试文件（不影响生产）", "status": "done", "priority": "medium", "description": "将开发/演示/测试文件迁入 .attic"},
+        {"id": "17", "title": "提交动画与测试文件批次提交", "status": "done", "priority": "medium", "description": "记录变更与说明"},
+        {"id": "18", "title": "生成清理总结报告", "status": "done", "priority": "low", "description": "qiflowai/cleanup-summary-2025-10-26.md"},
+{"id": "19", "title": "Round2 候选复核（src/components/ui 等）", "status": "done", "priority": "medium", "description": "对 round2 候选执行引用检查与小批移动（已生成 round2.safe.json，实际移动81项至 .attic/2025-10-27）"}
+        {"id": "20", "title": "类型错误修复计划并启动", "status": "pending", "priority": "high", "description": "整理 TS 错误，分批修复，避免与清理相互影响"},
+{"id": "21", "title": "全量构建 + 类型检查通过", "status": "in-progress", "priority": "high", "description": "构建与类型检查进行中；日志见 qiflowai/artifacts/cleanup/2025-10-27/"}
+        {"id": "22", "title": "发起 PR 与评审", "status": "pending", "priority": "medium", "description": "发起清理 PR，附带审计与回滚说明"}
+      ]
+    }
+  },
+  "growth-p0": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "P0 病毒增长最小闭环上线",
+        "description": "在7天内完成最小可行的病毒增长闭环，包含：1) 统一积分与激励配置；2) DB迁移（推荐/分享/任务/成就/统计）并为存量用户回填推荐码；3) 注册流程接入推荐码与激活任务后置奖励；4) 分享卡片与分享追踪（服务端验证+防刷基础）；5) 每日签到积分；6) 埋点与最小看板（K、激活率、7日留存）；7) 风控上限与冷却；8) 回归测试与发布监控。成功标准：K>=0.6、注册→激活≥35%、被邀付费转化≥4%。",
+        "details": "注意与积分购买与订阅制联动；每日签到积分；首期奖励略偏高可接受；所有积分发放经服务端幂等事务；Zod校验；合规提示。",
+        "testStrategy": "按Task验收清单+KPI看板对照验收",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "统一积分与激励配置（注册70/推荐后置/奖励上限/过期）",
+            "description": "已统一到 website.tsx：注册赠送70、每日签到、推荐奖励（后置）、分享奖励（可配）；新增交易类型（DAILY_SIGNIN/REFERRAL_REWARD/SHARE_REWARD）；欢迎礼包与文案由配置派生，避免重复配置；增长配置可控。",
+            "details": "验收：UI展示与发放一致；注册→首日完整体验可达；交易类型已映射UI；服务端读取单一配置源；分享/推荐奖励上限与冷却已在服务端校验。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 2,
+            "title": "DB迁移（推荐/分享/任务/成就/统计）并回填推荐码",
+            "description": "提供 /api/admin/referral/migration-check 进行表/视图存在校验与统计概览；提供 /api/admin/referral/ensure-codes 回填缺失推荐码；SQL 迁移路径仍可按需执行。",
+            "details": "验收：检查接口返回 checks 全为 true；ensure-codes 返回 created=0（表示已回填完毕）。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 3,
+            "title": "接入推荐码（注册）与激活任务后置奖励",
+            "description": "注册页支持推荐码输入与URL ?ref=（已通过全局捕获器实现）；服务端登记推荐关系（pending），在满足激活条件（八字+风水/或PDF+3轮AI）后自动发放双向奖励（推荐15/被推荐20，可配）。",
+            "details": "验收：非激活不发放；重复调用不重复发放；日志可审计；Zod入参校验；错误友好提示；对话轮数累计与PDF/分析完成触发均已落地。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 4,
+            "title": "分享卡片与分享追踪（服务端验证+反作弊基础）",
+            "description": "新增 /api/share/create 与 /api/share/track，落地页 /[locale]/s/[id]；记录点击与停留转化（6s），server 验证+发奖（日上限1次、冷却60分钟、基础反作弊IP/UA），交易显示 SHARE_REWARD。",
+            "details": "验收：分享后有记录；达到阈值才发放奖励；重复分享不累计；基础反作弊（IP/UA）记录；增长配置（奖励/上限/冷却）可配置。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 5,
+            "title": "每日签到积分（API+自动触发+里程碑券）",
+            "description": "进入页面自动签到（全局handler），API /api/credits/daily-signin 幂等发放积分（不过期），并根据连续签到天数（7/15/30/60/90）自动发放用途券；展示在积分交易与我的礼券中。",
+            "details": "验收：每日仅一次；幂等；自动触发无需点击；积分不过期；连续里程碑发券（bazi_ticket_1/ai_chat_rounds_5/fengshui_ticket_1/pdf_export_3/ai_chat_rounds_100）；UI 无需刷新即可显示（或下次进入显示）。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 6,
+            "title": "埋点与最小KPI看板（K、激活率、7日留存）",
+            "description": "已实现 /[locale]/(protected)/admin/metrics 最小看板：K（人均直接推荐数近似）、激活率（已发放奖励/总推荐）、7日留存（签到近似）、今日分享有效转化。",
+            "details": "验收：仅管理员可见；指标可刷新；不展示敏感数据；后续可接入更多埋点与Graph展示。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 7,
+            "title": "风控（上限/冷却/指纹与IP基础）",
+            "description": "已实现：推荐奖励3次/日、40次/月（发奖前校验）；分享奖励1次/日、冷却60分钟；点击明细记录IP/UA/指纹；黑名单（IP/指纹）拦截与事件记录；管理员黑名单增删查API；KPI看板展示今日拦截。",
+            "details": "验收：阈值与黑名单生效；拦截记录可查询；可配置与灰度扩展；KPI看板可见今日拦截数。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 8,
+            "title": "回归测试与发布监控",
+            "description": "完整回归：注册→激活→奖励→分享→签到→购买/订阅联动。发布：灰度验证+监控报警（错误率/奖励失败率/异常注册）。",
+            "details": "已提供最小健康检查与24小时指标接口 /api/admin/health/overview；回归与烟囱清单位于 qiflowai/checklists/growth-p0-regression.md；发布记录模板与回滚预案位于 qiflowai/artifacts/RELEASE_NOTES_growp0.md。",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-11T03:24:08.183Z",
+      "updated": "2025-10-11T03:24:22.515Z",
+      "description": "P0病毒增长最小闭环与数据化落地"
+    }
+  },
+  "bazi-module": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Phase 1：核心算法重构",
+        "description": "实现专业级四柱八字计算核心算法，包括精确的干支纪年算法、月柱计算、日柱循环、时柱计算、真太阳时校正等",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Phase 2：付费模块开发",
+        "description": "开发八字分析的付费增值模块，包括十神深度解读、大运流年分析、每日运势、AI智能咨询等高级功能",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-11T07:41:16.273Z",
+      "updated": "2025-10-21T06:43:50.180Z",
+      "description": "八字命理模块开发任务"
+    }
+  },
+  "admin-platform": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "基础架构搭建",
+        "description": "搭建Next.js项目基础架构，包括项目初始化、数据库设计、UI组件库集成、路由架构设计和环境配置",
+        "details": "包含子任务：\n1. Next.js项目搭建与基础配置\n2. Prisma数据库schema设计与迁移\n3. Shadcn UI集成与主题配置\n4. App Router结构设计\n5. 开发/测试/生产环境配置\n\n技术要求：\n- Next.js 14+ (App Router)\n- TypeScript 5.0+\n- Prisma 5.0+ + PostgreSQL\n- Shadcn UI + Tailwind CSS\n\n验收标准：\n- 项目可正常启动\n- 数据库连接成功\n- UI组件正常渲染\n- 环境变量配置完整",
+        "testStrategy": "单元测试覆盖数据库连接和基础配置",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "认证权限系统",
+        "description": "实现用户认证和RBAC权限控制系统",
+        "details": "包含子任务：\n1. 用户认证（登录/登出/会话管理）\n2. RBAC权限模型实现\n3. 路由保护中间件\n4. MFA多因素认证集成\n5. API Token服务间认证\n\n技术要求：\n- NextAuth.js认证\n- JWT + Session混合\n- RBAC权限矩阵\n- 中间件路由保护\n- TOTP/SMS多因素认证\n\n验收标准：\n- 登录功能完整可用\n- 权限控制生效\n- 未授权访问被拦截\n- MFA认证流程正常",
+        "testStrategy": "认证流程集成测试和权限控制单元测试",
+        "status": "done",
+        "dependencies": [1],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "用户管理模块",
+        "description": "实现完整的用户管理功能模块",
+        "details": "包含子任务：\n1. 用户列表（查询、分页、筛选）\n2. 用户CRUD（创建、编辑、删除用户）\n3. 角色管理（角色创建与权限分配）\n4. 批量操作（用户批量导入导出）\n5. 登录日志（用户活动追踪记录）\n\n功能特性：\n- 用户信息管理\n- 角色权限分配\n- 批量用户操作\n- 用户行为审计\n- 数据导入导出\n\n验收标准：\n- 用户CRUD功能完整\n- 角色管理可用\n- 批量操作正常\n- 日志记录完整",
+        "testStrategy": "用户管理流程E2E测试和权限分配单元测试",
+        "status": "done",
+        "dependencies": [2],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "内容管理模块",
+        "description": "构建功能完整的内容管理系统(CMS)",
+        "details": "包含子任务：\n1. Markdown富文本编辑器\n2. 文章CRUD与状态管理\n3. 内容分类与标签系统\n4. 轻量审批工作流\n5. 文件上传与CDN集成\n6. 内容版本管理与回滚\n\n技术特性：\n- Markdown编辑器\n- 内容状态流转\n- 多级分类管理\n- 审核发布流程\n- 资源管理系统\n- 版本控制功能\n\n验收标准：\n- 编辑器功能完整\n- 内容发布流程畅通\n- 分类标签正常\n- 审核机制有效",
+        "testStrategy": "内容发布流程E2E测试和编辑器功能测试",
+        "status": "done",
+        "dependencies": [3],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "运营管理模块",
+        "description": "实现运营管理核心功能模块",
+        "details": "包含子任务：\n1. 订单管理（查询与状态管理）\n2. 退款处理（申请与审批流程）\n3. 促销活动配置管理\n4. 消息中心（站内信与通知模板）\n5. 客服工单流转管理\n\n业务功能：\n- 订单全生命周期管理\n- 退款审批与处理\n- 营销活动配置\n- 多渠道消息推送\n- 工单系统管理\n\n验收标准：\n- 订单流程完整\n- 退款机制正常\n- 活动配置可用\n- 消息推送正常\n- 工单处理有效",
+        "testStrategy": "订单退款流程集成测试和活动配置功能测试",
+        "status": "done",
+        "dependencies": [3],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "数据分析模块",
+        "description": "构建数据分析与报表系统",
+        "details": "包含子任务：\n1. 核心指标实时展示看板\n2. 自定义报表设计器\n3. 异步导出服务\n4. 异常指标监控告警\n5. 数据API开放接口\n\n数据功能：\n- DAU/留存/营收指标\n- 可视化图表展示\n- 自定义报表生成\n- 大数据量异步导出\n- 实时监控告警\n- 开放数据API\n\n验收标准：\n- 核心指标准确展示\n- 报表生成正常\n- 导出功能完整\n- 监控告警有效\n- API接口可用",
+        "testStrategy": "数据准确性测试和报表生成性能测试",
+        "status": "done",
+        "dependencies": [4, 5],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "系统管理模块",
+        "description": "实现系统管理和配置功能",
+        "details": "包含子任务：\n1. 全局系统参数配置管理\n2. 敏感环境变量安全管理\n3. 操作日志查询导出\n4. 功能开关与灰度发布\n5. 第三方集成Webhook推送\n\n系统功能：\n- 系统参数配置\n- 环境变量管理\n- 审计日志系统\n- 特性开关控制\n- Webhook集成\n\n验收标准：\n- 配置管理完整\n- 环境变量安全\n- 审计日志可查\n- 开关控制有效\n- Webhook正常推送",
+        "testStrategy": "系统配置功能测试和审计日志完整性测试",
+        "status": "done",
+        "dependencies": [2],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "测试部署模块",
+        "description": "完成项目测试与部署上线",
+        "details": "包含子任务：\n1. 核心业务逻辑单元测试\n2. API接口集成测试\n3. 端到端流程E2E测试\n4. 负载与压力性能测试\n5. 生产环境部署配置\n6. 用户手册与API文档完善\n\n测试部署：\n- 单元测试覆盖率>80%\n- 集成测试全覆盖\n- E2E测试核心流程\n- 性能压力测试\n- CI/CD自动部署\n- 完整技术文档\n\n验收标准：\n- 所有测试通过\n- 性能指标达标\n- 生产环境稳定\n- 文档完整可用",
+        "testStrategy": "全面测试策略包含单元、集成、E2E和性能测试",
+        "status": "done",
+        "dependencies": [6, 7],
+        "priority": "medium",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-11T11:30:49.791Z",
+      "updated": "2025-10-11T16:51:41.595Z",
+      "description": "QiFlowAI 综合管理后台（用户/运营/数据/内容/系统/审计/合规）"
+    }
+  },
+  "admin-optimization": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "积分奖励与病毒传播系统",
+        "description": "集成积分奖励和病毒传播系统到管理后台，包括推荐双向奖励、积分管理、奖励配置、传播追踪等功能",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "环境部署与测试",
+        "description": "配置完整的生产环境变量，部署到 Staging 环境，执行性能测试和安全审计",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "功能优化增强",
+        "description": "功能优化，包括添加更多图表类型、增强搜索功能、优化批量操作性能、添加更多自定义配置选项",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "监控运维集成",
+        "description": "集成监控和运维工具，包括Sentry错误监控、性能监控、日志收集系统、自动备份配置",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-11T16:56:43.654Z",
+      "updated": "2025-10-12T23:52:45.260Z",
+      "description": "管理后台优化和扩展功能"
+    }
+  },
+  "p1-optimization": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "P1-001: 数据库Schema变更",
+        "description": "创建 instant_previews、leaderboard、posters 表；扩展 referrals、check_ins、users 表；添加所有必要的索引",
+        "details": "需要创建 Prisma migration 文件，包含6个表的变更：\n1. instant_previews（新建）\n2. referrals（扩展：progress、activated_at、reward_tier）\n3. leaderboard（新建）\n4. posters（新建）\n5. check_ins（确认/创建）\n6. users（扩展：member_tier、total_invites、successful_invites）\n\n参考：@TECH_GUIDE 数据库设计章节",
+        "testStrategy": "migration测试 + 数据完整性测试",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "P1-002: 即时体验API开发",
+        "description": "实现 POST /api/instant-preview 端点，集成轻量级八字计算、AI运势生成、速率限制、数据记录",
+        "details": "API实现要点：\n- Zod Schema验证（birthDate必填、birthTime可选）\n- calculateBaZi轻量级模式（只计算日柱+五行）\n- AI生成运势（Redis缓存24h，key: fortune:{dayPillar}:{date}）\n- 速率限制：IP级别每日5次\n- 异步记录到instant_previews表\n- 响应时间目标：< 2秒\n\n参考：@TECH_GUIDE API设计 > 即时体验API",
+        "testStrategy": "单元测试 + 集成测试 + 速率限制测试",
+        "status": "done",
+        "dependencies": [1],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "P1-003: 即时体验前端组件",
+        "description": "创建/更新 InstantTrySection 和 InstantResultEnhanced 组件，集成五行雷达图、今日运势展示、CTA强化",
+        "details": "组件实现：\n1. InstantTrySection.tsx（表单+状态管理）\n2. InstantResultEnhanced.tsx（结果展示）\n3. WuxingRadarChart.tsx（Recharts雷达图）\n4. useInstantPreview Hook（React Query）\n\n关键功能：\n- React Hook Form + Zod验证\n- 速率限制友好提示\n- 模糊化完整报告预览\n- CTA强化（立即注册按钮）\n\n参考：@TECH_GUIDE 前端架构 > 即时体验组件",
+        "testStrategy": "组件测试 + 集成测试",
+        "status": "done",
+        "dependencies": [2],
+        "priority": "medium",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-12T16:33:51.307Z",
+      "updated": "2025-10-12T23:06:28.615Z",
+      "description": "用户旅程 P1 优化 - 首页体验、邀请专页、分享海报、定价优化、Dashboard优化"
+    }
+  },
+  "homepage-landing": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "实现 Hero Section 英雄区（P0）",
+        "description": "实现首页 Hero Section 英雄区，包括主标题、副标题、主次 CTA 按钮、渐变背景和动态效果。使用 Framer Motion 实现进入动画，确保响应式布局和高性能加载。",
+        "details": "技术栈：Next.js + TypeScript + Shadcn UI + TailwindCSS + Framer Motion\\n\\n核心要求：\\n- 全屏或半屏设计（min-height: 80vh）\\n- 主标题：'AI 驱动的智能命理风水助手'\\n- 副标题：'30秒生成专业八字分析报告，10000+ 用户信赖'\\n- 主 CTA：'立即免费试用'（醒目渐变色，悬停动画）\\n- 次要 CTA：'观看演示视频' 或 '了解更多'\\n- 背景：渐变色 + 动态粒子效果\\n\\n性能要求：\\n- 使用 next/image 优化图片\\n- 主 CTA 按钮 1 秒内可交互\\n- 支持 1920x1080、1366x768、375x667 三种分辨率\\n\\n相关文件：\\n- qiflow-ai/src/app/[locale]/page.tsx（当前首页）\\n- 需要创建新的 Hero Section 组件",
+        "testStrategy": "E2E 测试：验证 CTA 点击跳转、响应式布局、加载性能；单元测试：组件渲染和动画效果",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "实现社会证明区（Social Proof）（P0）",
+        "description": "实现社会证明区，展示用户数据指标（10000+ 用户、50000+ 报告、98% 满意度）和精选用户评价墙（3-5条），使用 CountUp 动画和 Shadcn Card 组件。",
+        "details": "技术栈：Shadcn UI Card + CountUp.js + TailwindCSS\\n\\n核心要求：\\n- 数据指标：10000+ 用户、50000+ 分析报告、98% 满意度\\n- 用户评价墙：3-5 条精选评价（头像、姓名缩写、星级、内容）\\n- 权威认证标识（可选）：AI 技术支持、数据加密保护\\n- 数字滚动动画效果\\n- 评价墙支持左右滑动或自动轮播\\n\\n数据来源：\\n- 从数据库实时拉取统计数据（或使用静态配置）\\n- 评价内容需经过敏感词过滤\\n\\n相关文件：\\n- 需要创建 Social Proof 组件\\n- 可能需要创建 testimonials.json 配置文件",
+        "testStrategy": "单元测试：CountUp 动画、评价轮播功能；集成测试：数据加载和敏感词过滤",
+        "status": "in-progress",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "实现功能展示区（Features Showcase）（P0）",
+        "description": "以卡片形式展示 6 大核心功能（八字分析、玄空风水、罗盘算法、户型图、3D 可视化、AI 助手），支持悬停效果和响应式布局（桌面3列、平板2列、移动1列）。",
+        "details": "技术栈：Shadcn UI Card + Lucide Icons + Framer Motion + CSS Grid\\n\\n核心功能卡片：\\n1. 八字分析 - '30秒生成命理报告'\\n2. 玄空风水 - '智能飞星布局分析'\\n3. 罗盘算法 - 'AI 智能方位识别'\\n4. 户型图分析 - '上传户型图即可分析'\\n5. 3D 可视化 - '立体风水布局展示'\\n6. AI 助手 - '24/7 智能问答'\\n\\n每个卡片包含：\\n- 图标（Lucide React）\\n- 功能标题\\n- 简短描述（1-2句话）\\n- '了解更多' 按钮（可选）\\n\\n交互效果：\\n- 鼠标悬停：放大、阴影变化\\n- 滚动触发的渐入动画\\n- 点击跳转到对应功能页\\n\\n相关文件：\\n- 需要创建 Features Showcase 组件\\n- 需要配置功能卡片数据",
+        "testStrategy": "单元测试：卡片渲染和悬停效果；E2E 测试：响应式布局、点击跳转",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "实现游客互动演示功能（Interactive Demo）（P1）",
+        "description": "实现游客模式互动演示功能，无需注册即可体验八字分析（使用预设数据），演示流程 < 30 秒，结果页引导注册并赠送 200 积分。每天限制 3 次试用。",
+        "details": "技术栈：复用 guest-entry 组件 + Server Actions + Cookie/LocalStorage\\n\\n演示流程：\\n1. 点击'立即体验'按钮\\n2. 显示预设数据（1990-01-01 12:00，北京）\\n3. 点击'生成分析报告'，加载动画 2-3 秒\\n4. 展示简化版分析报告（隐藏部分高级内容）\\n5. 报告底部 CTA：'注册解锁完整报告 + 200 积分'\\n\\n演示限制：\\n- 游客每天最多 3 次\\n- 使用 Cookie/LocalStorage 记录次数\\n- 不消耗用户积分\\n\\n合规要求：\\n- 符合年龄验证\\n- 显示免责声明\\n\\n相关文件：\\n- qiflow-ai/src/components/auth/guest-entry.tsx\\n- qiflow-ai/src/app/[locale]/guest-analysis/*\\n- 需要创建简化版报告模板",
+        "testStrategy": "E2E 测试：完整演示流程、次数限制、注册引导；性能测试：演示加载时间 < 30 秒",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "实现定价与套餐区（Pricing）（P1）",
+        "description": "展示 3-4 个积分套餐（入门/标准/专业/企业），突出推荐套餐，显示价格、积分、权益，支持点击跳转到 Stripe 支付流程。首充优惠 50%。",
+        "details": "技术栈：Shadcn UI Card + qiflow-pricing.ts + Stripe 支付\\n\\n套餐配置：\\n1. 入门套餐：100 积分 - ¥9.9（5-10 次分析）\\n2. 标准套餐（推荐）：500 积分 - ¥39.9（25-50 次分析）\\n3. 专业套餐：1500 积分 - ¥99.9（75-150 次分析）\\n4. 企业套餐（可选）：自定义定价\\n\\n每个卡片包含：\\n- 套餐名称\\n- 价格（原价 + 优惠价）\\n- 积分数量\\n- 功能权益列表（✓ 图标）\\n- '立即购买' 按钮\\n\\n推荐套餐视觉强化：\\n- 放大 1.1 倍\\n- '最受欢迎' 标签\\n- 高亮边框或阴影\\n\\n首充优惠提示：'首次充值额外赠送 50% 积分'\\n\\n相关文件：\\n- src/config/qiflow-pricing.ts\\n- 复用现有 Stripe 支付集成",
+        "testStrategy": "E2E 测试：套餐显示、价格计算、支付流程跳转；集成测试：Stripe 支付集成",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "实现分享与推荐机制（Share & Referral）（P1）",
+        "description": "实现社交分享按钮（微信、微博、Twitter、Facebook）和推荐奖励机制（推荐人 +50 积分，被推荐人 +30 积分），追踪分享数据和转化。",
+        "details": "技术栈：next-share + qrcode.react + PostgreSQL + Vercel Analytics\\n\\n社交分享按钮（固定侧边或底部）：\\n- 微信（生成二维码）\\n- 微博\\n- Twitter\\n- Facebook\\n- 复制链接\\n\\n推荐奖励机制：\\n- 用户点击'邀请好友'生成推荐链接：https://qiflow.ai/?ref={userId}\\n- 好友通过推荐链接注册后：\\n  * 推荐人获得 50 积分\\n  * 被推荐人获得额外 30 积分（叠加注册奖励）\\n\\n分享追踪：\\n- 记录分享次数、点击数、转化数\\n- 在用户后台展示推荐数据\\n\\n数据库需求：\\n- 创建 referral 表记录推荐关系\\n- 创建 share_events 表追踪分享事件\\n\\n相关文件：\\n- 需要创建分享组件\\n- 需要扩展数据库 schema\\n- 需要创建推荐奖励 Server Action",
+        "testStrategy": "E2E 测试：分享按钮功能、推荐链接生成、积分发放；集成测试：数据库记录、Analytics 追踪",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "实现 FAQ 常见问题区（P2）",
+        "description": "实现折叠式 FAQ 常见问题区（Accordion），包含 8-10 个高频问题，支持中英文双语，使用 SEO 友好的结构化数据（JSON-LD）。",
+        "details": "技术栈：Shadcn UI Accordion + JSON 配置 + JSON-LD\\n\\n常见问题列表（至少 8-10 个）：\\n1. QiFlow AI 是什么？\\n2. 如何使用八字分析功能？\\n3. 积分如何计算和消耗？\\n4. 分析结果科学吗？\\n5. 如何保护我的隐私？\\n6. 支持哪些支付方式？\\n7. 可以退款吗？\\n8. 如何联系客服？\\n\\n技术要求：\\n- 使用 Shadcn Accordion 组件\\n- FAQ 内容存储在 JSON 或翻译文件中\\n- 支持中英文双语\\n- 添加 JSON-LD 结构化数据用于 SEO\\n- 支持搜索功能（可选，P3）\\n\\n相关文件：\\n- 需要创建 FAQ 组件\\n- 需要创建 faq.json 配置文件或添加到翻译文件",
+        "testStrategy": "单元测试：Accordion 展开/折叠；SEO 测试：验证 JSON-LD 结构化数据",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "low",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "实现页脚与信任元素（Footer & Trust）（P2）",
+        "description": "实现统一页脚（4 列内容：产品、支持、公司、关注我们）和信任元素（SSL、支付安全标识、备案号），支持响应式布局和语言切换。",
+        "details": "技术栈：Next.js Link + TailwindCSS\\n\\n页脚 4 列内容：\\n1. 产品：功能介绍、定价、更新日志\\n2. 支持：帮助中心、FAQ、联系我们\\n3. 公司：关于我们、隐私政策、服务条款\\n4. 关注我们：社交媒体链接（微信、微博、Twitter）\\n\\n信任元素：\\n- SSL 安全证书图标\\n- 支付安全标识（Stripe、支付宝）\\n- 备案号（如适用）\\n\\n其他元素：\\n- 版权声明：'© 2025 QiFlow AI. All rights reserved.'\\n- 语言切换器（中文/English）\\n\\n技术要求：\\n- 使用 Next.js Link 优化导航\\n- 外部链接使用 target='_blank' rel='noopener noreferrer'\\n- 响应式布局（移动端折叠为垂直布局）\\n- 样式与 QiFlow AI 模板保持一致\\n\\n相关文件：\\n- 需要创建统一 Footer 组件\\n- 可能需要更新现有 Layout",
+        "testStrategy": "E2E 测试：所有链接可点击、响应式布局；单元测试：组件渲染",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "low",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "页面性能优化（P0）",
+        "description": "性能优化：图片优化（next/image、WebP）、代码分割（next/dynamic）、Suspense 边界、CDN 配置，确保 Lighthouse 评分 > 90，首屏加载 < 2 秒。",
+        "details": "技术栈：Next.js 性能优化工具 + Vercel CDN\\n\\n优化项目：\\n1. 图片优化\\n   - 使用 next/image 组件\\n   - 转换为 WebP 格式\\n   - 实现懒加载\\n   - 提供合适的宽度和高度\\n\\n2. 代码分割\\n   - 使用 next/dynamic 动态导入非首屏组件\\n   - 分析和优化 bundle 大小\\n   - 移除未使用的依赖\\n\\n3. 异步数据处理\\n   - 使用 Suspense 边界\\n   - 优化 Server Components\\n   - 减少客户端 JavaScript\\n\\n4. 静态资源优化\\n   - 启用 Gzip/Brotli 压缩\\n   - 配置 CDN 加速\\n   - 设置合适的缓存策略\\n\\n性能目标：\\n- Lighthouse 性能评分 > 90\\n- 首屏加载时间 < 2 秒\\n- LCP < 2.5s, FID < 100ms, CLS < 0.1\\n\\n测试工具：\\n- Lighthouse\\n- PageSpeed Insights\\n- WebPageTest",
+        "testStrategy": "性能测试：Lighthouse 评分、Core Web Vitals 指标；负载测试：并发访问性能",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "SEO 优化配置（P1）",
+        "description": "SEO 优化：配置 meta 标签、生成 sitemap.xml、添加结构化数据（JSON-LD）、Open Graph 标签，确保搜索引擎友好和社交媒体分享效果。",
+        "details": "技术栈：Next.js Metadata API + JSON-LD\\n\\nSEO 优化项目：\\n1. Meta 标签\\n   - 每个页面独立的 title 和 description\\n   - 关键词优化\\n   - viewport、charset 等基础标签\\n\\n2. 结构化数据（JSON-LD）\\n   - Product schema（产品信息）\\n   - Review schema（用户评价）\\n   - FAQPage schema（FAQ 页面）\\n   - Organization schema（公司信息）\\n\\n3. Sitemap 和 Robots\\n   - 生成 sitemap.xml\\n   - 配置 robots.txt\\n   - 提交到 Google Search Console\\n\\n4. Open Graph 标签\\n   - og:title, og:description, og:image\\n   - Twitter Card 标签\\n   - 优化社交媒体分享预览\\n\\n5. 语义化 HTML\\n   - 使用正确的 HTML5 标签\\n   - 合理的标题层级（h1-h6）\\n\\n相关文件：\\n- app/[locale]/page.tsx（添加 metadata）\\n- public/sitemap.xml\\n- public/robots.txt",
+        "testStrategy": "SEO 测试：Google Search Console、结构化数据测试工具；社交媒体测试：分享预览效果",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "数据埋点与分析系统（P1）",
+        "description": "数据埋点与分析：集成 Vercel Analytics 和 Google Analytics，追踪关键事件（CTA 点击、演示使用、注册转化、分享行为），建立转化漏斗分析。",
+        "details": "技术栈：Vercel Analytics + Google Analytics + Sentry\\n\\n关键事件追踪：\\n- page_view: 页面访问\\n- hero_cta_click: Hero 区 CTA 点击\\n- feature_card_click: 功能卡片点击\\n- demo_start: 开始演示\\n- demo_complete: 完成演示\\n- pricing_card_click: 定价卡片点击\\n- share_button_click: 分享按钮点击\\n- referral_link_generated: 推荐链接生成\\n- register_from_demo: 从演示页注册\\n- register_from_pricing: 从定价页注册\\n\\n转化漏斗：\\n1. 页面访问 → Hero CTA 点击\\n2. Hero CTA 点击 → 演示开始\\n3. 演示完成 → 注册\\n4. 注册 → 首充\\n\\n分析目标：\\n- 识别流失环节\\n- 优化转化路径\\n- A/B 测试支持\\n\\n相关工具：\\n- Vercel Analytics（性能和用户行为）\\n- Google Analytics 4（详细分析）\\n- Sentry（错误追踪）\\n\\n相关文件：\\n- 需要创建 Analytics 工具函数\\n- 在各组件中添加埋点代码",
+        "testStrategy": "集成测试：验证事件上报、漏斗数据准确性；监控：设置 Sentry 错误追踪",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "合规检查与实现（P0）",
+        "description": "合规检查：实现年龄验证弹窗、免责声明栏、隐私政策页面、敏感词过滤，确保符合 GDPR/CCPA 和本地法律法规要求。",
+        "details": "技术栈：Cookie + 敏感词库 + 法律文档\\n\\n合规项目：\\n1. 年龄验证\\n   - 首次访问弹窗确认用户 18 岁以上\\n   - 拒绝未满 18 岁用户访问核心功能\\n   - 使用 Cookie 记录验证状态（30 天）\\n\\n2. 免责声明\\n   - 页面顶部固定显示免责声明栏\\n   - 内容：'本产品仅供娱乐参考，不构成专业建议'\\n   - 可关闭，但每次访问都显示\\n\\n3. 隐私保护\\n   - 编写隐私政策页面\\n   - 收集数据前明确告知并获得同意\\n   - 提供 DSAR（数据主体访问请求）入口\\n   - 符合 GDPR/CCPA 要求\\n\\n4. 敏感词过滤\\n   - 建立敏感词库\\n   - 用户输入和生成内容检测\\n   - 拒答政治、暴力、违法等敏感话题\\n\\n相关文件：\\n- 需要创建年龄验证组件\\n- 需要创建免责声明组件\\n- 需要创建隐私政策页面\\n- 需要创建敏感词过滤工具",
+        "testStrategy": "合规测试：年龄验证流程、免责声明显示、隐私政策完整性、敏感词过滤有效性",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "E2E 测试与验收（P0）",
+        "description": "E2E 测试与验收：编写完整的端到端测试（Playwright），覆盖用户旅程、转化漏斗、性能指标，确保所有功能正常运行并达到验收标准。",
+        "details": "技术栈：Playwright + Jest + Testing Library\\n\\n测试范围：\\n1. 用户旅程测试\\n   - 首次访问 → 浏览功能 → 试用演示 → 注册 → 充值\\n   - 测试所有 CTA 点击和跳转\\n   - 测试响应式布局（多设备）\\n\\n2. 功能测试\\n   - Hero Section 渲染和交互\\n   - 社会证明区动画和数据\\n   - 功能卡片悬停和点击\\n   - 游客演示完整流程\\n   - 定价套餐和支付跳转\\n   - 分享和推荐机制\\n   - FAQ 展开/折叠\\n\\n3. 性能测试\\n   - Lighthouse 评分 > 90\\n   - 首屏加载时间 < 2 秒\\n   - Core Web Vitals 达标\\n\\n4. 合规测试\\n   - 年龄验证弹窗\\n   - 免责声明显示\\n   - 敏感词过滤\\n\\n验收标准检查：\\n- 功能验收（8 项）\\n- 性能验收（4 项）\\n- 转化率验收（5 项）\\n- 合规验收（4 项）\\n\\n相关文件：\\n- 需要创建 E2E 测试文件\\n- 需要配置 Playwright",
+        "testStrategy": "E2E 测试：完整用户旅程、所有功能模块；性能测试：Lighthouse CI 集成；合规测试：自动化验证",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-13T03:51:47.075Z",
+      "updated": "2025-10-13T04:36:03.238Z",
+      "description": "首页落地页营销优化项目"
+    }
+  },
+  "personal-dashboard": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "个人Dashboard页面开发",
+        "description": "开发个人中心Dashboard页面，包括欢迎横幅、数据统计卡片、快速入口、活动中心等模块。使用Framer Motion动画、响应式设计、Server Components优化性能。",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "积分管理模块开发",
+        "description": "开发积分管理模块，包括积分余额卡片、交易记录、充值功能三大核心组件。支持筛选、搜索、套餐充值、自定义充值和支付方式选择。",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "个人资料与安全设置",
+        "description": "开发个人资料与安全设置功能，包括个人资料编辑表单、账户安全设置组件。支持头像上传、密码修改、双因素认证、安全评分等功能。",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "每日签到功能",
+        "description": "实现每日签到功能，包括Server Action（performDailySignIn）与签到日历组件（SignInCalendar），支持连续签到、里程碑奖励与本地状态同步。",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "推荐奖励系统",
+        "description": "开发推荐奖励系统，包括推荐码管理、多渠道分享功能、奖励统计与推荐记录。支持三标签页切换（概览、分享邀请、推荐记录）。",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-15T02:51:12.976Z",
+      "updated": "2025-10-15T02:53:12.221Z",
+      "description": "QiFlow AI 个人后台优化 - Dashboard、积分、资料、安全、签到、推荐等功能"
+    }
+  },
+  "personal-backend-optimization": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "阶段0: 需求理解与初步分析",
+        "description": "理解用户需求，分析现有个人后台问题，明确优化目标和范围",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "阶段1: 生成需求文档PRD",
+        "description": "生成个人后台优化的PRD需求文档，包括功能需求、业务流程、UX四态等",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [1],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "阶段2: 技术方案设计",
+        "description": "设计技术方案，包括架构设计、技术选型、数据库Schema、API设计等",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [2],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "阶段3: TaskMaster任务分解",
+        "description": "使用TaskMaster将开发任务分解为可执行的子任务，建立任务依赖关系",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [3],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "阶段4: Phase 1 - 个人Dashboard优化",
+        "description": "优化个人Dashboard页面，包括欢迎横幅、统计卡片、快速入口、活动中心等模块",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [4],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "阶段5: Phase 1 - 积分页面增强",
+        "description": "增强积分页面功能，包括积分余额卡片、交易记录、充值功能等",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [4],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "阶段6: Phase 2 - 个人资料页优化",
+        "description": "优化个人资料编辑功能，包括头像上传、信息编辑、表单验证等",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [5, 6],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "阶段7: Phase 2 - 安全设置页优化",
+        "description": "优化账户安全设置，包括密码修改、双因素认证、安全评分、登录通知等",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [5, 6],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "阶段8: Phase 3 - 新增'我的分析'页面",
+        "description": "新增'我的分析'页面，展示用户历史分析记录，支持筛选、搜索、导出等功能",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [7, 8],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "阶段9: Phase 3 - 新增'推荐奖励'页面",
+        "description": "新增推荐奖励页面，包括推荐码管理、分享功能、奖励统计与推荐记录",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [7, 8],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "阶段10: Phase 3 - 新增'每日签到'组件",
+        "description": "新增每日签到组件，包括Server Action与日历组件，支持连续签到与里程碑奖励",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [7, 8],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "阶段11: 测试验证",
+        "description": "进行功能测试、集成测试、性能测试，确保所有功能正常运行",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [9, 10, 11],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "阶段12: 文档与归档",
+        "description": "整理项目文档、代码归档、知识沉淀，完成项目总结",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [12],
+        "priority": "low",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-15T03:02:38.626Z",
+      "updated": "2025-10-16T01:05:56.440Z",
+      "description": "QiFlow AI个人后台优化项目 - 完整的13个阶段任务管理"
+    }
+  }
+}

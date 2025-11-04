@@ -1,0 +1,40 @@
+
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="512" height="512" fill="#0b0b0b"/>
+  
+  <!-- 渐变定义 -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 中心圆形 -->
+  <circle cx="256" cy="256" r="170.66666666666666" fill="url(#gradient)" opacity="0.2"/>
+  
+  <!-- Q字母设计 -->
+  <g transform="translate(256, 256)">
+    <!-- 外圈 -->
+    <circle cx="0" cy="0" r="128" fill="none" stroke="url(#gradient)" stroke-width="25.6"/>
+    <!-- 尾部 -->
+    <line x1="85.33333333333333" y1="85.33333333333333" x2="128" y2="128" 
+          stroke="url(#gradient)" stroke-width="25.6" stroke-linecap="round"/>
+  </g>
+  
+  <!-- QiFlow文字 -->
+  <text x="256" y="384" 
+        font-family="Arial, sans-serif" 
+        font-size="64" 
+        font-weight="bold"
+        fill="white" 
+        text-anchor="middle">QiFlow</text>
+  
+  <!-- AI标记 -->
+  <text x="435.2" y="460.8" 
+        font-family="Arial, sans-serif" 
+        font-size="42.666666666666664" 
+        fill="#0ea5e9" 
+        text-anchor="end">AI</text>
+</svg>

@@ -1,0 +1,39 @@
+# Task ID: 5
+# Title: C4 认证/支付/i18n 接入点
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 扩展 Better Auth 钩子与定价常量，确认 i18n 目录
+# Details:
+- 新建 src/lib/auth-qiflow.ts
+- 新建 src/config/qiflow-pricing.ts
+- 确认并创建 src/app/[locale] 路由节点
+
+# Test Strategy:
+登录→Dashboard 可加载；Credits 组件可读取定价常量
+
+# Subtasks:
+## 1. 新增定价常量 qiflow-pricing.ts [done]
+### Dependencies: None
+### Description: 统一 aiChat/bazi/xuankong/deepInterpretation/pdfExport
+### Details:
+
+
+## 2. 认证扩展钩子 auth-qiflow.ts [done]
+### Dependencies: None
+### Description: onUserCreated 初始化档案与可选注册送分
+### Details:
+
+
+## 3. 确认 i18n [locale] 路由与 Dashboard [done]
+### Dependencies: None
+### Description: 新页面归位到 src/app/[locale]/...；Dashboard 可加载
+### Details:
+
+
+## 4. Credits 读取定价常量联调 [done]
+### Dependencies: None
+### Description: 展示与扣减入口读取 QIFLOW_PRICING
+### Details:
+
+

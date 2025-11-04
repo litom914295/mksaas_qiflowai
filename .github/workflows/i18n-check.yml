@@ -1,0 +1,79 @@
+name: 国际化检查
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  i18n-check:
+    name: 检查硬编码中文
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 设置Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 安装依赖
+        run: npm ci
+      
+      - name: 运行国际化检查
+        run: node scripts/check-i18n.js --strict
+        env:
+          CI: true
+      
+      - name: 上传检查报告
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: i18n-check-report
+          path: i18n-check-report.json
+      
+      - name: 评论PR（如果失败）
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('i18n-check-report.json', 'utf8'));
+            
+            const comment = `## ❌ 国际化检查失败
+            
+            发现 **${report.totalIssues}** 处硬编码中文，分布在 **${report.filesChecked}** 个文件中。
+            
+            ### 📋 修复建议
+            
+            1. 将硬编码中文移动到翻译文件 \`src/locales/[lang]/common.json\`
+            2. 使用 \`useTranslations()\` 钩子替换硬编码文本
+            3. 对于必须保留的中文，添加 \`// i18n-ignore\` 注释
+            4. 参考 [国际化规范文档](../blob/main/docs/i18n-guide.md)
+            
+            ### 📝 示例
+            
+            \`\`\`typescript
+            // ❌ 错误
+            const title = "欢迎使用";
+            
+            // ✅ 正确
+            const t = useTranslations("Common");
+            const title = t("welcome");
+            \`\`\`
+            
+            详细报告请查看 Actions 工件。
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: comment
+            });

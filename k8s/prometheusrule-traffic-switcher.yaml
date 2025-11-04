@@ -1,0 +1,39 @@
+﻿apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: traffic-switcher-rules
+  namespace: qiflowai
+spec:
+  groups:
+    - name: traffic_switcher.rules
+      interval: 30s
+      rules:
+        - alert: CanaryWeightNonZeroTooLong
+          expr: min_over_time(traffic_switch_weight[30m]) > 0
+          for: 30m
+          labels:
+            severity: warning
+            component: dr
+          annotations:
+            summary: "Canary 权重持续非 0"
+            description: "canary 流量权重在 30 分钟内始终 > 0，可能处于长期切流状态"
+
+        - alert: FrequentTrafficSwitches
+          expr: sum(increase(traffic_switch_events_total[15m])) > 10
+          for: 15m
+          labels:
+            severity: warning
+            component: dr
+          annotations:
+            summary: "短时切流过于频繁"
+            description: "15 分钟内切换次数超过 10 次"
+
+        - alert: FailedTrafficSwitches
+          expr: increase(traffic_switch_events_total{outcome=~"error|k8s_error"}[5m]) > 0
+          for: 5m
+          labels:
+            severity: critical
+            component: dr
+          annotations:
+            summary: "切流失败"
+            description: "5 分钟内检测到切流失败事件"

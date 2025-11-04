@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auth API Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        button { padding: 10px; margin: 10px 0; }
+        pre { background: #f4f4f4; padding: 10px; overflow: auto; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Authentication API Test</h1>
+    
+    <div>
+        <h2>Test Login</h2>
+        <input id="email" type="email" placeholder="Email" value="admin@qiflowai.com" style="width: 300px; padding: 8px;">
+        <input id="password" type="password" placeholder="Password" value="admin123456" style="width: 300px; padding: 8px;">
+        <button onclick="testLogin()">Test Login</button>
+    </div>
+    
+    <div>
+        <h2>Result:</h2>
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '<p>Sending request...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:3001/api/auth/sign-in/email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                console.log('Response headers:', response.headers);
+                
+                const contentType = response.headers.get('content-type');
+                let data;
+                
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    data = await response.text();
+                }
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <p class="success">✅ Login successful!</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <p class="error">❌ Login failed (${response.status})</p>
+                        <pre>${typeof data === 'string' ? data : JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                console.error('Request error:', error);
+                resultDiv.innerHTML = `
+                    <p class="error">❌ Request error:</p>
+                    <pre>${error.message}\n${error.stack}</pre>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

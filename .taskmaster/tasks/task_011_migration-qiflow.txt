@@ -1,0 +1,12 @@
+# Task ID: 11
+# Title: C10 提交与差异报告
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 原子提交并生成差异报告
+# Details:
+- git add/commit 分支提交
+- 输出 git diff --stat main...HEAD
+
+# Test Strategy:
+分支提交完成，生成 artifacts/C10/diff.txt

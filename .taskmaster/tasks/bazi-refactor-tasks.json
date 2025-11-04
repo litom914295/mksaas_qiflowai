@@ -1,0 +1,765 @@
+{
+  "project": "八字命理模块专业级改造",
+  "version": "2.0.0",
+  "created": "2025-01-11",
+  "priority": "P0-Critical",
+  "estimated_duration": "8周",
+  "tasks": [
+    {
+      "id": "BAZI-001",
+      "title": "紧急修复：停用现有错误算法",
+      "priority": "P0",
+      "status": "completed",
+      "estimated_hours": 4,
+      "description": "立即停用当前错误的八字计算服务，添加维护提示",
+      "subtasks": [
+        {
+          "id": "BAZI-001-1",
+          "title": "添加系统维护页面",
+          "file": "app/[locale]/(routes)/unified-form/maintenance.tsx",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-001-2",
+          "title": "禁用计算API端点",
+          "file": "app/api/qiflow/bazi-unified/route.ts",
+          "action": "modify",
+          "changes": "返回503维护状态"
+        },
+        {
+          "id": "BAZI-001-3",
+          "title": "更新路由重定向",
+          "file": "middleware.ts",
+          "action": "modify",
+          "changes": "将/unified-form重定向到维护页"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-002",
+      "title": "集成专业农历库",
+      "priority": "P0",
+      "status": "completed",
+      "estimated_hours": 8,
+      "description": "集成lunar-javascript或sxtwl库，实现精确的农历转换",
+      "subtasks": [
+        {
+          "id": "BAZI-002-1",
+          "title": "安装lunar-javascript库",
+          "command": "npm install lunar-javascript",
+          "type": "setup"
+        },
+        {
+          "id": "BAZI-002-2",
+          "title": "创建农历转换适配器",
+          "file": "src/lib/bazi-pro/core/calendar/lunar-adapter.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-002-3",
+          "title": "实现节气计算模块",
+          "file": "src/lib/bazi-pro/core/calendar/solar-terms.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-002-4",
+          "title": "添加农历转换测试",
+          "file": "src/lib/bazi-pro/__tests__/lunar.test.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-003",
+      "title": "实现精确四柱算法",
+      "priority": "P0",
+      "status": "completed",
+      "estimated_hours": 16,
+      "description": "开发专业级四柱八字计算核心算法",
+      "dependencies": ["BAZI-002"],
+      "subtasks": [
+        {
+          "id": "BAZI-003-1",
+          "title": "实现真太阳时计算",
+          "file": "src/lib/bazi-pro/core/calculator/true-solar-time.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-003-2",
+          "title": "实现年柱计算（立春为界）",
+          "file": "src/lib/bazi-pro/core/calculator/year-pillar.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-003-3",
+          "title": "实现月柱计算（节气为界）",
+          "file": "src/lib/bazi-pro/core/calculator/month-pillar.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-003-4",
+          "title": "实现日柱计算（蔡勒公式）",
+          "file": "src/lib/bazi-pro/core/calculator/day-pillar.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-003-5",
+          "title": "实现时柱计算（考虑子时）",
+          "file": "src/lib/bazi-pro/core/calculator/hour-pillar.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-003-6",
+          "title": "创建四柱计算主类",
+          "file": "src/lib/bazi-pro/core/calculator/four-pillars.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-003-7",
+          "title": "添加100个标准测试案例",
+          "file": "src/lib/bazi-pro/__tests__/four-pillars.test.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-004",
+      "title": "开发五行力量精算系统",
+      "priority": "P0",
+      "status": "completed",
+      "estimated_hours": 12,
+      "description": "实现专业的五行力量量化评分体系",
+      "dependencies": ["BAZI-003"],
+      "subtasks": [
+        {
+          "id": "BAZI-004-1",
+          "title": "实现地支藏干系统",
+          "file": "src/lib/bazi-pro/core/analyzer/hidden-stems.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-004-2",
+          "title": "实现月令旺相休囚死",
+          "file": "src/lib/bazi-pro/core/analyzer/monthly-state.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-004-3",
+          "title": "实现通根透干计算",
+          "file": "src/lib/bazi-pro/core/analyzer/rooting-revealing.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-004-4",
+          "title": "实现生克制化合系统",
+          "file": "src/lib/bazi-pro/core/analyzer/interactions.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-004-5",
+          "title": "创建五行力量分析器",
+          "file": "src/lib/bazi-pro/core/analyzer/wuxing-strength.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-005",
+      "title": "实现智能用神判定",
+      "priority": "P0",
+      "status": "completed",
+      "estimated_hours": 16,
+      "description": "开发多维度用神智能分析系统",
+      "dependencies": ["BAZI-004"],
+      "subtasks": [
+        {
+          "id": "BAZI-005-1",
+          "title": "实现扶抑用神判定",
+          "file": "src/lib/bazi-pro/core/analyzer/yongshen/fuyi.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-005-2",
+          "title": "实现调候用神判定",
+          "file": "src/lib/bazi-pro/core/analyzer/yongshen/tiaohou.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-005-3",
+          "title": "实现通关用神判定",
+          "file": "src/lib/bazi-pro/core/analyzer/yongshen/tongguan.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-005-4",
+          "title": "实现病药用神判定",
+          "file": "src/lib/bazi-pro/core/analyzer/yongshen/bingyao.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-005-5",
+          "title": "实现从格用神判定",
+          "file": "src/lib/bazi-pro/core/analyzer/yongshen/congge.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-005-6",
+          "title": "创建用神综合分析器",
+          "file": "src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-006",
+      "title": "开发格局判定系统",
+      "priority": "P1",
+      "status": "completed",
+      "estimated_hours": 12,
+      "description": "实现30+种格局的精准判定",
+      "dependencies": ["BAZI-005"],
+      "subtasks": [
+        {
+          "id": "BAZI-006-1",
+          "title": "实现正格判定",
+          "file": "src/lib/bazi-pro/advanced/pattern/regular-patterns.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-006-2",
+          "title": "实现变格判定",
+          "file": "src/lib/bazi-pro/advanced/pattern/special-patterns.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-006-3",
+          "title": "实现特殊格局判定",
+          "file": "src/lib/bazi-pro/advanced/pattern/rare-patterns.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-006-4",
+          "title": "实现格局成败分析",
+          "file": "src/lib/bazi-pro/advanced/pattern/pattern-quality.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-007",
+      "title": "实现大运流年系统",
+      "priority": "P1",
+      "status": "completed",
+      "estimated_hours": 12,
+      "description": "开发专业的大运起运和流年分析",
+      "dependencies": ["BAZI-005"],
+      "subtasks": [
+        {
+          "id": "BAZI-007-1",
+          "title": "实现起运岁数计算",
+          "file": "src/lib/bazi-pro/advanced/dayun/start-age.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-007-2",
+          "title": "实现大运排列算法",
+          "file": "src/lib/bazi-pro/advanced/dayun/dayun-arrangement.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-007-3",
+          "title": "实现大运评分系统",
+          "file": "src/lib/bazi-pro/advanced/dayun/dayun-scoring.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-007-4",
+          "title": "实现流年分析",
+          "file": "src/lib/bazi-pro/advanced/liunian/yearly-fortune.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-007-5",
+          "title": "实现月运日运分析",
+          "file": "src/lib/bazi-pro/advanced/liunian/monthly-daily.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-008",
+      "title": "开发神煞系统",
+      "priority": "P1",
+      "status": "completed",
+      "estimated_hours": 10,
+      "description": "实现100+神煞的查询和分析",
+      "dependencies": ["BAZI-003"],
+      "subtasks": [
+        {
+          "id": "BAZI-008-1",
+          "title": "实现贵人系统",
+          "file": "src/lib/bazi-pro/advanced/shensha/nobles.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-008-2",
+          "title": "实现桃花系统",
+          "file": "src/lib/bazi-pro/advanced/shensha/peach-blossom.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-008-3",
+          "title": "实现凶煞系统",
+          "file": "src/lib/bazi-pro/advanced/shensha/inauspicious.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-008-4",
+          "title": "实现特殊神煞",
+          "file": "src/lib/bazi-pro/advanced/shensha/special.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-008-5",
+          "title": "创建神煞综合查询",
+          "file": "src/lib/bazi-pro/advanced/shensha/shensha-analyzer.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-009",
+      "title": "开发十神分析系统",
+      "priority": "P1",
+      "status": "completed",
+      "estimated_hours": 8,
+      "description": "实现十神定位和性格分析",
+      "dependencies": ["BAZI-003"],
+      "subtasks": [
+        {
+          "id": "BAZI-009-1",
+          "title": "实现十神定位算法",
+          "file": "src/lib/bazi-pro/advanced/ten-gods/positioning.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-009-2",
+          "title": "实现十神组合分析",
+          "file": "src/lib/bazi-pro/advanced/ten-gods/combinations.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-009-3",
+          "title": "实现性格特征分析",
+          "file": "src/lib/bazi-pro/advanced/ten-gods/personality.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-009-4",
+          "title": "实现六亲关系分析",
+          "file": "src/lib/bazi-pro/advanced/ten-gods/relatives.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-010",
+      "title": "开发智能解读引擎",
+      "priority": "P1",
+      "status": "completed",
+      "estimated_hours": 16,
+      "description": "基于AI的个性化解读系统",
+      "dependencies": ["BAZI-005", "BAZI-006", "BAZI-007"],
+      "subtasks": [
+        {
+          "id": "BAZI-010-1",
+          "title": "创建命理知识库",
+          "file": "src/lib/bazi-pro/interpretation/knowledge-base.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-010-2",
+          "title": "实现性格解读模块",
+          "file": "src/lib/bazi-pro/interpretation/personality.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-010-3",
+          "title": "实现事业解读模块",
+          "file": "src/lib/bazi-pro/interpretation/career.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-010-4",
+          "title": "实现财运解读模块",
+          "file": "src/lib/bazi-pro/interpretation/wealth.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-010-5",
+          "title": "实现感情解读模块",
+          "file": "src/lib/bazi-pro/interpretation/relationship.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-010-6",
+          "title": "实现健康解读模块",
+          "file": "src/lib/bazi-pro/interpretation/health.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-010-7",
+          "title": "集成GPT-4解读能力",
+          "file": "src/lib/bazi-pro/interpretation/ai-interpreter.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-011",
+      "title": "重构UI界面",
+      "priority": "P2",
+      "status": "in-progress",
+      "estimated_hours": 16,
+      "description": "优化用户界面和交互体验",
+      "dependencies": ["BAZI-003"],
+      "subtasks": [
+        {
+          "id": "BAZI-011-1",
+          "title": "重新设计结果展示页",
+          "file": "app/[locale]/(routes)/report/page.tsx",
+          "action": "modify"
+        },
+        {
+          "id": "BAZI-011-2",
+          "title": "创建五行雷达图组件",
+          "file": "src/components/qiflow/charts/wuxing-radar.tsx",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-011-3",
+          "title": "创建大运曲线图组件",
+          "file": "src/components/qiflow/charts/dayun-curve.tsx",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-011-4",
+          "title": "创建流年热力图组件",
+          "file": "src/components/qiflow/charts/liunian-heatmap.tsx",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-011-5",
+          "title": "优化移动端响应式",
+          "file": "src/components/qiflow/bazi/mobile-optimized.tsx",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-011-6",
+          "title": "添加专业术语悬浮解释",
+          "file": "src/components/qiflow/tooltips/terminology.tsx",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-012",
+      "title": "实现缓存和性能优化",
+      "priority": "P2",
+      "status": "pending",
+      "estimated_hours": 8,
+      "description": "优化计算性能和响应速度",
+      "dependencies": ["BAZI-003"],
+      "subtasks": [
+        {
+          "id": "BAZI-012-1",
+          "title": "实现内存缓存层",
+          "file": "src/lib/bazi-pro/utils/memory-cache.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-012-2",
+          "title": "集成Redis缓存",
+          "file": "src/lib/bazi-pro/utils/redis-cache.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-012-3",
+          "title": "实现Worker并发计算",
+          "file": "src/lib/bazi-pro/utils/worker-pool.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-012-4",
+          "title": "优化数据库查询",
+          "file": "src/lib/bazi-pro/utils/db-optimizer.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-013",
+      "title": "创建API接口",
+      "priority": "P1",
+      "status": "in-progress",
+      "estimated_hours": 8,
+      "description": "开发RESTful API和WebSocket接口",
+      "dependencies": ["BAZI-010"],
+      "subtasks": [
+        {
+          "id": "BAZI-013-1",
+          "title": "创建计算API端点",
+          "file": "app/api/bazi-pro/calculate/route.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-013-2",
+          "title": "创建大运API端点",
+          "file": "app/api/bazi-pro/dayun/route.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-013-3",
+          "title": "创建流年API端点",
+          "file": "app/api/bazi-pro/liunian/route.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-013-4",
+          "title": "创建WebSocket服务",
+          "file": "src/lib/bazi-pro/websocket/server.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-013-5",
+          "title": "实现API限流中间件",
+          "file": "src/middleware/rate-limiter.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-014",
+      "title": "完善测试体系",
+      "priority": "P1",
+      "status": "pending",
+      "estimated_hours": 12,
+      "description": "建立完整的测试覆盖",
+      "dependencies": ["BAZI-003", "BAZI-004", "BAZI-005"],
+      "subtasks": [
+        {
+          "id": "BAZI-014-1",
+          "title": "创建1000个标准测试案例",
+          "file": "src/lib/bazi-pro/__tests__/standard-cases.json",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-014-2",
+          "title": "实现单元测试套件",
+          "file": "src/lib/bazi-pro/__tests__/unit/",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-014-3",
+          "title": "实现集成测试套件",
+          "file": "src/lib/bazi-pro/__tests__/integration/",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-014-4",
+          "title": "实现E2E测试",
+          "file": "e2e/bazi-pro.spec.ts",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-014-5",
+          "title": "创建性能基准测试",
+          "file": "src/lib/bazi-pro/__tests__/benchmark.ts",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-015",
+      "title": "专家验证和调优",
+      "priority": "P1",
+      "status": "pending",
+      "estimated_hours": 16,
+      "description": "邀请专家验证并优化算法",
+      "dependencies": ["BAZI-014"],
+      "subtasks": [
+        {
+          "id": "BAZI-015-1",
+          "title": "准备100个验证案例",
+          "file": "docs/validation-cases.md",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-015-2",
+          "title": "记录专家反馈",
+          "file": "docs/expert-feedback.md",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-015-3",
+          "title": "调整算法参数",
+          "file": "src/lib/bazi-pro/config/parameters.ts",
+          "action": "modify"
+        },
+        {
+          "id": "BAZI-015-4",
+          "title": "优化解读文案",
+          "file": "src/lib/bazi-pro/interpretation/templates.ts",
+          "action": "modify"
+        },
+        {
+          "id": "BAZI-015-5",
+          "title": "创建准确性报告",
+          "file": "docs/accuracy-report.md",
+          "action": "create"
+        }
+      ]
+    },
+    {
+      "id": "BAZI-016",
+      "title": "部署和监控",
+      "priority": "P2",
+      "status": "pending",
+      "estimated_hours": 8,
+      "description": "部署新系统并设置监控",
+      "dependencies": ["BAZI-015"],
+      "subtasks": [
+        {
+          "id": "BAZI-016-1",
+          "title": "创建Docker镜像",
+          "file": "Dockerfile.bazi-pro",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-016-2",
+          "title": "配置Kubernetes部署",
+          "file": "k8s/bazi-pro-deployment.yaml",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-016-3",
+          "title": "设置监控告警",
+          "file": "monitoring/bazi-alerts.yaml",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-016-4",
+          "title": "创建灰度发布策略",
+          "file": "deployment/canary-strategy.md",
+          "action": "create"
+        },
+        {
+          "id": "BAZI-016-5",
+          "title": "编写运维文档",
+          "file": "docs/operations-guide.md",
+          "action": "create"
+        }
+      ]
+    }
+  ],
+  "milestones": [
+    {
+      "name": "M1: 核心算法完成",
+      "date": "Week 2",
+      "tasks": ["BAZI-001", "BAZI-002", "BAZI-003", "BAZI-004"]
+    },
+    {
+      "name": "M2: 分析系统完成",
+      "date": "Week 4",
+      "tasks": ["BAZI-005", "BAZI-006", "BAZI-007", "BAZI-008", "BAZI-009"]
+    },
+    {
+      "name": "M3: 解读系统完成",
+      "date": "Week 6",
+      "tasks": ["BAZI-010", "BAZI-011"]
+    },
+    {
+      "name": "M4: 测试验证完成",
+      "date": "Week 7",
+      "tasks": ["BAZI-014", "BAZI-015"]
+    },
+    {
+      "name": "M5: 正式上线",
+      "date": "Week 8",
+      "tasks": ["BAZI-012", "BAZI-013", "BAZI-016"]
+    }
+  ],
+  "resources": {
+    "team": [
+      {
+        "role": "技术负责人",
+        "count": 1,
+        "skills": ["TypeScript", "算法", "架构设计"]
+      },
+      {
+        "role": "后端开发",
+        "count": 2,
+        "skills": ["Node.js", "数据库", "API开发"]
+      },
+      {
+        "role": "前端开发",
+        "count": 2,
+        "skills": ["React", "TypeScript", "数据可视化"]
+      },
+      {
+        "role": "算法工程师",
+        "count": 1,
+        "skills": ["天文历法", "数学", "性能优化"]
+      },
+      {
+        "role": "命理专家",
+        "count": 2,
+        "skills": ["传统命理学", "八字", "格局分析"]
+      },
+      {
+        "role": "测试工程师",
+        "count": 1,
+        "skills": ["自动化测试", "性能测试", "质量保证"]
+      }
+    ],
+    "tools": [
+      "lunar-javascript",
+      "sxtwl",
+      "D3.js",
+      "ECharts",
+      "Redis",
+      "PostgreSQL",
+      "Docker",
+      "Kubernetes",
+      "Jest",
+      "Playwright"
+    ]
+  },
+  "risks": [
+    {
+      "risk": "算法准确性不足",
+      "probability": "中",
+      "impact": "高",
+      "mitigation": "引入多位命理专家验证，建立测试案例库"
+    },
+    {
+      "risk": "性能瓶颈",
+      "probability": "低",
+      "impact": "中",
+      "mitigation": "使用Worker并发计算，多级缓存策略"
+    },
+    {
+      "risk": "用户接受度低",
+      "probability": "低",
+      "impact": "高",
+      "mitigation": "三层解读系统，渐进式UI优化"
+    }
+  ],
+  "success_criteria": [
+    "四柱计算准确率 > 99.9%",
+    "专家验证满意度 > 95%",
+    "API响应时间 < 100ms",
+    "测试覆盖率 > 90%",
+    "用户满意度 > 9.0/10"
+  ]
+}

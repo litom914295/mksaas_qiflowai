@@ -1,0 +1,3598 @@
+[
+  {
+    "key": "QiFlow.BaziPage.result.user",
+    "value": "用户：{userId}"
+  },
+  {
+    "key": "QiFlow.BaziPage.result.pillarsHint",
+    "value": "示例结果 pillars: {pillars}"
+  },
+  {
+    "key": "AITextPage.analyzer.placeholder",
+    "value": "输入网站 URL（例如：https://example.com）"
+  },
+  {
+    "key": "AITextPage.analyzer.errors.invalidUrl",
+    "value": "请输入以 http:// 或 https:// 开头的有效 URL"
+  },
+  {
+    "key": "AboutPage.authorName",
+    "value": "QiFlow AI"
+  },
+  {
+    "key": "AboutPage.authorBio",
+    "value": "最好的 AI SaaS 模板"
+  },
+  {
+    "key": "AuthPage.login.signInWithGoogle",
+    "value": "使用 Google 登录"
+  },
+  {
+    "key": "AuthPage.login.signInWithGitHub",
+    "value": "使用 GitHub 登录"
+  },
+  {
+    "key": "Bazi.male",
+    "value": "TODO: translate Bazi.male"
+  },
+  {
+    "key": "Bazi.female",
+    "value": "TODO: translate Bazi.female"
+  },
+  {
+    "key": "BaziHome.hero.features.algorithm",
+    "value": "Precise Algorithm"
+  },
+  {
+    "key": "BaziHome.hero.features.privacy",
+    "value": "Privacy Protected"
+  },
+  {
+    "key": "BaziHome.hero.features.instant",
+    "value": "Instant Analysis"
+  },
+  {
+    "key": "BaziHome.hero.trust",
+    "value": "Trusted by 10,000+ users"
+  },
+  {
+    "key": "BaziHome.billing.hint",
+    "value": "计费口径：aiChat=5、deepInterpretation=30、bazi=10、xuankong=20、pdfExport=5；余额不足将自动降级到简版结果。"
+  },
+  {
+    "key": "BaziHome.testimonials.items.0.author",
+    "value": "L. Zhang"
+  },
+  {
+    "key": "BaziHome.testimonials.items.1.author",
+    "value": "Y. Chen"
+  },
+  {
+    "key": "BaziHome.testimonials.items.2.author",
+    "value": "H. Wang"
+  },
+  {
+    "key": "BaziHome.seo.keywords.7",
+    "value": "Bazi"
+  },
+  {
+    "key": "BlogPage.readTime",
+    "value": "{minutes} 分钟阅读"
+  },
+  {
+    "key": "Compass.calibrating",
+    "value": "Calibrating..."
+  },
+  {
+    "key": "Compass.calibration_step",
+    "value": "æ ¡å‡†æ­¥éª¤ {step}/{total}"
+  },
+  {
+    "key": "Compass.measuring",
+    "value": "TODO: translate Compass.measuring"
+  },
+  {
+    "key": "Compass.calibrate_device",
+    "value": "TODO: translate Compass.calibrate_device"
+  },
+  {
+    "key": "Compass.calibration_instructions",
+    "value": "TODO: translate Compass.calibration_instructions"
+  },
+  {
+    "key": "Compass.magnetic_declination",
+    "value": "TODO: translate Compass.magnetic_declination"
+  },
+  {
+    "key": "Compass.true_north",
+    "value": "TODO: translate Compass.true_north"
+  },
+  {
+    "key": "Compass.magnetic_north",
+    "value": "TODO: translate Compass.magnetic_north"
+  },
+  {
+    "key": "Compass.direction",
+    "value": "TODO: translate Compass.direction"
+  },
+  {
+    "key": "Compass.degree",
+    "value": "TODO: translate Compass.degree"
+  },
+  {
+    "key": "Compass.measurement_history",
+    "value": "TODO: translate Compass.measurement_history"
+  },
+  {
+    "key": "Compass.save_measurement",
+    "value": "TODO: translate Compass.save_measurement"
+  },
+  {
+    "key": "Compass.clear_history",
+    "value": "TODO: translate Compass.clear_history"
+  },
+  {
+    "key": "Compass.device_not_supported",
+    "value": "TODO: translate Compass.device_not_supported"
+  },
+  {
+    "key": "Compass.permission_required",
+    "value": "TODO: translate Compass.permission_required"
+  },
+  {
+    "key": "Compass.interference_detected",
+    "value": "TODO: translate Compass.interference_detected"
+  },
+  {
+    "key": "Compass.move_away_from_metal",
+    "value": "TODO: translate Compass.move_away_from_metal"
+  },
+  {
+    "key": "Compass.measurement_saved",
+    "value": "TODO: translate Compass.measurement_saved"
+  },
+  {
+    "key": "Compass.high_accuracy",
+    "value": "TODO: translate Compass.high_accuracy"
+  },
+  {
+    "key": "Compass.medium_accuracy",
+    "value": "TODO: translate Compass.medium_accuracy"
+  },
+  {
+    "key": "Compass.low_accuracy",
+    "value": "TODO: translate Compass.low_accuracy"
+  },
+  {
+    "key": "Dashboard.settings.credits.balance.creditsDescription",
+    "value": "您有 {credits} 积分"
+  },
+  {
+    "key": "Dashboard.settings.credits.balance.expiringCredits",
+    "value": "{credits} 积分将在 {days} 天内过期"
+  },
+  {
+    "key": "Dashboard.settings.credits.transactions.columns.id",
+    "value": "ID"
+  },
+  {
+    "key": "DocsPage.title",
+    "value": "QiFlow AI文档"
+  },
+  {
+    "key": "FloorPlan.roomFallback",
+    "value": "æˆ¿é—´{index}"
+  },
+  {
+    "key": "FloorPlan.summary",
+    "value": "{count}ä¸ªæˆ¿é—´ | {area}ãŽ¡"
+  },
+  {
+    "key": "FloorPlan.upload.supportedFormats",
+    "value": "æ”¯æŒ JPG, PNG, PDF æ ¼å¼"
+  },
+  {
+    "key": "Forms.placeholders.email",
+    "value": "your@email.com"
+  },
+  {
+    "key": "HomePage.title",
+    "value": "QiFlow AI"
+  },
+  {
+    "key": "HomePage.hero.title",
+    "value": "使用 QiFlow AI 轻松构建您的 AI SaaS 产品"
+  },
+  {
+    "key": "HomePage.hero.introduction",
+    "value": "介绍 QiFlow AI 模板"
+  },
+  {
+    "key": "HomePage.integration.items.item-1.title",
+    "value": "Google Gemini"
+  },
+  {
+    "key": "HomePage.integration.items.item-1.description",
+    "value": "这里是Google Gemini的描述，详细介绍Google Gemini的功能和优势。"
+  },
+  {
+    "key": "HomePage.integration.items.item-2.title",
+    "value": "Replit"
+  },
+  {
+    "key": "HomePage.integration.items.item-3.title",
+    "value": "MagicUI"
+  },
+  {
+    "key": "HomePage.integration.items.item-4.title",
+    "value": "VSCodium"
+  },
+  {
+    "key": "HomePage.integration.items.item-5.title",
+    "value": "MediaWiki"
+  },
+  {
+    "key": "HomePage.integration.items.item-5.description",
+    "value": "这里是MediaWiki的描述，详细介绍MediaWiki的功能和优势。"
+  },
+  {
+    "key": "HomePage.integration.items.item-6.title",
+    "value": "Google PaLM"
+  },
+  {
+    "key": "HomePage.integration.items.item-6.description",
+    "value": "这里是Google PaLM的描述，详细介绍Google PaLM的功能和优势。"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-1.name",
+    "value": "Jonathan Yombo"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-1.image",
+    "value": "https://randomuser.me/api/portraits/men/1.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-2.name",
+    "value": "Yves Kalume"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-2.role",
+    "value": "Android GDE"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-2.image",
+    "value": "https://randomuser.me/api/portraits/men/6.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-3.name",
+    "value": "Yucel Faruksahan"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-3.role",
+    "value": "Tailkits 创建者"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-3.image",
+    "value": "https://randomuser.me/api/portraits/men/7.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-4.name",
+    "value": "Anonymous author"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-4.image",
+    "value": "https://randomuser.me/api/portraits/men/8.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-5.name",
+    "value": "Shekinah Tshiokufila"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-5.image",
+    "value": "https://randomuser.me/api/portraits/men/4.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-6.name",
+    "value": "Oketa Fred"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-6.image",
+    "value": "https://randomuser.me/api/portraits/men/2.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-7.name",
+    "value": "Zeki"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-7.role",
+    "value": "ChatExtend 创始人"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-7.image",
+    "value": "https://randomuser.me/api/portraits/men/5.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-8.name",
+    "value": "Joseph Kitheka"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-8.image",
+    "value": "https://randomuser.me/api/portraits/men/9.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-9.name",
+    "value": "Khatab Wedaa"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-9.role",
+    "value": "MerakiUI 创建者"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-9.image",
+    "value": "https://randomuser.me/api/portraits/men/10.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-10.name",
+    "value": "Rodrigo Aguilar"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-10.role",
+    "value": "TailwindAwesome 创建者"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-10.image",
+    "value": "https://randomuser.me/api/portraits/men/11.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-11.name",
+    "value": "Eric Ampire"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-11.role",
+    "value": "Google 开发者专家"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-11.image",
+    "value": "https://randomuser.me/api/portraits/men/12.jpg"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-12.name",
+    "value": "Roland Tubonge"
+  },
+  {
+    "key": "HomePage.testimonials.items.item-12.image",
+    "value": "https://randomuser.me/api/portraits/men/13.jpg"
+  },
+  {
+    "key": "HomePage.stats.subtitle",
+    "value": "QiFlow AI 相关的数字"
+  },
+  {
+    "key": "HomePage.stats.items.item-1.title",
+    "value": "GitHub 上的星星"
+  },
+  {
+    "key": "HomeV2.compliance.items.dsar.title",
+    "value": "DSAR æ”¯æŒ"
+  },
+  {
+    "key": "HomeV2.footer.copyright",
+    "value": "Â© 2025 QiFlow AI. All Rights Reserved."
+  },
+  {
+    "key": "I18nTest.good_pattern",
+    "value": "TODO: translate I18nTest.good_pattern"
+  },
+  {
+    "key": "I18nTest.bad_pattern",
+    "value": "TODO: translate I18nTest.bad_pattern"
+  },
+  {
+    "key": "I18nTest.wenchang_desc",
+    "value": "TODO: translate I18nTest.wenchang_desc"
+  },
+  {
+    "key": "I18nTest.caiwei_desc",
+    "value": "TODO: translate I18nTest.caiwei_desc"
+  },
+  {
+    "key": "I18nTest.items.desk_and_bookcase",
+    "value": "TODO: translate I18nTest.items.desk_and_bookcase"
+  },
+  {
+    "key": "I18nTest.items.stationery",
+    "value": "TODO: translate I18nTest.items.stationery"
+  },
+  {
+    "key": "I18nTest.items.study_area",
+    "value": "TODO: translate I18nTest.items.study_area"
+  },
+  {
+    "key": "I18nTest.items.safe_and_cashier",
+    "value": "TODO: translate I18nTest.items.safe_and_cashier"
+  },
+  {
+    "key": "I18nTest.items.money_plant",
+    "value": "TODO: translate I18nTest.items.money_plant"
+  },
+  {
+    "key": "I18nTest.items.business_area",
+    "value": "TODO: translate I18nTest.items.business_area"
+  },
+  {
+    "key": "I18nTest.key_points",
+    "value": "TODO: translate I18nTest.key_points"
+  },
+  {
+    "key": "I18nTest.specific_recommendations",
+    "value": "TODO: translate I18nTest.specific_recommendations"
+  },
+  {
+    "key": "I18nTest.pattern_explanation_text",
+    "value": "TODO: translate I18nTest.pattern_explanation_text"
+  },
+  {
+    "key": "Mail.common.team",
+    "value": "{name} 团队"
+  },
+  {
+    "key": "Mail.verifyEmail.title",
+    "value": "你好，{name}。"
+  },
+  {
+    "key": "Mail.forgotPassword.title",
+    "value": "你好，{name}。"
+  },
+  {
+    "key": "Mail.contactMessage.name",
+    "value": "姓名: {name}"
+  },
+  {
+    "key": "Mail.contactMessage.email",
+    "value": "邮箱: {email}"
+  },
+  {
+    "key": "Mail.contactMessage.message",
+    "value": "消息: {message}"
+  },
+  {
+    "key": "Marketing.navbar.pages.items.cookiePolicy.title",
+    "value": "Cookie 政策"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.magicui.title",
+    "value": "MagicUI 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.hero-section.title",
+    "value": "Hero 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.logo-cloud.title",
+    "value": "Logo Cloud 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.integrations.title",
+    "value": "Integrations 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.features.title",
+    "value": "Features 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.content.title",
+    "value": "Content 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.stats.title",
+    "value": "Stats 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.team.title",
+    "value": "Team 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.testimonials.title",
+    "value": "Testimonials 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.callToAction.title",
+    "value": "Call to Action 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.footer.title",
+    "value": "Footer 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.pricing.title",
+    "value": "Pricing 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.comparator.title",
+    "value": "Comparator 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.faq.title",
+    "value": "FAQ 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.login.title",
+    "value": "Login 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.signup.title",
+    "value": "Signup 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.forgot-password.title",
+    "value": "Forgot Password 组件"
+  },
+  {
+    "key": "Marketing.navbar.blocks.items.contact.title",
+    "value": "Contact 组件"
+  },
+  {
+    "key": "Marketing.footer.legal.items.cookiePolicy",
+    "value": "Cookie政策"
+  },
+  {
+    "key": "Metadata.name",
+    "value": "QiFlow AI Demo"
+  },
+  {
+    "key": "Metadata.title",
+    "value": "QiFlow AI - 最好的 AI SaaS 模板"
+  },
+  {
+    "key": "Overlay.supported_formats",
+    "value": "æ”¯æŒ JPG, PNG, PDF æ ¼å¼"
+  },
+  {
+    "key": "Settings.cookies",
+    "value": "Cookieè®¾ç½®"
+  },
+  {
+    "key": "metadata.title",
+    "value": "QiFlow AI - Intelligent Feng Shui Analysis Platform"
+  },
+  {
+    "key": "metadata.description",
+    "value": "An intelligent feng shui analysis platform that combines traditional Chinese metaphysics with modern AI technology"
+  },
+  {
+    "key": "common.loading",
+    "value": "Loading..."
+  },
+  {
+    "key": "common.error",
+    "value": "Error"
+  },
+  {
+    "key": "common.success",
+    "value": "Success"
+  },
+  {
+    "key": "common.cancel",
+    "value": "Cancel"
+  },
+  {
+    "key": "common.confirm",
+    "value": "Confirm"
+  },
+  {
+    "key": "common.save",
+    "value": "Save"
+  },
+  {
+    "key": "common.delete",
+    "value": "Delete"
+  },
+  {
+    "key": "common.edit",
+    "value": "Edit"
+  },
+  {
+    "key": "common.back",
+    "value": "Back"
+  },
+  {
+    "key": "common.next",
+    "value": "Next"
+  },
+  {
+    "key": "common.previous",
+    "value": "Previous"
+  },
+  {
+    "key": "common.submit",
+    "value": "Submit"
+  },
+  {
+    "key": "common.reset",
+    "value": "Reset"
+  },
+  {
+    "key": "common.search",
+    "value": "Search"
+  },
+  {
+    "key": "common.filter",
+    "value": "Filter"
+  },
+  {
+    "key": "common.sort",
+    "value": "Sort"
+  },
+  {
+    "key": "common.export",
+    "value": "Export"
+  },
+  {
+    "key": "common.import",
+    "value": "Import"
+  },
+  {
+    "key": "common.share",
+    "value": "Share"
+  },
+  {
+    "key": "common.copy",
+    "value": "Copy"
+  },
+  {
+    "key": "common.download",
+    "value": "Download"
+  },
+  {
+    "key": "common.upload",
+    "value": "Upload"
+  },
+  {
+    "key": "common.close",
+    "value": "Close"
+  },
+  {
+    "key": "common.open",
+    "value": "Open"
+  },
+  {
+    "key": "common.view",
+    "value": "View"
+  },
+  {
+    "key": "common.preview",
+    "value": "Preview"
+  },
+  {
+    "key": "common.refresh",
+    "value": "Refresh"
+  },
+  {
+    "key": "common.retry",
+    "value": "Retry"
+  },
+  {
+    "key": "common.switchLanguage",
+    "value": "Switch Language"
+  },
+  {
+    "key": "common.unknown",
+    "value": "Unknown"
+  },
+  {
+    "key": "common.toBeCalculated",
+    "value": "To be calculated"
+  },
+  {
+    "key": "testPages.simpleLangTest.title",
+    "value": "Simple Language Switch Test"
+  },
+  {
+    "key": "testPages.simpleLangTest.currentStatus",
+    "value": "Current Status"
+  },
+  {
+    "key": "testPages.simpleLangTest.currentLanguage",
+    "value": "Current Language"
+  },
+  {
+    "key": "testPages.simpleLangTest.currentPath",
+    "value": "Current Path"
+  },
+  {
+    "key": "testPages.simpleLangTest.pageTitle",
+    "value": "Page Title"
+  },
+  {
+    "key": "testPages.simpleLangTest.subtitle",
+    "value": "Subtitle"
+  },
+  {
+    "key": "testPages.simpleLangTest.languageSwitch",
+    "value": "Language Switch"
+  },
+  {
+    "key": "testPages.simpleLangTest.translationTest",
+    "value": "Translation Content Test"
+  },
+  {
+    "key": "testPages.simpleLangTest.features",
+    "value": "Features"
+  },
+  {
+    "key": "testPages.simpleLangTest.commonText",
+    "value": "Common Text"
+  },
+  {
+    "key": "testPages.simpleLangTest.debugInfo",
+    "value": "Debug Information"
+  },
+  {
+    "key": "testPages.simpleLangTest.currentTime",
+    "value": "Current Time"
+  },
+  {
+    "key": "testPages.simpleLangTest.browserLanguage",
+    "value": "Browser Language"
+  },
+  {
+    "key": "testPages.langTest.title",
+    "value": "Language Switch Test Page"
+  },
+  {
+    "key": "testPages.langTest.currentStatus",
+    "value": "Current Status"
+  },
+  {
+    "key": "testPages.langTest.currentLanguage",
+    "value": "Current Language"
+  },
+  {
+    "key": "testPages.langTest.currentPath",
+    "value": "Current Path"
+  },
+  {
+    "key": "testPages.langTest.pageTitle",
+    "value": "Page Title"
+  },
+  {
+    "key": "testPages.langTest.subtitle",
+    "value": "Subtitle"
+  },
+  {
+    "key": "testPages.langTest.languageSwitch",
+    "value": "Language Switch"
+  },
+  {
+    "key": "testPages.langTest.translationTest",
+    "value": "Translation Content Test"
+  },
+  {
+    "key": "testPages.langTest.features",
+    "value": "Features"
+  },
+  {
+    "key": "testPages.langTest.commonText",
+    "value": "Common Text"
+  },
+  {
+    "key": "testPages.langTest.debugLogs",
+    "value": "Debug Logs"
+  },
+  {
+    "key": "testPages.langTest.clearLogs",
+    "value": "Clear Logs"
+  },
+  {
+    "key": "testPages.langTest.noLogs",
+    "value": "No logs available"
+  },
+  {
+    "key": "testPages.langTest.instructions",
+    "value": "Instructions"
+  },
+  {
+    "key": "testPages.langTest.instruction1",
+    "value": "Click language buttons to switch languages"
+  },
+  {
+    "key": "testPages.langTest.instruction2",
+    "value": "Observe URL changes and page content"
+  },
+  {
+    "key": "testPages.langTest.instruction3",
+    "value": "Check path changes in debug logs"
+  },
+  {
+    "key": "testPages.langTest.instruction4",
+    "value": "Verify translation content displays correctly"
+  },
+  {
+    "key": "testPages.langTest.instruction5",
+    "value": "If language switching doesn't work, check browser console errors"
+  },
+  {
+    "key": "testPages.langTest.pageLoaded",
+    "value": "Page loaded"
+  },
+  {
+    "key": "testPages.langTest.path",
+    "value": "Path"
+  },
+  {
+    "key": "testPages.langTest.startSwitchTo",
+    "value": "Starting switch to language"
+  },
+  {
+    "key": "testPages.langTest.cleanedPath",
+    "value": "Cleaned path"
+  },
+  {
+    "key": "testPages.langTest.newPath",
+    "value": "New path"
+  },
+  {
+    "key": "testPages.langTest.navigatedTo",
+    "value": "Navigated to"
+  },
+  {
+    "key": "testPages.minimalTest.title",
+    "value": "Minimal Language Test"
+  },
+  {
+    "key": "testPages.minimalTest.serverInfo",
+    "value": "Server-side Information"
+  },
+  {
+    "key": "testPages.minimalTest.features",
+    "value": "Features"
+  },
+  {
+    "key": "testPages.minimalTest.testDescription",
+    "value": "Test Description"
+  },
+  {
+    "key": "testPages.minimalTest.description",
+    "value": "This is a server-side rendered page for testing if translations load correctly. Please try accessing different language versions:"
+  },
+  {
+    "key": "home.title",
+    "value": "QiFlow AI - Intelligent Feng Shui Analysis Platform"
+  },
+  {
+    "key": "home.subtitle",
+    "value": "An intelligent analysis platform combining traditional Feng Shui wisdom with modern AI technology"
+  },
+  {
+    "key": "home.features.bazi.title",
+    "value": "Bazi Analysis"
+  },
+  {
+    "key": "home.features.bazi.description",
+    "value": "Accurately calculate Four Pillars, analyze Five Elements, and provide personalized guidance"
+  },
+  {
+    "key": "home.features.flyingStar.title",
+    "value": "Flying Star Feng Shui"
+  },
+  {
+    "key": "home.features.flyingStar.description",
+    "value": "Professional Nine Palaces analysis with house orientation for precise advice"
+  },
+  {
+    "key": "home.features.compass.title",
+    "value": "High-precision Digital Compass"
+  },
+  {
+    "key": "home.features.compass.description",
+    "value": "±2° professional accuracy with auto declination correction and 24 directions"
+  },
+  {
+    "key": "home.features.floorPlan.title",
+    "value": "Smart Floor Plan Overlay"
+  },
+  {
+    "key": "home.features.floorPlan.description",
+    "value": "AI detects rooms and overlays flying stars for visual analysis"
+  },
+  {
+    "key": "home.features.visualization3d.title",
+    "value": "3D Visualization"
+  },
+  {
+    "key": "home.features.visualization3d.description",
+    "value": "Immersive VR-ready 3D Feng Shui analysis"
+  },
+  {
+    "key": "home.features.aiAssistant.title",
+    "value": "AI Assistant"
+  },
+  {
+    "key": "home.features.aiAssistant.description",
+    "value": "Professional consultation with personalized suggestions and memory"
+  },
+  {
+    "key": "home.actions.continueAsGuest",
+    "value": "Continue as Guest"
+  },
+  {
+    "key": "home.actions.register",
+    "value": "Register Now"
+  },
+  {
+    "key": "home.actions.viewBaziAnalysis",
+    "value": "View Bazi Analysis"
+  },
+  {
+    "key": "home.actions.testAnalysis",
+    "value": "Test Complete Analysis"
+  },
+  {
+    "key": "home.guestEntry.creatingSession",
+    "value": "Creating guest session..."
+  },
+  {
+    "key": "home.guestEntry.continueAsGuest",
+    "value": "Continue as Guest"
+  },
+  {
+    "key": "home.guestEntry.registerNow",
+    "value": "Register Now"
+  },
+  {
+    "key": "home.guestEntry.alreadyHaveAccount",
+    "value": "Already have an account? Sign in"
+  },
+  {
+    "key": "home.guestEntry.guestModeDescription",
+    "value": "Guest mode: up to 3 analyses, data not saved"
+  },
+  {
+    "key": "home.guestEntry.sessionCreationFailed",
+    "value": "Failed to create guest session"
+  },
+  {
+    "key": "home.highlights.title",
+    "value": "Highlights"
+  },
+  {
+    "key": "home.highlights.smartOverlay.title",
+    "value": "Smart Overlay"
+  },
+  {
+    "key": "home.highlights.smartOverlay.description",
+    "value": "First-of-its-kind overlay of floor plans with flying stars"
+  },
+  {
+    "key": "home.highlights.guestMode.title",
+    "value": "Guest Mode"
+  },
+  {
+    "key": "home.highlights.guestMode.description",
+    "value": "Experience core features without registration; data auto-clears in 24h"
+  },
+  {
+    "key": "home.highlights.precisionCompass.title",
+    "value": "Precision Compass"
+  },
+  {
+    "key": "home.highlights.precisionCompass.description",
+    "value": "±2° accuracy with multi-sensor fusion"
+  },
+  {
+    "key": "home.highlights.multilingual.title",
+    "value": "Multilingual"
+  },
+  {
+    "key": "home.highlights.multilingual.description",
+    "value": "Support 6 languages for global service"
+  },
+  {
+    "key": "home.footer.copyright",
+    "value": "© 2024 QiFlow AI. All rights reserved."
+  },
+  {
+    "key": "home.footer.help",
+    "value": "Help Center"
+  },
+  {
+    "key": "home.footer.about",
+    "value": "About Us"
+  },
+  {
+    "key": "navigation.home",
+    "value": "Home"
+  },
+  {
+    "key": "navigation.dashboard",
+    "value": "Dashboard"
+  },
+  {
+    "key": "navigation.analysis",
+    "value": "Feng Shui Analysis"
+  },
+  {
+    "key": "navigation.compass",
+    "value": "Digital Compass"
+  },
+  {
+    "key": "navigation.overlay",
+    "value": "Floor Plan Overlay"
+  },
+  {
+    "key": "navigation.3d_viewer",
+    "value": "3D Viewer"
+  },
+  {
+    "key": "navigation.reports",
+    "value": "Analysis Reports"
+  },
+  {
+    "key": "navigation.chat",
+    "value": "AI Assistant"
+  },
+  {
+    "key": "navigation.subscription",
+    "value": "Subscription Management"
+  },
+  {
+    "key": "navigation.profile",
+    "value": "Profile"
+  },
+  {
+    "key": "navigation.settings",
+    "value": "Settings"
+  },
+  {
+    "key": "navigation.help",
+    "value": "Help"
+  },
+  {
+    "key": "navigation.about",
+    "value": "About Us"
+  },
+  {
+    "key": "auth.login",
+    "value": "Login"
+  },
+  {
+    "key": "auth.logout",
+    "value": "Logout"
+  },
+  {
+    "key": "auth.forgot_password",
+    "value": "Forgot Password"
+  },
+  {
+    "key": "auth.reset_password",
+    "value": "Reset Password"
+  },
+  {
+    "key": "auth.email",
+    "value": "Email"
+  },
+  {
+    "key": "auth.password",
+    "value": "Password"
+  },
+  {
+    "key": "auth.confirm_password",
+    "value": "Confirm Password"
+  },
+  {
+    "key": "auth.remember_me",
+    "value": "Remember Me"
+  },
+  {
+    "key": "auth.guest_mode",
+    "value": "Guest Mode"
+  },
+  {
+    "key": "auth.continue_as_guest",
+    "value": "Continue as Guest"
+  },
+  {
+    "key": "auth.register_to_save",
+    "value": "Register to save your data"
+  },
+  {
+    "key": "auth.login_required",
+    "value": "Login Required"
+  },
+  {
+    "key": "auth.invalid_credentials",
+    "value": "Invalid credentials"
+  },
+  {
+    "key": "auth.account_created",
+    "value": "Account created successfully"
+  },
+  {
+    "key": "auth.password_reset_sent",
+    "value": "Password reset email sent"
+  },
+  {
+    "key": "auth.register.title",
+    "value": "Create Account"
+  },
+  {
+    "key": "auth.register.subtitle",
+    "value": "Start your Feng Shui analysis journey"
+  },
+  {
+    "key": "auth.register.signInLink",
+    "value": "Already have an account? Sign in"
+  },
+  {
+    "key": "auth.register.displayName",
+    "value": "Display Name"
+  },
+  {
+    "key": "auth.register.displayNamePlaceholder",
+    "value": "Enter your display name"
+  },
+  {
+    "key": "auth.register.emailPlaceholder",
+    "value": "Enter your email address"
+  },
+  {
+    "key": "auth.register.passwordPlaceholder",
+    "value": "Enter your password"
+  },
+  {
+    "key": "auth.register.confirmPasswordPlaceholder",
+    "value": "Confirm your password"
+  },
+  {
+    "key": "auth.register.acceptTerms",
+    "value": "I have read and agree to the"
+  },
+  {
+    "key": "auth.register.termsLink",
+    "value": "Terms of Service"
+  },
+  {
+    "key": "auth.register.and",
+    "value": "and"
+  },
+  {
+    "key": "auth.register.privacyLink",
+    "value": "Privacy Policy"
+  },
+  {
+    "key": "auth.register.submit",
+    "value": "Create Account"
+  },
+  {
+    "key": "auth.register.hasAccount",
+    "value": "Already have an account?"
+  },
+  {
+    "key": "auth.register.signIn",
+    "value": "Sign In"
+  },
+  {
+    "key": "analysis.title",
+    "value": "Ready to Begin Analysis"
+  },
+  {
+    "key": "analysis.description",
+    "value": "Based on the information you provided, we will generate professional BaZi astrology and Flying Star feng shui analysis reports."
+  },
+  {
+    "key": "analysis.start",
+    "value": "Start Analysis"
+  },
+  {
+    "key": "analysis.analyzing",
+    "value": "Analyzing..."
+  },
+  {
+    "key": "analysis.baziTitle",
+    "value": "Your Personal BaZi Astrology Analysis"
+  },
+  {
+    "key": "analysis.baziDescription",
+    "value": "Based on your birth information, through professional algorithmic deep analysis, presenting your destiny characteristics and life insights."
+  },
+  {
+    "key": "analysis.fengshuiTitle",
+    "value": "Flying Star Feng Shui Analysis"
+  },
+  {
+    "key": "analysis.fengshuiDescription",
+    "value": "Combining your BaZi astrology and house orientation to provide professional feng shui layout recommendations."
+  },
+  {
+    "key": "analysis.aiEnhancedBazi",
+    "value": "AI-Enhanced BaZi Astrology Analysis"
+  },
+  {
+    "key": "analysis.aiEnhancedBaziDescription",
+    "value": "Based on professional algorithms to deeply analyze your BaZi astrology, combining traditional Ten Gods theory with modern AI technology to provide personalized life insights and fortune guidance."
+  },
+  {
+    "key": "analysis.professionalTenGods",
+    "value": "Professional Ten Gods Analysis"
+  },
+  {
+    "key": "analysis.majorEventPrediction",
+    "value": "Major Event Prediction"
+  },
+  {
+    "key": "analysis.yearlyInteraction",
+    "value": "Annual Interaction Analysis"
+  },
+  {
+    "key": "analysis.lifeFortuneCycle",
+    "value": "Life Fortune Cycle"
+  },
+  {
+    "key": "analysis.previousStep",
+    "value": "Previous Step"
+  },
+  {
+    "key": "analysis.nextStep",
+    "value": "Next Step: Start Analysis"
+  },
+  {
+    "key": "analysis.steps.personalData",
+    "value": "Personal Information"
+  },
+  {
+    "key": "analysis.steps.personalDataDesc",
+    "value": "Fill in your birth information"
+  },
+  {
+    "key": "analysis.steps.houseOrientation",
+    "value": "House Orientation"
+  },
+  {
+    "key": "analysis.steps.houseOrientationDesc",
+    "value": "Determine house orientation information"
+  },
+  {
+    "key": "analysis.steps.baziAnalysis",
+    "value": "BaZi Analysis"
+  },
+  {
+    "key": "analysis.steps.baziAnalysisDesc",
+    "value": "Generate BaZi astrology analysis"
+  },
+  {
+    "key": "analysis.steps.flyingStar",
+    "value": "Flying Star"
+  },
+  {
+    "key": "analysis.steps.flyingStarDesc",
+    "value": "Generate feng shui analysis report"
+  },
+  {
+    "key": "testGuest.title",
+    "value": "Test Guest Analysis Page"
+  },
+  {
+    "key": "testGuest.description",
+    "value": "Test guest analysis functionality"
+  },
+  {
+    "key": "guestAnalysis.floorPlan.noSelectionNote",
+    "value": "No floor plan selected. Skipped nine-palace room mapping and showing basic Flying Star analysis only."
+  },
+  {
+    "key": "guestAnalysis.floorPlan.sectionTitle",
+    "value": "Floor Plan Feng Shui Analysis"
+  },
+  {
+    "key": "guestAnalysis.navigation.back",
+    "value": "Back"
+  },
+  {
+    "key": "guestAnalysis.navigation.title",
+    "value": "Intelligent Feng Shui Analysis Experience"
+  },
+  {
+    "key": "guestAnalysis.steps.discoverDestiny",
+    "value": "Discover Your Destiny Code"
+  },
+  {
+    "key": "guestAnalysis.steps.determineLayout",
+    "value": "Determine House Feng Shui Layout"
+  },
+  {
+    "key": "guestAnalysis.steps.professionalInsights",
+    "value": "Based on professional BaZi algorithms, providing personalized life insights and fortune guidance."
+  },
+  {
+    "key": "guestAnalysis.steps.preciseLayout",
+    "value": "Through precise orientation measurement, providing professional feng shui layout recommendations."
+  },
+  {
+    "key": "guestAnalysis.personalForm.title",
+    "value": "Fill in Your Personal Information"
+  },
+  {
+    "key": "guestAnalysis.personalForm.description",
+    "value": "Please accurately fill in birth information, which will directly affect the precision and accuracy of BaZi analysis."
+  },
+  {
+    "key": "guestAnalysis.personalForm.quickFill",
+    "value": "Quick Fill Sample Data"
+  },
+  {
+    "key": "guestAnalysis.personalForm.name",
+    "value": "Name"
+  },
+  {
+    "key": "guestAnalysis.personalForm.namePlaceholder",
+    "value": "Please enter your name"
+  },
+  {
+    "key": "guestAnalysis.personalForm.nameRequired",
+    "value": "Name *"
+  },
+  {
+    "key": "guestAnalysis.personalForm.gender",
+    "value": "Gender"
+  },
+  {
+    "key": "guestAnalysis.personalForm.genderRequired",
+    "value": "Gender *"
+  },
+  {
+    "key": "guestAnalysis.personalForm.genderPlaceholder",
+    "value": "Please select gender"
+  },
+  {
+    "key": "guestAnalysis.personalForm.male",
+    "value": "Male"
+  },
+  {
+    "key": "guestAnalysis.personalForm.female",
+    "value": "Female"
+  },
+  {
+    "key": "guestAnalysis.personalForm.birthDate",
+    "value": "Birth Date"
+  },
+  {
+    "key": "guestAnalysis.personalForm.birthDateRequired",
+    "value": "Birth Date *"
+  },
+  {
+    "key": "guestAnalysis.personalForm.birthTime",
+    "value": "Birth Time"
+  },
+  {
+    "key": "guestAnalysis.personalForm.birthPlace",
+    "value": "Birth Place"
+  },
+  {
+    "key": "guestAnalysis.personalForm.birthPlaceRequired",
+    "value": "Birth Place *"
+  },
+  {
+    "key": "guestAnalysis.personalForm.birthPlacePlaceholder",
+    "value": "Please enter birth city"
+  },
+  {
+    "key": "guestAnalysis.personalForm.nextHouseOrientation",
+    "value": "Next: House Orientation"
+  },
+  {
+    "key": "guestAnalysis.houseForm.title",
+    "value": "Determine House Orientation Information"
+  },
+  {
+    "key": "guestAnalysis.houseForm.description",
+    "value": "You can choose to manually input orientation angle or use digital compass for precise measurement."
+  },
+  {
+    "key": "guestAnalysis.houseForm.quickFill",
+    "value": "Quick Fill Sample Data"
+  },
+  {
+    "key": "guestAnalysis.houseForm.selectFloorPlan",
+    "value": "Select Floor Plan"
+  },
+  {
+    "key": "guestAnalysis.houseForm.digitalCompass",
+    "value": "Digital Compass Measurement"
+  },
+  {
+    "key": "guestAnalysis.houseForm.currentOrientation",
+    "value": "Current orientation angle:"
+  },
+  {
+    "key": "guestAnalysis.houseForm.orientationAngle",
+    "value": "Orientation Angle"
+  },
+  {
+    "key": "guestAnalysis.houseForm.orientationRequired",
+    "value": "Orientation Angle *"
+  },
+  {
+    "key": "guestAnalysis.houseForm.orientationPlaceholder",
+    "value": "0-360 degrees"
+  },
+  {
+    "key": "guestAnalysis.houseForm.floor",
+    "value": "Floor"
+  },
+  {
+    "key": "guestAnalysis.houseForm.floorPlaceholder",
+    "value": "Floor number"
+  },
+  {
+    "key": "guestAnalysis.houseForm.address",
+    "value": "House Address"
+  },
+  {
+    "key": "guestAnalysis.houseForm.addressPlaceholder",
+    "value": "Please enter house address"
+  },
+  {
+    "key": "guestAnalysis.houseForm.roomCount",
+    "value": "Number of Rooms"
+  },
+  {
+    "key": "guestAnalysis.houseForm.roomCountPlaceholder",
+    "value": "Number of rooms"
+  },
+  {
+    "key": "guestAnalysis.analysisReady.title",
+    "value": "Ready to Begin Analysis"
+  },
+  {
+    "key": "guestAnalysis.analysisReady.description",
+    "value": "We will generate professional BaZi astrology and Flying Star feng shui analysis reports based on the information you provided."
+  },
+  {
+    "key": "guestAnalysis.analysisReady.startAnalysis",
+    "value": "Start Analysis"
+  },
+  {
+    "key": "guestAnalysis.analyzing",
+    "value": "Analyzing..."
+  },
+  {
+    "key": "guestAnalysis.analysis.title",
+    "value": "Ready to Begin Analysis"
+  },
+  {
+    "key": "guestAnalysis.analysis.description",
+    "value": "We will generate professional BaZi astrology and Flying Star feng shui analysis reports based on the information you provided."
+  },
+  {
+    "key": "guestAnalysis.analysis.start",
+    "value": "Start Analysis"
+  },
+  {
+    "key": "guestAnalysis.sampleData.name",
+    "value": "John Smith"
+  },
+  {
+    "key": "guestAnalysis.sampleData.location",
+    "value": "Beijing"
+  },
+  {
+    "key": "guestAnalysis.sampleData.address",
+    "value": "Wangjing Street, Chaoyang District, Beijing"
+  },
+  {
+    "key": "guestAnalysis.sampleData.floorPlanName",
+    "value": "Standard Three Bedroom Two Living Room"
+  },
+  {
+    "key": "guestAnalysis.sampleData.floorPlanDescription",
+    "value": "Facing south, three bedrooms two living rooms two bathrooms, area about 120㎡"
+  },
+  {
+    "key": "guestAnalysis.disclaimer",
+    "value": "This analysis is for reference only and cannot replace professional consultation. Please consult professionals for important decisions."
+  },
+  {
+    "key": "bazi.title",
+    "value": "BaZi Analysis"
+  },
+  {
+    "key": "bazi.description",
+    "value": "Professional BaZi algorithms provide personalized life insights and fortune guidance"
+  },
+  {
+    "key": "bazi.analyzing",
+    "value": "Conducting deep analysis..."
+  },
+  {
+    "key": "bazi.analysis_description",
+    "value": "Using traditional destiny wisdom to decode your life patterns"
+  },
+  {
+    "key": "bazi.disclaimer",
+    "value": "This analysis is based on traditional BaZi principles and is for reference only. Please consult professionals for important decisions."
+  },
+  {
+    "key": "bazi.analysis.sampleAnalysis",
+    "value": "Your Bazi shows..."
+  },
+  {
+    "key": "bazi.fourPillars.year",
+    "value": "Jia Zi"
+  },
+  {
+    "key": "bazi.fourPillars.month",
+    "value": "Yi Chou"
+  },
+  {
+    "key": "bazi.fourPillars.day",
+    "value": "Bing Yin"
+  },
+  {
+    "key": "bazi.fourPillars.hour",
+    "value": "Ding Mao"
+  },
+  {
+    "key": "bazi.birth_info",
+    "value": "Birth Information"
+  },
+  {
+    "key": "bazi.birth_date",
+    "value": "Birth Date"
+  },
+  {
+    "key": "bazi.birth_time",
+    "value": "Birth Time"
+  },
+  {
+    "key": "bazi.birth_place",
+    "value": "Birth Place"
+  },
+  {
+    "key": "bazi.lunar_calendar",
+    "value": "Lunar Calendar"
+  },
+  {
+    "key": "bazi.solar_calendar",
+    "value": "Solar Calendar"
+  },
+  {
+    "key": "bazi.year_pillar",
+    "value": "Year Pillar"
+  },
+  {
+    "key": "bazi.month_pillar",
+    "value": "Month Pillar"
+  },
+  {
+    "key": "bazi.day_pillar",
+    "value": "Day Pillar"
+  },
+  {
+    "key": "bazi.hour_pillar",
+    "value": "Hour Pillar"
+  },
+  {
+    "key": "bazi.heavenly_stem",
+    "value": "Heavenly Stem"
+  },
+  {
+    "key": "bazi.earthly_branch",
+    "value": "Earthly Branch"
+  },
+  {
+    "key": "bazi.five_elements",
+    "value": "Five Elements"
+  },
+  {
+    "key": "bazi.wood",
+    "value": "Wood"
+  },
+  {
+    "key": "bazi.fire",
+    "value": "Fire"
+  },
+  {
+    "key": "bazi.earth",
+    "value": "Earth"
+  },
+  {
+    "key": "bazi.metal",
+    "value": "Metal"
+  },
+  {
+    "key": "bazi.water",
+    "value": "Water"
+  },
+  {
+    "key": "bazi.strong",
+    "value": "Strong"
+  },
+  {
+    "key": "bazi.weak",
+    "value": "Weak"
+  },
+  {
+    "key": "bazi.favorable_elements",
+    "value": "Favorable Elements"
+  },
+  {
+    "key": "bazi.unfavorable_elements",
+    "value": "Unfavorable Elements"
+  },
+  {
+    "key": "bazi.element_analysis",
+    "value": "Five Elements Analysis"
+  },
+  {
+    "key": "bazi.personality_analysis",
+    "value": "Personality Analysis"
+  },
+  {
+    "key": "bazi.career_guidance",
+    "value": "Career Guidance"
+  },
+  {
+    "key": "bazi.relationship_analysis",
+    "value": "Relationship Analysis"
+  },
+  {
+    "key": "bazi.health_guidance",
+    "value": "Health Guidance"
+  },
+  {
+    "key": "bazi.fortune_analysis",
+    "value": "Fortune Analysis"
+  },
+  {
+    "key": "bazi.tabs.overview",
+    "value": "Overview"
+  },
+  {
+    "key": "bazi.tabs.fourPillars",
+    "value": "Four Pillars"
+  },
+  {
+    "key": "bazi.tabs.patterns",
+    "value": "Patterns"
+  },
+  {
+    "key": "bazi.tabs.fiveElements",
+    "value": "Five Elements"
+  },
+  {
+    "key": "bazi.tabs.godsEvils",
+    "value": "Gods & Evils"
+  },
+  {
+    "key": "bazi.tabs.luckCycles",
+    "value": "Luck Cycles"
+  },
+  {
+    "key": "bazi.tabs.dailyFortune",
+    "value": "Daily Fortune"
+  },
+  {
+    "key": "bazi.tabs.insights",
+    "value": "Insights"
+  },
+  {
+    "key": "bazi.deepAnalysisTitle",
+    "value": "Deep Bazi Analysis"
+  },
+  {
+    "key": "bazi.deepAnalysisSubtitle",
+    "value": "Personalized insights based on professional algorithms"
+  },
+  {
+    "key": "bazi.labels.name",
+    "value": "Name"
+  },
+  {
+    "key": "bazi.labels.gender",
+    "value": "Gender"
+  },
+  {
+    "key": "bazi.labels.birthTime",
+    "value": "Birth Time"
+  },
+  {
+    "key": "bazi.labels.gregorian",
+    "value": "Gregorian"
+  },
+  {
+    "key": "bazi.labels.lunar",
+    "value": "Lunar"
+  },
+  {
+    "key": "bazi.gender.male",
+    "value": "Male"
+  },
+  {
+    "key": "bazi.gender.female",
+    "value": "Female"
+  },
+  {
+    "key": "fengshui.palace.kan",
+    "value": "Kan"
+  },
+  {
+    "key": "fengshui.palace.kun",
+    "value": "Kun"
+  },
+  {
+    "key": "fengshui.palace.zhen",
+    "value": "Zhen"
+  },
+  {
+    "key": "fengshui.palace.xun",
+    "value": "Xun"
+  },
+  {
+    "key": "fengshui.palace.center",
+    "value": "Center"
+  },
+  {
+    "key": "fengshui.palace.qian",
+    "value": "Qian"
+  },
+  {
+    "key": "fengshui.palace.dui",
+    "value": "Dui"
+  },
+  {
+    "key": "fengshui.palace.gen",
+    "value": "Gen"
+  },
+  {
+    "key": "fengshui.palace.li",
+    "value": "Li"
+  },
+  {
+    "key": "fengshui.palace_suffix",
+    "value": " Palace"
+  },
+  {
+    "key": "fengshui.period_desc",
+    "value": "represents current fortune"
+  },
+  {
+    "key": "fengshui.mountain_star_desc",
+    "value": "represents sitting direction"
+  },
+  {
+    "key": "fengshui.water_star_desc",
+    "value": "represents facing direction"
+  },
+  {
+    "key": "fengshui.details",
+    "value": "Details"
+  },
+  {
+    "key": "fengshui.pattern_analysis",
+    "value": "Pattern Analysis"
+  },
+  {
+    "key": "fengshui.overall_pattern",
+    "value": "Overall Pattern"
+  },
+  {
+    "key": "fengshui.pattern_type",
+    "value": "Pattern Type"
+  },
+  {
+    "key": "fengshui.key_positions",
+    "value": "Key Positions"
+  },
+  {
+    "key": "fengshui.suitable_arrangements",
+    "value": "Suitable Arrangements"
+  },
+  {
+    "key": "fengshui.layout_advice",
+    "value": "Layout Advice"
+  },
+  {
+    "key": "fengshui.pattern_explanation",
+    "value": "Pattern Explanation"
+  },
+  {
+    "key": "fengshui.title",
+    "value": "Feng Shui Analysis"
+  },
+  {
+    "key": "fengshui.flying_stars",
+    "value": "Flying Star Feng Shui"
+  },
+  {
+    "key": "fengshui.nine_palaces",
+    "value": "Nine Palaces"
+  },
+  {
+    "key": "fengshui.compass_direction",
+    "value": "Compass Direction"
+  },
+  {
+    "key": "fengshui.house_facing",
+    "value": "House Facing"
+  },
+  {
+    "key": "fengshui.house_sitting",
+    "value": "House Sitting"
+  },
+  {
+    "key": "fengshui.period",
+    "value": "Period"
+  },
+  {
+    "key": "fengshui.current_period",
+    "value": "Current Period"
+  },
+  {
+    "key": "fengshui.wenchangwei",
+    "value": "Wenchang Position"
+  },
+  {
+    "key": "fengshui.caiwei",
+    "value": "Wealth Position"
+  },
+  {
+    "key": "fengshui.mountain_star",
+    "value": "Mountain Star"
+  },
+  {
+    "key": "fengshui.water_star",
+    "value": "Water Star"
+  },
+  {
+    "key": "fengshui.time_star",
+    "value": "Time Star"
+  },
+  {
+    "key": "fengshui.annual_star",
+    "value": "Annual Star"
+  },
+  {
+    "key": "fengshui.monthly_star",
+    "value": "Monthly Star"
+  },
+  {
+    "key": "fengshui.daily_star",
+    "value": "Daily Star"
+  },
+  {
+    "key": "fengshui.auspicious",
+    "value": "Auspicious"
+  },
+  {
+    "key": "fengshui.inauspicious",
+    "value": "Inauspicious"
+  },
+  {
+    "key": "fengshui.neutral",
+    "value": "Neutral"
+  },
+  {
+    "key": "fengshui.very_auspicious",
+    "value": "Very Auspicious"
+  },
+  {
+    "key": "fengshui.very_inauspicious",
+    "value": "Very Inauspicious"
+  },
+  {
+    "key": "fengshui.room_analysis",
+    "value": "Room Analysis"
+  },
+  {
+    "key": "fengshui.bedroom",
+    "value": "Bedroom"
+  },
+  {
+    "key": "fengshui.living_room",
+    "value": "Living Room"
+  },
+  {
+    "key": "fengshui.kitchen",
+    "value": "Kitchen"
+  },
+  {
+    "key": "fengshui.bathroom",
+    "value": "Bathroom"
+  },
+  {
+    "key": "fengshui.study",
+    "value": "Study"
+  },
+  {
+    "key": "fengshui.dining_room",
+    "value": "Dining Room"
+  },
+  {
+    "key": "fengshui.entrance",
+    "value": "Entrance"
+  },
+  {
+    "key": "fengshui.balcony",
+    "value": "Balcony"
+  },
+  {
+    "key": "fengshui.recommendations",
+    "value": "Feng Shui Recommendations"
+  },
+  {
+    "key": "fengshui.color_recommendations",
+    "value": "Color Recommendations"
+  },
+  {
+    "key": "fengshui.furniture_placement",
+    "value": "Furniture Placement"
+  },
+  {
+    "key": "fengshui.decoration_suggestions",
+    "value": "Decoration Suggestions"
+  },
+  {
+    "key": "fengshui.remedy_methods",
+    "value": "Remedy Methods"
+  },
+  {
+    "key": "fengshui.tabs.overview",
+    "value": "Overview"
+  },
+  {
+    "key": "fengshui.tabs.ninePalaces",
+    "value": "Nine Palaces"
+  },
+  {
+    "key": "fengshui.tabs.patterns",
+    "value": "Patterns"
+  },
+  {
+    "key": "fengshui.tabs.advice",
+    "value": "Advice"
+  },
+  {
+    "key": "fengshui.tabs.advanced",
+    "value": "Advanced"
+  },
+  {
+    "key": "compass_legacy.title",
+    "value": "Digital Compass"
+  },
+  {
+    "key": "compass_legacy.measuring",
+    "value": "Measuring..."
+  },
+  {
+    "key": "compass_legacy.calibration",
+    "value": "Calibration"
+  },
+  {
+    "key": "compass_legacy.calibrate_device",
+    "value": "Calibrate Device"
+  },
+  {
+    "key": "compass_legacy.calibration_instructions",
+    "value": "Please follow the prompts to calibrate your device"
+  },
+  {
+    "key": "compass_legacy.accuracy",
+    "value": "Accuracy"
+  },
+  {
+    "key": "compass_legacy.confidence",
+    "value": "Confidence"
+  },
+  {
+    "key": "compass_legacy.magnetic_declination",
+    "value": "Magnetic Declination"
+  },
+  {
+    "key": "compass_legacy.true_north",
+    "value": "True North"
+  },
+  {
+    "key": "compass_legacy.magnetic_north",
+    "value": "Magnetic North"
+  },
+  {
+    "key": "compass_legacy.direction",
+    "value": "Direction"
+  },
+  {
+    "key": "compass_legacy.degree",
+    "value": "Degree"
+  },
+  {
+    "key": "compass_legacy.measurement_history",
+    "value": "Measurement History"
+  },
+  {
+    "key": "compass_legacy.save_measurement",
+    "value": "Save Measurement"
+  },
+  {
+    "key": "compass_legacy.clear_history",
+    "value": "Clear History"
+  },
+  {
+    "key": "compass_legacy.device_not_supported",
+    "value": "Device does not support compass functionality"
+  },
+  {
+    "key": "compass_legacy.permission_required",
+    "value": "Sensor permission required"
+  },
+  {
+    "key": "compass_legacy.interference_detected",
+    "value": "Magnetic field interference detected"
+  },
+  {
+    "key": "compass_legacy.move_away_from_metal",
+    "value": "Please move away from metal objects"
+  },
+  {
+    "key": "compass_legacy.measurement_saved",
+    "value": "Measurement saved"
+  },
+  {
+    "key": "compass_legacy.high_accuracy",
+    "value": "High Accuracy"
+  },
+  {
+    "key": "compass_legacy.medium_accuracy",
+    "value": "Medium Accuracy"
+  },
+  {
+    "key": "compass_legacy.low_accuracy",
+    "value": "Low Accuracy"
+  },
+  {
+    "key": "overlay.title",
+    "value": "Floor Plan Overlay"
+  },
+  {
+    "key": "overlay.upload_floorplan",
+    "value": "Upload Floor Plan"
+  },
+  {
+    "key": "overlay.processing_image",
+    "value": "Processing image..."
+  },
+  {
+    "key": "overlay.room_detection",
+    "value": "Room Detection"
+  },
+  {
+    "key": "overlay.auto_alignment",
+    "value": "Auto Alignment"
+  },
+  {
+    "key": "overlay.manual_adjustment",
+    "value": "Manual Adjustment"
+  },
+  {
+    "key": "overlay.transparency",
+    "value": "Transparency"
+  },
+  {
+    "key": "overlay.overlay_opacity",
+    "value": "Overlay Opacity"
+  },
+  {
+    "key": "overlay.show_grid",
+    "value": "Show Grid"
+  },
+  {
+    "key": "overlay.show_labels",
+    "value": "Show Labels"
+  },
+  {
+    "key": "overlay.room_scores",
+    "value": "Room Scores"
+  },
+  {
+    "key": "overlay.click_room_for_details",
+    "value": "Click room for details"
+  },
+  {
+    "key": "overlay.room_function",
+    "value": "Room Function"
+  },
+  {
+    "key": "overlay.feng_shui_score",
+    "value": "Feng Shui Score"
+  },
+  {
+    "key": "overlay.recommendations_for_room",
+    "value": "Recommendations for Room"
+  },
+  {
+    "key": "overlay.image_upload_failed",
+    "value": "Image upload failed"
+  },
+  {
+    "key": "overlay.image_processing_failed",
+    "value": "Image processing failed"
+  },
+  {
+    "key": "overlay.unsupported_format",
+    "value": "Unsupported file format"
+  },
+  {
+    "key": "overlay.file_too_large",
+    "value": "File too large"
+  },
+  {
+    "key": "overlay.drag_drop_image",
+    "value": "Drag & drop image here or click to upload"
+  },
+  {
+    "key": "overlay.supported_formats",
+    "value": "Supports JPG, PNG, PDF formats"
+  },
+  {
+    "key": "overlay.max_file_size",
+    "value": "Maximum file size: 10MB"
+  },
+  {
+    "key": "overlay.processing_complete",
+    "value": "Processing complete"
+  },
+  {
+    "key": "overlay.alignment_accuracy",
+    "value": "Alignment Accuracy"
+  },
+  {
+    "key": "overlay.rotation_angle",
+    "value": "Rotation Angle"
+  },
+  {
+    "key": "overlay.scale_factor",
+    "value": "Scale Factor"
+  },
+  {
+    "key": "reports.title",
+    "value": "Analysis Reports"
+  },
+  {
+    "key": "reports.generate_report",
+    "value": "Generate Report"
+  },
+  {
+    "key": "reports.download_pdf",
+    "value": "Download PDF"
+  },
+  {
+    "key": "reports.share_report",
+    "value": "Share Report"
+  },
+  {
+    "key": "reports.report_summary",
+    "value": "Report Summary"
+  },
+  {
+    "key": "reports.detailed_analysis",
+    "value": "Detailed Analysis"
+  },
+  {
+    "key": "reports.recommendations",
+    "value": "Recommendations"
+  },
+  {
+    "key": "reports.charts_and_diagrams",
+    "value": "Charts and Diagrams"
+  },
+  {
+    "key": "reports.report_date",
+    "value": "Report Date"
+  },
+  {
+    "key": "reports.analysis_type",
+    "value": "Analysis Type"
+  },
+  {
+    "key": "reports.comprehensive_analysis",
+    "value": "Comprehensive Analysis"
+  },
+  {
+    "key": "reports.bazi_only",
+    "value": "BaZi Analysis Only"
+  },
+  {
+    "key": "reports.fengshui_only",
+    "value": "Feng Shui Analysis Only"
+  },
+  {
+    "key": "reports.report_generating",
+    "value": "Generating report..."
+  },
+  {
+    "key": "reports.report_ready",
+    "value": "Report ready"
+  },
+  {
+    "key": "reports.report_failed",
+    "value": "Report generation failed"
+  },
+  {
+    "key": "reports.watermark_guest",
+    "value": "Guest Mode - Register for full report"
+  },
+  {
+    "key": "reports.upgrade_for_full_report",
+    "value": "Upgrade subscription for full report"
+  },
+  {
+    "key": "reports.report_history",
+    "value": "Report History"
+  },
+  {
+    "key": "reports.no_reports",
+    "value": "No reports yet"
+  },
+  {
+    "key": "reports.delete_report",
+    "value": "Delete Report"
+  },
+  {
+    "key": "reports.report_deleted",
+    "value": "Report deleted"
+  },
+  {
+    "key": "chat.title",
+    "value": "AI Feng Shui Assistant"
+  },
+  {
+    "key": "chat.ask_question",
+    "value": "Ask Feng Shui Questions"
+  },
+  {
+    "key": "chat.type_message",
+    "value": "Type your question..."
+  },
+  {
+    "key": "chat.send",
+    "value": "Send"
+  },
+  {
+    "key": "chat.thinking",
+    "value": "Thinking..."
+  },
+  {
+    "key": "chat.chat_history",
+    "value": "Chat History"
+  },
+  {
+    "key": "chat.clear_chat",
+    "value": "Clear Chat"
+  },
+  {
+    "key": "chat.new_conversation",
+    "value": "New Conversation"
+  },
+  {
+    "key": "chat.suggested_questions",
+    "value": "Suggested Questions"
+  },
+  {
+    "key": "chat.daily_limit_reached",
+    "value": "Daily chat limit reached"
+  },
+  {
+    "key": "chat.upgrade_for_more",
+    "value": "Upgrade subscription for more chats"
+  },
+  {
+    "key": "chat.ai_disclaimer",
+    "value": "AI responses are for reference only and do not constitute professional advice"
+  },
+  {
+    "key": "chat.conversation_saved",
+    "value": "Conversation saved"
+  },
+  {
+    "key": "chat.conversation_deleted",
+    "value": "Conversation deleted"
+  },
+  {
+    "key": "chat.copy_message",
+    "value": "Copy Message"
+  },
+  {
+    "key": "chat.message_copied",
+    "value": "Message copied"
+  },
+  {
+    "key": "chat.regenerate_response",
+    "value": "Regenerate Response"
+  },
+  {
+    "key": "chat.rate_response",
+    "value": "Rate Response"
+  },
+  {
+    "key": "chat.helpful",
+    "value": "Helpful"
+  },
+  {
+    "key": "chat.not_helpful",
+    "value": "Not Helpful"
+  },
+  {
+    "key": "subscription.title",
+    "value": "Subscription Management"
+  },
+  {
+    "key": "subscription.current_plan",
+    "value": "Current Plan"
+  },
+  {
+    "key": "subscription.free_plan",
+    "value": "Free Plan"
+  },
+  {
+    "key": "subscription.standard_plan",
+    "value": "Standard Plan"
+  },
+  {
+    "key": "subscription.professional_plan",
+    "value": "Professional Plan"
+  },
+  {
+    "key": "subscription.upgrade",
+    "value": "Upgrade"
+  },
+  {
+    "key": "subscription.downgrade",
+    "value": "Downgrade"
+  },
+  {
+    "key": "subscription.cancel_subscription",
+    "value": "Cancel Subscription"
+  },
+  {
+    "key": "subscription.renew_subscription",
+    "value": "Renew Subscription"
+  },
+  {
+    "key": "subscription.billing_history",
+    "value": "Billing History"
+  },
+  {
+    "key": "subscription.usage_statistics",
+    "value": "Usage Statistics"
+  },
+  {
+    "key": "subscription.quota_remaining",
+    "value": "Quota Remaining"
+  },
+  {
+    "key": "subscription.quota_used",
+    "value": "Quota Used"
+  },
+  {
+    "key": "subscription.monthly_billing",
+    "value": "Monthly Billing"
+  },
+  {
+    "key": "subscription.yearly_billing",
+    "value": "Yearly Billing"
+  },
+  {
+    "key": "subscription.save_with_yearly",
+    "value": "Save 20% with yearly billing"
+  },
+  {
+    "key": "subscription.payment_method",
+    "value": "Payment Method"
+  },
+  {
+    "key": "subscription.update_payment",
+    "value": "Update Payment Method"
+  },
+  {
+    "key": "subscription.next_billing_date",
+    "value": "Next Billing Date"
+  },
+  {
+    "key": "subscription.subscription_active",
+    "value": "Subscription Active"
+  },
+  {
+    "key": "subscription.subscription_expired",
+    "value": "Subscription Expired"
+  },
+  {
+    "key": "subscription.subscription_cancelled",
+    "value": "Subscription Cancelled"
+  },
+  {
+    "key": "subscription.auto_renewal",
+    "value": "Auto Renewal"
+  },
+  {
+    "key": "subscription.manage_subscription",
+    "value": "Manage Subscription"
+  },
+  {
+    "key": "subscription.contact_support",
+    "value": "Contact Support"
+  },
+  {
+    "key": "profile.title",
+    "value": "Profile"
+  },
+  {
+    "key": "profile.personal_info",
+    "value": "Personal Information"
+  },
+  {
+    "key": "profile.name",
+    "value": "Name"
+  },
+  {
+    "key": "profile.email",
+    "value": "Email"
+  },
+  {
+    "key": "profile.phone",
+    "value": "Phone"
+  },
+  {
+    "key": "profile.address",
+    "value": "Address"
+  },
+  {
+    "key": "profile.timezone",
+    "value": "Timezone"
+  },
+  {
+    "key": "profile.language",
+    "value": "Language"
+  },
+  {
+    "key": "profile.birth_info",
+    "value": "Birth Information"
+  },
+  {
+    "key": "profile.privacy_settings",
+    "value": "Privacy Settings"
+  },
+  {
+    "key": "profile.data_export",
+    "value": "Data Export"
+  },
+  {
+    "key": "profile.delete_account",
+    "value": "Delete Account"
+  },
+  {
+    "key": "profile.account_security",
+    "value": "Account Security"
+  },
+  {
+    "key": "profile.change_password",
+    "value": "Change Password"
+  },
+  {
+    "key": "profile.two_factor_auth",
+    "value": "Two-Factor Authentication"
+  },
+  {
+    "key": "profile.login_history",
+    "value": "Login History"
+  },
+  {
+    "key": "profile.profile_updated",
+    "value": "Profile updated"
+  },
+  {
+    "key": "profile.password_changed",
+    "value": "Password changed"
+  },
+  {
+    "key": "profile.account_deleted",
+    "value": "Account deleted"
+  },
+  {
+    "key": "profile.data_exported",
+    "value": "Data exported"
+  },
+  {
+    "key": "profile.confirm_delete_account",
+    "value": "Confirm delete account? This action cannot be undone."
+  },
+  {
+    "key": "profile.display_name",
+    "value": "Display Name"
+  },
+  {
+    "key": "profile.gender",
+    "value": "Gender"
+  },
+  {
+    "key": "profile.birth_date",
+    "value": "Birth Date"
+  },
+  {
+    "key": "profile.birth_time",
+    "value": "Birth Time"
+  },
+  {
+    "key": "profile.birth_place",
+    "value": "Birth Place"
+  },
+  {
+    "key": "profile.calendar_type",
+    "value": "Calendar Type"
+  },
+  {
+    "key": "profile.gregorian",
+    "value": "Gregorian"
+  },
+  {
+    "key": "profile.lunar",
+    "value": "Lunar"
+  },
+  {
+    "key": "profile.contact_info",
+    "value": "Contact Information"
+  },
+  {
+    "key": "profile.optional",
+    "value": "Optional"
+  },
+  {
+    "key": "profile.required",
+    "value": "Required"
+  },
+  {
+    "key": "profile.save_profile",
+    "value": "Save Profile"
+  },
+  {
+    "key": "profile.saving",
+    "value": "Saving..."
+  },
+  {
+    "key": "profile.profile_saved",
+    "value": "Profile saved successfully"
+  },
+  {
+    "key": "profile.validation_error",
+    "value": "Validation Error"
+  },
+  {
+    "key": "profile.invalid_email",
+    "value": "Invalid email format"
+  },
+  {
+    "key": "profile.invalid_phone",
+    "value": "Invalid phone number format"
+  },
+  {
+    "key": "profile.name_required",
+    "value": "Name is required"
+  },
+  {
+    "key": "profile.email_required",
+    "value": "Email is required"
+  },
+  {
+    "key": "profile.date_required",
+    "value": "Date is required"
+  },
+  {
+    "key": "profile.time_required",
+    "value": "Time is required"
+  },
+  {
+    "key": "profile.address_required",
+    "value": "Address is required"
+  },
+  {
+    "key": "forms.validation.required",
+    "value": "This field is required"
+  },
+  {
+    "key": "forms.validation.email",
+    "value": "Please enter a valid email address"
+  },
+  {
+    "key": "forms.validation.min_length",
+    "value": "At least {{count}} characters required"
+  },
+  {
+    "key": "forms.validation.max_length",
+    "value": "Maximum {{count}} characters allowed"
+  },
+  {
+    "key": "forms.validation.pattern",
+    "value": "Invalid format"
+  },
+  {
+    "key": "forms.placeholders.display_name",
+    "value": "Enter your nickname"
+  },
+  {
+    "key": "forms.placeholders.email",
+    "value": "your@email.com"
+  },
+  {
+    "key": "forms.placeholders.birth_date",
+    "value": "Select birth date"
+  },
+  {
+    "key": "forms.placeholders.birth_time",
+    "value": "Select birth time"
+  },
+  {
+    "key": "forms.placeholders.address",
+    "value": "Enter birth place"
+  },
+  {
+    "key": "forms.placeholders.search_address",
+    "value": "Search address..."
+  },
+  {
+    "key": "forms.tooltips.display_name",
+    "value": "This is the name other users will see. You can change it anytime."
+  },
+  {
+    "key": "forms.tooltips.birth_date_lunar",
+    "value": "Lunar date, used for BaZi calculations"
+  },
+  {
+    "key": "forms.tooltips.birth_date_gregorian",
+    "value": "Gregorian date, used for BaZi calculations"
+  },
+  {
+    "key": "forms.tooltips.birth_time",
+    "value": "Accurate birth time helps with more precise BaZi analysis"
+  },
+  {
+    "key": "forms.tooltips.birth_place",
+    "value": "Birth place is used for true solar time calculation, improving BaZi analysis accuracy"
+  },
+  {
+    "key": "forms.tooltips.email",
+    "value": "Used for receiving important notifications and analysis reports"
+  },
+  {
+    "key": "forms.tooltips.phone",
+    "value": "Used for receiving SMS notifications and verification"
+  },
+  {
+    "key": "forms.tooltips.calendar_type",
+    "value": "Choose Gregorian or Lunar, affects BaZi calculation accuracy"
+  },
+  {
+    "key": "forms.calendar.select_date",
+    "value": "Select Date"
+  },
+  {
+    "key": "forms.calendar.clear",
+    "value": "Clear"
+  },
+  {
+    "key": "forms.calendar.today",
+    "value": "Today"
+  },
+  {
+    "key": "forms.calendar.cancel",
+    "value": "Cancel"
+  },
+  {
+    "key": "forms.calendar.confirm",
+    "value": "Confirm"
+  },
+  {
+    "key": "forms.calendar.lunar_note",
+    "value": "In Lunar mode, the system automatically converts to Gregorian for BaZi calculations"
+  },
+  {
+    "key": "forms.time.select_time",
+    "value": "Select Time"
+  },
+  {
+    "key": "forms.time.hour",
+    "value": "Hour"
+  },
+  {
+    "key": "forms.time.minute",
+    "value": "Minute"
+  },
+  {
+    "key": "forms.time.period",
+    "value": "Period"
+  },
+  {
+    "key": "forms.time.am",
+    "value": "AM"
+  },
+  {
+    "key": "forms.time.pm",
+    "value": "PM"
+  },
+  {
+    "key": "forms.time.common_times",
+    "value": "Common Times"
+  },
+  {
+    "key": "forms.address.select_location",
+    "value": "Select Location"
+  },
+  {
+    "key": "forms.address.search_placeholder",
+    "value": "Enter address, supports autocomplete search"
+  },
+  {
+    "key": "forms.address.no_results",
+    "value": "No matching addresses found, please try other keywords"
+  },
+  {
+    "key": "forms.address.supported_formats",
+    "value": "Supports entering state, city, street, community names, etc."
+  },
+  {
+    "key": "forms.address.current_location",
+    "value": "Current Location"
+  },
+  {
+    "key": "forms.address.manual_entry",
+    "value": "Manual Entry"
+  },
+  {
+    "key": "forms.map.click_to_select",
+    "value": "Click on map to select location"
+  },
+  {
+    "key": "forms.map.drag_to_pan",
+    "value": "Drag map to move"
+  },
+  {
+    "key": "forms.map.zoom_in",
+    "value": "Zoom In"
+  },
+  {
+    "key": "forms.map.zoom_out",
+    "value": "Zoom Out"
+  },
+  {
+    "key": "forms.map.reset_view",
+    "value": "Reset View"
+  },
+  {
+    "key": "forms.map.locate_me",
+    "value": "Locate Me"
+  },
+  {
+    "key": "forms.map.selected_location",
+    "value": "Selected Location"
+  },
+  {
+    "key": "forms.map.latitude",
+    "value": "Latitude"
+  },
+  {
+    "key": "forms.map.longitude",
+    "value": "Longitude"
+  },
+  {
+    "key": "forms.map.accuracy",
+    "value": "Accuracy"
+  },
+  {
+    "key": "forms.map.address",
+    "value": "Address"
+  },
+  {
+    "key": "settings.title",
+    "value": "Settings"
+  },
+  {
+    "key": "settings.general",
+    "value": "General"
+  },
+  {
+    "key": "settings.appearance",
+    "value": "Appearance"
+  },
+  {
+    "key": "settings.notifications",
+    "value": "Notifications"
+  },
+  {
+    "key": "settings.privacy",
+    "value": "Privacy"
+  },
+  {
+    "key": "settings.advanced",
+    "value": "Advanced"
+  },
+  {
+    "key": "settings.theme",
+    "value": "Theme"
+  },
+  {
+    "key": "settings.light_theme",
+    "value": "Light Theme"
+  },
+  {
+    "key": "settings.dark_theme",
+    "value": "Dark Theme"
+  },
+  {
+    "key": "settings.auto_theme",
+    "value": "System Default"
+  },
+  {
+    "key": "settings.font_size",
+    "value": "Font Size"
+  },
+  {
+    "key": "settings.small",
+    "value": "Small"
+  },
+  {
+    "key": "settings.medium",
+    "value": "Medium"
+  },
+  {
+    "key": "settings.large",
+    "value": "Large"
+  },
+  {
+    "key": "settings.email_notifications",
+    "value": "Email Notifications"
+  },
+  {
+    "key": "settings.push_notifications",
+    "value": "Push Notifications"
+  },
+  {
+    "key": "settings.marketing_emails",
+    "value": "Marketing Emails"
+  },
+  {
+    "key": "settings.data_collection",
+    "value": "Data Collection"
+  },
+  {
+    "key": "settings.analytics",
+    "value": "Analytics"
+  },
+  {
+    "key": "settings.cookies",
+    "value": "Cookie Settings"
+  },
+  {
+    "key": "settings.cache_management",
+    "value": "Cache Management"
+  },
+  {
+    "key": "settings.clear_cache",
+    "value": "Clear Cache"
+  },
+  {
+    "key": "settings.export_settings",
+    "value": "Export Settings"
+  },
+  {
+    "key": "settings.import_settings",
+    "value": "Import Settings"
+  },
+  {
+    "key": "settings.reset_settings",
+    "value": "Reset Settings"
+  },
+  {
+    "key": "settings.settings_saved",
+    "value": "Settings saved"
+  },
+  {
+    "key": "settings.cache_cleared",
+    "value": "Cache cleared"
+  },
+  {
+    "key": "settings.settings_reset",
+    "value": "Settings reset"
+  },
+  {
+    "key": "errors.page_not_found",
+    "value": "Page Not Found"
+  },
+  {
+    "key": "errors.server_error",
+    "value": "Server Error"
+  },
+  {
+    "key": "errors.network_error",
+    "value": "Network Error"
+  },
+  {
+    "key": "errors.permission_denied",
+    "value": "Permission Denied"
+  },
+  {
+    "key": "errors.invalid_input",
+    "value": "Invalid Input"
+  },
+  {
+    "key": "errors.file_not_found",
+    "value": "File Not Found"
+  },
+  {
+    "key": "errors.upload_failed",
+    "value": "Upload Failed"
+  },
+  {
+    "key": "errors.processing_failed",
+    "value": "Processing Failed"
+  },
+  {
+    "key": "errors.calculation_error",
+    "value": "Calculation Error"
+  },
+  {
+    "key": "errors.database_error",
+    "value": "Database Error"
+  },
+  {
+    "key": "errors.authentication_failed",
+    "value": "Authentication Failed"
+  },
+  {
+    "key": "errors.session_expired",
+    "value": "Session Expired"
+  },
+  {
+    "key": "errors.quota_exceeded",
+    "value": "Quota Exceeded"
+  },
+  {
+    "key": "errors.feature_not_available",
+    "value": "Feature Not Available"
+  },
+  {
+    "key": "errors.maintenance_mode",
+    "value": "System Maintenance"
+  },
+  {
+    "key": "errors.try_again_later",
+    "value": "Please try again later"
+  },
+  {
+    "key": "errors.contact_support",
+    "value": "Please contact support"
+  },
+  {
+    "key": "errors.unknown_error",
+    "value": "Unknown Error"
+  },
+  {
+    "key": "success.operation_completed",
+    "value": "Operation Completed"
+  },
+  {
+    "key": "success.data_saved",
+    "value": "Data Saved"
+  },
+  {
+    "key": "success.file_uploaded",
+    "value": "File Uploaded"
+  },
+  {
+    "key": "success.analysis_completed",
+    "value": "Analysis Completed"
+  },
+  {
+    "key": "success.report_generated",
+    "value": "Report Generated"
+  },
+  {
+    "key": "success.settings_updated",
+    "value": "Settings Updated"
+  },
+  {
+    "key": "success.subscription_updated",
+    "value": "Subscription Updated"
+  },
+  {
+    "key": "success.payment_successful",
+    "value": "Payment Successful"
+  },
+  {
+    "key": "success.email_sent",
+    "value": "Email Sent"
+  },
+  {
+    "key": "success.account_verified",
+    "value": "Account Verified"
+  },
+  {
+    "key": "success.password_reset",
+    "value": "Password Reset"
+  },
+  {
+    "key": "success.data_exported",
+    "value": "Data Exported"
+  },
+  {
+    "key": "success.backup_created",
+    "value": "Backup Created"
+  },
+  {
+    "key": "success.sync_completed",
+    "value": "Sync Completed"
+  },
+  {
+    "key": "i18nTest.currentLanguageInfo",
+    "value": "Current Language Info"
+  },
+  {
+    "key": "i18nTest.locale",
+    "value": "Locale"
+  },
+  {
+    "key": "i18nTest.title",
+    "value": "Title"
+  },
+  {
+    "key": "i18nTest.subtitle",
+    "value": "Subtitle"
+  },
+  {
+    "key": "i18nTest.features",
+    "value": "Features"
+  },
+  {
+    "key": "i18nTest.languageSwitchingTest",
+    "value": "Language Switching Test"
+  },
+  {
+    "key": "i18nTest.switchingInstructions",
+    "value": "Try switching languages using the dropdown above to see the content change."
+  },
+  {
+    "key": "i18nTest.commonTranslations",
+    "value": "Common Translations"
+  },
+  {
+    "key": "i18nTest.loading",
+    "value": "Loading"
+  },
+  {
+    "key": "i18nTest.success",
+    "value": "Success"
+  },
+  {
+    "key": "i18nTest.cancel",
+    "value": "Cancel"
+  },
+  {
+    "key": "i18nTest.confirm",
+    "value": "Confirm"
+  },
+  {
+    "key": "i18nTest.search",
+    "value": "Search"
+  },
+  {
+    "key": "i18nTest.save",
+    "value": "Save"
+  },
+  {
+    "key": "floorPlan.standardListTitle",
+    "value": "Select Standard Floor Plan"
+  },
+  {
+    "key": "floorPlan.roomFallback",
+    "value": "Room {index}"
+  },
+  {
+    "key": "floorPlan.standard-3room.name",
+    "value": "Standard Three Bedrooms Two Living Rooms"
+  },
+  {
+    "key": "floorPlan.standard-3room.description",
+    "value": "South-facing, 3 bedrooms, 2 living rooms, 2 bathrooms, about 120㎡"
+  },
+  {
+    "key": "floorPlan.standard-2room.name",
+    "value": "Standard Two Bedrooms One Living Room"
+  },
+  {
+    "key": "floorPlan.standard-2room.description",
+    "value": "South-facing, 2 bedrooms, 1 living room, 1 bathroom, about 80㎡"
+  },
+  {
+    "key": "floorPlan.standard-4room.name",
+    "value": "Standard Four Bedrooms Two Living Rooms"
+  },
+  {
+    "key": "floorPlan.standard-4room.description",
+    "value": "South-facing, 4 bedrooms, 2 living rooms, 3 bathrooms, about 150㎡"
+  },
+  {
+    "key": "floorPlan.summary",
+    "value": "{count} rooms | {area}㎡"
+  },
+  {
+    "key": "floorPlan.upload.title",
+    "value": "Upload Custom Floor Plan"
+  },
+  {
+    "key": "floorPlan.upload.button",
+    "value": "Upload Floor Plan File"
+  },
+  {
+    "key": "floorPlan.upload.clickToSelect",
+    "value": "Click to select floor plan file"
+  },
+  {
+    "key": "floorPlan.upload.supportedFormats",
+    "value": "Supports JPG, PNG, PDF formats"
+  },
+  {
+    "key": "floorPlan.upload.customName",
+    "value": "Custom Floor Plan"
+  },
+  {
+    "key": "floorPlan.upload.customDescription",
+    "value": "User uploaded floor plan"
+  },
+  {
+    "key": "floorPlan.selected",
+    "value": "Selected Floor Plan"
+  },
+  {
+    "key": "compass.title",
+    "value": "Digital Compass"
+  },
+  {
+    "key": "compass.calibration",
+    "value": "Calibration"
+  },
+  {
+    "key": "compass.calibrating",
+    "value": "Calibrating..."
+  },
+  {
+    "key": "compass.start_measurement",
+    "value": "Start Measurement"
+  },
+  {
+    "key": "compass.stop_measurement",
+    "value": "Stop Measurement"
+  },
+  {
+    "key": "compass.current_direction",
+    "value": "Current Direction"
+  },
+  {
+    "key": "compass.accuracy",
+    "value": "Accuracy"
+  },
+  {
+    "key": "compass.confidence",
+    "value": "Confidence"
+  },
+  {
+    "key": "compass.status",
+    "value": "Status"
+  },
+  {
+    "key": "compass.stable",
+    "value": "Stable"
+  },
+  {
+    "key": "compass.unstable",
+    "value": "Unstable"
+  },
+  {
+    "key": "compass.calibration_step",
+    "value": "Calibration Step {step}/{total}"
+  },
+  {
+    "key": "compass.good_pattern",
+    "value": "Auspicious"
+  },
+  {
+    "key": "compass.bad_pattern",
+    "value": "Inauspicious"
+  },
+  {
+    "key": "compass.wenchang_desc",
+    "value": "Wisdom and academic fortune position"
+  },
+  {
+    "key": "compass.caiwei_desc",
+    "value": "Wealth and career development position"
+  },
+  {
+    "key": "compass.items.desk_and_bookcase",
+    "value": "Desk, bookcase"
+  },
+  {
+    "key": "compass.items.stationery",
+    "value": "Stationery set"
+  },
+  {
+    "key": "compass.items.study_area",
+    "value": "Study/work area"
+  },
+  {
+    "key": "compass.items.safe_and_cashier",
+    "value": "Safe, cashier"
+  },
+  {
+    "key": "compass.items.money_plant",
+    "value": "Money plants"
+  },
+  {
+    "key": "compass.items.business_area",
+    "value": "Business meeting area"
+  },
+  {
+    "key": "compass.key_points",
+    "value": "Key Points"
+  },
+  {
+    "key": "compass.specific_recommendations",
+    "value": "Specific Recommendations"
+  },
+  {
+    "key": "compass.pattern_explanation_text",
+    "value": "Flying Star patterns are central to feng shui analysis. By examining the relationships among Period, Mountain, and Water stars, we can assess auspiciousness and influences on fortune, health, and wealth."
+  },
+  {
+    "key": "homeV2.hero.titleLine1",
+    "value": "Uniting millennia-old wisdom with AI"
+  },
+  {
+    "key": "homeV2.hero.titleLine2",
+    "value": "A new era of destiny insight"
+  },
+  {
+    "key": "homeV2.hero.subtitle",
+    "value": "Accurate BaZi analysis · Intelligent compass · AI deep consulting"
+  },
+  {
+    "key": "homeV2.hero.ctaPrimary",
+    "value": "Try for Free"
+  },
+  {
+    "key": "homeV2.hero.ctaSecondary",
+    "value": "AI Consulting"
+  },
+  {
+    "key": "homeV2.trust.dataSecurity",
+    "value": "Encrypted data security"
+  },
+  {
+    "key": "homeV2.trust.realtimeAI",
+    "value": "Real-time AI analysis"
+  },
+  {
+    "key": "homeV2.trust.traditionFusion",
+    "value": "Tradition meets innovation"
+  },
+  {
+    "key": "homeV2.features.heading",
+    "value": "Three Core Features"
+  },
+  {
+    "key": "homeV2.features.subtitle",
+    "value": "Blending traditional metaphysics with modern AI for comprehensive personalized services"
+  },
+  {
+    "key": "homeV2.features.ctaHover",
+    "value": "Click to experience →"
+  },
+  {
+    "key": "homeV2.features.items.bazi.title",
+    "value": "AI BaZi Analysis"
+  },
+  {
+    "key": "homeV2.features.items.bazi.desc",
+    "value": "Enter birth info to get Five Elements, Ten Gods, and annual insights"
+  },
+  {
+    "key": "homeV2.features.items.bazi.credits",
+    "value": "Free 10 credits"
+  },
+  {
+    "key": "homeV2.features.items.compass.title",
+    "value": "Feng Shui Compass Test"
+  },
+  {
+    "key": "homeV2.features.items.compass.desc",
+    "value": "Input address to receive orientation and layout suggestions"
+  },
+  {
+    "key": "homeV2.features.items.compass.credits",
+    "value": "Free 20 credits"
+  },
+  {
+    "key": "homeV2.features.items.chat.title",
+    "value": "AI Deep Consulting"
+  },
+  {
+    "key": "homeV2.features.items.chat.desc",
+    "value": "Real-time multi-turn conversations for professional advice"
+  },
+  {
+    "key": "homeV2.features.items.chat.credits",
+    "value": "5 credits / session"
+  },
+  {
+    "key": "homeV2.shell.empty.title",
+    "value": "Not started yet"
+  },
+  {
+    "key": "homeV2.shell.empty.desc",
+    "value": "Provide required info to begin intelligent analysis"
+  },
+  {
+    "key": "homeV2.shell.error.title",
+    "value": "Service unavailable"
+  },
+  {
+    "key": "homeV2.shell.error.desc",
+    "value": "Please retry later or contact support"
+  },
+  {
+    "key": "homeV2.shell.limited.title",
+    "value": "Access limited"
+  },
+  {
+    "key": "homeV2.shell.limited.desc",
+    "value": "Insufficient credits or permissions. Top up or upgrade to unlock"
+  },
+  {
+    "key": "homeV2.shell.timeout.title",
+    "value": "Analysis timeout"
+  },
+  {
+    "key": "homeV2.shell.timeout.desc",
+    "value": "AI is still working. Please retry later"
+  },
+  {
+    "key": "homeV2.shell.retry",
+    "value": "Retry"
+  },
+  {
+    "key": "homeV2.shell.upgrade",
+    "value": "Top up / Upgrade"
+  },
+  {
+    "key": "homeV2.guidance.bazi",
+    "value": "Enter birth details to start your personalized BaZi analysis"
+  },
+  {
+    "key": "homeV2.guidance.compass",
+    "value": "Input address or use digital compass for orientation-based advice"
+  },
+  {
+    "key": "homeV2.guidance.chat",
+    "value": "Ask your specific questions for real-time AI consulting"
+  },
+  {
+    "key": "homeV2.howItWorks.heading",
+    "value": "How It Works"
+  },
+  {
+    "key": "homeV2.howItWorks.subtitle",
+    "value": "Four steps to your intelligent destiny journey"
+  },
+  {
+    "key": "homeV2.howItWorks.steps.step1.title",
+    "value": "Register"
+  },
+  {
+    "key": "homeV2.howItWorks.steps.step1.desc",
+    "value": "Get free credits"
+  },
+  {
+    "key": "homeV2.howItWorks.steps.step2.title",
+    "value": "Select Feature"
+  },
+  {
+    "key": "homeV2.howItWorks.steps.step2.desc",
+    "value": "Enter relevant info"
+  },
+  {
+    "key": "homeV2.howItWorks.steps.step3.title",
+    "value": "AI Analysis"
+  },
+  {
+    "key": "homeV2.howItWorks.steps.step3.desc",
+    "value": "Generate personalized report"
+  },
+  {
+    "key": "homeV2.howItWorks.steps.step4.title",
+    "value": "Get Results"
+  },
+  {
+    "key": "homeV2.howItWorks.steps.step4.desc",
+    "value": "Download PDF or continue consulting"
+  },
+  {
+    "key": "homeV2.pricing.heading",
+    "value": "Credit Packages"
+  },
+  {
+    "key": "homeV2.pricing.subtitle",
+    "value": "Flexible plans, pay as you go"
+  },
+  {
+    "key": "homeV2.pricing.popularBadge",
+    "value": "Most Popular"
+  },
+  {
+    "key": "homeV2.pricing.creditsLabel",
+    "value": "Credits"
+  },
+  {
+    "key": "homeV2.pricing.buyNow",
+    "value": "Buy Now"
+  },
+  {
+    "key": "homeV2.pricing.costTable.heading",
+    "value": "Feature Pricing"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.chat.name",
+    "value": "AI Chat"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.chat.cost",
+    "value": "5 credits/session"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.chat.desc",
+    "value": "Multi-turn deep conversation"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.deep.name",
+    "value": "Deep Reading"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.deep.cost",
+    "value": "30 credits/session"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.deep.desc",
+    "value": "Complete destiny analysis"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.bazi.name",
+    "value": "BaZi Analysis"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.bazi.cost",
+    "value": "10 credits/session"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.bazi.desc",
+    "value": "Five Elements & Ten Gods"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.compass.name",
+    "value": "Feng Shui Compass"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.compass.cost",
+    "value": "20 credits/session"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.compass.desc",
+    "value": "Orientation & layout advice"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.pdf.name",
+    "value": "PDF Export"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.pdf.cost",
+    "value": "5 credits/export"
+  },
+  {
+    "key": "homeV2.pricing.costTable.items.pdf.desc",
+    "value": "Download full report"
+  },
+  {
+    "key": "homeV2.compliance.heading",
+    "value": "Security & Compliance Commitment"
+  },
+  {
+    "key": "homeV2.compliance.items.age.title",
+    "value": "18+ Age Restriction"
+  },
+  {
+    "key": "homeV2.compliance.items.age.desc",
+    "value": "This platform is for users 18 years and older only"
+  },
+  {
+    "key": "homeV2.compliance.items.privacy.title",
+    "value": "Privacy Protection"
+  },
+  {
+    "key": "homeV2.compliance.items.privacy.desc",
+    "value": "Your data is encrypted and never shared"
+  },
+  {
+    "key": "homeV2.compliance.items.disclaimer.title",
+    "value": "Disclaimer"
+  },
+  {
+    "key": "homeV2.compliance.items.disclaimer.desc",
+    "value": "AI-based service for reference only, not professional advice"
+  },
+  {
+    "key": "homeV2.compliance.items.dsar.title",
+    "value": "DSAR Support"
+  },
+  {
+    "key": "homeV2.compliance.items.dsar.desc",
+    "value": "Request data access, deletion, or export anytime"
+  },
+  {
+    "key": "homeV2.footer.about.heading",
+    "value": "About Us"
+  },
+  {
+    "key": "homeV2.footer.about.desc",
+    "value": "QiFlow AI blends traditional metaphysics with modern AI technology, offering professional and trusted personalized analysis services."
+  },
+  {
+    "key": "homeV2.footer.quickLinks.heading",
+    "value": "Quick Links"
+  },
+  {
+    "key": "homeV2.footer.quickLinks.terms",
+    "value": "Terms of Service"
+  },
+  {
+    "key": "homeV2.footer.quickLinks.privacy",
+    "value": "Privacy Policy"
+  },
+  {
+    "key": "homeV2.footer.quickLinks.contact",
+    "value": "Contact Us"
+  },
+  {
+    "key": "homeV2.footer.coreFeatures.heading",
+    "value": "Core Features"
+  },
+  {
+    "key": "homeV2.footer.coreFeatures.bazi",
+    "value": "BaZi Analysis"
+  },
+  {
+    "key": "homeV2.footer.coreFeatures.compass",
+    "value": "Feng Shui Compass"
+  },
+  {
+    "key": "homeV2.footer.coreFeatures.chat",
+    "value": "AI Consulting"
+  },
+  {
+    "key": "homeV2.footer.followUs.heading",
+    "value": "Follow Us"
+  },
+  {
+    "key": "homeV2.footer.followUs.wechat",
+    "value": "WeChat"
+  },
+  {
+    "key": "homeV2.footer.followUs.weibo",
+    "value": "Weibo"
+  },
+  {
+    "key": "homeV2.footer.copyright",
+    "value": "© 2025 QiFlow AI. All Rights Reserved."
+  }
+]

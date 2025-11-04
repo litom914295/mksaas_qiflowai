@@ -1,0 +1,3874 @@
+﻿Folder PATH listing for volume ???
+Volume serial number is 6035-5D33
+D:.
+ª   .dockerignore
+ª   .editorconfig
+ª   .env.example
+ª   .gitattributes
+ª   .gitignore
+ª   biome.json
+ª   CLAUDE.md
+ª   components.json
+ª   Dockerfile
+ª   drizzle.config.ts
+ª   env.example
+ª   global.d.ts
+ª   LICENSE
+ª   next.config.ts
+ª   package.json
+ª   pnpm-lock.yaml
+ª   postcss.config.mjs
+ª   README.md
+ª   source.config.ts
+ª   tsconfig.json
+ª   vercel.json
+ª   
++---.cursor
+ª   ª   mcp.json
+ª   ª   
+ª   +---rules
+ª       ª   ai-sdk-best-practices.mdc
+ª       ª   cursor_rules.mdc
+ª       ª   database-state-management.mdc
+ª       ª   date-fns-best-practices.mdc
+ª       ª   development-workflow.mdc
+ª       ª   drizzle-orm-best-practices.mdc
+ª       ª   nextjs-best-practices.mdc
+ª       ª   project-structure.mdc
+ª       ª   radix-ui-best-practices.mdc
+ª       ª   react-best-practices.mdc
+ª       ª   react-hook-form-best-practices.mdc
+ª       ª   self_improve.mdc
+ª       ª   stripe-best-practices.mdc
+ª       ª   tailwindcss-best-practices.mdc
+ª       ª   typescript-best-practices.mdc
+ª       ª   ui-components.mdc
+ª       ª   zod-best-practices.mdc
+ª       ª   zustand-best-practices.mdc
+ª       ª   
+ª       +---taskmaster
+ª               dev_workflow.mdc
+ª               taskmaster.mdc
+ª               
++---.github
+ª   +---ISSUE_TEMPLATE
+ª           bug_report.md
+ª           config.yml
+ª           feature_request.md
+ª           
++---.taskmaster
+ª   ª   config.json
+ª   ª   state.json
+ª   ª   
+ª   +---docs
+ª   ª       prd.txt
+ª   ª       
+ª   +---reports
+ª   +---tasks
+ª   ª       tasks.json
+ª   ª       task_001_migration-qiflow.txt
+ª   ª       task_002_migration-qiflow.txt
+ª   ª       task_003_migration-qiflow.txt
+ª   ª       task_004_migration-qiflow.txt
+ª   ª       task_005_migration-qiflow.txt
+ª   ª       task_006_migration-qiflow.txt
+ª   ª       task_007_migration-qiflow.txt
+ª   ª       task_008_migration-qiflow.txt
+ª   ª       task_009_migration-qiflow.txt
+ª   ª       task_010_migration-qiflow.txt
+ª   ª       task_011_migration-qiflow.txt
+ª   ª       task_012_migration-qiflow.txt
+ª   ª       
+ª   +---templates
+ª           example_prd.txt
+ª           
++---.vscode
+ª       extensions.json
+ª       settings.json
+ª       
++---content
+ª   +---author
+ª   ª       fox.mdx
+ª   ª       fox.zh.mdx
+ª   ª       mkdirs.mdx
+ª   ª       mkdirs.zh.mdx
+ª   ª       mksaas.mdx
+ª   ª       mksaas.zh.mdx
+ª   ª       
+ª   +---blog
+ª   ª       comparisons.mdx
+ª   ª       comparisons.zh.mdx
+ª   ª       fumadocs.mdx
+ª   ª       fumadocs.zh.mdx
+ª   ª       internationalization.mdx
+ª   ª       internationalization.zh.mdx
+ª   ª       manual-installation.mdx
+ª   ª       manual-installation.zh.mdx
+ª   ª       markdown.mdx
+ª   ª       markdown.zh.mdx
+ª   ª       search.mdx
+ª   ª       search.zh.mdx
+ª   ª       theme.mdx
+ª   ª       theme.zh.mdx
+ª   ª       what-is-fumadocs.mdx
+ª   ª       what-is-fumadocs.zh.mdx
+ª   ª       
+ª   +---category
+ª   ª       company.mdx
+ª   ª       company.zh.mdx
+ª   ª       news.mdx
+ª   ª       news.zh.mdx
+ª   ª       product.mdx
+ª   ª       product.zh.mdx
+ª   ª       
+ª   +---changelog
+ª   ª       v1-0-0.mdx
+ª   ª       v1-0-0.zh.mdx
+ª   ª       v1-1-0.mdx
+ª   ª       v1-1-0.zh.mdx
+ª   ª       v1-2-0.mdx
+ª   ª       v1-2-0.zh.mdx
+ª   ª       
+ª   +---docs
+ª   ª   ª   comparisons.mdx
+ª   ª   ª   comparisons.zh.mdx
+ª   ª   ª   customisation.mdx
+ª   ª   ª   customisation.zh.mdx
+ª   ª   ª   index.mdx
+ª   ª   ª   index.zh.mdx
+ª   ª   ª   internationalization.mdx
+ª   ª   ª   internationalization.zh.mdx
+ª   ª   ª   manual-installation.mdx
+ª   ª   ª   manual-installation.zh.mdx
+ª   ª   ª   markdown.mdx
+ª   ª   ª   markdown.zh.mdx
+ª   ª   ª   meta.json
+ª   ª   ª   meta.zh.json
+ª   ª   ª   search.mdx
+ª   ª   ª   search.zh.mdx
+ª   ª   ª   static-export.mdx
+ª   ª   ª   static-export.zh.mdx
+ª   ª   ª   theme.mdx
+ª   ª   ª   theme.zh.mdx
+ª   ª   ª   what-is-fumadocs.mdx
+ª   ª   ª   what-is-fumadocs.zh.mdx
+ª   ª   ª   
+ª   ª   +---components
+ª   ª   ª       accordion.mdx
+ª   ª   ª       accordion.zh.mdx
+ª   ª   ª       banner.mdx
+ª   ª   ª       banner.zh.mdx
+ª   ª   ª       dynamic-codeblock.mdx
+ª   ª   ª       dynamic-codeblock.zh.mdx
+ª   ª   ª       files.mdx
+ª   ª   ª       files.zh.mdx
+ª   ª   ª       github-info.mdx
+ª   ª   ª       github-info.zh.mdx
+ª   ª   ª       image-zoom.mdx
+ª   ª   ª       image-zoom.zh.mdx
+ª   ª   ª       index.mdx
+ª   ª   ª       index.zh.mdx
+ª   ª   ª       inline-toc.mdx
+ª   ª   ª       inline-toc.zh.mdx
+ª   ª   ª       root-toggle.mdx
+ª   ª   ª       root-toggle.zh.mdx
+ª   ª   ª       steps.mdx
+ª   ª   ª       steps.zh.mdx
+ª   ª   ª       tabs.mdx
+ª   ª   ª       tabs.zh.mdx
+ª   ª   ª       type-table.mdx
+ª   ª   ª       type-table.zh.mdx
+ª   ª   ª       
+ª   ª   +---layouts
+ª   ª   ª       docs.mdx
+ª   ª   ª       docs.zh.mdx
+ª   ª   ª       home-layout.mdx
+ª   ª   ª       home-layout.zh.mdx
+ª   ª   ª       notebook.mdx
+ª   ª   ª       notebook.zh.mdx
+ª   ª   ª       page.mdx
+ª   ª   ª       page.zh.mdx
+ª   ª   ª       root-provider.mdx
+ª   ª   ª       root-provider.zh.mdx
+ª   ª   ª       
+ª   ª   +---mdx
+ª   ª           callout.mdx
+ª   ª           callout.zh.mdx
+ª   ª           card.mdx
+ª   ª           card.zh.mdx
+ª   ª           codeblock.mdx
+ª   ª           codeblock.zh.mdx
+ª   ª           heading.mdx
+ª   ª           heading.zh.mdx
+ª   ª           index.mdx
+ª   ª           index.zh.mdx
+ª   ª           
+ª   +---pages
+ª           cookie-policy.mdx
+ª           cookie-policy.zh.mdx
+ª           privacy-policy.mdx
+ª           privacy-policy.zh.mdx
+ª           terms-of-service.mdx
+ª           terms-of-service.zh.mdx
+ª           
++---messages
+ª       en.json
+ª       zh.json
+ª       
++---mksaas
+ª   +---artifacts
+ª       +---C0
+ª               branch.txt
+ª               tooling.txt
+ª               tree.txt
+ª               
++---public
+ª   ª   android-chrome-192x192.png
+ª   ª   android-chrome-512x512.png
+ª   ª   apple-touch-icon.png
+ª   ª   favicon-16x16.png
+ª   ª   favicon-32x32.png
+ª   ª   favicon.ico
+ª   ª   logo-dark.png
+ª   ª   logo.png
+ª   ª   mksaas.png
+ª   ª   og.png
+ª   ª   
+ª   +---blocks
+ª   ª       abstract-bg.webp
+ª   ª       card.png
+ª   ª       charts-light.png
+ª   ª       charts.png
+ª   ª       dark-card.webp
+ª   ª       exercice-dark.png
+ª   ª       exercice.png
+ª   ª       mail-back-light.png
+ª   ª       mail-back.png
+ª   ª       mail-upper.png
+ª   ª       mail2-light.png
+ª   ª       mail2.png
+ª   ª       music-light.png
+ª   ª       music.png
+ª   ª       night-background.webp
+ª   ª       origin-cal-dark.png
+ª   ª       origin-cal.png
+ª   ª       payments-light.png
+ª   ª       payments.png
+ª   ª       phone-background.webp
+ª   ª       
+ª   +---images
+ª   ª   +---avatars
+ª   ª   ª       fox.png
+ª   ª   ª       mkdirs.png
+ª   ª   ª       mksaas.png
+ª   ª   ª       
+ª   ª   +---blog
+ª   ª   ª       post-1.png
+ª   ª   ª       post-2.png
+ª   ª   ª       post-3.png
+ª   ª   ª       post-4.png
+ª   ª   ª       post-5.png
+ª   ª   ª       post-6.png
+ª   ª   ª       post-7.png
+ª   ª   ª       post-8.png
+ª   ª   ª       
+ª   ª   +---docs
+ª   ª       ª   banner.png
+ª   ª       ª   docs-nav.png
+ª   ª       ª   nav.png
+ª   ª       ª   notebook.png
+ª   ª       ª   sidebar-tabs.png
+ª   ª       ª   sidebar.png
+ª   ª       ª   
+ª   ª       +---themes
+ª   ª               black.png
+ª   ª               catppuccin.png
+ª   ª               dusk.png
+ª   ª               neutral.png
+ª   ª               ocean.png
+ª   ª               purple.png
+ª   ª               vitepress.png
+ª   ª               
+ª   +---svg
+ª           better-auth_wordmark_light.svg
+ª           column.svg
+ª           cursor_wordmark_light.svg
+ª           github.svg
+ª           laravel.svg
+ª           lemonsqueezy.svg
+ª           lilly.svg
+ª           magicui.svg
+ª           nextjs_logo_light.svg
+ª           nike.svg
+ª           nsui.svg
+ª           nvidia.svg
+ª           openai.svg
+ª           placeholder.svg
+ª           resend-wordmark-black.svg
+ª           shadcn-ui.svg
+ª           stripe.svg
+ª           tailwindcss.svg
+ª           vercel.svg
+ª           zapier.svg
+ª           
++---qiflow-ai
+ª   ª   .cursorrules
+ª   ª   .dockerignore
+ª   ª   .env.example
+ª   ª   .env.local
+ª   ª   .env.production
+ª   ª   .gitignore
+ª   ª   .prettierignore
+ª   ª   .prettierrc
+ª   ª   @DOCUMENT_MAPPING_CHECK_v5.1.1.md
+ª   ª   @PROJECT_STATUS_v5.1.1.md
+ª   ª   @VERSION_SIZE_ANALYSIS.md
+ª   ª   AGENTS.md
+ª   ª   AI_ANALYSIS_DETECTION_FIX_REPORT.md
+ª   ª   AI_API_SETUP_GUIDE.md
+ª   ª   AI_BAZI_ACCURACY_FIX_REPORT.md
+ª   ª   AI_FIX_README.md
+ª   ª   AI_MASTER_DIALOGUE_FIX_REPORT.md
+ª   ª   AI_MASTER_IMPLEMENTATION_REPORT.md
+ª   ª   apply_renderer_updates.ps1
+ª   ª   BAZI_ANALYSIS_GUIDE.md
+ª   ª   BAZI_UI_FIX_REPORT.md
+ª   ª   CLAUDE.md
+ª   ª   COMPASS_OPTIMIZATION_SUMMARY.md
+ª   ª   COMPASS_STANDARD_LOGIC_REPORT.md
+ª   ª   components.json
+ª   ª   cripts
+ª   ª   DATA_CONSISTENCY_REPORT.md
+ª   ª   debug-1973-bazi.js
+ª   ª   debug-ai-prompt-data.js
+ª   ª   debug-algorithm-service-flow.js
+ª   ª   debug-complete.js
+ª   ª   debug-fix-verification.js
+ª   ª   debug-shanpan.js
+ª   ª   debug-step-by-step.js
+ª   ª   debug-tianpan.js
+ª   ª   deploy.sh
+ª   ª   docker-compose.yml
+ª   ª   Dockerfile
+ª   ª   ENHANCED_DAYUN_FEATURES.md
+ª   ª   env.example
+ª   ª   env.local.example
+ª   ª   ENV_SETUP.md
+ª   ª   eslint.config.mjs
+ª   ª   FENGSHUI_OPTIMIZATION_REPORT.md
+ª   ª   flying-star-expert-analysis.js
+ª   ª   GEMINI.md
+ª   ª   GUEST_ANALYSIS_ENHANCEMENT_REPORT.md
+ª   ª   GUEST_ANALYSIS_IMPLEMENTATION_REPORT.md
+ª   ª   HOMEPAGE_I18N_FIX_REPORT.md
+ª   ª   I18N_FINAL_FIX_REPORT.md
+ª   ª   I18N_FIX_REPORT.md
+ª   ª   I18N_LANGUAGE_SWITCHER_FIX_REPORT.md
+ª   ª   I18N_PROMISE_FIX_REPORT.md
+ª   ª   I18N_URL_CHAOS_FIX_REPORT.md
+ª   ª   INFINITE_LOOP_FIX_REPORT.md
+ª   ª   jest.config.js
+ª   ª   jest.env.js
+ª   ª   jest.polyfills.js
+ª   ª   jest.setup.js
+ª   ª   LANGUAGE_SWITCHER_FIX_REPORT.md
+ª   ª   next-env.d.ts
+ª   ª   next.config.ts
+ª   ª   NEXTJS_15_I18N_FIX_REPORT.md
+ª   ª   nginx.conf
+ª   ª   OPTIMIZATION_REPORT.md
+ª   ª   package.json
+ª   ª   PHASE1_??????.md
+ª   ª   playwright.config.ts
+ª   ª   postcss.config.mjs
+ª   ª   PROJECT_COMPLETION_REPORT.md
+ª   ª   QiFlow_AI_??????.md
+ª   ª   QiFlow_AI_????????.md
+ª   ª   REACT_HOOKS_FIX_REPORT.md
+ª   ª   README.md
+ª   ª   REPORT_SYSTEM_INSTALL.md
+ª   ª   REPORT_SYSTEM_TESTING.md
+ª   ª   REPORT_SYSTEM_TROUBLESHOOTING.md
+ª   ª   sqlite_mcp_server.db
+ª   ª   SUPABASE_FIX_REPORT.md
+ª   ª   SUPABASE_MODULE_FIX_FINAL_REPORT.md
+ª   ª   tailwind.config.ts
+ª   ª   TASK_PLAN_v4.0.md
+ª   ª   test-actual-api.js
+ª   ª   test-bazi-algorithm.js
+ª   ª   test-bazi-fixed.js
+ª   ª   test-compute-bazi-smart.js
+ª   ª   test-core-functionality.js
+ª   ª   test-core-functionality.mjs
+ª   ª   test-core-functionality.package.json
+ª   ª   test-data-consistency.js
+ª   ª   test-detection-fix-simple.js
+ª   ª   test-detection-fix.js
+ª   ª   test-detection-quick.js
+ª   ª   test-flying-star.js
+ª   ª   test-performance.js
+ª   ª   test-shanpan.js
+ª   ª   test-specific-case.js
+ª   ª   test-tianpan.js
+ª   ª   tmp_calc_lines.py
+ª   ª   tmp_constructor_lines.py
+ª   ª   tmp_line_numbers.py
+ª   ª   tmp_print_lines.py
+ª   ª   tmp_renderer_destroy.py
+ª   ª   tmp_renderer_lines.py
+ª   ª   tmp_renderer_perf.py
+ª   ª   tmp_renderer_update.py
+ª   ª   TRANSLATION_KEY_FIX_REPORT.md
+ª   ª   TRANSLATION_STRUCTURE_FIX_REPORT.md
+ª   ª   tsconfig.json
+ª   ª   tsconfig.tsbuildinfo
+ª   ª   UX_ANALYSIS_REPORT.md
+ª   ª   UX_IMPLEMENTATION_GUIDE.md
+ª   ª   validate-algorithm.js
+ª   ª   validate-flying-star.mjs
+ª   ª   vercel.json
+ª   ª   verify-1973-case.js
+ª   ª   ??????????.md
+ª   ª   ??????????.md
+ª   ª   ??????????.md
+ª   ª   ????????????.md
+ª   ª   
+ª   +---.claude
+ª   ª   ª   local-config.json
+ª   ª   ª   settings.local.json
+ª   ª   ª   task.txt
+ª   ª   ª   
+ª   ª   +---agents
+ª   ª   ª       academic-research-synthesizer.md
+ª   ª   ª       academic-researcher.md
+ª   ª   ª       accessibility-specialist.md
+ª   ª   ª       agent-expert.md
+ª   ª   ª       ai-engineer.md
+ª   ª   ª       api-documenter.md
+ª   ª   ª       api-security-audit.md
+ª   ª   ª       arbitrage-bot.md
+ª   ª   ª       architect-review.md
+ª   ª   ª       audio-quality-controller.md
+ª   ª   ª       backend-architect.md
+ª   ª   ª       blockchain-developer.md
+ª   ª   ª       business-analyst.md
+ª   ª   ª       c-developer.md
+ª   ª   ª       c-pro.md
+ª   ª   ª       cloud-architect.md
+ª   ª   ª       code-reviewer.md
+ª   ª   ª       command-expert.md
+ª   ª   ª       comprehensive-researcher.md
+ª   ª   ª       connection-agent.md
+ª   ª   ª       content-marketer.md
+ª   ª   ª       context-manager.md
+ª   ª   ª       cpp-engineer.md
+ª   ª   ª       cpp-pro.md
+ª   ª   ª       crypto-analyst.md
+ª   ª   ª       crypto-risk-manager.md
+ª   ª   ª       crypto-trader.md
+ª   ª   ª       csharp-pro.md
+ª   ª   ª       customer-support.md
+ª   ª   ª       data-analyst.md
+ª   ª   ª       data-engineer.md
+ª   ª   ª       data-scientist.md
+ª   ª   ª       database-admin.md
+ª   ª   ª       database-optimization.md
+ª   ª   ª       database-optimizer.md
+ª   ª   ª       debugger.md
+ª   ª   ª       defi-strategist.md
+ª   ª   ª       deployment-engineer.md
+ª   ª   ª       devops-troubleshooter.md
+ª   ª   ª       directus-developer.md
+ª   ª   ª       docs-architect.md
+ª   ª   ª       docusaurus-expert.md
+ª   ª   ª       drupal-developer.md
+ª   ª   ª       dx-optimizer.md
+ª   ª   ª       elixir-pro.md
+ª   ª   ª       episode-orchestrator.md
+ª   ª   ª       error-detective.md
+ª   ª   ª       flutter-expert.md
+ª   ª   ª       frontend-developer.md
+ª   ª   ª       game-developer.md
+ª   ª   ª       golang-expert.md
+ª   ª   ª       golang-pro.md
+ª   ª   ª       graphql-architect.md
+ª   ª   ª       hackathon-ai-strategist.md
+ª   ª   ª       hr-pro.md
+ª   ª   ª       hybrid-cloud-architect.md
+ª   ª   ª       hyperledger-fabric-developer.md
+ª   ª   ª       incident-responder.md
+ª   ª   ª       ios-developer.md
+ª   ª   ª       java-developer.md
+ª   ª   ª       java-pro.md
+ª   ª   ª       javascript-developer.md
+ª   ª   ª       javascript-pro.md
+ª   ª   ª       kubernetes-architect.md
+ª   ª   ª       laravel-vue-developer.md
+ª   ª   ª       legacy-modernizer.md
+ª   ª   ª       legal-advisor.md
+ª   ª   ª       LICENSE
+ª   ª   ª       llms-maintainer.md
+ª   ª   ª       markdown-syntax-formatter.md
+ª   ª   ª       market-research-analyst.md
+ª   ª   ª       mcp-deployment-orchestrator.md
+ª   ª   ª       mcp-expert.md
+ª   ª   ª       mcp-registry-navigator.md
+ª   ª   ª       mcp-security-auditor.md
+ª   ª   ª       mcp-server-architect.md
+ª   ª   ª       mcp-testing-engineer.md
+ª   ª   ª       mermaid-expert.md
+ª   ª   ª       metadata-agent.md
+ª   ª   ª       minecraft-bukkit-pro.md
+ª   ª   ª       ml-engineer.md
+ª   ª   ª       mlops-engineer.md
+ª   ª   ª       mobile-developer.md
+ª   ª   ª       moc-agent.md
+ª   ª   ª       network-engineer.md
+ª   ª   ª       nextjs-app-router-developer.md
+ª   ª   ª       nextjs-autopilot.md
+ª   ª   ª       ocr-grammar-fixer.md
+ª   ª   ª       ocr-quality-assurance.md
+ª   ª   ª       payment-integration.md
+ª   ª   ª       performance-engineer.md
+ª   ª   ª       php-developer.md
+ª   ª   ª       php-pro.md
+ª   ª   ª       podcast-content-analyzer.md
+ª   ª   ª       podcast-metadata-specialist.md
+ª   ª   ª       podcast-transcriber.md
+ª   ª   ª       podcast-trend-scout.md
+ª   ª   ª       project-supervisor-orchestrator.md
+ª   ª   ª       prompt-engineer.md
+ª   ª   ª       python-expert.md
+ª   ª   ª       python-pro.md
+ª   ª   ª       quant-analyst.md
+ª   ª   ª       query-clarifier.md
+ª   ª   ª       rails-expert.md
+ª   ª   ª       react-performance-optimization.md
+ª   ª   ª       README.md
+ª   ª   ª       reference-builder.md
+ª   ª   ª       report-generator.md
+ª   ª   ª       research-brief-generator.md
+ª   ª   ª       research-coordinator.md
+ª   ª   ª       research-orchestrator.md
+ª   ª   ª       research-synthesizer.md
+ª   ª   ª       review-agent.md
+ª   ª   ª       risk-manager.md
+ª   ª   ª       ruby-expert.md
+ª   ª   ª       ruby-pro.md
+ª   ª   ª       rust-expert.md
+ª   ª   ª       rust-pro.md
+ª   ª   ª       sales-automator.md
+ª   ª   ª       scala-pro.md
+ª   ª   ª       search-specialist.md
+ª   ª   ª       security-auditor.md
+ª   ª   ª       seo-authority-builder.md
+ª   ª   ª       seo-cannibalization-detector.md
+ª   ª   ª       seo-content-auditor.md
+ª   ª   ª       seo-content-planner.md
+ª   ª   ª       seo-content-refresher.md
+ª   ª   ª       seo-content-writer.md
+ª   ª   ª       seo-keyword-strategist.md
+ª   ª   ª       seo-meta-optimizer.md
+ª   ª   ª       seo-podcast-optimizer.md
+ª   ª   ª       seo-snippet-hunter.md
+ª   ª   ª       seo-structure-architect.md
+ª   ª   ª       social-media-clip-creator.md
+ª   ª   ª       social-media-copywriter.md
+ª   ª   ª       spec-executor.md
+ª   ª   ª       spec-generation.md
+ª   ª   ª       spec-testing.md
+ª   ª   ª       spec-validation.md
+ª   ª   ª       sql-expert.md
+ª   ª   ª       sql-pro.md
+ª   ª   ª       tag-agent.md
+ª   ª   ª       task-decomposition-expert.md
+ª   ª   ª       technical-researcher.md
+ª   ª   ª       terraform-specialist.md
+ª   ª   ª       test-automator.md
+ª   ª   ª       text-comparison-validator.md
+ª   ª   ª       timestamp-precision-specialist.md
+ª   ª   ª       tutorial-engineer.md
+ª   ª   ª       twitter-ai-influencer-manager.md
+ª   ª   ª       typescript-expert.md
+ª   ª   ª       typescript-pro.md
+ª   ª   ª       ui-ux-designer.md
+ª   ª   ª       unity-developer.md
+ª   ª   ª       url-context-validator.md
+ª   ª   ª       url-link-extractor.md
+ª   ª   ª       visual-analysis-ocr.md
+ª   ª   ª       wordpress-developer.md
+ª   ª   ª       
+ª   ª   +---commands
+ª   ª   ª       optimize-project.md
+ª   ª   ª       spec-workflow.md
+ª   ª   ª       
+ª   ª   +---workflows
+ª   ª           nextjs-autopilot.yaml
+ª   ª           
+ª   +---.codebuddy
+ª   ª   +---.ignored_image
+ª   ª   ª       4f08943c216f4caf634e98c3dbcaed03.png
+ª   ª   ª       729af91e9dd2892a6f901945c34b203f.png
+ª   ª   ª       88606f6ad52a1f3e96fc90abde47e850.png
+ª   ª   ª       f135816974116153817ff22531425373.png
+ª   ª   ª       
+ª   ª   +---rules
+ª   +---.cursor
+ª   ª   ª   mcp.json
+ª   ª   ª   
+ª   ª   +---rules
+ª   ª       ª   cursor_rules.mdc
+ª   ª       ª   nextjs.mdc
+ª   ª       ª   self_improve.mdc
+ª   ª       ª   
+ª   ª       +---taskmaster
+ª   ª               dev_workflow.mdc
+ª   ª               taskmaster.mdc
+ª   ª               
+ª   +---.github
+ª   ª   ª   pull_request_template.md
+ª   ª   ª   
+ª   ª   +---workflows
+ª   ª           ci.yml
+ª   ª           
+ª   +---.husky
+ª   ª   ª   pre-commit
+ª   ª   ª   
+ª   ª   +---_
+ª   ª           .gitignore
+ª   ª           applypatch-msg
+ª   ª           commit-msg
+ª   ª           h
+ª   ª           husky.sh
+ª   ª           post-applypatch
+ª   ª           post-checkout
+ª   ª           post-commit
+ª   ª           post-merge
+ª   ª           post-rewrite
+ª   ª           pre-applypatch
+ª   ª           pre-auto-gc
+ª   ª           pre-commit
+ª   ª           pre-merge-commit
+ª   ª           pre-push
+ª   ª           pre-rebase
+ª   ª           prepare-commit-msg
+ª   ª           
+ª   +---.kilocode
+ª   ª       mcp.json
+ª   ª       
+ª   +---.kiro
+ª   ª   +---hooks
+ª   ª   ª       code-quality-analyzer.kiro.hook
+ª   ª   ª       
+ª   ª   +---specs
+ª   ª   ª   +---qiflow-ai-mvp
+ª   ª   ª           design.md
+ª   ª   ª           requirements.md
+ª   ª   ª           tasks.md
+ª   ª   ª           
+ª   ª   +---steering
+ª   ª           product.md
+ª   ª           structure.md
+ª   ª           tech.md
+ª   ª           
+ª   +---.swc
+ª   ª   +---plugins
+ª   ª       +---windows_x86_64_18.0.0
+ª   +---.taskmaster
+ª   ª   ª   config.json
+ª   ª   ª   state.json
+ª   ª   ª   
+ª   ª   +---docs
+ª   ª   ª       compass-integration-prd-en.txt
+ª   ª   ª       prd.txt
+ª   ª   ª       
+ª   ª   +---reports
+ª   ª   +---tasks
+ª   ª   ª       tasks.json
+ª   ª   ª       
+ª   ª   +---templates
+ª   ª           example_prd.txt
+ª   ª           
+ª   +---.vscode
+ª   ª       settings.json
+ª   ª       
+ª   +---.windsurf
+ª   ª   ª   mcp.json
+ª   ª   ª   
+ª   ª   +---rules
+ª   ª           dev_workflow.md
+ª   ª           self_improve.md
+ª   ª           taskmaster.md
+ª   ª           windsurf_rules.md
+ª   ª           
+ª   +---coverage
+ª   ª   ª   base.css
+ª   ª   ª   block-navigation.js
+ª   ª   ª   favicon.png
+ª   ª   ª   index.html
+ª   ª   ª   lcov.info
+ª   ª   ª   prettify.css
+ª   ª   ª   prettify.js
+ª   ª   ª   sort-arrow-sprite.png
+ª   ª   ª   sorter.js
+ª   ª   ª   
+ª   ª   +---lcov-report
+ª   ª   ª   ª   base.css
+ª   ª   ª   ª   block-navigation.js
+ª   ª   ª   ª   favicon.png
+ª   ª   ª   ª   index.html
+ª   ª   ª   ª   prettify.css
+ª   ª   ª   ª   prettify.js
+ª   ª   ª   ª   sort-arrow-sprite.png
+ª   ª   ª   ª   sorter.js
+ª   ª   ª   ª   
+ª   ª   ª   +---src
+ª   ª   ª       ª   i18n.ts.html
+ª   ª   ª       ª   index.html
+ª   ª   ª       ª   middleware.ts.html
+ª   ª   ª       ª   
+ª   ª   ª       +---app
+ª   ª   ª       ª   ª   icon.tsx.html
+ª   ª   ª       ª   ª   index.html
+ª   ª   ª       ª   ª   layout.tsx.html
+ª   ª   ª       ª   ª   page.tsx.html
+ª   ª   ª       ª   ª   
+ª   ª   ª       ª   +---api
+ª   ª   ª       ª   ª   +---ai
+ª   ª   ª       ª   ª   ª   +---chat
+ª   ª   ª       ª   ª   ª           index.html
+ª   ª   ª       ª   ª   ª           route.ts.html
+ª   ª   ª       ª   ª   ª           
+ª   ª   ª       ª   ª   +---auth
+ª   ª   ª       ª   ª   ª   +---mfa
+ª   ª   ª       ª   ª   ª   ª   +---setup
+ª   ª   ª       ª   ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   ª   +---verify
+ª   ª   ª       ª   ª   ª   ª           index.html
+ª   ª   ª       ª   ª   ª   ª           route.ts.html
+ª   ª   ª       ª   ª   ª   ª           
+ª   ª   ª       ª   ª   ª   +---oauth
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---signin
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---signup
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---wechat
+ª   ª   ª       ª   ª   ª       +---callback
+ª   ª   ª       ª   ª   ª               index.html
+ª   ª   ª       ª   ª   ª               route.ts.html
+ª   ª   ª       ª   ª   ª               
+ª   ª   ª       ª   ª   +---chat
+ª   ª   ª       ª   ª   ª   ª   index.html
+ª   ª   ª       ª   ª   ª   ª   route.ts.html
+ª   ª   ª       ª   ª   ª   ª   shared.ts.html
+ª   ª   ª       ª   ª   ª   ª   
+ª   ª   ª       ª   ª   ª   +---confidence
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---enhanced
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---enhanced-complete
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---knowledge
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---session
+ª   ª   ª       ª   ª   ª           index.html
+ª   ª   ª       ª   ª   ª           route.ts.html
+ª   ª   ª       ª   ª   ª           
+ª   ª   ª       ª   ª   +---guest
+ª   ª   ª       ª   ª   ª   +---merge
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---start
+ª   ª   ª       ª   ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª   ª       ª   ª   ª   ª       
+ª   ª   ª       ª   ª   ª   +---validate
+ª   ª   ª       ª   ª   ª           index.html
+ª   ª   ª       ª   ª   ª           route.ts.html
+ª   ª   ª       ª   ª   ª           
+ª   ª   ª       ª   ª   +---health
+ª   ª   ª       ª   ª   ª   ª   index.html
+ª   ª   ª       ª   ª   ª   ª   route.ts.html
+ª   ª   ª       ª   ª   ª   ª   
+ª   ª   ª       ª   ª   ª   +---enhanced
+ª   ª   ª       ª   ª   ª           index.html
+ª   ª   ª       ª   ª   ª           route.ts.html
+ª   ª   ª       ª   ª   ª           
+ª   ª   ª       ª   ª   +---i18n
+ª   ª   ª       ª   ª   ª   +---revalidate
+ª   ª   ª       ª   ª   ª           index.html
+ª   ª   ª       ª   ª   ª           route.ts.html
+ª   ª   ª       ª   ª   ª           
+ª   ª   ª       ª   ª   +---user
+ª   ª   ª       ª   ª   ª   +---profile
+ª   ª   ª       ª   ª   ª           index.html
+ª   ª   ª       ª   ª   ª           route.ts.html
+ª   ª   ª       ª   ª   ª           
+ª   ª   ª       ª   ª   +---webhooks
+ª   ª   ª       ª   ª       +---ai-error
+ª   ª   ª       ª   ª               index.html
+ª   ª   ª       ª   ª               route.ts.html
+ª   ª   ª       ª   ª               
+ª   ª   ª       ª   +---compass-demo
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       page.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---test
+ª   ª   ª       ª   ª   ª   index.html
+ª   ª   ª       ª   ª   ª   page.tsx.html
+ª   ª   ª       ª   ª   ª   
+ª   ª   ª       ª   ª   +---compass
+ª   ª   ª       ª   ª           index.html
+ª   ª   ª       ª   ª           page.tsx.html
+ª   ª   ª       ª   ª           
+ª   ª   ª       ª   +---test-guest
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       page.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---test-integration
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       page.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---[locale]
+ª   ª   ª       ª       ª   enhanced-page.tsx.html
+ª   ª   ª       ª       ª   error.tsx.html
+ª   ª   ª       ª       ª   index.html
+ª   ª   ª       ª       ª   layout.tsx.html
+ª   ª   ª       ª       ª   not-found.tsx.html
+ª   ª   ª       ª       ª   page.tsx.html
+ª   ª   ª       ª       ª   
+ª   ª   ª       ª       +---(chat)
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---auth
+ª   ª   ª       ª       ª   ª   index.html
+ª   ª   ª       ª       ª   ª   validators.ts.html
+ª   ª   ª       ª       ª   ª   
+ª   ª   ª       ª       ª   +---login
+ª   ª   ª       ª       ª   ª       index.html
+ª   ª   ª       ª       ª   ª       page.tsx.html
+ª   ª   ª       ª       ª   ª       
+ª   ª   ª       ª       ª   +---profile
+ª   ª   ª       ª       ª   ª       index.html
+ª   ª   ª       ª       ª   ª       page.tsx.html
+ª   ª   ª       ª       ª   ª       
+ª   ª   ª       ª       ª   +---register
+ª   ª   ª       ª       ª           enhanced-page.tsx.html
+ª   ª   ª       ª       ª           index.html
+ª   ª   ª       ª       ª           page.tsx.html
+ª   ª   ª       ª       ª           
+ª   ª   ª       ª       +---bazi-analysis
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---bug-i18n
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---compass-analysis-result
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---compass-demo
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---debug-i18n
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---guest-analysis
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---lang-test
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---minimal-test
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---simple-lang-test
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---simple-test
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---test
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---test-bazi
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---test-bazi-fixed
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---test-guest
+ª   ª   ª       ª       ª       index.html
+ª   ª   ª       ª       ª       page.tsx.html
+ª   ª   ª       ª       ª       
+ª   ª   ª       ª       +---test-i18n
+ª   ª   ª       ª               index.html
+ª   ª   ª       ª               page.tsx.html
+ª   ª   ª       ª               
+ª   ª   ª       +---components
+ª   ª   ª       ª   +---analysis
+ª   ª   ª       ª   ª       advanced-fengshui-features.tsx.html
+ª   ª   ª       ª   ª       bazi-analysis-page.tsx.html
+ª   ª   ª       ª   ª       bazi-analysis-result.tsx.html
+ª   ª   ª       ª   ª       compass-analysis-result-page.tsx.html
+ª   ª   ª       ª   ª       comprehensive-analysis.tsx.html
+ª   ª   ª       ª   ª       enhanced-dayun-analysis.tsx.html
+ª   ª   ª       ª   ª       enhanced-guest-analysis-page.tsx.html
+ª   ª   ª       ª   ª       fengshui-controls.tsx.html
+ª   ª   ª       ª   ª       fengshui-display.tsx.html
+ª   ª   ª       ª   ª       fengshui-explanation.tsx.html
+ª   ª   ª       ª   ª       flying-star-analysis.tsx.html
+ª   ª   ª       ª   ª       flying-star-grid.tsx.html
+ª   ª   ª       ª   ª       guest-analysis-page.tsx.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       optimized-bazi-analysis-result.tsx.html
+ª   ª   ª       ª   ª       optimized-flying-star-grid.tsx.html
+ª   ª   ª       ª   ª       smart-recommendations.tsx.html
+ª   ª   ª       ª   ª       standard-floor-plan.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---auth
+ª   ª   ª       ª   ª       auth-config-check.tsx.html
+ª   ª   ª       ª   ª       auth-guard.tsx.html
+ª   ª   ª       ª   ª       complete-auth-flow.tsx.html
+ª   ª   ª       ª   ª       demo-mode-notice.tsx.html
+ª   ª   ª       ª   ª       guest-entry.tsx.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       login-form.tsx.html
+ª   ª   ª       ª   ª       register-form.tsx.html
+ª   ª   ª       ª   ª       registration-success.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---chat
+ª   ª   ª       ª   ª       ai-typing-indicator.tsx.html
+ª   ª   ª       ª   ª       chat-interface.tsx.html
+ª   ª   ª       ª   ª       context-panel.tsx.html
+ª   ª   ª       ª   ª       enhanced-chat-interface.tsx.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       loading-skeleton.tsx.html
+ª   ª   ª       ª   ª       message-input.tsx.html
+ª   ª   ª       ª   ª       message-list.tsx.html
+ª   ª   ª       ª   ª       recommendation-card.tsx.html
+ª   ª   ª       ª   ª       three-overlay.tsx.html
+ª   ª   ª       ª   ª       use-chat-session.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---compass
+ª   ª   ª       ª   ª       compass-calibration.tsx.html
+ª   ª   ª       ª   ª       compass-demo.tsx.html
+ª   ª   ª       ª   ª       compass-error-boundary.tsx.html
+ª   ª   ª       ª   ª       compass-measurement.tsx.html
+ª   ª   ª       ª   ª       compass-theme-selector.tsx.html
+ª   ª   ª       ª   ª       compass-ui.tsx.html
+ª   ª   ª       ª   ª       feng-shui-compass.tsx.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       simple-compass.tsx.html
+ª   ª   ª       ª   ª       theme-selector.tsx.html
+ª   ª   ª       ª   ª       with-chat-context.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---feedback
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       user-feedback.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---forms
+ª   ª   ª       ª   ª       address-autocomplete.tsx.html
+ª   ª   ª       ª   ª       calendar-picker.tsx.html
+ª   ª   ª       ª   ª       enhanced-user-profile-form.tsx.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       info-tooltip.tsx.html
+ª   ª   ª       ª   ª       map-picker.tsx.html
+ª   ª   ª       ª   ª       progress-bar.tsx.html
+ª   ª   ª       ª   ª       time-picker.tsx.html
+ª   ª   ª       ª   ª       user-profile-form-fixed.tsx.html
+ª   ª   ª       ª   ª       user-profile-form-new.tsx.html
+ª   ª   ª       ª   ª       user-profile-form.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---layout
+ª   ª   ª       ª   ª       header.tsx.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       language-switcher.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---navigation
+ª   ª   ª       ª   ª       global-navigation.tsx.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---onboarding
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       onboarding-guide.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---overlay
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       overlay-interface.tsx.html
+ª   ª   ª       ª   ª       room-interaction.tsx.html
+ª   ª   ª       ª   ª       transparency-controls.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---providers
+ª   ª   ª       ª   ª       dev-tools.tsx.html
+ª   ª   ª       ª   ª       error-boundary.tsx.html
+ª   ª   ª       ª   ª       extension-handler.tsx.html
+ª   ª   ª       ª   ª       font-provider.tsx.html
+ª   ª   ª       ª   ª       global-error-boundary.tsx.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---reports
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       report-export-share.tsx.html
+ª   ª   ª       ª   ª       report-generator.tsx.html
+ª   ª   ª       ª   ª       report-manager.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---responsive
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       mobile-optimized.tsx.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---ui
+ª   ª   ª       ª           alert.tsx.html
+ª   ª   ª       ª           badge.tsx.html
+ª   ª   ª       ª           button.tsx.html
+ª   ª   ª       ª           card.tsx.html
+ª   ª   ª       ª           collapsible.tsx.html
+ª   ª   ª       ª           dropdown-menu.tsx.html
+ª   ª   ª       ª           enhanced-card.tsx.html
+ª   ª   ª       ª           enhanced-feedback.tsx.html
+ª   ª   ª       ª           enhanced-loading.tsx.html
+ª   ª   ª       ª           enhanced-progress.tsx.html
+ª   ª   ª       ª           form.tsx.html
+ª   ª   ª       ª           index.html
+ª   ª   ª       ª           input.tsx.html
+ª   ª   ª       ª           label.tsx.html
+ª   ª   ª       ª           language-switcher.tsx.html
+ª   ª   ª       ª           loading-spinner.tsx.html
+ª   ª   ª       ª           locale-switcher-dynamic.tsx.html
+ª   ª   ª       ª           mobile-optimized.tsx.html
+ª   ª   ª       ª           mobile-responsive.tsx.html
+ª   ª   ª       ª           simple-language-switcher.tsx.html
+ª   ª   ª       ª           switch.tsx.html
+ª   ª   ª       ª           tabs.tsx.html
+ª   ª   ª       ª           
+ª   ª   ª       +---i18n
+ª   ª   ª       ª       index.html
+ª   ª   ª       ª       request.ts.html
+ª   ª   ª       ª       
+ª   ª   ª       +---lib
+ª   ª   ª       ª   ª   index.html
+ª   ª   ª       ª   ª   rate-limit.ts.html
+ª   ª   ª       ª   ª   utils.ts.html
+ª   ª   ª       ª   ª   
+ª   ª   ª       ª   +---ai
+ª   ª   ª       ª   ª   ª   algorithm-integration-service.ts.html
+ª   ª   ª       ª   ª   ª   confidence.ts.html
+ª   ª   ª       ª   ª   ª   context.ts.html
+ª   ª   ª       ª   ª   ª   conversation-memory.ts.html
+ª   ª   ª       ª   ª   ª   cost-controller.ts.html
+ª   ª   ª       ª   ª   ª   cost.ts.html
+ª   ª   ª       ª   ª   ª   education.ts.html
+ª   ª   ª       ª   ª   ª   health.ts.html
+ª   ª   ª       ª   ª   ª   index.html
+ª   ª   ª       ª   ª   ª   index.ts.html
+ª   ª   ª       ª   ª   ª   master-orchestrator.ts.html
+ª   ª   ª       ª   ª   ª   pricing.ts.html
+ª   ª   ª       ª   ª   ª   router.ts.html
+ª   ª   ª       ª   ª   ª   sanitize.ts.html
+ª   ª   ª       ª   ª   ª   state-machine.ts.html
+ª   ª   ª       ª   ª   ª   strategy.ts.html
+ª   ª   ª       ª   ª   ª   templates.ts.html
+ª   ª   ª       ª   ª   ª   usage-tracker.ts.html
+ª   ª   ª       ª   ª   ª   
+ª   ª   ª       ª   ª   +---adapters
+ª   ª   ª       ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª       supabase-conversation-memory.ts.html
+ª   ª   ª       ª   ª   ª       
+ª   ª   ª       ª   ª   +---confidence
+ª   ª   ª       ª   ª   ª       confidence-aggregator.ts.html
+ª   ª   ª       ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª       
+ª   ª   ª       ª   ª   +---explainer
+ª   ª   ª       ª   ª   ª       conversation-explainer.ts.html
+ª   ª   ª       ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª       
+ª   ª   ª       ª   ª   +---knowledge
+ª   ª   ª       ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª       knowledge-service.ts.html
+ª   ª   ª       ª   ª   ª       
+ª   ª   ª       ª   ª   +---memory
+ª   ª   ª       ª   ª   ª       dual-layer-coordinator.ts.html
+ª   ª   ª       ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª       
+ª   ª   ª       ª   ª   +---providers
+ª   ª   ª       ª   ª   ª       anthropic.ts.html
+ª   ª   ª       ª   ª   ª       deepseek.ts.html
+ª   ª   ª       ª   ª   ª       failover-middleware.ts.html
+ª   ª   ª       ª   ª   ª       gemini.ts.html
+ª   ª   ª       ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª       openai.ts.html
+ª   ª   ª       ª   ª   ª       rate-limit.ts.html
+ª   ª   ª       ª   ª   ª       
+ª   ª   ª       ª   ª   +---state-machine
+ª   ª   ª       ª   ª   ª       config.ts.html
+ª   ª   ª       ª   ª   ª       index.html
+ª   ª   ª       ª   ª   ª       
+ª   ª   ª       ª   ª   +---strategy
+ª   ª   ª       ª   ª           index.html
+ª   ª   ª       ª   ª           policy-engine.ts.html
+ª   ª   ª       ª   ª           
+ª   ª   ª       ª   +---auth
+ª   ª   ª       ª   ª       auth-manager.ts.html
+ª   ª   ª       ª   ª       context.tsx.html
+ª   ª   ª       ª   ª       demo-auth.ts.html
+ª   ª   ª       ª   ª       guest-middleware.ts.html
+ª   ª   ª       ª   ª       guest-migrate.ts.html
+ª   ª   ª       ª   ª       guest-session.ts.html
+ª   ª   ª       ª   ª       guest.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       supabase.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---bazi
+ª   ª   ª       ª   ª       adapter.ts.html
+ª   ª   ª       ª   ª       authoritative-reference.ts.html
+ª   ª   ª       ª   ª       cache.ts.html
+ª   ª   ª       ª   ª       enhanced-calculator.ts.html
+ª   ª   ª       ª   ª       enhanced-ten-gods.ts.html
+ª   ª   ª       ª   ª       enhanced-yongshen.ts.html
+ª   ª   ª       ª   ª       examples.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       luck-pillars.ts.html
+ª   ª   ª       ª   ª       pattern-analysis.ts.html
+ª   ª   ª       ª   ª       quick-test.ts.html
+ª   ª   ª       ª   ª       ten-gods.ts.html
+ª   ª   ª       ª   ª       timezone.ts.html
+ª   ª   ª       ª   ª       yongshen.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---chat
+ª   ª   ª       ª   ª       ai-chat-service.ts.html
+ª   ª   ª       ª   ª       enhanced-ai-chat-service.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---compass
+ª   ª   ª       ª   ª       ai-analysis.ts.html
+ª   ª   ª       ª   ª       compass-integration.ts.html
+ª   ª   ª       ª   ª       declination.ts.html
+ª   ª   ª       ª   ª       ekf.ts.html
+ª   ª   ª       ª   ª       feng-shui-data-optimized.ts.html
+ª   ª   ª       ª   ª       feng-shui-data.ts.html
+ª   ª   ª       ª   ª       feng-shui-engine.ts.html
+ª   ª   ª       ª   ª       feng-shui-renderer-enhanced.ts.html
+ª   ª   ª       ª   ª       feng-shui-renderer-optimized.ts.html
+ª   ª   ª       ª   ª       feng-shui-renderer.ts.html
+ª   ª   ª       ª   ª       feng-shui-themes-optimized.ts.html
+ª   ª   ª       ª   ª       feng-shui-types.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       performance-monitor.ts.html
+ª   ª   ª       ª   ª       sensor-fusion.ts.html
+ª   ª   ª       ª   ª       themes.generated.ts.html
+ª   ª   ª       ª   ª       themes.ts.html
+ª   ª   ª       ª   ª       true-north.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---database
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       supabase-server.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---design
+ª   ª   ª       ª   ª       design-tokens.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---env
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       types.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---fengshui
+ª   ª   ª       ª   ª       chengmenjue.ts.html
+ª   ª   ª       ª   ª       enhanced-aixing.ts.html
+ª   ª   ª       ª   ª       enhanced-tigua.ts.html
+ª   ª   ª       ª   ª       evaluate.ts.html
+ª   ª   ª       ª   ª       explanation.ts.html
+ª   ª   ª       ª   ª       geju.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       layering.ts.html
+ª   ª   ª       ª   ª       lingzheng.ts.html
+ª   ª   ª       ª   ª       liunian-analysis.ts.html
+ª   ª   ª       ª   ª       location.ts.html
+ª   ª   ª       ª   ª       luoshu.ts.html
+ª   ª   ª       ª   ª       mountain.ts.html
+ª   ª   ª       ª   ª       palace-profiles.ts.html
+ª   ª   ª       ª   ª       personalized-analysis.ts.html
+ª   ª   ª       ª   ª       plate.ts.html
+ª   ª   ª       ª   ª       positions.ts.html
+ª   ª   ª       ª   ª       smart-recommendations.ts.html
+ª   ª   ª       ª   ª       stack.ts.html
+ª   ª   ª       ª   ª       tigua.ts.html
+ª   ª   ª       ª   ª       types.ts.html
+ª   ª   ª       ª   ª       yun.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---i18n
+ª   ª   ª       ª   ª       config.ts.html
+ª   ª   ª       ª   ª       fengshui-terms.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       routing.ts.html
+ª   ª   ª       ª   ª       utils.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---image-processing
+ª   ª   ª       ª   ª       image-processor.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       ocr-processor.ts.html
+ª   ª   ª       ª   ª       room-detector.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---konva-engine
+ª   ª   ª       ª   ª       flying-star-renderer.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       konva-engine.ts.html
+ª   ª   ª       ª   ª       room-overlay-renderer.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---observability
+ª   ª   ª       ª   ª       audit.ts.html
+ª   ª   ª       ª   ª       cost-alert-example.ts.html
+ª   ª   ª       ª   ª       cost-alert.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---redis
+ª   ª   ª       ª   ª       connection.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       session-storage.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---reports
+ª   ª   ª       ª   ª       bazi-report-generator.ts.html
+ª   ª   ª       ª   ª       export-service.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       pdf-export-service.ts.html
+ª   ª   ª       ª   ª       report-helpers.ts.html
+ª   ª   ª       ª   ª       sharing-service.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---security
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       rate-limiter.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---space-mapping
+ª   ª   ª       ª   ª       alignment-engine.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       index.ts.html
+ª   ª   ª       ª   ª       room-mapper.ts.html
+ª   ª   ª       ª   ª       space-mapper.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---supabase
+ª   ª   ª       ª   ª       client.ts.html
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---utils
+ª   ª   ª       ª   ª       index.html
+ª   ª   ª       ª   ª       retry-utils.ts.html
+ª   ª   ª       ª   ª       safe-data-utils.ts.html
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---validation
+ª   ª   ª       ª           index.html
+ª   ª   ª       ª           input-validation.ts.html
+ª   ª   ª       ª           
+ª   ª   ª       +---types
+ª   ª   ª               api-errors.ts.html
+ª   ª   ª               index.html
+ª   ª   ª               
+ª   ª   +---src
+ª   ª       ª   i18n.ts.html
+ª   ª       ª   index.html
+ª   ª       ª   middleware.ts.html
+ª   ª       ª   
+ª   ª       +---app
+ª   ª       ª   ª   icon.tsx.html
+ª   ª       ª   ª   index.html
+ª   ª       ª   ª   layout.tsx.html
+ª   ª       ª   ª   page.tsx.html
+ª   ª       ª   ª   
+ª   ª       ª   +---api
+ª   ª       ª   ª   +---ai
+ª   ª       ª   ª   ª   +---chat
+ª   ª       ª   ª   ª           index.html
+ª   ª       ª   ª   ª           route.ts.html
+ª   ª       ª   ª   ª           
+ª   ª       ª   ª   +---auth
+ª   ª       ª   ª   ª   +---mfa
+ª   ª       ª   ª   ª   ª   +---setup
+ª   ª       ª   ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª   ª       
+ª   ª       ª   ª   ª   ª   +---verify
+ª   ª       ª   ª   ª   ª           index.html
+ª   ª       ª   ª   ª   ª           route.ts.html
+ª   ª       ª   ª   ª   ª           
+ª   ª       ª   ª   ª   +---oauth
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---signin
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---signup
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---wechat
+ª   ª       ª   ª   ª       +---callback
+ª   ª       ª   ª   ª               index.html
+ª   ª       ª   ª   ª               route.ts.html
+ª   ª       ª   ª   ª               
+ª   ª       ª   ª   +---chat
+ª   ª       ª   ª   ª   ª   index.html
+ª   ª       ª   ª   ª   ª   route.ts.html
+ª   ª       ª   ª   ª   ª   shared.ts.html
+ª   ª       ª   ª   ª   ª   
+ª   ª       ª   ª   ª   +---confidence
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---enhanced
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---enhanced-complete
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---knowledge
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---session
+ª   ª       ª   ª   ª           index.html
+ª   ª       ª   ª   ª           route.ts.html
+ª   ª       ª   ª   ª           
+ª   ª       ª   ª   +---guest
+ª   ª       ª   ª   ª   +---merge
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---start
+ª   ª       ª   ª   ª   ª       index.html
+ª   ª       ª   ª   ª   ª       route.ts.html
+ª   ª       ª   ª   ª   ª       
+ª   ª       ª   ª   ª   +---validate
+ª   ª       ª   ª   ª           index.html
+ª   ª       ª   ª   ª           route.ts.html
+ª   ª       ª   ª   ª           
+ª   ª       ª   ª   +---health
+ª   ª       ª   ª   ª   ª   index.html
+ª   ª       ª   ª   ª   ª   route.ts.html
+ª   ª       ª   ª   ª   ª   
+ª   ª       ª   ª   ª   +---enhanced
+ª   ª       ª   ª   ª           index.html
+ª   ª       ª   ª   ª           route.ts.html
+ª   ª       ª   ª   ª           
+ª   ª       ª   ª   +---i18n
+ª   ª       ª   ª   ª   +---revalidate
+ª   ª       ª   ª   ª           index.html
+ª   ª       ª   ª   ª           route.ts.html
+ª   ª       ª   ª   ª           
+ª   ª       ª   ª   +---user
+ª   ª       ª   ª   ª   +---profile
+ª   ª       ª   ª   ª           index.html
+ª   ª       ª   ª   ª           route.ts.html
+ª   ª       ª   ª   ª           
+ª   ª       ª   ª   +---webhooks
+ª   ª       ª   ª       +---ai-error
+ª   ª       ª   ª               index.html
+ª   ª       ª   ª               route.ts.html
+ª   ª       ª   ª               
+ª   ª       ª   +---compass-demo
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       page.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---test
+ª   ª       ª   ª   ª   index.html
+ª   ª       ª   ª   ª   page.tsx.html
+ª   ª       ª   ª   ª   
+ª   ª       ª   ª   +---compass
+ª   ª       ª   ª           index.html
+ª   ª       ª   ª           page.tsx.html
+ª   ª       ª   ª           
+ª   ª       ª   +---test-guest
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       page.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---test-integration
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       page.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---[locale]
+ª   ª       ª       ª   enhanced-page.tsx.html
+ª   ª       ª       ª   error.tsx.html
+ª   ª       ª       ª   index.html
+ª   ª       ª       ª   layout.tsx.html
+ª   ª       ª       ª   not-found.tsx.html
+ª   ª       ª       ª   page.tsx.html
+ª   ª       ª       ª   
+ª   ª       ª       +---(chat)
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---auth
+ª   ª       ª       ª   ª   index.html
+ª   ª       ª       ª   ª   validators.ts.html
+ª   ª       ª       ª   ª   
+ª   ª       ª       ª   +---login
+ª   ª       ª       ª   ª       index.html
+ª   ª       ª       ª   ª       page.tsx.html
+ª   ª       ª       ª   ª       
+ª   ª       ª       ª   +---profile
+ª   ª       ª       ª   ª       index.html
+ª   ª       ª       ª   ª       page.tsx.html
+ª   ª       ª       ª   ª       
+ª   ª       ª       ª   +---register
+ª   ª       ª       ª           enhanced-page.tsx.html
+ª   ª       ª       ª           index.html
+ª   ª       ª       ª           page.tsx.html
+ª   ª       ª       ª           
+ª   ª       ª       +---bazi-analysis
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---bug-i18n
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---compass-analysis-result
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---compass-demo
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---debug-i18n
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---guest-analysis
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---lang-test
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---minimal-test
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---simple-lang-test
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---simple-test
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---test
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---test-bazi
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---test-bazi-fixed
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---test-guest
+ª   ª       ª       ª       index.html
+ª   ª       ª       ª       page.tsx.html
+ª   ª       ª       ª       
+ª   ª       ª       +---test-i18n
+ª   ª       ª               index.html
+ª   ª       ª               page.tsx.html
+ª   ª       ª               
+ª   ª       +---components
+ª   ª       ª   +---analysis
+ª   ª       ª   ª       advanced-fengshui-features.tsx.html
+ª   ª       ª   ª       bazi-analysis-page.tsx.html
+ª   ª       ª   ª       bazi-analysis-result.tsx.html
+ª   ª       ª   ª       compass-analysis-result-page.tsx.html
+ª   ª       ª   ª       comprehensive-analysis.tsx.html
+ª   ª       ª   ª       enhanced-dayun-analysis.tsx.html
+ª   ª       ª   ª       enhanced-guest-analysis-page.tsx.html
+ª   ª       ª   ª       fengshui-controls.tsx.html
+ª   ª       ª   ª       fengshui-display.tsx.html
+ª   ª       ª   ª       fengshui-explanation.tsx.html
+ª   ª       ª   ª       flying-star-analysis.tsx.html
+ª   ª       ª   ª       flying-star-grid.tsx.html
+ª   ª       ª   ª       guest-analysis-page.tsx.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       optimized-bazi-analysis-result.tsx.html
+ª   ª       ª   ª       optimized-flying-star-grid.tsx.html
+ª   ª       ª   ª       smart-recommendations.tsx.html
+ª   ª       ª   ª       standard-floor-plan.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---auth
+ª   ª       ª   ª       auth-config-check.tsx.html
+ª   ª       ª   ª       auth-guard.tsx.html
+ª   ª       ª   ª       complete-auth-flow.tsx.html
+ª   ª       ª   ª       demo-mode-notice.tsx.html
+ª   ª       ª   ª       guest-entry.tsx.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       login-form.tsx.html
+ª   ª       ª   ª       register-form.tsx.html
+ª   ª       ª   ª       registration-success.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---chat
+ª   ª       ª   ª       ai-typing-indicator.tsx.html
+ª   ª       ª   ª       chat-interface.tsx.html
+ª   ª       ª   ª       context-panel.tsx.html
+ª   ª       ª   ª       enhanced-chat-interface.tsx.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       loading-skeleton.tsx.html
+ª   ª       ª   ª       message-input.tsx.html
+ª   ª       ª   ª       message-list.tsx.html
+ª   ª       ª   ª       recommendation-card.tsx.html
+ª   ª       ª   ª       three-overlay.tsx.html
+ª   ª       ª   ª       use-chat-session.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---compass
+ª   ª       ª   ª       compass-calibration.tsx.html
+ª   ª       ª   ª       compass-demo.tsx.html
+ª   ª       ª   ª       compass-error-boundary.tsx.html
+ª   ª       ª   ª       compass-measurement.tsx.html
+ª   ª       ª   ª       compass-theme-selector.tsx.html
+ª   ª       ª   ª       compass-ui.tsx.html
+ª   ª       ª   ª       feng-shui-compass.tsx.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       simple-compass.tsx.html
+ª   ª       ª   ª       theme-selector.tsx.html
+ª   ª       ª   ª       with-chat-context.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---feedback
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       user-feedback.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---forms
+ª   ª       ª   ª       address-autocomplete.tsx.html
+ª   ª       ª   ª       calendar-picker.tsx.html
+ª   ª       ª   ª       enhanced-user-profile-form.tsx.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       info-tooltip.tsx.html
+ª   ª       ª   ª       map-picker.tsx.html
+ª   ª       ª   ª       progress-bar.tsx.html
+ª   ª       ª   ª       time-picker.tsx.html
+ª   ª       ª   ª       user-profile-form-fixed.tsx.html
+ª   ª       ª   ª       user-profile-form-new.tsx.html
+ª   ª       ª   ª       user-profile-form.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---layout
+ª   ª       ª   ª       header.tsx.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       language-switcher.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---navigation
+ª   ª       ª   ª       global-navigation.tsx.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       
+ª   ª       ª   +---onboarding
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       onboarding-guide.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---overlay
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       overlay-interface.tsx.html
+ª   ª       ª   ª       room-interaction.tsx.html
+ª   ª       ª   ª       transparency-controls.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---providers
+ª   ª       ª   ª       dev-tools.tsx.html
+ª   ª       ª   ª       error-boundary.tsx.html
+ª   ª       ª   ª       extension-handler.tsx.html
+ª   ª       ª   ª       font-provider.tsx.html
+ª   ª       ª   ª       global-error-boundary.tsx.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       
+ª   ª       ª   +---reports
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       report-export-share.tsx.html
+ª   ª       ª   ª       report-generator.tsx.html
+ª   ª       ª   ª       report-manager.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---responsive
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       mobile-optimized.tsx.html
+ª   ª       ª   ª       
+ª   ª       ª   +---ui
+ª   ª       ª           alert.tsx.html
+ª   ª       ª           badge.tsx.html
+ª   ª       ª           button.tsx.html
+ª   ª       ª           card.tsx.html
+ª   ª       ª           collapsible.tsx.html
+ª   ª       ª           dropdown-menu.tsx.html
+ª   ª       ª           enhanced-card.tsx.html
+ª   ª       ª           enhanced-feedback.tsx.html
+ª   ª       ª           enhanced-loading.tsx.html
+ª   ª       ª           enhanced-progress.tsx.html
+ª   ª       ª           form.tsx.html
+ª   ª       ª           index.html
+ª   ª       ª           input.tsx.html
+ª   ª       ª           label.tsx.html
+ª   ª       ª           language-switcher.tsx.html
+ª   ª       ª           loading-spinner.tsx.html
+ª   ª       ª           locale-switcher-dynamic.tsx.html
+ª   ª       ª           mobile-optimized.tsx.html
+ª   ª       ª           mobile-responsive.tsx.html
+ª   ª       ª           simple-language-switcher.tsx.html
+ª   ª       ª           switch.tsx.html
+ª   ª       ª           tabs.tsx.html
+ª   ª       ª           
+ª   ª       +---i18n
+ª   ª       ª       index.html
+ª   ª       ª       request.ts.html
+ª   ª       ª       
+ª   ª       +---lib
+ª   ª       ª   ª   index.html
+ª   ª       ª   ª   rate-limit.ts.html
+ª   ª       ª   ª   utils.ts.html
+ª   ª       ª   ª   
+ª   ª       ª   +---ai
+ª   ª       ª   ª   ª   algorithm-integration-service.ts.html
+ª   ª       ª   ª   ª   confidence.ts.html
+ª   ª       ª   ª   ª   context.ts.html
+ª   ª       ª   ª   ª   conversation-memory.ts.html
+ª   ª       ª   ª   ª   cost-controller.ts.html
+ª   ª       ª   ª   ª   cost.ts.html
+ª   ª       ª   ª   ª   education.ts.html
+ª   ª       ª   ª   ª   health.ts.html
+ª   ª       ª   ª   ª   index.html
+ª   ª       ª   ª   ª   index.ts.html
+ª   ª       ª   ª   ª   master-orchestrator.ts.html
+ª   ª       ª   ª   ª   pricing.ts.html
+ª   ª       ª   ª   ª   router.ts.html
+ª   ª       ª   ª   ª   sanitize.ts.html
+ª   ª       ª   ª   ª   state-machine.ts.html
+ª   ª       ª   ª   ª   strategy.ts.html
+ª   ª       ª   ª   ª   templates.ts.html
+ª   ª       ª   ª   ª   usage-tracker.ts.html
+ª   ª       ª   ª   ª   
+ª   ª       ª   ª   +---adapters
+ª   ª       ª   ª   ª       index.html
+ª   ª       ª   ª   ª       supabase-conversation-memory.ts.html
+ª   ª       ª   ª   ª       
+ª   ª       ª   ª   +---confidence
+ª   ª       ª   ª   ª       confidence-aggregator.ts.html
+ª   ª       ª   ª   ª       index.html
+ª   ª       ª   ª   ª       
+ª   ª       ª   ª   +---explainer
+ª   ª       ª   ª   ª       conversation-explainer.ts.html
+ª   ª       ª   ª   ª       index.html
+ª   ª       ª   ª   ª       
+ª   ª       ª   ª   +---knowledge
+ª   ª       ª   ª   ª       index.html
+ª   ª       ª   ª   ª       knowledge-service.ts.html
+ª   ª       ª   ª   ª       
+ª   ª       ª   ª   +---memory
+ª   ª       ª   ª   ª       dual-layer-coordinator.ts.html
+ª   ª       ª   ª   ª       index.html
+ª   ª       ª   ª   ª       
+ª   ª       ª   ª   +---providers
+ª   ª       ª   ª   ª       anthropic.ts.html
+ª   ª       ª   ª   ª       deepseek.ts.html
+ª   ª       ª   ª   ª       failover-middleware.ts.html
+ª   ª       ª   ª   ª       gemini.ts.html
+ª   ª       ª   ª   ª       index.html
+ª   ª       ª   ª   ª       openai.ts.html
+ª   ª       ª   ª   ª       rate-limit.ts.html
+ª   ª       ª   ª   ª       
+ª   ª       ª   ª   +---state-machine
+ª   ª       ª   ª   ª       config.ts.html
+ª   ª       ª   ª   ª       index.html
+ª   ª       ª   ª   ª       
+ª   ª       ª   ª   +---strategy
+ª   ª       ª   ª           index.html
+ª   ª       ª   ª           policy-engine.ts.html
+ª   ª       ª   ª           
+ª   ª       ª   +---auth
+ª   ª       ª   ª       auth-manager.ts.html
+ª   ª       ª   ª       context.tsx.html
+ª   ª       ª   ª       demo-auth.ts.html
+ª   ª       ª   ª       guest-middleware.ts.html
+ª   ª       ª   ª       guest-migrate.ts.html
+ª   ª       ª   ª       guest-session.ts.html
+ª   ª       ª   ª       guest.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       supabase.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---bazi
+ª   ª       ª   ª       adapter.ts.html
+ª   ª       ª   ª       authoritative-reference.ts.html
+ª   ª       ª   ª       cache.ts.html
+ª   ª       ª   ª       enhanced-calculator.ts.html
+ª   ª       ª   ª       enhanced-ten-gods.ts.html
+ª   ª       ª   ª       enhanced-yongshen.ts.html
+ª   ª       ª   ª       examples.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       luck-pillars.ts.html
+ª   ª       ª   ª       pattern-analysis.ts.html
+ª   ª       ª   ª       quick-test.ts.html
+ª   ª       ª   ª       ten-gods.ts.html
+ª   ª       ª   ª       timezone.ts.html
+ª   ª       ª   ª       yongshen.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---chat
+ª   ª       ª   ª       ai-chat-service.ts.html
+ª   ª       ª   ª       enhanced-ai-chat-service.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       
+ª   ª       ª   +---compass
+ª   ª       ª   ª       ai-analysis.ts.html
+ª   ª       ª   ª       compass-integration.ts.html
+ª   ª       ª   ª       declination.ts.html
+ª   ª       ª   ª       ekf.ts.html
+ª   ª       ª   ª       feng-shui-data-optimized.ts.html
+ª   ª       ª   ª       feng-shui-data.ts.html
+ª   ª       ª   ª       feng-shui-engine.ts.html
+ª   ª       ª   ª       feng-shui-renderer-enhanced.ts.html
+ª   ª       ª   ª       feng-shui-renderer-optimized.ts.html
+ª   ª       ª   ª       feng-shui-renderer.ts.html
+ª   ª       ª   ª       feng-shui-themes-optimized.ts.html
+ª   ª       ª   ª       feng-shui-types.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       performance-monitor.ts.html
+ª   ª       ª   ª       sensor-fusion.ts.html
+ª   ª       ª   ª       themes.generated.ts.html
+ª   ª       ª   ª       themes.ts.html
+ª   ª       ª   ª       true-north.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---database
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       supabase-server.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---design
+ª   ª       ª   ª       design-tokens.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       
+ª   ª       ª   +---env
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       types.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---fengshui
+ª   ª       ª   ª       chengmenjue.ts.html
+ª   ª       ª   ª       enhanced-aixing.ts.html
+ª   ª       ª   ª       enhanced-tigua.ts.html
+ª   ª       ª   ª       evaluate.ts.html
+ª   ª       ª   ª       explanation.ts.html
+ª   ª       ª   ª       geju.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       layering.ts.html
+ª   ª       ª   ª       lingzheng.ts.html
+ª   ª       ª   ª       liunian-analysis.ts.html
+ª   ª       ª   ª       location.ts.html
+ª   ª       ª   ª       luoshu.ts.html
+ª   ª       ª   ª       mountain.ts.html
+ª   ª       ª   ª       palace-profiles.ts.html
+ª   ª       ª   ª       personalized-analysis.ts.html
+ª   ª       ª   ª       plate.ts.html
+ª   ª       ª   ª       positions.ts.html
+ª   ª       ª   ª       smart-recommendations.ts.html
+ª   ª       ª   ª       stack.ts.html
+ª   ª       ª   ª       tigua.ts.html
+ª   ª       ª   ª       types.ts.html
+ª   ª       ª   ª       yun.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---i18n
+ª   ª       ª   ª       config.ts.html
+ª   ª       ª   ª       fengshui-terms.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       routing.ts.html
+ª   ª       ª   ª       utils.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---image-processing
+ª   ª       ª   ª       image-processor.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       ocr-processor.ts.html
+ª   ª       ª   ª       room-detector.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---konva-engine
+ª   ª       ª   ª       flying-star-renderer.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       konva-engine.ts.html
+ª   ª       ª   ª       room-overlay-renderer.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---observability
+ª   ª       ª   ª       audit.ts.html
+ª   ª       ª   ª       cost-alert-example.ts.html
+ª   ª       ª   ª       cost-alert.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       
+ª   ª       ª   +---redis
+ª   ª       ª   ª       connection.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       session-storage.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---reports
+ª   ª       ª   ª       bazi-report-generator.ts.html
+ª   ª       ª   ª       export-service.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       pdf-export-service.ts.html
+ª   ª       ª   ª       report-helpers.ts.html
+ª   ª       ª   ª       sharing-service.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---security
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       rate-limiter.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---space-mapping
+ª   ª       ª   ª       alignment-engine.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       index.ts.html
+ª   ª       ª   ª       room-mapper.ts.html
+ª   ª       ª   ª       space-mapper.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---supabase
+ª   ª       ª   ª       client.ts.html
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       
+ª   ª       ª   +---utils
+ª   ª       ª   ª       index.html
+ª   ª       ª   ª       retry-utils.ts.html
+ª   ª       ª   ª       safe-data-utils.ts.html
+ª   ª       ª   ª       
+ª   ª       ª   +---validation
+ª   ª       ª           index.html
+ª   ª       ª           input-validation.ts.html
+ª   ª       ª           
+ª   ª       +---types
+ª   ª               api-errors.ts.html
+ª   ª               index.html
+ª   ª               
+ª   +---database
+ª   ª   ª   backup_recovery_improvements.sql
+ª   ª   ª   encryption.sql
+ª   ª   ª   encryption_improvements.sql
+ª   ª   ª   performance.sql
+ª   ª   ª   performance_improvements.sql
+ª   ª   ª   scalability_improvements.sql
+ª   ª   ª   schema.sql
+ª   ª   ª   schema_improvements.sql
+ª   ª   ª   
+ª   ª   +---migrations
+ª   ª           create_ai_usage_metrics.sql
+ª   ª           create_chat_sessions.sql
+ª   ª           create_confidence_scores.sql
+ª   ª           create_conversation_states.sql
+ª   ª           create_knowledge_graph.sql
+ª   ª           
+ª   +---dist
+ª   ª       analysis-detection.js
+ª   ª       
+ª   +---docs
+ª   ª   ª   @CHANGELOG_v5.1.md
+ª   ª   ª   @DIFF_PRD_v5.0_to_v5.1.md
+ª   ª   ª   @DIFF_TASK_v5.0_to_v5.1.md
+ª   ª   ª   @DIFF_TECH_v5.0_to_v5.1.md
+ª   ª   ª   @DIFF_UI_v5.0_to_v5.1.md
+ª   ª   ª   @ISSUES_MATRIX_v5.1.md
+ª   ª   ª   @PRD_v5.1.md
+ª   ª   ª   @RELEASENOTES_v5.1.md
+ª   ª   ª   @REVIEW_ALL_gemini.json
+ª   ª   ª   @REVIEW_ALL_gemini.md
+ª   ª   ª   @REVIEW_FINAL_arbiter.json
+ª   ª   ª   @REVIEW_FINAL_arbiter.md
+ª   ª   ª   @REVIEW_PRD_gpt5.json
+ª   ª   ª   @REVIEW_PRD_gpt5.md
+ª   ª   ª   @TASK_PLAN_v5.1.md
+ª   ª   ª   @TECH_GUIDE_v5.1.md
+ª   ª   ª   @UI_DESIGN_v5.1.md
+ª   ª   ª   admin-dashboard-guide.md
+ª   ª   ª   ai-integration-architecture.md
+ª   ª   ª   ai-master-phase1-notes.md
+ª   ª   ª   ai-master-user-guide.md
+ª   ª   ª   AI??????PRD.md
+ª   ª   ª   backend-validation-error-handling.md
+ª   ª   ª   bazi-optimization-report-zh.md
+ª   ª   ª   code-review-report-zh.md
+ª   ª   ª   compass-integration-implementation-plan-zh.md
+ª   ª   ª   compass-integration-prd-zh.md
+ª   ª   ª   compass-integration-tech-specs-zh.md
+ª   ª   ª   compass-integration-technical-specs.zip
+ª   ª   ª   compass-migration-completion-summary-zh.md
+ª   ª   ª   compass-optimization-guide.md
+ª   ª   ª   compass-replacement-completion-zh.md
+ª   ª   ª   compass-test-execution-report-zh.md
+ª   ª   ª   compass-test-report-zh.md
+ª   ª   ª   data-retention-policy.md
+ª   ª   ª   deployment-guide.md
+ª   ª   ª   feng-shui-compass-usage-guide-zh.md
+ª   ª   ª   market-strategy-analysis.md
+ª   ª   ª   PRD_v3.0_brainstorm.md
+ª   ª   ª   PRD_v3.0_final.md
+ª   ª   ª   PRD_v4.0.md
+ª   ª   ª   PRD_v5.0.md
+ª   ª   ª   qa-acceptance-checklist.md
+ª   ª   ª   REVIEW_ALL_claude.json
+ª   ª   ª   REVIEW_ALL_claude.md
+ª   ª   ª   REVIEW_ALL_gpt5.json
+ª   ª   ª   REVIEW_ALL_gpt5.md
+ª   ª   ª   REVIEW_PRD_claude.json
+ª   ª   ª   REVIEW_PRD_claude.md
+ª   ª   ª   REVIEW_PRD_gemini.json
+ª   ª   ª   REVIEW_PRD_gemini.md
+ª   ª   ª   rollback-guide.md
+ª   ª   ª   sla.md
+ª   ª   ª   supabase-setup.md
+ª   ª   ª   TASK_PLAN_v5.0.md
+ª   ª   ª   TECH_GUIDE_v4.0.md
+ª   ª   ª   TECH_GUIDE_v5.0.md
+ª   ª   ª   typescript-error-handling-guide.md
+ª   ª   ª   UI_DESIGN_v5.0.md
+ª   ª   ª   UI??????.md
+ª   ª   ª   ?????????.md
+ª   ª   ª   ????????.md
+ª   ª   ª   ????????.md
+ª   ª   ª   
+ª   ª   +---Docs_Pack_v5.1_plus
+ª   ª   ª   +---ARCH
+ª   ª   ª   ª       @C4_OVERVIEW_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---BILLING
+ª   ª   ª   ª       @BILLING_FLOWS_v5.1.md
+ª   ª   ª   ª       @HIFI_PAGE_INVENTORY_BILLING_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---CI_CD
+ª   ª   ª   ª       @PIPELINE_SPEC_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---COMPLIANCE
+ª   ª   ª   ª       @DATA_RETENTION_POLICY_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---CONTENT_SAFETY
+ª   ª   ª   ª       @SAFETY_PLAYBOOK_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---DEPLOY
+ª   ª   ª   ª       @ENV_CONFIG_MATRIX_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---GOVERNANCE
+ª   ª   ª   ª       @CHANGE_CONTROL_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---MODEL
+ª   ª   ª   ª       @COST_ROUTING_STRATEGY_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---MONITORING
+ª   ª   ª   ª       @LOGGING_AUDIT_POLICY_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---PRIVACY
+ª   ª   ª   ª       @DSAR_RUNBOOK_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---QA
+ª   ª   ª   ª       @TEST_CASE_MATRIX_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---RELEASE
+ª   ª   ª   ª       @ROLLBACK_CHECKLIST_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---SDK
+ª   ª   ª   ª       @MOCK_FIXTURES_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---SECURITY
+ª   ª   ª   ª       @KEYS_SECRETS_RUNBOOK_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---SUPPORT
+ª   ª   ª   ª       @KNOWLEDGE_BASE_TOC_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---TECH
+ª   ª   ª   ª       @API_CONTRACT_v5.1.md
+ª   ª   ª   ª       @ERROR_CATALOG_v5.1.md
+ª   ª   ª   ª       @RATE_LIMITING_POLICY_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---UI
+ª   ª   ª   ª       @COMPONENT_MAPPING_v5.1.md
+ª   ª   ª   ª       
+ª   ª   ª   +---UX
+ª   ª   ª           @CONTENT_STYLE_GUIDE_v5.1.md
+ª   ª   ª           @HIFI_PAGE_INVENTORY_v5.1.md
+ª   ª   ª           @USER_FLOW_v5.1.md
+ª   ª   ª           
+ª   ª   +---postmortem
+ª   ª   ª       ai-master-retro.md
+ª   ª   ª       
+ª   ª   +---release-notes
+ª   ª           v1.0.md
+ª   ª           
+ª   +---e2e
+ª   ª   ª   chat-system.spec.ts
+ª   ª   ª   chat.spec.ts
+ª   ª   ª   compass-chat-integration.spec.ts
+ª   ª   ª   error-handling-boundary.spec.ts
+ª   ª   ª   global-setup.ts
+ª   ª   ª   global-teardown.ts
+ª   ª   ª   README.md
+ª   ª   ª   state-machine-transitions.spec.ts
+ª   ª   ª   
+ª   ª   +---fixtures
+ª   ª   ª       index.ts
+ª   ª   ª       
+ª   ª   +---helpers
+ª   ª   ª       test-utils.ts
+ª   ª   ª       
+ª   ª   +---utils
+ª   +---observability
+ª   ª   +---alerts
+ª   ª   ª       cost-alert.yaml
+ª   ª   ª       
+ª   ª   +---grafana
+ª   ª           chat-dashboard.json
+ª   ª           
+ª   +---pages
+ª   ª       _document.tsx
+ª   ª       
+ª   +---playwright-report
+ª   ª       index.html
+ª   ª       
+ª   +---public
+ª   ª   ª   file.svg
+ª   ª   ª   globe.svg
+ª   ª   ª   next.svg
+ª   ª   ª   vercel.svg
+ª   ª   ª   window.svg
+ª   ª   ª   
+ª   ª   +---compass-themes
+ª   ª           svgu1.png
+ª   ª           theme-compass-preview.png
+ª   ª           theme-crice.png
+ª   ª           theme-dark-preview.png
+ª   ª           theme-polygon-preview.png
+ª   ª           ui1.png
+ª   ª           ui2.png
+ª   ª           ui3.png
+ª   ª           
+ª   +---scripts
+ª   ª   ª   check-translations.js
+ª   ª   ª   complete-zh-tw-fix.js
+ª   ª   ª   debug-algorithm.js
+ª   ª   ª   demo-bazi-analysis.js
+ª   ª   ª   environment-validation.ts
+ª   ª   ª   find-json-error.js
+ª   ª   ª   fix-ko-json.js
+ª   ª   ª   fix-ms-json.js
+ª   ª   ª   fix-zh-tw-complete.js
+ª   ª   ª   fix-zh-tw-json.js
+ª   ª   ª   generate-compass-themes.js
+ª   ª   ª   migrate-guest-session.ts
+ª   ª   ª   setup-env.js
+ª   ª   ª   start-optimized-compass-demo.js
+ª   ª   ª   test-ai-chat-functionality.js
+ª   ª   ª   test-ai-chat.js
+ª   ª   ª   test-ai-integration.js
+ª   ª   ª   test-algorithm-first.js
+ª   ª   ª   test-all-languages.js
+ª   ª   ª   test-analysis-detection-node.js
+ª   ª   ª   test-analysis-detection-simple.js
+ª   ª   ª   test-analysis-detection.js
+ª   ª   ª   test-analysis-detection.mjs
+ª   ª   ª   test-analysis-required-chat.js
+ª   ª   ª   test-bazi-analysis.js
+ª   ª   ª   test-bazi-complete.js
+ª   ª   ª   test-bazi-library.js
+ª   ª   ª   test-bazi-page.js
+ª   ª   ª   test-db-connection.js
+ª   ª   ª   test-detection-integration.js
+ª   ª   ª   test-fengshui.js
+ª   ª   ª   test-integration.js
+ª   ª   ª   test-optimized-bazi.js
+ª   ª   ª   test-optimized-code.js
+ª   ª   ª   test-page-content.js
+ª   ª   ª   test-performance.js
+ª   ª   ª   test-standard-compass.js
+ª   ª   ª   validate-json.js
+ª   ª   ª   
+ª   ª   +---benchmark
+ª   ª   ª       ai-session-benchmark.ts
+ª   ª   ª       
+ª   ª   +---setup
+ª   ª           vercel-env.sh
+ª   ª           
+ª   +---settings
+ª   ª       mcp.json
+ª   ª       
+ª   +---src
+ª   ª   ª   i18n.ts
+ª   ª   ª   middleware.ts
+ª   ª   ª   
+ª   ª   +---app
+ª   ª   ª   ª   favicon.ico
+ª   ª   ª   ª   globals.css
+ª   ª   ª   ª   icon.tsx
+ª   ª   ª   ª   layout.tsx
+ª   ª   ª   ª   not-found.tsx
+ª   ª   ª   ª   page.tsx
+ª   ª   ª   ª   
+ª   ª   ª   +---api
+ª   ª   ª   ª   +---admin
+ª   ª   ª   ª   ª   +---usage-analytics
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---user-usage
+ª   ª   ª   ª   ª           route.ts
+ª   ª   ª   ª   ª           
+ª   ª   ª   ª   +---ai
+ª   ª   ª   ª   ª   +---chat
+ª   ª   ª   ª   ª           route.ts
+ª   ª   ª   ª   ª           
+ª   ª   ª   ª   +---analysis
+ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---auth
+ª   ª   ª   ª   ª   +---mfa
+ª   ª   ª   ª   ª   ª   +---setup
+ª   ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   ª   +---verify
+ª   ª   ª   ª   ª   ª           route.ts
+ª   ª   ª   ª   ª   ª           
+ª   ª   ª   ª   ª   +---oauth
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---signin
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---signup
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---wechat
+ª   ª   ª   ª   ª       +---callback
+ª   ª   ª   ª   ª               route.ts
+ª   ª   ª   ª   ª               
+ª   ª   ª   ª   +---chat
+ª   ª   ª   ª   ª   ª   route.ts
+ª   ª   ª   ª   ª   ª   shared.ts
+ª   ª   ª   ª   ª   ª   
+ª   ª   ª   ª   ª   +---confidence
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---enhanced
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---enhanced-complete
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---knowledge
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---session
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª   ª           chat-route.test.ts
+ª   ª   ª   ª   ª           
+ª   ª   ª   ª   +---guest
+ª   ª   ª   ª   ª   +---merge
+ª   ª   ª   ª   ª   ª   ª   route.ts
+ª   ª   ª   ª   ª   ª   ª   
+ª   ª   ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª   ª   ª           invalid-signature.test.ts
+ª   ª   ª   ª   ª   ª           merge.success.test.ts
+ª   ª   ª   ª   ª   ª           route.test.ts
+ª   ª   ª   ª   ª   ª           
+ª   ª   ª   ª   ª   +---start
+ª   ª   ª   ª   ª   ª   ª   route.ts
+ª   ª   ª   ª   ª   ª   ª   
+ª   ª   ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª   ª   ª           renew.test.ts
+ª   ª   ª   ª   ª   ª           route.test.ts
+ª   ª   ª   ª   ª   ª           
+ª   ª   ª   ª   ª   +---validate
+ª   ª   ª   ª   ª           route.ts
+ª   ª   ª   ª   ª           
+ª   ª   ª   ª   +---health
+ª   ª   ª   ª   ª   ª   route.ts
+ª   ª   ª   ª   ª   ª   
+ª   ª   ª   ª   ª   +---enhanced
+ª   ª   ª   ª   ª   ª       route.ts
+ª   ª   ª   ª   ª   ª       
+ª   ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª   ª           route.test.ts
+ª   ª   ª   ª   ª           
+ª   ª   ª   ª   +---i18n
+ª   ª   ª   ª   ª   +---revalidate
+ª   ª   ª   ª   ª           route.ts
+ª   ª   ª   ª   ª           
+ª   ª   ª   ª   +---user
+ª   ª   ª   ª   ª   +---profile
+ª   ª   ª   ª   ª           route.ts
+ª   ª   ª   ª   ª           
+ª   ª   ª   ª   +---webhooks
+ª   ª   ª   ª       +---ai-error
+ª   ª   ª   ª               route.ts
+ª   ª   ª   ª               
+ª   ª   ª   +---test
+ª   ª   ª   ª   ª   page.tsx
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---compass
+ª   ª   ª   ª           page.tsx
+ª   ª   ª   ª           
+ª   ª   ª   +---test-guest
+ª   ª   ª   ª       page.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---test-integration
+ª   ª   ª   ª       chat-api.test.ts
+ª   ª   ª   ª       page.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---[locale]
+ª   ª   ª       ª   enhanced-page.tsx
+ª   ª   ª       ª   error.tsx
+ª   ª   ª       ª   layout.tsx
+ª   ª   ª       ª   not-found.tsx
+ª   ª   ª       ª   page.tsx
+ª   ª   ª       ª   
+ª   ª   ª       +---(chat)
+ª   ª   ª       +---admin
+ª   ª   ª       ª   ª   layout.tsx
+ª   ª   ª       ª   ª   
+ª   ª   ª       ª   +---dashboard
+ª   ª   ª       ª           page.tsx
+ª   ª   ª       ª           
+ª   ª   ª       +---analysis-result
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---auth
+ª   ª   ª       ª   ª   validators.ts
+ª   ª   ª       ª   ª   
+ª   ª   ª       ª   +---login
+ª   ª   ª       ª   ª       page.tsx
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---profile
+ª   ª   ª       ª   ª       page.tsx
+ª   ª   ª       ª   ª       
+ª   ª   ª       ª   +---register
+ª   ª   ª       ª           enhanced-page.tsx
+ª   ª   ª       ª           page.tsx
+ª   ª   ª       ª           
+ª   ª   ª       +---bazi-analysis
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---bug-i18n
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---chat
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---compass-analysis-result
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---compass-demo
+ª   ª   ª       ª   ª   page.tsx
+ª   ª   ª       ª   ª   
+ª   ª   ª       ª   +---standard
+ª   ª   ª       ª           page.tsx
+ª   ª   ª       ª           
+ª   ª   ª       +---debug-i18n
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---guest-analysis
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---lang-test
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---minimal-test
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---simple-lang-test
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---simple-test
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---test
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---test-bazi
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---test-bazi-fixed
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---test-guest
+ª   ª   ª       ª       page.tsx
+ª   ª   ª       ª       
+ª   ª   ª       +---test-i18n
+ª   ª   ª               page.tsx
+ª   ª   ª               
+ª   ª   +---components
+ª   ª   ª   +---analysis
+ª   ª   ª   ª       advanced-fengshui-features.tsx
+ª   ª   ª   ª       bazi-analysis-page.tsx
+ª   ª   ª   ª       bazi-analysis-result.tsx
+ª   ª   ª   ª       compass-analysis-result-page.tsx
+ª   ª   ª   ª       comprehensive-analysis.tsx
+ª   ª   ª   ª       enhanced-bazi-analysis-result.tsx
+ª   ª   ª   ª       enhanced-comprehensive-analysis-result.tsx
+ª   ª   ª   ª       enhanced-dayun-analysis.tsx
+ª   ª   ª   ª       enhanced-fengshui-analysis-result.tsx
+ª   ª   ª   ª       enhanced-guest-analysis-page.tsx
+ª   ª   ª   ª       fengshui-controls.tsx
+ª   ª   ª   ª       fengshui-display.tsx
+ª   ª   ª   ª       fengshui-explanation.tsx
+ª   ª   ª   ª       flying-star-analysis.tsx
+ª   ª   ª   ª       flying-star-grid.tsx
+ª   ª   ª   ª       guest-analysis-page.tsx
+ª   ª   ª   ª       optimized-bazi-analysis-result.tsx
+ª   ª   ª   ª       optimized-flying-star-grid.tsx
+ª   ª   ª   ª       smart-recommendations.tsx
+ª   ª   ª   ª       standard-floor-plan.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---auth
+ª   ª   ª   ª       auth-config-check.tsx
+ª   ª   ª   ª       auth-guard.tsx
+ª   ª   ª   ª       complete-auth-flow.tsx
+ª   ª   ª   ª       demo-mode-notice.tsx
+ª   ª   ª   ª       guest-entry.tsx
+ª   ª   ª   ª       login-form.tsx
+ª   ª   ª   ª       register-form.tsx
+ª   ª   ª   ª       registration-success.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---chat
+ª   ª   ª   ª   ª   ai-typing-indicator.tsx
+ª   ª   ª   ª   ª   analysis-required-chat-interface.tsx
+ª   ª   ª   ª   ª   chat-interface.tsx
+ª   ª   ª   ª   ª   context-panel.tsx
+ª   ª   ª   ª   ª   enhanced-chat-interface.tsx
+ª   ª   ª   ª   ª   export-dialogue-button.tsx
+ª   ª   ª   ª   ª   index.ts
+ª   ª   ª   ª   ª   loading-skeleton.tsx
+ª   ª   ª   ª   ª   message-input.tsx
+ª   ª   ª   ª   ª   message-list.css
+ª   ª   ª   ª   ª   message-list.tsx
+ª   ª   ª   ª   ª   recommendation-card.tsx
+ª   ª   ª   ª   ª   three-overlay.tsx
+ª   ª   ª   ª   ª   use-chat-session.ts
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª           message-list.test.tsx
+ª   ª   ª   ª           
+ª   ª   ª   +---compass
+ª   ª   ª   ª   ª   compass-calibration.tsx
+ª   ª   ª   ª   ª   compass-demo.tsx
+ª   ª   ª   ª   ª   compass-error-boundary.tsx
+ª   ª   ª   ª   ª   compass-measurement.tsx
+ª   ª   ª   ª   ª   compass-theme-selector.tsx
+ª   ª   ª   ª   ª   compass-ui.tsx
+ª   ª   ª   ª   ª   feng-shui-compass.tsx
+ª   ª   ª   ª   ª   index.ts
+ª   ª   ª   ª   ª   simple-compass.tsx
+ª   ª   ª   ª   ª   standard-compass.tsx
+ª   ª   ª   ª   ª   theme-selector.tsx
+ª   ª   ª   ª   ª   with-chat-context.tsx
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª           feng-shui-compass.test.tsx
+ª   ª   ª   ª           
+ª   ª   ª   +---feedback
+ª   ª   ª   ª       user-feedback.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---forms
+ª   ª   ª   ª       address-autocomplete.tsx
+ª   ª   ª   ª       calendar-picker.tsx
+ª   ª   ª   ª       enhanced-user-profile-form.tsx
+ª   ª   ª   ª       info-tooltip.tsx
+ª   ª   ª   ª       map-picker.tsx
+ª   ª   ª   ª       progress-bar.tsx
+ª   ª   ª   ª       README.md
+ª   ª   ª   ª       time-picker.tsx
+ª   ª   ª   ª       user-profile-form-fixed.tsx
+ª   ª   ª   ª       user-profile-form-new.tsx
+ª   ª   ª   ª       user-profile-form.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---layout
+ª   ª   ª   ª       header.tsx
+ª   ª   ª   ª       language-switcher.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---navigation
+ª   ª   ª   ª       global-navigation.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---onboarding
+ª   ª   ª   ª       onboarding-guide.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---overlay
+ª   ª   ª   ª       index.ts
+ª   ª   ª   ª       overlay-interface.tsx
+ª   ª   ª   ª       room-interaction.tsx
+ª   ª   ª   ª       transparency-controls.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---providers
+ª   ª   ª   ª       dev-tools.tsx
+ª   ª   ª   ª       error-boundary.tsx
+ª   ª   ª   ª       extension-handler.tsx
+ª   ª   ª   ª       font-provider.tsx
+ª   ª   ª   ª       global-error-boundary.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---reports
+ª   ª   ª   ª       index.ts
+ª   ª   ª   ª       report-export-share.tsx
+ª   ª   ª   ª       report-generator.tsx
+ª   ª   ª   ª       report-manager.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---responsive
+ª   ª   ª   ª       mobile-optimized.tsx
+ª   ª   ª   ª       
+ª   ª   ª   +---ui
+ª   ª   ª           alert.tsx
+ª   ª   ª           badge.tsx
+ª   ª   ª           button.tsx
+ª   ª   ª           card.tsx
+ª   ª   ª           collapsible.tsx
+ª   ª   ª           dropdown-menu.tsx
+ª   ª   ª           enhanced-card.tsx
+ª   ª   ª           enhanced-feedback.tsx
+ª   ª   ª           enhanced-loading.tsx
+ª   ª   ª           enhanced-progress.tsx
+ª   ª   ª           form.tsx
+ª   ª   ª           input.tsx
+ª   ª   ª           label.tsx
+ª   ª   ª           language-switcher.tsx
+ª   ª   ª           loading-spinner.tsx
+ª   ª   ª           locale-switcher-dynamic.tsx
+ª   ª   ª           mobile-optimized.tsx
+ª   ª   ª           mobile-responsive.tsx
+ª   ª   ª           progress.tsx
+ª   ª   ª           select.tsx
+ª   ª   ª           simple-language-switcher.tsx
+ª   ª   ª           switch.tsx
+ª   ª   ª           tabs.tsx
+ª   ª   ª           textarea.tsx
+ª   ª   ª           
+ª   ª   +---i18n
+ª   ª   ª   ª   request.ts
+ª   ª   ª   ª   
+ª   ª   ª   +---__tests__
+ª   ª   ª           request.test.ts
+ª   ª   ª           routing.test.ts
+ª   ª   ª           smoke.test.ts
+ª   ª   ª           
+ª   ª   +---lib
+ª   ª   ª   ª   rate-limit.ts
+ª   ª   ª   ª   utils.ts
+ª   ª   ª   ª   
+ª   ª   ª   +---ai
+ª   ª   ª   ª   ª   algorithm-first-service.ts
+ª   ª   ª   ª   ª   algorithm-integration-service.ts
+ª   ª   ª   ª   ª   analysis-detection.ts
+ª   ª   ª   ª   ª   bazi-master-processor.ts
+ª   ª   ª   ª   ª   confidence.ts
+ª   ª   ª   ª   ª   context.ts
+ª   ª   ª   ª   ª   conversation-memory.ts
+ª   ª   ª   ª   ª   cost-controller.ts
+ª   ª   ª   ª   ª   cost.ts
+ª   ª   ª   ª   ª   data-consistency-monitor.ts
+ª   ª   ª   ª   ª   education.ts
+ª   ª   ª   ª   ª   health.ts
+ª   ª   ª   ª   ª   index.ts
+ª   ª   ª   ª   ª   master-orchestrator.ts
+ª   ª   ª   ª   ª   pricing.ts
+ª   ª   ª   ª   ª   qiflow-bazi-master.ts
+ª   ª   ª   ª   ª   README.md
+ª   ª   ª   ª   ª   router.ts
+ª   ª   ª   ª   ª   sanitize.ts
+ª   ª   ª   ª   ª   state-machine.ts
+ª   ª   ª   ª   ª   strategy.ts
+ª   ª   ª   ª   ª   templates.ts
+ª   ª   ª   ª   ª   types.ts
+ª   ª   ª   ª   ª   usage-tracker.ts
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---adapters
+ª   ª   ª   ª   ª       supabase-conversation-memory.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---confidence
+ª   ª   ª   ª   ª       confidence-aggregator.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---config
+ª   ª   ª   ª   ª       ai-models-config.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---explainer
+ª   ª   ª   ª   ª       conversation-explainer.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---knowledge
+ª   ª   ª   ª   ª       knowledge-service.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---memory
+ª   ª   ª   ª   ª       dual-layer-coordinator.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---providers
+ª   ª   ª   ª   ª       anthropic.ts
+ª   ª   ª   ª   ª       deepseek.ts
+ª   ª   ª   ª   ª       failover-middleware.ts
+ª   ª   ª   ª   ª       gemini.ts
+ª   ª   ª   ª   ª       openai.ts
+ª   ª   ª   ª   ª       rate-limit.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---state-machine
+ª   ª   ª   ª   ª       config.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---strategy
+ª   ª   ª   ª   ª       policy-engine.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---types
+ª   ª   ª   ª   ª       conversation.ts
+ª   ª   ª   ª   ª       state-machine.ts
+ª   ª   ª   ª   ª       
+ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª           cost-controller.test.ts
+ª   ª   ª   ª           knowledge-service.test.ts
+ª   ª   ª   ª           master-orchestrator-integration.test.ts
+ª   ª   ª   ª           master-orchestrator.integration.test.ts
+ª   ª   ª   ª           master-orchestrator.test.ts
+ª   ª   ª   ª           policy-engine.test.ts
+ª   ª   ª   ª           state-machine.test.ts
+ª   ª   ª   ª           
+ª   ª   ª   +---auth
+ª   ª   ª   ª       auth-manager.ts
+ª   ª   ª   ª       context.tsx
+ª   ª   ª   ª       demo-auth.ts
+ª   ª   ª   ª       guest-middleware.ts
+ª   ª   ª   ª       guest-migrate.ts
+ª   ª   ª   ª       guest-session.test.ts
+ª   ª   ª   ª       guest-session.ts
+ª   ª   ª   ª       guest.ts
+ª   ª   ª   ª       README.md
+ª   ª   ª   ª       supabase.ts
+ª   ª   ª   ª       types.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---bazi
+ª   ª   ª   ª   ª   adapter.ts
+ª   ª   ª   ª   ª   authoritative-reference.ts
+ª   ª   ª   ª   ª   cache.ts
+ª   ª   ª   ª   ª   enhanced-calculator.ts
+ª   ª   ª   ª   ª   enhanced-ten-gods.ts
+ª   ª   ª   ª   ª   enhanced-yongshen.ts
+ª   ª   ª   ª   ª   examples.ts
+ª   ª   ª   ª   ª   index.ts
+ª   ª   ª   ª   ª   luck-pillars.ts
+ª   ª   ª   ª   ª   optimized-calculator.ts
+ª   ª   ª   ª   ª   pattern-analysis.ts
+ª   ª   ª   ª   ª   quick-test.ts
+ª   ª   ª   ª   ª   README.md
+ª   ª   ª   ª   ª   ten-gods.ts
+ª   ª   ª   ª   ª   timezone.ts
+ª   ª   ª   ª   ª   types.ts
+ª   ª   ª   ª   ª   yongshen.ts
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª           authoritative-reference.test.ts
+ª   ª   ª   ª           day-branch-validation.test.ts
+ª   ª   ª   ª           dayun-analysis.test.ts
+ª   ª   ª   ª           enhanced-calculator.test.ts
+ª   ª   ª   ª           integration.test.ts
+ª   ª   ª   ª           verified-day-pillars.test.ts
+ª   ª   ª   ª           
+ª   ª   ª   +---cache
+ª   ª   ª   ª       cache-manager.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---chat
+ª   ª   ª   ª   ª   ai-chat-service.ts
+ª   ª   ª   ª   ª   enhanced-ai-chat-service.ts
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª           enhanced-ai-chat-service.test.ts
+ª   ª   ª   ª           
+ª   ª   ª   +---compass
+ª   ª   ª   ª   ª   ai-analysis.ts
+ª   ª   ª   ª   ª   compass-integration.ts
+ª   ª   ª   ª   ª   declination.ts
+ª   ª   ª   ª   ª   ekf.ts
+ª   ª   ª   ª   ª   feng-shui-data-optimized.ts
+ª   ª   ª   ª   ª   feng-shui-data.ts
+ª   ª   ª   ª   ª   feng-shui-engine.ts
+ª   ª   ª   ª   ª   feng-shui-renderer-enhanced.ts
+ª   ª   ª   ª   ª   feng-shui-renderer-optimized.ts
+ª   ª   ª   ª   ª   feng-shui-renderer.ts
+ª   ª   ª   ª   ª   feng-shui-themes-optimized.ts
+ª   ª   ª   ª   ª   feng-shui-types.ts
+ª   ª   ª   ª   ª   performance-monitor.ts
+ª   ª   ª   ª   ª   README.md
+ª   ª   ª   ª   ª   sensor-fusion.ts
+ª   ª   ª   ª   ª   themes.generated.ts
+ª   ª   ª   ª   ª   themes.ts
+ª   ª   ª   ª   ª   true-north.ts
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª           declination.test.ts
+ª   ª   ª   ª           ekf.test.ts
+ª   ª   ª   ª           feng-shui-engine.test.ts
+ª   ª   ª   ª           feng-shui-renderer.test.ts
+ª   ª   ª   ª           sensor-fusion.test.ts
+ª   ª   ª   ª           simple.test.ts
+ª   ª   ª   ª           true-north.test.ts
+ª   ª   ª   ª           
+ª   ª   ª   +---database
+ª   ª   ª   ª       supabase-server.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---design
+ª   ª   ª   ª       design-tokens.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---env
+ª   ª   ª   ª       types.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---fengshui
+ª   ª   ª   ª   ª   chengmenjue.ts
+ª   ª   ª   ª   ª   enhanced-aixing.ts
+ª   ª   ª   ª   ª   enhanced-tigua.ts
+ª   ª   ª   ª   ª   evaluate.ts
+ª   ª   ª   ª   ª   explanation.ts
+ª   ª   ª   ª   ª   flying-star.ts
+ª   ª   ª   ª   ª   geju.ts
+ª   ª   ª   ª   ª   index.ts
+ª   ª   ª   ª   ª   layering.ts
+ª   ª   ª   ª   ª   lingzheng.ts
+ª   ª   ª   ª   ª   liunian-analysis.ts
+ª   ª   ª   ª   ª   location.ts
+ª   ª   ª   ª   ª   luoshu.ts
+ª   ª   ª   ª   ª   mountain.ts
+ª   ª   ª   ª   ª   palace-profiles.ts
+ª   ª   ª   ª   ª   personalized-analysis.ts
+ª   ª   ª   ª   ª   plate.ts
+ª   ª   ª   ª   ª   positions.ts
+ª   ª   ª   ª   ª   README.md
+ª   ª   ª   ª   ª   smart-recommendations.ts
+ª   ª   ª   ª   ª   stack.ts
+ª   ª   ª   ª   ª   tigua.ts
+ª   ª   ª   ª   ª   twenty-four-mountains.ts
+ª   ª   ª   ª   ª   types.ts
+ª   ª   ª   ª   ª   yun.ts
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---__tests__
+ª   ª   ª   ª       ª   authoritative-snapshots.test.ts
+ª   ª   ª   ª       ª   enhanced-flying-star.test.ts
+ª   ª   ª   ª       ª   flying-star.test.ts
+ª   ª   ª   ª       ª   luoshu-algorithm-validation.test.ts
+ª   ª   ª   ª       ª   perf.test.ts
+ª   ª   ª   ª       ª   
+ª   ª   ª   ª       +---__snapshots__
+ª   ª   ª   ª               authoritative-snapshots.test.ts.snap
+ª   ª   ª   ª               
+ª   ª   ª   +---i18n
+ª   ª   ª   ª       config.ts
+ª   ª   ª   ª       fengshui-terms.ts
+ª   ª   ª   ª       routing.ts
+ª   ª   ª   ª       utils.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---image-processing
+ª   ª   ª   ª       image-processor.ts
+ª   ª   ª   ª       index.ts
+ª   ª   ª   ª       ocr-processor.ts
+ª   ª   ª   ª       room-detector.ts
+ª   ª   ª   ª       types.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---konva-engine
+ª   ª   ª   ª       flying-star-renderer.ts
+ª   ª   ª   ª       index.ts
+ª   ª   ª   ª       konva-engine.ts
+ª   ª   ª   ª       room-overlay-renderer.ts
+ª   ª   ª   ª       types.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---monitoring
+ª   ª   ª   ª       performance-monitor.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---observability
+ª   ª   ª   ª   ª   audit.ts
+ª   ª   ª   ª   ª   cost-alert-example.ts
+ª   ª   ª   ª   ª   cost-alert.ts
+ª   ª   ª   ª   ª   logger.ts
+ª   ª   ª   ª   ª   
+ª   ª   ª   ª   +---__tests__
+ª   ª   ª   +---qimen
+ª   ª   ª   ª       qimen-dunjia.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---redis
+ª   ª   ª   ª       connection.ts
+ª   ª   ª   ª       session-storage.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---reports
+ª   ª   ª   ª       bazi-report-generator.ts
+ª   ª   ª   ª       export-service.ts
+ª   ª   ª   ª       pdf-export-service.ts
+ª   ª   ª   ª       report-helpers.ts
+ª   ª   ª   ª       sharing-service.ts
+ª   ª   ª   ª       types.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---security
+ª   ª   ª   ª       rate-limiter.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---space-mapping
+ª   ª   ª   ª       alignment-engine.ts
+ª   ª   ª   ª       index.ts
+ª   ª   ª   ª       room-mapper.ts
+ª   ª   ª   ª       space-mapper.ts
+ª   ª   ª   ª       types.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---supabase
+ª   ª   ª   ª       client.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---utils
+ª   ª   ª   ª       retry-utils.ts
+ª   ª   ª   ª       safe-data-utils.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---validation
+ª   ª   ª   ª       input-validation.ts
+ª   ª   ª   ª       
+ª   ª   ª   +---__tests__
+ª   ª   ª           database-integration.test.ts
+ª   ª   ª           test-helpers.ts
+ª   ª   ª           
+ª   ª   +---locales
+ª   ª   ª   ª   en.json
+ª   ª   ª   ª   en.json.backup
+ª   ª   ª   ª   fengshui-enhanced.json
+ª   ª   ª   ª   ja.json
+ª   ª   ª   ª   ko.backup.json
+ª   ª   ª   ª   ko.json
+ª   ª   ª   ª   ms.json
+ª   ª   ª   ª   zh-CN.json
+ª   ª   ª   ª   zh-TW.json
+ª   ª   ª   ª   zh-TW.json.backup
+ª   ª   ª   ª   
+ª   ª   ª   +---en
+ª   ª   ª   ª       chat.json
+ª   ª   ª   ª       
+ª   ª   ª   +---ja
+ª   ª   ª   ª       chat.json
+ª   ª   ª   ª       
+ª   ª   ª   +---ko
+ª   ª   ª   ª       chat.json
+ª   ª   ª   ª       
+ª   ª   ª   +---ms
+ª   ª   ª   ª       chat.json
+ª   ª   ª   ª       
+ª   ª   ª   +---zh-CN
+ª   ª   ª   ª       chat.json
+ª   ª   ª   ª       
+ª   ª   ª   +---zh-TW
+ª   ª   ª           chat.json
+ª   ª   ª           
+ª   ª   +---styles
+ª   ª   ª       chat-theme.css
+ª   ª   ª       
+ª   ª   +---types
+ª   ª   ª       api-errors.ts
+ª   ª   ª       
+ª   ª   +---__mocks__
+ª   ª       +---next
+ª   ª               headers.ts
+ª   ª               
+ª   +---tasks
+ª   ª       tasks.json
+ª   ª       
+ª   +---test-results
+ª   ª       .last-run.json
+ª   ª       results.json
+ª   ª       
+ª   +---tests
+ª       +---accessibility
+ª               chat-a11y.test.ts
+ª               
++---scripts
+ª       list-contacts.ts
+ª       list-users.ts
+ª       
++---src
+    ª   middleware.ts
+    ª   routes.ts
+    ª   
+    +---actions
+    ª       check-newsletter-status.ts
+    ª       consume-credits.ts
+    ª       create-checkout-session.ts
+    ª       create-credit-checkout-session.ts
+    ª       create-customer-portal-session.ts
+    ª       get-active-subscription.ts
+    ª       get-credit-balance.ts
+    ª       get-credit-stats.ts
+    ª       get-credit-transactions.ts
+    ª       get-lifetime-status.ts
+    ª       get-users.ts
+    ª       send-message.ts
+    ª       subscribe-newsletter.ts
+    ª       unsubscribe-newsletter.ts
+    ª       validate-captcha.ts
+    ª       
+    +---ai
+    ª   +---chat
+    ª   ª   +---components
+    ª   ª           ChatBot.tsx
+    ª   ª           
+    ª   +---image
+    ª   ª   +---components
+    ª   ª   ª       ImageCarousel.tsx
+    ª   ª   ª       ImageDisplay.tsx
+    ª   ª   ª       ImageGenerator.tsx
+    ª   ª   ª       ImageGeneratorHeader.tsx
+    ª   ª   ª       ImagePlayground.tsx
+    ª   ª   ª       ModelCardCarousel.tsx
+    ª   ª   ª       ModelSelect.tsx
+    ª   ª   ª       PromptInput.tsx
+    ª   ª   ª       PromptSuggestions.tsx
+    ª   ª   ª       QualityModeToggle.tsx
+    ª   ª   ª       Stopwatch.tsx
+    ª   ª   ª       
+    ª   ª   +---hooks
+    ª   ª   ª       use-image-generation.ts
+    ª   ª   ª       
+    ª   ª   +---lib
+    ª   ª           api-types.ts
+    ª   ª           image-helpers.ts
+    ª   ª           image-types.ts
+    ª   ª           logos.tsx
+    ª   ª           provider-config.ts
+    ª   ª           suggestions.ts
+    ª   ª           
+    ª   +---text
+    ª       +---components
+    ª       ª       analysis-results.tsx
+    ª       ª       error-display.tsx
+    ª       ª       index.ts
+    ª       ª       loading-states.tsx
+    ª       ª       url-input-form.tsx
+    ª       ª       web-content-analyzer.tsx
+    ª       ª       
+    ª       +---utils
+    ª               error-handling.ts
+    ª               performance.ts
+    ª               web-content-analyzer-config.ts
+    ª               web-content-analyzer.ts
+    ª               
+    +---analytics
+    ª       ahrefs-analytics.tsx
+    ª       analytics.tsx
+    ª       data-fast-analytics.tsx
+    ª       google-analytics.tsx
+    ª       open-panel-analytics.tsx
+    ª       plausible-analytics.tsx
+    ª       seline-analytics.tsx
+    ª       umami-analytics.tsx
+    ª       
+    +---app
+    ª   ª   layout.tsx
+    ª   ª   manifest.ts
+    ª   ª   not-found.tsx
+    ª   ª   robots.ts
+    ª   ª   sitemap.ts
+    ª   ª   
+    ª   +---api
+    ª   ª   +---analyze-content
+    ª   ª   ª       route.ts
+    ª   ª   ª       
+    ª   ª   +---auth
+    ª   ª   ª   +---[...all]
+    ª   ª   ª           route.ts
+    ª   ª   ª           
+    ª   ª   +---chat
+    ª   ª   ª       route.ts
+    ª   ª   ª       
+    ª   ª   +---distribute-credits
+    ª   ª   ª       route.ts
+    ª   ª   ª       
+    ª   ª   +---generate-images
+    ª   ª   ª       route.ts
+    ª   ª   ª       
+    ª   ª   +---ping
+    ª   ª   ª       route.ts
+    ª   ª   ª       
+    ª   ª   +---search
+    ª   ª   ª       route.ts
+    ª   ª   ª       
+    ª   ª   +---storage
+    ª   ª   ª   +---upload
+    ª   ª   ª           route.ts
+    ª   ª   ª           
+    ª   ª   +---webhooks
+    ª   ª       +---stripe
+    ª   ª               route.ts
+    ª   ª               
+    ª   +---[locale]
+    ª       ª   error.tsx
+    ª       ª   layout.tsx
+    ª       ª   loading.tsx
+    ª       ª   not-found.tsx
+    ª       ª   providers.tsx
+    ª       ª   
+    ª       +---(marketing)
+    ª       ª   ª   layout.tsx
+    ª       ª   ª   
+    ª       ª   +---(home)
+    ª       ª   ª       page.tsx
+    ª       ª   ª       
+    ª       ª   +---(legal)
+    ª       ª   ª   ª   layout.tsx
+    ª       ª   ª   ª   loading.tsx
+    ª       ª   ª   ª   
+    ª       ª   ª   +---cookie
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---privacy
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---terms
+    ª       ª   ª           page.tsx
+    ª       ª   ª           
+    ª       ª   +---(pages)
+    ª       ª   ª   ª   layout.tsx
+    ª       ª   ª   ª   loading.tsx
+    ª       ª   ª   ª   
+    ª       ª   ª   +---about
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---changelog
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---contact
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---magicui
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---test
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---waitlist
+    ª       ª   ª           page.tsx
+    ª       ª   ª           
+    ª       ª   +---ai
+    ª       ª   ª   ª   layout.tsx
+    ª       ª   ª   ª   loading.tsx
+    ª       ª   ª   ª   
+    ª       ª   ª   +---audio
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---chat
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---image
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---text
+    ª       ª   ª   ª       page.tsx
+    ª       ª   ª   ª       
+    ª       ª   ª   +---video
+    ª       ª   ª           page.tsx
+    ª       ª   ª           
+    ª       ª   +---blog
+    ª       ª   ª   +---(blog)
+    ª       ª   ª   ª   ª   layout.tsx
+    ª       ª   ª   ª   ª   loading.tsx
+    ª       ª   ª   ª   ª   page.tsx
+    ª       ª   ª   ª   ª   
+    ª       ª   ª   ª   +---category
+    ª       ª   ª   ª   ª   +---[slug]
+    ª       ª   ª   ª   ª       ª   page.tsx
+    ª       ª   ª   ª   ª       ª   
+    ª       ª   ª   ª   ª       +---page
+    ª       ª   ª   ª   ª           +---[page]
+    ª       ª   ª   ª   ª                   page.tsx
+    ª       ª   ª   ª   ª                   
+    ª       ª   ª   ª   +---page
+    ª       ª   ª   ª       +---[page]
+    ª       ª   ª   ª               page.tsx
+    ª       ª   ª   ª               
+    ª       ª   ª   +---[...slug]
+    ª       ª   ª           layout.tsx
+    ª       ª   ª           page.tsx
+    ª       ª   ª           
+    ª       ª   +---pricing
+    ª       ª           layout.tsx
+    ª       ª           loading.tsx
+    ª       ª           page.tsx
+    ª       ª           
+    ª       +---(protected)
+    ª       ª   ª   layout.tsx
+    ª       ª   ª   
+    ª       ª   +---admin
+    ª       ª   ª   +---users
+    ª       ª   ª           layout.tsx
+    ª       ª   ª           page.tsx
+    ª       ª   ª           
+    ª       ª   +---dashboard
+    ª       ª   ª       data.json
+    ª       ª   ª       page.tsx
+    ª       ª   ª       
+    ª       ª   +---settings
+    ª       ª       +---billing
+    ª       ª       ª       layout.tsx
+    ª       ª       ª       page.tsx
+    ª       ª       ª       
+    ª       ª       +---credits
+    ª       ª       ª       layout.tsx
+    ª       ª       ª       page.tsx
+    ª       ª       ª       
+    ª       ª       +---notifications
+    ª       ª       ª       layout.tsx
+    ª       ª       ª       page.tsx
+    ª       ª       ª       
+    ª       ª       +---profile
+    ª       ª       ª       layout.tsx
+    ª       ª       ª       page.tsx
+    ª       ª       ª       
+    ª       ª       +---security
+    ª       ª               layout.tsx
+    ª       ª               page.tsx
+    ª       ª               
+    ª       +---auth
+    ª       ª   ª   layout.tsx
+    ª       ª   ª   loading.tsx
+    ª       ª   ª   
+    ª       ª   +---error
+    ª       ª   ª       page.tsx
+    ª       ª   ª       
+    ª       ª   +---forgot-password
+    ª       ª   ª       page.tsx
+    ª       ª   ª       
+    ª       ª   +---login
+    ª       ª   ª       page.tsx
+    ª       ª   ª       
+    ª       ª   +---register
+    ª       ª   ª       page.tsx
+    ª       ª   ª       
+    ª       ª   +---reset-password
+    ª       ª           page.tsx
+    ª       ª           
+    ª       +---docs
+    ª       ª   ª   layout.tsx
+    ª       ª   ª   loading.tsx
+    ª       ª   ª   
+    ª       ª   +---[[...slug]]
+    ª       ª           page.tsx
+    ª       ª           
+    ª       +---[...rest]
+    ª               page.tsx
+    ª               
+    +---assets
+    ª   +---fonts
+    ª           index.ts
+    ª           
+    +---components
+    ª   +---admin
+    ª   ª       user-detail-viewer.tsx
+    ª   ª       users-page.tsx
+    ª   ª       users-table.tsx
+    ª   ª       
+    ª   +---affiliate
+    ª   ª       affonso.tsx
+    ª   ª       promotekit.tsx
+    ª   ª       
+    ª   +---ai-elements
+    ª   ª       actions.tsx
+    ª   ª       branch.tsx
+    ª   ª       code-block.tsx
+    ª   ª       conversation.tsx
+    ª   ª       image.tsx
+    ª   ª       inline-citation.tsx
+    ª   ª       loader.tsx
+    ª   ª       message.tsx
+    ª   ª       prompt-input.tsx
+    ª   ª       reasoning.tsx
+    ª   ª       response.tsx
+    ª   ª       source.tsx
+    ª   ª       suggestion.tsx
+    ª   ª       task.tsx
+    ª   ª       tool.tsx
+    ª   ª       web-preview.tsx
+    ª   ª       
+    ª   +---animate-ui
+    ª   ª   +---backgrounds
+    ª   ª   ª       bubble.tsx
+    ª   ª   ª       gradient.tsx
+    ª   ª   ª       hexagon.tsx
+    ª   ª   ª       hole.tsx
+    ª   ª   ª       stars.tsx
+    ª   ª   ª       
+    ª   ª   +---base
+    ª   ª   ª       progress.tsx
+    ª   ª   ª       
+    ª   ª   +---buttons
+    ª   ª   ª       copy.tsx
+    ª   ª   ª       flip.tsx
+    ª   ª   ª       github-stars.tsx
+    ª   ª   ª       icon.tsx
+    ª   ª   ª       liquid.tsx
+    ª   ª   ª       ripple.tsx
+    ª   ª   ª       
+    ª   ª   +---components
+    ª   ª   ª       code-editor.tsx
+    ª   ª   ª       
+    ª   ª   +---effects
+    ª   ª   ª       motion-effect.tsx
+    ª   ª   ª       motion-highlight.tsx
+    ª   ª   ª       
+    ª   ª   +---radix
+    ª   ª   ª       checkbox.tsx
+    ª   ª   ª       
+    ª   ª   +---text
+    ª   ª   ª       counting-number.tsx
+    ª   ª   ª       gradient.tsx
+    ª   ª   ª       highlight.tsx
+    ª   ª   ª       sliding-number.tsx
+    ª   ª   ª       typing.tsx
+    ª   ª   ª       writing.tsx
+    ª   ª   ª       
+    ª   ª   +---ui-elements
+    ª   ª           playful-todolist.tsx
+    ª   ª           
+    ª   +---auth
+    ª   ª       auth-card.tsx
+    ª   ª       bottom-link.tsx
+    ª   ª       divider-with-text.tsx
+    ª   ª       error-card.tsx
+    ª   ª       forgot-password-form.tsx
+    ª   ª       login-form.tsx
+    ª   ª       login-wrapper.tsx
+    ª   ª       register-form.tsx
+    ª   ª       reset-password-form.tsx
+    ª   ª       social-login-button.tsx
+    ª   ª       
+    ª   +---blocks
+    ª   ª   +---calltoaction
+    ª   ª   ª       calltoaction.tsx
+    ª   ª   ª       
+    ª   ª   +---faqs
+    ª   ª   ª       faqs.tsx
+    ª   ª   ª       
+    ª   ª   +---features
+    ª   ª   ª       features.tsx
+    ª   ª   ª       features2.tsx
+    ª   ª   ª       features3.tsx
+    ª   ª   ª       
+    ª   ª   +---hero
+    ª   ª   ª       hero.tsx
+    ª   ª   ª       
+    ª   ª   +---integration
+    ª   ª   ª       integration.tsx
+    ª   ª   ª       integration2.tsx
+    ª   ª   ª       
+    ª   ª   +---logo-cloud
+    ª   ª   ª       logo-cloud.tsx
+    ª   ª   ª       
+    ª   ª   +---pricing
+    ª   ª   ª       pricing.tsx
+    ª   ª   ª       
+    ª   ª   +---stats
+    ª   ª   ª       stats.tsx
+    ª   ª   ª       
+    ª   ª   +---testimonials
+    ª   ª           testimonials.tsx
+    ª   ª           
+    ª   +---blog
+    ª   ª       all-posts-button.tsx
+    ª   ª       blog-card.tsx
+    ª   ª       blog-category-filter.tsx
+    ª   ª       blog-category-list-desktop.tsx
+    ª   ª       blog-category-list-mobile.tsx
+    ª   ª       blog-grid-with-pagination.tsx
+    ª   ª       blog-grid.tsx
+    ª   ª       blog-image.tsx
+    ª   ª       
+    ª   +---changelog
+    ª   ª       release-card.tsx
+    ª   ª       
+    ª   +---contact
+    ª   ª       contact-form-card.tsx
+    ª   ª       
+    ª   +---custom
+    ª   ª       highlight.tsx
+    ª   ª       text-effect.tsx
+    ª   ª       
+    ª   +---dashboard
+    ª   ª       chart-area-interactive.tsx
+    ª   ª       dashboard-header.tsx
+    ª   ª       dashboard-sidebar.tsx
+    ª   ª       data-table.tsx
+    ª   ª       section-cards.tsx
+    ª   ª       sidebar-main.tsx
+    ª   ª       sidebar-user.tsx
+    ª   ª       upgrade-card.tsx
+    ª   ª       
+    ª   +---docs
+    ª   ª       dynamic-codeblock.tsx
+    ª   ª       image-wrapper.tsx
+    ª   ª       index.tsx
+    ª   ª       lazy.ts
+    ª   ª       mdx-components.tsx
+    ª   ª       wrapper.tsx
+    ª   ª       youtube-video.tsx
+    ª   ª       
+    ª   +---icons
+    ª   ª       bluesky.tsx
+    ª   ª       discord.tsx
+    ª   ª       facebook.tsx
+    ª   ª       github.tsx
+    ª   ª       google.tsx
+    ª   ª       instagram.tsx
+    ª   ª       linkedin.tsx
+    ª   ª       mastodon.tsx
+    ª   ª       nextjs.tsx
+    ª   ª       product-hunt.tsx
+    ª   ª       resend.tsx
+    ª   ª       shadcnui.tsx
+    ª   ª       stripe.tsx
+    ª   ª       tailwindcss.tsx
+    ª   ª       telegram.tsx
+    ª   ª       tiktok.tsx
+    ª   ª       twitter.tsx
+    ª   ª       vercel.tsx
+    ª   ª       x.tsx
+    ª   ª       youtube.tsx
+    ª   ª       
+    ª   +---layout
+    ª   ª       active-theme-provider.tsx
+    ª   ª       container.tsx
+    ª   ª       credits-balance-button.tsx
+    ª   ª       credits-balance-menu.tsx
+    ª   ª       credits-provider.tsx
+    ª   ª       crisp-chat.tsx
+    ª   ª       error.tsx
+    ª   ª       footer.tsx
+    ª   ª       header-section.tsx
+    ª   ª       locale-selector.tsx
+    ª   ª       locale-switcher.tsx
+    ª   ª       logo-mksaas.tsx
+    ª   ª       logo.tsx
+    ª   ª       mode-switcher-horizontal.tsx
+    ª   ª       mode-switcher.tsx
+    ª   ª       navbar-mobile.tsx
+    ª   ª       navbar.tsx
+    ª   ª       tailwind-indicator.tsx
+    ª   ª       theme-selector.tsx
+    ª   ª       user-avatar.tsx
+    ª   ª       user-button-mobile.tsx
+    ª   ª       user-button.tsx
+    ª   ª       
+    ª   +---magicui
+    ª   ª   ª   animated-beam.tsx
+    ª   ª   ª   animated-gradient-text.tsx
+    ª   ª   ª   animated-grid-pattern.tsx
+    ª   ª   ª   animated-list.tsx
+    ª   ª   ª   animated-shiny-text.tsx
+    ª   ª   ª   animated-subscribe-button.tsx
+    ª   ª   ª   avatar-circles.tsx
+    ª   ª   ª   bento-grid.tsx
+    ª   ª   ª   blur-fade.tsx
+    ª   ª   ª   border-beam.tsx
+    ª   ª   ª   box-reveal.tsx
+    ª   ª   ª   confetti.tsx
+    ª   ª   ª   dot-pattern.tsx
+    ª   ª   ª   flip-text.tsx
+    ª   ª   ª   grid-pattern.tsx
+    ª   ª   ª   hero-video-dialog.tsx
+    ª   ª   ª   hyper-text.tsx
+    ª   ª   ª   interactive-grid-pattern.tsx
+    ª   ª   ª   interactive-hover-button.tsx
+    ª   ª   ª   magic-card.tsx
+    ª   ª   ª   marquee.tsx
+    ª   ª   ª   meteors.tsx
+    ª   ª   ª   morphing-text.tsx
+    ª   ª   ª   number-ticker.tsx
+    ª   ª   ª   pulsating-button.tsx
+    ª   ª   ª   rainbow-button.tsx
+    ª   ª   ª   ripple-button.tsx
+    ª   ª   ª   ripple.tsx
+    ª   ª   ª   scroll-based-velocity.tsx
+    ª   ª   ª   shimmer-button.tsx
+    ª   ª   ª   shiny-button.tsx
+    ª   ª   ª   sparkles-text.tsx
+    ª   ª   ª   twitter-card-client.tsx
+    ª   ª   ª   twitter-card.tsx
+    ª   ª   ª   typing-animation.tsx
+    ª   ª   ª   word-rotate.tsx
+    ª   ª   ª   
+    ª   ª   +---example
+    ª   ª           animated-gradient-text-example.tsx
+    ª   ª           animated-grid-pattern-example.tsx
+    ª   ª           animated-list-example.tsx
+    ª   ª           animated-shiny-text-example.tsx
+    ª   ª           animated-subscribe-button-example.tsx
+    ª   ª           avatar-circles-example.tsx
+    ª   ª           bento-grid-example.tsx
+    ª   ª           blur-fade-example.tsx
+    ª   ª           box-reveal-example.tsx
+    ª   ª           dot-pattern-example.tsx
+    ª   ª           flip-text-example.tsx
+    ª   ª           grid-pattern-example.tsx
+    ª   ª           hero-video-dialog-example.tsx
+    ª   ª           hyper-text-example.tsx
+    ª   ª           interactive-grid-pattern-example.tsx
+    ª   ª           interactive-hover-button-example.tsx
+    ª   ª           marquee-example.tsx
+    ª   ª           morphing-text-example.tsx
+    ª   ª           number-ticker-example.tsx
+    ª   ª           pulsating-button-example.tsx
+    ª   ª           rainbow-button-example.tsx
+    ª   ª           ripple-button-example.tsx
+    ª   ª           ripple-example.tsx
+    ª   ª           scroll-based-velocity.tsx
+    ª   ª           shimmer-button-example.tsx
+    ª   ª           shiny-button-example.tsx
+    ª   ª           sparkles-text-example.tsx
+    ª   ª           twitter-card-example.tsx
+    ª   ª           typing-animation-example.tsx
+    ª   ª           word-rotate-example.tsx
+    ª   ª           
+    ª   +---newsletter
+    ª   ª       newsletter-card.tsx
+    ª   ª       newsletter-form.tsx
+    ª   ª       
+    ª   +---page
+    ª   ª       custom-page.tsx
+    ª   ª       
+    ª   +---pricing
+    ª   ª       create-checkout-button.tsx
+    ª   ª       customer-portal-button.tsx
+    ª   ª       pricing-card.tsx
+    ª   ª       pricing-table.tsx
+    ª   ª       
+    ª   +---providers
+    ª   ª       query-provider.tsx
+    ª   ª       
+    ª   +---settings
+    ª   ª   +---billing
+    ª   ª   ª       billing-card.tsx
+    ª   ª   ª       
+    ª   ª   +---credits
+    ª   ª   ª       credit-checkout-button.tsx
+    ª   ª   ª       credit-detail-viewer.tsx
+    ª   ª   ª       credit-packages.tsx
+    ª   ª   ª       credit-transactions-table.tsx
+    ª   ª   ª       credit-transactions.tsx
+    ª   ª   ª       credits-balance-card.tsx
+    ª   ª   ª       credits-page-client.tsx
+    ª   ª   ª       
+    ª   ª   +---notification
+    ª   ª   ª       newsletter-form-card.tsx
+    ª   ª   ª       
+    ª   ª   +---profile
+    ª   ª   ª       update-avatar-card.tsx
+    ª   ª   ª       update-name-card.tsx
+    ª   ª   ª       
+    ª   ª   +---security
+    ª   ª           delete-account-card.tsx
+    ª   ª           password-card-wrapper.tsx
+    ª   ª           reset-password-card.tsx
+    ª   ª           update-password-card.tsx
+    ª   ª           
+    ª   +---shared
+    ª   ª       back-button-small.tsx
+    ª   ª       built-with-button.tsx
+    ª   ª       captcha.tsx
+    ª   ª       empty-grid.tsx
+    ª   ª       filter-item-mobile.tsx
+    ª   ª       form-error.tsx
+    ª   ª       form-success.tsx
+    ª   ª       pagination.tsx
+    ª   ª       
+    ª   +---tailark
+    ª   ª   ª   blocks-nav.tsx
+    ª   ª   ª   blocks.ts
+    ª   ª   ª   hero5-header.tsx
+    ª   ª   ª   hero6-header.tsx
+    ª   ª   ª   hero8-header.tsx
+    ª   ª   ª   hero9-header.tsx
+    ª   ª   ª   logo-cloud.tsx
+    ª   ª   ª   toolbar.tsx
+    ª   ª   ª   
+    ª   ª   +---logos
+    ª   ª   ª       Gemini.tsx
+    ª   ª   ª       GooglePaLM.tsx
+    ª   ª   ª       index.ts
+    ª   ª   ª       MagicUI.tsx
+    ª   ª   ª       MediaWiki.tsx
+    ª   ª   ª       Replit.tsx
+    ª   ª   ª       VSCodium.tsx
+    ª   ª   ª       
+    ª   ª   +---motion
+    ª   ª   ª       animated-group.tsx
+    ª   ª   ª       infinite-slider.tsx
+    ª   ª   ª       progressive-blur.tsx
+    ª   ª   ª       text-effect.tsx
+    ª   ª   ª       
+    ª   ª   +---preview
+    ª   ª       ª   layout.tsx
+    ª   ª       ª   
+    ª   ª       +---call-to-action
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---comparator
+    ª   ª       ª   +---one
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---contact
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---content
+    ª   ª       ª   +---five
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---four
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---seven
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---six
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---faqs
+    ª   ª       ª   +---four
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---features
+    ª   ª       ª   +---eight
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---eleven
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---five
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---four
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---nine
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---seven
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---six
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---ten
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---twelve
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---footer
+    ª   ª       ª   +---five
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---four
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---forgot-password
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---hero-section
+    ª   ª       ª   +---eight
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---five
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---four
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---nine
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---seven
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---six
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---integrations
+    ª   ª       ª   +---eight
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---five
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---four
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---seven
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---six
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---login
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---logo-cloud
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---pricing
+    ª   ª       ª   +---five
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---four
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---sign-up
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---stats
+    ª   ª       ª   +---four
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---three
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---team
+    ª   ª       ª   +---one
+    ª   ª       ª   ª       page.tsx
+    ª   ª       ª   ª       
+    ª   ª       ª   +---two
+    ª   ª       ª           page.tsx
+    ª   ª       ª           
+    ª   ª       +---testimonials
+    ª   ª           +---five
+    ª   ª           ª       page.tsx
+    ª   ª           ª       
+    ª   ª           +---four
+    ª   ª           ª       page.tsx
+    ª   ª           ª       
+    ª   ª           +---one
+    ª   ª           ª       page.tsx
+    ª   ª           ª       
+    ª   ª           +---six
+    ª   ª           ª       page.tsx
+    ª   ª           ª       
+    ª   ª           +---three
+    ª   ª           ª       page.tsx
+    ª   ª           ª       
+    ª   ª           +---two
+    ª   ª                   page.tsx
+    ª   ª                   
+    ª   +---test
+    ª   ª       consume-credits-card.tsx
+    ª   ª       
+    ª   +---ui
+    ª   ª       accordion.tsx
+    ª   ª       alert-dialog.tsx
+    ª   ª       alert.tsx
+    ª   ª       aspect-ratio.tsx
+    ª   ª       avatar.tsx
+    ª   ª       badge.tsx
+    ª   ª       breadcrumb.tsx
+    ª   ª       button.tsx
+    ª   ª       calendar.tsx
+    ª   ª       card.tsx
+    ª   ª       carousel.tsx
+    ª   ª       chart.tsx
+    ª   ª       checkbox.tsx
+    ª   ª       collapsible.tsx
+    ª   ª       command.tsx
+    ª   ª       context-menu.tsx
+    ª   ª       dialog.tsx
+    ª   ª       drawer.tsx
+    ª   ª       dropdown-menu.tsx
+    ª   ª       form.tsx
+    ª   ª       hover-card.tsx
+    ª   ª       input-otp.tsx
+    ª   ª       input.tsx
+    ª   ª       label.tsx
+    ª   ª       menubar.tsx
+    ª   ª       navigation-menu.tsx
+    ª   ª       pagination.tsx
+    ª   ª       popover.tsx
+    ª   ª       progress.tsx
+    ª   ª       radio-group.tsx
+    ª   ª       resizable.tsx
+    ª   ª       scroll-area.tsx
+    ª   ª       select.tsx
+    ª   ª       separator.tsx
+    ª   ª       sheet.tsx
+    ª   ª       sidebar.tsx
+    ª   ª       skeleton.tsx
+    ª   ª       slider.tsx
+    ª   ª       sonner.tsx
+    ª   ª       switch.tsx
+    ª   ª       table.tsx
+    ª   ª       tabs.tsx
+    ª   ª       textarea.tsx
+    ª   ª       toast.tsx
+    ª   ª       toaster.tsx
+    ª   ª       toggle-group.tsx
+    ª   ª       toggle.tsx
+    ª   ª       tooltip.tsx
+    ª   ª       
+    ª   +---waitlist
+    ª           waitlist-form-card.tsx
+    ª           
+    +---config
+    ª       avatar-config.tsx
+    ª       credits-config.tsx
+    ª       footer-config.tsx
+    ª       navbar-config.tsx
+    ª       price-config.tsx
+    ª       sidebar-config.tsx
+    ª       social-config.tsx
+    ª       website.tsx
+    ª       
+    +---credits
+    ª       client.ts
+    ª       credits.ts
+    ª       distribute.ts
+    ª       server.ts
+    ª       types.ts
+    ª       
+    +---db
+    ª   ª   index.ts
+    ª   ª   schema.ts
+    ª   ª   
+    ª   +---migrations
+    ª       ª   0000_fine_sir_ram.sql
+    ª       ª   0001_woozy_jigsaw.sql
+    ª       ª   0002_left_grandmaster.sql
+    ª       ª   0003_loving_risque.sql
+    ª       ª   
+    ª       +---meta
+    ª               0000_snapshot.json
+    ª               0001_snapshot.json
+    ª               0002_snapshot.json
+    ª               0003_snapshot.json
+    ª               _journal.json
+    ª               
+    +---hooks
+    ª       use-auth.ts
+    ª       use-clipboard.ts
+    ª       use-credits.ts
+    ª       use-current-user.ts
+    ª       use-media-query.ts
+    ª       use-mobile.ts
+    ª       use-mounted.ts
+    ª       use-newsletter.ts
+    ª       use-payment.ts
+    ª       use-scroll.ts
+    ª       use-session.ts
+    ª       use-toast.ts
+    ª       use-users.ts
+    ª       
+    +---i18n
+    ª       messages.ts
+    ª       navigation.ts
+    ª       request.ts
+    ª       routing.ts
+    ª       
+    +---lib
+    ª   ª   auth-client.ts
+    ª   ª   auth-types.ts
+    ª   ª   auth.ts
+    ª   ª   captcha.ts
+    ª   ª   constants.ts
+    ª   ª   demo.ts
+    ª   ª   formatter.ts
+    ª   ª   metadata.ts
+    ª   ª   price-plan.ts
+    ª   ª   safe-action.ts
+    ª   ª   server.ts
+    ª   ª   source.ts
+    ª   ª   utils.ts
+    ª   ª   
+    ª   +---docs
+    ª   ª       i18n.ts
+    ª   ª       
+    ª   +---urls
+    ª           urls.ts
+    ª           
+    +---mail
+    ª   ª   index.ts
+    ª   ª   README.md
+    ª   ª   types.ts
+    ª   ª   
+    ª   +---components
+    ª   ª       email-button.tsx
+    ª   ª       email-layout.tsx
+    ª   ª       
+    ª   +---provider
+    ª   ª       resend.ts
+    ª   ª       
+    ª   +---templates
+    ª           contact-message.tsx
+    ª           forgot-password.tsx
+    ª           subscribe-newsletter.tsx
+    ª           verify-email.tsx
+    ª           
+    +---newsletter
+    ª   ª   index.ts
+    ª   ª   README.md
+    ª   ª   types.ts
+    ª   ª   
+    ª   +---provider
+    ª           resend.ts
+    ª           
+    +---notification
+    ª       discord.ts
+    ª       feishu.ts
+    ª       notification.ts
+    ª       
+    +---payment
+    ª   ª   index.ts
+    ª   ª   README.md
+    ª   ª   types.ts
+    ª   ª   
+    ª   +---provider
+    ª           stripe.ts
+    ª           
+    +---storage
+    ª   ª   client.ts
+    ª   ª   index.ts
+    ª   ª   README.md
+    ª   ª   types.ts
+    ª   ª   
+    ª   +---config
+    ª   ª       storage-config.ts
+    ª   ª       
+    ª   +---provider
+    ª           s3.ts
+    ª           
+    +---stores
+    ª       locale-store.ts
+    ª       
+    +---styles
+    ª       globals.css
+    ª       mdx.css
+    ª       
+    +---types
+            index.d.ts
+            next-page-props.tsx
+            

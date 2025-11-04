@@ -1,0 +1,125 @@
+# Warp Quick Bar Configuration
+# 快捷工具栏配置 - 在Warp界面顶部或侧边显示
+
+version: "1.0"
+position: "top"  # top, left, right
+always_visible: true
+
+buttons:
+  - id: "push_main"
+    label: "🚀 Push"
+    tooltip: "Push all changes to main branch"
+    color: "#28a745"
+    size: "large"
+    command: |
+      powershell -ExecutionPolicy Bypass -File .warp\workflows\push.ps1
+    hotkey: "ctrl+shift+p"
+    confirm: false
+    
+  - id: "quick_commit"
+    label: "💾 Commit"
+    tooltip: "Quick commit all changes"
+    color: "#007bff"
+    size: "medium"
+    command: |
+      git add -A && git commit -m "chore: quick update"
+    hotkey: "ctrl+shift+c"
+    confirm: false
+    
+  - id: "sync"
+    label: "🔄 Sync"
+    tooltip: "Sync with remote repository"
+    color: "#ffc107"
+    size: "medium"
+    command: |
+      git pull origin main --rebase
+    hotkey: "ctrl+shift+s"
+    confirm: false
+    
+  - id: "status"
+    label: "📊 Status"
+    tooltip: "Show git status"
+    color: "#17a2b8"
+    size: "small"
+    command: "git status"
+    hotkey: "ctrl+shift+g"
+    confirm: false
+
+  - type: "separator"
+    
+  - id: "undo"
+    label: "↩️ Undo"
+    tooltip: "Undo last commit"
+    color: "#dc3545"
+    size: "small"
+    command: "git reset HEAD~"
+    confirm: true
+    confirm_message: "This will undo your last commit. Continue?"
+    
+  - id: "squash"
+    label: "📦 Squash"
+    tooltip: "Squash commits"
+    color: "#6f42c1"
+    size: "small"
+    command: |
+      echo "Enter number of commits to squash:"
+      read -r num
+      git reset --soft HEAD~$num && git commit
+    confirm: true
+
+  - type: "separator"
+    
+  - id: "build"
+    label: "🏗️ Build"
+    tooltip: "Build project"
+    color: "#6c757d"
+    size: "medium"
+    command: "npm run build"
+    confirm: false
+    
+  - id: "dev"
+    label: "▶️ Dev"
+    tooltip: "Start dev server"
+    color: "#28a745"
+    size: "medium"
+    command: "npm run dev"
+    hotkey: "ctrl+shift+d"
+    confirm: false
+    
+  - id: "test"
+    label: "🧪 Test"
+    tooltip: "Run tests"
+    color: "#fd7e14"
+    size: "small"
+    command: "npm test"
+    confirm: false
+
+# 自定义按钮组
+groups:
+  - name: "Git Operations"
+    buttons: ["push_main", "quick_commit", "sync", "status", "undo", "squash"]
+    
+  - name: "Development"
+    buttons: ["build", "dev", "test"]
+
+# 上下文菜单
+context_menu:
+  enabled: true
+  items:
+    - label: "Push to Main"
+      command: ".warp\\workflows\\push.ps1"
+      icon: "🚀"
+      
+    - label: "Quick Commit"
+      command: "git add -A && git commit -m 'quick update'"
+      icon: "💾"
+      
+    - type: "separator"
+      
+    - label: "Git Status"
+      command: "git status"
+      icon: "📊"
+      
+    - label: "Git Log"
+      command: "git log --oneline -10"
+      icon: "📝"

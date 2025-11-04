@@ -1,0 +1,42 @@
+# Task ID: 8
+# Title: AI 计算与计费/降级策略接入
+# Status: pending
+# Dependencies: 7
+# Priority: high
+# Description: 封装 AI 调用并接入计费口径与余额不足时的三级降级。
+# Details:
+计费与降级
+- 计费口径：aiChat=5、deepInterpretation=30、bazi=10、xuankong=20、pdfExport=5。
+- 流控与降级：余额充足→完整；中级→限制深度/并发；最低→排队/提示充值。
+- 计费日志：与订单/权益对账一致。
+成功标准
+- 计费与调用一致；余额阈值触发降级生效，用户反馈清晰。
+
+# Test Strategy:
+计费模拟测试、降级场景回归、日志与对账抽查。
+
+# Subtasks:
+## 1. SKU/权益映射与额度模型 [pending]
+### Dependencies: 8.7
+### Description: 建立 SKU→口径→额度（配额/并发）映射；与订单/权益表对齐。
+### Details:
+SKU: bazi, xuankong, pdfExport；额度单位、计次/计时与有效期；边界值。
+
+## 2. 费用计算器与计费日志 [pending]
+### Dependencies: 8.7
+### Description: 统一费用计算器；写入计费日志用于对账与审计。
+### Details:
+按口径计费：aiChat=5, deepInterpretation=30, bazi=10, xuankong=20, pdfExport=5；输出成本与余额。
+
+## 3. 降级策略实现与 UI 钩子 [pending]
+### Dependencies: 8.7
+### Description: 余额不足策略：完整→限制（深度/并发）→排队与充值提示；前端四态联动。
+### Details:
+服务端判定降级级别并回传；前端态文案与 CTA 一致；可配置阈值。
+
+## 4. 异常订单补偿与对账 [pending]
+### Dependencies: 8.14
+### Description: 订单-权益-功能闭环异常补偿（幂等重放、补扣/退款）；与对账一致。
+### Details:
+支付回调幂等；失败重试队列；对账差异报警。
+

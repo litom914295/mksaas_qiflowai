@@ -1,0 +1,16 @@
+﻿# Task ID: 3
+# Title: UI/UX 组件适配总览
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: 统一到 Shadcn UI、Radix UI 与 Tailwind 的设计系统，落实四态（Empty/Error/Limited/Timeout）。
+# Details:
+设计与组件
+- 设计令牌统一：颜色、间距、字号、暗色模式，遵循 qiflowai 规范。
+- 四态骨架：通用空态/限流/超时/错误组件与态文案；结果展示卡片组件。
+- 可访问性：语义标签与可聚焦顺序，键盘可用。
+成功标准
+- UI 基线库合并并通过视觉回归；重要页面均具备四态组件与示例。
+
+# Test Strategy:
+截图回归与可访问性（a11y）检查；关键组件快照测试。

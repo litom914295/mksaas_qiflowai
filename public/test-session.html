@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session Check</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        pre { background: #f4f4f4; padding: 10px; overflow: auto; }
+        button { padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Session Check</h1>
+    
+    <button onclick="checkSession()">Check Session</button>
+    <button onclick="checkCookies()">Check Cookies</button>
+    <button onclick="checkLocalStorage()">Check LocalStorage</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        async function checkSession() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Checking session...</p>';
+            
+            try {
+                const response = await fetch('/api/auth/get-session');
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <h2>Session API Response</h2>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h2>Error</h2>
+                    <pre>${error.message}</pre>
+                `;
+            }
+        }
+        
+        function checkCookies() {
+            const resultDiv = document.getElementById('result');
+            const cookies = document.cookie.split(';').map(c => c.trim());
+            
+            resultDiv.innerHTML = `
+                <h2>Cookies</h2>
+                <pre>${cookies.join('\n')}</pre>
+            `;
+        }
+        
+        function checkLocalStorage() {
+            const resultDiv = document.getElementById('result');
+            const items = [];
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                items.push(`${key}: ${value}`);
+            }
+            
+            resultDiv.innerHTML = `
+                <h2>LocalStorage</h2>
+                <pre>${items.join('\n')}</pre>
+            `;
+        }
+    </script>
+</body>
+</html>

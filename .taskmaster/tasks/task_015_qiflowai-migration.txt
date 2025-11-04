@@ -1,0 +1,16 @@
+# Task ID: 15
+# Title: 测试策略与落地
+# Status: pending
+# Dependencies: 4, 5, 6, 7, 8, 14
+# Priority: high
+# Description: 制定并落地单元/集成/端到端测试矩阵与覆盖阈值；集成到 CI。
+# Details:
+测试
+- 单元：校验与纯函数；覆盖边界与异常分支。
+- 集成：表单→API→存储；并发/重试/超时。
+- E2E：主要用户路径与四态；可重复稳定。
+成功标准
+- 覆盖率达既定阈值；主路径 E2E 稳定通过。
+
+# Test Strategy:
+CI 集成（失败即阻断）；报告归档与基线对比。

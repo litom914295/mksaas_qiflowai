@@ -1,0 +1,184 @@
+// 监控相关的数据库模型
+// 将此内容添加到主 schema.prisma 文件中
+
+// 错误日志表
+model ErrorLog {
+  id          String   @id @default(cuid())
+  message     String   @db.Text
+  level       String   @default("error") // error, warning, critical
+  status      String   @default("unresolved") // unresolved, resolved, ignored
+  count       Int      @default(1)
+  firstSeen   DateTime @default(now())
+  lastSeen    DateTime @updatedAt
+  environment String   @default("production")
+  culprit     String?  @db.Text // 错误发生的位置
+  stackTrace  String?  @db.Text
+  tags        Json?    // 标签信息
+  metadata    Json?    // 额外元数据
+  
+  resolvedBy  String?
+  resolvedAt  DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([level])
+  @@index([status])
+  @@index([lastSeen])
+  @@index([environment])
+  @@map("error_logs")
+}
+
+// 系统日志表
+model SystemLog {
+  id        String   @id @default(cuid())
+  timestamp DateTime @default(now())
+  level     String   // INFO, WARN, ERROR, DEBUG
+  source    String   // 日志来源（api/auth, worker/backup等）
+  message   String   @db.Text
+  metadata  Json?    // 额外的日志数据
+  userId    String?
+  ip        String?
+  userAgent String?  @db.Text
+  
+  createdAt DateTime @default(now())
+  
+  @@index([level])
+  @@index([source])
+  @@index([timestamp])
+  @@index([userId])
+  @@map("system_logs")
+}
+
+// 性能指标表
+model PerformanceMetric {
+  id             String   @id @default(cuid())
+  timestamp      DateTime @default(now())
+  metricType     String   // cpu, memory, response_time, api_call, db_query
+  value          Float
+  unit           String?  // ms, %, count等
+  endpoint       String?  // API端点
+  query          String?  @db.Text // 数据库查询
+  duration       Int?     // 持续时间（毫秒）
+  metadata       Json?
+  
+  @@index([metricType])
+  @@index([timestamp])
+  @@index([endpoint])
+  @@map("performance_metrics")
+}
+
+// 告警规则表
+model AlertRule {
+  id          String   @id @default(cuid())
+  name        String
+  enabled     Boolean  @default(true)
+  condition   String   @db.Text // 触发条件表达式
+  duration    Int      // 持续时间（秒）
+  severity    String   // info, warning, critical
+  description String?  @db.Text
+  channels    Json     // 通知渠道数组
+  
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  alerts      Alert[]
+  
+  @@index([enabled])
+  @@map("alert_rules")
+}
+
+// 告警记录表
+model Alert {
+  id          String   @id @default(cuid())
+  ruleId      String
+  rule        AlertRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  
+  triggeredAt DateTime @default(now())
+  resolvedAt  DateTime?
+  status      String   @default("active") // active, resolved, acknowledged
+  message     String   @db.Text
+  metadata    Json?
+  
+  resolvedBy  String?
+  
+  @@index([ruleId])
+  @@index([status])
+  @@index([triggeredAt])
+  @@map("alerts")
+}
+
+// 备份记录表
+model BackupRecord {
+  id          String   @id @default(cuid())
+  type        String   // full, incremental
+  status      String   // pending, running, completed, failed
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  size        BigInt?  // 备份大小（字节）
+  location    String   // 备份文件位置
+  provider    String?  // s3, oss等
+  error       String?  @db.Text
+  
+  triggeredBy String   // 触发者ID
+  
+  @@index([status])
+  @@index([startedAt])
+  @@map("backup_records")
+}
+
+// 部署记录表
+model DeploymentRecord {
+  id          String   @id @default(cuid())
+  version     String
+  environment String   // staging, production
+  branch      String
+  commit      String
+  status      String   // pending, running, success, failed, rolled_back
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  duration    Int?     // 部署时长（秒）
+  deployer    String   // 部署者ID
+  error       String?  @db.Text
+  
+  @@index([environment])
+  @@index([status])
+  @@index([startedAt])
+  @@map("deployment_records")
+}
+
+// 审计日志表
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String   // 操作类型
+  level       String   // info, warning, critical
+  userId      String
+  userEmail   String
+  userRole    String
+  description String   @db.Text
+  metadata    Json?
+  ip          String?
+  userAgent   String?  @db.Text
+  timestamp   DateTime @default(now())
+  
+  @@index([userId])
+  @@index([action])
+  @@index([level])
+  @@index([timestamp])
+  @@map("audit_logs")
+}
+
+// 监控配置表
+model MonitoringConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique // 配置键（sentry_dsn, alert_enabled等）
+  value     String   @db.Text // 配置值（JSON字符串）
+  encrypted Boolean  @default(false) // 是否加密
+  
+  updatedBy String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  
+  @@map("monitoring_configs")
+}

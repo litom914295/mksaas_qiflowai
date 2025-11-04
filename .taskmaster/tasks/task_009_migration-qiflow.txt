@@ -1,0 +1,33 @@
+﻿# Task ID: 9
+# Title: C8 观测/限流与计费一致性
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 埋点 trace 与启用速率限制/熔断；校验计费一致性
+# Details:
+- 中间件或包装器埋点 traceId/latency/cost/coins
+- 开启速率限制/熔断策略
+- 抽查积分扣减与 UI 展示一致性
+
+# Test Strategy:
+触发一次八字→日志含 trace/cost；余额正确扣减
+
+# Subtasks:
+## 1. 中间件埋点与日志格式 [done]
+### Dependencies: None
+### Description: traceId/latency/cost/coins 统一 JSON 输出与采样
+### Details:
+
+
+## 2. 速率限制与熔断配置 [done]
+### Dependencies: None
+### Description: 按 QiFlow AI 既有策略启用限流与熔断，阈值可配
+### Details:
+
+
+## 3. 积分扣减一致性抽查 [done]
+### Dependencies: None
+### Description: 触发八字→检查 ledger/余额/前端显示一致性
+### Details:
+
+

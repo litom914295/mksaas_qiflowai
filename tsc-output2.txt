@@ -1,0 +1,186 @@
+﻿src/components/reports/report-export-share.tsx(83,47): error TS2554: Expected 0 arguments, but got 1.
+src/components/reports/report-export-share.tsx(126,9): error TS2345: Argument of type 'string' is not assignable to parameter of type 'ReportData'.
+src/components/reports/report-export-share.tsx(310,29): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type '{ url?: string | undefined; shortUrl?: string | undefined; }'.
+src/components/reports/report-export-share.tsx(328,29): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type '{ url?: string | undefined; shortUrl?: string | undefined; }'.
+src/components/reports/report-export-share.tsx(345,29): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type '{ url?: string | undefined; shortUrl?: string | undefined; }'.
+src/components/reports/reports/report-export-share.tsx(83,47): error TS2554: Expected 0 arguments, but got 1.
+src/components/reports/reports/report-export-share.tsx(126,9): error TS2345: Argument of type 'string' is not assignable to parameter of type 'ReportData'.
+src/components/settings/security/delete-account-card.tsx(52,7): error TS2554: Expected 0-1 arguments, but got 2.
+src/components/settings/security/update-password-card.tsx(84,9): error TS2353: Object literal may only specify known properties, and 'revokeOtherSessions' does not exist in type '{ newPassword: string; currentPassword: string; }'.
+src/config/price-config.tsx(45,5): error TS2322: Type '{ name: string; description: string; features: string[]; limits: string[]; id: string; prices: { type: string; priceId: string; amount: number; currency: string; interval: string; }[]; isFree: boolean; isLifetime: boolean; popular: boolean; credits: { ...; }; }' is not assignable to type 'PricePlan'.
+  Types of property 'prices' are incompatible.
+    Type '{ type: string; priceId: string; amount: number; currency: string; interval: string; }[]' is not assignable to type 'Price[]'.
+      Type '{ type: string; priceId: string; amount: number; currency: string; interval: string; }' is not assignable to type 'Price'.
+        Types of property 'type' are incompatible.
+          Type 'string' is not assignable to type 'PaymentType'.
+src/config/price-config.tsx(61,5): error TS2322: Type '{ name: string; description: string; features: string[]; limits: never[]; id: string; prices: { type: string; priceId: string; amount: number; currency: string; allowPromotionCode: boolean; }[]; isFree: boolean; isLifetime: boolean; credits: { ...; }; }' is not assignable to type 'PricePlan'.
+  Types of property 'prices' are incompatible.
+    Type '{ type: string; priceId: string; amount: number; currency: string; allowPromotionCode: boolean; }[]' is not assignable to type 'Price[]'.
+      Type '{ type: string; priceId: string; amount: number; currency: string; allowPromotionCode: boolean; }' is not assignable to type 'Price'.
+        Types of property 'type' are incompatible.
+          Type 'string' is not assignable to type 'PaymentType'.
+src/hooks/use-collect-form-data.ts(119,9): error TS2353: Object literal may only specify known properties, and 'floor' does not exist in type '{ direction?: string | undefined; facing?: number | undefined; buildYear?: number | undefined; }'.
+src/hooks/use-collect-form-data.ts(158,43): error TS2559: Type 'ComprehensiveAnalysisResult' has no properties in common with type 'AnalysisResult'.
+src/hooks/use-collect-form-data.ts(181,43): error TS2559: Type 'ComprehensiveAnalysisResult' has no properties in common with type 'AnalysisResult'.
+src/hooks/use-users.ts(63,9): error TS2353: Object literal may only specify known properties, and 'banReason' does not exist in type '{ userId: string; }'.
+src/lib/admin/user-import.ts(205,11): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/lib/admin/user-import.ts(414,5): error TS18048: 'user.roles' is possibly 'undefined'.
+src/lib/ai/state-machine.ts(136,11): error TS2353: Object literal may only specify known properties, and 'retries' does not exist in type 'RetryOptions'.
+src/lib/analytics/route-performance.ts(363,12): error TS2352: Conversion of type '{ getMetrics: () => never[]; getNavigationTimings: () => never[]; getAverageRouteDuration: () => number; getLocaleStats: () => { count: number; avgDuration: number; minDuration: number; maxDuration: number; }; getSlowRoutes: () => never[]; clearMetrics: () => void; exportMetrics: () => string; }' to type 'RoutePerformanceTracker' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ getMetrics: () => never[]; getNavigationTimings: () => never[]; getAverageRouteDuration: () => number; getLocaleStats: () => { count: number; avgDuration: number; minDuration: number; maxDuration: number; }; getSlowRoutes: () => never[]; clearMetrics: () => void; exportMetrics: () => string; }' is missing the following properties from type 'RoutePerformanceTracker': metrics, navigationTimings, previousRoute, navigationStartTime, and 12 more.
+src/lib/auth-fixed.ts(33,5): error TS2353: Object literal may only specify known properties, and 'usePlainUserTable' does not exist in type 'DrizzleAdapterConfig'.
+src/lib/auth-fixed.ts(164,11): error TS18046: 'error' is of type 'unknown'.
+src/lib/auth/auth.config.ts(6,10): error TS2305: Module '"../admin/permissions/permissions"' has no exported member 'checkUserPermissions'.
+src/lib/auth/auth.config.ts(18,13): error TS2322: Type '(credentials: Record<"email" | "password", string> | undefined) => Promise<{ id: string; email: string; name: string | undefined; image: string | undefined; role: string; permissions: any[]; }>' is not assignable to type '(credentials: Record<"email" | "password", string> | undefined, req: Pick<RequestInternal, "body" | "query" | "headers" | "method">) => Awaitable<...>'.
+  Type 'Promise<{ id: string; email: string; name: string | undefined; image: string | undefined; role: string; permissions: any[]; }>' is not assignable to type 'Awaitable<User | null>'.
+    Type 'Promise<{ id: string; email: string; name: string | undefined; image: string | undefined; role: string; permissions: any[]; }>' is not assignable to type 'PromiseLike<User | null>'.
+      Types of property 'then' are incompatible.
+        Type '<TResult1 = { id: string; email: string; name: string | undefined; image: string | undefined; role: string; permissions: any[]; }, TResult2 = never>(onfulfilled?: ((value: { id: string; email: string; name: string | undefined; image: string | undefined; role: string; permissions: any[]; }) => TResult1 | PromiseLike<...' is not assignable to type '<TResult1 = User | null, TResult2 = never>(onfulfilled?: ((value: User | null) => TResult1 | PromiseLike<TResult1>) | null | undefined, onrejected?: ((reason: any) => TResult2 | PromiseLike<...>) | null | undefined) => PromiseLike<...>'.
+          Types of parameters 'onfulfilled' and 'onfulfilled' are incompatible.
+            Types of parameters 'value' and 'value' are incompatible.
+              Type '{ id: string; email: string; name: string | undefined; image: string | undefined; role: string; permissions: any[]; }' is not assignable to type 'User'.
+                Types of property 'role' are incompatible.
+                  Type 'string' is not assignable to type '"user" | "admin" | undefined'.
+src/lib/auth/auth.config.ts(25,11): error TS2353: Object literal may only specify known properties, and 'include' does not exist in type '{ where: { id?: string | undefined; email?: string | undefined; referralCode?: string | undefined; }; }'.
+src/lib/auth/auth.config.ts(84,17): error TS18048: 'user.roles' is possibly 'undefined'.
+src/lib/auth/auth.config.ts(85,24): error TS18048: 'user.roles' is possibly 'undefined'.
+src/lib/auth/auth.config.ts(120,11): error TS2353: Object literal may only specify known properties, and 'include' does not exist in type '{ where: { id?: string | undefined; email?: string | undefined; referralCode?: string | undefined; }; }'.
+src/lib/auth/auth.config.ts(138,24): error TS18048: 'freshUser.roles' is possibly 'undefined'.
+src/lib/auth/auth.config.ts(139,31): error TS18048: 'freshUser.roles' is possibly 'undefined'.
+src/lib/auth/auth.config.ts(153,9): error TS2322: Type 'string' is not assignable to type '"user" | "admin" | undefined'.
+src/lib/auth/jwt.ts(22,14): error TS2769: No overload matches this call.
+  Overload 1 of 5, '(payload: string | object | Buffer<ArrayBufferLike>, secretOrPrivateKey: null, options?: (SignOptions & { algorithm: "none"; }) | undefined): string', gave the following error.
+    Argument of type 'string' is not assignable to parameter of type 'null'.
+  Overload 2 of 5, '(payload: string | object | Buffer<ArrayBufferLike>, secretOrPrivateKey: Buffer<ArrayBufferLike> | Secret | PrivateKeyInput | JsonWebKeyInput, options?: SignOptions | undefined): string', gave the following error.
+    Type 'string' is not assignable to type 'number | StringValue | undefined'.
+  Overload 3 of 5, '(payload: string | object | Buffer<ArrayBufferLike>, secretOrPrivateKey: Buffer<ArrayBufferLike> | Secret | PrivateKeyInput | JsonWebKeyInput, callback: SignCallback): void', gave the following error.
+    Object literal may only specify known properties, and 'expiresIn' does not exist in type 'SignCallback'.
+src/lib/auth/mfa.ts(94,5): error TS2353: Object literal may only specify known properties, and 'include' does not exist in type '{ where: { id?: string | undefined; email?: string | undefined; referralCode?: string | undefined; }; }'.
+src/lib/auth/session.ts(6,18): error TS2430: Interface 'ExtendedSession' incorrectly extends interface 'Session'.
+  Types of property 'user' are incompatible.
+    Type '{ id: string; email: string; name?: string | null | undefined; image?: string | null | undefined; role: string; permissions: string[]; }' is not assignable to type 'User & { role?: "user" | "admin" | undefined; permissions?: string[] | undefined; }'.
+      Type '{ id: string; email: string; name?: string | null | undefined; image?: string | null | undefined; role: string; permissions: string[]; }' is not assignable to type 'User'.
+        Types of property 'role' are incompatible.
+          Type 'string' is not assignable to type '"user" | "admin" | undefined'.
+src/lib/bazi-pro/advanced/dayun/start-age.ts(6,30): error TS2307: Cannot find module '../../../core/calendar/lunar-adapter' or its corresponding type declarations.
+src/lib/bazi-pro/advanced/dayun/start-age.ts(7,54): error TS2307: Cannot find module '../../../types' or its corresponding type declarations.
+src/lib/bazi-pro/core/analyzer/index.ts(10,15): error TS2724: '"../calculator/ten-gods"' has no exported member named 'TenGods'. Did you mean 'TenGod'?
+src/lib/bazi-pro/core/analyzer/index.ts(10,24): error TS2305: Module '"../calculator/ten-gods"' has no exported member 'tenGodsCalculator'.
+src/lib/bazi-pro/core/analyzer/ten-gods-relations.ts(7,15): error TS2724: '"../calculator/ten-gods"' has no exported member named 'TenGods'. Did you mean 'TenGod'?
+src/lib/bazi-pro/core/analyzer/ten-gods-relations.ts(7,24): error TS2305: Module '"../calculator/ten-gods"' has no exported member 'tenGodsCalculator'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(6,24): error TS2305: Module '"../types"' has no exported member 'FourPillars'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(6,37): error TS2305: Module '"../types"' has no exported member 'WuxingStrength'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(157,17): error TS18046: 'a' is of type 'unknown'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(157,21): error TS18046: 'b' is of type 'unknown'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(161,43): error TS18046: 'totalStrength' is of type 'unknown'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(367,23): error TS2571: Object is of type 'unknown'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(367,30): error TS2571: Object is of type 'unknown'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(561,7): error TS2571: Object is of type 'unknown'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(561,14): error TS2571: Object is of type 'unknown'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(570,7): error TS2571: Object is of type 'unknown'.
+src/lib/bazi-pro/core/analyzer/yongshen-analyzer.ts(570,14): error TS2571: Object is of type 'unknown'.
+src/lib/bazi-pro/core/calculator/four-pillars.ts(329,42): error TS2304: Cannot find name 'ProfessionalFourPillarsCalculator'.
+src/lib/bazi-pro/core/calendar/lunar-adapter.ts(7,53): error TS7016: Could not find a declaration file for module 'lunar-javascript'. 'D:/test/QiFlow AI_qiflowai/node_modules/lunar-javascript/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/lunar-javascript` if it exists or add a new declaration (.d.ts) file containing `declare module 'lunar-javascript';`
+src/lib/bazi-pro/core/calendar/solar-terms.ts(6,30): error TS7016: Could not find a declaration file for module 'lunar-javascript'. 'D:/test/QiFlow AI_qiflowai/node_modules/lunar-javascript/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/lunar-javascript` if it exists or add a new declaration (.d.ts) file containing `declare module 'lunar-javascript';`
+src/lib/bazi-pro/core/patterns/pattern-detector.ts(11,3): error TS2395: Individual declarations in merged declaration 'PatternType' must be all exported or all local.
+src/lib/bazi-pro/core/patterns/pattern-detector.ts(11,3): error TS2440: Import declaration conflicts with local declaration of 'PatternType'.
+src/lib/bazi-pro/core/patterns/pattern-detector.ts(13,10): error TS2724: '"../analyzer/ten-gods-relations"' has no exported member named 'TenGodsRelations'. Did you mean 'TenGodRelation'?
+src/lib/bazi-pro/core/patterns/pattern-detector.ts(14,10): error TS2305: Module '"../analyzer/wuxing-strength"' has no exported member 'WuxingStrengthCalculator'.
+src/lib/bazi-pro/core/patterns/pattern-detector.ts(641,13): error TS2395: Individual declarations in merged declaration 'PatternType' must be all exported or all local.
+src/lib/bazi-pro/deploy.config.ts(236,10): error TS2678: Type '"staging"' is not comparable to type '"development" | "production" | "test"'.
+src/lib/bazi-pro/interpretation/intelligent-interpreter.ts(7,10): error TS2724: '"../core/analyzer/ten-gods-relations"' has no exported member named 'TenGodsRelations'. Did you mean 'TenGodRelation'?
+src/lib/bazi-pro/utils/bazi-cache-adapter.ts(7,3): error TS2305: Module '"../types"' has no exported member 'BaziDate'.
+src/lib/bazi-pro/utils/bazi-cache-adapter.ts(8,3): error TS2305: Module '"../types"' has no exported member 'BaziResult'.
+src/lib/bazi-pro/utils/bazi-cache-adapter.ts(9,3): error TS2305: Module '"../types"' has no exported member 'DayunPeriod'.
+src/lib/bazi-pro/utils/bazi-cache-adapter.ts(11,3): error TS2724: '"../types"' has no exported member named 'ShenshaResult'. Did you mean 'ShenShaResult'?
+src/lib/bazi-pro/utils/bazi-cache-adapter.ts(12,3): error TS2724: '"../types"' has no exported member named 'WuXingAnalysis'. Did you mean 'WuxingAnalysis'?
+src/lib/bazi-pro/utils/bazi-cache-adapter.ts(13,3): error TS2724: '"../types"' has no exported member named 'YongShenResult'. Did you mean 'YongshenResult'?
+src/lib/bazi/bazi/quick-test.ts(7,7): error TS2451: Cannot redeclare block-scoped variable 'date1990510'.
+src/lib/bazi/bazi/quick-test.ts(14,7): error TS2451: Cannot redeclare block-scoped variable 'date2020101'.
+src/lib/bazi/quick-test.ts(7,7): error TS2451: Cannot redeclare block-scoped variable 'date1990510'.
+src/lib/bazi/quick-test.ts(14,7): error TS2451: Cannot redeclare block-scoped variable 'date2020101'.
+src/lib/growth/activation.ts(111,7): error TS2322: Type 'number' is not assignable to type 'SQL<unknown> | Aliased<unknown> | PgColumn<ColumnBaseConfig<ColumnDataType, string>, {}, {}> | PgTable<TableConfig> | SelectedFieldsFlat<...>'.
+src/lib/growth/activation.ts(123,7): error TS2322: Type 'number' is not assignable to type 'SQL<unknown> | Aliased<unknown> | PgColumn<ColumnBaseConfig<ColumnDataType, string>, {}, {}> | PgTable<TableConfig> | SelectedFieldsFlat<...>'.
+src/lib/middleware/adminAuth.ts(43,34): error TS2367: This comparison appears to be unintentional because the types '"user" | "admin" | undefined' and '"superadmin"' have no overlap.
+src/lib/monitoring/db.ts(35,25): error TS2694: Namespace '"D:/test/QiFlow AI_qiflowai/node_modules/.prisma/client/default".Prisma' has no exported member 'ErrorLogWhereInput'.
+src/lib/monitoring/db.ts(178,25): error TS2694: Namespace '"D:/test/QiFlow AI_qiflowai/node_modules/.prisma/client/default".Prisma' has no exported member 'SystemLogWhereInput'.
+src/lib/monitoring/db.ts(253,25): error TS2694: Namespace '"D:/test/QiFlow AI_qiflowai/node_modules/.prisma/client/default".Prisma' has no exported member 'PerformanceMetricWhereInput'.
+src/lib/monitoring/db.ts(389,25): error TS2694: Namespace '"D:/test/QiFlow AI_qiflowai/node_modules/.prisma/client/default".Prisma' has no exported member 'AuditLogWhereInput'.
+src/lib/monitoring/performance.ts(141,7): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/monitoring/performance.ts(150,7): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/monitoring/sentry.ts(33,5): error TS2353: Object literal may only specify known properties, and 'enableTracing' does not exist in type 'CoreOptions<BaseTransportOptions> | BrowserOptions | NodeOptions | VercelEdgeOptions'.
+src/lib/performance/optimization.ts(80,25): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/performance/optimization.ts(530,5): error TS2322: Type '(req: NextRequest, body: any) => Promise<NextResponse<unknown>>' is not assignable to type '(req: NextRequest, body: any) => Promise<T>'.
+  Type 'Promise<NextResponse<unknown>>' is not assignable to type 'Promise<T>'.
+    Type 'NextResponse<unknown>' is not assignable to type 'T'.
+      'T' could be instantiated with an arbitrary type which could be unrelated to 'NextResponse<unknown>'.
+src/lib/performance/optimization.ts(538,5): error TS2322: Type '(req: NextRequest, body: any) => Promise<NextResponse<unknown>>' is not assignable to type '(req: NextRequest, body: any) => Promise<T>'.
+  Type 'Promise<NextResponse<unknown>>' is not assignable to type 'Promise<T>'.
+    Type 'NextResponse<unknown>' is not assignable to type 'T'.
+      'T' could be instantiated with an arbitrary type which could be unrelated to 'NextResponse<unknown>'.
+src/lib/price-plan.ts(10,3): error TS2322: Type '({ id: string; prices: never[]; isFree: boolean; isLifetime: boolean; credits: { enable: boolean; amount: number; expireDays: number; }; } | { id: string; prices: { type: string; priceId: string; amount: number; currency: string; interval: string; }[]; isFree: boolean; isLifetime: boolean; popular: boolean; credits:...' is not assignable to type 'PricePlan[]'.
+  Type '{ id: string; prices: never[]; isFree: boolean; isLifetime: boolean; credits: { enable: boolean; amount: number; expireDays: number; }; } | { id: string; prices: { type: string; priceId: string; amount: number; currency: string; interval: string; }[]; isFree: boolean; isLifetime: boolean; popular: boolean; credits: ...' is not assignable to type 'PricePlan'.
+    Type '{ id: string; prices: { type: string; priceId: string; amount: number; currency: string; interval: string; }[]; isFree: boolean; isLifetime: boolean; popular: boolean; credits: { enable: boolean; amount: number; expireDays: number; }; }' is not assignable to type 'PricePlan'.
+      Types of property 'prices' are incompatible.
+        Type '{ type: string; priceId: string; amount: number; currency: string; interval: string; }[]' is not assignable to type 'Price[]'.
+          Type '{ type: string; priceId: string; amount: number; currency: string; interval: string; }' is not assignable to type 'Price'.
+            Types of property 'type' are incompatible.
+              Type 'string' is not assignable to type 'PaymentType'.
+src/lib/qiflow/ai/index.ts(8,10): error TS2724: '"./input-parser"' has no exported member named 'parseUserInput'. Did you mean 'ParsedInput'?
+src/lib/qiflow/ai/index.ts(8,26): error TS2305: Module '"./input-parser"' has no exported member 'extractBirthInfo'.
+src/lib/qiflow/ai/index.ts(8,44): error TS2305: Module '"./input-parser"' has no exported member 'extractHouseInfo'.
+src/lib/qiflow/bazi/quick-test.ts(7,7): error TS2451: Cannot redeclare block-scoped variable 'date1990510'.
+src/lib/qiflow/bazi/quick-test.ts(14,7): error TS2451: Cannot redeclare block-scoped variable 'date2020101'.
+src/lib/qiflow/cache.ts(19,26): error TS2554: Expected 1 arguments, but got 2.
+src/lib/qiflow/fengshui/engine.ts(533,18): error TS2352: Conversion of type '{ requestId: string; timestamp: string; version: string; basicInfo: { address: any; facing: number; mountain: string; buildYear: number; floorPlan: string | undefined; }; period: number; mountain: string; ... 5 more ...; analysis: { ...; }; }' to type '{ flyingStars: { period: number; facing: string; sitting: string; palaces: { position: "center" | "north" | "northeast" | "east" | "southeast" | "south" | "southwest" | "west" | "northwest"; ... 4 more ...; yearStar?: { ...; } | undefined; }[]; centralPalace: { ...; }; }; ... 13 more ...; interpretations?: { ...; } ...' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ requestId: string; timestamp: string; version: string; basicInfo: { address: any; facing: number; mountain: string; buildYear: number; floorPlan: string | undefined; }; period: number; mountain: string; ... 5 more ...; analysis: { ...; }; }' is missing the following properties from type '{ flyingStars: { period: number; facing: string; sitting: string; palaces: { position: "center" | "north" | "northeast" | "east" | "southeast" | "south" | "southwest" | "west" | "northwest"; ... 4 more ...; yearStar?: { ...; } | undefined; }[]; centralPalace: { ...; }; }; ... 13 more ...; interpretations?: { ...; } ...': directions, algorithmVersion, hash, confidence
+src/lib/qiflow/fengshui/smart-recommendations.ts(95,20): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Record<PalaceIndex, number>'.
+src/lib/qiflow/unified/adapters.ts(101,5): error TS2322: Type 'import("D:/test/QiFlow AI_qiflowai/src/lib/qiflow/unified/types").RoomType' is not assignable to type 'import("D:/test/QiFlow AI_qiflowai/src/lib/qiflow/fengshui/personalized-engine").RoomType'.
+  Type '"balcony"' is not assignable to type 'RoomType'.
+src/lib/qiflow/unified/adapters.ts(333,5): error TS2322: Type '"Σ╕¡"' is not assignable to type 'Mountain'.
+src/lib/qiflow/unified/adapters/frontend-adapter.ts(79,5): error TS2322: Type '{ palace: PalaceIndex; direction: string; description: string; advice: { suitable: string[]; avoid: string[]; enhance: string[]; items?: string[] | undefined; }; }[]' is not assignable to type 'never[]'.
+  Type '{ palace: PalaceIndex; direction: string; description: string; advice: { suitable: string[]; avoid: string[]; enhance: string[]; items?: string[]; }; }' is not assignable to type 'never'.
+src/lib/qiflow/unified/adapters/frontend-adapter.ts(88,5): error TS2322: Type '{ palace: PalaceIndex; direction: string; description: string; advice: { suitable: string[]; avoid: string[]; enhance: string[]; items?: string[] | undefined; }; }[]' is not assignable to type 'never[]'.
+  Type '{ palace: PalaceIndex; direction: string; description: string; advice: { suitable: string[]; avoid: string[]; enhance: string[]; items?: string[]; }; }' is not assignable to type 'never'.
+src/lib/qiflow/unified/adapters/frontend-adapter.ts(259,3): error TS2322: Type '{ basicAnalysis: { period: Yun; facingDirection: Mountain; plates: { period: any[]; liunian: any[]; }; evaluation: any; geju: any; wenchangwei: never[]; caiwei: never[]; }; enhancedPlate: any[]; ... 8 more ...; metadata: { ...; }; }' is not assignable to type 'ComprehensiveAnalysisResult'.
+  Types of property 'basicAnalysis' are incompatible.
+    Property 'meta' is missing in type '{ period: Yun; facingDirection: Mountain; plates: { period: any[]; liunian: any[]; }; evaluation: any; geju: any; wenchangwei: never[]; caiwei: never[]; }' but required in type 'GenerateFlyingStarOutput'.
+src/lib/qiflow/xuankong/adapters/v6-adapter.ts(378,14): error TS2693: 'Record' only refers to a type, but is being used as a value here.
+src/lib/qiflow/xuankong/adapters/v6-adapter.ts(378,14): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+src/lib/qiflow/xuankong/adapters/v6-adapter.ts(385,10): error TS2304: Cannot find name 'σàïσê╢σà│τ│╗'.
+src/lib/qiflow/xuankong/comprehensive-engine.ts(342,7): error TS2554: Expected 2-3 arguments, but got 5.
+src/lib/qiflow/xuankong/comprehensive-engine.ts(363,60): error TS2554: Expected 2-3 arguments, but got 5.
+src/lib/qiflow/xuankong/converters.ts(144,5): error TS2322: Type '{ degrees: number; direction: string; } | { degrees: number; direction: string; palace: "τª╗"; }' is not assignable to type '{ degrees: number; direction: string; palace: PalaceName; }'.
+  Property 'palace' is missing in type '{ degrees: number; direction: string; }' but required in type '{ degrees: number; direction: string; palace: PalaceName; }'.
+src/lib/qiflow/xuankong/enhanced-bazi-fengshui.ts(8,3): error TS2305: Module '"./types"' has no exported member 'Element'.
+src/lib/qiflow/xuankong/key-positions.ts(17,3): error TS2305: Module '"./types"' has no exported member 'PositionRating'.
+src/lib/qiflow/xuankong/key-positions.ts(133,27): error TS2322: Type '"excellent"' is not assignable to type 'FortuneRating'.
+src/lib/qiflow/xuankong/key-positions.ts(134,32): error TS2322: Type '"good"' is not assignable to type 'FortuneRating'.
+src/lib/qiflow/xuankong/key-positions.ts(135,32): error TS2322: Type '"fair"' is not assignable to type 'FortuneRating'.
+src/lib/qiflow/xuankong/key-positions.ts(136,32): error TS2322: Type '"poor"' is not assignable to type 'FortuneRating'.
+src/lib/qiflow/xuankong/key-positions.ts(137,8): error TS2322: Type '"bad"' is not assignable to type 'FortuneRating'.
+src/lib/qiflow/xuankong/key-positions.ts(185,37): error TS2345: Argument of type 'string' is not assignable to parameter of type '{ type: string; description: string; isFavorable: boolean; }'.
+src/lib/qiflow/xuankong/key-positions.ts(186,37): error TS2345: Argument of type 'string' is not assignable to parameter of type '{ type: string; description: string; isFavorable: boolean; }'.
+src/lib/qiflow/xuankong/plate-generator.ts(117,7): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/qiflow/xuankong/plate-generator.ts(118,7): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/qiflow/xuankong/remedy-engine.ts(137,11): error TS2322: Type '"symbol" | "color" | "placement" | "element" | "crystal" | "plant"' is not assignable to type '"color" | "layout" | "placement" | "element" | "timing"'.
+  Type '"symbol"' is not assignable to type '"color" | "layout" | "placement" | "element" | "timing"'.
+src/lib/space-mapping/space-mapping/alignment-engine.ts(8,15): error TS2305: Module '"../image-processing/types"' has no exported member 'Point'.
+src/lib/space-mapping/space-mapping/alignment-engine.ts(8,22): error TS2305: Module '"../image-processing/types"' has no exported member 'Room'.
+src/lib/space-mapping/space-mapping/alignment-engine.ts(8,28): error TS2305: Module '"../image-processing/types"' has no exported member 'Wall'.
+src/lib/space-mapping/space-mapping/room-mapper.ts(8,15): error TS2305: Module '"../image-processing/types"' has no exported member 'Point'.
+src/lib/space-mapping/space-mapping/room-mapper.ts(8,22): error TS2305: Module '"../image-processing/types"' has no exported member 'Room'.
+src/lib/space-mapping/space-mapping/space-mapper.ts(8,15): error TS2305: Module '"../image-processing/types"' has no exported member 'Point'.
+src/lib/space-mapping/space-mapping/space-mapper.ts(8,22): error TS2305: Module '"../image-processing/types"' has no exported member 'Room'.
+src/lib/space-mapping/space-mapping/space-mapper.ts(8,28): error TS2305: Module '"../image-processing/types"' has no exported member 'Wall'.
+src/lib/space-mapping/space-mapping/types.ts(5,15): error TS2305: Module '"../image-processing/types"' has no exported member 'Point'.
+src/tests/integration/xuankong-api.test.ts(194,17): error TS2304: Cannot find name 'thresholds'.
+src/tests/integration/xuankong-api.test.ts(238,26): error TS2339: Property 'materials' does not exist on type 'RemedyPlan'.

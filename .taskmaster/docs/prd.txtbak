@@ -1,0 +1,79 @@
+# PRD：qiflow-ai → MKSaaS 模板最小侵入迁移
+
+## 背景
+- 现有 qiflow-ai 为 Next.js 八字风水站点（包含：八字、玄空、罗盘、AI 解读）。
+- 目标将其迁入本仓库根项目 MKSaaS 模板，并全面复用/对接其模块：Better Auth、Stripe + Credits、营销页与漏斗、i18n（[locale] 路由 + next-intl）、合规模块、观测与限流。
+
+## 目标与范围
+- 在保持 MKSaaS 现有架构与依赖不被破坏的前提下，最小侵入迁移 qiflow-ai。
+- 迁移后在 mksaas 根项目中可运行，路由/鉴权/支付闭环打通。
+- 核心功能在 MKSaaS UI/计费/合规框架下工作：八字、玄空、罗盘置信度、AI 解读、PDF 导出审计。
+- 输出清晰的任务与产物（artifacts）用于过程可观测与验收。
+
+## 约束与假设
+- Node.js 20+、pnpm、Next.js 15。
+- 数据库：PostgreSQL + Drizzle ORM（沿用 MKSaaS 默认）。
+- 认证：Better Auth（沿用 MKSaaS 默认，不修改原有 options，仅扩展钩子）。
+- i18n：next-intl，[locale] 路由统一入口。
+- 支付：Stripe + Credits（新功能仅消费 Credits，不变更订阅逻辑）。
+- 目录命名空间统一使用 qiflow：`src/lib/qiflow`, `src/actions/qiflow`, `src/components/qiflow`。
+- 数据库扩展集中在 `src/db/schema-qiflow.ts` 并由 `src/db/index.ts` 合并导出。
+
+## 成功标准（DoD）
+- 登录/注册 → Dashboard 正常；
+- `/zh/analysis/bazi` 与 `/zh/analysis/xuankong` 返回 200 且可触发计算并入库；
+- 罗盘置信度低于阈值触发降级/拒答并支持手动输入；
+- Credits 扣减与 UI 展示一致；
+- E2E 冒烟路径“营销页 → 登录 → 分析 → 报告 → 充值/订阅”通过；
+- 单测最小集通过；输出 10s 性能 Trace 与 3~5 条可执行优化建议；
+- 所有产物与日志落盘到 `mksaas/artifacts/<step-id>/`。
+
+## 全局执行约束
+- 任一步骤/命令 5 分钟无输出即强杀并换方法；关键任务最多 3 种方法，仍失败标记为 SKIP；
+- 所有改动在分支 `chore/migrate-qiflow-into-mksaas` 内进行，原子提交、可回滚；
+- 所有 shell 开启 `set -x`；关键节点保存日志/报告到 artifacts；
+- 仅迁移算法/可视化必要依赖，避免覆盖 MKSaaS 核心版本；
+- 新页面统一至 `src/app/[locale]/...`；根首页建议 302 到 `(dashboard)/dashboard`。
+
+## 目录映射
+- 领域算法：`qiflow-ai/lib/**` → `src/lib/qiflow/{bazi,xuankong,compass}/**`
+- Server Actions：`qiflow-ai/(api|server|actions)/**` → `src/actions/qiflow/**`（或 `app/api/**` 视情）
+- UI 页面（App Router + i18n）：`qiflow-ai/app/**` → `src/app/[locale]/(dashboard|analysis)/**`
+- UI 组件：`qiflow-ai/components/**` → `src/components/qiflow/**`
+- 数据库：schema 片段 → `src/db/schema-qiflow.ts` 并在 `src/db/index.ts` 合并导出
+
+## 定价/积分
+- 在 `src/config/qiflow-pricing.ts` 统一：
+  - `aiChat=5, bazi=10, xuankong=20, deepInterpretation=30, pdfExport=5`
+
+## 关键对接点
+- 认证钩子：注册后初始化命理档案 +（可选）注册送分；
+- Credits：入口按钮统一 `requiredCredits` 与余额显示，不足时三级降级弹窗（预览→试用→充值）；
+- 罗盘置信度：前端计算阈值与 UI 三色一致；<0.4 拒答并指引手动输入；0.7~0.9 校准引导；
+- 观测与限流：中间件/Action 埋点 traceId/latency/cost/coins；速率限制/熔断对齐 MKSaaS；
+- 合规：Age 18+、免责声明、敏感词拒答（首次进入与关键入口）。
+
+## 检查点（C0→C10）
+- C0 预检&建分支（10m）：记录工具链版本、创建迁移分支。
+- C1 结构盘点（10m）：生成源/目标清单与 mapping.md。
+- C2 依赖对齐（20m）：仅迁移算法/可视化必要依赖；`pnpm install` & typecheck。
+- C3 数据库扩展（15m）：创建 `baziCalculations`/`fengshuiAnalysis`/`pdfAudit`/`copyright`；
+- C4 认证/支付/i18n（25m）：`auth-qiflow.ts` 扩展钩子；`qiflow-pricing.ts` 定价常量；确认 `[locale]` 路由。
+- C5 业务迁移（45m）：算法落位；Actions（`calculate-bazi`/`xuankong-analysis`/`compass-reading`）；页面 `/[locale]/analysis/{bazi,xuankong}`。
+- C6 罗盘置信度（20m）：实现三色联动；<0.4 拒答切手动输入，0.7~0.9 校准引导。
+- C7 营销/合规（15m）：营销页可访问；AgeVerification/DisclaimerBar/敏感词拒答接线。
+- C8 观测/限流/计费一致性（20m）：中间件 traceId/latency/cost/coins；速率限制/熔断开；扣减与展示一致。
+- C9 测试与冒烟（20m）：`pnpm test:unit` 最小集；全链路冒烟与截图；10s 性能 trace + 建议。
+- C10 提交与差异报告（5m）：原子提交并输出 diff 统计。
+
+## 验收清单
+- 页面/接口：`/zh/analysis/bazi`、`/zh/analysis/xuankong` 200；触发计算可入库；
+- 权限/计费：未登录阻断；扣减与 UI 展示一致；
+- 合规/观测：合规提示出现；trace/限流生效；
+- 稳定性：单测通过、冒烟无 5xx；性能 trace 与建议产出；
+
+## 风险与回滚
+- 依赖冲突：最小依赖策略；若有 peer 冲突优先别名/局部锁版本；
+- 路由错位：新增统一 `qiflow` 命名空间与 `[locale]` 路由；
+- 传感器不可用：提供手动输入兜底；
+- 回滚：分支隔离；出现问题可丢弃分支或按提交点回退。

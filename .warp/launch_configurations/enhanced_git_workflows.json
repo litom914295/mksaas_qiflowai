@@ -1,0 +1,145 @@
+{
+  "version": "1.0",
+  "name": "Enhanced Git Workflows",
+  "description": "Custom workflows that complement Warp's default Git commands",
+  "preserve_defaults": true,
+  "workflows": [
+    {
+      "id": "push_to_main_full",
+      "name": "🚀 Full Push to Main",
+      "description": "Complete workflow: add, commit, and push all changes",
+      "category": "Git - Advanced",
+      "icon": "git-merge",
+      "color": "#28a745",
+      "hotkey": "ctrl+shift+p",
+      "command": {
+        "type": "script",
+        "path": ".warp/workflows/push.ps1",
+        "shell": "powershell",
+        "args": ["-Message", "${input:commitMessage}"]
+      },
+      "inputs": [
+        {
+          "id": "commitMessage",
+          "type": "text",
+          "label": "Commit Message",
+          "placeholder": "Enter your commit message",
+          "default": "feat: update code"
+        }
+      ]
+    },
+    {
+      "id": "squash_and_push",
+      "name": "📦 Squash & Push",
+      "description": "Squash recent commits and push to main",
+      "category": "Git - Advanced",
+      "icon": "git-merge",
+      "color": "#ffc107",
+      "command": {
+        "type": "shell",
+        "command": "git reset --soft HEAD~${input:numCommits} && git commit -m \"${input:message}\" && git push origin main",
+        "shell": "powershell"
+      },
+      "inputs": [
+        {
+          "id": "numCommits",
+          "type": "number",
+          "label": "Number of commits to squash",
+          "default": "2",
+          "min": 2,
+          "max": 10
+        },
+        {
+          "id": "message",
+          "type": "text",
+          "label": "New commit message",
+          "placeholder": "Squashed commits message",
+          "default": "feat: combined changes"
+        }
+      ]
+    },
+    {
+      "id": "undo_and_recommit",
+      "name": "↩️ Undo & Recommit",
+      "description": "Undo last commit and create a new one",
+      "category": "Git - Advanced",
+      "icon": "undo",
+      "color": "#dc3545",
+      "command": {
+        "type": "shell",
+        "command": "git reset HEAD~ && git add -A && git commit -m \"${input:message}\"",
+        "shell": "powershell"
+      },
+      "inputs": [
+        {
+          "id": "message",
+          "type": "text",
+          "label": "New commit message",
+          "placeholder": "Enter corrected message",
+          "default": "fix: corrected commit"
+        }
+      ]
+    },
+    {
+      "id": "interactive_rebase",
+      "name": "🔀 Interactive Rebase",
+      "description": "Start interactive rebase for last n commits",
+      "category": "Git - Advanced",
+      "icon": "git-branch",
+      "color": "#6f42c1",
+      "command": {
+        "type": "shell",
+        "command": "git rebase -i HEAD~${input:numCommits}",
+        "shell": "powershell"
+      },
+      "inputs": [
+        {
+          "id": "numCommits",
+          "type": "number",
+          "label": "Number of commits",
+          "default": "3",
+          "min": 2,
+          "max": 20
+        }
+      ]
+    },
+    {
+      "id": "amend_last_commit",
+      "name": "✏️ Amend Last Commit",
+      "description": "Add changes to the last commit",
+      "category": "Git - Quick",
+      "icon": "edit",
+      "color": "#17a2b8",
+      "command": {
+        "type": "shell",
+        "command": "git add -A && git commit --amend --no-edit",
+        "shell": "powershell"
+      }
+    },
+    {
+      "id": "git_status_verbose",
+      "name": "📊 Detailed Status",
+      "description": "Show detailed git status with changes",
+      "category": "Git - Info",
+      "icon": "info",
+      "color": "#6c757d",
+      "command": {
+        "type": "shell",
+        "command": "git status -v",
+        "shell": "powershell"
+      }
+    }
+  ],
+  "command_templates": [
+    {
+      "name": "Squash Commits",
+      "template": "git reset --soft HEAD~{{num_commits}} && git commit",
+      "description": "Warp default - preserved"
+    },
+    {
+      "name": "Undo Last Commit",
+      "template": "git reset HEAD~",
+      "description": "Warp default - preserved"
+    }
+  ]
+}

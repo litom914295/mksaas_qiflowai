@@ -1,0 +1,29 @@
+# QiFlow AI - Robots.txt
+# https://www.robotstxt.org/robotstxt.html
+# 
+# 部署前请更新: 将 your-domain.com 替换为实际域名
+# 或者使用 next-sitemap 包自动生成
+
+User-agent: *
+Allow: /
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /dashboard/
+
+# Disallow authentication pages
+Disallow: /auth/
+Disallow: /login/
+Disallow: /register/
+
+# Allow public pages
+Allow: /
+Allow: /about
+Allow: /pricing
+Allow: /contact
+Allow: /docs
+
+# Sitemap location (请更新为实际域名)
+Sitemap: https://your-domain.com/sitemap.xml

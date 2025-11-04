@@ -1,0 +1,140 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mtls-exporter-scripts
+  namespace: qiflowai
+data:
+  cert_manager.py: |
+    #!/usr/bin/env python3
+    # NOTE: 同步自 tools/mtls/cert_manager.py 的导出器入口片段（精简版）
+    import base64, os, sys, time, datetime as dt
+    from typing import List
+    from cryptography import x509
+    from prometheus_client import Gauge, Counter, start_http_server
+    try:
+      from kubernetes import client as k8s_client, config as k8s_config
+    except Exception:
+      k8s_client = k8s_config = None
+    def _now():
+      return dt.datetime.utcnow().replace(tzinfo=dt.timezone.utc)
+    def left_seconds(pem: bytes) -> float:
+      c = x509.load_pem_x509_certificate(pem)
+      return max(0.0, (c.not_valid_after.replace(tzinfo=dt.timezone.utc) - _now()).total_seconds())
+    def k8s_init():
+      try:
+        k8s_config.load_incluster_config()
+      except Exception:
+        k8s_config.load_kube_config()
+      return k8s_client.CoreV1Api()
+    def get_tls_crt(api, ns: str, name: str):
+      sec = api.read_namespaced_secret(name, ns)
+      if not sec or not sec.data or 'tls.crt' not in sec.data:
+        return None
+      return base64.b64decode(sec.data['tls.crt'])
+    def run(port: int, targets: List[str]):
+      g = Gauge('x509_cert_expires_in_seconds', 'Seconds until X509 certificate expiration', ['name','source'])
+      start_http_server(port)
+      api = None
+      if targets:
+        api = k8s_init()
+      while True:
+        for t in targets:
+          try:
+            ns, name = t.split('/',1)
+            crt = get_tls_crt(api, ns, name)
+            if crt:
+              g.labels(name=f'{ns}/{name}', source='k8s').set(left_seconds(crt))
+            else:
+              g.labels(name=f'{ns}/{name}', source='k8s').set(0)
+          except Exception:
+            g.labels(name=t, source='k8s').set(0)
+        time.sleep(30)
+    if __name__ == '__main__':
+      targets = os.getenv('K8S_SECRET_TARGETS','').split(',') if os.getenv('K8S_SECRET_TARGETS') else []
+      port = int(os.getenv('PORT','9101'))
+      run(port, targets)
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mtls-cert-exporter
+  namespace: qiflowai
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: mtls-exporter-role
+  namespace: qiflowai
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mtls-exporter-rb
+  namespace: qiflowai
+subjects:
+  - kind: ServiceAccount
+    name: mtls-cert-exporter
+    namespace: qiflowai
+roleRef:
+  kind: Role
+  name: mtls-exporter-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mtls-cert-exporter
+  namespace: qiflowai
+  labels:
+    app: mtls-cert-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mtls-cert-exporter
+  template:
+    metadata:
+      labels:
+        app: mtls-cert-exporter
+    spec:
+      serviceAccountName: mtls-cert-exporter
+      containers:
+        - name: exporter
+          image: python:3.11-slim
+          imagePullPolicy: IfNotPresent
+          command: ["bash", "-lc"]
+          args:
+            - "pip install -q cryptography prometheus-client kubernetes && python /app/cert_manager.py"
+          env:
+            - name: K8S_SECRET_TARGETS
+              value: "qiflowai/qiflowai-tls"
+            - name: PORT
+              value: "9101"
+          ports:
+            - containerPort: 9101
+              name: http
+          volumeMounts:
+            - name: scripts
+              mountPath: /app
+      volumes:
+        - name: scripts
+          configMap:
+            name: mtls-exporter-scripts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mtls-cert-exporter
+  namespace: qiflowai
+spec:
+  selector:
+    app: mtls-cert-exporter
+  ports:
+    - port: 9101
+      targetPort: 9101
+      protocol: TCP
+      name: http

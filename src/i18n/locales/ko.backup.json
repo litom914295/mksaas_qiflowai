@@ -1,0 +1,1203 @@
+{
+  "metadata": {
+    "title": "QiFlow AI - 스마트 풍수 분석 플랫폼",
+    "description": "전통 풍수 지혜와 현대 AI 기술을 결합한 스마트 풍수 분석 플랫폼"
+  },
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류",
+    "success": "성공",
+    "cancel": "취소",
+    "confirm": "확인",
+    "save": "저장",
+    "delete": "삭제",
+    "edit": "편집",
+    "back": "뒤로",
+    "next": "다음",
+    "previous": "이전",
+    "submit": "제출",
+    "reset": "재설정",
+    "search": "검색",
+    "filter": "필터",
+    "sort": "정렬",
+    "export": "내보내기",
+    "import": "가져오기",
+    "share": "공유",
+    "copy": "복사",
+    "download": "다운로드",
+    "upload": "업로드",
+    "close": "닫기",
+    "open": "열기",
+    "view": "보기",
+    "preview": "미리보기",
+    "refresh": "새로고침",
+    "retry": "재시도",
+    "switchLanguage": "언어 전환",
+    "unknown": "알 수 없음",
+    "toBeCalculated": "계산 대기"
+  },
+  "testPages": {
+    "simpleLangTest": {
+      "title": "간단한 언어 전환 테스트",
+      "currentStatus": "현재 상태",
+      "currentLanguage": "현재 언어",
+      "currentPath": "현재 경로",
+      "pageTitle": "페이지 제목",
+      "subtitle": "부제목",
+      "languageSwitch": "언어 전환",
+      "translationTest": "번역 콘텐츠 테스트",
+      "features": "기능",
+      "commonText": "공통 텍스트",
+      "debugInfo": "디버그 정보",
+      "currentTime": "현재 시간",
+      "browserLanguage": "브라우저 언어"
+    },
+    "langTest": {
+      "title": "언어 전환 테스트 페이지",
+      "currentStatus": "현재 상태",
+      "currentLanguage": "현재 언어",
+      "currentPath": "현재 경로",
+      "pageTitle": "페이지 제목",
+      "subtitle": "부제목",
+      "languageSwitch": "언어 전환",
+      "translationTest": "번역 콘텐츠 테스트",
+      "features": "기능",
+      "commonText": "공통 텍스트",
+      "debugLogs": "디버그 로그",
+      "clearLogs": "로그 지우기",
+      "noLogs": "로그가 없습니다",
+      "instructions": "사용 설명",
+      "instruction1": "언어 버튼을 클릭하여 언어를 전환하세요",
+      "instruction2": "URL 변화와 페이지 콘텐츠를 관찰하세요",
+      "instruction3": "디버그 로그에서 경로 변화를 확인하세요",
+      "instruction4": "번역 콘텐츠가 올바르게 표시되는지 확인하세요",
+      "instruction5": "언어 전환이 작동하지 않으면 브라우저 콘솔 오류를 확인하세요",
+      "pageLoaded": "페이지 로드됨",
+      "path": "경로",
+      "startSwitchTo": "언어 전환 시작",
+      "cleanedPath": "정리된 경로",
+      "newPath": "새 경로",
+      "navigatedTo": "이동됨"
+    },
+    "minimalTest": {
+      "title": "최소 언어 테스트",
+      "serverInfo": "서버 사이드 정보",
+      "features": "기능",
+      "testDescription": "테스트 설명",
+      "description": "번역이 올바르게 로드되는지 테스트하는 서버 사이드 렌더링 페이지입니다. 다른 언어 버전에 접근해 보세요:"
+    }
+  },
+  "navigation": {
+    "home": "홈",
+    "dashboard": "대시보드",
+    "analysis": "풍수 분석",
+    "compass": "디지털 나침반",
+    "overlay": "평면도 오버레이",
+    "3d_viewer": "3D 뷰어",
+    "reports": "분석 보고서",
+    "chat": "AI 어시스턴트",
+    "subscription": "구독 관리",
+    "profile": "프로필",
+    "settings": "설정",
+    "help": "도움말",
+    "about": "회사 소개"
+  },
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "forgot_password": "비밀번호 찾기",
+    "reset_password": "비밀번호 재설정",
+    "email": "이메일",
+    "password": "비밀번호",
+    "confirm_password": "비밀번호 확인",
+    "remember_me": "로그인 상태 유지",
+    "guest_mode": "게스트 모드",
+    "continue_as_guest": "게스트로 계속하기",
+    "register_to_save": "데이터 저장을 위해 등록하세요",
+    "login_required": "로그인이 필요합니다",
+    "invalid_credentials": "사용자명 또는 비밀번호가 잘못되었습니다",
+    "account_created": "계정이 성공적으로 생성되었습니다",
+    "password_reset_sent": "비밀번호 재설정 이메일이 전송되었습니다",
+    "register": {
+      "title": "계정 생성",
+      "subtitle": "풍수 분석 여행을 시작하세요",
+      "signInLink": "이미 계정이 있으신가요? 지금 로그인하세요",
+      "displayName": "표시 이름",
+      "displayNamePlaceholder": "표시 이름을 입력하세요",
+      "emailPlaceholder": "이메일 주소를 입력하세요",
+      "passwordPlaceholder": "비밀번호를 입력하세요",
+      "confirmPasswordPlaceholder": "비밀번호를 다시 확인하세요",
+      "acceptTerms": "다음을 읽고 동의합니다",
+      "termsLink": "서비스 약관",
+      "and": "및",
+      "privacyLink": "개인정보 보호정책",
+      "submit": "계정 생성",
+      "hasAccount": "이미 계정이 있으신가요?",
+      "signIn": "지금 로그인"
+    }
+  },
+  "bazi": {
+    "title": "BaZi Analysis",
+    "description": "Professional BaZi algorithms provide personalized life insights and fortune guidance",
+    "analyzing": "Conducting deep analysis...",
+    "analysis_description": "Using traditional destiny wisdom to decode your life patterns",
+    "disclaimer": "This analysis is based on traditional BaZi principles and is for reference only. Please consult professionals for important decisions.",
+    "analysis": {
+      "sampleAnalysis": "Your Bazi shows..."
+    },
+    "fourPillars": {
+      "year": "Jia Zi",
+      "month": "Yi Chou",
+      "day": "Bing Yin",
+      "hour": "Ding Mao"
+    },
+    "birth_info": "Birth Information",
+    "birth_date": "Birth Date",
+    "birth_time": "Birth Time",
+    "birth_place": "Birth Place",
+    "lunar_calendar": "Lunar Calendar",
+    "solar_calendar": "Solar Calendar",
+    "year_pillar": "Year Pillar",
+    "month_pillar": "Month Pillar",
+    "day_pillar": "Day Pillar",
+    "hour_pillar": "Hour Pillar",
+    "heavenly_stem": "Heavenly Stem",
+    "earthly_branch": "Earthly Branch",
+    "five_elements": "Five Elements",
+    "wood": "Wood",
+    "fire": "Fire",
+    "earth": "Earth",
+    "metal": "Metal",
+    "water": "Water",
+    "strong": "Strong",
+    "weak": "Weak",
+    "favorable_elements": "Favorable Elements",
+    "unfavorable_elements": "Unfavorable Elements",
+    "element_analysis": "Five Elements Analysis",
+    "personality_analysis": "Personality Analysis",
+    "career_guidance": "Career Guidance",
+    "relationship_analysis": "Relationship Analysis",
+    "health_guidance": "Health Guidance",
+    "fortune_analysis": "Fortune Analysis",
+    "tabs": {
+      "overview": "Overview",
+      "fourPillars": "Four Pillars",
+      "patterns": "Patterns",
+      "fiveElements": "Five Elements",
+      "godsEvils": "Gods & Evils",
+      "luckCycles": "Luck Cycles",
+      "dailyFortune": "Daily Fortune",
+      "insights": "Insights"
+    },
+    "deepAnalysisTitle": "Deep Bazi Analysis",
+    "deepAnalysisSubtitle": "Personalized insights based on professional algorithms",
+    "labels": {
+      "name": "Name",
+      "gender": "Gender",
+      "birthTime": "Birth Time",
+      "gregorian": "Gregorian",
+      "lunar": "Lunar"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female"
+    }
+  },
+  "fengshui": {
+    "palace": {
+      "kan": "Kan",
+      "kun": "Kun",
+      "zhen": "Zhen",
+      "xun": "Xun",
+      "center": "Center",
+      "qian": "Qian",
+      "dui": "Dui",
+      "gen": "Gen",
+      "li": "Li"
+    },
+    "palace_suffix": " Palace",
+    "period_desc": "represents current fortune",
+    "mountain_star_desc": "represents sitting direction",
+    "water_star_desc": "represents facing direction",
+    "details": "Details",
+    "pattern_analysis": "Pattern Analysis",
+    "overall_pattern": "Overall Pattern",
+    "pattern_type": "Pattern Type",
+    "key_positions": "Key Positions",
+    "suitable_arrangements": "Suitable Arrangements",
+    "layout_advice": "Layout Advice",
+    "pattern_explanation": "Pattern Explanation",
+    "title": "Feng Shui Analysis",
+    "flying_stars": "Flying Star Feng Shui",
+    "nine_palaces": "Nine Palaces",
+    "compass_direction": "Compass Direction",
+    "house_facing": "House Facing",
+    "house_sitting": "House Sitting",
+    "period": "Period",
+    "current_period": "Current Period",
+    "wenchangwei": "Wenchang Position",
+    "caiwei": "Wealth Position",
+    "mountain_star": "Mountain Star",
+    "water_star": "Water Star",
+    "time_star": "Time Star",
+    "annual_star": "Annual Star",
+    "monthly_star": "Monthly Star",
+    "daily_star": "Daily Star",
+    "auspicious": "Auspicious",
+    "inauspicious": "Inauspicious",
+    "neutral": "Neutral",
+    "very_auspicious": "Very Auspicious",
+    "very_inauspicious": "Very Inauspicious",
+    "room_analysis": "Room Analysis",
+    "bedroom": "Bedroom",
+    "living_room": "Living Room",
+    "kitchen": "Kitchen",
+    "bathroom": "Bathroom",
+    "study": "Study",
+    "dining_room": "Dining Room",
+    "entrance": "Entrance",
+    "balcony": "Balcony",
+    "recommendations": "Feng Shui Recommendations",
+    "color_recommendations": "Color Recommendations",
+    "furniture_placement": "Furniture Placement",
+    "decoration_suggestions": "Decoration Suggestions",
+    "remedy_methods": "Remedy Methods",
+    "tabs": {
+      "overview": "Overview",
+      "ninePalaces": "Nine Palaces",
+      "patterns": "Patterns",
+      "advice": "Advice",
+      "advanced": "Advanced"
+    }
+  },
+  "compass_legacy": {
+    "title": "Digital Compass",
+    "measuring": "Measuring...",
+    "calibration": "Calibration",
+    "calibrate_device": "Calibrate Device",
+    "calibration_instructions": "Please follow the prompts to calibrate your device",
+    "accuracy": "Accuracy",
+    "confidence": "Confidence",
+    "magnetic_declination": "Magnetic Declination",
+    "true_north": "True North",
+    "magnetic_north": "Magnetic North",
+    "direction": "Direction",
+    "degree": "Degree",
+    "measurement_history": "Measurement History",
+    "save_measurement": "Save Measurement",
+    "clear_history": "Clear History",
+    "device_not_supported": "Device does not support compass functionality",
+    "permission_required": "Sensor permission required",
+    "interference_detected": "Magnetic field interference detected",
+    "move_away_from_metal": "Please move away from metal objects",
+    "measurement_saved": "Measurement saved",
+    "high_accuracy": "High Accuracy",
+    "medium_accuracy": "Medium Accuracy",
+    "low_accuracy": "Low Accuracy"
+  },
+  "overlay": {
+    "title": "Floor Plan Overlay",
+    "upload_floorplan": "Upload Floor Plan",
+    "processing_image": "Processing image...",
+    "room_detection": "Room Detection",
+    "auto_alignment": "Auto Alignment",
+    "manual_adjustment": "Manual Adjustment",
+    "transparency": "Transparency",
+    "overlay_opacity": "Overlay Opacity",
+    "show_grid": "Show Grid",
+    "show_labels": "Show Labels",
+    "room_scores": "Room Scores",
+    "click_room_for_details": "Click room for details",
+    "room_function": "Room Function",
+    "feng_shui_score": "Feng Shui Score",
+    "recommendations_for_room": "Recommendations for Room",
+    "image_upload_failed": "Image upload failed",
+    "image_processing_failed": "Image processing failed",
+    "unsupported_format": "Unsupported file format",
+    "file_too_large": "File too large",
+    "drag_drop_image": "Drag & drop image here or click to upload",
+    "supported_formats": "Supports JPG, PNG, PDF formats",
+    "max_file_size": "Maximum file size: 10MB",
+    "processing_complete": "Processing complete",
+    "alignment_accuracy": "Alignment Accuracy",
+    "rotation_angle": "Rotation Angle",
+    "scale_factor": "Scale Factor"
+  },
+  "3d_viewer": {
+    "title": "3D Feng Shui Viewer",
+    "loading_model": "Loading 3D model...",
+    "rotate_view": "Rotate View",
+    "zoom_in": "Zoom In",
+    "zoom_out": "Zoom Out",
+    "reset_view": "Reset View",
+    "fullscreen": "Fullscreen",
+    "vr_mode": "VR Mode",
+    "animation_controls": "Animation Controls",
+    "play": "Play",
+    "pause": "Pause",
+    "timeline": "Timeline",
+    "show_elements": "Show Five Elements",
+    "show_stars": "Show Flying Stars",
+    "show_recommendations": "Show Recommendations",
+    "lighting": "Lighting",
+    "shadows": "Shadows",
+    "quality": "Quality",
+    "high_quality": "High Quality",
+    "medium_quality": "Medium Quality",
+    "low_quality": "Low Quality",
+    "performance_mode": "Performance Mode",
+    "webgl_not_supported": "Your browser does not support WebGL",
+    "model_load_failed": "3D model load failed"
+  },
+  "reports": {
+    "title": "Analysis Reports",
+    "generate_report": "Generate Report",
+    "download_pdf": "Download PDF",
+    "share_report": "Share Report",
+    "report_summary": "Report Summary",
+    "detailed_analysis": "Detailed Analysis",
+    "recommendations": "Recommendations",
+    "charts_and_diagrams": "Charts and Diagrams",
+    "report_date": "Report Date",
+    "analysis_type": "Analysis Type",
+    "comprehensive_analysis": "Comprehensive Analysis",
+    "bazi_only": "BaZi Analysis Only",
+    "fengshui_only": "Feng Shui Analysis Only",
+    "report_generating": "Generating report...",
+    "report_ready": "Report ready",
+    "report_failed": "Report generation failed",
+    "watermark_guest": "Guest Mode - Register for full report",
+    "upgrade_for_full_report": "Upgrade subscription for full report",
+    "report_history": "Report History",
+    "no_reports": "No reports yet",
+    "delete_report": "Delete Report",
+    "report_deleted": "Report deleted"
+  },
+  "chat": {
+    "title": "AI Feng Shui Assistant",
+    "ask_question": "Ask Feng Shui Questions",
+    "type_message": "Type your question...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "chat_history": "Chat History",
+    "clear_chat": "Clear Chat",
+    "new_conversation": "New Conversation",
+    "suggested_questions": "Suggested Questions",
+    "daily_limit_reached": "Daily chat limit reached",
+    "upgrade_for_more": "Upgrade subscription for more chats",
+    "ai_disclaimer": "AI responses are for reference only and do not constitute professional advice",
+    "conversation_saved": "Conversation saved",
+    "conversation_deleted": "Conversation deleted",
+    "copy_message": "Copy Message",
+    "message_copied": "Message copied",
+    "regenerate_response": "Regenerate Response",
+    "rate_response": "Rate Response",
+    "helpful": "Helpful",
+    "not_helpful": "Not Helpful"
+  },
+  "subscription": {
+    "title": "Subscription Management",
+    "current_plan": "Current Plan",
+    "free_plan": "Free Plan",
+    "standard_plan": "Standard Plan",
+    "professional_plan": "Professional Plan",
+    "upgrade": "Upgrade",
+    "downgrade": "Downgrade",
+    "cancel_subscription": "Cancel Subscription",
+    "renew_subscription": "Renew Subscription",
+    "billing_history": "Billing History",
+    "usage_statistics": "Usage Statistics",
+    "quota_remaining": "Quota Remaining",
+    "quota_used": "Quota Used",
+    "monthly_billing": "Monthly Billing",
+    "yearly_billing": "Yearly Billing",
+    "save_with_yearly": "Save 20% with yearly billing",
+    "payment_method": "Payment Method",
+    "update_payment": "Update Payment Method",
+    "next_billing_date": "Next Billing Date",
+    "subscription_active": "Subscription Active",
+    "subscription_expired": "Subscription Expired",
+    "subscription_cancelled": "Subscription Cancelled",
+    "auto_renewal": "Auto Renewal",
+    "manage_subscription": "Manage Subscription",
+    "contact_support": "Contact Support"
+  },
+  "profile": {
+    "title": "Profile",
+    "personal_info": "Personal Information",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "timezone": "Timezone",
+    "language": "Language",
+    "birth_info": "Birth Information",
+    "privacy_settings": "Privacy Settings",
+    "data_export": "Data Export",
+    "delete_account": "Delete Account",
+    "account_security": "Account Security",
+    "change_password": "Change Password",
+    "two_factor_auth": "Two-Factor Authentication",
+    "login_history": "Login History",
+    "profile_updated": "Profile updated",
+    "password_changed": "Password changed",
+    "account_deleted": "Account deleted",
+    "data_exported": "Data exported",
+    "confirm_delete_account": "Confirm delete account? This action cannot be undone.",
+    "display_name": "Display Name",
+    "gender": "Gender",
+    "birth_date": "Birth Date",
+    "birth_time": "Birth Time",
+    "birth_place": "Birth Place",
+    "calendar_type": "Calendar Type",
+    "gregorian": "Gregorian",
+    "lunar": "Lunar",
+    "contact_info": "Contact Information",
+    "optional": "Optional",
+    "required": "Required",
+    "save_profile": "Save Profile",
+    "saving": "Saving...",
+    "profile_saved": "Profile saved successfully",
+    "validation_error": "Validation Error",
+    "invalid_email": "Invalid email format",
+    "invalid_phone": "Invalid phone number format",
+    "name_required": "Name is required",
+    "email_required": "Email is required",
+    "date_required": "Date is required",
+    "time_required": "Time is required",
+    "address_required": "Address is required"
+  },
+
+  "forms": {
+    "validation": {
+      "required": "이 필드는 필수입니다",
+
+      "email": "유효한 이메일 주소를 입력하세요",
+
+      "min_length": "최소 {{count}}자 이상이어야 합니다",
+
+      "max_length": "최대 {{count}}자까지 허용됩니다",
+
+      "pattern": "잘못된 형식입니다"
+    },
+
+    "placeholders": {
+      "display_name": "닉네임을 입력하세요",
+
+      "email": "your@email.com",
+
+      "phone": "+82 10-1234-5678",
+
+      "birth_date": "생년월일 선택",
+
+      "birth_time": "출생 시간 선택",
+
+      "address": "출생지 입력",
+
+      "search_address": "주소 검색..."
+    },
+
+    "tooltips": {
+      "display_name": "다른 사용자에게 표시되는 이름입니다. 언제든지 변경할 수 있습니다.",
+
+      "birth_date_lunar": "사주 계산에 사용되는 음력 날짜",
+
+      "birth_date_gregorian": "사주 계산에 사용되는 양력 날짜",
+
+      "birth_time": "정확한 출생 시간은 더 정확한 사주 분석에 도움이 됩니다",
+
+      "birth_place": "출생지는 진태양시 계산에 사용되어 사주 분석의 정확도를 높입니다",
+
+      "email": "중요 알림 및 분석 보고서를 받는 데 사용됩니다",
+
+      "phone": "SMS 알림 및 인증을 받는 데 사용됩니다",
+
+      "calendar_type": "양력 또는 음력을 선택하세요. 사주 계산의 정확도에 영향을 미칩니다"
+    },
+
+    "calendar": {
+      "select_date": "날짜 선택",
+
+      "clear": "지우기",
+
+      "today": "오늘",
+
+      "cancel": "취소",
+
+      "confirm": "확인",
+
+      "lunar_note": "음력 모드에서는 시스템이 자동으로 양력으로 변환하여 사주를 계산합니다"
+    },
+
+    "time": {
+      "select_time": "시간 선택",
+
+      "hour": "시",
+
+      "minute": "분",
+
+      "period": "기간",
+
+      "am": "오전",
+
+      "pm": "오후",
+
+      "common_times": "일반적인 시간"
+    },
+
+    "address": {
+      "select_location": "위치 선택",
+
+      "search_placeholder": "주소 입력, 자동 완성 지원",
+
+      "no_results": "일치하는 주소를 찾을 수 없습니다. 다른 키워드를 시도해 보세요",
+
+      "supported_formats": "시/도, 시/군/구, 도로명, 건물명 등 입력 지원",
+
+      "current_location": "현재 위치",
+
+      "manual_entry": "수동 입력"
+    },
+
+    "map": {
+      "click_to_select": "지도에서 위치를 클릭하여 선택",
+
+      "drag_to_pan": "지도를 드래그하여 이동",
+
+      "zoom_in": "확대",
+
+      "zoom_out": "축소",
+
+      "reset_view": "뷰 초기화",
+
+      "locate_me": "내 위치로 이동",
+
+      "selected_location": "선택된 위치",
+
+      "latitude": "위도",
+
+      "longitude": "경도",
+
+      "accuracy": "정확도",
+
+      "address": "주소"
+    }
+  },
+
+  "settings": {
+    "title": "설정",
+
+    "general": "일반",
+
+    "appearance": "모양",
+
+    "notifications": "알림",
+
+    "privacy": "개인정보",
+
+    "advanced": "고급",
+
+    "theme": "테마",
+
+    "light_theme": "라이트 테마",
+
+    "dark_theme": "다크 테마",
+
+    "auto_theme": "시스템 기본값",
+
+    "font_size": "글꼴 크기",
+
+    "small": "작게",
+
+    "medium": "중간",
+
+    "large": "크게",
+
+    "email_notifications": "이메일 알림",
+
+    "push_notifications": "푸시 알림",
+
+    "marketing_emails": "마케팅 이메일",
+
+    "data_collection": "데이터 수집",
+
+    "analytics": "분석",
+
+    "cookies": "쿠키 설정",
+
+    "cache_management": "캐시 관리",
+
+    "clear_cache": "캐시 지우기",
+
+    "export_settings": "설정 내보내기",
+
+    "import_settings": "설정 가져오기",
+
+    "reset_settings": "설정 초기화",
+
+    "settings_saved": "설정이 저장되었습니다",
+
+    "cache_cleared": "캐시가 삭제되었습니다",
+
+    "settings_reset": "설정이 초기화되었습니다"
+  },
+
+  "errors": {
+    "page_not_found": "페이지를 찾을 수 없습니다",
+
+    "server_error": "서버 오류",
+
+    "network_error": "네트워크 오류",
+
+    "permission_denied": "권한이 거부되었습니다",
+
+    "invalid_input": "잘못된 입력",
+
+    "file_not_found": "파일을 찾을 수 없습니다",
+
+    "upload_failed": "업로드 실패",
+
+    "processing_failed": "처리 실패",
+
+    "calculation_error": "계산 오류",
+
+    "database_error": "데이터베이스 오류",
+
+    "authentication_failed": "인증 실패",
+
+    "session_expired": "세션이 만료되었습니다",
+
+    "quota_exceeded": "할당량 초과",
+
+    "feature_not_available": "기능을 사용할 수 없습니다",
+
+    "maintenance_mode": "시스템 점검 중",
+
+    "try_again_later": "나중에 다시 시도하세요",
+
+    "contact_support": "고객 지원팀에 문의하세요",
+
+    "unknown_error": "알 수 없는 오류"
+  },
+
+  "success": {
+    "operation_completed": "작업이 완료되었습니다",
+
+    "data_saved": "데이터가 저장되었습니다",
+
+    "file_uploaded": "파일이 업로드되었습니다",
+
+    "analysis_completed": "분석이 완료되었습니다",
+
+    "report_generated": "보고서가 생성되었습니다",
+
+    "settings_updated": "설정이 업데이트되었습니다",
+
+    "subscription_updated": "구독이 업데이트되었습니다",
+
+    "payment_successful": "결제가 성공적으로 완료되었습니다",
+
+    "email_sent": "이메일이 발송되었습니다",
+
+    "account_verified": "계정이 확인되었습니다",
+
+    "password_reset": "비밀번호가 재설정되었습니다",
+
+    "data_exported": "데이터가 내보내졌습니다",
+
+    "backup_created": "백업이 생성되었습니다",
+
+    "sync_completed": "동기화가 완료되었습니다"
+  },
+
+  "guestAnalysis": {
+    "title": "지능형 풍수 분석 체험",
+
+    "description": "완전한 사주 및 현공풍수 분석 과정을 경험해 보세요.",
+
+    "steps": {
+      "personal": "개인 정보",
+
+      "house": "집 방향",
+
+      "bazi": "사주 분석",
+
+      "fengshui": "현공풍수"
+    },
+
+    "personalData": {
+      "title": "개인 정보 입력",
+
+      "description": "출생 정보를 정확하게 입력해 주세요. 사주 분석의 정확도에 직접적인 영향을 미칩니다.",
+
+      "name": "이름",
+
+      "gender": "성별",
+
+      "birthDate": "생년월일",
+
+      "birthTime": "출생 시간",
+
+      "location": "출생지",
+
+      "male": "남성",
+
+      "female": "여성",
+
+      "nextStep": "다음: 집 방향",
+
+      "fillSampleData": "샘플 데이터로 채우기"
+    },
+
+    "houseData": {
+      "title": "집 방향 정보 결정",
+
+      "description": "방향 각도를 수동으로 입력하거나 디지털 나침반을 사용하여 정확하게 측정할 수 있습니다.",
+
+      "compass": "디지털 나침반 측정",
+
+      "orientation": "방향 각도",
+
+      "floor": "층",
+
+      "address": "집 주소",
+
+      "roomCount": "방 수",
+
+      "currentOrientation": "현재 방향 각도",
+
+      "previousStep": "이전 단계",
+
+      "nextStep": "다음: 분석 시작",
+
+      "fillSampleData": "샘플 데이터로 채우기",
+
+      "selectFloorPlan": "평면도 선택",
+
+      "standardFloorPlans": "표준 평면도",
+
+      "uploadFloorPlan": "사용자 지정 평면도 업로드"
+    },
+
+    "analysis": {
+      "title": "분석 시작 준비",
+
+      "description": "제공된 정보를 기반으로 전문적인 사주 및 현공풍수 분석 보고서를 생성합니다.",
+
+      "start": "분석 시작",
+
+      "analyzing": "분석 중...",
+
+      "baziTitle": "당신만의 사주 분석",
+
+      "baziDescription": "당신의 출생 정보를 기반으로 전문 알고리즘이 당신의 명리적 특징과 삶의 통찰력을 깊이 분석합니다.",
+
+      "fengshuiTitle": "현공풍수 분석",
+
+      "fengshuiDescription": "당신의 사주와 집 방향을 결합하여 전문적인 풍수 레이아웃 제안을 제공합니다."
+    }
+  },
+
+  "home": {
+    "title": "QiFlow AI - 지능형 풍수 분석 플랫폼",
+
+    "subtitle": "전통적인 풍수 지혜와 현대 AI 기술을 결합한 지능형 분석 플랫폼.",
+
+    "features": {
+      "bazi": {
+        "title": "사주 분석",
+
+        "description": "생년월일을 정확하게 계산하고 오행의 강약을 분석하여 개인화된 명리 지도를 제공합니다."
+      },
+
+      "flyingStar": {
+        "title": "현공풍수",
+
+        "description": "전문적인 구궁 비성 분석, 집 방향과 결합하여 정확한 풍수 조언을 제공합니다."
+      },
+
+      "compass": {
+        "title": "고정밀 디지털 나침반",
+
+        "description": "±2° 전문가급 정확도, 자동 자북 편각 보정, 24산 측정 지원."
+      },
+
+      "floorPlan": {
+        "title": "지능형 평면도 오버레이",
+
+        "description": "AI가 방 레이아웃을 인식하고 비성도를 자동으로 오버레이하여 시각적인 풍수 분석을 수행합니다."
+      },
+
+      "visualization3d": {
+        "title": "3D 풍수 시각화",
+
+        "description": "몰입형 경험을 위한 VR 모드를 지원하는 입체적인 풍수 분석."
+      },
+
+      "aiAssistant": {
+        "title": "AI 스마트 어시스턴트",
+
+        "description": "전문적인 풍수 상담, 개인화된 추천 및 다중 턴 대화 메모리."
+      }
+    },
+
+    "actions": {
+      "continueAsGuest": "게스트로 계속하기",
+
+      "register": "지금 등록",
+
+      "viewBaziAnalysis": "사주 분석 즉시 보기",
+
+      "testAnalysis": "전체 분석 프로세스 테스트"
+    },
+
+    "guestEntry": {
+      "creatingSession": "게스트 세션 생성 중...",
+      "continueAsGuest": "게스트로 계속하기",
+      "registerNow": "지금 회원가입",
+      "alreadyHaveAccount": "이미 계정이 있으신가요? 로그인",
+      "guestModeDescription": "게스트 모드: 최대 3회 분석, 데이터는 저장되지 않습니다",
+      "sessionCreationFailed": "게스트 세션 생성에 실패했습니다"
+    },
+
+    "highlights": {
+      "title": "핵심 기능",
+
+      "smartOverlay": {
+        "title": "스마트 평면도 오버레이",
+
+        "description": "평면도에 비성도를 지능적으로 오버레이하는 세계 최초의 기술."
+      },
+
+      "guestMode": {
+        "title": "게스트 모드",
+
+        "description": "등록 없이 핵심 기능을 경험하세요. 데이터는 24시간 후에 자동으로 삭제됩니다."
+      },
+
+      "precisionCompass": {
+        "title": "전문가급 나침반",
+
+        "description": "±2° 정확도 요구 사항, 다중 센서 융합 알고리즘 지원."
+      },
+
+      "multilingual": {
+        "title": "다국어 지원",
+
+        "description": "글로벌 풍수 분석 서비스를 위해 6개 언어 지원."
+      }
+    },
+
+    "footer": {
+      "copyright": "© 2024 QiFlow AI. All rights reserved.",
+
+      "help": "도움말 센터",
+
+      "about": "회사 소개"
+    }
+  },
+
+  "analysis": {
+    "title": "분석 시작 준비",
+
+    "description": "제공해 주신 정보를 바탕으로 전문적인 사주와 현공비성 풍수 분석 보고서를 생성합니다.",
+
+    "start": "분석 시작",
+
+    "analyzing": "분석 중...",
+
+    "baziTitle": "개인 맞춤 사주 분석",
+
+    "baziDescription": "출생 정보를 바탕으로 전문 알고리즘을 통한 심층 분석으로 운명적 특성과 인생 통찰을 제시합니다.",
+
+    "fengshuiTitle": "현공비성 풍수 분석",
+
+    "fengshuiDescription": "사주 명리와 집의 방향을 결합하여 전문적인 풍수 배치 권장사항을 제공합니다.",
+
+    "aiEnhancedBazi": "AI 강화 사주 명리 분석",
+
+    "aiEnhancedBaziDescription": "전문 알고리즘을 기반으로 사주 명리를 심층 분석하고, 전통 십신 이론과 현대 AI 기술을 결합하여 개인 맞춤형 인생 통찰과 운세 안내를 제공합니다.",
+
+    "professionalTenGods": "전문 십신 분석",
+
+    "majorEventPrediction": "중요 사건 예측",
+
+    "yearlyInteraction": "연간 상호작용 분석",
+
+    "lifeFortuneCycle": "인생 대운 주기",
+
+    "previousStep": "이전 단계",
+
+    "nextStep": "다음 단계: 분석 시작",
+
+    "steps": {
+      "personalData": "개인 정보",
+
+      "personalDataDesc": "출생 정보를 입력하세요",
+
+      "houseOrientation": "집 방향",
+
+      "houseOrientationDesc": "집 방향 정보를 확인하세요",
+
+      "baziAnalysis": "사주 분석",
+
+      "baziAnalysisDesc": "사주 명리 분석 생성",
+
+      "flyingStar": "현공비성",
+
+      "flyingStarDesc": "풍수 분석 보고서 생성"
+    }
+  },
+
+  "testGuest": {
+    "title": "게스트 분석 테스트 페이지",
+
+    "description": "게스트 분석 기능 테스트"
+  },
+
+  "guestAnalysis": {
+    "navigation": {
+      "back": "뒤로",
+
+      "title": "지능형 풍수 분석 체험"
+    },
+
+    "floorPlan": {
+      "noSelectionNote": "평면도가 선택되지 않아 구궁 방 매핑을 건너뛰고 기본 비성 분석만 표시합니다.",
+      "sectionTitle": "평면도 풍수 분석"
+    },
+
+    "steps": {
+      "discoverDestiny": "운명의 코드를 발견하세요",
+
+      "determineLayout": "집의 풍수 배치 결정",
+
+      "professionalInsights": "전문 사주 알고리즘을 바탕으로 개인 맞춤형 인생 통찰과 운세 안내를 제공합니다.",
+
+      "preciseLayout": "정확한 방향 측정을 통해 전문적인 풍수 배치 권장사항을 제공합니다."
+    },
+
+    "personalForm": {
+      "title": "개인 정보를 입력해 주세요",
+
+      "description": "정확한 출생 정보를 입력해 주세요. 이는 사주 분석의 정확도에 직접적인 영향을 미칩니다.",
+
+      "quickFill": "샘플 데이터 빠른 입력",
+
+      "name": "이름",
+
+      "namePlaceholder": "이름을 입력해 주세요",
+
+      "nameRequired": "이름 *",
+
+      "gender": "성별",
+
+      "genderRequired": "성별 *",
+
+      "genderPlaceholder": "성별을 선택해 주세요",
+
+      "male": "남성",
+
+      "female": "여성",
+
+      "birthDate": "출생일",
+
+      "birthDateRequired": "출생일 *",
+
+      "birthTime": "출생 시간",
+
+      "birthPlace": "출생지",
+
+      "birthPlaceRequired": "출생지 *",
+
+      "birthPlacePlaceholder": "출생 도시를 입력해 주세요",
+
+      "nextHouseOrientation": "다음: 집 방향"
+    },
+
+    "houseForm": {
+      "title": "집 방향 정보를 확인하세요",
+
+      "description": "수동으로 방향 각도를 입력하거나 디지털 나침반을 사용하여 정확하게 측정할 수 있습니다.",
+
+      "quickFill": "샘플 데이터 빠른 입력",
+
+      "selectFloorPlan": "평면도 선택",
+
+      "digitalCompass": "디지털 나침반 측정",
+
+      "currentOrientation": "현재 방향 각도:",
+
+      "orientationAngle": "방향 각도",
+
+      "orientationRequired": "방향 각도 *",
+
+      "orientationPlaceholder": "0-360도",
+
+      "floor": "층",
+
+      "floorPlaceholder": "층수",
+
+      "address": "집 주소",
+
+      "addressPlaceholder": "집 주소를 입력해 주세요",
+
+      "roomCount": "방 개수",
+
+      "roomCountPlaceholder": "방 개수"
+    },
+
+    "analysisReady": {
+      "title": "분석 시작 준비",
+
+      "description": "제공해 주신 정보를 바탕으로 전문적인 사주 명리와 현공비성 풍수 분석 보고서를 생성합니다.",
+
+      "startAnalysis": "분석 시작"
+    },
+
+    "analyzing": "분석 중...",
+    "analysis": {
+      "title": "분석 시작 준비",
+      "description": "제공해 주신 정보를 바탕으로 전문적인 사주 명리와 현공비성 풍수 분석 보고서를 생성합니다.",
+      "start": "분석 시작"
+    },
+
+    "sampleData": {
+      "name": "김철수",
+
+      "location": "서울",
+
+      "address": "서울시 강남구 테헤란로",
+
+      "floorPlanName": "표준 3룸 2거실",
+
+      "floorPlanDescription": "남향, 방 3개 거실 2개 화장실 2개, 면적 약 120㎡"
+    },
+
+    "disclaimer": "이 분석은 참고용이며 전문적인 상담을 대체할 수 없습니다. 중요한 결정을 위해서는 전문가와 상담하세요."
+  },
+
+  "i18nTest": {
+    "currentLanguageInfo": "현재 언어 정보",
+
+    "locale": "로케일",
+
+    "title": "제목",
+
+    "subtitle": "부제목",
+
+    "features": "기능",
+
+    "languageSwitchingTest": "언어 전환 테스트",
+
+    "switchingInstructions": "위의 드롭다운을 사용하여 언어를 전환해 보고 콘텐츠 변화를 확인하세요.",
+
+    "commonTranslations": "일반 번역",
+
+    "loading": "로딩중",
+
+    "success": "성공",
+
+    "cancel": "취소",
+
+    "confirm": "확인",
+
+    "search": "검색",
+
+    "save": "저장"
+  },
+
+  "floorPlan": {
+    "standardListTitle": "표준 평면도 선택",
+
+    "standard-3room": {
+      "name": "표준 3룸 2거실",
+
+      "description": "남향, 방 3개, 거실 2개, 화장실 2개, 약 120㎡"
+    },
+
+    "standard-2room": {
+      "name": "표준 2룸 1거실",
+
+      "description": "남향, 방 2개, 거실 1개, 화장실 1개, 약 80㎡"
+    },
+
+    "standard-4room": {
+      "name": "표준 4룸 2거실",
+
+      "description": "남향, 방 4개, 거실 2개, 화장실 3개, 약 150㎡"
+    },
+
+    "summary": "방 {count}개 | {area}㎡",
+
+    "upload": {
+      "title": "사용자 지정 평면도 업로드",
+
+      "button": "평면도 파일 업로드",
+
+      "clickToSelect": "평면도 파일을 선택하려면 클릭",
+
+      "supportedFormats": "JPG, PNG, PDF 형식 지원",
+
+      "customName": "사용자 지정 평면도",
+
+      "customDescription": "사용자가 업로드한 평면도"
+    },
+
+    "selected": "선택된 평면도"
+  },
+
+  "compass": {
+    "title": "디지털 나침반",
+
+    "calibration": "보정",
+
+    "start_measurement": "측정 시작",
+
+    "stop_measurement": "측정 중지",
+
+    "current_direction": "현재 방향",
+
+    "accuracy": "정확도",
+
+    "confidence": "신뢰도",
+
+    "status": "상태",
+
+    "stable": "안정",
+
+    "unstable": "불안정",
+
+    "calibration_step": "보정 단계 {step}/{total}"
+  },
+
+  "fengshui": {
+    "good_pattern": "길격",
+
+    "bad_pattern": "흉격",
+
+    "wenchang_desc": "지혜·학업 운세의 방위",
+
+    "caiwei_desc": "재운·사업 발전의 방위",
+
+    "items": {
+      "desk_and_bookcase": "책상, 책장",
+
+      "stationery": "문방사우",
+
+      "study_area": "학습/업무 구역",
+
+      "safe_and_cashier": "금고, 계산대",
+
+      "money_plant": "재운 식물",
+
+      "business_area": "업무 상담 구역"
+    },
+
+    "key_points": "핵심 포인트",
+
+    "specific_recommendations": "구체적 제안",
+
+    "pattern_explanation_text": "현공비성의 격국은 풍수 분석의 핵심입니다. 천판·산판·향판의 관계를 분석하여 길흉과 운세·건강·재운에 대한 영향을 평가합니다."
+  }
+}

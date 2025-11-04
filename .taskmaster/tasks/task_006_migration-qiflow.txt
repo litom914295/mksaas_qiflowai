@@ -1,0 +1,45 @@
+# Task ID: 6
+# Title: C5 核心业务迁移（算法/Actions/UI）
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 迁移八字/玄空算法、Server Actions、i18n 页面
+# Details:
+- 拆分 qiflow-ai/lib → src/lib/qiflow/{bazi,xuankong,compass}
+- 新建 Actions：calculate-bazi/xuankong-analysis/compass-reading
+- 新建页面：/[locale]/analysis/{bazi,xuankong}
+
+# Test Strategy:
+/zh/analysis/bazi 与 /zh/analysis/xuankong 200；触发一次计算入库
+
+# Subtasks:
+## 1. 创建算法目录骨架 [done]
+### Dependencies: None
+### Description: src/lib/qiflow/{bazi,xuankong,compass}/**
+### Details:
+
+
+## 2. 实现 Server Actions [done]
+### Dependencies: None
+### Description: calculate-bazi/xuankong-analysis/compass-reading（含最小 Zod 校验与入库）
+### Details:
+
+
+## 3. 前端 UI 三色联动与阈值常量 [done]
+### Dependencies: None
+### Description: <0.4=红色拒答，0.4~0.7=黄色提示，≥0.7=绿色；常量集中管理
+### Details:
+
+
+## 4. 低置信度降级与手动输入兜底 [done]
+### Dependencies: None
+### Description: 置信度<0.4 强制拒答+原因；提供手动输入表单
+### Details:
+
+
+## 5. 校准引导 UX [done]
+### Dependencies: None
+### Description: 0.7~0.9 提示用户进行罗盘校准与环境检查
+### Details:
+
+

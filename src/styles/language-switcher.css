@@ -1,0 +1,80 @@
+/**
+ * 语言切换动画样式
+ * 由 AI-WORKFLOW v5.0 自动生成
+ *
+ * 功能：
+ * - 平滑的淡入淡出效果
+ * - 防止布局抖动
+ * - 无障碍支持
+ */
+
+/* 语言切换时的全局动画 */
+html.locale-switching {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0.7;
+}
+
+/* 防止切换时的布局抖动 */
+html.locale-switching * {
+  pointer-events: none;
+}
+
+/* 语言切换器按钮 */
+.language-switcher-trigger {
+  transition: transform 0.2s ease;
+}
+
+.language-switcher-trigger:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.language-switcher-trigger:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+/* 语言选项列表动画 */
+.language-option-enter {
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+  html.locale-switching {
+    transition: opacity 0.2s ease-in-out;
+  }
+}
+
+/* 减少动画偏好设置 */
+@media (prefers-reduced-motion: reduce) {
+  html.locale-switching {
+    transition: none;
+    opacity: 0.9;
+  }
+
+  .language-switcher-trigger {
+    transition: none;
+  }
+
+  .language-option-enter {
+    animation: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .language-switcher-trigger:focus {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
+}

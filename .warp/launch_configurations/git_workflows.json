@@ -1,0 +1,92 @@
+{
+  "version": "1.0",
+  "name": "Git Workflows",
+  "description": "Common Git operations for the project",
+  "workflows": [
+    {
+      "id": "push_to_main",
+      "name": "🚀 Push to Main",
+      "description": "Commit all changes and push to main branch",
+      "icon": "git-merge",
+      "color": "#28a745",
+      "category": "Git",
+      "hotkey": "ctrl+shift+p",
+      "favorite": true,
+      "command": {
+        "type": "script",
+        "path": ".warp/workflows/push.ps1",
+        "shell": "powershell",
+        "args": ["-Message", "${input:commitMessage}"]
+      },
+      "inputs": [
+        {
+          "id": "commitMessage",
+          "type": "text",
+          "label": "Commit Message",
+          "placeholder": "Enter your commit message",
+          "default": "feat: update code",
+          "required": false
+        }
+      ],
+      "preChecks": [
+        {
+          "type": "directory",
+          "path": ".git",
+          "errorMessage": "Not a git repository"
+        }
+      ]
+    },
+    {
+      "id": "quick_commit",
+      "name": "💾 Quick Commit",
+      "description": "Quickly commit all changes without pushing",
+      "icon": "save",
+      "color": "#007bff",
+      "category": "Git",
+      "hotkey": "ctrl+shift+c",
+      "command": {
+        "type": "shell",
+        "command": "git add -A && git commit -m \"${input:commitMessage}\"",
+        "shell": "powershell"
+      },
+      "inputs": [
+        {
+          "id": "commitMessage",
+          "type": "text",
+          "label": "Commit Message",
+          "placeholder": "Quick commit message",
+          "default": "chore: quick update",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "sync_main",
+      "name": "🔄 Sync with Remote",
+      "description": "Pull latest changes from remote main branch",
+      "icon": "sync",
+      "color": "#ffc107",
+      "category": "Git",
+      "hotkey": "ctrl+shift+s",
+      "command": {
+        "type": "shell",
+        "command": "git pull origin main --rebase",
+        "shell": "powershell"
+      }
+    },
+    {
+      "id": "check_status",
+      "name": "📊 Git Status",
+      "description": "Check current repository status",
+      "icon": "info",
+      "color": "#17a2b8",
+      "category": "Git",
+      "hotkey": "ctrl+shift+g",
+      "command": {
+        "type": "shell",
+        "command": "git status",
+        "shell": "powershell"
+      }
+    }
+  ]
+}

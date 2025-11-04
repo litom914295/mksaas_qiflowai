@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "workflows": [
+    {
+      "name": "🚀 Push to Main",
+      "description": "Commit and push all changes to main branch",
+      "path": ".warp/workflows/push.ps1",
+      "category": "Git",
+      "tags": ["git", "push", "deploy"],
+      "hotkey": "ctrl+shift+p",
+      "pinned": true,
+      "parameters": [
+        {
+          "name": "message",
+          "type": "string",
+          "prompt": "Enter commit message",
+          "default": "feat: update code"
+        }
+      ]
+    },
+    {
+      "name": "💾 Quick Commit",
+      "description": "Stage and commit changes locally",
+      "command": "git add -A && git commit -m '${message}'",
+      "category": "Git",
+      "tags": ["git", "commit"],
+      "hotkey": "ctrl+shift+c",
+      "parameters": [
+        {
+          "name": "message",
+          "type": "string",
+          "prompt": "Enter commit message",
+          "default": "chore: quick update"
+        }
+      ]
+    },
+    {
+      "name": "🔄 Sync with Remote",
+      "description": "Pull latest changes from main",
+      "command": "git pull origin main --rebase",
+      "category": "Git",
+      "tags": ["git", "sync", "pull"],
+      "hotkey": "ctrl+shift+s"
+    },
+    {
+      "name": "📊 Check Status",
+      "description": "View current repository status",
+      "command": "git status",
+      "category": "Git",
+      "tags": ["git", "status"],
+      "hotkey": "ctrl+shift+g"
+    },
+    {
+      "name": "🏗️ Build Project",
+      "description": "Build the Next.js application",
+      "command": "npm run build",
+      "category": "Development",
+      "tags": ["build", "nextjs", "npm"]
+    },
+    {
+      "name": "🚀 Start Dev Server",
+      "description": "Start the development server",
+      "command": "npm run dev",
+      "category": "Development",
+      "tags": ["dev", "server", "nextjs"]
+    },
+    {
+      "name": "🧪 Run Tests",
+      "description": "Execute test suite",
+      "command": "npm test",
+      "category": "Testing",
+      "tags": ["test", "jest"]
+    }
+  ]
+}

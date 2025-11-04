@@ -1,0 +1,29 @@
+{
+  "Common": {
+    "table": {
+      "columns": "Columns",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "mode": {
+      "label": "Theme Mode",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": "Language",
+    "login": "Login",
+    "logout": "Logout",
+    "signUp": "Sign Up",
+    "logoutFailed": "Logout failed. Please try again."
+  }
+}

@@ -1,0 +1,15 @@
+# Task ID: 17
+# Title: 结果展示与报告导出适配
+# Status: pending
+# Dependencies: 4, 5, 7, 8
+# Priority: medium
+# Description: 统一结果视图（卡片/图表/解释文案）与 PDF 导出能力接入。
+# Details:
+结果与导出
+- 结果组件：八字/风水结果卡片、解释与建议；图片与图表（懒加载）。
+- 导出：PDF 导出（计费口径 pdfExport=5）；i18n 文案与水印。
+成功标准
+- 结果渲染稳定；PDF 导出一致且可追溯。
+
+# Test Strategy:
+结果快照测试、导出比对与文件校验、长文/多图兼容性。

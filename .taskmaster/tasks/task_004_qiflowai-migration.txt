@@ -1,0 +1,84 @@
+# Task ID: 4
+# Title: 八字表单迁移与适配
+# Status: pending
+# Dependencies: 1, 2, 3
+# Priority: high
+# Description: 迁移并适配八字输入、校验与提交流转，复用 i18n 与表单验证。
+# Details:
+表单与验证
+- 字段：公历/农历、出生日期、时间、时区、性别、（可选）出生地。
+- 校验：Zod schema；跨时区换算；i18n 文案；前后端一致性校验。
+- 提交：Server Action/API；防抖与重复提交防护；错误态与限流态可见。
+成功标准
+- 端到端：输入→提交→结果展示全链路稳定；错误/限流/超时态可复现且可理解。
+
+# Test Strategy:
+单元（解析与校验纯函数）；集成（表单到 API）；E2E（主要用户路径）。
+
+# Subtasks:
+## 1. 路由与页面占位（/bazi） [pending]
+### Dependencies: 4.2, 4.3
+### Description: 创建 RSC 页面与布局、面包屑与国际化占位；接入 not-found/error 边界。
+### Details:
+采用 app 路由；/bazi 入口；layout.tsx 提供 i18n 切换与 auth guard 占位。
+
+## 2. 表单字段与 Zod Schema 草案 [pending]
+### Dependencies: 4.3
+### Description: 定义八字字段与跨字段校验；前后端一致。
+### Details:
+字段：calendarType、birthDate、birthTime、timezone、gender、birthplace?；跨时区换算与边界值；错误消息 i18n。
+
+## 3. UI 组件映射（Shadcn/Radix/Tailwind） [pending]
+### Dependencies: 4.3
+### Description: 将所有字段绑定至通用表单组件；无障碍与移动端优先。
+### Details:
+DatePicker、TimePicker、Select、Input、Toggle；键盘可达与 aria。
+
+## 4. 提交与 Server Action [pending]
+### Dependencies: 4.2, 4.3
+### Description: 使用 Server Action 处理提交与返回结果引用 ID。
+### Details:
+去重与防抖；支持超时与错误语义；返回 resultId 用于结果页查询。
+
+## 5. 四态实现（Empty/Error/Limited/Timeout） [pending]
+### Dependencies: 4.3
+### Description: 表单与结果四态组件与文案对齐。
+### Details:
+限流/余额不足态提示与引导；错误诊断信息可理解。
+
+## 6. 营销事件与A/B埋点 [pending]
+### Dependencies: 4.13
+### Description: 表单开始/提交/成功/失败、结果查看等事件。
+### Details:
+接入统一事件 Hook；携带渠道与活动参数；可切流 A/B。
+
+## 7. i18n 资源与本地化 [pending]
+### Dependencies: 4.12
+### Description: 补齐文案键与错误消息多语言；日期/数值本地化。
+### Details:
+将表单与结果文案拆分模块化资源；提供缺省回退。
+
+## 8. 访问控制与付费引导 [pending]
+### Dependencies: 4.14
+### Description: 未登录/未付费限制与权益引导。
+### Details:
+根据 SKU bazi 与账户权益展示门槛 UI；跳转支付与开通页。
+
+## 9. 单元测试（校验/纯函数） [pending]
+### Dependencies: 4.15
+### Description: 覆盖 Zod 与时区换算等纯逻辑。
+### Details:
+边界与异常分支；快照用例固定错误文案。
+
+## 10. 集成测试（表单→Server Action） [pending]
+### Dependencies: 4.15
+### Description: 覆盖提交链路与错误/超时/限流分支。
+### Details:
+mock 接口/AI；断言缓存与重试行为。
+
+## 11. E2E（主要路径与四态） [pending]
+### Dependencies: 4.15
+### Description: 端到端验证登录→填写→提交→结果路径。
+### Details:
+Playwright/Cypress 任一；稳定可复现。
+

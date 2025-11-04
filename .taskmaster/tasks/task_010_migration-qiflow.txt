@@ -1,0 +1,33 @@
+# Task ID: 10
+# Title: C9 测试与冒烟
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 单测最小集与 E2E 冒烟、性能 Trace 与优化建议
+# Details:
+- pnpm test:unit（bazi/xuankong/pricing）
+- E2E 冒烟：home→analysis→report→billing
+- 10s 性能 trace + 3~5 条建议
+
+# Test Strategy:
+单测通过 & 冒烟无 5xx；生成 artifacts/C9/{trace, screenshots, suggestions}.md
+
+# Subtasks:
+## 1. 单元测试最小集 [done]
+### Dependencies: None
+### Description: bazi/xuankong/pricing 最小单测
+### Details:
+
+
+## 2. E2E 冒烟脚本/手测 + 截图 [done]
+### Dependencies: None
+### Description: home→analysis→report→billing，保存 screenshots
+### Details:
+
+
+## 3. 10s 性能 Trace 与 3~5 条建议 [done]
+### Dependencies: None
+### Description: 收集 10s trace 并给出优化建议清单
+### Details:
+
+

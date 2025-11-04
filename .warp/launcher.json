@@ -1,0 +1,188 @@
+{
+  "version": "1.0",
+  "name": "Project Quick Launcher",
+  "description": "Quick access to project workflows",
+  "launcher": {
+    "position": "floating",
+    "trigger": "ctrl+space",
+    "show_on_startup": false,
+    "categories": [
+      {
+        "name": "Git Operations",
+        "icon": "git",
+        "color": "#f05032",
+        "items": [
+          {
+            "id": "push_to_main",
+            "name": "🚀 Push to Main Branch",
+            "description": "Add, commit and push all changes",
+            "command": "powershell -ExecutionPolicy Bypass -File .warp\\workflows\\push.ps1",
+            "hotkey": "ctrl+shift+p",
+            "favorite": true,
+            "tags": ["git", "push", "deploy"]
+          },
+          {
+            "id": "quick_commit",
+            "name": "💾 Quick Commit",
+            "description": "Stage and commit changes",
+            "command": "git add -A && git commit -m \"${input:message}\"",
+            "hotkey": "ctrl+shift+c",
+            "favorite": true,
+            "inputs": [
+              {
+                "id": "message",
+                "label": "Commit message",
+                "type": "text",
+                "default": "chore: quick update"
+              }
+            ]
+          },
+          {
+            "id": "sync_remote",
+            "name": "🔄 Sync with Remote",
+            "description": "Pull and rebase from main",
+            "command": "git pull origin main --rebase",
+            "hotkey": "ctrl+shift+s",
+            "tags": ["git", "sync", "pull"]
+          },
+          {
+            "id": "git_status",
+            "name": "📊 Git Status",
+            "description": "Show repository status",
+            "command": "git status",
+            "hotkey": "ctrl+shift+g",
+            "tags": ["git", "status", "info"]
+          },
+          {
+            "id": "undo_commit",
+            "name": "↩️ Undo Last Commit",
+            "description": "Undo last commit keeping changes",
+            "command": "git reset HEAD~",
+            "confirm": true,
+            "confirmMessage": "Undo the last commit?",
+            "tags": ["git", "undo", "reset"]
+          },
+          {
+            "id": "squash_commits",
+            "name": "📦 Squash Commits",
+            "description": "Combine multiple commits",
+            "command": "git reset --soft HEAD~${input:count} && git commit -m \"${input:message}\"",
+            "inputs": [
+              {
+                "id": "count",
+                "label": "Number of commits",
+                "type": "number",
+                "default": "2",
+                "min": 2,
+                "max": 10
+              },
+              {
+                "id": "message",
+                "label": "New commit message",
+                "type": "text",
+                "default": "feat: combined changes"
+              }
+            ],
+            "tags": ["git", "squash", "rebase"]
+          },
+          {
+            "id": "amend_commit",
+            "name": "✏️ Amend Last Commit",
+            "description": "Add changes to last commit",
+            "command": "git add -A && git commit --amend --no-edit",
+            "tags": ["git", "amend", "fix"]
+          },
+          {
+            "id": "git_log",
+            "name": "📝 Git Log",
+            "description": "Show commit history",
+            "command": "git log --oneline --graph --decorate -10",
+            "tags": ["git", "log", "history"]
+          }
+        ]
+      },
+      {
+        "name": "Development",
+        "icon": "code",
+        "color": "#007acc",
+        "items": [
+          {
+            "id": "dev_server",
+            "name": "🚀 Start Dev Server",
+            "description": "Run development server",
+            "command": "npm run dev",
+            "hotkey": "ctrl+shift+d",
+            "favorite": true,
+            "tags": ["dev", "server", "start"]
+          },
+          {
+            "id": "build_project",
+            "name": "🏗️ Build Project",
+            "description": "Build for production",
+            "command": "npm run build",
+            "tags": ["build", "production"]
+          },
+          {
+            "id": "run_tests",
+            "name": "🧪 Run Tests",
+            "description": "Execute test suite",
+            "command": "npm test",
+            "tags": ["test", "jest", "testing"]
+          },
+          {
+            "id": "lint_code",
+            "name": "🔍 Lint Code",
+            "description": "Check code quality",
+            "command": "npm run lint",
+            "tags": ["lint", "eslint", "quality"]
+          },
+          {
+            "id": "format_code",
+            "name": "✨ Format Code",
+            "description": "Auto-format with Prettier",
+            "command": "npm run format",
+            "tags": ["format", "prettier", "style"]
+          }
+        ]
+      },
+      {
+        "name": "Database",
+        "icon": "database",
+        "color": "#336791",
+        "items": [
+          {
+            "id": "db_migrate",
+            "name": "🔄 Run Migrations",
+            "description": "Apply database migrations",
+            "command": "npm run db:migrate",
+            "tags": ["database", "migrate", "prisma"]
+          },
+          {
+            "id": "db_push",
+            "name": "⬆️ Push Schema",
+            "description": "Push schema changes",
+            "command": "npm run db:push",
+            "tags": ["database", "schema", "prisma"]
+          },
+          {
+            "id": "db_studio",
+            "name": "🎨 Open Studio",
+            "description": "Open Prisma Studio",
+            "command": "npx prisma studio",
+            "tags": ["database", "studio", "prisma"]
+          }
+        ]
+      }
+    ],
+    "recent_commands": {
+      "enabled": true,
+      "max_items": 10,
+      "show_frequency": true
+    },
+    "search": {
+      "enabled": true,
+      "fuzzy": true,
+      "show_tags": true
+    }
+  }
+}

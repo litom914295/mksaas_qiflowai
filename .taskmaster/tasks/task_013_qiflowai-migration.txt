@@ -1,0 +1,15 @@
+# Task ID: 13
+# Title: 营销/埋点/活动追踪对接
+# Status: pending
+# Dependencies: 6
+# Priority: medium
+# Description: 接入统一事件规范，覆盖关键路径事件与转化追踪，支持 A/B。
+# Details:
+埋点
+- 事件 schema：表单开始/提交/成功/失败、结果查看、分享/导出、购买/续费。
+- 数据：与活动/渠道参数打通。
+成功标准
+- 主漏斗数据完整可用；与后台看板数据一致。
+
+# Test Strategy:
+事件回放、抽样比对报表、关键链路监控。

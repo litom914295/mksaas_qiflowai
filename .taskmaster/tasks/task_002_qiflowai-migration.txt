@@ -1,0 +1,16 @@
+﻿# Task ID: 2
+# Title: 目录与路由结构对齐
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: 将 qiflow-ai 模块路由与目录调整为符合 qiflowai 的 Next.js App Router 规范。
+# Details:
+结构与路由
+- 规划最终路由：/bazi（八字）、/fengshui（玄空风水）、/results（结果）、/billing（计费/套餐）等。
+- 组件归档：components/bazi/*、components/fengshui/*、app/(routes)/*、src/server/*。
+- 约束：RSC 优先；客户端仅保留交互叶子；错误与 404 边界使用 error.tsx/not-found。
+成功标准
+- 路由树、目录方案评审通过；本地开发可正常访问占位页。
+
+# Test Strategy:
+路由可达性检查；not-found/error 边界页行为校验。

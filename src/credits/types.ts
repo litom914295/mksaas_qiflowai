@@ -1,0 +1,41 @@
+/**
+ * Credit transaction type enum
+ */
+export enum CREDIT_TRANSACTION_TYPE {
+  MONTHLY_REFRESH = 'MONTHLY_REFRESH',        // Credits earned by monthly refresh (free users)
+  REGISTER_GIFT = 'REGISTER_GIFT',            // Credits earned by register gift
+  PURCHASE_PACKAGE = 'PURCHASE_PACKAGE',      // Credits earned by purchase package
+  SUBSCRIPTION_RENEWAL = 'SUBSCRIPTION_RENEWAL', // Credits earned by subscription renewal
+  LIFETIME_MONTHLY = 'LIFETIME_MONTHLY',      // Credits earned by lifetime plan monthly distribution
+  DAILY_SIGNIN = 'DAILY_SIGNIN',              // Credits earned by daily sign-in
+  REFERRAL_REWARD = 'REFERRAL_REWARD',        // Credits earned by referral activation reward
+  SHARE_REWARD = 'SHARE_REWARD',              // Credits earned by share conversion
+  TASK_REWARD = 'TASK_REWARD',                // Credits earned by completing tasks (newbie missions, etc.)
+  MANUAL_ADJUSTMENT = 'MANUAL_ADJUSTMENT',    // Credits manually adjusted by admin
+  USAGE = 'USAGE',                            // Credits spent by usage
+  EXPIRE = 'EXPIRE',                          // Credits expired
+}
+
+/**
+ * Credit package price
+ */
+export interface CreditPackagePrice {
+  priceId: string;                   // Stripe price ID (not product id)
+  amount: number;                    // Price amount in currency units (dollars, euros, etc.)
+  currency: string;                  // Currency code (e.g., USD)
+  allowPromotionCode?: boolean;      // Whether to allow promotion code for this price
+}
+
+/**
+ * Credit package
+ */
+export interface CreditPackage {
+  id: string;                          // Unique identifier for the package
+  amount: number;                      // Amount of credits in the package
+  price: CreditPackagePrice;           // Price of the package
+  popular: boolean;                    // Whether the package is popular
+  name?: string;                       // Display name of the package
+  description?: string;                // Description of the package
+  expireDays?: number;                 // Number of days to expire the credits, undefined means no expire
+  disabled?: boolean;                  // Whether the package is disabled in the UI
+}

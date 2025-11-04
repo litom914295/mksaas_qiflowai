@@ -1,0 +1,13 @@
+# Task ID: 2
+# Title: C1 结构盘点与映射
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: 生成源/目标清单与 mapping.md
+# Details:
+- 列出 qiflow-ai 源文件清单
+- 列出 src 目标目录结构
+- 生成静态映射表 mapping.md
+
+# Test Strategy:
+确认 artifacts/C1/{source_files.txt,target_dirs.txt,mapping.md} 均存在且非空
