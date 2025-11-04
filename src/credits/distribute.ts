@@ -3,7 +3,7 @@ import { getDb } from '@/db';
 import { creditTransaction, payment, user, userCredit } from '@/db/schema';
 import { findPlanByPriceId, getAllPricePlans } from '@/lib/price-plan';
 import { PlanIntervals } from '@/payment/types';
-import { addDays } from 'date-fns';
+import { add } from 'date-fns';
 import { and, eq, gt, inArray, isNull, lt, not, or, sql } from 'drizzle-orm';
 import { canAddCreditsByType } from './credits';
 import { CREDIT_TRANSACTION_TYPE } from './types';
@@ -247,7 +247,7 @@ export async function batchAddMonthlyFreeCredits(userIds: string[]) {
     }
 
     processedCount = eligibleUserIds.length;
-    const expirationDate = expireDays ? addDays(now, expireDays) : undefined;
+    const expirationDate = expireDays ? add(now, { days: expireDays }) : undefined;
 
     // Batch insert credit transactions
     const transactions = eligibleUserIds.map((userId) => ({
@@ -388,7 +388,7 @@ export async function batchAddLifetimeMonthlyCredits(
       }
 
       processedCount = eligibleUserIds.length;
-      const expirationDate = expireDays ? addDays(now, expireDays) : undefined;
+      const expirationDate = expireDays ? add(now, { days: expireDays }) : undefined;
 
       // Batch insert credit transactions
       const transactions = eligibleUserIds.map((userId: string) => ({
@@ -529,7 +529,7 @@ export async function batchAddYearlyUsersMonthlyCredits(
       }
 
       processedCount = eligibleUserIds.length;
-      const expirationDate = expireDays ? addDays(now, expireDays) : undefined;
+      const expirationDate = expireDays ? add(now, { days: expireDays }) : undefined;
 
       // Batch insert credit transactions
       const transactions = eligibleUserIds.map((userId) => ({

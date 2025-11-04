@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { useCreditPackages } from '@/config/credits-config';
 import { websiteConfig } from '@/config/website';
+import { useCreditPrices } from '@/hooks/use-credit-prices';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { useCurrentPlan } from '@/hooks/use-payment';
 import { authClient } from '@/lib/auth-client';
@@ -56,6 +57,9 @@ export function EnhancedCreditPackages({
     (pkg) => pkg.price?.priceId
   );
 
+  // Fetch dynamic prices from Stripe
+  const { prices: stripePrices } = useCreditPrices();
+
   // Check if user is on free plan and enablePackagesForFreePlan is false
   const isFreePlan = currentPlan?.isFree === true;
 
@@ -89,8 +93,10 @@ export function EnhancedCreditPackages({
 
   // Calculate value scores for packages
   const packagesWithValue = sortedPackages.map((pkg) => {
-    const valuePerDollar = pkg.amount / pkg.price.amount;
-    return { ...pkg, valuePerDollar };
+    // 使用 Stripe 实时价格或配置价格
+    const actualAmount = stripePrices?.[pkg.id]?.amount ?? pkg.price.amount;
+    const valuePerDollar = pkg.amount / actualAmount;
+    return { ...pkg, valuePerDollar, actualAmount };
   });
 
   const bestValuePackage =
@@ -202,14 +208,14 @@ export function EnhancedCreditPackages({
                   <div className="text-center space-y-1">
                     <div className="text-2xl font-bold text-primary">
                       {formatPrice(
-                        creditPackage.price.amount,
-                        creditPackage.price.currency
+                        stripePrices?.[creditPackage.id]?.amount ?? creditPackage.price.amount,
+                        stripePrices?.[creditPackage.id]?.currency ?? creditPackage.price.currency
                       )}
                     </div>
                     <div className="text-sm text-muted-foreground">
                       ≈{' '}
                       {(
-                        ((creditPackage.price.amount / 100) / creditPackage.amount) *
+                        (((stripePrices?.[creditPackage.id]?.amount ?? creditPackage.price.amount) / 100) / creditPackage.amount) *
                         1000
                       ).toFixed(2)}
                       美元/千积分
@@ -270,8 +276,8 @@ export function EnhancedCreditPackages({
                     }
                     packageAmount={creditPackage.amount}
                     packagePrice={formatPrice(
-                      creditPackage.price.amount,
-                      creditPackage.price.currency
+                      stripePrices?.[creditPackage.id]?.amount ?? creditPackage.price.amount,
+                      stripePrices?.[creditPackage.id]?.currency ?? creditPackage.price.currency
                     )}
                     className="w-full mt-4"
                     variant={isPopular || isBestValue ? 'default' : 'outline'}

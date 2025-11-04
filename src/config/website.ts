@@ -143,7 +143,7 @@ export const websiteConfig = {
         expireDays: 30,
         price: {
           priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_CREDITS_PREMIUM!,
-          amount: 3490, // 从 $39.90 调整为 $34.90，确保单价单调递减
+          amount: 3490, // $34.90
           currency: 'USD',
           allowPromotionCode: true,
         },

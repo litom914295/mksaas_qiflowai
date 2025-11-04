@@ -3,7 +3,7 @@ import { websiteConfig } from '@/config/website';
 import { getDb } from '@/db';
 import { creditTransaction, userCredit } from '@/db/schema';
 import { findPlanByPlanId, findPlanByPriceId } from '@/lib/price-plan';
-import { addDays, isAfter } from 'date-fns';
+import { add, isAfter } from 'date-fns';
 import { and, asc, eq, gt, isNull, not, or, sql } from 'drizzle-orm';
 import { CREDIT_TRANSACTION_TYPE } from './types';
 
@@ -171,7 +171,7 @@ export async function addCredits({
     amount,
     description,
     paymentId,
-    expirationDate: expireDays && expireDays > 0 ? addDays(new Date(), expireDays) : undefined,
+    expirationDate: expireDays && expireDays > 0 ? add(new Date(), { days: expireDays }) : undefined,
   });
 }
 

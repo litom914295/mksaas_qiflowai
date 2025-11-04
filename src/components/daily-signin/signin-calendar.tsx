@@ -21,7 +21,7 @@ import {
   isToday,
   startOfMonth,
 } from 'date-fns';
-import { zhCN } from 'date-fns/locale';
+import { zhCN } from 'date-fns/locale/zh-CN';
 import { motion } from 'framer-motion';
 import { Calendar, Check, Gift, Sparkles, Trophy, Zap } from 'lucide-react';
 import { useState } from 'react';
