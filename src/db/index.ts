@@ -8,8 +8,16 @@ import * as schema from './schema';
 // DNS resolution is handled by postgres-js library internally
 // No need for manual DNS lookup
 
-let db: ReturnType<typeof drizzle> | null = null;
-let connectionClient: ReturnType<typeof postgres> | null = null;
+// 使用全局变量缓存连接，避免 Next.js 热重载时丢失
+const globalForDb = globalThis as unknown as {
+  db: ReturnType<typeof drizzle> | null;
+  connectionClient: ReturnType<typeof postgres> | null;
+  connectionPromise: Promise<ReturnType<typeof drizzle>> | null;
+};
+
+globalForDb.db = globalForDb.db || null;
+globalForDb.connectionClient = globalForDb.connectionClient || null;
+globalForDb.connectionPromise = globalForDb.connectionPromise || null;
 
 async function createClient(conn: string) {
   // postgres-js handles DNS resolution and connection automatically
@@ -40,67 +48,82 @@ export async function getDb() {
     throw new Error('Database connection disabled - using REST API fallback');
   }
 
-  if (db) return db;
-
-  const SESSION = process.env.SESSION_DATABASE_URL;
-  const DIRECT = process.env.DIRECT_DATABASE_URL;
-  const FALLBACK = process.env.DATABASE_URL;
-
-  const candidates = [DIRECT, SESSION, FALLBACK].filter(
-    (v, i, a) => !!v && a.indexOf(v) === i
-  ) as string[];
-
-  if (candidates.length === 0) {
-    throw new Error('No database connection string provided');
+  // 优先返回已缓存的连接
+  if (globalForDb.db) {
+    return globalForDb.db;
   }
 
-  console.log('Connecting to database...');
+  // 如果正在连接中，等待连接完成（避免并发连接）
+  if (globalForDb.connectionPromise) {
+    return globalForDb.connectionPromise;
+  }
 
-  const tryConnect = async (conn: string) => {
-    const client = await createClient(conn);
-    try {
-      await client`SELECT 1`;
-      return client;
-    } catch (error) {
+  // 创建连接 Promise
+  globalForDb.connectionPromise = (async () => {
+    const SESSION = process.env.SESSION_DATABASE_URL;
+    const DIRECT = process.env.DIRECT_DATABASE_URL;
+    const FALLBACK = process.env.DATABASE_URL;
+
+    const candidates = [DIRECT, SESSION, FALLBACK].filter(
+      (v, i, a) => !!v && a.indexOf(v) === i
+    ) as string[];
+
+    if (candidates.length === 0) {
+      throw new Error('No database connection string provided');
+    }
+
+    console.log('[DB] Initializing database connection...');
+
+    const tryConnect = async (conn: string) => {
+      const client = await createClient(conn);
       try {
-        await client.end();
-      } catch {}
-      throw error;
-    }
-  };
+        await client`SELECT 1`;
+        return client;
+      } catch (error) {
+        try {
+          await client.end();
+        } catch {}
+        throw error;
+      }
+    };
 
-  let lastError: any = null;
-  for (const conn of candidates) {
-    try {
-      console.log(
-        'Using database connection:',
-        conn.includes('pooler') ? 'Session Pooler' : 'Direct Connection'
-      );
-      connectionClient = await tryConnect(conn);
-      console.log('✅ Database connection established');
-      db = drizzle(connectionClient, { schema });
-      return db;
-    } catch (error: any) {
-      lastError = error;
-      console.warn('⚠️  Connection failed, will try next candidate:', {
-        message: error?.message,
-        code: error?.code,
-        host: error?.hostname,
-      });
-      continue;
+    let lastError: any = null;
+    for (const conn of candidates) {
+      try {
+        console.log(
+          '[DB] Using database connection:',
+          conn.includes('pooler') ? 'Session Pooler' : 'Direct Connection'
+        );
+        globalForDb.connectionClient = await tryConnect(conn);
+        console.log('✅ [DB] Database connection established (cached)');
+        globalForDb.db = drizzle(globalForDb.connectionClient, { schema });
+        return globalForDb.db;
+      } catch (error: any) {
+        lastError = error;
+        console.warn('⚠️  [DB] Connection failed, will try next candidate:', {
+          message: error?.message,
+          code: error?.code,
+          host: error?.hostname,
+        });
+        continue;
+      }
     }
-  }
 
-  console.error('❌ All database connection attempts failed');
-  throw lastError || new Error('Database connection failed');
+    console.error('❌ [DB] All database connection attempts failed');
+    globalForDb.connectionPromise = null; // 清除失败的 Promise
+    throw lastError || new Error('Database connection failed');
+  })();
+
+  return globalForDb.connectionPromise;
 }
 
-export { db };
+export { globalForDb as db };
 
 export async function closeDb() {
-  if (connectionClient) {
-    await connectionClient.end();
-    connectionClient = null;
-    db = null;
+  if (globalForDb.connectionClient) {
+    await globalForDb.connectionClient.end();
+    globalForDb.connectionClient = null;
+    globalForDb.db = null;
+    globalForDb.connectionPromise = null;
   }
 }

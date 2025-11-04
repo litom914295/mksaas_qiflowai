@@ -10,10 +10,13 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useAnalysisContextOptional } from '@/contexts/analysis-context';
+import type { Message } from '@/types/ai';
+import { streamChat } from '@/utils/chat-stream';
 import {
   Copy,
   ExternalLink,
   Info,
+  Loader2,
   MessageCircle,
   Send,
   Share2,
@@ -23,12 +26,6 @@ import {
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: number;
-}
 
 interface AIChatWithContextProps {
   /** 智能推荐的问题 */
@@ -71,6 +68,7 @@ export function AIChatWithContext({
     Record<string, boolean>
   >({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // 新增: 标记是否已激活（用于避免重复激活）
   const hasActivated = useRef(false);
@@ -91,16 +89,34 @@ export function AIChatWithContext({
       if (!personal) {
         return '您好！我是AI风水大师，有什么可以帮您的吗？';
       }
-      // 获取姓名和性别
+      // 根据年龄调整称呼方式
       const name = personal.name || '';
-      const gender = personal.gender === 'male' ? '先生' : '女士';
-      const title = name ? `${name}${gender}` : `这位${gender}`;
+      const birthYear = personal.birthYear || (personal.birthDate ? new Date(personal.birthDate).getFullYear() : null);
+      const currentYear = new Date().getFullYear();
+      const age = birthYear ? currentYear - birthYear : null;
+      
+      let title = '';
+      if (age !== null && age < 3) {
+        // 婴幼儿 - 直接称呼姓名（家长视角）
+        title = name ? `${name}宝宝的家长` : '这位家长';
+      } else if (age !== null && age < 12) {
+        // 儿童 - 称呼家长
+        const gender = personal.gender === 'male' ? '先生' : '女士';
+        title = name ? `${name}的家长` : `这位${gender}`;
+      } else if (age !== null && age < 18) {
+        // 青少年 - 直接称呼姓名
+        title = name || '这位同学';
+      } else {
+        // 成年人 - 使用正式称呼
+        const gender = personal.gender === 'male' ? '先生' : '女士';
+        title = name ? `${name}${gender}` : `这位${gender}`;
+      }
 
       console.log(
         '🔍 [Welcome] name:',
         name,
-        'gender:',
-        gender,
+        'age:',
+        age,
         'title:',
         title
       );
@@ -195,11 +211,22 @@ export function AIChatWithContext({
             : 1973);
         const age = currentYear - birthYear;
 
-        // 基于日主特征的核心洞察
-        if (result.pillars?.day?.stem) {
-          const dayMaster = result.pillars.day.stem;
-          const insightMap: Record<string, string> = {
-            甲: '您天生具备领导气质，但需防止过于强势',
+        // 根据年龄调整欢迎语
+        if (age < 3) {
+          // 婴幼儿（父母查看）
+          coreInsight = `您的宝宝还在褥褴中，这份分析可以帮助您了解孩子的天赋特质，从小培养`;
+        } else if (age < 12) {
+          // 儿童
+          coreInsight = `孩子正处于成长关键期，这份分析可以帮助发掘天赋、引导教育方向`;
+        } else if (age < 18) {
+          // 青少年
+          coreInsight = `青少年时期是性格塑造的关键阶段，这份分析可以帮助了解自己、规划未来`;
+        } else {
+          // 成年人（保留原有逻辑）
+          if (result.pillars?.day?.stem) {
+            const dayMaster = result.pillars.day.stem;
+            const insightMap: Record<string, string> = {
+              甲: '您天生具备领导气质，但需防止过于强势',
             乙: '您性情温和包容，但要注意增强决断力',
             丙: '您热情阳光，但需控制情绪波动',
             丁: '您心思细腻敏感，善于洞察人心',
@@ -211,26 +238,81 @@ export function AIChatWithContext({
             癸: '您如甘露般滋润他人，直觉力极强但需增强自信',
           };
           coreInsight = insightMap[dayMaster] || '';
+          }
         }
 
-        // 检查是否有风水信息
-        const hasHouseInfo = !!analysisContext.userInput.house?.direction;
+        // 检查是否有风水分析结果（不仅仅是输入）
+        const hasFengshuiAnalysis = !!(result.fengshui || result.xuankong || result.rooms);
+        const hasHouseInput = !!analysisContext.userInput.house?.direction;
         let fengshuiHint = '';
 
-        if (!hasHouseInfo) {
-          fengshuiHint =
-            '\n\n🏠 风水提示：我看到您已完成八字分析，如果您想了解：';
-          fengshuiHint += '\n• 您的财位在哪个方位？';
-          fengshuiHint += '\n• 家居如何与八字配合提升运势？';
-          fengshuiHint += '\n• 卧室、书房应该布置在哪里？';
-          fengshuiHint +=
-            '\n\n可以补充填写房屋朝向、房间数量，获得八字+风水的全面分析。';
-        } else {
+        if (hasFengshuiAnalysis) {
+          // 已有风水分析结果
           fengshuiHint =
             '\n\n✨ 完美！您的八字和风水信息已经齐全，我可以为您提供最全面的个性化建议。';
+        } else if (!hasHouseInput) {
+          // 没有输入风水信息 - 根据年龄调整提示
+          if (age < 12) {
+            // 婴儿和儿童 - 父母视角
+            fengshuiHint =
+              '\n\n🏠 风水提示：我看到您已完成八字分析，如果您想了解：';
+            fengshuiHint += '\n• 孩子的房间应该布置在哪个方位？';
+            fengshuiHint += '\n• 如何布置家居环境帮助孩子成长？';
+            fengshuiHint += '\n• 哪个方位最适合孩子学习和玩耕？';
+            fengshuiHint +=
+              '\n\n可以补充填写房屋朝向、房间数量，获得八字+风水的全面分析。';
+          } else if (age < 18) {
+            // 青少年
+            fengshuiHint =
+              '\n\n🏠 风水提示：我看到您已完成八字分析，如果您想了解：';
+            fengshuiHint += '\n• 您的学业方位在哪里？';
+            fengshuiHint += '\n• 卧室应该布置在哪个方位？';
+            fengshuiHint += '\n• 如何通过风水提升学业运？';
+            fengshuiHint +=
+              '\n\n可以补充填写房屋朝向、房间数量，获得八字+风水的全面分析。';
+          } else {
+            // 成年人
+            fengshuiHint =
+              '\n\n🏠 风水提示：我看到您已完成八字分析，如果您想了解：';
+            fengshuiHint += '\n• 您的财位在哪个方位？';
+            fengshuiHint += '\n• 家居如何与八字配合提升运势？';
+            fengshuiHint += '\n• 卧室、书房应该布置在哪里？';
+            fengshuiHint +=
+              '\n\n可以补充填写房屋朝向、房间数量，获得八字+风水的全面分析。';
+          }
+        } else {
+          // 有输入但没有分析结果（可能还在生成中）
+          fengshuiHint =
+            '\n\n💫 正在为您生成风水分析，请稍等片刻...';
         }
 
-        const finalWelcome = `您好${title}！\n\n🔮 ${personalizedGreeting}${coreInsight}\n\n✨ 结合您的八字与${currentYear}年九运能量，我发现了几个关键运势转折点。${fengshuiHint}`;
+        // 根据年龄生成不同风格的欢迎语
+        let finalWelcome = '';
+        if (age < 18) {
+          // 未成年人 - 简化表述，更贴近父母视角
+          const ageGroup = age < 3 ? '宝宝' : age < 12 ? '孩子' : '您';
+          finalWelcome = `您好${title}！\n\n🔮 ${ageGroup}的日主是${result.pillars?.day?.heavenlyStem || result.pillars?.day?.stem || '未知'}，`;
+          
+          // 简化五行描述
+          if (result.yongshen) {
+            const yongshenMap: Record<string, string> = {
+              WOOD: '木',
+              FIRE: '火',
+              EARTH: '土',
+              METAL: '金',
+              WATER: '水',
+            };
+            const yongshenName = yongshenMap[result.yongshen] || result.yongshen;
+            finalWelcome += `适合多接触${yongshenName}属性的事物（如${yongshenName === '木' ? '绿色植物、木制玩具' : yongshenName === '火' ? '红色衣物、阳光活动' : yongshenName === '土' ? '黄色装饰、陶土手工' : yongshenName === '金' ? '白色物品、金属玩具' : '蓝色物品、水景装饰'}）。\n\n`;
+          } else {
+            finalWelcome += '\n\n';
+          }
+          
+          finalWelcome += `💡 ${coreInsight}${fengshuiHint}`;
+        } else {
+          // 成年人 - 保留完整专业表述
+          finalWelcome = `您好${title}！\n\n🔮 ${personalizedGreeting}${coreInsight}\n\n✨ 结合您的八字与${currentYear}年九运能量，我发现了几个关键运势转折点。${fengshuiHint}`;
+        }
         console.log('👋 [Welcome] 最终欢迎语:', finalWelcome);
         return finalWelcome;
       }
@@ -310,6 +392,24 @@ export function AIChatWithContext({
     }
   }, [analysisContext?.userInput, analysisContext?.analysisResult]);
 
+  // 组件卸载或关闭时，取消正在进行的请求
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+        console.log('🚨 [Cleanup] 取消正在进行的请求');
+      }
+    };
+  }, []);
+
+  // 关闭悬浮球时，取消正在进行的请求
+  useEffect(() => {
+    if (!isOpen && abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      console.log('🚨 [Close] 关闭悬浮球，取消请求');
+    }
+  }, [isOpen]);
+
   // 新增: 当用户首次打开对话窗口时，激活 AI-Chat 并收集数据
   useEffect(() => {
     if (isOpen && !hasActivated.current && analysisContext) {
@@ -342,14 +442,42 @@ export function AIChatWithContext({
     }
   }, [isOpen, analysisContext]);
 
-  // 自动滚动到底部
+  // 智能滚动：只在用户发送消息后自动滚动一次
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // 检测用户是否手动滚动过
+  const [userHasScrolled, setUserHasScrolled] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // 监听用户滚动事件
+  const handleScroll = () => {
+    if (!chatContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+    const isAtBottom = scrollHeight - scrollTop - clientHeight < 50; // 50px 容差
+    
+    // 如果用户往上滚动了（不在底部），标记为手动滚动
+    if (!isAtBottom && !userHasScrolled) {
+      setUserHasScrolled(true);
+    }
+    // 如果用户滚动回底部，重置标记
+    if (isAtBottom && userHasScrolled) {
+      setUserHasScrolled(false);
+    }
+  };
+
+  // 只在特定情况下自动滚动
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    // 1. 用户手动滚动过，不再自动滚动
+    if (userHasScrolled) return;
+    
+    // 2. 只在最后一条消息是用户消息时自动滚动（用户刚发送消息）
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.role === 'user') {
+      scrollToBottom();
+    }
+  }, [messages, userHasScrolled]);
 
   // 生成基于八字信息的个性化建议问题
   const getContextualSuggestions = (): string[] => {
@@ -397,8 +525,22 @@ export function AIChatWithContext({
     // 基于八字和当前时间生成高关注度问题
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
+    
+    // 提前计算年龄，用于过滤不合适的问题
+    const birthYear =
+      personal?.birthYear ||
+      (personal?.birthDate
+        ? new Date(personal.birthDate).getFullYear()
+        : null);
+    const userAge = birthYear ? currentYear - birthYear : null;
+    
+    // 如果是未成年人，直接使用之前修复好的逻辑（第618-648行）
+    if (userAge !== null && userAge < 18) {
+      // 跳过所有复杂的成人问题生成，直接跳到第682行后的年龄分段逻辑
+      // 这里不做任何处理，让代码继续往下执行到年龄判断部分
+    }
 
-    if (result.pillars) {
+    if (result.pillars && userAge !== null && userAge >= 18) {
       const dayMaster =
         result.pillars.day?.heavenlyStem || result.pillars.day?.stem;
       const birthYear =
@@ -471,9 +613,10 @@ export function AIChatWithContext({
         }
       }
     }
+    } // 关闭 userAge >= 18 的判断
 
-    // 基于用神生成超精准开运问题（结合具体八字和时间）
-    if (result.yongshen && suggestions.length < 3) {
+    // 基于用神生成超精准开运问题（结合具体八字和时间）- 仅成年人
+    if (result.yongshen && suggestions.length < 3 && userAge !== null && userAge >= 18) {
       const birthYear =
         personal?.birthYear ||
         (personal?.birthDate
@@ -502,8 +645,8 @@ export function AIChatWithContext({
       }
     }
 
-    // 基于当前流年大运和具体八字的紧迫问题
-    if (suggestions.length < 3 && personal) {
+    // 基于当前流年大运和具体八字的紧迫问题 - 仅成年人
+    if (suggestions.length < 3 && personal && userAge !== null && userAge >= 18) {
       const birthYear = personal.birthYear || 2000;
       const age = currentYear - birthYear;
       const dayMaster = result.pillars?.day?.stem || '未知';
@@ -511,17 +654,17 @@ export function AIChatWithContext({
 
       // 结合日主、年龄、流年的超精准问题
       const timelyUrgentQuestions = {
-        10: `作为${dayMaster}日主，我在${currentYear}年${currentMonth}月的财库开启日期是什么时候？`,
-        11: `${age}岁的${dayMaster}命人，在近期需要特别关注哪些健康隐患？`,
-        12: `我的${dayMaster}${personal.gender === 'male' ? '男' : '女'}命，下个月哪天是最佳谈判日期？`,
-        1: `${birthYear || 1973}年${dayMaster}命在${currentYear + 1}年的最大机遇和挑战各是什么？`,
+          10: `作为${dayMaster}日主，我在${currentYear}年${currentMonth}月的财库开启日期是什么时候？`,
+        11: `${age}岁${dayMaster}日主的我，在近期需要特别关注哪些健康隐患？`,
+        12: `我的${dayMaster}日主，下个月哪天是最佳谈判日期？`,
+        1: `${birthYear || 1973}年${dayMaster}日主在${currentYear + 1}年的最大机遇和挑战各是什么？`,
         2: `我的${dayMaster}日主在春季前后需要做哪些重要决定？`,
-        3: `${age}岁了，我这个${dayMaster}命最适合在哪个领域成为意见领袖？`,
-        4: `作为${dayMaster}命人，我在夏季前的运势变化详细分析？`,
-        5: `${currentYear}年我这个${dayMaster}${personal.gender === 'male' ? '男' : '女'}命的贵人在哪个方位？`,
+        3: `${age}岁${dayMaster}日主的我，最适合在哪个领域成为意见领袖？`,
+        4: `作为${dayMaster}日主，我在夏季前的运势变化详细分析？`,
+        5: `${currentYear}年我这个${dayMaster}日主的贵人在哪个方位？`,
         6: `${dayMaster}日主${age}岁，在今年下半年最大的转机在哪里？`,
-        7: `我的${dayMaster}命格在秋季需要特别防范哪些风险？`,
-        8: `${birthYear || 1973}年生的${dayMaster}命，在中秋后的事业走向如何？`,
+        7: `我的${dayMaster}日主在秋季需要特别防范哪些风险？`,
+        8: `${birthYear || 1973}年生的${dayMaster}日主，在中秋后的事业走向如何？`,
         9: `${age}岁的${dayMaster}日主，在国庆后的重大机遇在哪里？`,
       };
 
@@ -534,8 +677,8 @@ export function AIChatWithContext({
       suggestions.push(monthlyQuestion);
     }
 
-    // 基于评分生成建议
-    if (result.scoring) {
+    // 基于评分生成建议 - 仅成年人
+    if (result.scoring && userAge !== null && userAge >= 18) {
       const dimensions = result.scoring.overall.dimensions;
       const sortedDims = [...dimensions].sort((a, b) => a.score - b.score);
       const weakestDim = sortedDims[0];
@@ -561,8 +704,165 @@ export function AIChatWithContext({
 
       if (birthYear) {
         const age = currentYear - birthYear;
-        if (age >= 30 && age <= 45) {
-          suggestions.push('我的大运什么时候转换？');
+        
+        // 根据年龄段 + 实际分析结果动态生成话题
+        const dayMaster = result.pillars?.day?.heavenlyStem || result.pillars?.day?.stem || '未知';
+        const yongshen = result.yongshen;
+        const hasFengshui = !!(result.fengshui || result.xuankong || result.rooms);
+        const pattern = result.pattern; // 格局
+        const warnings = result.warnings || [];
+        const scoring = result.scoring?.overall?.dimensions || [];
+        
+        // 找出最弱的维度（需要关注的方面）
+        const weakestDimensions = scoring
+          .filter((d: any) => d.score < 7)
+          .sort((a: any, b: any) => a.score - b.score)
+          .slice(0, 2)
+          .map((d: any) => d.dimension);
+        
+        // 五行强弱
+        const elements = result.elements || {};
+        const strongestElement = Object.entries(elements)
+          .sort(([, a]: any, [, b]: any) => b - a)[0]?.[0];
+        const weakestElement = Object.entries(elements)
+          .sort(([, a]: any, [, b]: any) => a - b)[0]?.[0];
+        
+        if (age < 3) {
+          // 婴幼儿 - 基于实际八字生成
+          const babyQuestions = [
+            `${dayMaster}日主的宝宝，适合从小接触哪些颜色和物品？`,
+            `如何根据宝宝的${dayMaster}日主特质引导性格发展？`,
+            `宝宝的房间应该在哪个方位才能助长${yongshen ? yongshen + '运' : '运势'}？`,
+            `${personal?.gender === 'male' ? '男宝' : '女宝'}的睡眠方位和房间布置有什么讲究？`,
+            `如何为${dayMaster}日主的孩子选择幸运物和玩具？`,
+            `宝宝的天赋才能在哪些方面？应该怎么培养？`,
+            strongestElement ? `宝宝${strongestElement}属性特别强，适合哪些颜色和玩具？` : null,
+            yongshen ? `如何通过${yongshen}属性的引导开发宝宝天赋？` : null,
+          ].filter(Boolean);
+          if (hasFengshui) {
+            babyQuestions.push(`根据家居风水，宝宝最常待的区域应该在哪？`);
+            if (result.xuankong) {
+              babyQuestions.push(`根据飞星风水，宝宝的房间应该选哪个方位？`);
+            }
+          }
+          // 随机选择3个
+          const shuffled = babyQuestions.sort(() => 0.5 - Math.random());
+          suggestions.push(...shuffled.slice(0, 3));
+        } else if (age < 12) {
+          // 儿童 - 基于实际八字生成
+          const childQuestions = [
+            `${dayMaster}日主的孩子，最适合发展哪些兴趣特长？`,
+            `如何布置书房和学习区提升${dayMaster}日主孩子的学业？`,
+            `${personal?.gender === 'male' ? '男孩' : '女孩'}的${dayMaster}日主，性格有哪些优势和需要注意的地方？`,
+            `孩子的贵人方位在哪里？如何布置才能带来贵人运？`,
+            `${age}岁${dayMaster}日主的孩子，现在最适合学习哪类课程？`,
+            yongshen ? `如何通过${yongshen}属性的活动和物品提升孩子运势？` : null,
+            strongestElement ? `孩子${strongestElement}属性强，适合发展哪方面的才能？` : null,
+            weakestElement ? `孩子${weakestElement}属性较弱，如何补救提升？` : null,
+            pattern ? `${pattern}格局的孩子，应该重点培养哪些能力？` : null,
+          ].filter(Boolean);
+          if (hasFengshui) {
+            childQuestions.push(`根据风水分析，孩子的文昌位在哪里？`);
+            if (result.rooms?.study) {
+              childQuestions.push(`学习区应该如何布置才能提升专注力？`);
+            }
+          }
+          const shuffled = childQuestions.sort(() => 0.5 - Math.random());
+          suggestions.push(...shuffled.slice(0, 3));
+        } else if (age < 18) {
+          // 青少年 - 基于实际八字生成
+          const teenQuestions = [
+            `${dayMaster}日主的我，未来适合从事哪个领域的工作？`,
+            `${age}岁${dayMaster}日主的${personal?.gender === 'male' ? '男生' : '女生'}，如何提升学业运？`,
+            `我的${dayMaster}性格有哪些优势？应该注意哪些短板？`,
+            `${dayMaster}日主的人，高中阶段最需要关注哪些方面？`,
+            yongshen ? `如何利用${yongshen}属性提升我的学业和人际关系？` : null,
+            pattern ? `${pattern}格局的我，适合读理科还是文科？` : null,
+            strongestElement ? `我${strongestElement}属性特别突出，这对升学有什么影响？` : null,
+            weakestDimensions[0] ? `如何改善我的${weakestDimensions[0]}方面？` : null,
+          ].filter(Boolean);
+          if (hasFengshui) {
+            teenQuestions.push(`我的房间应该如何布置才能助力学业？`);
+            if (result.xuankong) {
+              teenQuestions.push(`根据飞星风水，我的书桌应该放在哪个方位？`);
+            }
+          }
+          const shuffled = teenQuestions.sort(() => 0.5 - Math.random());
+          suggestions.push(...shuffled.slice(0, 3));
+        } else if (age >= 18 && age < 30) {
+          // 青年 - 基于实际八字生成
+          const youthQuestions = [
+            `${age}岁${dayMaster}日主的我，现阶段适合创业还是打工？`,
+            `${dayMaster}日主的人，在职场上如何发挥优势？`,
+            `今年${currentYear}年，我的桃花运和感情运如何？`,
+            `${dayMaster}日主的${personal?.gender === 'male' ? '男性' : '女性'}，如何快速积累第一桶金？`,
+            yongshen ? `如何通过${yongshen}方位和${yongshen}属性提升事业运？` : null,
+            pattern ? `我的${pattern}格局在职业选择上有什么指导意义？` : null,
+            strongestElement ? `我${strongestElement}属性较强，应该选择哪些行业？` : null,
+            weakestDimensions[0] ? `我的${weakestDimensions[0]}方面较弱，如何通过风水改善？` : null,
+          ].filter(Boolean);
+          if (hasFengshui) {
+            youthQuestions.push(`根据我的风水格局，工作位应该在哪个方位？`);
+          }
+          if (warnings.length > 0 && warnings[0].category) {
+            youthQuestions.push(`如何防范${warnings[0].category}方面的问题？`);
+          }
+          const shuffled = youthQuestions.sort(() => 0.5 - Math.random());
+          suggestions.push(...shuffled.slice(0, 3));
+        } else if (age >= 30 && age <= 45) {
+          // 中青年 - 基于实际八字生成
+          const middleAgeQuestions = [
+            `${age}岁${dayMaster}日主的我，大运什么时候转换？`,
+            `${dayMaster}日主在中年阶段，如何突破财运瓶颈？`,
+            `我的${dayMaster}日主，${currentYear}年有哪些重大机遇？`,
+            `${personal?.gender === 'male' ? '男性' : '女性'}${dayMaster}日主，如何平衡事业和家庭？`,
+            yongshen ? `${yongshen}为用神，如何布置家居和办公室提升财运？` : null,
+            pattern ? `我的${pattern}格局在中年阶段如何布局才能大展宏图？` : null,
+            weakestElement ? `我${weakestElement}属性较弱，如何补救提升运势？` : null,
+            weakestDimensions[0] ? `如何改善我的${weakestDimensions[0]}运势？` : null,
+            weakestDimensions[1] ? `${weakestDimensions[1]}方面需要重点关注什么？` : null,
+          ].filter(Boolean);
+          if (hasFengshui) {
+            middleAgeQuestions.push(`根据风水分析，我的财位和事业位在哪？`);
+            if (result.rooms?.office) {
+              middleAgeQuestions.push(`我的办公室应该如何布置才能提升事业运？`);
+            }
+          }
+          if (warnings.length > 0) {
+            warnings.slice(0, 2).forEach((w: any) => {
+              if (w.category && w.severity === 'critical') {
+                middleAgeQuestions.push(`如何解决${w.category}方面的重大隐患？`);
+              }
+            });
+          }
+          const shuffled = middleAgeQuestions.sort(() => 0.5 - Math.random());
+          suggestions.push(...shuffled.slice(0, 3));
+        } else {
+          // 中老年 - 基于实际八字生成
+          const seniorQuestions = [
+            `${dayMaster}日主的我，如何保持身心健康和长寿？`,
+            `${age}岁${dayMaster}日主，晚年运势如何？需要注意什么？`,
+            `如何为子女布局，让家族运势更加兴旺？`,
+            yongshen ? `${yongshen}为用神，晚年如何通过风水调整提升健康？` : null,
+            pattern ? `我的${pattern}格局，晚年阶段如何安享天年？` : null,
+            weakestElement ? `${weakestElement}属性较弱，如何补救保持健康？` : null,
+            weakestDimensions.find((d: string) => d === 'health') ? `如何通过风水改善健康运势？` : null,
+          ].filter(Boolean);
+          if (hasFengshui) {
+            seniorQuestions.push(`根据家居风水，卧室应该如何布置才利于健康？`);
+            if (result.rooms?.bedroom) {
+              seniorQuestions.push(`卧室的床位应该朝向哪个方位才利于休息？`);
+            }
+          }
+          if (warnings.length > 0) {
+            warnings.slice(0, 2).forEach((w: any) => {
+              if (w.category && ['health', '健康', '疾病'].includes(w.category)) {
+                seniorQuestions.push(`如何预防${w.category}方面的风险？`);
+              }
+            });
+          }
+          const shuffled = seniorQuestions.sort(() => 0.5 - Math.random());
+          suggestions.push(...shuffled.slice(0, 3));
         }
       }
 
@@ -599,7 +899,7 @@ export function AIChatWithContext({
     return suggestions.slice(0, 3);
   };
 
-  // 发送消息（支持上下文）
+  // 发送消息（支持上下文 + 流式渲染）
   const handleSend = async (content: string) => {
     if (!content.trim()) return;
 
@@ -613,7 +913,23 @@ export function AIChatWithContext({
 
     setMessages((prev) => [...prev, userMessage]);
     setInputValue('');
+
+    // 创建 AI 消息占位符（"正在思考..."）
+    const aiMessageId = `${Date.now()}-ai`;
+    const aiPlaceholder: Message = {
+      id: aiMessageId,
+      role: 'assistant',
+      content: '',
+      timestamp: Date.now(),
+      isThinking: true,
+    };
+
+    setMessages((prev) => [...prev, aiPlaceholder]);
     setIsTyping(true);
+
+    // 创建 AbortController 用于取消请求
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     try {
       // 构建带上下文的消息历史
@@ -626,77 +942,68 @@ export function AIChatWithContext({
       let contextSummary = '';
       if (contextEnabled && analysisContext) {
         contextSummary = analysisContext.getAIContextSummary();
-        console.log('📤 [AI-Chat] 发送请求:');
+        console.log('📤 [AI-Chat] 发送流式请求:');
         console.log('  - 消息数:', messages.length + 1);
         console.log('  - 上下文长度:', contextSummary.length);
-        console.log('  - 上下文预览:', contextSummary.substring(0, 300));
-        console.log('🔍 [DEBUG] 完整上下文内容:', contextSummary);
-        console.log('🔍 [DEBUG] analysisContext对象:', {
-          userInput: analysisContext.userInput,
-          analysisResult: analysisContext.analysisResult,
-          isActivated: analysisContext.isAIChatActivated,
-        });
-      } else {
-        console.log('⚠️ [AI-Chat] 未启用上下文');
-        console.log('  - contextEnabled:', contextEnabled);
-        console.log('  - analysisContext存在:', !!analysisContext);
-        if (analysisContext) {
-          console.log('  - userInput:', analysisContext.userInput);
-          console.log('  - analysisResult:', analysisContext.analysisResult);
-        }
       }
 
-      // 调用 AI API
-      const requestPayload = {
-        messages: messagesWithContext,
-        context: contextSummary || undefined,
-        enableContext: contextEnabled && !!contextSummary,
-      };
-
-      console.log(
-        '🚀 [AI-Chat] 完整请求载荷:',
-        JSON.stringify(requestPayload, null, 2)
-      );
-
-      const response = await fetch('/api/ai/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      // 使用流式聊天
+      await streamChat(messagesWithContext, contextSummary, {
+        signal: controller.signal,
+        onStart: () => {
+          console.log('🚀 [Stream] 开始接收数据');
+          // 移除 "正在思考..." 状态
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId ? { ...msg, isThinking: false } : msg
+            )
+          );
         },
-        body: JSON.stringify(requestPayload),
-      }).catch((error) => {
-        console.error('🌐 [AI-Chat] 网络请求失败:', error);
-        throw new Error(`网络请求失败: ${error.message}`);
+        onUpdate: (content) => {
+          // 实时更新 AI 消息内容（逐字显示）
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId
+                ? { ...msg, content, isThinking: false }
+                : msg
+            )
+          );
+        },
+        onFinish: () => {
+          console.log('✅ [Stream] 接收完成');
+          setIsTyping(false);
+        },
+        onError: (error) => {
+          console.error('❌ [Stream] 错误:', error);
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId
+                ? {
+                    ...msg,
+                    content: `抱歉，${error.message || '服务暂时不可用，请稍后再试。'}`,
+                    isThinking: false,
+                  }
+                : msg
+            )
+          );
+        },
       });
-
-      console.log('📨 [AI-Chat] 响应状态:', response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ [AI-Chat] API响应错误:', response.status, errorText);
-        throw new Error(`API请求失败 (${response.status}): ${errorText}`);
-      }
-
-      const data = await response.json();
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: data.message || '抱歉，我暂时无法回答您的问题。',
-        timestamp: Date.now(),
-      };
-
-      setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       console.error('AI chat error:', error);
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: '抱歉，服务暂时不可用，请稍后再试。',
-        timestamp: Date.now(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === aiMessageId
+            ? {
+                ...msg,
+                content: '抱歉，服务暂时不可用，请稍后再试。',
+                isThinking: false,
+              }
+            : msg
+        )
+      );
     } finally {
       setIsTyping(false);
+      abortControllerRef.current = null;
     }
   };
 
@@ -885,7 +1192,11 @@ export function AIChatWithContext({
           </div>
 
           {/* 消息区域 */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          <div 
+            ref={chatContainerRef}
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
+          >
             {messages.map((message, index) => (
               <div key={message.id}>
                 <div
@@ -898,9 +1209,18 @@ export function AIChatWithContext({
                         : 'bg-white border border-gray-200 rounded-bl-sm'
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">
-                      {message.content}
-                    </p>
+                    {message.isThinking ? (
+                      <div className="flex items-center gap-2">
+                        <Loader2 className="w-4 h-4 animate-spin text-purple-600" />
+                        <span className="text-sm text-gray-600">
+                          AI 正在思考...
+                        </span>
+                      </div>
+                    ) : (
+                      <p className="text-sm whitespace-pre-wrap">
+                        {message.content || '​'}
+                      </p>
+                    )}
                     <div className="flex items-center justify-between mt-2">
                       <p
                         className={`text-xs ${message.role === 'user' ? 'text-blue-100' : 'text-gray-400'}`}
@@ -915,7 +1235,7 @@ export function AIChatWithContext({
                       </p>
 
                       {/* 消息操作按钮 */}
-                      {message.role === 'assistant' && (
+                      {message.role === 'assistant' && !message.isThinking && message.content && (
                         <div className="flex items-center gap-1 ml-2">
                           <button
                             onClick={() =>
