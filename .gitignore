@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+﻿# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -58,9 +58,30 @@ node_modules/
 
 # Task files
 # tasks.json
-# tasks/ 
-
+# tasks/
 
 # 归档目录（忽略大部分内容，但保留重要报告）
 .archived/*
 !.archived/CLEANUP_REPORT.md
+
+# AI tools (from template)
+.claude/
+.conductor/
+.kiro/
+
+# Cloudflare (from template)
+.wrangler/
+.dev.vars
+.dev.vars*
+!.dev.vars.example
+
+# Fumadocs (from template)
+.source/
+.content-collections/
+
+# OpenNext (from template)
+.open-next/
+
+# Additional (from template)
+certificates/
+.pnpm-debug.log*
