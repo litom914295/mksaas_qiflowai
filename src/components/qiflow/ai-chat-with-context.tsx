@@ -26,6 +26,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+
 interface AIChatWithContextProps {
   /** 智能推荐的问题 */
   suggestedQuestions?: string[];
@@ -90,14 +91,10 @@ export function AIChatWithContext({
       }
       // 根据年龄调整称呼方式
       const name = personal.name || '';
-      const birthYear =
-        personal.birthYear ||
-        (personal.birthDate
-          ? new Date(personal.birthDate).getFullYear()
-          : null);
+      const birthYear = personal.birthYear || (personal.birthDate ? new Date(personal.birthDate).getFullYear() : null);
       const currentYear = new Date().getFullYear();
       const age = birthYear ? currentYear - birthYear : null;
-
+      
       let title = '';
       if (age !== null && age < 3) {
         // 婴幼儿 - 直接称呼姓名（家长视角）
@@ -115,7 +112,14 @@ export function AIChatWithContext({
         title = name ? `${name}${gender}` : `这位${gender}`;
       }
 
-      console.log('🔍 [Welcome] name:', name, 'age:', age, 'title:', title);
+      console.log(
+        '🔍 [Welcome] name:',
+        name,
+        'age:',
+        age,
+        'title:',
+        title
+      );
 
       // 如果有分析结果，生成基于八字的个性化欢迎语
       if (analysisContext.analysisResult) {
@@ -223,27 +227,22 @@ export function AIChatWithContext({
             const dayMaster = result.pillars.day.stem;
             const insightMap: Record<string, string> = {
               甲: '您天生具备领导气质，但需防止过于强势',
-              乙: '您性情温和包容，但要注意增强决断力',
-              丙: '您热情阳光，但需控制情绪波动',
-              丁: '您心思细腻敏感，善于洞察人心',
-              戊: '您稳重可靠，是天生的组织管理者',
-              己: '您包容力强，但要避免过度牺牲自己',
-              庚: '您意志坚定果断，但需平衡刚柔并济',
-              辛: '您追求完美精致，具有很强的审美能力',
-              壬: '您智慧如海，善于谋略但要防止多虑',
-              癸: '您如甘露般滋润他人，直觉力极强但需增强自信',
-            };
-            coreInsight = insightMap[dayMaster] || '';
+            乙: '您性情温和包容，但要注意增强决断力',
+            丙: '您热情阳光，但需控制情绪波动',
+            丁: '您心思细腻敏感，善于洞察人心',
+            戊: '您稳重可靠，是天生的组织管理者',
+            己: '您包容力强，但要避免过度牺牲自己',
+            庚: '您意志坚定果断，但需平衡刚柔并济',
+            辛: '您追求完美精致，具有很强的审美能力',
+            壬: '您智慧如海，善于谋略但要防止多虑',
+            癸: '您如甘露般滋润他人，直觉力极强但需增强自信',
+          };
+          coreInsight = insightMap[dayMaster] || '';
           }
         }
 
         // 检查是否有风水分析结果（不仅仅是输入）
-        const resultAny = result as any;
-        const hasFengshuiAnalysis = !!(
-          resultAny.fengshui ||
-          resultAny.xuankong ||
-          resultAny.rooms
-        );
+        const hasFengshuiAnalysis = !!(result.fengshui || result.xuankong || result.rooms);
         const hasHouseInput = !!analysisContext.userInput.house?.direction;
         let fengshuiHint = '';
 
@@ -283,7 +282,8 @@ export function AIChatWithContext({
           }
         } else {
           // 有输入但没有分析结果（可能还在生成中）
-          fengshuiHint = '\n\n💫 正在为您生成风水分析，请稍等片刻...';
+          fengshuiHint =
+            '\n\n💫 正在为您生成风水分析，请稍等片刻...';
         }
 
         // 根据年龄生成不同风格的欢迎语
@@ -292,7 +292,7 @@ export function AIChatWithContext({
           // 未成年人 - 简化表述，更贴近父母视角
           const ageGroup = age < 3 ? '宝宝' : age < 12 ? '孩子' : '您';
           finalWelcome = `您好${title}！\n\n🔮 ${ageGroup}的日主是${result.pillars?.day?.heavenlyStem || result.pillars?.day?.stem || '未知'}，`;
-
+          
           // 简化五行描述
           if (result.yongshen) {
             const yongshenMap: Record<string, string> = {
@@ -302,13 +302,12 @@ export function AIChatWithContext({
               METAL: '金',
               WATER: '水',
             };
-            const yongshenName =
-              yongshenMap[result.yongshen] || result.yongshen;
+            const yongshenName = yongshenMap[result.yongshen] || result.yongshen;
             finalWelcome += `适合多接触${yongshenName}属性的事物（如${yongshenName === '木' ? '绿色植物、木制玩具' : yongshenName === '火' ? '红色衣物、阳光活动' : yongshenName === '土' ? '黄色装饰、陶土手工' : yongshenName === '金' ? '白色物品、金属玩具' : '蓝色物品、水景装饰'}）。\n\n`;
           } else {
             finalWelcome += '\n\n';
           }
-
+          
           finalWelcome += `💡 ${coreInsight}${fengshuiHint}`;
         } else {
           // 成年人 - 保留完整专业表述
@@ -457,7 +456,7 @@ export function AIChatWithContext({
     if (!chatContainerRef.current) return;
     const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
     const isAtBottom = scrollHeight - scrollTop - clientHeight < 50; // 50px 容差
-
+    
     // 如果用户往上滚动了（不在底部），标记为手动滚动
     if (!isAtBottom && !userHasScrolled) {
       setUserHasScrolled(true);
@@ -472,7 +471,7 @@ export function AIChatWithContext({
   useEffect(() => {
     // 1. 用户手动滚动过，不再自动滚动
     if (userHasScrolled) return;
-
+    
     // 2. 只在最后一条消息是用户消息时自动滚动（用户刚发送消息）
     const lastMessage = messages[messages.length - 1];
     if (lastMessage?.role === 'user') {
@@ -526,13 +525,15 @@ export function AIChatWithContext({
     // 基于八字和当前时间生成高关注度问题
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
-
+    
     // 提前计算年龄，用于过滤不合适的问题
     const birthYear =
       personal?.birthYear ||
-      (personal?.birthDate ? new Date(personal.birthDate).getFullYear() : null);
+      (personal?.birthDate
+        ? new Date(personal.birthDate).getFullYear()
+        : null);
     const userAge = birthYear ? currentYear - birthYear : null;
-
+    
     // 如果是未成年人，直接使用之前修复好的逻辑（第618-648行）
     if (userAge !== null && userAge < 18) {
       // 跳过所有复杂的成人问题生成，直接跳到第682行后的年龄分段逻辑
@@ -614,12 +615,7 @@ export function AIChatWithContext({
     }
 
     // 基于用神生成超精准开运问题（结合具体八字和时间）- 仅成年人
-    if (
-      result.yongshen &&
-      suggestions.length < 3 &&
-      userAge !== null &&
-      userAge >= 18
-    ) {
+    if (result.yongshen && suggestions.length < 3 && userAge !== null && userAge >= 18) {
       const birthYear =
         personal?.birthYear ||
         (personal?.birthDate
@@ -649,12 +645,7 @@ export function AIChatWithContext({
     }
 
     // 基于当前流年大运和具体八字的紧迫问题 - 仅成年人
-    if (
-      suggestions.length < 3 &&
-      personal &&
-      userAge !== null &&
-      userAge >= 18
-    ) {
+    if (suggestions.length < 3 && personal && userAge !== null && userAge >= 18) {
       const birthYear = personal.birthYear || 2000;
       const age = currentYear - birthYear;
       const dayMaster = result.pillars?.day?.stem || '未知';
@@ -662,7 +653,7 @@ export function AIChatWithContext({
 
       // 结合日主、年龄、流年的超精准问题
       const timelyUrgentQuestions = {
-        10: `作为${dayMaster}日主，我在${currentYear}年${currentMonth}月的财库开启日期是什么时候？`,
+          10: `作为${dayMaster}日主，我在${currentYear}年${currentMonth}月的财库开启日期是什么时候？`,
         11: `${age}岁${dayMaster}日主的我，在近期需要特别关注哪些健康隐患？`,
         12: `我的${dayMaster}日主，下个月哪天是最佳谈判日期？`,
         1: `${birthYear || 1973}年${dayMaster}日主在${currentYear + 1}年的最大机遇和挑战各是什么？`,
@@ -712,39 +703,29 @@ export function AIChatWithContext({
 
       if (birthYear) {
         const age = currentYear - birthYear;
-
+        
         // 根据年龄段 + 实际分析结果动态生成话题
-        const dayMaster =
-          result.pillars?.day?.heavenlyStem ||
-          result.pillars?.day?.stem ||
-          '未知';
+        const dayMaster = result.pillars?.day?.heavenlyStem || result.pillars?.day?.stem || '未知';
         const yongshen = result.yongshen;
-        const resultAny2 = result as any;
-        const hasFengshui = !!(
-          resultAny2.fengshui ||
-          resultAny2.xuankong ||
-          resultAny2.rooms
-        );
+        const hasFengshui = !!(result.fengshui || result.xuankong || result.rooms);
         const pattern = result.pattern; // 格局
         const warnings = result.warnings || [];
         const scoring = result.scoring?.overall?.dimensions || [];
-
+        
         // 找出最弱的维度（需要关注的方面）
         const weakestDimensions = scoring
           .filter((d: any) => d.score < 7)
           .sort((a: any, b: any) => a.score - b.score)
           .slice(0, 2)
           .map((d: any) => d.dimension);
-
+        
         // 五行强弱
         const elements = result.elements || {};
-        const strongestElement = Object.entries(elements).sort(
-          ([, a]: any, [, b]: any) => b - a
-        )[0]?.[0];
-        const weakestElement = Object.entries(elements).sort(
-          ([, a]: any, [, b]: any) => a - b
-        )[0]?.[0];
-
+        const strongestElement = Object.entries(elements)
+          .sort(([, a]: any, [, b]: any) => b - a)[0]?.[0];
+        const weakestElement = Object.entries(elements)
+          .sort(([, a]: any, [, b]: any) => a - b)[0]?.[0];
+        
         if (age < 3) {
           // 婴幼儿 - 基于实际八字生成
           const babyQuestions = [
@@ -754,14 +735,12 @@ export function AIChatWithContext({
             `${personal?.gender === 'male' ? '男宝' : '女宝'}的睡眠方位和房间布置有什么讲究？`,
             `如何为${dayMaster}日主的孩子选择幸运物和玩具？`,
             `宝宝的天赋才能在哪些方面？应该怎么培养？`,
-            strongestElement
-              ? `宝宝${strongestElement}属性特别强，适合哪些颜色和玩具？`
-              : null,
+            strongestElement ? `宝宝${strongestElement}属性特别强，适合哪些颜色和玩具？` : null,
             yongshen ? `如何通过${yongshen}属性的引导开发宝宝天赋？` : null,
-          ].filter(Boolean) as string[];
+          ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
             babyQuestions.push(`根据家居风水，宝宝最常待的区域应该在哪？`);
-            if (resultAny2.xuankong) {
+            if (result.xuankong) {
               babyQuestions.push(`根据飞星风水，宝宝的房间应该选哪个方位？`);
             }
           }
@@ -776,20 +755,14 @@ export function AIChatWithContext({
             `${personal?.gender === 'male' ? '男孩' : '女孩'}的${dayMaster}日主，性格有哪些优势和需要注意的地方？`,
             `孩子的贵人方位在哪里？如何布置才能带来贵人运？`,
             `${age}岁${dayMaster}日主的孩子，现在最适合学习哪类课程？`,
-            yongshen
-              ? `如何通过${yongshen}属性的活动和物品提升孩子运势？`
-              : null,
-            strongestElement
-              ? `孩子${strongestElement}属性强，适合发展哪方面的才能？`
-              : null,
-            weakestElement
-              ? `孩子${weakestElement}属性较弱，如何补救提升？`
-              : null,
+            yongshen ? `如何通过${yongshen}属性的活动和物品提升孩子运势？` : null,
+            strongestElement ? `孩子${strongestElement}属性强，适合发展哪方面的才能？` : null,
+            weakestElement ? `孩子${weakestElement}属性较弱，如何补救提升？` : null,
             pattern ? `${pattern}格局的孩子，应该重点培养哪些能力？` : null,
-          ].filter(Boolean) as string[];
+          ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
             childQuestions.push(`根据风水分析，孩子的文昌位在哪里？`);
-            if (resultAny2.rooms?.study) {
+            if (result.rooms?.study) {
               childQuestions.push(`学习区应该如何布置才能提升专注力？`);
             }
           }
@@ -804,16 +777,12 @@ export function AIChatWithContext({
             `${dayMaster}日主的人，高中阶段最需要关注哪些方面？`,
             yongshen ? `如何利用${yongshen}属性提升我的学业和人际关系？` : null,
             pattern ? `${pattern}格局的我，适合读理科还是文科？` : null,
-            strongestElement
-              ? `我${strongestElement}属性特别突出，这对升学有什么影响？`
-              : null,
-            weakestDimensions[0]
-              ? `如何改善我的${weakestDimensions[0]}方面？`
-              : null,
-          ].filter(Boolean) as string[];
+            strongestElement ? `我${strongestElement}属性特别突出，这对升学有什么影响？` : null,
+            weakestDimensions[0] ? `如何改善我的${weakestDimensions[0]}方面？` : null,
+          ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
             teenQuestions.push(`我的房间应该如何布置才能助力学业？`);
-            if (resultAny2.xuankong) {
+            if (result.xuankong) {
               teenQuestions.push(`根据飞星风水，我的书桌应该放在哪个方位？`);
             }
           }
@@ -826,17 +795,11 @@ export function AIChatWithContext({
             `${dayMaster}日主的人，在职场上如何发挥优势？`,
             `今年${currentYear}年，我的桃花运和感情运如何？`,
             `${dayMaster}日主的${personal?.gender === 'male' ? '男性' : '女性'}，如何快速积累第一桶金？`,
-            yongshen
-              ? `如何通过${yongshen}方位和${yongshen}属性提升事业运？`
-              : null,
+            yongshen ? `如何通过${yongshen}方位和${yongshen}属性提升事业运？` : null,
             pattern ? `我的${pattern}格局在职业选择上有什么指导意义？` : null,
-            strongestElement
-              ? `我${strongestElement}属性较强，应该选择哪些行业？`
-              : null,
-            weakestDimensions[0]
-              ? `我的${weakestDimensions[0]}方面较弱，如何通过风水改善？`
-              : null,
-          ].filter(Boolean) as string[];
+            strongestElement ? `我${strongestElement}属性较强，应该选择哪些行业？` : null,
+            weakestDimensions[0] ? `我的${weakestDimensions[0]}方面较弱，如何通过风水改善？` : null,
+          ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
             youthQuestions.push(`根据我的风水格局，工作位应该在哪个方位？`);
           }
@@ -852,34 +815,22 @@ export function AIChatWithContext({
             `${dayMaster}日主在中年阶段，如何突破财运瓶颈？`,
             `我的${dayMaster}日主，${currentYear}年有哪些重大机遇？`,
             `${personal?.gender === 'male' ? '男性' : '女性'}${dayMaster}日主，如何平衡事业和家庭？`,
-            yongshen
-              ? `${yongshen}为用神，如何布置家居和办公室提升财运？`
-              : null,
-            pattern
-              ? `我的${pattern}格局在中年阶段如何布局才能大展宏图？`
-              : null,
-            weakestElement
-              ? `我${weakestElement}属性较弱，如何补救提升运势？`
-              : null,
-            weakestDimensions[0]
-              ? `如何改善我的${weakestDimensions[0]}运势？`
-              : null,
-            weakestDimensions[1]
-              ? `${weakestDimensions[1]}方面需要重点关注什么？`
-              : null,
-          ].filter(Boolean) as string[];
+            yongshen ? `${yongshen}为用神，如何布置家居和办公室提升财运？` : null,
+            pattern ? `我的${pattern}格局在中年阶段如何布局才能大展宏图？` : null,
+            weakestElement ? `我${weakestElement}属性较弱，如何补救提升运势？` : null,
+            weakestDimensions[0] ? `如何改善我的${weakestDimensions[0]}运势？` : null,
+            weakestDimensions[1] ? `${weakestDimensions[1]}方面需要重点关注什么？` : null,
+          ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
             middleAgeQuestions.push(`根据风水分析，我的财位和事业位在哪？`);
-            if (resultAny2.rooms?.office) {
+            if (result.rooms?.office) {
               middleAgeQuestions.push(`我的办公室应该如何布置才能提升事业运？`);
             }
           }
           if (warnings.length > 0) {
             warnings.slice(0, 2).forEach((w: any) => {
               if (w.category && w.severity === 'critical') {
-                middleAgeQuestions.push(
-                  `如何解决${w.category}方面的重大隐患？`
-                );
+                middleAgeQuestions.push(`如何解决${w.category}方面的重大隐患？`);
               }
             });
           }
@@ -891,29 +842,20 @@ export function AIChatWithContext({
             `${dayMaster}日主的我，如何保持身心健康和长寿？`,
             `${age}岁${dayMaster}日主，晚年运势如何？需要注意什么？`,
             `如何为子女布局，让家族运势更加兴旺？`,
-            yongshen
-              ? `${yongshen}为用神，晚年如何通过风水调整提升健康？`
-              : null,
+            yongshen ? `${yongshen}为用神，晚年如何通过风水调整提升健康？` : null,
             pattern ? `我的${pattern}格局，晚年阶段如何安享天年？` : null,
-            weakestElement
-              ? `${weakestElement}属性较弱，如何补救保持健康？`
-              : null,
-            weakestDimensions.find((d: string) => d === 'health')
-              ? `如何通过风水改善健康运势？`
-              : null,
-          ].filter(Boolean) as string[];
+            weakestElement ? `${weakestElement}属性较弱，如何补救保持健康？` : null,
+            weakestDimensions.find((d: string) => d === 'health') ? `如何通过风水改善健康运势？` : null,
+          ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
             seniorQuestions.push(`根据家居风水，卧室应该如何布置才利于健康？`);
-            if (resultAny2.rooms?.bedroom) {
+            if (result.rooms?.bedroom) {
               seniorQuestions.push(`卧室的床位应该朝向哪个方位才利于休息？`);
             }
           }
           if (warnings.length > 0) {
             warnings.slice(0, 2).forEach((w: any) => {
-              if (
-                w.category &&
-                ['health', '健康', '疾病'].includes(w.category)
-              ) {
+              if (w.category && ['health', '健康', '疾病'].includes(w.category)) {
                 seniorQuestions.push(`如何预防${w.category}方面的风险？`);
               }
             });
@@ -1249,7 +1191,7 @@ export function AIChatWithContext({
           </div>
 
           {/* 消息区域 */}
-          <div
+          <div 
             ref={chatContainerRef}
             onScroll={handleScroll}
             className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
@@ -1292,48 +1234,42 @@ export function AIChatWithContext({
                       </p>
 
                       {/* 消息操作按钮 */}
-                      {message.role === 'assistant' &&
-                        !message.isThinking &&
-                        message.content && (
-                          <div className="flex items-center gap-1 ml-2">
-                            <button
-                              onClick={() =>
-                                handleCopyMessage(message.id, message.content)
-                              }
-                              className="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors"
-                              title="复制回答"
-                            >
-                              {copiedMessageId === message.id ? (
-                                <span className="text-xs text-green-600">
-                                  ✓
-                                </span>
-                              ) : (
-                                <Copy className="w-3 h-3" />
-                              )}
-                            </button>
-                            <button
-                              onClick={() =>
-                                handleShareMessage(message.content)
-                              }
-                              className="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors"
-                              title="分享回答"
-                            >
-                              <Share2 className="w-3 h-3" />
-                            </button>
-                            <button
-                              onClick={() =>
-                                setShowRelatedTopics((prev) => ({
-                                  ...prev,
-                                  [message.id]: !prev[message.id],
-                                }))
-                              }
-                              className="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors"
-                              title="相关话题"
-                            >
-                              <ExternalLink className="w-3 h-3" />
-                            </button>
-                          </div>
-                        )}
+                      {message.role === 'assistant' && !message.isThinking && message.content && (
+                        <div className="flex items-center gap-1 ml-2">
+                          <button
+                            onClick={() =>
+                              handleCopyMessage(message.id, message.content)
+                            }
+                            className="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors"
+                            title="复制回答"
+                          >
+                            {copiedMessageId === message.id ? (
+                              <span className="text-xs text-green-600">✓</span>
+                            ) : (
+                              <Copy className="w-3 h-3" />
+                            )}
+                          </button>
+                          <button
+                            onClick={() => handleShareMessage(message.content)}
+                            className="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors"
+                            title="分享回答"
+                          >
+                            <Share2 className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={() =>
+                              setShowRelatedTopics((prev) => ({
+                                ...prev,
+                                [message.id]: !prev[message.id],
+                              }))
+                            }
+                            className="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors"
+                            title="相关话题"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -17,7 +17,6 @@ import {
   RefreshCwIcon,
   XCircleIcon,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -27,7 +26,8 @@ type PaymentStatus = 'processing' | 'success' | 'failed' | 'timeout';
  * Payment card component to display the payment status and redirect to the callback url
  */
 export function PaymentCard() {
-  const t = useTranslations('Dashboard.settings.payment');
+  // TODO: 添加翻译键到 messages/zh-CN.json 中的 Dashboard.settings.payment 路径
+  // const t = useTranslations('Dashboard.settings.payment');
   const localeRouter = useLocaleRouter();
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
@@ -148,23 +148,23 @@ export function PaymentCard() {
     switch (status) {
       case 'processing':
         return {
-          title: t('processing.title'),
-          description: t('processing.description'),
+          title: '支付处理中...',
+          description: '请稍候，我们正在处理您的支付。',
         };
       case 'success':
         return {
-          title: t('success.title'),
-          description: t('success.description'),
+          title: '支付成功！',
+          description: '您的支付已成功，正在跳转...',
         };
       case 'failed':
         return {
-          title: t('failed.title'),
-          description: t('failed.description'),
+          title: '支付失败',
+          description: '支付过程中出现问题，请重试。',
         };
       case 'timeout':
         return {
-          title: t('timeout.title'),
-          description: t('timeout.description'),
+          title: '支付超时',
+          description: '支付验证超时，请检查您的账户或重试。',
         };
       default:
         return { title: '', description: '' };

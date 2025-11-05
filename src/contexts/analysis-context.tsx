@@ -45,6 +45,10 @@ interface AnalysisResult {
   scoring?: any;
   insights?: any;
   warnings?: any;
+  // 风水相关属性
+  fengshui?: any;
+  xuankong?: any;
+  rooms?: any;
 }
 
 // 上下文类型
