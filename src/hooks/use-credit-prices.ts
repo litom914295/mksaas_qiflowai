@@ -7,7 +7,7 @@ export type StripePrices = Record<string, { amount: number; currency: string }>;
 /**
  * Hook to fetch credit prices from Stripe API
  * 从 Stripe API 获取积分包实时价格
- * 
+ *
  * @returns { prices, isLoading, error }
  */
 export function useCreditPrices() {
@@ -20,7 +20,7 @@ export function useCreditPrices() {
       try {
         setIsLoading(true);
         const response = await fetch('/api/stripe/prices');
-        
+
         if (!response.ok) {
           throw new Error('Failed to fetch prices');
         }

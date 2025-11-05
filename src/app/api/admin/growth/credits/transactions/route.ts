@@ -1,7 +1,7 @@
 import { getDb } from '@/db';
-import { creditTransaction, user, checkIns } from '@/db/schema';
-import { eq, gte, sql, desc } from 'drizzle-orm';
+import { checkIns, creditTransaction, user } from '@/db/schema';
 import { withAdminAuth } from '@/lib/middleware/adminAuth';
+import { desc, eq, gte, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -91,7 +91,9 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
     const activeUsers7dResult = await db
-      .select({ count: sql<number>`count(distinct ${creditTransaction.userId})` })
+      .select({
+        count: sql<number>`count(distinct ${creditTransaction.userId})`,
+      })
       .from(creditTransaction)
       .where(gte(creditTransaction.createdAt, sevenDaysAgo));
 

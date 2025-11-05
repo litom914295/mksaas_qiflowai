@@ -13,7 +13,7 @@ function validateAuth(request: Request): boolean {
   if (authHeader.startsWith('Bearer ')) {
     const token = authHeader.substring(7);
     const cronSecret = process.env.CRON_SECRET;
-    
+
     if (cronSecret && token === cronSecret) {
       return true;
     }

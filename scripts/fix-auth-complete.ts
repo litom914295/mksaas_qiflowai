@@ -214,31 +214,38 @@ const loginFormFix = `
 // 写入文件
 try {
   // 1. 修复 API 路由
-  const authRoutePath = path.join(process.cwd(), 'src/app/api/auth/[...all]/route.ts');
+  const authRoutePath = path.join(
+    process.cwd(),
+    'src/app/api/auth/[...all]/route.ts'
+  );
   fs.writeFileSync(authRoutePath, authRouteContent);
   console.log('✅ Fixed: API route');
-  
+
   // 2. 修复 server.ts
   const serverPath = path.join(process.cwd(), 'src/lib/server.ts');
   fs.writeFileSync(serverPath, serverContent);
   console.log('✅ Fixed: server.ts');
-  
+
   // 3. 修复登录表单
-  const loginFormPath = path.join(process.cwd(), 'src/components/auth/login-form.tsx');
+  const loginFormPath = path.join(
+    process.cwd(),
+    'src/components/auth/login-form.tsx'
+  );
   let loginFormContent = fs.readFileSync(loginFormPath, 'utf-8');
-  
+
   // 查找并替换 onError 函数
   const onErrorStart = loginFormContent.indexOf('onError: (ctx: any) => {');
   if (onErrorStart !== -1) {
-    const onErrorEnd = loginFormContent.indexOf('        },', onErrorStart) + 10;
-    loginFormContent = 
-      loginFormContent.substring(0, onErrorStart) + 
-      loginFormFix.trim() + 
+    const onErrorEnd =
+      loginFormContent.indexOf('        },', onErrorStart) + 10;
+    loginFormContent =
+      loginFormContent.substring(0, onErrorStart) +
+      loginFormFix.trim() +
       loginFormContent.substring(onErrorEnd);
     fs.writeFileSync(loginFormPath, loginFormContent);
     console.log('✅ Fixed: login-form.tsx');
   }
-  
+
   console.log('\n✅ 认证系统修复完成！');
   console.log('\n请执行以下步骤：');
   console.log('1. 停止开发服务器 (Ctrl+C)');
@@ -247,7 +254,6 @@ try {
   console.log('4. 清除浏览器缓存 (Ctrl+Shift+Delete)');
   console.log('5. 访问: http://localhost:3001/zh-CN/auth/login');
   console.log('6. 登录: admin@qiflowai.com / admin123456');
-  
 } catch (error) {
   console.error('❌ 修复失败:', error);
 }

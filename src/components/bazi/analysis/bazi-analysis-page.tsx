@@ -190,7 +190,9 @@ export function BaziAnalysisPage({
                   <div>
                     <h1 className="text-3xl font-bold">八字专业报告</h1>
                     <p className="text-white/90 text-sm mt-1">
-                      {result.base.gender === 'male' ? '男' : '女'} · 日主{result.base.dayMaster.chinese} · {result.base.birth.lunar || '农历计算中'}
+                      {result.base.gender === 'male' ? '男' : '女'} · 日主
+                      {result.base.dayMaster.chinese} ·{' '}
+                      {result.base.birth.lunar || '农历计算中'}
                     </p>
                   </div>
                 </div>
@@ -233,7 +235,7 @@ export function BaziAnalysisPage({
                     <div className="text-center">
                       <CheckCircle2 className="w-6 h-6 text-green-600 mx-auto mb-2" />
                       <div className="text-3xl font-bold text-green-600 mb-1">
-                        {result.elements?.favorable?.length || 0}
+                        {(result as any).elements?.favorable?.length || 0}
                       </div>
                       <p className="text-sm text-gray-600">喜用五行</p>
                     </div>
@@ -245,7 +247,7 @@ export function BaziAnalysisPage({
                     <div className="text-center">
                       <AlertCircle className="w-6 h-6 text-red-600 mx-auto mb-2" />
                       <div className="text-3xl font-bold text-red-600 mb-1">
-                        {result.elements?.unfavorable?.length || 0}
+                        {(result as any).elements?.unfavorable?.length || 0}
                       </div>
                       <p className="text-sm text-gray-600">忌神五行</p>
                     </div>
@@ -257,7 +259,7 @@ export function BaziAnalysisPage({
                     <div className="text-center">
                       <Star className="w-6 h-6 text-orange-600 mx-auto mb-2" />
                       <div className="text-3xl font-bold text-orange-600 mb-1">
-                        {result.patterns?.length || 0}
+                        {(result.patterns as any)?.secondary?.length || 0}
                       </div>
                       <p className="text-sm text-gray-600">特殊格局</p>
                     </div>

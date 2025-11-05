@@ -44,7 +44,8 @@ export function CreditPackages() {
   );
 
   // Fetch dynamic prices from Stripe
-  const { prices: stripePrices, isLoading: isPricesLoading } = useCreditPrices();
+  const { prices: stripePrices, isLoading: isPricesLoading } =
+    useCreditPrices();
 
   // Don't render anything while loading to prevent flash
   if (isLoadingPayment) {
@@ -106,8 +107,10 @@ export function CreditPackages() {
                     <div className="text-3xl font-bold text-primary">
                       {formatPrice(
                         // 优先使用 Stripe 实时价格,否则使用配置文件价格
-                        stripePrices?.[creditPackage.id]?.amount ?? creditPackage.price.amount,
-                        stripePrices?.[creditPackage.id]?.currency ?? creditPackage.price.currency
+                        stripePrices?.[creditPackage.id]?.amount ??
+                          creditPackage.price.amount,
+                        stripePrices?.[creditPackage.id]?.currency ??
+                          creditPackage.price.currency
                       )}
                     </div>
                   </div>

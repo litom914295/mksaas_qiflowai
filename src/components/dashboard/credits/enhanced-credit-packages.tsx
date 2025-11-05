@@ -208,14 +208,19 @@ export function EnhancedCreditPackages({
                   <div className="text-center space-y-1">
                     <div className="text-2xl font-bold text-primary">
                       {formatPrice(
-                        stripePrices?.[creditPackage.id]?.amount ?? creditPackage.price.amount,
-                        stripePrices?.[creditPackage.id]?.currency ?? creditPackage.price.currency
+                        stripePrices?.[creditPackage.id]?.amount ??
+                          creditPackage.price.amount,
+                        stripePrices?.[creditPackage.id]?.currency ??
+                          creditPackage.price.currency
                       )}
                     </div>
                     <div className="text-sm text-muted-foreground">
                       ≈{' '}
                       {(
-                        (((stripePrices?.[creditPackage.id]?.amount ?? creditPackage.price.amount) / 100) / creditPackage.amount) *
+                        ((stripePrices?.[creditPackage.id]?.amount ??
+                          creditPackage.price.amount) /
+                          100 /
+                          creditPackage.amount) *
                         1000
                       ).toFixed(2)}
                       美元/千积分
@@ -276,8 +281,10 @@ export function EnhancedCreditPackages({
                     }
                     packageAmount={creditPackage.amount}
                     packagePrice={formatPrice(
-                      stripePrices?.[creditPackage.id]?.amount ?? creditPackage.price.amount,
-                      stripePrices?.[creditPackage.id]?.currency ?? creditPackage.price.currency
+                      stripePrices?.[creditPackage.id]?.amount ??
+                        creditPackage.price.amount,
+                      stripePrices?.[creditPackage.id]?.currency ??
+                        creditPackage.price.currency
                     )}
                     className="w-full mt-4"
                     variant={isPopular || isBestValue ? 'default' : 'outline'}

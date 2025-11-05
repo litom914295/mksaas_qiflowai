@@ -55,9 +55,7 @@ async function TrustSection() {
             <h2 className="text-3xl font-bold text-foreground mb-3">
               {t('trust.title')}
             </h2>
-            <p className="text-muted-foreground">
-              {t('trust.subtitle')}
-            </p>
+            <p className="text-muted-foreground">{t('trust.subtitle')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {trustItems.map((item, index) => (

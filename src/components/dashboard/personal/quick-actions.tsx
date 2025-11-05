@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const quickActions = [
   {
@@ -103,13 +103,17 @@ export default function QuickActionsGrid() {
     const checkAnalysisHistory = async () => {
       try {
         const response = await fetch('/api/analysis/check-history');
-        
+
         // 检查响应状态
         if (!response.ok) {
-          console.error('API response not OK:', response.status, response.statusText);
+          console.error(
+            'API response not OK:',
+            response.status,
+            response.statusText
+          );
           return;
         }
-        
+
         // 检查 Content-Type 是否为 JSON
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
@@ -118,7 +122,7 @@ export default function QuickActionsGrid() {
           console.error('Response body:', text.substring(0, 500));
           return;
         }
-        
+
         const data = await response.json();
         if (data.success) {
           setHasAnalysis(data.hasAnalysis);
@@ -163,8 +167,9 @@ export default function QuickActionsGrid() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {quickActions.map((action, index) => {
           // 判断是否是八字或风水按钮
-          const isSmartButton = action.id === 'bazi-analysis' || action.id === 'fengshui-analysis';
-          
+          const isSmartButton =
+            action.id === 'bazi-analysis' || action.id === 'fengshui-analysis';
+
           return (
             <motion.div
               key={action.title}
@@ -176,54 +181,56 @@ export default function QuickActionsGrid() {
             >
               {isSmartButton ? (
                 <div
-                  onClick={() => handleAnalysisClick(
-                    action.id === 'bazi-analysis' ? 'bazi' : 'fengshui'
-                  )}
+                  onClick={() =>
+                    handleAnalysisClick(
+                      action.id === 'bazi-analysis' ? 'bazi' : 'fengshui'
+                    )
+                  }
                   className="cursor-pointer"
                 >
-              <Card className="group relative h-full cursor-pointer overflow-hidden border-0 shadow-md transition-all hover:shadow-xl">
-                {/* 渐变背景 */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 transition-opacity group-hover:opacity-5`}
-                />
+                  <Card className="group relative h-full cursor-pointer overflow-hidden border-0 shadow-md transition-all hover:shadow-xl">
+                    {/* 渐变背景 */}
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 transition-opacity group-hover:opacity-5`}
+                    />
 
-                {/* 徽章 */}
-                {action.badge && (
-                  <div className="absolute right-2 top-2">
-                    <span
-                      className={`rounded-full bg-gradient-to-r ${action.gradient} px-2 py-0.5 text-[10px] font-semibold text-white`}
-                    >
-                      {action.badge}
-                    </span>
-                  </div>
-                )}
+                    {/* 徽章 */}
+                    {action.badge && (
+                      <div className="absolute right-2 top-2">
+                        <span
+                          className={`rounded-full bg-gradient-to-r ${action.gradient} px-2 py-0.5 text-[10px] font-semibold text-white`}
+                        >
+                          {action.badge}
+                        </span>
+                      </div>
+                    )}
 
-                <CardContent className="relative flex flex-col items-center p-4 text-center">
-                  {/* 图标容器 */}
-                  <motion.div
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.5 }}
-                    className={`mb-3 rounded-xl bg-gradient-to-br ${action.gradient} p-3 text-white shadow-lg`}
-                  >
-                    {action.icon}
-                  </motion.div>
+                    <CardContent className="relative flex flex-col items-center p-4 text-center">
+                      {/* 图标容器 */}
+                      <motion.div
+                        whileHover={{ rotate: 360 }}
+                        transition={{ duration: 0.5 }}
+                        className={`mb-3 rounded-xl bg-gradient-to-br ${action.gradient} p-3 text-white shadow-lg`}
+                      >
+                        {action.icon}
+                      </motion.div>
 
-                  {/* 标题 */}
-                  <h3 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
-                    {action.title}
-                  </h3>
+                      {/* 标题 */}
+                      <h3 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
+                        {action.title}
+                      </h3>
 
-                  {/* 描述 */}
-                  <p className="text-xs text-muted-foreground">
-                    {action.description}
-                  </p>
+                      {/* 描述 */}
+                      <p className="text-xs text-muted-foreground">
+                        {action.description}
+                      </p>
 
-                  {/* 悬停时的装饰线 */}
-                  <div
-                    className={`absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r ${action.gradient} scale-x-0 transition-transform group-hover:scale-x-100`}
-                  />
-                </CardContent>
-              </Card>
+                      {/* 悬停时的装饰线 */}
+                      <div
+                        className={`absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r ${action.gradient} scale-x-0 transition-transform group-hover:scale-x-100`}
+                      />
+                    </CardContent>
+                  </Card>
                 </div>
               ) : (
                 <Link href={action.link}>

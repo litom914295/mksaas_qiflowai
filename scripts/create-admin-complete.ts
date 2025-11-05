@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import { getDb } from '@/db';
 import { account, user } from '@/db/schema';
-import { eq } from 'drizzle-orm';
 import { hash } from 'bcryptjs';
-import { generateId } from 'better-auth'
+import { generateId } from 'better-auth';
+import { eq } from 'drizzle-orm';
 
 async function createAdminComplete() {
   console.log('🔧 创建完整的管理员账号...\n');
@@ -26,13 +26,13 @@ async function createAdminComplete() {
   if (existingUser.length > 0) {
     console.log('✅ 用户已存在:', existingUser[0].id);
     userId = existingUser[0].id;
-    
+
     // 更新为admin角色
     await db
       .update(user)
-      .set({ 
+      .set({
         role: 'admin',
-        emailVerified: true // 设置邮箱已验证
+        emailVerified: true, // 设置邮箱已验证
       })
       .where(eq(user.id, userId));
     console.log('✅ 更新用户为管理员角色并验证邮箱');
@@ -47,7 +47,7 @@ async function createAdminComplete() {
         emailVerified: true,
       })
       .returning();
-    
+
     userId = newUser[0].id;
     console.log('✅ 创建新用户:', userId);
   }
@@ -66,7 +66,7 @@ async function createAdminComplete() {
 
   // 3. 创建credential账号并设置密码
   const hashedPassword = await hash(password, 10);
-  
+
   await db.insert(account).values({
     id: generateId(), // 生成唯一ID
     userId,

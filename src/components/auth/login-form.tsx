@@ -144,7 +144,7 @@ export const LoginForm = ({
         onSuccess: (ctx: any) => {
           console.log('login, success:', ctx.data);
           setSuccess('Login successful');
-          
+
           // 手动跳转到 dashboard
           setTimeout(() => {
             console.log('Redirecting to:', callbackUrl);
@@ -155,11 +155,14 @@ export const LoginForm = ({
           console.error('=== LOGIN ERROR DEBUG ===');
           console.error('Full context:', ctx);
           console.error('Error object:', ctx.error);
-          console.error('Error keys:', ctx.error ? Object.keys(ctx.error) : 'no error object');
+          console.error(
+            'Error keys:',
+            ctx.error ? Object.keys(ctx.error) : 'no error object'
+          );
           console.error('Response:', ctx.response);
-          
+
           let errorMessage = t('loginFailed') || '登录失败';
-          
+
           // 尝试从多个位置提取错误信息
           if (ctx.error) {
             if (typeof ctx.error === 'string') {
@@ -174,7 +177,7 @@ export const LoginForm = ({
               errorMessage = `HTTP ${ctx.error.status}: 请求失败`;
             }
           }
-          
+
           // 如果仍然是空对象，检查响应状态
           if (ctx.response) {
             if (ctx.response.status === 401) {
@@ -185,10 +188,10 @@ export const LoginForm = ({
               errorMessage = `请求失败 (${ctx.response.status})`;
             }
           }
-          
+
           console.error('Final error message:', errorMessage);
           setError(errorMessage);
-          
+
           if (captchaConfigured) {
             resetCaptcha();
           }

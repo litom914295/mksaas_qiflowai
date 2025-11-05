@@ -9,11 +9,11 @@ export interface FlyingStarAnalysisProps {
   fengshuiExplanation?: any;
 }
 
-export function FlyingStarAnalysis({ 
-  result, 
-  explanation, 
-  fengshuiResult, 
-  fengshuiExplanation 
+export function FlyingStarAnalysis({
+  result,
+  explanation,
+  fengshuiResult,
+  fengshuiExplanation,
 }: FlyingStarAnalysisProps) {
   return (
     <Card className="p-6">

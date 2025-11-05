@@ -1,7 +1,7 @@
-import { auth } from '@/lib/auth';
 import { getDb } from '@/db';
-import { user as userTable, payment } from '@/db/schema';
-import { eq, desc, and } from 'drizzle-orm';
+import { payment, user as userTable } from '@/db/schema';
+import { auth } from '@/lib/auth';
+import { and, desc, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 /**
@@ -24,7 +24,10 @@ export async function GET(request: Request) {
       );
     }
 
-    console.log('[Subscription Status API] Fetching subscription for user:', userId);
+    console.log(
+      '[Subscription Status API] Fetching subscription for user:',
+      userId
+    );
 
     const db = await getDb();
 
@@ -66,7 +69,7 @@ export async function GET(request: Request) {
       .from(payment)
       .where(
         and(
-          eq(payment.userId, userId),
+          eq(payment.userId, userId)
           // Only get active or trialing subscriptions
         )
       )
@@ -83,7 +86,7 @@ export async function GET(request: Request) {
       if (sub.status === 'active' || sub.status === 'trialing') {
         activeSubscription = sub;
         subscriptionStatus = sub.status;
-        
+
         // Determine plan type based on priceId or type
         if (sub.type === 'ONE_TIME') {
           currentPlan = 'lifetime';
@@ -109,20 +112,22 @@ export async function GET(request: Request) {
           name: userRecord[0].name,
           email: userRecord[0].email,
         },
-        activeSubscription: activeSubscription ? {
-          id: activeSubscription.id,
-          subscriptionId: activeSubscription.subscriptionId,
-          priceId: activeSubscription.priceId,
-          type: activeSubscription.type,
-          interval: activeSubscription.interval,
-          status: activeSubscription.status,
-          currentPeriodStart: activeSubscription.periodStart,
-          currentPeriodEnd: activeSubscription.periodEnd,
-          cancelAtPeriodEnd: activeSubscription.cancelAtPeriodEnd,
-          trialStart: activeSubscription.trialStart,
-          trialEnd: activeSubscription.trialEnd,
-        } : null,
-        allSubscriptions: subscriptions.map(sub => ({
+        activeSubscription: activeSubscription
+          ? {
+              id: activeSubscription.id,
+              subscriptionId: activeSubscription.subscriptionId,
+              priceId: activeSubscription.priceId,
+              type: activeSubscription.type,
+              interval: activeSubscription.interval,
+              status: activeSubscription.status,
+              currentPeriodStart: activeSubscription.periodStart,
+              currentPeriodEnd: activeSubscription.periodEnd,
+              cancelAtPeriodEnd: activeSubscription.cancelAtPeriodEnd,
+              trialStart: activeSubscription.trialStart,
+              trialEnd: activeSubscription.trialEnd,
+            }
+          : null,
+        allSubscriptions: subscriptions.map((sub) => ({
           id: sub.id,
           status: sub.status,
           type: sub.type,

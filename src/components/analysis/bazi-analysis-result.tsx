@@ -14,11 +14,11 @@ export interface BaziAnalysisResultProps {
   onAnalysisComplete?: (result: any) => void;
 }
 
-export function BaziAnalysisResult({ 
-  result, 
+export function BaziAnalysisResult({
+  result,
   birthData,
-  onComplete, 
-  onAnalysisComplete 
+  onComplete,
+  onAnalysisComplete,
 }: BaziAnalysisResultProps) {
   return (
     <Card className="p-6">

@@ -15,7 +15,7 @@ export default function CompassThemeSelector({
   currentTheme?: CompassThemeKey;
 }) {
   const theme = currentTheme || selectedTheme || 'compass';
-  
+
   const handleSelect = (themeName: CompassThemeKey) => {
     onSelect?.(themeName);
     onThemeChange?.(themeName);

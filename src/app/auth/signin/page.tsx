@@ -196,7 +196,11 @@ function SignInInner() {
 
 export default function SignInPage() {
   return (
-    <Suspense fallback={<div className="p-6 text-center text-muted-foreground">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="p-6 text-center text-muted-foreground">Loading...</div>
+      }
+    >
       <SignInInner />
     </Suspense>
   );

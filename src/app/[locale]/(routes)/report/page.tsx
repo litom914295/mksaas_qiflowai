@@ -488,12 +488,18 @@ export default function ReportPage() {
                   专业版
                 </Badge>
               ) : creditsAvailable > 0 ? (
-                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300">
+                <Badge
+                  variant="outline"
+                  className="bg-green-50 text-green-700 border-green-300"
+                >
                   <Sparkles className="w-3 h-3 mr-1" />
                   积分: {creditsAvailable}
                 </Badge>
               ) : (
-                <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-300">
+                <Badge
+                  variant="outline"
+                  className="bg-amber-50 text-amber-700 border-amber-300"
+                >
                   <AlertCircle className="w-3 h-3 mr-1" />
                   积分已用完
                 </Badge>
@@ -547,9 +553,14 @@ export default function ReportPage() {
             {/* 出生信息 */}
             <div className="text-sm text-gray-600 mb-2">
               <div className="flex items-center justify-center gap-3 flex-wrap">
-                <span>性别：{formData.personal.gender === 'male' ? '男' : '女'}</span>
+                <span>
+                  性别：{formData.personal.gender === 'male' ? '男' : '女'}
+                </span>
                 <span className="text-gray-400">|</span>
-                <span>阳历：{formData.personal.birthDate} {formData.personal.birthTime || '00:00'}</span>
+                <span>
+                  阳历：{formData.personal.birthDate}{' '}
+                  {formData.personal.birthTime || '00:00'}
+                </span>
                 {formData.personal.birthCity && (
                   <>
                     <span className="text-gray-400">|</span>
@@ -560,8 +571,9 @@ export default function ReportPage() {
                   <>
                     <span className="text-gray-400">|</span>
                     <span className="flex items-center gap-1">
-                      <Compass className="w-3 h-3" />
-                      坐{sittingMountain?.name}（{sittingMountain?.desc}）朝{facingMountain?.name}（{facingMountain?.desc}）
+                      <Compass className="w-3 h-3" />坐{sittingMountain?.name}（
+                      {sittingMountain?.desc}）朝{facingMountain?.name}（
+                      {facingMountain?.desc}）
                     </span>
                   </>
                 )}
@@ -675,25 +687,31 @@ export default function ReportPage() {
                           <div className="text-3xl font-bold text-blue-600 mb-1">
                             {baziResult ? '85' : '—'}
                           </div>
-                          <div className="text-sm text-gray-600">命理契合度</div>
+                          <div className="text-sm text-gray-600">
+                            命理契合度
+                          </div>
                         </div>
                         <div className="text-center p-4 bg-white rounded-lg shadow-sm">
                           <div className="text-3xl font-bold text-green-600 mb-1">
                             {xuankongResult ? '78' : '—'}
                           </div>
-                          <div className="text-sm text-gray-600">风水适配度</div>
+                          <div className="text-sm text-gray-600">
+                            风水适配度
+                          </div>
                         </div>
                         <div className="text-center p-4 bg-white rounded-lg shadow-sm">
                           <div className="text-3xl font-bold text-purple-600 mb-1">
                             {baziResult && xuankongResult ? '82' : '—'}
                           </div>
-                          <div className="text-sm text-gray-600">综合运势指数</div>
+                          <div className="text-sm text-gray-600">
+                            综合运势指数
+                          </div>
                         </div>
                       </div>
                       <div className="mt-4 p-3 bg-blue-50 rounded-lg">
                         <p className="text-sm text-blue-800">
                           <strong>总体评价：</strong>
-                          {baziResult && xuankongResult 
+                          {baziResult && xuankongResult
                             ? '您的命理与居住环境整体匹配良好，通过适当调整可进一步提升运势。'
                             : '请先完成八字和风水分析，以获得综合评估。'}
                         </p>
@@ -714,9 +732,12 @@ export default function ReportPage() {
                         <CardContent>
                           <div className="space-y-4">
                             <div className="p-4 border-l-4 border-green-500 bg-green-50">
-                              <h4 className="font-semibold text-green-900 mb-2">财位布局</h4>
+                              <h4 className="font-semibold text-green-900 mb-2">
+                                财位布局
+                              </h4>
                               <p className="text-sm text-gray-700 mb-2">
-                                根据您的八字，财位在{hasHouseInfo ? '东南方' : '家中东南方'}。
+                                根据您的八字，财位在
+                                {hasHouseInfo ? '东南方' : '家中东南方'}。
                               </p>
                               <ul className="text-sm text-gray-600 space-y-1 ml-4">
                                 <li>• 摆放绿色植物或水晶</li>
@@ -724,11 +745,15 @@ export default function ReportPage() {
                                 <li>• 可放置金蟾或招财猫</li>
                               </ul>
                             </div>
-                            
+
                             <div className="p-4 border-l-4 border-blue-500 bg-blue-50">
-                              <h4 className="font-semibold text-blue-900 mb-2">事业位布局</h4>
+                              <h4 className="font-semibold text-blue-900 mb-2">
+                                事业位布局
+                              </h4>
                               <p className="text-sm text-gray-700 mb-2">
-                                您的事业位在{hasHouseInfo ? '正北方' : '家中正北方'}，建议强化该区域。
+                                您的事业位在
+                                {hasHouseInfo ? '正北方' : '家中正北方'}
+                                ，建议强化该区域。
                               </p>
                               <ul className="text-sm text-gray-600 space-y-1 ml-4">
                                 <li>• 设置书桌或办公区域</li>
@@ -736,11 +761,14 @@ export default function ReportPage() {
                                 <li>• 使用蓝色或黑色装饰</li>
                               </ul>
                             </div>
-                            
+
                             <div className="p-4 border-l-4 border-pink-500 bg-pink-50">
-                              <h4 className="font-semibold text-pink-900 mb-2">桃花位布局</h4>
+                              <h4 className="font-semibold text-pink-900 mb-2">
+                                桃花位布局
+                              </h4>
                               <p className="text-sm text-gray-700 mb-2">
-                                感情运势位在{hasHouseInfo ? '西南方' : '家中西南方'}。
+                                感情运势位在
+                                {hasHouseInfo ? '西南方' : '家中西南方'}。
                               </p>
                               <ul className="text-sm text-gray-600 space-y-1 ml-4">
                                 <li>• 摆放粉色水晶或鲜花</li>
@@ -764,34 +792,61 @@ export default function ReportPage() {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* 喜用五行 */}
                             <div className="space-y-3">
-                              <h4 className="font-semibold text-green-800">✨ 增强喜用五行</h4>
+                              <h4 className="font-semibold text-green-800">
+                                ✨ 增强喜用五行
+                              </h4>
                               {['木', '火'].map((element) => {
-                                const mapping = wuxingMapping[element === '木' ? 'wood' : 'fire'];
+                                const mapping =
+                                  wuxingMapping[
+                                    element === '木' ? 'wood' : 'fire'
+                                  ];
                                 return (
-                                  <div key={element} className="p-3 bg-green-50 rounded-lg border border-green-200">
+                                  <div
+                                    key={element}
+                                    className="p-3 bg-green-50 rounded-lg border border-green-200"
+                                  >
                                     <div className="flex items-center gap-2 mb-1">
-                                      <span className="text-xl">{mapping.element}</span>
-                                      <span className="font-medium">{mapping.name}元素</span>
+                                      <span className="text-xl">
+                                        {mapping.element}
+                                      </span>
+                                      <span className="font-medium">
+                                        {mapping.name}元素
+                                      </span>
                                     </div>
-                                    <p className="text-xs text-gray-600">{mapping.description}</p>
+                                    <p className="text-xs text-gray-600">
+                                      {mapping.description}
+                                    </p>
                                   </div>
                                 );
                               })}
                             </div>
-                            
+
                             {/* 忌用五行 */}
                             <div className="space-y-3">
-                              <h4 className="font-semibold text-red-800">⚠️ 减少忌用五行</h4>
+                              <h4 className="font-semibold text-red-800">
+                                ⚠️ 减少忌用五行
+                              </h4>
                               {['金', '水'].map((element) => {
-                                const mapping = wuxingMapping[element === '金' ? 'metal' : 'water'];
+                                const mapping =
+                                  wuxingMapping[
+                                    element === '金' ? 'metal' : 'water'
+                                  ];
                                 return (
-                                  <div key={element} className="p-3 bg-red-50 rounded-lg border border-red-200">
+                                  <div
+                                    key={element}
+                                    className="p-3 bg-red-50 rounded-lg border border-red-200"
+                                  >
                                     <div className="flex items-center gap-2 mb-1">
-                                      <span className="text-xl">{mapping.element}</span>
-                                      <span className="font-medium">{mapping.name}元素</span>
+                                      <span className="text-xl">
+                                        {mapping.element}
+                                      </span>
+                                      <span className="font-medium">
+                                        {mapping.name}元素
+                                      </span>
                                     </div>
                                     <p className="text-xs text-gray-600">
-                                      避免过多{mapping.color}色，减少{mapping.name}属性装饰
+                                      避免过多{mapping.color}色，减少
+                                      {mapping.name}属性装饰
                                     </p>
                                   </div>
                                 );
@@ -813,28 +868,42 @@ export default function ReportPage() {
                           <div className="space-y-3">
                             <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
                               <div className="flex justify-between items-start mb-2">
-                                <h4 className="font-semibold">2024年运势重点</h4>
+                                <h4 className="font-semibold">
+                                  2024年运势重点
+                                </h4>
                                 <Badge variant="outline">甲辰年</Badge>
                               </div>
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
                                 <div>
-                                  <span className="font-medium text-green-700">✅ 有利月份：</span>
-                                  <p className="text-gray-600">3月、7月、11月</p>
+                                  <span className="font-medium text-green-700">
+                                    ✅ 有利月份：
+                                  </span>
+                                  <p className="text-gray-600">
+                                    3月、7月、11月
+                                  </p>
                                 </div>
                                 <div>
-                                  <span className="font-medium text-orange-700">⚡ 注意月份：</span>
+                                  <span className="font-medium text-orange-700">
+                                    ⚡ 注意月份：
+                                  </span>
                                   <p className="text-gray-600">5月、9月</p>
                                 </div>
                                 <div>
-                                  <span className="font-medium text-blue-700">🎯 重点方向：</span>
-                                  <p className="text-gray-600">事业发展、人际关系</p>
+                                  <span className="font-medium text-blue-700">
+                                    🎯 重点方向：
+                                  </span>
+                                  <p className="text-gray-600">
+                                    事业发展、人际关系
+                                  </p>
                                 </div>
                               </div>
                             </div>
-                            
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                               <div className="p-3 border rounded-lg">
-                                <h5 className="font-medium mb-2 text-sm">💰 财运提升</h5>
+                                <h5 className="font-medium mb-2 text-sm">
+                                  💰 财运提升
+                                </h5>
                                 <ul className="text-xs text-gray-600 space-y-1">
                                   <li>• 佩戴黄水晶或琥珀</li>
                                   <li>• 办公桌放置貔貅朝外</li>
@@ -842,7 +911,9 @@ export default function ReportPage() {
                                 </ul>
                               </div>
                               <div className="p-3 border rounded-lg">
-                                <h5 className="font-medium mb-2 text-sm">🛡️ 化解小人</h5>
+                                <h5 className="font-medium mb-2 text-sm">
+                                  🛡️ 化解小人
+                                </h5>
                                 <ul className="text-xs text-gray-600 space-y-1">
                                   <li>• 办公室摆放仙人掌</li>
                                   <li>• 佩戴黑曜石手链</li>
@@ -865,16 +936,24 @@ export default function ReportPage() {
                         <CardContent>
                           <ol className="space-y-3">
                             <li className="flex items-start gap-3">
-                              <Badge className="mt-1 bg-blue-100 text-blue-700">第1周</Badge>
+                              <Badge className="mt-1 bg-blue-100 text-blue-700">
+                                第1周
+                              </Badge>
                               <div className="flex-1">
-                                <p className="font-medium">环境清理与能量净化</p>
+                                <p className="font-medium">
+                                  环境清理与能量净化
+                                </p>
                                 <p className="text-sm text-gray-600 mt-1">
-                                  清理杂物，特别是{hasHouseInfo ? '东南财位' : '财位'}区域，点香薰或使用海盐净化空间
+                                  清理杂物，特别是
+                                  {hasHouseInfo ? '东南财位' : '财位'}
+                                  区域，点香薰或使用海盐净化空间
                                 </p>
                               </div>
                             </li>
                             <li className="flex items-start gap-3">
-                              <Badge className="mt-1 bg-blue-100 text-blue-700">第2周</Badge>
+                              <Badge className="mt-1 bg-blue-100 text-blue-700">
+                                第2周
+                              </Badge>
                               <div className="flex-1">
                                 <p className="font-medium">五行元素调整</p>
                                 <p className="text-sm text-gray-600 mt-1">
@@ -883,7 +962,9 @@ export default function ReportPage() {
                               </div>
                             </li>
                             <li className="flex items-start gap-3">
-                              <Badge className="mt-1 bg-blue-100 text-blue-700">第3周</Badge>
+                              <Badge className="mt-1 bg-blue-100 text-blue-700">
+                                第3周
+                              </Badge>
                               <div className="flex-1">
                                 <p className="font-medium">吉祥物品布置</p>
                                 <p className="text-sm text-gray-600 mt-1">
@@ -892,9 +973,13 @@ export default function ReportPage() {
                               </div>
                             </li>
                             <li className="flex items-start gap-3">
-                              <Badge className="mt-1 bg-blue-100 text-blue-700">第4周</Badge>
+                              <Badge className="mt-1 bg-blue-100 text-blue-700">
+                                第4周
+                              </Badge>
                               <div className="flex-1">
-                                <p className="font-medium">习惯养成与能量维护</p>
+                                <p className="font-medium">
+                                  习惯养成与能量维护
+                                </p>
                                 <p className="text-sm text-gray-600 mt-1">
                                   保持空间整洁，定期更换鲜花，维持正能量循环
                                 </p>

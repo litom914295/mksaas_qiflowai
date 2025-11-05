@@ -27,7 +27,8 @@ import '@/styles/mdx.css';
  * max size is websiteConfig.blog.relatedPostsSize
  */
 async function getRelatedPosts(post: any) {
-  const pages: any[] = ((blogSource as any)?.getPages?.(post?.locale) ?? []) as any[];
+  const pages: any[] = ((blogSource as any)?.getPages?.(post?.locale) ??
+    []) as any[];
   const relatedPosts = pages
     .filter((p: any) => p?.data?.published)
     .filter((p: any) => p?.slugs?.join('/') !== (post?.slugs || []).join('/'))
@@ -80,7 +81,9 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
   const post: any = (blogSource as any)?.getPage?.(slug, locale) ?? null;
   if (!post) {
     return (
-      <div className="p-6 text-center text-muted-foreground">文章不存在或暂未发布</div>
+      <div className="p-6 text-center text-muted-foreground">
+        文章不存在或暂未发布
+      </div>
     );
   }
 
@@ -88,8 +91,11 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
   const publishDate = formatDate(new Date(date));
 
   const blogAuthor = (authorSource as any)?.getPage?.([author], locale) ?? null;
-  const blogCategories = (((categorySource as any)?.getPages?.(locale) ?? []) as any[])
-    .filter((category: any) => (categories || []).includes(category?.slugs?.[0] ?? ''));
+  const blogCategories = (
+    ((categorySource as any)?.getPages?.(locale) ?? []) as any[]
+  ).filter((category: any) =>
+    (categories || []).includes(category?.slugs?.[0] ?? '')
+  );
 
   const MDX = post.data.body;
 
@@ -196,7 +202,9 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
             {/* table of contents (disabled in stub mode) */}
             <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
               {Array.isArray(post?.data?.toc) && post.data.toc.length > 0 && (
-                <div className="text-sm text-muted-foreground">目录暂不可用</div>
+                <div className="text-sm text-muted-foreground">
+                  目录暂不可用
+                </div>
               )}
             </div>
           </div>

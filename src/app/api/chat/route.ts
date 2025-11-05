@@ -28,7 +28,8 @@ export async function POST(req: Request) {
     console.error('Chat API error:', error);
     return new Response(
       JSON.stringify({
-        error: error instanceof Error ? error.message : 'An unknown error occurred',
+        error:
+          error instanceof Error ? error.message : 'An unknown error occurred',
       }),
       {
         status: 500,

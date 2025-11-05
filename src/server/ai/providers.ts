@@ -4,9 +4,9 @@
  * 集中管理多云 Provider（OpenAI、DeepSeek、Gemini）
  */
 
+import { createDeepSeek } from '@ai-sdk/deepseek';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenAI } from '@ai-sdk/openai';
-import { createDeepSeek } from '@ai-sdk/deepseek';
 
 // OpenAI Provider
 export const openai = createOpenAI({

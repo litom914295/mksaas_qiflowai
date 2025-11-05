@@ -1,7 +1,7 @@
-import { getSession } from '@/lib/server';
 import { getDb } from '@/db';
 import { baziCalculations, fengshuiAnalysis } from '@/db/schema';
-import { eq, count } from 'drizzle-orm';
+import { getSession } from '@/lib/server';
+import { count, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

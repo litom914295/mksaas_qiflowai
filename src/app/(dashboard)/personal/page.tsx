@@ -110,7 +110,9 @@ export default async function PersonalDashboardPage() {
           </Suspense>
 
           {/* 最近分析记录 */}
-          <Suspense fallback={<Skeleton className="mt-8 h-80 w-full rounded-lg" />}>
+          <Suspense
+            fallback={<Skeleton className="mt-8 h-80 w-full rounded-lg" />}
+          >
             <RecentAnalysesSection analyses={dashboardData.recentAnalyses} />
           </Suspense>
         </div>

@@ -1,7 +1,7 @@
-import { auth } from '@/lib/auth';
 import { getDb } from '@/db';
-import { user as userTable, creditTransaction } from '@/db/schema';
-import { eq, sum, and, gte } from 'drizzle-orm';
+import { creditTransaction, user as userTable } from '@/db/schema';
+import { auth } from '@/lib/auth';
+import { and, eq, gte, sum } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 /**
@@ -70,13 +70,10 @@ export async function GET(request: Request) {
         total: sum(creditTransaction.amount),
       })
       .from(creditTransaction)
-      .where(
-        and(
-          eq(creditTransaction.userId, userId)
-        )
-      );
+      .where(and(eq(creditTransaction.userId, userId)));
 
-    const totalSpent = Math.abs(Number(spentResult[0]?.total || 0)) - totalEarned;
+    const totalSpent =
+      Math.abs(Number(spentResult[0]?.total || 0)) - totalEarned;
 
     console.log('[Credits Balance API] Balance retrieved successfully');
 

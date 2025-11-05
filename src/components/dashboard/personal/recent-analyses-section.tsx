@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { formatDistanceToNow } from 'date-fns';
+import { zhCN } from 'date-fns/locale/zh-CN';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -20,8 +22,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
-import { formatDistanceToNow } from 'date-fns';
-import { zhCN } from 'date-fns/locale/zh-CN';
 
 type RecentAnalysis = {
   id: string;

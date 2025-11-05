@@ -27,10 +27,10 @@ export async function verifyAuth(request: NextRequest): Promise<string | null> {
  */
 export async function requireAuth(request: NextRequest): Promise<string> {
   const userId = await verifyAuth(request);
-  
+
   if (!userId) {
     throw new Error('未授权:请先登录');
   }
-  
+
   return userId;
 }

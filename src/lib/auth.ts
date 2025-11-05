@@ -8,10 +8,10 @@ import { defaultMessages } from '@/i18n/messages';
 import { LOCALE_COOKIE_NAME, routing } from '@/i18n/routing';
 import { sendEmail } from '@/mail';
 import { subscribe } from '@/newsletter';
+import bcrypt from 'bcryptjs';
 import { type User, betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin } from 'better-auth/plugins';
-import bcrypt from 'bcryptjs';
 import { parse as parseCookies } from 'cookie';
 import type { Locale } from 'next-intl';
 import { onQiflowUserCreated } from './auth-qiflow';
@@ -168,34 +168,50 @@ export const auth = betterAuth({
     onError: async (error, ctx) => {
       console.error('=== Better Auth API Error ===');
       console.error('Error:', error);
-      console.error('Error message:', error.message);
-      console.error('Error cause:', error.cause);
-      console.error('Error stack:', error.stack);
-      console.error('Request URL:', ctx?.request?.url);
-      console.error('Request Method:', ctx?.request?.method);
-      
+      if (error instanceof Error) {
+        console.error('Error message:', error.message);
+        console.error('Error cause:', error.cause);
+        console.error('Error stack:', error.stack);
+      }
+      // ctx.request 不存在于 AuthContext 类型中，删除相关代码
+      // console.error('Request URL:', ctx?.request?.url);
+      // console.error('Request Method:', ctx?.request?.method);
+
       // 如果是登录错误，打印详细的账号信息
-      if (ctx?.request?.url?.includes('sign-in')) {
+      // 注意: ctx.request 不可用，暂时移除相关逻辑
+      if (false) {
         try {
-          const body = await ctx.request.json().catch(() => ({}));
+          const body = {};
           console.error('Login attempt email:', body.email);
-          
+
           // 查询数据库验证
           const db = await getDb();
           const { account, user } = await import('@/db/schema');
           const { eq, and } = await import('drizzle-orm');
-          
-          const users = await db.select().from(user).where(eq(user.email, body.email)).limit(1);
+
+          const users = await db
+            .select()
+            .from(user)
+            .where(eq(user.email, body.email))
+            .limit(1);
           if (users.length > 0) {
             console.error('User found:', users[0].id);
-            const accounts = await db.select().from(account)
-              .where(and(
-                eq(account.userId, users[0].id),
-                eq(account.providerId, 'credential')
-              )).limit(1);
-            
+            const accounts = await db
+              .select()
+              .from(account)
+              .where(
+                and(
+                  eq(account.userId, users[0].id),
+                  eq(account.providerId, 'credential')
+                )
+              )
+              .limit(1);
+
             if (accounts.length > 0) {
-              console.error('Account found, password hash prefix:', accounts[0].password?.substring(0, 10));
+              console.error(
+                'Account found, password hash prefix:',
+                accounts[0].password?.substring(0, 10)
+              );
             } else {
               console.error('No credential account found for user');
             }

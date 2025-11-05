@@ -11,9 +11,9 @@ export function generateStaticParams() {
   const paginationSize = websiteConfig.blog.paginationSize;
   const params: { locale: string; page: string }[] = [];
   for (const locale of LOCALES) {
-    const publishedPosts = (((blogSource as any)?.getPages?.(locale) ?? []) as any[]).filter(
-      (post: any) => post?.data?.published
-    );
+    const publishedPosts = (
+      ((blogSource as any)?.getPages?.(locale) ?? []) as any[]
+    ).filter((post: any) => post?.data?.published);
     const totalPages = Math.max(
       1,
       Math.ceil(publishedPosts.length / paginationSize)
@@ -46,8 +46,11 @@ interface BlogListPageProps {
 
 export default async function BlogListPage({ params }: BlogListPageProps) {
   const { locale, page } = await params;
-  const localePosts: any[] = ((blogSource as any)?.getPages?.(locale) ?? []) as any[];
-  const publishedPosts = localePosts.filter((post: any) => post?.data?.published);
+  const localePosts: any[] = ((blogSource as any)?.getPages?.(locale) ??
+    []) as any[];
+  const publishedPosts = localePosts.filter(
+    (post: any) => post?.data?.published
+  );
   const sortedPosts = publishedPosts.sort((a, b) => {
     return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
   });

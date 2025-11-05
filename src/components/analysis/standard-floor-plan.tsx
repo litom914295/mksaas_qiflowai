@@ -9,11 +9,11 @@ export interface StandardFloorPlanProps {
   onFloorPlanSelect?: (floorPlan: any) => void;
 }
 
-export function StandardFloorPlan({ 
-  floorPlan, 
+export function StandardFloorPlan({
+  floorPlan,
   selectedFloorPlan,
-  onSelect, 
-  onFloorPlanSelect 
+  onSelect,
+  onFloorPlanSelect,
 }: StandardFloorPlanProps) {
   const handleSelect = (plan: any) => {
     onSelect?.(plan);

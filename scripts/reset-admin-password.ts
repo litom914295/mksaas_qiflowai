@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { getDb } from '@/db';
 import { account, user } from '@/db/schema';
-import { eq, and } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
+import { and, eq } from 'drizzle-orm';
 
 async function resetAdminPassword() {
   console.log('🔐 使用 Better Auth 方式重置管理员密码...\n');
@@ -30,7 +30,7 @@ async function resetAdminPassword() {
   // 2. 使用 Better Auth 的密码哈希函数
   console.log('\n🔒 使用 Better Auth 加密密码...');
   const hashedPassword = await auth.password.hash(password);
-  
+
   console.log('哈希信息:');
   console.log('- 长度:', hashedPassword.length);
   console.log('- 前60字符:', hashedPassword.substring(0, 60));
@@ -40,10 +40,12 @@ async function resetAdminPassword() {
   const accounts = await db
     .select()
     .from(account)
-    .where(and(
-      eq(account.userId, foundUser.id),
-      eq(account.providerId, 'credential')
-    ))
+    .where(
+      and(
+        eq(account.userId, foundUser.id),
+        eq(account.providerId, 'credential')
+      )
+    )
     .limit(1);
 
   if (accounts.length === 0) {
@@ -57,10 +59,12 @@ async function resetAdminPassword() {
       password: hashedPassword,
       updatedAt: new Date(),
     })
-    .where(and(
-      eq(account.userId, foundUser.id),
-      eq(account.providerId, 'credential')
-    ));
+    .where(
+      and(
+        eq(account.userId, foundUser.id),
+        eq(account.providerId, 'credential')
+      )
+    );
 
   console.log('\n✅ 密码已更新！');
 

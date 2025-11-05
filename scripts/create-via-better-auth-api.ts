@@ -8,17 +8,20 @@ async function createViaAPI() {
   const name = 'Better Test';
 
   try {
-    const response = await fetch('http://localhost:3000/api/auth/sign-up/email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        name,
-      }),
-    });
+    const response = await fetch(
+      'http://localhost:3000/api/auth/sign-up/email',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          name,
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -29,7 +32,7 @@ async function createViaAPI() {
 
     console.log('✅ 注册成功!');
     console.log('用户信息:', data.user);
-    
+
     console.log('\n📝 测试账号：');
     console.log('  邮箱:', email);
     console.log('  密码:', password);

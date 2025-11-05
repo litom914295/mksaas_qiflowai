@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { getDb } from '@/db';
 import { account, user } from '@/db/schema';
-import { eq, and } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
+import { and, eq } from 'drizzle-orm';
 
 async function fixAdminPassword() {
   console.log('🔐 修复管理员密码...\n');
@@ -31,7 +31,7 @@ async function fixAdminPassword() {
   console.log('\n🔒 生成新的密码哈希...');
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
-  
+
   console.log('哈希信息:');
   console.log('- 长度:', hashedPassword.length);
   console.log('- 格式:', hashedPassword.substring(0, 7));
@@ -52,10 +52,12 @@ async function fixAdminPassword() {
       password: hashedPassword,
       updatedAt: new Date(),
     })
-    .where(and(
-      eq(account.userId, foundUser.id),
-      eq(account.providerId, 'credential')
-    ));
+    .where(
+      and(
+        eq(account.userId, foundUser.id),
+        eq(account.providerId, 'credential')
+      )
+    );
 
   console.log('\n✅ 密码已更新！');
   console.log('\n📝 登录信息:');

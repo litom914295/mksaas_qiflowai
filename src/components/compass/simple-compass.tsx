@@ -25,7 +25,7 @@ export default function SimpleCompass({
 }) {
   return (
     <Card className="p-6">
-      <div 
+      <div
         className="flex flex-col items-center justify-center space-y-4"
         style={{
           width: width ? `${width}px` : undefined,
@@ -37,9 +37,7 @@ export default function SimpleCompass({
         </div>
         <p className="text-sm text-gray-600">罗盘方向</p>
         {showDetailedInfo && (
-          <div className="text-xs text-gray-500">
-            主题: {theme || '默认'}
-          </div>
+          <div className="text-xs text-gray-500">主题: {theme || '默认'}</div>
         )}
       </div>
     </Card>

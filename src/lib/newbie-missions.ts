@@ -1,8 +1,13 @@
-import { getDb } from '@/db';
-import { taskProgress, user, baziCalculations, shareRecords } from '@/db/schema';
-import { eq, and, count } from 'drizzle-orm';
 import { addCredits } from '@/credits/credits';
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
+import { getDb } from '@/db';
+import {
+  baziCalculations,
+  shareRecords,
+  taskProgress,
+  user,
+} from '@/db/schema';
+import { and, count, eq } from 'drizzle-orm';
 
 // 新手任务定义
 export const NEWBIE_MISSIONS = [
@@ -20,12 +25,12 @@ export const NEWBIE_MISSIONS = [
         .from(user)
         .where(eq(user.id, userId))
         .limit(1);
-      
+
       if (userInfo.length === 0) return 0;
-      
+
       const hasName = !!userInfo[0].name && userInfo[0].name !== '用户';
       const hasAvatar = !!userInfo[0].image;
-      
+
       return hasName && hasAvatar ? 1 : 0;
     },
   },
@@ -42,7 +47,7 @@ export const NEWBIE_MISSIONS = [
         .select({ count: count() })
         .from(baziCalculations)
         .where(eq(baziCalculations.userId, userId));
-      
+
       return Math.min(result[0]?.count || 0, 1);
     },
   },
@@ -62,17 +67,17 @@ export const NEWBIE_MISSIONS = [
         .from(account)
         .where(
           and(
-            eq(account.userId, userId),
+            eq(account.userId, userId)
             // 排除 credential（邮箱密码登录）
             // 社交登录的 providerId 通常是 google, github 等
           )
         );
-      
+
       // 如果有除了 credential 之外的账号，说明绑定了社交账号
       const hasSocialAccount = socialAccounts.some(
         (acc) => acc.providerId !== 'credential'
       );
-      
+
       return hasSocialAccount ? 1 : 0;
     },
   },
@@ -95,7 +100,7 @@ export const NEWBIE_MISSIONS = [
             eq(referralRelationships.status, 'activated')
           )
         );
-      
+
       return Math.min(referrals[0]?.count || 0, 1);
     },
   },
@@ -112,7 +117,7 @@ export const NEWBIE_MISSIONS = [
         .select({ count: count() })
         .from(shareRecords)
         .where(eq(shareRecords.userId, userId));
-      
+
       return Math.min(shares[0]?.count || 0, 1);
     },
   },
@@ -124,30 +129,25 @@ export const NEWBIE_MISSIONS = [
 export async function getUserNewbieMissions(userId: string) {
   'use server';
   const db = await getDb();
-  
+
   // 获取数据库中已存在的任务进度
   const existingProgress = await db
     .select()
     .from(taskProgress)
     .where(
-      and(
-        eq(taskProgress.userId, userId),
-        eq(taskProgress.taskType, 'NEWBIE')
-      )
+      and(eq(taskProgress.userId, userId), eq(taskProgress.taskType, 'NEWBIE'))
     );
-  
-  const progressMap = new Map(
-    existingProgress.map((p) => [p.taskId, p])
-  );
-  
+
+  const progressMap = new Map(existingProgress.map((p) => [p.taskId, p]));
+
   // 检查所有任务的实际进度
   const missions = await Promise.all(
     NEWBIE_MISSIONS.map(async (mission) => {
       let dbProgress = progressMap.get(mission.id);
-      
+
       // 检查实际进度
       const actualProgress = await mission.checkProgress(userId);
-      
+
       // 如果数据库没有记录，创建一个
       if (!dbProgress && actualProgress > 0) {
         const [newProgress] = await db
@@ -162,14 +162,14 @@ export async function getUserNewbieMissions(userId: string) {
             completedAt: actualProgress >= mission.target ? new Date() : null,
           })
           .returning();
-        
+
         dbProgress = newProgress;
       }
-      
+
       // 如果进度有更新，更新数据库
-      if (dbProgress && actualProgress > dbProgress.progress) {
+      if (dbProgress && dbProgress.progress !== null && actualProgress > dbProgress.progress) {
         const completed = actualProgress >= mission.target;
-        
+
         await db
           .update(taskProgress)
           .set({
@@ -179,11 +179,11 @@ export async function getUserNewbieMissions(userId: string) {
             updatedAt: new Date(),
           })
           .where(eq(taskProgress.id, dbProgress.id));
-        
+
         dbProgress.progress = actualProgress;
         dbProgress.completed = completed;
       }
-      
+
       return {
         id: mission.id,
         title: mission.title,
@@ -196,11 +196,11 @@ export async function getUserNewbieMissions(userId: string) {
       };
     })
   );
-  
+
   const completed = missions.filter((m) => m.completed).length;
   const total = missions.length;
   const progressPercentage = Math.round((completed / total) * 100);
-  
+
   return {
     missions,
     completed,
@@ -215,13 +215,13 @@ export async function getUserNewbieMissions(userId: string) {
 export async function claimMissionReward(userId: string, missionId: string) {
   'use server';
   const db = await getDb();
-  
+
   // 查找任务配置
   const missionConfig = NEWBIE_MISSIONS.find((m) => m.id === missionId);
   if (!missionConfig) {
     return { success: false, error: '任务不存在' };
   }
-  
+
   // 查找任务进度
   const [progress] = await db
     .select()
@@ -234,19 +234,19 @@ export async function claimMissionReward(userId: string, missionId: string) {
       )
     )
     .limit(1);
-  
+
   if (!progress) {
     return { success: false, error: '任务未完成' };
   }
-  
+
   if (!progress.completed) {
     return { success: false, error: '任务未完成' };
   }
-  
+
   if (progress.rewardClaimed) {
     return { success: false, error: '奖励已领取' };
   }
-  
+
   // 发放奖励
   await addCredits({
     userId,
@@ -254,7 +254,7 @@ export async function claimMissionReward(userId: string, missionId: string) {
     type: CREDIT_TRANSACTION_TYPE.TASK_REWARD,
     description: `新手任务奖励：${missionConfig.title}`,
   });
-  
+
   // 标记为已领取
   await db
     .update(taskProgress)
@@ -263,7 +263,7 @@ export async function claimMissionReward(userId: string, missionId: string) {
       updatedAt: new Date(),
     })
     .where(eq(taskProgress.id, progress.id));
-  
+
   return {
     success: true,
     reward: missionConfig.reward,

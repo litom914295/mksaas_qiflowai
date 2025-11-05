@@ -9,7 +9,11 @@ export interface ReportExportShareProps {
   onShare?: () => void;
 }
 
-export function ReportExportShare({ reportData, onExport, onShare }: ReportExportShareProps) {
+export function ReportExportShare({
+  reportData,
+  onExport,
+  onShare,
+}: ReportExportShareProps) {
   return (
     <div className="flex gap-2">
       <Button

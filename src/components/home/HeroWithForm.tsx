@@ -193,33 +193,36 @@ export function HeroWithForm() {
     try {
       const savedData = sessionStorage.getItem('analysisFormData');
       console.log('[加载表单] sessionStorage 数据:', savedData);
-      
+
       if (savedData) {
         const parsed = JSON.parse(savedData);
         console.log('[加载表单] 解析后的数据:', parsed);
-        
+
         if (parsed.personal) {
           // 解析日期，去掉前导零
           const [year, month, day] = parsed.personal.birthDate.split('-');
           console.log('[加载表单] 日期解析:', { year, month, day });
-          
+
           setFormData({
             name: parsed.personal.name || '',
             gender: parsed.personal.gender || 'female',
             birthYear: year || '',
-            birthMonth: String(parseInt(month, 10)) || '', // 去掉前导零
-            birthDay: String(parseInt(day, 10)) || '', // 去掉前导零
+            birthMonth: String(Number.parseInt(month, 10)) || '', // 去掉前导零
+            birthDay: String(Number.parseInt(day, 10)) || '', // 去掉前导零
             timeOfDay: 'exact', // 自动设置为精确模式
             timePeriod: 'chen',
             exactTime: parsed.personal.birthTime || '08:00',
             birthCity: parsed.personal.birthCity || '',
             calendarType: parsed.personal.calendarType || 'solar',
           });
-          
+
           console.log('[加载表单] 表单数据已加载');
 
           // 如果有房屋信息，也加载
-          if (parsed.house && (parsed.house.direction || parsed.house.directionDegree)) {
+          if (
+            parsed.house &&
+            (parsed.house.direction || parsed.house.directionDegree)
+          ) {
             setHouseInfo({
               direction: parsed.house.direction || '',
               roomCount: parsed.house.roomCount || '',
@@ -349,7 +352,10 @@ export function HeroWithForm() {
         const existingHistory = localStorage.getItem('formHistory') || '[]';
         const history = JSON.parse(existingHistory);
         history.unshift({ ...reportData, timestamp: Date.now() });
-        localStorage.setItem('formHistory', JSON.stringify(history.slice(0, 5)));
+        localStorage.setItem(
+          'formHistory',
+          JSON.stringify(history.slice(0, 5))
+        );
       } catch (e) {
         console.error('保存历史失败:', e);
       }

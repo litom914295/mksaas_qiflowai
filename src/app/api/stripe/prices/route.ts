@@ -10,18 +10,18 @@ export async function GET() {
   try {
     const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
     const packages = websiteConfig.credits.packages;
-    
+
     // 如果没有配置 Stripe,返回配置文件中的默认价格
     if (!stripeSecretKey) {
       const prices: Record<string, { amount: number; currency: string }> = {};
-      
+
       for (const [, pkg] of Object.entries(packages)) {
         prices[pkg.id] = {
           amount: pkg.price.amount,
           currency: pkg.price.currency,
         };
       }
-      
+
       return NextResponse.json({ prices });
     }
 
@@ -31,7 +31,7 @@ export async function GET() {
     // 遍历所有积分包,获取 Stripe 价格
     for (const [key, pkg] of Object.entries(packages)) {
       const priceId = pkg.price.priceId;
-      
+
       if (!priceId) {
         console.warn(`Price ID not found for package: ${key}`);
         continue;
@@ -40,7 +40,7 @@ export async function GET() {
       try {
         // 从 Stripe 获取价格
         const price = await stripe.prices.retrieve(priceId);
-        
+
         if (price.unit_amount && price.currency) {
           prices[pkg.id] = {
             amount: price.unit_amount, // 单位:分/美分

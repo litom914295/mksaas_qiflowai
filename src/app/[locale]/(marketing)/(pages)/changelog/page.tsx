@@ -42,7 +42,8 @@ export default async function ChangelogPage(props: NextPageProps) {
     .filter((releaseItem: any) => releaseItem?.data?.published)
     .sort(
       (a: any, b: any) =>
-        new Date(a?.data?.date || 0).getTime() - new Date(b?.data?.date || 0).getTime()
+        new Date(a?.data?.date || 0).getTime() -
+        new Date(b?.data?.date || 0).getTime()
     );
 
   if (!publishedReleases || publishedReleases.length === 0) {

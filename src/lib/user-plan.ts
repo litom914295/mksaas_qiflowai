@@ -45,10 +45,7 @@ export async function getUserPlan(userId: string): Promise<UserPlan | null> {
       .where(
         and(
           eq(payment.userId, userId),
-          or(
-            eq(payment.status, 'active'),
-            eq(payment.status, 'completed')
-          )
+          or(eq(payment.status, 'active'), eq(payment.status, 'completed'))
         )
       )
       .orderBy(desc(payment.createdAt))

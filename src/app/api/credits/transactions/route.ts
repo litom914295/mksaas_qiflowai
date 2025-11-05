@@ -1,7 +1,7 @@
-import { auth } from '@/lib/auth';
 import { getDb } from '@/db';
 import { creditTransaction } from '@/db/schema';
-import { eq, desc } from 'drizzle-orm';
+import { auth } from '@/lib/auth';
+import { desc, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 /**
@@ -26,12 +26,21 @@ export async function GET(request: Request) {
 
     // Parse query parameters for pagination
     const url = new URL(request.url);
-    const page = parseInt(url.searchParams.get('page') || '1');
-    const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 100); // Max 100 per page
+    const page = Number.parseInt(url.searchParams.get('page') || '1');
+    const limit = Math.min(
+      Number.parseInt(url.searchParams.get('limit') || '50'),
+      100
+    ); // Max 100 per page
     const offset = (page - 1) * limit;
 
-    console.log('[Credits Transactions API] Fetching transactions for user:', userId, 
-                'page:', page, 'limit:', limit);
+    console.log(
+      '[Credits Transactions API] Fetching transactions for user:',
+      userId,
+      'page:',
+      page,
+      'limit:',
+      limit
+    );
 
     const db = await getDb();
 
@@ -60,12 +69,16 @@ export async function GET(request: Request) {
     const totalCount = totalResult.length;
     const totalPages = Math.ceil(totalCount / limit);
 
-    console.log('[Credits Transactions API] Retrieved', transactions.length, 'transactions');
+    console.log(
+      '[Credits Transactions API] Retrieved',
+      transactions.length,
+      'transactions'
+    );
 
     return NextResponse.json({
       success: true,
       data: {
-        transactions: transactions.map(tx => ({
+        transactions: transactions.map((tx) => ({
           id: tx.id,
           amount: tx.amount,
           type: tx.type,

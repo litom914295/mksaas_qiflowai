@@ -7,10 +7,10 @@ import type { CoreMessage } from 'ai';
 import { streamText } from 'ai';
 import { z } from 'zod';
 import {
+  type ProviderKey,
   getDefaultProvider,
   isProviderAvailable,
   resolveModel,
-  type ProviderKey,
 } from './providers';
 
 // 请求验证 Schema
@@ -69,7 +69,7 @@ function buildSystemPrompt(input: ChatRequest): string {
  */
 export async function handleStreamChat(reqBody: unknown) {
   console.log('[handleStreamChat] 开始处理...');
-  
+
   // 1. 验证请求体
   let parsed;
   try {
@@ -79,7 +79,7 @@ export async function handleStreamChat(reqBody: unknown) {
     console.error('[handleStreamChat] 请求验证失败:', error);
     throw error;
   }
-  
+
   const { temperature, messages, includeReasoning } = parsed;
 
   // 2. 确定使用的 Provider
@@ -98,7 +98,7 @@ export async function handleStreamChat(reqBody: unknown) {
     { role: 'system', content: systemPrompt },
     ...messages,
   ];
-  
+
   console.log('[handleStreamChat] Messages:', coreMessages.length);
 
   // 4. 调用 Vercel AI SDK 进行流式生成
@@ -108,9 +108,9 @@ export async function handleStreamChat(reqBody: unknown) {
       model: resolveModel(provider, parsed.model),
       messages: coreMessages,
       temperature,
-      maxTokens: 1500,
+      // maxTokens 已移除，使用模型默认设置
     });
-    
+
     console.log('[handleStreamChat] streamText 返回结果:', typeof result);
 
     // 5. 返回流式响应（使用纯文本流，更快的 TTFB）
@@ -134,7 +134,7 @@ export async function handleStreamChat(reqBody: unknown) {
         model: resolveModel(fallbackProvider, parsed.model),
         messages: coreMessages,
         temperature,
-        maxTokens: 1500,
+        // maxTokens 已移除，使用模型默认设置
       });
 
       return fallbackResult.toTextStreamResponse();

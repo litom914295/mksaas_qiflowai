@@ -26,7 +26,6 @@ export function DashboardHeader({
   breadcrumbs,
   actions,
 }: DashboardHeaderProps) {
-
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -65,11 +64,9 @@ export function DashboardHeader({
 
         {/* dashboard header actions on the right side */}
         {actions && (
-          <div className="ml-auto flex items-center gap-3 pl-4">
-            {actions}
-          </div>
+          <div className="ml-auto flex items-center gap-3 pl-4">{actions}</div>
         )}
-        
+
         {/* 积分、主题、语言切换已移至顶部导航栏，此处不再重复 */}
       </div>
     </header>

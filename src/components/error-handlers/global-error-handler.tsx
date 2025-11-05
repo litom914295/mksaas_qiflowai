@@ -11,10 +11,10 @@ export function GlobalErrorHandler() {
     // Handle unhandled promise rejections
     const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
       console.error('未处理的 Promise 拒绝:', event.reason);
-      
+
       // Prevent the default browser behavior (which logs to console)
       event.preventDefault();
-      
+
       // You can add additional error reporting here (e.g., to Sentry)
       // For now, we just log it
     };
@@ -22,7 +22,7 @@ export function GlobalErrorHandler() {
     // Handle uncaught errors
     const handleError = (event: ErrorEvent) => {
       console.error('未捕获的错误:', event.error);
-      
+
       // Prevent the default browser behavior
       event.preventDefault();
     };
@@ -33,7 +33,10 @@ export function GlobalErrorHandler() {
 
     // Cleanup on unmount
     return () => {
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+      window.removeEventListener(
+        'unhandledrejection',
+        handleUnhandledRejection
+      );
       window.removeEventListener('error', handleError);
     };
   }, []);

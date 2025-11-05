@@ -1,7 +1,7 @@
-import { verifyAuth } from '@/lib/auth';
 import { getDb } from '@/db';
-import { checkIns, user, creditTransaction } from '@/db/schema';
-import { eq, and, gte, desc, sql } from 'drizzle-orm';
+import { checkIns, creditTransaction, user } from '@/db/schema';
+import { verifyAuth } from '@/lib/auth';
+import { and, desc, eq, gte, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -27,10 +27,7 @@ export async function POST(request: NextRequest) {
         .select()
         .from(checkIns)
         .where(
-          and(
-            eq(checkIns.userId, userId),
-            eq(checkIns.checkInDate, today)
-          )
+          and(eq(checkIns.userId, userId), eq(checkIns.checkInDate, today))
         )
         .limit(1);
 
@@ -46,17 +43,15 @@ export async function POST(request: NextRequest) {
         .select()
         .from(checkIns)
         .where(
-          and(
-            eq(checkIns.userId, userId),
-            eq(checkIns.checkInDate, yesterday)
-          )
+          and(eq(checkIns.userId, userId), eq(checkIns.checkInDate, yesterday))
         )
         .limit(1);
 
       // 计算连续签到天数
-      const consecutiveDays = yesterdayCheckIn.length > 0
-        ? yesterdayCheckIn[0].consecutiveDays + 1
-        : 1;
+      const consecutiveDays =
+        yesterdayCheckIn.length > 0
+          ? yesterdayCheckIn[0].consecutiveDays + 1
+          : 1;
 
       // 获取签到配置
       // TODO: 从数据库获取配置,暂时使用硬编码
@@ -96,6 +91,7 @@ export async function POST(request: NextRequest) {
 
       // 创建积分交易记录
       await tx.insert(creditTransaction).values({
+        id: crypto.randomUUID(),
         userId,
         amount: totalReward,
         type: 'signin',
@@ -158,15 +154,11 @@ export async function GET(request: NextRequest) {
     const todayCheckInResult = await db
       .select()
       .from(checkIns)
-      .where(
-        and(
-          eq(checkIns.userId, userId),
-          eq(checkIns.checkInDate, today)
-        )
-      )
+      .where(and(eq(checkIns.userId, userId), eq(checkIns.checkInDate, today)))
       .limit(1);
 
-    const todayCheckIn = todayCheckInResult.length > 0 ? todayCheckInResult[0] : null;
+    const todayCheckIn =
+      todayCheckInResult.length > 0 ? todayCheckInResult[0] : null;
 
     // 获取最近的签到记录(用于显示连续签到天数)
     const latestCheckInResult = await db
@@ -176,7 +168,8 @@ export async function GET(request: NextRequest) {
       .orderBy(desc(checkIns.checkInDate))
       .limit(1);
 
-    const latestCheckIn = latestCheckInResult.length > 0 ? latestCheckInResult[0] : null;
+    const latestCheckIn =
+      latestCheckInResult.length > 0 ? latestCheckInResult[0] : null;
 
     // 获取本月签到次数
     const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);

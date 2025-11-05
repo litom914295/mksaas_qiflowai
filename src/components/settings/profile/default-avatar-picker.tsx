@@ -12,10 +12,10 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  avatarCategories,
   type AvatarCategory,
-  defaultAvatars,
   type DefaultAvatar,
+  avatarCategories,
+  defaultAvatars,
 } from '@/config/default-avatars';
 import { cn } from '@/lib/utils';
 import { Sparkles } from 'lucide-react';

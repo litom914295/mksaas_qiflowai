@@ -133,7 +133,7 @@ export async function updateConfigs(
   configs: Record<string, any>
 ): Promise<void> {
   const db = await getDb();
-  
+
   await db.transaction(async (tx) => {
     for (const [key, value] of Object.entries(configs)) {
       await tx
@@ -161,7 +161,7 @@ export async function updateConfigs(
 export async function initializeConfig(): Promise<void> {
   const db = await getDb();
   const result = await db.select().from(creditConfig).limit(1);
-  
+
   if (result.length > 0) {
     console.log('Config already initialized');
     return;
@@ -172,28 +172,28 @@ export async function initializeConfig(): Promise<void> {
   const configs = [
     {
       key: 'signin',
-      value: DEFAULT_CONFIG.signin,
+      value: DEFAULT_CONFIG.signin as Record<string, unknown>,
       description: '签到奖励配置',
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
       key: 'milestones',
-      value: DEFAULT_CONFIG.milestones,
+      value: DEFAULT_CONFIG.milestones as unknown as Record<string, unknown>,
       description: '里程碑奖励配置',
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
       key: 'tasks',
-      value: DEFAULT_CONFIG.tasks,
+      value: DEFAULT_CONFIG.tasks as Record<string, unknown>,
       description: '任务奖励配置',
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
       key: 'referral',
-      value: DEFAULT_CONFIG.referral,
+      value: DEFAULT_CONFIG.referral as Record<string, unknown>,
       description: '推荐奖励配置',
       createdAt: new Date(),
       updatedAt: new Date(),

@@ -2,7 +2,6 @@
 
 import { getCreditBalanceAction } from '@/actions/get-credit-balance';
 import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
-import { useTranslations } from 'next-intl';
 // import { HistoryQuickFill } from '@/components/history/history-quick-fill'; // 已被禁用
 import { CityLocationPicker } from '@/components/qiflow/city-location-picker';
 import { HouseLayoutUpload } from '@/components/qiflow/house-layout-upload';
@@ -41,6 +40,7 @@ import {
   Upload,
   User,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -567,7 +567,8 @@ export default function UnifiedFormPage() {
                     htmlFor="birthTime"
                     className="flex items-center gap-1"
                   >
-                    {t('UnifiedForm.personal.birthTimeLabel')} <span className="text-red-500">*</span>
+                    {t('UnifiedForm.personal.birthTimeLabel')}{' '}
+                    <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="birthTime"
@@ -587,7 +588,9 @@ export default function UnifiedFormPage() {
                     className="flex items-center gap-1"
                   >
                     {t('UnifiedForm.personal.birthCityLabel')}{' '}
-                    <span className="text-gray-400 text-xs">({t('UnifiedForm.house.optionalBadge')})</span>
+                    <span className="text-gray-400 text-xs">
+                      ({t('UnifiedForm.house.optionalBadge')})
+                    </span>
                   </Label>
                   <CityLocationPicker
                     value={formData.personal.birthCity}
@@ -609,7 +612,9 @@ export default function UnifiedFormPage() {
                     <CardTitle>{t('UnifiedForm.house.title')}</CardTitle>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant="secondary">{t('UnifiedForm.house.optionalBadge')}</Badge>
+                    <Badge variant="secondary">
+                      {t('UnifiedForm.house.optionalBadge')}
+                    </Badge>
                     {showHouseInfo ? (
                       <ChevronUp className="w-5 h-5" />
                     ) : (
@@ -639,7 +644,9 @@ export default function UnifiedFormPage() {
                       <Input
                         id="direction"
                         type="number"
-                        placeholder={t('UnifiedForm.house.directionPlaceholder')}
+                        placeholder={t(
+                          'UnifiedForm.house.directionPlaceholder'
+                        )}
                         value={formData.house.direction}
                         onChange={(e) =>
                           handleHouseChange('direction', e.target.value)
@@ -663,7 +670,9 @@ export default function UnifiedFormPage() {
 
                   {/* 房间数 */}
                   <div>
-                    <Label htmlFor="roomCount">{t('UnifiedForm.house.roomCount')}</Label>
+                    <Label htmlFor="roomCount">
+                      {t('UnifiedForm.house.roomCount')}
+                    </Label>
                     <Select
                       value={formData.house.roomCount}
                       onValueChange={(value) =>
@@ -671,21 +680,37 @@ export default function UnifiedFormPage() {
                       }
                     >
                       <SelectTrigger className="mt-1">
-                        <SelectValue placeholder={t('UnifiedForm.house.roomCountPlaceholder')} />
+                        <SelectValue
+                          placeholder={t(
+                            'UnifiedForm.house.roomCountPlaceholder'
+                          )}
+                        />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="1">{t('UnifiedForm.house.rooms.1')}</SelectItem>
-                        <SelectItem value="2">{t('UnifiedForm.house.rooms.2')}</SelectItem>
-                        <SelectItem value="3">{t('UnifiedForm.house.rooms.3')}</SelectItem>
-                        <SelectItem value="4">{t('UnifiedForm.house.rooms.4')}</SelectItem>
-                        <SelectItem value="5+">{t('UnifiedForm.house.rooms.5+')}</SelectItem>
+                        <SelectItem value="1">
+                          {t('UnifiedForm.house.rooms.1')}
+                        </SelectItem>
+                        <SelectItem value="2">
+                          {t('UnifiedForm.house.rooms.2')}
+                        </SelectItem>
+                        <SelectItem value="3">
+                          {t('UnifiedForm.house.rooms.3')}
+                        </SelectItem>
+                        <SelectItem value="4">
+                          {t('UnifiedForm.house.rooms.4')}
+                        </SelectItem>
+                        <SelectItem value="5+">
+                          {t('UnifiedForm.house.rooms.5+')}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   {/* 标准户型 */}
                   <div>
-                    <Label htmlFor="standardLayout">{t('UnifiedForm.house.standardLayout')}</Label>
+                    <Label htmlFor="standardLayout">
+                      {t('UnifiedForm.house.standardLayout')}
+                    </Label>
                     <Select
                       value={formData.house.standardLayout}
                       onValueChange={(value) =>
@@ -693,14 +718,26 @@ export default function UnifiedFormPage() {
                       }
                     >
                       <SelectTrigger className="mt-1">
-                        <SelectValue placeholder={t('UnifiedForm.house.layoutPlaceholder')} />
+                        <SelectValue
+                          placeholder={t('UnifiedForm.house.layoutPlaceholder')}
+                        />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="type1">{t('UnifiedForm.house.layoutOptions.type1')}</SelectItem>
-                        <SelectItem value="type2">{t('UnifiedForm.house.layoutOptions.type2')}</SelectItem>
-                        <SelectItem value="type3">{t('UnifiedForm.house.layoutOptions.type3')}</SelectItem>
-                        <SelectItem value="type4">{t('UnifiedForm.house.layoutOptions.type4')}</SelectItem>
-                        <SelectItem value="custom">{t('UnifiedForm.house.layoutOptions.custom')}</SelectItem>
+                        <SelectItem value="type1">
+                          {t('UnifiedForm.house.layoutOptions.type1')}
+                        </SelectItem>
+                        <SelectItem value="type2">
+                          {t('UnifiedForm.house.layoutOptions.type2')}
+                        </SelectItem>
+                        <SelectItem value="type3">
+                          {t('UnifiedForm.house.layoutOptions.type3')}
+                        </SelectItem>
+                        <SelectItem value="type4">
+                          {t('UnifiedForm.house.layoutOptions.type4')}
+                        </SelectItem>
+                        <SelectItem value="custom">
+                          {t('UnifiedForm.house.layoutOptions.custom')}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -833,14 +870,14 @@ export default function UnifiedFormPage() {
             <Card className="shadow-lg border-2 border-gray-200">
               <CardContent className="pt-6">
                 <div className="text-xs text-gray-600 space-y-2">
-                  <p className="font-medium">{t('UnifiedForm.privacy.title')}</p>
-                  <p>
-                    {t('UnifiedForm.privacy.content')}
+                  <p className="font-medium">
+                    {t('UnifiedForm.privacy.title')}
                   </p>
-                  <p className="font-medium mt-3">{t('UnifiedForm.privacy.disclaimerTitle')}</p>
-                  <p>
-                    {t('UnifiedForm.privacy.disclaimerContent')}
+                  <p>{t('UnifiedForm.privacy.content')}</p>
+                  <p className="font-medium mt-3">
+                    {t('UnifiedForm.privacy.disclaimerTitle')}
                   </p>
+                  <p>{t('UnifiedForm.privacy.disclaimerContent')}</p>
                 </div>
               </CardContent>
             </Card>

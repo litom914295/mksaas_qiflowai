@@ -43,7 +43,7 @@ export async function readStreamResponse(
       }
 
       const { done, value } = await reader.read();
-      
+
       if (done) break;
 
       // 解码数据块
@@ -95,7 +95,9 @@ export async function streamChat(
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Request failed: ${response.statusText}`);
+      throw new Error(
+        errorData.error || `Request failed: ${response.statusText}`
+      );
     }
 
     return await readStreamResponse(response, {

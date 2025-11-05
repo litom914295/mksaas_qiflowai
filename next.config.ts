@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   // Next.js 15: devIndicators 配置
   devIndicators: {
-    position: 'bottom-right', // buildActivityPosition 已重命名为 position
+    buildActivityPosition: 'bottom-right',
   },
 
   // Ensure .tsx/.jsx pages are recognized alongside MDX

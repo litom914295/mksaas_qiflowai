@@ -30,16 +30,25 @@ export interface AnalysisContext {
  */
 export class SensitiveTopicFilter {
   private static sensitiveTopics = [
-    '政治', '暴力', '色情', '赌博', '违法', '犯罪',
-    '恐怖', '邪教', '毒品', '自杀', '仇恨言论'
+    '政治',
+    '暴力',
+    '色情',
+    '赌博',
+    '违法',
+    '犯罪',
+    '恐怖',
+    '邪教',
+    '毒品',
+    '自杀',
+    '仇恨言论',
   ];
 
   static isSensitive(text: string): boolean {
-    return this.sensitiveTopics.some(topic => text.includes(topic));
+    return this.sensitiveTopics.some((topic) => text.includes(topic));
   }
 
   static getSensitiveReason(text: string): string | null {
-    const found = this.sensitiveTopics.find(topic => text.includes(topic));
+    const found = this.sensitiveTopics.find((topic) => text.includes(topic));
     return found ? `内容包含敏感话题: ${found}` : null;
   }
 
@@ -77,27 +86,33 @@ export class AlgorithmFirstGuard {
   /**
    * 确定问题类型
    */
-  static determineQuestionType(message: string, context?: AnalysisContext): QuestionType {
+  static determineQuestionType(
+    message: string,
+    context?: AnalysisContext
+  ): QuestionType {
     const lowerMessage = message.toLowerCase();
-    
+
     if (lowerMessage.includes('八字') || lowerMessage.includes('命理')) {
       return 'bazi';
     }
     if (lowerMessage.includes('风水') || lowerMessage.includes('玄空')) {
       return 'fengshui';
     }
-    
+
     // 根据上下文数据判断
     if (context?.baziData) return 'bazi';
     if (context?.fengshuiData) return 'fengshui';
-    
+
     return 'general';
   }
 
   /**
    * 验证是否允许基于算法回答
    */
-  static canAnswerWithAlgorithm(questionType: QuestionType, context?: AnalysisContext): boolean {
+  static canAnswerWithAlgorithm(
+    questionType: QuestionType,
+    context?: AnalysisContext
+  ): boolean {
     if (questionType === 'general') return true;
     if (questionType === 'bazi') return !!context?.baziData;
     if (questionType === 'fengshui') return !!context?.fengshuiData;
@@ -114,10 +129,19 @@ export class AlgorithmFirstGuard {
   /**
    * 验证上下文
    */
-  async validateContext(message: string, context: AnalysisContext): Promise<ValidationResult> {
-    const questionType = AlgorithmFirstGuard.determineQuestionType(message, context);
+  async validateContext(
+    message: string,
+    context: AnalysisContext
+  ): Promise<ValidationResult> {
+    const questionType = AlgorithmFirstGuard.determineQuestionType(
+      message,
+      context
+    );
     const hasData = AlgorithmFirstGuard.hasValidData(context);
-    const canAnswer = AlgorithmFirstGuard.canAnswerWithAlgorithm(questionType, context);
+    const canAnswer = AlgorithmFirstGuard.canAnswerWithAlgorithm(
+      questionType,
+      context
+    );
 
     if (!canAnswer && questionType !== 'general') {
       return {
@@ -152,7 +176,10 @@ export class AlgorithmFirstGuard {
   /**
    * 构建上下文提示词
    */
-  static buildContextPrompt(availableData: any, questionType: QuestionType): string {
+  static buildContextPrompt(
+    availableData: any,
+    questionType: QuestionType
+  ): string {
     if (!availableData) return '';
 
     if (questionType === 'bazi' && availableData.bazi) {
@@ -199,7 +226,7 @@ export class AuditLogger {
     ip?: string;
   }): Promise<void> {
     const { sessionId, userId, message, questionType, hasData, ip } = params;
-    
+
     console.log('[Audit] Chat Request', {
       timestamp: new Date().toISOString(),
       sessionId,
@@ -209,7 +236,7 @@ export class AuditLogger {
       hasData,
       ip,
     });
-    
+
     // TODO: 实现持久化审计日志到数据库
   }
 
@@ -224,7 +251,7 @@ export class AuditLogger {
     ip?: string;
   }): Promise<void> {
     const { sessionId, userId, violationType, details, ip } = params;
-    
+
     console.warn('[Audit] Violation Detected', {
       timestamp: new Date().toISOString(),
       sessionId,
@@ -233,7 +260,7 @@ export class AuditLogger {
       details,
       ip,
     });
-    
+
     // TODO: 实现持久化违规记录到数据库
   }
 }

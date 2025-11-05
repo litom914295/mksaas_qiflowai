@@ -1,3 +1,4 @@
+import { HeroWithForm } from '@/components/home/HeroWithForm';
 import { AbPersist } from '@/components/qiflow/ab/AbPersist';
 import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification';
 import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar';
@@ -5,7 +6,6 @@ import { CTASection } from '@/components/qiflow/homepage/CTASection';
 import { FAQ } from '@/components/qiflow/homepage/FAQ';
 import { FeatureGrid } from '@/components/qiflow/homepage/FeatureGrid';
 import { FourStates } from '@/components/qiflow/homepage/FourStates';
-import { HeroWithForm } from '@/components/home/HeroWithForm';
 import { HowItWorks } from '@/components/qiflow/homepage/HowItWorks';
 import { InstantTrySection } from '@/components/qiflow/homepage/InstantTrySection';
 import { LiveActivityFeed } from '@/components/qiflow/homepage/LiveActivityFeed';

@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { headers, cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { cache } from 'react';
 import { auth } from './auth';
 
@@ -14,7 +14,7 @@ export const getSession = cache(async () => {
     // 1. 先检查 Cookie 是否存在
     const cookieStore = await cookies();
     const sessionToken = cookieStore.get('better-auth.session_token');
-    
+
     console.log('[getSession] Cookie check:', {
       hasSessionToken: !!sessionToken,
       tokenLength: sessionToken?.value?.length,

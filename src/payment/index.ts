@@ -35,17 +35,17 @@ export const getPaymentProvider = (): PaymentProvider => {
 export const initializePaymentProvider = (): PaymentProvider => {
   if (!paymentProvider) {
     console.log('[PaymentProvider] Initializing payment provider...');
-    
+
     // Get provider from config, default to 'stripe' if not found
     const provider = websiteConfig?.price?.provider || 'stripe';
-    
+
     console.log('[PaymentProvider] Provider:', provider);
     console.log('[PaymentProvider] Config check:', {
       hasWebsiteConfig: !!websiteConfig,
       hasPrice: !!websiteConfig?.price,
       provider: websiteConfig?.price?.provider,
     });
-    
+
     // Currently only Stripe is supported
     if (provider === 'stripe') {
       console.log('[PaymentProvider] Initializing Stripe provider...');
@@ -53,9 +53,7 @@ export const initializePaymentProvider = (): PaymentProvider => {
       console.log('[PaymentProvider] Stripe provider initialized successfully');
     } else {
       console.error('[PaymentProvider] Unsupported provider:', provider);
-      throw new Error(
-        `Unsupported payment provider: ${provider}`
-      );
+      throw new Error(`Unsupported payment provider: ${provider}`);
     }
   }
   return paymentProvider;

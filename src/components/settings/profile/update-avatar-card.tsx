@@ -1,7 +1,7 @@
 'use client';
 
-import { FormError } from '@/components/shared/form-error';
 import { DefaultAvatarPicker } from '@/components/settings/profile/default-avatar-picker';
+import { FormError } from '@/components/shared/form-error';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { type DefaultAvatar } from '@/config/default-avatars';
+import type { DefaultAvatar } from '@/config/default-avatars';
 import { websiteConfig } from '@/config/website';
 import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
@@ -183,23 +183,56 @@ export function UpdateAvatarCard({ className }: UpdateAvatarCardProps) {
   };
 
   // 从Tailwind类提取颜色
-  const getColorFromClass = (colorClass: string, type: 'from' | 'to'): string => {
+  const getColorFromClass = (
+    colorClass: string,
+    type: 'from' | 'to'
+  ): string => {
     const colorMap: Record<string, string> = {
-      'green-400': '#4ade80', 'green-500': '#22c55e', 'green-600': '#16a34a', 'green-700': '#15803d',
-      'emerald-600': '#059669', 'emerald-700': '#047857', 'emerald-800': '#065f46',
-      'teal-500': '#14b8a6', 'teal-600': '#0d9488',
-      'red-400': '#f87171', 'red-500': '#ef4444', 'red-600': '#dc2626', 'red-700': '#b91c1c',
-      'orange-500': '#f97316', 'orange-600': '#ea580c', 'orange-700': '#c2410c',
-      'pink-400': '#f472b6', 'pink-500': '#ec4899', 'pink-600': '#db2777', 'pink-700': '#be185d',
-      'yellow-400': '#facc15', 'yellow-500': '#eab308', 'yellow-600': '#ca8a04', 'yellow-700': '#a16207',
-      'amber-500': '#f59e0b', 'amber-600': '#d97706', 'amber-700': '#b45309', 'amber-800': '#92400e',
-      'blue-500': '#3b82f6', 'blue-600': '#2563eb', 'blue-700': '#1d4ed8',
-      'cyan-700': '#0e7490', 'cyan-800': '#155e75',
-      'indigo-600': '#4f46e5', 'indigo-700': '#4338ca',
+      'green-400': '#4ade80',
+      'green-500': '#22c55e',
+      'green-600': '#16a34a',
+      'green-700': '#15803d',
+      'emerald-600': '#059669',
+      'emerald-700': '#047857',
+      'emerald-800': '#065f46',
+      'teal-500': '#14b8a6',
+      'teal-600': '#0d9488',
+      'red-400': '#f87171',
+      'red-500': '#ef4444',
+      'red-600': '#dc2626',
+      'red-700': '#b91c1c',
+      'orange-500': '#f97316',
+      'orange-600': '#ea580c',
+      'orange-700': '#c2410c',
+      'pink-400': '#f472b6',
+      'pink-500': '#ec4899',
+      'pink-600': '#db2777',
+      'pink-700': '#be185d',
+      'yellow-400': '#facc15',
+      'yellow-500': '#eab308',
+      'yellow-600': '#ca8a04',
+      'yellow-700': '#a16207',
+      'amber-500': '#f59e0b',
+      'amber-600': '#d97706',
+      'amber-700': '#b45309',
+      'amber-800': '#92400e',
+      'blue-500': '#3b82f6',
+      'blue-600': '#2563eb',
+      'blue-700': '#1d4ed8',
+      'cyan-700': '#0e7490',
+      'cyan-800': '#155e75',
+      'indigo-600': '#4f46e5',
+      'indigo-700': '#4338ca',
       'purple-700': '#7e22ce',
-      'gray-300': '#d1d5db', 'gray-400': '#9ca3af', 'gray-500': '#6b7280', 'gray-600': '#4b5563',
-      'slate-500': '#64748b', 'slate-600': '#475569', 'slate-700': '#334155',
-      'zinc-400': '#a1a1aa', 'zinc-500': '#71717a',
+      'gray-300': '#d1d5db',
+      'gray-400': '#9ca3af',
+      'gray-500': '#6b7280',
+      'gray-600': '#4b5563',
+      'slate-500': '#64748b',
+      'slate-600': '#475569',
+      'slate-700': '#334155',
+      'zinc-400': '#a1a1aa',
+      'zinc-500': '#71717a',
     };
 
     const match = colorClass.match(type === 'from' ? /from-(\S+)/ : /to-(\S+)/);

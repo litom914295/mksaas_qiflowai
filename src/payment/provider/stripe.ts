@@ -52,9 +52,16 @@ export class StripeProvider implements PaymentProvider {
     }
 
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-    if (!webhookSecret || webhookSecret === 'whsec_PLACEHOLDER_TO_BE_REPLACED_BY_STRIPE_CLI') {
-      console.warn('⚠️ STRIPE_WEBHOOK_SECRET is not configured. Webhook events will not work.');
-      console.warn('Run: stripe listen --forward-to http://localhost:3000/api/webhooks/stripe');
+    if (
+      !webhookSecret ||
+      webhookSecret === 'whsec_PLACEHOLDER_TO_BE_REPLACED_BY_STRIPE_CLI'
+    ) {
+      console.warn(
+        '⚠️ STRIPE_WEBHOOK_SECRET is not configured. Webhook events will not work.'
+      );
+      console.warn(
+        'Run: stripe listen --forward-to http://localhost:3000/api/webhooks/stripe'
+      );
     }
 
     // Initialize Stripe without specifying apiVersion to use default/latest version
@@ -191,8 +198,12 @@ export class StripeProvider implements PaymentProvider {
     } = params;
 
     try {
-      console.log('[StripeProvider] Creating checkout session:', { planId, priceId, customerEmail });
-      
+      console.log('[StripeProvider] Creating checkout session:', {
+        planId,
+        priceId,
+        customerEmail,
+      });
+
       // Get plan and price
       const plan = findPlanByPlanId(planId);
       if (!plan) {
@@ -204,7 +215,10 @@ export class StripeProvider implements PaymentProvider {
       // Find price in plan
       const price = findPriceInPlan(planId, priceId);
       if (!price) {
-        console.error('[StripeProvider] Price not found in plan:', { planId, priceId });
+        console.error('[StripeProvider] Price not found in plan:', {
+          planId,
+          priceId,
+        });
         throw new Error(`Price ID ${priceId} not found in plan ${planId}`);
       }
       console.log('[StripeProvider] Price found:', price);
@@ -280,11 +294,17 @@ export class StripeProvider implements PaymentProvider {
       }
 
       // Create the checkout session
-      console.log('[StripeProvider] Creating Stripe session with params:', JSON.stringify(checkoutParams, null, 2));
+      console.log(
+        '[StripeProvider] Creating Stripe session with params:',
+        JSON.stringify(checkoutParams, null, 2)
+      );
       const session =
         await this.stripe.checkout.sessions.create(checkoutParams);
-      
-      console.log('[StripeProvider] Checkout session created successfully:', { id: session.id, url: session.url });
+
+      console.log('[StripeProvider] Checkout session created successfully:', {
+        id: session.id,
+        url: session.url,
+      });
       return {
         url: session.url!,
         id: session.id,
@@ -317,8 +337,12 @@ export class StripeProvider implements PaymentProvider {
     } = params;
 
     try {
-      console.log('[StripeProvider] Creating credit checkout session:', { packageId, priceId, customerEmail });
-      
+      console.log('[StripeProvider] Creating credit checkout session:', {
+        packageId,
+        priceId,
+        customerEmail,
+      });
+
       // Get credit package
       const creditPackage = getCreditPackageById(packageId);
       if (!creditPackage) {
@@ -329,7 +353,10 @@ export class StripeProvider implements PaymentProvider {
 
       // Validate priceId
       if (!priceId) {
-        console.error('[StripeProvider] Price ID not provided for package:', packageId);
+        console.error(
+          '[StripeProvider] Price ID not provided for package:',
+          packageId
+        );
         throw new Error(`Price ID not found for credit package ${packageId}`);
       }
       console.log('[StripeProvider] Using priceId:', priceId);
@@ -388,17 +415,26 @@ export class StripeProvider implements PaymentProvider {
       };
 
       // Create the checkout session
-      console.log('[StripeProvider] Creating Stripe credit session with params:', JSON.stringify(checkoutParams, null, 2));
+      console.log(
+        '[StripeProvider] Creating Stripe credit session with params:',
+        JSON.stringify(checkoutParams, null, 2)
+      );
       const session =
         await this.stripe.checkout.sessions.create(checkoutParams);
-      
-      console.log('[StripeProvider] Credit checkout session created successfully:', { id: session.id, url: session.url });
+
+      console.log(
+        '[StripeProvider] Credit checkout session created successfully:',
+        { id: session.id, url: session.url }
+      );
       return {
         url: session.url!,
         id: session.id,
       };
     } catch (error) {
-      console.error('[StripeProvider] Create credit checkout session error:', error);
+      console.error(
+        '[StripeProvider] Create credit checkout session error:',
+        error
+      );
       if (error instanceof Error) {
         throw error;
       }

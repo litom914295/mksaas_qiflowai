@@ -216,9 +216,14 @@ export function EnhancedBalanceCard({ className }: EnhancedBalanceCardProps) {
             className="w-full"
             onClick={() => {
               // 滚动到积分套餐区域
-              const packagesSection = document.querySelector('[data-section="credit-packages"]');
+              const packagesSection = document.querySelector(
+                '[data-section="credit-packages"]'
+              );
               if (packagesSection) {
-                packagesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                packagesSection.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
               }
             }}
           >

@@ -1,6 +1,6 @@
 import { getDb } from '@/db';
-import { referrals, user, creditTransaction, referralCodes } from '@/db/schema';
-import { eq, and, sql } from 'drizzle-orm';
+import { creditTransaction, referralCodes, referrals, user } from '@/db/schema';
+import { and, eq, sql } from 'drizzle-orm';
 
 /**
  * 推荐奖励配置
@@ -22,17 +22,14 @@ const REFERRAL_CONFIG = {
 export async function activateReferralReward(userId: string) {
   try {
     const db = await getDb();
-    
+
     return await db.transaction(async (tx) => {
       // 查找该用户的推荐关系
       const referralResult = await tx
         .select()
         .from(referrals)
         .where(
-          and(
-            eq(referrals.referredId, userId),
-            eq(referrals.status, 'pending')
-          )
+          and(eq(referrals.referredId, userId), eq(referrals.status, 'pending'))
         )
         .limit(1);
 
@@ -69,6 +66,7 @@ export async function activateReferralReward(userId: string) {
 
       // 1. 给被推荐人发放奖励
       await tx.insert(creditTransaction).values({
+        id: crypto.randomUUID(),
         userId: referral.referredId,
         amount: REFERRAL_CONFIG.inviteeBonus,
         type: 'referred_bonus',
@@ -84,6 +82,7 @@ export async function activateReferralReward(userId: string) {
 
       // 2. 给推荐人发放奖励
       await tx.insert(creditTransaction).values({
+        id: crypto.randomUUID(),
         userId: referral.referrerId,
         amount: REFERRAL_CONFIG.inviterBonus,
         type: 'referral_bonus',
@@ -110,6 +109,7 @@ export async function activateReferralReward(userId: string) {
       if (milestoneReward) {
         // 发放里程碑奖励
         await tx.insert(creditTransaction).values({
+          id: crypto.randomUUID(),
           userId: referral.referrerId,
           amount: milestoneReward,
           type: 'milestone',
@@ -144,7 +144,7 @@ export async function activateReferralReward(userId: string) {
 export async function createReferral(referrerId: string, referredId: string) {
   try {
     const db = await getDb();
-    
+
     // 检查是否已存在推荐关系
     const existingReferral = await db
       .select()

@@ -59,3 +59,8 @@ node_modules/
 # Task files
 # tasks.json
 # tasks/ 
+
+
+# 归档目录（忽略大部分内容，但保留重要报告）
+.archived/*
+!.archived/CLEANUP_REPORT.md

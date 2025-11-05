@@ -171,7 +171,10 @@ export async function addCredits({
     amount,
     description,
     paymentId,
-    expirationDate: expireDays && expireDays > 0 ? add(new Date(), { days: expireDays }) : undefined,
+    expirationDate:
+      expireDays && expireDays > 0
+        ? add(new Date(), { days: expireDays })
+        : undefined,
   });
 }
 

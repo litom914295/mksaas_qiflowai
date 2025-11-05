@@ -16,7 +16,9 @@ export function generateStaticParams() {
       (categorySource && typeof categorySource.getPages === 'function'
         ? (categorySource as any).getPages(locale)
         : []) || [];
-    const filtered = localeCategories.filter((category: any) => category?.locale === locale);
+    const filtered = localeCategories.filter(
+      (category: any) => category?.locale === locale
+    );
     for (const category of filtered) {
       params.push({ locale, slug: category.slugs?.[0] });
     }
@@ -55,12 +57,20 @@ export default async function BlogCategoryPage({
   const category = (categorySource as any)?.getPage?.([slug], locale) ?? null;
   if (!category) {
     return (
-      <BlogGridWithPagination locale={locale} posts={[]} totalPages={1} routePrefix={`/blog/category/${slug}`} />
+      <BlogGridWithPagination
+        locale={locale}
+        posts={[]}
+        totalPages={1}
+        routePrefix={`/blog/category/${slug}`}
+      />
     );
   }
 
-  const localePosts: any[] = ((blogSource as any)?.getPages?.(locale) ?? []) as any[];
-  const publishedPosts = localePosts.filter((post: any) => post?.data?.published);
+  const localePosts: any[] = ((blogSource as any)?.getPages?.(locale) ??
+    []) as any[];
+  const publishedPosts = localePosts.filter(
+    (post: any) => post?.data?.published
+  );
   const filteredPosts = publishedPosts.filter((post: any) =>
     (post?.data?.categories || []).some((cat: any) => cat === category.slugs[0])
   );

@@ -75,11 +75,13 @@ export async function POST(request: Request) {
     // 计算随机签到积分（5的倍数：5, 10, 15, 20）
     const minAmount = (dailyCfg as any).minAmount || 5;
     const maxAmount = (dailyCfg as any).maxAmount || 20;
-    
+
     // 生成5的倍数：[1, 2, 3, 4] -> [5, 10, 15, 20]
-    const multiplier = Math.floor(Math.random() * ((maxAmount - minAmount) / 5 + 1)) + (minAmount / 5);
+    const multiplier =
+      Math.floor(Math.random() * ((maxAmount - minAmount) / 5 + 1)) +
+      minAmount / 5;
     const randomAmount = multiplier * 5;
-    
+
     // Add credits
     await addCredits({
       userId,
@@ -109,7 +111,7 @@ export async function POST(request: Request) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     let streak = 0;
-    
+
     // 从今天开始向前检查连续天数
     // 签到后，今天已经被添加到 marked 集合中，从 i=0 开始计数
     for (let i = 0; i < 365; i++) {
@@ -199,7 +201,12 @@ export async function POST(request: Request) {
       }
     }
 
-    console.log('[签到API] 签到成功, 连续天数:', streak, '获得积分:', randomAmount);
+    console.log(
+      '[签到API] 签到成功, 连续天数:',
+      streak,
+      '获得积分:',
+      randomAmount
+    );
     clearTimeout(timeoutId);
     return NextResponse.json({
       success: true,

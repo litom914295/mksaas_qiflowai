@@ -23,7 +23,10 @@ export function useCreditPackages(): Record<string, CreditPackage> {
 
   // Add translated content to each plan
   // Only include packages with valid price IDs
-  if (creditConfig.packages.basic && creditConfig.packages.basic.price?.priceId) {
+  if (
+    creditConfig.packages.basic &&
+    creditConfig.packages.basic.price?.priceId
+  ) {
     packages.basic = {
       ...creditConfig.packages.basic,
       name: t('basic.name'),
@@ -31,7 +34,10 @@ export function useCreditPackages(): Record<string, CreditPackage> {
     };
   }
 
-  if (creditConfig.packages.standard && creditConfig.packages.standard.price?.priceId) {
+  if (
+    creditConfig.packages.standard &&
+    creditConfig.packages.standard.price?.priceId
+  ) {
     packages.standard = {
       ...creditConfig.packages.standard,
       name: t('standard.name'),
@@ -39,7 +45,10 @@ export function useCreditPackages(): Record<string, CreditPackage> {
     };
   }
 
-  if (creditConfig.packages.premium && creditConfig.packages.premium.price?.priceId) {
+  if (
+    creditConfig.packages.premium &&
+    creditConfig.packages.premium.price?.priceId
+  ) {
     packages.premium = {
       ...creditConfig.packages.premium,
       name: t('premium.name'),
@@ -47,7 +56,10 @@ export function useCreditPackages(): Record<string, CreditPackage> {
     };
   }
 
-  if (creditConfig.packages.enterprise && creditConfig.packages.enterprise.price?.priceId) {
+  if (
+    creditConfig.packages.enterprise &&
+    creditConfig.packages.enterprise.price?.priceId
+  ) {
     packages.enterprise = {
       ...creditConfig.packages.enterprise,
       name: t('enterprise.name'),

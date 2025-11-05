@@ -29,20 +29,23 @@ async function createAdmin() {
 
   try {
     // 1. 先检查用户是否存在
-    const { data: existingUsers, error: listError } = await supabase.auth.admin.listUsers();
-    
+    const { data: existingUsers, error: listError } =
+      await supabase.auth.admin.listUsers();
+
     if (listError) {
       console.error('❌ Error listing users:', listError.message);
       return;
     }
 
-    const existingUser = existingUsers?.users.find(u => u.email === email);
-    
+    const existingUser = existingUsers?.users.find((u) => u.email === email);
+
     if (existingUser) {
       console.log('ℹ️  User already exists:', existingUser.email);
       console.log('   ID:', existingUser.id);
       console.log('   Created:', existingUser.created_at);
-      console.log('\n💡 To reset password, use Supabase Dashboard or delete and recreate');
+      console.log(
+        '\n💡 To reset password, use Supabase Dashboard or delete and recreate'
+      );
       return;
     }
 
@@ -67,7 +70,10 @@ async function createAdmin() {
     console.log('\n👤 User Details:');
     console.log('   Email:', data.user.email);
     console.log('   ID:', data.user.id);
-    console.log('   Email Verified:', data.user.email_confirmed_at ? 'Yes' : 'No');
+    console.log(
+      '   Email Verified:',
+      data.user.email_confirmed_at ? 'Yes' : 'No'
+    );
     console.log('   Created:', data.user.created_at);
 
     console.log('\n🔑 Login Credentials:');
@@ -75,7 +81,6 @@ async function createAdmin() {
     console.log('   Password:', password);
     console.log('\n🌐 Login URL:');
     console.log('   http://localhost:3001/zh-CN/auth/login');
-
   } catch (error: any) {
     console.error('❌ Unexpected error:', error.message);
   }

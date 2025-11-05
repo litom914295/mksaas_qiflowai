@@ -24,7 +24,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type ActivitySectionProps = {
   activities: {
@@ -48,7 +48,7 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
   const [earnedCredits, setEarnedCredits] = useState<number | null>(null);
   const { toast } = useToast();
   const router = useRouter();
-  
+
   // 同步签到状态：当 props 更新时，同步本地状态
   useEffect(() => {
     setIsSigned(activities.dailySignIn.isSigned);
@@ -68,7 +68,7 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
               'Content-Type': 'application/json',
             },
           });
-          
+
           if (response.ok) {
             const result = await response.json();
             if (result.success && !result.data.already) {
@@ -105,12 +105,15 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
     const loadMissions = async () => {
       try {
         const response = await fetch('/api/missions/newbie');
-        
+
         if (!response.ok) {
-          console.error('Failed to load missions - response not ok:', response.status);
+          console.error(
+            'Failed to load missions - response not ok:',
+            response.status
+          );
           return;
         }
-        
+
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
           console.error('Response is not JSON, content-type:', contentType);
@@ -118,7 +121,7 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
           console.error('Response body:', text.substring(0, 500));
           return;
         }
-        
+
         const data = await response.json();
         if (data.success) {
           setMissions(data.missions);
@@ -143,10 +146,14 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ missionId }),
       });
-      
+
       if (!response.ok) {
         const text = await response.text();
-        console.error('Claim mission failed:', response.status, text.substring(0, 500));
+        console.error(
+          'Claim mission failed:',
+          response.status,
+          text.substring(0, 500)
+        );
         throw new Error('Failed to claim reward');
       }
 
@@ -158,9 +165,11 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
           description: result.message,
         });
         // 更新任务状态
-        setMissions(missions.map(m => 
-          m.id === missionId ? { ...m, rewardClaimed: true } : m
-        ));
+        setMissions(
+          missions.map((m) =>
+            m.id === missionId ? { ...m, rewardClaimed: true } : m
+          )
+        );
         router.refresh();
       } else {
         throw new Error(result.error || '领取失败');
@@ -189,10 +198,14 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok && response.status !== 400) {
         const text = await response.text();
-        console.error('Sign in failed:', response.status, text.substring(0, 500));
+        console.error(
+          'Sign in failed:',
+          response.status,
+          text.substring(0, 500)
+        );
         throw new Error('Failed to sign in');
       }
 
@@ -306,7 +319,9 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
                     </div>
                     <span className="font-semibold text-orange-600">
                       {earnedCredits ? (
-                        <span className="animate-pulse">+{earnedCredits} 积分</span>
+                        <span className="animate-pulse">
+                          +{earnedCredits} 积分
+                        </span>
                       ) : (
                         '5-20 积分'
                       )}
@@ -320,7 +335,9 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
                     <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
                       <CheckCircle2 className="h-5 w-5" />
                       <span className="font-semibold">
-                        {earnedCredits ? `今日已签到 +${earnedCredits}积分` : '今日已签到'}
+                        {earnedCredits
+                          ? `今日已签到 +${earnedCredits}积分`
+                          : '今日已签到'}
                       </span>
                     </div>
                   ) : !autoSignInAttempted ? (
@@ -329,7 +346,7 @@ export default function ActivitySection({ activities }: ActivitySectionProps) {
                       <span>正在自动签到...</span>
                     </div>
                   ) : (
-                    <Button 
+                    <Button
                       onClick={handleSignIn}
                       disabled={isSigningIn}
                       size="sm"

@@ -1,7 +1,7 @@
 import { getDb } from '@/db';
-import { creditTransaction, user, checkIns } from '@/db/schema';
-import { eq, desc, sql } from 'drizzle-orm';
+import { checkIns, creditTransaction, user } from '@/db/schema';
 import { withAdminAuth } from '@/lib/middleware/adminAuth';
+import { desc, eq, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -89,7 +89,7 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
         email: u.email || '',
         balance: u.credits || 0,
         totalEarned: 0, // TODO: 需要分别查询
-        totalSpent: 0,  // TODO: 需要分别查询
+        totalSpent: 0, // TODO: 需要分别查询
         signInStreak: 0, // TODO: 需要关联 checkIns
         lastSignIn: '',
         createdAt: u.createdAt?.toISOString() || '',

@@ -1,8 +1,8 @@
-import { verifyAuth } from '@/lib/auth';
 import { getDb } from '@/db';
-import { referrals, user, creditTransaction, referralCodes } from '@/db/schema';
-import { eq, sql, inArray } from 'drizzle-orm';
+import { creditTransaction, referralCodes, referrals, user } from '@/db/schema';
+import { verifyAuth } from '@/lib/auth';
 import { generateReferralCode } from '@/lib/services/referral';
+import { eq, inArray, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -40,7 +40,8 @@ export async function GET(request: NextRequest) {
       .limit(1);
 
     // 如果没有推荐码,生成一个
-    let referralCode = referralCodeResult.length > 0 ? referralCodeResult[0].code : null;
+    let referralCode =
+      referralCodeResult.length > 0 ? referralCodeResult[0].code : null;
     if (!referralCode) {
       referralCode = await generateReferralCode(userId);
     }
@@ -59,21 +60,22 @@ export async function GET(request: NextRequest) {
       .orderBy(sql`${referrals.createdAt} DESC`);
 
     // 获取被推荐用户信息
-    const referredUserIds = referralsList.map(r => r.referredId);
-    const referredUsers = referredUserIds.length > 0
-      ? await db
-          .select({
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            createdAt: user.createdAt,
-          })
-          .from(user)
-          .where(inArray(user.id, referredUserIds))
-      : [];
+    const referredUserIds = referralsList.map((r) => r.referredId);
+    const referredUsers =
+      referredUserIds.length > 0
+        ? await db
+            .select({
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              createdAt: user.createdAt,
+            })
+            .from(user)
+            .where(inArray(user.id, referredUserIds))
+        : [];
 
     // 创建用户 map 以便快速查找
-    const userMap = new Map(referredUsers.map(u => [u.id, u]));
+    const userMap = new Map(referredUsers.map((u) => [u.id, u]));
 
     // 计算已获得的推荐奖励
     const referralRewardsResult = await db
@@ -89,9 +91,10 @@ export async function GET(request: NextRequest) {
         referralCode,
         referralLink: `${process.env.NEXT_PUBLIC_APP_URL}/register?ref=${referralCode}`,
         totalInvites: referralsList.length,
-        successfulInvites: referralsList.filter(r => r.status === 'activated').length,
+        successfulInvites: referralsList.filter((r) => r.status === 'activated')
+          .length,
         totalRewards: Number(referralRewardsResult[0]?.total || 0),
-        referrals: referralsList.map(r => {
+        referrals: referralsList.map((r) => {
           const referredUser = userMap.get(r.referredId);
           return {
             id: r.id,

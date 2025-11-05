@@ -247,7 +247,9 @@ export async function batchAddMonthlyFreeCredits(userIds: string[]) {
     }
 
     processedCount = eligibleUserIds.length;
-    const expirationDate = expireDays ? add(now, { days: expireDays }) : undefined;
+    const expirationDate = expireDays
+      ? add(now, { days: expireDays })
+      : undefined;
 
     // Batch insert credit transactions
     const transactions = eligibleUserIds.map((userId) => ({
@@ -388,7 +390,9 @@ export async function batchAddLifetimeMonthlyCredits(
       }
 
       processedCount = eligibleUserIds.length;
-      const expirationDate = expireDays ? add(now, { days: expireDays }) : undefined;
+      const expirationDate = expireDays
+        ? add(now, { days: expireDays })
+        : undefined;
 
       // Batch insert credit transactions
       const transactions = eligibleUserIds.map((userId: string) => ({
@@ -529,7 +533,9 @@ export async function batchAddYearlyUsersMonthlyCredits(
       }
 
       processedCount = eligibleUserIds.length;
-      const expirationDate = expireDays ? add(now, { days: expireDays }) : undefined;
+      const expirationDate = expireDays
+        ? add(now, { days: expireDays })
+        : undefined;
 
       // Batch insert credit transactions
       const transactions = eligibleUserIds.map((userId) => ({

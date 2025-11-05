@@ -1,10 +1,11 @@
 import 'dotenv/config';
+import { and, desc, eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { payment, userCredit } from '../src/db/schema';
-import { eq, and, desc } from 'drizzle-orm';
 
-const connectionString = process.env.DIRECT_DATABASE_URL || process.env.DATABASE_URL;
+const connectionString =
+  process.env.DIRECT_DATABASE_URL || process.env.DATABASE_URL;
 
 if (!connectionString) {
   console.error('❌ DATABASE_URL not found');
@@ -16,9 +17,9 @@ const db = drizzle(client);
 
 async function verifySubscription() {
   const userId = 'mLcZLbqhL3xmFoAx4RmQieh39MSxnDG2';
-  
+
   console.log('\n📊 Checking subscription status...\n');
-  
+
   // Get latest payment records
   const payments = await db
     .select()
@@ -26,7 +27,7 @@ async function verifySubscription() {
     .where(eq(payment.userId, userId))
     .orderBy(desc(payment.createdAt))
     .limit(5);
-  
+
   console.log('💳 Payment Records:');
   payments.forEach((p, i) => {
     console.log(`\n${i + 1}. Payment ID: ${p.id}`);
@@ -38,14 +39,14 @@ async function verifySubscription() {
     console.log(`   Invoice ID: ${p.invoiceId}`);
     console.log(`   Created: ${p.createdAt}`);
   });
-  
+
   // Get credit balance
   const credits = await db
     .select()
     .from(userCredit)
     .where(eq(userCredit.userId, userId))
     .limit(1);
-  
+
   console.log('\n\n💰 Credit Balance:');
   if (credits.length > 0) {
     console.log(`   Current Credits: ${credits[0].currentCredits}`);
@@ -53,7 +54,7 @@ async function verifySubscription() {
   } else {
     console.log('   No credit record found');
   }
-  
+
   await client.end();
 }
 

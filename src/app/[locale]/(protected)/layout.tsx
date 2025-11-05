@@ -13,10 +13,10 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     <div className="flex min-h-screen flex-col">
       {/* 自动签到处理器 */}
       <DailySigninHandler />
-      
+
       {/* 全局导航栏 */}
       <Navbar scroll={false} />
-      
+
       {/* 侧边栏和内容区域 */}
       <SidebarProvider
         style={

@@ -49,9 +49,7 @@ function PaymentCallbackInner() {
             <CheckCircle className="w-12 h-12 text-green-600" />
           </div>
           <h1 className="text-3xl font-bold mb-2">支付成功!</h1>
-          <p className="text-muted-foreground">
-            感谢您的购买,交易已完成
-          </p>
+          <p className="text-muted-foreground">感谢您的购买,交易已完成</p>
         </div>
 
         <div className="bg-green-50 rounded-lg p-4 mb-6">

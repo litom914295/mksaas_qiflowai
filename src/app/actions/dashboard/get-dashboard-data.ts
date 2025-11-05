@@ -6,9 +6,15 @@
 
 import { getUserCredits } from '@/credits/credits';
 import { getDb } from '@/db';
-import { baziCalculations, creditTransaction, fengshuiAnalysis, payment, user } from '@/db/schema';
-import { getUserPlan } from '@/lib/user-plan';
+import {
+  baziCalculations,
+  creditTransaction,
+  fengshuiAnalysis,
+  payment,
+  user,
+} from '@/db/schema';
 import { getSession } from '@/lib/server';
+import { getUserPlan } from '@/lib/user-plan';
 import { and, count, eq, gte, sql } from 'drizzle-orm';
 
 export interface DashboardStats {
@@ -141,25 +147,29 @@ export async function getDashboardData(): Promise<DashboardData | null> {
       try {
         // 获取用户分析统计
         const db = await getDb();
-        
+
         // 总分析次数（八字 + 风水）
         const [baziCount, fengshuiCount] = await Promise.all([
-          db.select({ count: count() })
+          db
+            .select({ count: count() })
             .from(baziCalculations)
             .where(eq(baziCalculations.userId, session.user.id)),
-          db.select({ count: count() })
+          db
+            .select({ count: count() })
             .from(fengshuiAnalysis)
             .where(eq(fengshuiAnalysis.userId, session.user.id)),
         ]);
-        
-        analysisCount = (baziCount[0]?.count || 0) + (fengshuiCount[0]?.count || 0);
+
+        analysisCount =
+          (baziCount[0]?.count || 0) + (fengshuiCount[0]?.count || 0);
 
         // 本月分析次数
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        
+
         const [monthlyBazi, monthlyFengshui] = await Promise.all([
-          db.select({ count: count() })
+          db
+            .select({ count: count() })
             .from(baziCalculations)
             .where(
               and(
@@ -167,7 +177,8 @@ export async function getDashboardData(): Promise<DashboardData | null> {
                 gte(baziCalculations.createdAt, startOfMonth)
               )
             ),
-          db.select({ count: count() })
+          db
+            .select({ count: count() })
             .from(fengshuiAnalysis)
             .where(
               and(
@@ -176,8 +187,9 @@ export async function getDashboardData(): Promise<DashboardData | null> {
               )
             ),
         ]);
-        
-        monthlyAnalysis = (monthlyBazi[0]?.count || 0) + (monthlyFengshui[0]?.count || 0);
+
+        monthlyAnalysis =
+          (monthlyBazi[0]?.count || 0) + (monthlyFengshui[0]?.count || 0);
 
         // 平台总用户数
         const usersResult = await db.select({ count: count() }).from(user);
@@ -185,22 +197,24 @@ export async function getDashboardData(): Promise<DashboardData | null> {
 
         // 获取最近的分析记录（最近5条）
         const [recentBazi, recentFengshui] = await Promise.all([
-          db.select({
-            id: baziCalculations.id,
-            createdAt: baziCalculations.createdAt,
-            creditsUsed: baziCalculations.creditsUsed,
-            input: baziCalculations.input,
-          })
+          db
+            .select({
+              id: baziCalculations.id,
+              createdAt: baziCalculations.createdAt,
+              creditsUsed: baziCalculations.creditsUsed,
+              input: baziCalculations.input,
+            })
             .from(baziCalculations)
             .where(eq(baziCalculations.userId, session.user.id))
             .orderBy(sql`${baziCalculations.createdAt} DESC`)
             .limit(5),
-          db.select({
-            id: fengshuiAnalysis.id,
-            createdAt: fengshuiAnalysis.createdAt,
-            creditsUsed: fengshuiAnalysis.creditsUsed,
-            input: fengshuiAnalysis.input,
-          })
+          db
+            .select({
+              id: fengshuiAnalysis.id,
+              createdAt: fengshuiAnalysis.createdAt,
+              creditsUsed: fengshuiAnalysis.creditsUsed,
+              input: fengshuiAnalysis.input,
+            })
             .from(fengshuiAnalysis)
             .where(eq(fengshuiAnalysis.userId, session.user.id))
             .orderBy(sql`${fengshuiAnalysis.createdAt} DESC`)
@@ -209,23 +223,25 @@ export async function getDashboardData(): Promise<DashboardData | null> {
 
         // 合并并按时间排序
         const allRecent = [
-          ...recentBazi.map(r => ({
+          ...recentBazi.map((r) => ({
             ...r,
             type: 'bazi' as const,
             title: `八字分析`,
           })),
-          ...recentFengshui.map(r => ({
+          ...recentFengshui.map((r) => ({
             ...r,
             type: 'fengshui' as const,
             title: `玄空风水分析`,
           })),
-        ].sort((a, b) => {
-          const timeA = new Date(a.createdAt).getTime();
-          const timeB = new Date(b.createdAt).getTime();
-          return timeB - timeA;
-        }).slice(0, 5);
+        ]
+          .sort((a, b) => {
+            const timeA = new Date(a.createdAt).getTime();
+            const timeB = new Date(b.createdAt).getTime();
+            return timeB - timeA;
+          })
+          .slice(0, 5);
 
-        recentAnalyses = allRecent.map(r => ({
+        recentAnalyses = allRecent.map((r) => ({
           id: r.id,
           type: r.type,
           title: r.title,
@@ -235,7 +251,9 @@ export async function getDashboardData(): Promise<DashboardData | null> {
 
         // 获取新手任务进度
         try {
-          const { getUserNewbieMissions } = await import('@/lib/newbie-missions');
+          const { getUserNewbieMissions } = await import(
+            '@/lib/newbie-missions'
+          );
           const missionsResult = await getUserNewbieMissions(session.user.id);
           newbieMissionsData = {
             completed: missionsResult.completed,
@@ -303,11 +321,11 @@ export async function getDashboardData(): Promise<DashboardData | null> {
           const today = new Date();
           today.setHours(0, 0, 0, 0);
           let streak = 0;
-          
+
           // 从今天开始向前检查连续天数
           // 如果今天已签到，从 i=0 开始；如果今天未签，从 i=1 开始（昨天）
           const startIndex = marked.has(dateKey(today)) ? 0 : 1;
-          
+
           for (let i = startIndex; i < 365; i++) {
             const cur = new Date(today);
             cur.setDate(today.getDate() - i);
@@ -330,10 +348,7 @@ export async function getDashboardData(): Promise<DashboardData | null> {
         isSigned = result.isSigned;
         streak = result.streak;
       } catch (error) {
-        console.error(
-          'Failed to get sign in status:',
-          error
-        );
+        console.error('Failed to get sign in status:', error);
         // 超时或错误时，尝试从简化查询获取签到状态（只查今天）
         try {
           const db = await getDb();
@@ -355,7 +370,10 @@ export async function getDashboardData(): Promise<DashboardData | null> {
 
           isSigned = todaySignIn.length > 0;
           streak = 0; // 连续签到失败时默认为0
-          console.log('Sign in status recovered from fallback query:', isSigned);
+          console.log(
+            'Sign in status recovered from fallback query:',
+            isSigned
+          );
         } catch (fallbackError) {
           console.error('Fallback query also failed:', fallbackError);
           // 最后降级为默认值

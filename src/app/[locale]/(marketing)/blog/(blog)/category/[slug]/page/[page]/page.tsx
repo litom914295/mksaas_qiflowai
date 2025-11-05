@@ -12,14 +12,18 @@ import { notFound } from 'next/navigation';
 export function generateStaticParams() {
   const params: { locale: string; slug: string; page: string }[] = [];
   for (const locale of LOCALES) {
-    const localeCategories: any[] = ((categorySource as any)?.getPages?.(locale) ?? []) as any[];
+    const localeCategories: any[] = ((categorySource as any)?.getPages?.(
+      locale
+    ) ?? []) as any[];
     for (const category of localeCategories) {
       const totalPages = Math.ceil(
         (((blogSource as any)?.getPages?.(locale) ?? []) as any[]).filter(
-            (post: any) =>
-              post?.data?.published &&
-              (post?.data?.categories || []).some((cat: any) => cat === category.slugs?.[0])
-          ).length / websiteConfig.blog.paginationSize
+          (post: any) =>
+            post?.data?.published &&
+            (post?.data?.categories || []).some(
+              (cat: any) => cat === category.slugs?.[0]
+            )
+        ).length / websiteConfig.blog.paginationSize
       );
       for (let page = 2; page <= totalPages; page++) {
         params.push({ locale, slug: category.slugs[0], page: String(page) });
@@ -58,8 +62,11 @@ export default async function BlogCategoryPage({
   params,
 }: BlogCategoryPageProps) {
   const { locale, slug, page } = await params;
-  const localePosts: any[] = ((blogSource as any)?.getPages?.(locale) ?? []) as any[];
-  const publishedPosts = localePosts.filter((post: any) => post?.data?.published);
+  const localePosts: any[] = ((blogSource as any)?.getPages?.(locale) ??
+    []) as any[];
+  const publishedPosts = localePosts.filter(
+    (post: any) => post?.data?.published
+  );
   const filteredPosts = publishedPosts.filter((post: any) =>
     (post?.data?.categories || []).some((cat: any) => cat === slug)
   );

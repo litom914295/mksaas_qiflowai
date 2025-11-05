@@ -13,7 +13,7 @@ export const maxDuration = 30;
 
 export async function POST(req: NextRequest) {
   console.log('\n========== [AI Chat API] 收到请求 ==========');
-  
+
   try {
     const body = await req.json();
     console.log('[AI Chat API] 请求体:', {
@@ -36,15 +36,19 @@ export async function POST(req: NextRequest) {
     const response = await handleStreamChat(body);
     console.log('[AI Chat API] handleStreamChat 返回响应');
     return response;
-  } catch (err: any) {
+  } catch (err) {
     console.error('[AI Chat API] 错误:', err);
-    console.error('[AI Chat API] 错误堆栈:', err.stack);
+    if (err instanceof Error) {
+      console.error('[AI Chat API] 错误堆栈:', err.stack);
+    }
 
     // 友好的错误消息
     const message =
       err instanceof z.ZodError
         ? '请求参数格式错误: ' + JSON.stringify(err.errors)
-        : err?.message || 'AI 服务暂时不可用，请稍后再试';
+        : err instanceof Error
+          ? err.message
+          : 'AI 服务暂时不可用，请稍后再试';
 
     return new Response(JSON.stringify({ error: message }), {
       status: 400,

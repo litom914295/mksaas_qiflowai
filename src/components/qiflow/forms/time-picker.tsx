@@ -74,8 +74,13 @@ export function TimePicker({
     return `${hour.toString().padStart(2, '0')}:${selectedMinute.toString().padStart(2, '0')}`;
   };
 
-// 更新时间（closeAfter 表示本次选择完成，需自动关闭）
-  const updateTime = (hour: number, minute: number, am?: boolean, closeAfter: boolean = false) => {
+  // 更新时间（closeAfter 表示本次选择完成，需自动关闭）
+  const updateTime = (
+    hour: number,
+    minute: number,
+    am?: boolean,
+    closeAfter = false
+  ) => {
     setSelectedHour(hour);
     setSelectedMinute(minute);
     if (am !== undefined) {

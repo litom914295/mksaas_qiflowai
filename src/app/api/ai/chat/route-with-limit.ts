@@ -1,3 +1,7 @@
+import { defaultRateLimiters, getClientIp } from '@/lib/rate-limit';
+import { generateId } from '@/lib/utils';
+import { type NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import {
   AlgorithmFirstGuard,
   type AnalysisContext,
@@ -5,10 +9,6 @@ import {
   type QuestionType,
   SensitiveTopicFilter,
 } from '../../../../lib/qiflow/ai/guardrails';
-import { defaultRateLimiters, getClientIp } from '@/lib/rate-limit';
-import { generateId } from '@/lib/utils';
-import { type NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 
 // 请求验证Schema
 const ChatRequestSchema = z.object({

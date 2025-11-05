@@ -14,8 +14,11 @@ export default function BlogCard({ locale, post }: BlogCardProps) {
   const { date, title, description, image, author, categories } = post.data;
   const publishDate = formatDate(new Date(date));
   const blogAuthor = (authorSource as any)?.getPage?.([author], locale) ?? null;
-  const blogCategories = (((categorySource as any)?.getPages?.(locale) ?? []) as any[])
-    .filter((category: any) => (categories || []).includes(category?.slugs?.[0] ?? ''));
+  const blogCategories = (
+    ((categorySource as any)?.getPages?.(locale) ?? []) as any[]
+  ).filter((category: any) =>
+    (categories || []).includes(category?.slugs?.[0] ?? '')
+  );
 
   return (
     <LocaleLink href={`/blog/${post.slugs}`} className="block h-full">

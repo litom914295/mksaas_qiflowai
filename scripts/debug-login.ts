@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import { compare } from 'bcryptjs';
 import { getDb } from '@/db';
 import { account, user } from '@/db/schema';
-import { eq, and } from 'drizzle-orm';
+import { compare } from 'bcryptjs';
+import { and, eq } from 'drizzle-orm';
 
 async function debugLogin() {
   const email = 'admin@qiflowai.com';
@@ -55,10 +55,15 @@ async function debugLogin() {
       .from(account)
       .where(eq(account.accountId, email))
       .limit(1);
-    
+
     if (accountsByEmail.length > 0) {
       console.log('✅ 找到账号:', accountsByEmail[0]);
-      console.log('   但 userId 不匹配:', accountsByEmail[0].userId, '!=', foundUser.id);
+      console.log(
+        '   但 userId 不匹配:',
+        accountsByEmail[0].userId,
+        '!=',
+        foundUser.id
+      );
     }
     return;
   }
@@ -82,7 +87,10 @@ async function debugLogin() {
     console.log('✅ 密码验证成功！');
   } else {
     console.error('❌ 密码验证失败 - 这会导致401');
-    console.log('   存储的哈希:', credentialAccount.password.substring(0, 30) + '...');
+    console.log(
+      '   存储的哈希:',
+      credentialAccount.password.substring(0, 30) + '...'
+    );
   }
 
   // 步骤4: 检查邮箱验证（如果requireEmailVerification=true）
@@ -90,7 +98,9 @@ async function debugLogin() {
   console.log('   requireEmailVerification: false (在auth.ts中设置)');
   console.log('   emailVerified:', foundUser.emailVerified);
   if (!foundUser.emailVerified) {
-    console.log('⚠️  邮箱未验证，但由于requireEmailVerification=false，应该允许登录');
+    console.log(
+      '⚠️  邮箱未验证，但由于requireEmailVerification=false，应该允许登录'
+    );
   } else {
     console.log('✅ 邮箱已验证');
   }
@@ -106,7 +116,7 @@ async function debugLogin() {
   console.log('\n' + '='.repeat(50));
   console.log('🎯 诊断结果:');
   console.log('='.repeat(50));
-  
+
   if (isValid && !foundUser.banned) {
     console.log('✅ 所有检查通过，登录应该成功');
     console.log('\n💡 如果登录仍然失败，可能的原因:');

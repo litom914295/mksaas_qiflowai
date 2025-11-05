@@ -1,5 +1,5 @@
-import { getSession } from '@/lib/server';
 import { getUserNewbieMissions } from '@/lib/newbie-missions';
+import { getSession } from '@/lib/server';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -15,7 +15,7 @@ export async function GET() {
 
     // 检查是否禁用数据库查询（用于本地开发）
     const disableCreditsDb = process.env.DISABLE_CREDITS_DB === 'true';
-    
+
     if (disableCreditsDb) {
       // 返回模拟数据
       return NextResponse.json({

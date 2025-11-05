@@ -1,8 +1,8 @@
-import { verifyAuth } from '@/lib/auth/verify';
 import { getDb } from '@/db';
 import { user } from '@/db/schema';
-import { eq, or, like, sql, desc, asc } from 'drizzle-orm';
+import { verifyAuth } from '@/lib/auth/verify';
 import bcrypt from 'bcryptjs';
+import { asc, desc, eq, like, or, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -58,8 +58,10 @@ export async function GET(request: NextRequest) {
     // }
 
     // 排序
-    const orderByColumn = params.sortBy === 'createdAt' ? user.createdAt : user.createdAt;
-    const orderByDirection = params.sortOrder === 'asc' ? asc(orderByColumn) : desc(orderByColumn);
+    const orderByColumn =
+      params.sortBy === 'createdAt' ? user.createdAt : user.createdAt;
+    const orderByDirection =
+      params.sortOrder === 'asc' ? asc(orderByColumn) : desc(orderByColumn);
 
     // 查询用户
     const usersQuery = db
@@ -70,7 +72,11 @@ export async function GET(request: NextRequest) {
       .orderBy(orderByDirection);
 
     if (conditions.length > 0) {
-      usersQuery.where(conditions.length === 1 ? conditions[0] : sql`${conditions.join(' AND ')}`);
+      usersQuery.where(
+        conditions.length === 1
+          ? conditions[0]
+          : sql`${conditions.join(' AND ')}`
+      );
     }
 
     const [users, totalResult] = await Promise.all([

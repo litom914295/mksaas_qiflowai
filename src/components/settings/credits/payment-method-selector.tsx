@@ -83,14 +83,14 @@ export function PaymentMethodSelector({
   const handleConfirmPayment = async () => {
     try {
       setIsLoading(true);
-      
+
       // 验证 priceId
       if (!priceId || priceId === 'undefined') {
         toast.error('积分包价格 ID 未配置，请联系管理员');
         setIsLoading(false);
         return;
       }
-      
+
       // 验证 userId
       if (!userId) {
         toast.error('请先登录再进行购买');
@@ -135,7 +135,7 @@ export function PaymentMethodSelector({
           priceId,
           metadata: mergedMetadata,
         });
-        
+
         const result = await createCreditCheckoutSession({
           userId,
           packageId,
@@ -147,14 +147,17 @@ export function PaymentMethodSelector({
         console.log('[PaymentMethodSelector] Checkout session result:', result);
 
         if (result?.data?.success && result.data.data?.url) {
-          console.log('[PaymentMethodSelector] Redirecting to:', result.data.data.url);
+          console.log(
+            '[PaymentMethodSelector] Redirecting to:',
+            result.data.data.url
+          );
           window.location.href = result.data.data?.url;
         } else {
           console.error(
             '[PaymentMethodSelector] Create credit checkout session error, result:',
             JSON.stringify(result, null, 2)
           );
-          
+
           // 更详细的错误信息
           if (result?.data?.error) {
             toast.error(`${tt('checkoutFailed')}: ${result.data.error}`);
