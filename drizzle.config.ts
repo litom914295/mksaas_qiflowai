@@ -1,5 +1,8 @@
-import 'dotenv/config';
+import { loadEnvConfig } from '@next/env';
 import { defineConfig } from 'drizzle-kit';
+
+// Load Next.js environment variables
+loadEnvConfig(process.cwd());
 
 /**
  * https://orm.drizzle.team/docs/get-started/neon-new#step-5---setup-drizzle-config-file
