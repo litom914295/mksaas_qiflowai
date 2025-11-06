@@ -61,26 +61,32 @@ export const websiteConfig: WebsiteConfig = {
       en: {
         flag: '🇺🇸',
         name: 'English',
+        hreflang: 'en',  // SEO: language alternate tag
       },
       'zh-CN': {
         flag: '🇨🇳',
         name: '简体中文',
+        hreflang: 'zh-CN',  // SEO: language alternate tag
       },
       'zh-TW': {
         flag: '🇹🇼',
         name: '繁體中文',
+        hreflang: 'zh-TW',  // SEO: language alternate tag
       },
       ja: {
         flag: '🇯🇵',
         name: '日本語',
+        hreflang: 'ja',  // SEO: language alternate tag
       },
       ko: {
         flag: '🇰🇷',
         name: '한국어',
+        hreflang: 'ko',  // SEO: language alternate tag
       },
       'ms-MY': {
         flag: '🇲🇾',
         name: 'Bahasa Melayu',
+        hreflang: 'ms-MY',  // SEO: language alternate tag
       },
     },
   },
