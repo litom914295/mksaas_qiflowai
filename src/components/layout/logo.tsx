@@ -1,6 +1,5 @@
 'use client';
 
-import { websiteConfig } from '@/config/website';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
@@ -9,14 +8,10 @@ import { useEffect, useState } from 'react';
 export function Logo({ className }: { className?: string }) {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const logoLight = websiteConfig.metadata.images?.logoLight ?? '/logo.png';
-  const logoDark = websiteConfig.metadata.images?.logoDark ?? logoLight;
 
-  // During server-side rendering and initial client render, always use logoLight
-  // This prevents hydration mismatch
-  const logo = mounted && theme === 'dark' ? logoDark : logoLight;
+  // Use full logo with text
+  const logo = mounted && theme === 'dark' ? '/logo-full-dark.png' : '/logo-full.png';
 
-  // Only show theme-dependent UI after hydration to prevent mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -24,11 +19,12 @@ export function Logo({ className }: { className?: string }) {
   return (
     <Image
       src={logo}
-      alt="Logo"
-      title="Logo"
-      width={96}
-      height={96}
-      className={cn('size-8 rounded-md', className)}
+      alt="QiFlow AI"
+      title="QiFlow AI"
+      width={800}
+      height={267}
+      className={cn('h-12 w-auto', className)}
+      priority
     />
   );
 }

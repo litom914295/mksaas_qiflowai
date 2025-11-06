@@ -1,4 +1,5 @@
 import { HeroWithForm } from '@/components/home/HeroWithForm';
+import { LoggedInUserBar } from '@/components/home/LoggedInUserBar';
 import { AbPersist } from '@/components/qiflow/ab/AbPersist';
 import { AgeVerification } from '@/components/qiflow/compliance/AgeVerification';
 import { DisclaimerBar } from '@/components/qiflow/compliance/DisclaimerBar';
@@ -12,6 +13,7 @@ import { LiveActivityFeed } from '@/components/qiflow/homepage/LiveActivityFeed'
 import { Testimonials } from '@/components/qiflow/homepage/Testimonials';
 import { TrustBar } from '@/components/qiflow/homepage/TrustBar';
 import { TrustBarEnhanced } from '@/components/qiflow/homepage/TrustBarEnhanced';
+import { getSession } from '@/lib/server';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
@@ -83,9 +85,30 @@ export default async function HomePage(props: HomePageProps) {
         : 'A';
   const shouldPersist = abParam ? true : !abCookie;
 
+  // 检查用户是否已登录（使用 cookie 快速判断，避免完整 session 查询）
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get('better-auth.session_token');
+  const isLoggedIn = !!sessionCookie;
+  
+  // 只在已登录时才获取完整 session 信息
+  let session = null;
+  if (isLoggedIn) {
+    session = await getSession();
+  }
+
   return (
     <>
       <div className="flex flex-col">
+        {/* 已登录用户信息栏 */}
+        {isLoggedIn && session?.user && (
+          <div className="container mx-auto px-4 pt-6">
+            <LoggedInUserBar
+              userName={session.user.name ?? undefined}
+              userAvatar={session.user.image ?? undefined}
+              userEmail={session.user.email ?? undefined}
+            />
+          </div>
+        )}
         <HeroWithForm />
         <TrustBar variant={variant} />
 

@@ -7,6 +7,8 @@ import { CreditPackages } from '@/components/settings/credits/credit-packages';
 import { CreditTransactions } from '@/components/settings/credits/credit-transactions';
 import CreditsBalanceCard from '@/components/settings/credits/credits-balance-card';
 import { VouchersList } from '@/components/settings/credits/vouchers-list';
+// 新增：增强版交易历史
+import { EnhancedTransactionHistory } from '@/components/settings/credits/enhanced-transaction-history';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { Routes } from '@/routes';
@@ -99,9 +101,19 @@ export default function CreditsPageClient() {
           </div>
         </TabsContent>
 
-        <TabsContent value="transactions" className="mt-4">
-          {/* Credit Transactions */}
-          <CreditTransactions />
+        <TabsContent value="transactions" className="mt-4 space-y-6">
+          {/* 增强版交易历史（新增） */}
+          <EnhancedTransactionHistory />
+
+          {/* 原交易记录（可选保留） */}
+          <details className="mt-6">
+            <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
+              展开查看原交易记录
+            </summary>
+            <div className="mt-4">
+              <CreditTransactions />
+            </div>
+          </details>
         </TabsContent>
       </Tabs>
     </div>

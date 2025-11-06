@@ -17,9 +17,9 @@ const FeatureShowcase = dynamic(() =>
   }))
 );
 
-const PricingSection = dynamic(() =>
-  import('@/components/home/PricingSection').then((mod) => ({
-    default: mod.PricingSection,
+const PricingTableSection = dynamic(() =>
+  import('@/components/home/PricingTableSection').then((mod) => ({
+    default: mod.PricingTableSection,
   }))
 );
 
@@ -106,7 +106,7 @@ export default function HomePage() {
 
       {/* Pricing - 延迟加载 */}
       <Suspense fallback={<div className="min-h-[400px]" />}>
-        <PricingSection />
+        <PricingTableSection />
       </Suspense>
 
       {/* Trust Section - 服务器渲染 */}

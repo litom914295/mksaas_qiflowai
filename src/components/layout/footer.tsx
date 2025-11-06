@@ -1,8 +1,8 @@
 'use client';
 
 import Container from '@/components/layout/container';
+import { Logo } from '@/components/layout/logo';
 import { ModeSwitcherHorizontal } from '@/components/layout/mode-switcher-horizontal';
-import { BrandLogo } from '@/components/qiflow/homepage/BrandLogo';
 import BuiltWithButton from '@/components/shared/built-with-button';
 import { getFooterLinks } from '@/config/footer-config';
 import { getSocialLinks } from '@/config/social-config';
@@ -45,12 +45,9 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
         <div className="grid grid-cols-2 gap-8 py-16 md:grid-cols-6">
           <div className="flex flex-col items-start col-span-full md:col-span-2">
             <div className="space-y-4">
-              {/* logo and name */}
-              <div className="items-center space-x-2 flex">
-                <BrandLogo size={128} />
-                <span className="text-xl font-semibold">
-                  {t('Metadata.name')}
-                </span>
+              {/* logo */}
+              <div className="items-center flex">
+                <Logo />
               </div>
 
               {/* tagline */}

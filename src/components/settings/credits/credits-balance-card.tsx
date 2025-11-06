@@ -164,35 +164,140 @@ export default function CreditsBalanceCard() {
     );
   }
 
+  // 智能建议逻辑
+  const getSuggestion = () => {
+    if (balance < 50) {
+      return {
+        text: '积分余额较低，建议及时充值以体验更多AI功能',
+        variant: 'destructive' as const,
+      };
+    } else if (balance < 200) {
+      return {
+        text: '每日签到可获得免费积分，坚持签到还有额外奖励',
+        variant: 'default' as const,
+      };
+    } else if (balance < 500) {
+      return {
+        text: '积分充足，可以放心使用八字分析和风水服务',
+        variant: 'default' as const,
+      };
+    } else {
+      return {
+        text: '积分余额非常充足，可以尽情体验所有高级功能',
+        variant: 'default' as const,
+      };
+    }
+  };
+
+  const suggestion = getSuggestion();
+
   return (
-    <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
+    <Card className={cn('w-full overflow-hidden flex flex-col')}>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">{t('title')}</CardTitle>
-        <CardDescription>{t('description')}</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1">
-        {/* Credits balance */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="text-3xl font-medium">
+          <div>
+            <CardTitle className="text-lg font-semibold">{t('title')}</CardTitle>
+            <CardDescription>{t('description')}</CardDescription>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => localeRouter.push(Routes.Pricing)}
+            className="ml-auto"
+          >
+            充值
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="flex-1 space-y-6">
+        {/* Credits balance */}
+        <div className="space-y-2">
+          <div className="flex items-baseline gap-2">
+            <div className="text-4xl font-bold tracking-tight">
               {balance.toLocaleString()}
             </div>
+            <div className="text-sm text-muted-foreground">积分</div>
+          </div>
+          {creditStats && (
+            <div className="flex gap-4 text-sm">
+              <div className="text-muted-foreground">
+                本月获得:
+                <span className="ml-1 font-medium text-green-600">
+                  +{creditStats.earnedThisMonth?.toLocaleString() || 0}
+                </span>
+              </div>
+              <div className="text-muted-foreground">
+                本月消耗:
+                <span className="ml-1 font-medium text-red-600">
+                  -{creditStats.spentThisMonth?.toLocaleString() || 0}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 智能建议 */}
+        <div className="rounded-lg border bg-muted/50 p-3">
+          <div className="flex items-start gap-2">
+            <div className="rounded-full bg-primary/10 p-1.5">
+              <svg
+                className="h-4 w-4 text-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <p className="text-sm text-muted-foreground flex-1">
+              {suggestion.text}
+            </p>
           </div>
         </div>
-      </CardContent>
-      <CardFooter className="px-6 py-4 flex justify-between items-center bg-muted rounded-none">
-        {/* Expiring credits warning */}
-        {!isLoadingStats && creditStats && (
-          <div className="text-sm text-muted-foreground space-y-2">
-            {' '}
-            <div className="flex items-center gap-2 text-amber-600">
-              <span>
-                {t('expiringCredits', {
-                  credits: creditStats.expiringCredits.amount,
-                  days: CREDITS_EXPIRATION_DAYS,
-                })}
-              </span>
+
+        {/* 快速充值入口 */}
+        {balance < 500 && (
+          <div className="space-y-2">
+            <div className="text-sm font-medium">快速充值</div>
+            <div className="grid grid-cols-3 gap-2">
+              {[100, 500, 1000].map((amount) => (
+                <Button
+                  key={amount}
+                  variant="outline"
+                  size="sm"
+                  className="h-auto py-2 flex flex-col items-center"
+                  onClick={() => localeRouter.push(Routes.Pricing)}
+                >
+                  <div className="text-lg font-semibold">{amount}</div>
+                  <div className="text-xs text-muted-foreground">
+                    积分
+                  </div>
+                </Button>
+              ))}
             </div>
+          </div>
+        )}
+      </CardContent>
+      <CardFooter className="px-6 py-4 flex justify-between items-center bg-muted/30 rounded-none border-t">
+        {/* Expiring credits warning */}
+        {!isLoadingStats && creditStats && creditStats.expiringCredits.amount > 0 ? (
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-amber-600">⚠️</span>
+            <span className="text-muted-foreground">
+              {t('expiringCredits', {
+                credits: creditStats.expiringCredits.amount,
+                days: CREDITS_EXPIRATION_DAYS,
+              })}
+            </span>
+          </div>
+        ) : (
+          <div className="text-sm text-muted-foreground">
+            积分永久有效，放心使用
           </div>
         )}
       </CardFooter>

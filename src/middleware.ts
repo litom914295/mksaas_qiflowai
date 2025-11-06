@@ -63,11 +63,14 @@ export default async function middleware(req: NextRequest) {
   );
 
   // If the route can not be accessed by logged in users, redirect if the user is logged in
+  // 但是不包括首页，允许已登录用户留在首页使用表单
   if (isLoggedIn) {
     const isNotAllowedRoute = routesNotAllowedByLoggedInUsers.some((route) =>
       new RegExp(`^${route}$`).test(pathnameWithoutLocale)
     );
-    if (isNotAllowedRoute) {
+    // 排除首页，允许已登录用户访问首页
+    const isHomePage = pathnameWithoutLocale === '/';
+    if (isNotAllowedRoute && !isHomePage) {
       console.log(
         '<< middleware end, not allowed route, already logged in, redirecting to dashboard'
       );

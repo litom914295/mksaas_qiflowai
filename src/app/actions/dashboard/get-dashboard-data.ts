@@ -1,9 +1,6 @@
 'use server';
 
-/**
- * 获取仪表盘数据
- */
-
+import { cache } from 'react';
 import { getUserCredits } from '@/credits/credits';
 import { getDb } from '@/db';
 import {
@@ -65,7 +62,8 @@ export interface DashboardData {
   recentAnalyses: RecentAnalysis[];
 }
 
-export async function getDashboardData(): Promise<DashboardData | null> {
+// 使用 React cache 避免同一请求中重复查询
+const getDashboardDataUncached = async (): Promise<DashboardData | null> => {
   try {
     const session = await getSession();
 
@@ -112,10 +110,10 @@ export async function getDashboardData(): Promise<DashboardData | null> {
     // 只在启用数据库时才查询
     if (!disableCreditsDb) {
       try {
-        // 获取真实的用户积分（带超时）
+        // 获取真实的用户积分（带超时，优化为2秒快速失败）
         const creditsPromise = getUserCredits(session.user.id);
         const timeoutPromise = new Promise<number>((_, reject) =>
-          setTimeout(() => reject(new Error('Credits query timeout')), 5000)
+          setTimeout(() => reject(new Error('Credits query timeout')), 2000)
         );
         userCredits = await Promise.race([creditsPromise, timeoutPromise]);
       } catch (error) {
@@ -290,9 +288,9 @@ export async function getDashboardData(): Promise<DashboardData | null> {
 
           const isSigned = todaySignIn.length > 0;
 
-          // 计算连续签到天数
+          // 计算连续签到天数（优化：从120天减少到30天）
           const since = new Date();
-          since.setDate(since.getDate() - 120);
+          since.setDate(since.getDate() - 30);
           const signInRecords = await db
             .select({ createdAt: creditTransaction.createdAt })
             .from(creditTransaction)
@@ -339,9 +337,9 @@ export async function getDashboardData(): Promise<DashboardData | null> {
           return { isSigned, streak };
         })();
 
-        // 增加超时到15秒，给数据库更多响应时间
+        // 优化超时时间：从15秒减少到3秒，提升响应速度
         const timeoutPromise = new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error('Sign in query timeout')), 15000)
+          setTimeout(() => reject(new Error('Sign in query timeout')), 3000)
         );
 
         const result = await Promise.race([signInPromise, timeoutPromise]);
@@ -454,4 +452,7 @@ export async function getDashboardData(): Promise<DashboardData | null> {
     console.error('Failed to get dashboard data:', error);
     return null;
   }
-}
+};
+
+// 导出缓存版本
+export const getDashboardData = cache(getDashboardDataUncached);

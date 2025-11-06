@@ -145,11 +145,9 @@ export const LoginForm = ({
           console.log('login, success:', ctx.data);
           setSuccess('Login successful');
 
-          // 手动跳转到 dashboard
-          setTimeout(() => {
-            console.log('Redirecting to:', callbackUrl);
-            window.location.href = callbackUrl;
-          }, 500);
+          // 立即跳转到 dashboard，不延迟
+          console.log('Redirecting to:', callbackUrl);
+          window.location.href = callbackUrl;
         },
         onError: (ctx: any) => {
           console.error('=== LOGIN ERROR DEBUG ===');

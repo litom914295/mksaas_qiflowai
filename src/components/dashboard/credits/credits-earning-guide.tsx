@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -9,17 +10,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import {
   ArrowRightIcon,
   CalendarCheckIcon,
+  CheckCircle2Icon,
   CreditCardIcon,
   GiftIcon,
   ShareIcon,
   StarIcon,
+  TrophyIcon,
   UserPlusIcon,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useQuery } from '@tanstack/react-query';
 
 interface CreditsEarningGuideProps {
   className?: string;
@@ -29,6 +34,17 @@ interface CreditsEarningGuideProps {
  * Credits earning guide component showing different ways to earn credits
  */
 export function CreditsEarningGuide({ className }: CreditsEarningGuideProps) {
+  // 获取日常任务进度
+  const { data: progressData, isLoading } = useQuery({
+    queryKey: ['daily-progress'],
+    queryFn: async () => {
+      const res = await fetch('/api/credits/daily-progress');
+      if (!res.ok) throw new Error('获取进度失败');
+      return res.json();
+    },
+    refetchInterval: 30000, // 每30秒刷新一次
+  });
+
   const earningMethods = [
     {
       id: 'daily-signin',
@@ -160,7 +176,217 @@ export function CreditsEarningGuide({ className }: CreditsEarningGuideProps) {
           通过以下方式轻松获得积分，解锁更多精彩服务
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-6">
+        {/* 今日任务进度 */}
+        <div className="space-y-4">
+          <h3 className="text-sm font-semibold flex items-center gap-2">
+            <CalendarCheckIcon className="h-4 w-4" />
+            今日任务进度
+          </h3>
+          {isLoading ? (
+            <div className="grid gap-3 md:grid-cols-2">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="border rounded-lg p-4 space-y-3">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-2 w-full" />
+                  <Skeleton className="h-4 w-16" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid gap-3 md:grid-cols-2">
+              {/* 每日签到 */}
+              <div
+                className={cn(
+                  'border rounded-lg p-4 space-y-3 transition-all',
+                  progressData?.tasks.dailySignIn.urgent &&
+                    'border-orange-300 bg-orange-50/50 shadow-sm'
+                )}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CalendarCheckIcon className="h-4 w-4 text-orange-600" />
+                    <span className="text-sm font-medium">每日签到</span>
+                    {progressData?.tasks.dailySignIn.urgent && (
+                      <Badge className="bg-orange-500 text-white text-xs px-1.5 py-0">
+                        未完成
+                      </Badge>
+                    )}
+                  </div>
+                  {progressData?.tasks.dailySignIn.completed && (
+                    <CheckCircle2Icon className="h-5 w-5 text-green-600" />
+                  )}
+                </div>
+                <Progress
+                  value={progressData?.tasks.dailySignIn.progress || 0}
+                  className="h-2"
+                />
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">
+                    {progressData?.tasks.dailySignIn.description}
+                  </span>
+                  <span className="font-semibold text-green-600">
+                    {progressData?.tasks.dailySignIn.credits}
+                  </span>
+                </div>
+              </div>
+
+              {/* 八字分析 */}
+              <div className="border rounded-lg p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <StarIcon className="h-4 w-4 text-purple-600" />
+                    <span className="text-sm font-medium">八字分析</span>
+                  </div>
+                  {progressData?.tasks.baziAnalysis.completed && (
+                    <CheckCircle2Icon className="h-5 w-5 text-green-600" />
+                  )}
+                </div>
+                <Progress
+                  value={progressData?.tasks.baziAnalysis.progress || 0}
+                  className="h-2"
+                />
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">
+                    {progressData?.tasks.baziAnalysis.current || 0} /{' '}
+                    {progressData?.tasks.baziAnalysis.goal || 1} 次
+                  </span>
+                  <span className="font-semibold text-red-600">
+                    {progressData?.tasks.baziAnalysis.credits}
+                  </span>
+                </div>
+              </div>
+
+              {/* 风水分析 */}
+              <div className="border rounded-lg p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <TrophyIcon className="h-4 w-4 text-amber-600" />
+                    <span className="text-sm font-medium">风水分析</span>
+                  </div>
+                  {progressData?.tasks.fengshuiAnalysis.completed && (
+                    <CheckCircle2Icon className="h-5 w-5 text-green-600" />
+                  )}
+                </div>
+                <Progress
+                  value={progressData?.tasks.fengshuiAnalysis.progress || 0}
+                  className="h-2"
+                />
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">
+                    {progressData?.tasks.fengshuiAnalysis.current || 0} /{' '}
+                    {progressData?.tasks.fengshuiAnalysis.goal || 1} 次
+                  </span>
+                  <span className="font-semibold text-red-600">
+                    {progressData?.tasks.fengshuiAnalysis.credits}
+                  </span>
+                </div>
+              </div>
+
+              {/* AI对话 */}
+              <div className="border rounded-lg p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ShareIcon className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-medium">AI对话</span>
+                  </div>
+                  {progressData?.tasks.aiChat.completed && (
+                    <CheckCircle2Icon className="h-5 w-5 text-green-600" />
+                  )}
+                </div>
+                <Progress
+                  value={progressData?.tasks.aiChat.progress || 0}
+                  className="h-2"
+                />
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">
+                    {progressData?.tasks.aiChat.current || 0} /{' '}
+                    {progressData?.tasks.aiChat.goal || 5} 轮
+                  </span>
+                  <span className="font-semibold text-red-600">
+                    {progressData?.tasks.aiChat.credits}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 签到里程碑进度 */}
+        {!isLoading && progressData?.streak && (
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold flex items-center gap-2">
+              <TrophyIcon className="h-4 w-4" />
+              连续签到里程碑 (当前 {progressData.streak.current} 天)
+            </h3>
+            <div className="space-y-3">
+              {progressData.streak.milestones.map((milestone: any) => (
+                <div
+                  key={milestone.days}
+                  className={cn(
+                    'border rounded-lg p-3 transition-all',
+                    milestone.achieved
+                      ? 'bg-green-50/50 border-green-300'
+                      : 'hover:border-primary/50'
+                  )}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">
+                        {milestone.days} 天里程碑
+                      </span>
+                      {milestone.achieved && (
+                        <Badge className="bg-green-500 text-white text-xs px-1.5 py-0">
+                          已达成
+                        </Badge>
+                      )}
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      {milestone.reward}
+                    </span>
+                  </div>
+                  <Progress
+                    value={milestone.progress}
+                    className={cn(
+                      'h-1.5',
+                      milestone.achieved && '[&>div]:bg-green-500'
+                    )}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* 下一个里程碑预览 */}
+            {progressData.streak.nextMilestone &&
+              !progressData.streak.milestones[progressData.streak.milestones.length - 1].achieved && (
+                <div className="bg-gradient-to-r from-primary/10 to-purple-100 border border-primary/30 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <TrophyIcon className="h-5 w-5 text-primary mt-0.5" />
+                    <div className="flex-1 space-y-2">
+                      <h4 className="text-sm font-medium">下一个里程碑</h4>
+                      <p className="text-sm text-muted-foreground">
+                        再签到 <span className="font-semibold text-primary">{progressData.streak.nextMilestone.daysLeft}</span> 天即可获得{' '}
+                        <span className="font-semibold text-primary">
+                          {progressData.streak.nextMilestone.reward}
+                        </span>
+                      </p>
+                      <Progress
+                        value={progressData.streak.nextMilestone.progress}
+                        className="h-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+          </div>
+        )}
+
+        {/* 其他获取方式 */}
+        <div className="space-y-4">
+          <h3 className="text-sm font-semibold flex items-center gap-2">
+            <GiftIcon className="h-4 w-4" />
+            更多获取方式
+          </h3>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {earningMethods.map((method) => {
             const Icon = method.icon;
