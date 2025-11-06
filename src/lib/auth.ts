@@ -177,51 +177,7 @@ export const auth = betterAuth({
       // console.error('Request URL:', ctx?.request?.url);
       // console.error('Request Method:', ctx?.request?.method);
 
-      // 如果是登录错误，打印详细的账号信息
-      // 注意: ctx.request 不可用，暂时移除相关逻辑
-      if (false) {
-        try {
-          const body = {};
-          console.error('Login attempt email:', body.email);
-
-          // 查询数据库验证
-          const db = await getDb();
-          const { account, user } = await import('@/db/schema');
-          const { eq, and } = await import('drizzle-orm');
-
-          const users = await db
-            .select()
-            .from(user)
-            .where(eq(user.email, body.email))
-            .limit(1);
-          if (users.length > 0) {
-            console.error('User found:', users[0].id);
-            const accounts = await db
-              .select()
-              .from(account)
-              .where(
-                and(
-                  eq(account.userId, users[0].id),
-                  eq(account.providerId, 'credential')
-                )
-              )
-              .limit(1);
-
-            if (accounts.length > 0) {
-              console.error(
-                'Account found, password hash prefix:',
-                accounts[0].password?.substring(0, 10)
-              );
-            } else {
-              console.error('No credential account found for user');
-            }
-          } else {
-            console.error('User not found in database');
-          }
-        } catch (e) {
-          console.error('Debug query error:', e);
-        }
-      }
+      // 移除了不可用的 ctx.request 相关调试代码
     },
   },
 });
