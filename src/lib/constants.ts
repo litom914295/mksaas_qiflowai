@@ -1,4 +1,9 @@
 /**
+ * Max file size (10MB)
+ */
+export const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+/**
  * in next 30 days for credits expiration
  */
 export const CREDITS_EXPIRATION_DAYS = 30;
@@ -11,3 +16,13 @@ export const PAYMENT_MAX_POLL_TIME = 5 * 60 * 1000;
 
 // Interval between payment status polls (3 seconds)
 export const PAYMENT_POLL_INTERVAL = 3 * 1000;
+
+/**
+ * Max retry attempts for finding payment records
+ */
+export const PAYMENT_RECORD_RETRY_ATTEMPTS = 30;
+
+/**
+ * Retry delay between attempts (2 seconds)
+ */
+export const PAYMENT_RECORD_RETRY_DELAY = 2000;
