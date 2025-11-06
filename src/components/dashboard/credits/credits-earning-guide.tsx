@@ -458,6 +458,7 @@ export function CreditsEarningGuide({ className }: CreditsEarningGuideProps) {
             );
           })}
         </div>
+        </div>
 
         {/* Tips section */}
         <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">

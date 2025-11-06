@@ -86,7 +86,7 @@ export default async function HomePage(props: HomePageProps) {
   const shouldPersist = abParam ? true : !abCookie;
 
   // 检查用户是否已登录（使用 cookie 快速判断，避免完整 session 查询）
-  const cookieStore = await cookies();
+  // 复用上面的 cookieStore，不需要重新声明
   const sessionCookie = cookieStore.get('better-auth.session_token');
   const isLoggedIn = !!sessionCookie;
   

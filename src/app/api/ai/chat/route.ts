@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     // 友好的错误消息
     const message =
       err instanceof z.ZodError
-        ? '请求参数格式错误: ' + JSON.stringify(err.errors)
+        ? '请求参数格式错误: ' + JSON.stringify(err.issues)
         : err instanceof Error
           ? err.message
           : 'AI 服务暂时不可用，请稍后再试';

@@ -221,15 +221,15 @@ export default function CreditsBalanceCard() {
           {creditStats && (
             <div className="flex gap-4 text-sm">
               <div className="text-muted-foreground">
-                本月获得:
+                累计获得:
                 <span className="ml-1 font-medium text-green-600">
-                  +{creditStats.earnedThisMonth?.toLocaleString() || 0}
+                  +{creditStats.totalCreditsEarned?.toLocaleString() || 0}
                 </span>
               </div>
               <div className="text-muted-foreground">
-                本月消耗:
+                累计消耗:
                 <span className="ml-1 font-medium text-red-600">
-                  -{creditStats.spentThisMonth?.toLocaleString() || 0}
+                  -{creditStats.totalCreditsUsed?.toLocaleString() || 0}
                 </span>
               </div>
             </div>
