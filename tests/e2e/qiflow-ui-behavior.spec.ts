@@ -11,7 +11,7 @@ test.describe('QiFlow - 按钮禁用、i18n 下拉、样式令牌', () => {
   test('Bazi: 表单卡片结构 + 提交前禁用 -> 填写后启用；下拉 i18n；容器样式断言', async ({
     page,
   }) => {
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
     await dismissAgeOverlay(page);
 
     // 表单卡片结构断言
@@ -137,7 +137,7 @@ test.describe('QiFlow - 按钮禁用、i18n 下拉、样式令牌', () => {
   test('Xuankong: 表单卡片结构 + 提交前禁用 -> 填写后启用；文案 i18n；错误容器样式', async ({
     page,
   }) => {
-    await page.goto('/zh/analysis/xuankong');
+    await page.goto('/zh-CN/analysis/xuankong');
     await dismissAgeOverlay(page);
 
     // 表单卡片结构断言

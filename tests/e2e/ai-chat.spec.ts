@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test.describe('AI聊天功能测试', () => {
   test.beforeEach(async ({ page }) => {
     // 访问AI聊天页面
-    await page.goto('/zh/ai-chat');
+    await page.goto('/zh-CN/ai-chat');
   });
 
   test('页面加载和基本元素', async ({ page }) => {

@@ -11,7 +11,7 @@ async function dismissAgeOverlay(page) {
 test.describe('QiFlow Pages - E2E', () => {
   test('Bazi: i18n 切换 + 表单提交触发埋点', async ({ page }) => {
     // 中文页面
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
     await dismissAgeOverlay(page);
 
     await expect(page.getByRole('heading', { name: '八字分析' })).toBeVisible();
@@ -60,7 +60,7 @@ test.describe('QiFlow Pages - E2E', () => {
   });
 
   test('Xuankong: 表单提交触发埋点', async ({ page }) => {
-    await page.goto('/zh/analysis/xuankong');
+    await page.goto('/zh-CN/analysis/xuankong');
     await dismissAgeOverlay(page);
 
     await expect(page.getByRole('heading', { name: '玄空飞星' })).toBeVisible();
@@ -92,7 +92,7 @@ test.describe('QiFlow Forms - 校验与四态', () => {
   test('Bazi：Incomplete 时出现 Limited 面板，提交按钮禁用', async ({
     page,
   }) => {
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
     await dismissAgeOverlay(page);
     await page.locator('input[name="name"]').click();
     await page.locator('input[name="name"]').fill('张三');
@@ -105,16 +105,16 @@ test.describe('QiFlow Forms - 校验与四态', () => {
   });
 
   test('Bazi：Empty/Error/Timeout 四态模拟 + 文案精确值', async ({ page }) => {
-    await page.goto('/zh/analysis/bazi?ui=empty');
+    await page.goto('/zh-CN/analysis/bazi?ui=empty');
     await dismissAgeOverlay(page);
     await expect(page.getByRole('status')).toBeVisible();
 
-    await page.goto('/zh/analysis/bazi?ui=error');
+    await page.goto('/zh-CN/analysis/bazi?ui=error');
     await expect(page.getByRole('alert')).toBeVisible();
     await expect(page.getByText('输入无效')).toBeVisible();
     await expect(page.getByText('发生错误，请检查信息后重试。')).toBeVisible();
 
-    await page.goto('/zh/analysis/bazi?ui=timeout');
+    await page.goto('/zh-CN/analysis/bazi?ui=timeout');
     await expect(page.getByRole('status')).toBeVisible();
     await expect(page.getByText('请求超时')).toBeVisible();
     await expect(page.getByText('操作耗时过长，请稍后再试。')).toBeVisible();
@@ -123,7 +123,7 @@ test.describe('QiFlow Forms - 校验与四态', () => {
   test('Xuankong：Incomplete 时出现 Limited 面板，提交按钮禁用', async ({
     page,
   }) => {
-    await page.goto('/zh/analysis/xuankong');
+    await page.goto('/zh-CN/analysis/xuankong');
     await dismissAgeOverlay(page);
     await page.locator('#xuankong-address').click();
     await page.locator('#xuankong-address').fill('上海市静安区XX路');
@@ -138,16 +138,16 @@ test.describe('QiFlow Forms - 校验与四态', () => {
   test('Xuankong：Empty/Error/Timeout 四态模拟 + 文案精确值', async ({
     page,
   }) => {
-    await page.goto('/zh/analysis/xuankong?ui=empty');
+    await page.goto('/zh-CN/analysis/xuankong?ui=empty');
     await dismissAgeOverlay(page);
     await expect(page.getByRole('status')).toBeVisible();
 
-    await page.goto('/zh/analysis/xuankong?ui=error');
+    await page.goto('/zh-CN/analysis/xuankong?ui=error');
     await expect(page.getByRole('alert')).toBeVisible();
     await expect(page.getByText('输入无效')).toBeVisible();
     await expect(page.getByText('发生错误，请检查信息后重试。')).toBeVisible();
 
-    await page.goto('/zh/analysis/xuankong?ui=timeout');
+    await page.goto('/zh-CN/analysis/xuankong?ui=timeout');
     await expect(page.getByRole('status')).toBeVisible();
     await expect(page.getByText('请求超时')).toBeVisible();
     await expect(page.getByText('操作耗时过长，请稍后再试。')).toBeVisible();
@@ -156,7 +156,7 @@ test.describe('QiFlow Forms - 校验与四态', () => {
 
 test.describe('QiFlow i18n - 占位与提交文案', () => {
   test('Bazi：跨语言占位与提交按钮（精确值）', async ({ page }) => {
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
     await dismissAgeOverlay(page);
     const zhName = await page
       .locator('input[name="name"]')
@@ -173,7 +173,7 @@ test.describe('QiFlow i18n - 占位与提交文案', () => {
     expect(zhName).not.toEqual(enName);
 
     const zhBtnText = await await page
-      .goto('/zh/analysis/bazi')
+      .goto('/zh-CN/analysis/bazi')
       .then(() => page.getByRole('button', { name: '开始计算' }).innerText());
     expect(zhBtnText).toEqual('开始计算');
 
@@ -187,7 +187,7 @@ test.describe('QiFlow i18n - 占位与提交文案', () => {
 
   test('Xuankong：精确占位与提交按钮（zh/en）', async ({ page }) => {
     // zh
-    await page.goto('/zh/analysis/xuankong');
+    await page.goto('/zh-CN/analysis/xuankong');
     await dismissAgeOverlay(page);
     const zhAddress = await page
       .locator('#xuankong-address')
@@ -217,7 +217,7 @@ test.describe('QiFlow i18n - 占位与提交文案', () => {
     page,
   }) => {
     // zh
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
     await dismissAgeOverlay(page);
     const zhName = await page
       .locator('input[name="name"]')
@@ -250,7 +250,7 @@ test.describe('QiFlow i18n - 占位与提交文案', () => {
     page,
   }) => {
     // zh limited
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
     await dismissAgeOverlay(page);
     await page.locator('input[name="name"]').fill('张三');
     await expect(page.getByText('建议补充信息')).toBeVisible();

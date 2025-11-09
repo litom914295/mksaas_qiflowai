@@ -1,0 +1,465 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - navigation [ref=e6]:
+      - link "QiFlow AI" [ref=e8] [cursor=pointer]:
+        - /url: /zh-CN
+        - img "QiFlow AI" [ref=e9]
+      - navigation "Main" [ref=e11]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "功能" [ref=e15] [cursor=pointer]:
+              - /url: /zh-CN#features
+          - listitem [ref=e16]:
+            - link "价格" [ref=e17] [cursor=pointer]:
+              - /url: /zh-CN/pricing
+          - listitem [ref=e18]:
+            - link "博客" [ref=e19] [cursor=pointer]:
+              - /url: /zh-CN/blog
+          - listitem [ref=e20]:
+            - link "文档" [ref=e21] [cursor=pointer]:
+              - /url: /zh-CN/docs
+          - listitem [ref=e22]:
+            - button "AI 工具" [ref=e23] [cursor=pointer]:
+              - text: AI 工具
+              - img [ref=e24]
+          - listitem [ref=e26]:
+            - button "内置页面" [ref=e27] [cursor=pointer]:
+              - text: 内置页面
+              - img [ref=e28]
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - button "Login" [ref=e32] [cursor=pointer]
+          - link "Sign Up" [ref=e33] [cursor=pointer]:
+            - /url: /zh-CN/auth/register
+        - button "Theme Mode" [ref=e34] [cursor=pointer]:
+          - img
+          - img
+          - generic [ref=e35]: Theme Mode
+        - 'button "Current language: 简体中文" [ref=e36]':
+          - generic [ref=e37]: 🇨🇳
+          - generic [ref=e38]: 简体中文
+    - main [ref=e39]:
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - button "返回" [ref=e43]:
+            - img
+            - text: 返回
+          - generic [ref=e44]:
+            - button "分享" [ref=e45]:
+              - img
+              - text: 分享
+            - button "下载报告" [ref=e46]:
+              - img
+              - text: 下载报告
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - heading "八字命盘" [level=3] [ref=e49]:
+              - img [ref=e50]
+              - text: 八字命盘
+            - paragraph [ref=e52]: 您的四柱八字与五行分析
+          - generic [ref=e54]:
+            - generic [ref=e55]:
+              - generic [ref=e56]: 年柱
+              - generic [ref=e57]: 甲子
+              - generic [ref=e58]: 海中金
+            - generic [ref=e59]:
+              - generic [ref=e60]: 月柱
+              - generic [ref=e61]: 丙寅
+              - generic [ref=e62]: 炉中火
+            - generic [ref=e63]:
+              - generic [ref=e64]: 日柱
+              - generic [ref=e65]: 戊辰
+              - generic [ref=e66]: 大林木
+            - generic [ref=e67]:
+              - generic [ref=e68]: 时柱
+              - generic [ref=e69]: 庚申
+              - generic [ref=e70]: 石榴木
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - heading "五行力量分析" [level=3] [ref=e73]:
+              - img [ref=e74]
+              - text: 五行力量分析
+            - paragraph [ref=e76]:
+              - text: 日主强度：
+              - generic [ref=e77]: 50.5分
+              - text: (偏强)
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - generic [ref=e80]:
+                - generic [ref=e81]:
+                  - generic [ref=e82]: 🌳
+                  - generic [ref=e83]: 木
+                  - generic [ref=e84]: 2%
+                - generic [ref=e85]: 最强
+              - progressbar [ref=e86]
+            - generic [ref=e88]:
+              - generic [ref=e90]:
+                - generic [ref=e91]: 🔥
+                - generic [ref=e92]: 火
+                - generic [ref=e93]: 2%
+              - progressbar [ref=e94]
+            - generic [ref=e96]:
+              - generic [ref=e98]:
+                - generic [ref=e99]: 🏔️
+                - generic [ref=e100]: 土
+                - generic [ref=e101]: 2%
+              - progressbar [ref=e102]
+            - generic [ref=e104]:
+              - generic [ref=e106]:
+                - generic [ref=e107]: 💎
+                - generic [ref=e108]: 金
+                - generic [ref=e109]: 1%
+              - progressbar [ref=e110]
+            - generic [ref=e112]:
+              - generic [ref=e113]:
+                - generic [ref=e114]:
+                  - generic [ref=e115]: 💧
+                  - generic [ref=e116]: 水
+                  - generic [ref=e117]: 1%
+                - generic [ref=e118]: 最弱
+              - progressbar [ref=e119]
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - heading "命格格局" [level=3] [ref=e124]:
+              - img [ref=e125]
+              - text: 命格格局
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic [ref=e129]: 两神成象
+                - generic [ref=e130]: 阴阳调和，刚柔并济，处事圆融
+                - generic [ref=e131]:
+                  - generic [ref=e132]: 格局纯度：
+                  - progressbar [ref=e133]
+                  - generic [ref=e135]: 76%
+              - generic [ref=e136]:
+                - generic [ref=e137]: 辅助格局
+                - generic [ref=e138]:
+                  - generic [ref=e139]: 食神生财
+                  - generic [ref=e140]: 伤官配印
+          - generic [ref=e141]:
+            - heading "用神忌神" [level=3] [ref=e143]:
+              - img [ref=e144]
+              - text: 用神忌神
+            - generic [ref=e147]:
+              - generic [ref=e148]:
+                - generic [ref=e149]:
+                  - generic [ref=e150]:
+                    - img [ref=e151]
+                    - generic [ref=e154]: 用神
+                  - generic [ref=e155]: 💎 金
+                - generic [ref=e156]:
+                  - generic [ref=e157]:
+                    - img [ref=e158]
+                    - generic [ref=e160]: 喜神
+                  - generic [ref=e161]: 💧 水
+                - generic [ref=e162]:
+                  - generic [ref=e163]:
+                    - img [ref=e164]
+                    - generic [ref=e166]: 忌神
+                  - generic [ref=e167]: 🏔️ 土
+              - alert [ref=e168]:
+                - img [ref=e169]
+                - generic [ref=e171]: 宜多接触金属性的事物，如颜色、方位、职业等
+        - generic [ref=e172]:
+          - generic [ref=e173]:
+            - heading "神煞分析" [level=3] [ref=e174]
+            - paragraph [ref=e175]: 吉神 3 个，凶神 1 个
+          - generic [ref=e177]:
+            - generic [ref=e178]:
+              - generic [ref=e179]: 吉神
+              - generic [ref=e180]:
+                - generic [ref=e181]:
+                  - generic [ref=e182]: 天乙贵人
+                  - generic [ref=e183]: 力量 85
+                - generic [ref=e184]: 遇事有贵人相助，逢凶化吉
+              - generic [ref=e185]:
+                - generic [ref=e186]:
+                  - generic [ref=e187]: 文昌星
+                  - generic [ref=e188]: 力量 75
+                - generic [ref=e189]: 聪明好学，文采出众，利于学业考试
+              - generic [ref=e190]:
+                - generic [ref=e191]:
+                  - generic [ref=e192]: 天德贵人
+                  - generic [ref=e193]: 力量 80
+                - generic [ref=e194]: 心地善良，福德深厚，得天庇佑
+            - generic [ref=e195]:
+              - generic [ref=e196]: 凶神
+              - generic [ref=e197]:
+                - generic [ref=e198]:
+                  - generic [ref=e199]: 羊刃
+                  - generic [ref=e200]: 力量 65
+                - generic [ref=e201]: 遇事先稳后动，练习情绪管理
+        - generic [ref=e202]:
+          - generic [ref=e203]:
+            - heading "大运流年" [level=3] [ref=e204]:
+              - img [ref=e205]
+              - text: 大运流年
+            - paragraph [ref=e208]: 一生运势变化规律，每十年一个大运周期
+          - generic [ref=e210]:
+            - generic [ref=e212]:
+              - generic [ref=e215]: 10岁
+              - generic [ref=e217]:
+                - generic [ref=e218]:
+                  - generic [ref=e219]:
+                    - generic [ref=e220]:
+                      - generic [ref=e221]: 甲
+                      - generic [ref=e222]: 子
+                    - generic [ref=e223]: 木
+                  - generic [ref=e224]:
+                    - text: 2000 - 2009年·
+                    - generic [ref=e225]: 10年
+                  - paragraph [ref=e226]: 甲子大运，木气当令
+                - generic [ref=e228]: 大吉
+            - generic [ref=e229]:
+              - generic [ref=e232]: 20岁
+              - generic [ref=e234]:
+                - generic [ref=e235]:
+                  - generic [ref=e236]:
+                    - generic [ref=e237]:
+                      - generic [ref=e238]: 乙
+                      - generic [ref=e239]: 丑
+                    - generic [ref=e240]: 火
+                  - generic [ref=e241]:
+                    - text: 2010 - 2019年·
+                    - generic [ref=e242]: 10年
+                  - paragraph [ref=e243]: 乙丑大运，火气当令
+                - generic [ref=e245]: 较吉
+            - generic [ref=e246]:
+              - generic [ref=e250]: 30岁
+              - generic [ref=e252]:
+                - generic [ref=e253]:
+                  - generic [ref=e254]:
+                    - generic [ref=e255]:
+                      - generic [ref=e256]: 丙
+                      - generic [ref=e257]: 寅
+                    - generic [ref=e258]: 土
+                    - generic [ref=e259]: 当前
+                  - generic [ref=e260]:
+                    - text: 2020 - 2029年·
+                    - generic [ref=e261]: 10年
+                  - paragraph [ref=e262]: 丙寅大运，土气当令
+                - generic [ref=e264]: 平
+            - generic [ref=e265]:
+              - generic [ref=e268]: 40岁
+              - generic [ref=e270]:
+                - generic [ref=e271]:
+                  - generic [ref=e272]:
+                    - generic [ref=e273]:
+                      - generic [ref=e274]: 丁
+                      - generic [ref=e275]: 卯
+                    - generic [ref=e276]: 金
+                  - generic [ref=e277]:
+                    - text: 2030 - 2039年·
+                    - generic [ref=e278]: 10年
+                  - paragraph [ref=e279]: 丁卯大运，金气当令
+                - generic [ref=e281]: 需谨慎
+            - generic [ref=e282]:
+              - generic [ref=e285]: 50岁
+              - generic [ref=e287]:
+                - generic [ref=e288]:
+                  - generic [ref=e289]:
+                    - generic [ref=e290]:
+                      - generic [ref=e291]: 戊
+                      - generic [ref=e292]: 辰
+                    - generic [ref=e293]: 水
+                  - generic [ref=e294]:
+                    - text: 2040 - 2049年·
+                    - generic [ref=e295]: 10年
+                  - paragraph [ref=e296]: 戊辰大运，水气当令
+                - generic [ref=e298]: 大吉
+            - generic [ref=e299]:
+              - generic [ref=e302]: 60岁
+              - generic [ref=e304]:
+                - generic [ref=e305]:
+                  - generic [ref=e306]:
+                    - generic [ref=e307]:
+                      - generic [ref=e308]: 己
+                      - generic [ref=e309]: 巳
+                    - generic [ref=e310]: 木
+                  - generic [ref=e311]:
+                    - text: 2050 - 2059年·
+                    - generic [ref=e312]: 10年
+                  - paragraph [ref=e313]: 己巳大运，木气当令
+                - generic [ref=e315]: 较吉
+            - generic [ref=e316]:
+              - generic [ref=e319]: 70岁
+              - generic [ref=e321]:
+                - generic [ref=e322]:
+                  - generic [ref=e323]:
+                    - generic [ref=e324]:
+                      - generic [ref=e325]: 庚
+                      - generic [ref=e326]: 午
+                    - generic [ref=e327]: 火
+                  - generic [ref=e328]:
+                    - text: 2060 - 2069年·
+                    - generic [ref=e329]: 10年
+                  - paragraph [ref=e330]: 庚午大运，火气当令
+                - generic [ref=e332]: 平
+            - generic [ref=e333]:
+              - generic [ref=e336]: 80岁
+              - generic [ref=e338]:
+                - generic [ref=e339]:
+                  - generic [ref=e340]:
+                    - generic [ref=e341]:
+                      - generic [ref=e342]: 辛
+                      - generic [ref=e343]: 未
+                    - generic [ref=e344]: 土
+                  - generic [ref=e345]:
+                    - text: 2070 - 2079年·
+                    - generic [ref=e346]: 10年
+                  - paragraph [ref=e347]: 辛未大运，土气当令
+                - generic [ref=e349]: 需谨慎
+        - generic [ref=e350]:
+          - generic [ref=e351]:
+            - heading "详细解读" [level=3] [ref=e352]
+            - paragraph [ref=e353]: 基于AI智能分析的个性化命理解读
+          - generic [ref=e355]:
+            - tablist [ref=e356]:
+              - tab "总览" [selected] [ref=e357]
+              - tab "性格" [ref=e358]
+              - tab "事业" [ref=e359]
+              - tab "财运" [ref=e360]
+              - tab "感情" [ref=e361]
+              - tab "健康" [ref=e362]
+            - tabpanel "总览" [ref=e363]:
+              - generic [ref=e364]:
+                - paragraph [ref=e365]: 性格稳重，做事踏实，善于思考
+                - generic [ref=e366]:
+                  - generic [ref=e367]:
+                    - generic [ref=e368]: 优势特点
+                    - list [ref=e369]:
+                      - listitem [ref=e370]:
+                        - img [ref=e371]
+                        - text: 责任心强
+                      - listitem [ref=e374]:
+                        - img [ref=e375]
+                        - text: 有条理
+                      - listitem [ref=e378]:
+                        - img [ref=e379]
+                        - text: 善于分析
+                  - generic [ref=e382]:
+                    - generic [ref=e383]: 改善建议
+                    - list [ref=e384]:
+                      - listitem [ref=e385]:
+                        - img [ref=e386]
+                        - text: 有时过于谨慎
+                      - listitem [ref=e388]:
+                        - img [ref=e389]
+                        - text: 决断力需提升
+        - alert [ref=e391]:
+          - img [ref=e392]
+          - generic [ref=e394]: 以上分析基于传统命理学与AI智能算法，仅供参考。人生发展受多种因素影响，请理性对待。
+    - contentinfo [ref=e395]:
+      - generic [ref=e397]:
+        - generic [ref=e399]:
+          - img "QiFlow AI" [ref=e401]
+          - paragraph [ref=e402]: 使用 QiFlow AI 在几天内轻松构建您的 AI SaaS
+          - generic [ref=e404]:
+            - link "GitHub" [ref=e405] [cursor=pointer]:
+              - /url: https://github.com/qiflowai
+              - generic [ref=e406]: GitHub
+              - img "GitHub" [ref=e407]
+            - link "Twitter" [ref=e409] [cursor=pointer]:
+              - /url: https://qiflowai.link/twitter
+              - generic [ref=e410]: Twitter
+              - img "X (Twitter)" [ref=e411]
+            - link "Bluesky" [ref=e413] [cursor=pointer]:
+              - /url: https://qiflowai.link/bsky
+              - generic [ref=e414]: Bluesky
+              - img "Bluesky" [ref=e415]
+            - link "Mastodon" [ref=e417] [cursor=pointer]:
+              - /url: https://qiflowai.link/mastodon
+              - generic [ref=e418]: Mastodon
+              - img [ref=e419]
+            - link "Discord" [ref=e421] [cursor=pointer]:
+              - /url: https://qiflowai.link/discord
+              - generic [ref=e422]: Discord
+              - img [ref=e423]
+            - link "YouTube" [ref=e425] [cursor=pointer]:
+              - /url: https://qiflowai.link/youtube
+              - generic [ref=e426]: YouTube
+              - img "YouTube" [ref=e427]
+            - link "LinkedIn" [ref=e429] [cursor=pointer]:
+              - /url: https://qiflowai.link/linkedin
+              - generic [ref=e430]: LinkedIn
+              - img [ref=e431]
+            - link "Email" [ref=e433] [cursor=pointer]:
+              - /url: mailto:QiFlow AI <support@qiflowai.com>
+              - generic [ref=e434]: Email
+              - img [ref=e435]
+          - link "Powered by QiFlow AI Logo of QiFlow AI QiFlow AI" [ref=e438] [cursor=pointer]:
+            - /url: https://qiflowai.com?utm_source=built-with-qiflowai
+            - generic [ref=e439]: Powered by QiFlow AI
+            - img "Logo of QiFlow AI" [ref=e441]
+            - generic [ref=e442]: QiFlow AI
+        - generic [ref=e443]:
+          - text: 产品
+          - list [ref=e444]:
+            - listitem [ref=e445]:
+              - link "功能" [ref=e446] [cursor=pointer]:
+                - /url: /zh-CN#features
+            - listitem [ref=e447]:
+              - link "价格" [ref=e448] [cursor=pointer]:
+                - /url: /zh-CN/pricing
+            - listitem [ref=e449]:
+              - link "常见问题" [ref=e450] [cursor=pointer]:
+                - /url: /zh-CN#faq
+        - generic [ref=e451]:
+          - text: 资源
+          - list [ref=e452]:
+            - listitem [ref=e453]:
+              - link "博客" [ref=e454] [cursor=pointer]:
+                - /url: /zh-CN/blog
+            - listitem [ref=e455]:
+              - link "文档" [ref=e456] [cursor=pointer]:
+                - /url: /zh-CN/docs
+            - listitem [ref=e457]:
+              - link "更新日志" [ref=e458] [cursor=pointer]:
+                - /url: /zh-CN/changelog
+            - listitem [ref=e459]:
+              - link "路线图" [ref=e460] [cursor=pointer]:
+                - /url: https://qiflowai.link/roadmap
+        - generic [ref=e461]:
+          - text: 公司
+          - list [ref=e462]:
+            - listitem [ref=e463]:
+              - link "关于我们" [ref=e464] [cursor=pointer]:
+                - /url: /zh-CN/about
+            - listitem [ref=e465]:
+              - link "联系我们" [ref=e466] [cursor=pointer]:
+                - /url: /zh-CN/contact
+            - listitem [ref=e467]:
+              - link "邮件列表" [ref=e468] [cursor=pointer]:
+                - /url: /zh-CN/waitlist
+        - generic [ref=e469]:
+          - text: 法律
+          - list [ref=e470]:
+            - listitem [ref=e471]:
+              - link "Cookie政策" [ref=e472] [cursor=pointer]:
+                - /url: /zh-CN/cookie
+            - listitem [ref=e473]:
+              - link "隐私政策" [ref=e474] [cursor=pointer]:
+                - /url: /zh-CN/privacy
+            - listitem [ref=e475]:
+              - link "服务条款" [ref=e476] [cursor=pointer]:
+                - /url: /zh-CN/terms
+      - generic [ref=e478]:
+        - generic [ref=e479]: © 2025 QiFlow AI All Rights Reserved.
+        - generic [ref=e481]:
+          - button "Light" [ref=e482] [cursor=pointer]:
+            - img
+          - button "Dark" [ref=e483] [cursor=pointer]:
+            - img
+          - button "System" [ref=e484] [cursor=pointer]:
+            - img
+  - generic [ref=e485]:
+    - img [ref=e487]
+    - button "Open Tanstack query devtools" [ref=e535] [cursor=pointer]:
+      - img [ref=e536]
+  - button "Open Next.js Dev Tools" [ref=e589] [cursor=pointer]:
+    - img [ref=e590]
+  - alert [ref=e593]
+```

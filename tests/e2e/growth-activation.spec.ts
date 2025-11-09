@@ -8,7 +8,7 @@ async function dismissAgeOverlay(page) {
 }
 
 async function gotoSignUp(page) {
-  await page.goto('/zh/sign-up');
+  await page.goto('/zh-CN/sign-up');
   await dismissAgeOverlay(page);
   const visible = await page
     .locator('#email')

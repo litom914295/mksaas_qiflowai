@@ -1,0 +1,53 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - link "QiFlow AI" [ref=e6] [cursor=pointer]:
+        - /url: /zh-CN
+        - img "QiFlow AI" [ref=e7]
+      - paragraph [ref=e8]: 创建账户
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - text: 姓名
+          - textbox "姓名" [disabled] [ref=e13]:
+            - /placeholder: 张三
+            - text: 推荐人A
+        - generic [ref=e14]:
+          - text: 邮箱
+          - textbox "邮箱" [disabled] [ref=e15]:
+            - /placeholder: your@email.com
+            - text: e2e.a.1762472640803@example.com
+        - generic [ref=e16]:
+          - text: 密码
+          - textbox "密码" [disabled] [ref=e17]:
+            - /placeholder: 至少 8 个字符
+            - text: Test12345!
+        - generic [ref=e18]:
+          - text: 确认密码
+          - textbox "确认密码" [disabled] [ref=e19]:
+            - /placeholder: 再次输入密码
+            - text: Test12345!
+        - button "注册" [disabled]:
+          - img
+          - text: 注册
+      - generic [ref=e24]: 或使用以下方式注册
+      - generic [ref=e25]:
+        - button "Google" [disabled]:
+          - img
+          - text: Google
+        - button "GitHub" [disabled]:
+          - img
+          - text: GitHub
+    - link "已有账户？登录" [ref=e27] [cursor=pointer]:
+      - /url: /zh-CN/sign-in
+  - generic [ref=e28]:
+    - img [ref=e30]
+    - button "Open Tanstack query devtools" [ref=e78] [cursor=pointer]:
+      - img [ref=e79]
+  - button "Open Next.js Dev Tools" [ref=e132] [cursor=pointer]:
+    - img [ref=e133]
+  - alert [ref=e136]
+```

@@ -12,7 +12,7 @@ async function dismissAgeOverlay(page) {
 test.describe('QiFlow - i18n 与错误态', () => {
   test('Bazi 中文/英文占位符与按钮一致性 + 错误态', async ({ page }) => {
     // 中文
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
     await dismissAgeOverlay(page);
     // 占位符与按钮
     await expect(page.locator('input[name="birth"]')).toHaveAttribute(
@@ -42,7 +42,7 @@ test.describe('QiFlow - i18n 与错误态', () => {
 
   test('Xuankong 中文/英文占位符与按钮一致性 + 错误态', async ({ page }) => {
     // 中文
-    await page.goto('/zh/analysis/xuankong');
+    await page.goto('/zh-CN/analysis/xuankong');
     await dismissAgeOverlay(page);
     await expect(page.locator('input[name="address"]')).toHaveAttribute(
       'placeholder',

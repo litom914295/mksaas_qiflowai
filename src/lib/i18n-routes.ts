@@ -25,7 +25,11 @@ export function getLocalizedRoute(route: Routes, locale?: string): string {
   const routePath = route as string;
 
   // 如果是外部链接或锚点，直接返回
-  if (routePath.startsWith('http') || routePath.startsWith('#')) {
+  if (
+    routePath.startsWith('http') ||
+    routePath.startsWith('#') ||
+    routePath.startsWith('/#')
+  ) {
     return routePath;
   }
 
@@ -127,16 +131,18 @@ export function getLocalizedRouteFromRequest(
       .filter(Boolean);
 
     for (const preferred of preferredLocales) {
-      // 精确匹配
+      // 精确匹配优先
       if (locales.includes(preferred)) {
         return getLocalizedRoute(route, preferred);
       }
 
-      // 语言代码匹配（如 'zh' 匹配 'zh-CN'）
+      // 仅对中文进行语言代码降级匹配（'zh' -> 'zh-CN'）
       const langCode = preferred.split('-')[0];
-      const matched = locales.find((loc) => loc.startsWith(langCode + '-'));
-      if (matched) {
-        return getLocalizedRoute(route, matched);
+      if (langCode === 'zh') {
+        const matchedZh = locales.find((loc) => loc.startsWith('zh-'));
+        if (matchedZh) {
+          return getLocalizedRoute(route, matchedZh);
+        }
       }
     }
   }

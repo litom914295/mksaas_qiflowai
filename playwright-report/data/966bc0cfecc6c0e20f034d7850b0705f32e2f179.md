@@ -1,0 +1,467 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - navigation [ref=e6]:
+      - link "QiFlow AI" [ref=e8] [cursor=pointer]:
+        - /url: /zh-CN
+        - img "QiFlow AI" [ref=e9]
+      - navigation "Main" [ref=e11]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "功能" [ref=e15] [cursor=pointer]:
+              - /url: /zh-CN#features
+          - listitem [ref=e16]:
+            - link "价格" [ref=e17] [cursor=pointer]:
+              - /url: /zh-CN/pricing
+          - listitem [ref=e18]:
+            - link "博客" [ref=e19] [cursor=pointer]:
+              - /url: /zh-CN/blog
+          - listitem [ref=e20]:
+            - link "文档" [ref=e21] [cursor=pointer]:
+              - /url: /zh-CN/docs
+          - listitem [ref=e22]:
+            - button "AI 工具" [ref=e23] [cursor=pointer]:
+              - text: AI 工具
+              - img [ref=e24]
+          - listitem [ref=e26]:
+            - button "内置页面" [ref=e27] [cursor=pointer]:
+              - text: 内置页面
+              - img [ref=e28]
+      - generic [ref=e30]:
+        - button "Theme Mode" [ref=e32] [cursor=pointer]:
+          - img
+          - img
+          - generic [ref=e33]: Theme Mode
+        - 'button "Current language: 简体中文" [ref=e34]':
+          - generic [ref=e35]: 🇨🇳
+          - generic [ref=e36]: 简体中文
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - heading "3分钟，看清你的 天赋与运势转折点" [level=1] [ref=e42]:
+            - generic [ref=e43]:
+              - text: 3分钟，看清你的
+              - text: 天赋与运势转折点
+          - paragraph [ref=e44]: 结合千年命理智慧与AI算法，98%用户认为「准得离谱」
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - img [ref=e47]
+            - generic [ref=e49]: 98% 算法精准
+          - generic [ref=e50]:
+            - img [ref=e51]
+            - generic [ref=e53]: 隐私保护
+          - generic [ref=e54]:
+            - img [ref=e55]
+            - generic [ref=e58]: 3分钟分析
+        - generic [ref=e66]: 已有 127,843 人获得了人生指南
+        - generic [ref=e67]:
+          - link "👀 先看个示例" [ref=e68] [cursor=pointer]:
+            - /url: /zh-CN/showcase
+            - generic [ref=e69]: 👀
+            - generic [ref=e70]: 先看个示例
+            - img [ref=e71]
+          - generic [ref=e73]: "|"
+          - link "✨ AI智能咨询" [active] [ref=e74] [cursor=pointer]:
+            - /url: /zh-CN/ai-chat
+            - generic [ref=e75]: ✨
+            - generic [ref=e76]: AI智能咨询
+            - img [ref=e77]
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - generic [ref=e81]:
+              - generic [ref=e82]: ★
+              - generic [ref=e83]: ★
+              - generic [ref=e84]: ★
+              - generic [ref=e85]: ★
+              - generic [ref=e86]: ★
+            - generic [ref=e87]:
+              - generic [ref=e88]: 4.9/5
+              - generic [ref=e89]: 用户评分
+          - generic [ref=e91]:
+            - generic [ref=e92]: 98%
+            - generic [ref=e93]: 算法准确率
+      - generic [ref=e96]:
+        - heading "开始命理之旅 · 免费体验" [level=2] [ref=e98]:
+          - img [ref=e99]
+          - text: 开始命理之旅 · 免费体验
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - img [ref=e105]
+                - text: 姓名
+                - generic [ref=e108]: "*"
+              - textbox "姓名 *" [ref=e109]:
+                - /placeholder: 请输入您的姓名
+            - generic [ref=e110]:
+              - generic [ref=e111]: 性别 *
+              - radiogroup [ref=e112]:
+                - generic [ref=e113]:
+                  - radio "女" [checked] [ref=e114]:
+                    - img [ref=e115]
+                  - radio [checked]
+                  - generic [ref=e117] [cursor=pointer]: 女
+                - generic [ref=e118]:
+                  - radio "男" [ref=e119]
+                  - radio
+                  - generic [ref=e120] [cursor=pointer]: 男
+            - generic [ref=e121]:
+              - generic [ref=e122]:
+                - img [ref=e123]
+                - text: 出生城市
+                - generic [ref=e126]: (太阳时)
+              - textbox "出生城市 (太阳时)" [ref=e127]:
+                - /placeholder: 请输入出生城市（用于时区计算）
+          - generic [ref=e128]:
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - img [ref=e131]
+                - text: 出生日期
+                - generic [ref=e133]: "*"
+              - radiogroup [ref=e134]:
+                - generic [ref=e135]:
+                  - radio "阳历（公历）" [checked] [ref=e136]:
+                    - img [ref=e137]
+                  - radio [checked]
+                  - generic [ref=e139] [cursor=pointer]: 阳历（公历）
+                - generic [ref=e140]:
+                  - radio "农历" [ref=e141]
+                  - radio
+                  - generic [ref=e142] [cursor=pointer]: 农历
+            - generic [ref=e143]:
+              - combobox [ref=e144]:
+                - generic: 选择年份
+                - img [ref=e145]
+              - combobox [ref=e147]
+              - combobox [ref=e148]:
+                - generic: 月
+                - img [ref=e149]
+              - combobox [ref=e151]
+              - combobox [ref=e152]:
+                - generic: 日
+                - img [ref=e153]
+              - combobox [ref=e155]
+          - generic [ref=e156]:
+            - generic [ref=e157]:
+              - img [ref=e158]
+              - text: 出生时间
+              - generic [ref=e161]: "*"
+            - generic [ref=e162]:
+              - textbox [ref=e163]: 08:00
+              - generic [ref=e164]:
+                - button "上午" [ref=e165]
+                - button "下午" [ref=e166]
+                - button "晚上" [ref=e167]
+          - button "添加风水信息（可选）" [ref=e169]:
+            - generic [ref=e170]:
+              - img [ref=e171]
+              - generic [ref=e174]: 添加风水信息（可选）
+            - img [ref=e175]
+          - button "开始分析" [disabled]:
+            - img
+            - text: 开始分析
+          - paragraph [ref=e177]: 💡 无需注册 · 3分钟生成 · 首次体验免货
+    - generic [ref=e180]:
+      - generic [ref=e181]:
+        - heading "强大的功能，简单的操作" [level=2] [ref=e182]
+        - paragraph [ref=e183]: 从八字命理到风水布局，从数据分析到AI咨询，一站式解决所有需求
+      - generic [ref=e184]:
+        - link "八字分析 30秒生成命理报告 了解更多" [ref=e186] [cursor=pointer]:
+          - /url: /zh-CN/unified-form
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - img [ref=e190]
+              - heading "八字分析" [level=3] [ref=e192]
+              - paragraph [ref=e193]: 30秒生成命理报告
+            - generic [ref=e195]:
+              - generic [ref=e196]: 了解更多
+              - img [ref=e197]
+        - link "玄空风水 智能飞星布局分析 了解更多" [ref=e200] [cursor=pointer]:
+          - /url: /zh-CN/unified-form
+          - generic [ref=e201]:
+            - generic [ref=e202]:
+              - img [ref=e204]
+              - heading "玄空风水" [level=3] [ref=e207]
+              - paragraph [ref=e208]: 智能飞星布局分析
+            - generic [ref=e210]:
+              - generic [ref=e211]: 了解更多
+              - img [ref=e212]
+        - link "罗盘算法 AI 智能方位识别 了解更多" [ref=e215] [cursor=pointer]:
+          - /url: /zh-CN/tools/compass
+          - generic [ref=e216]:
+            - generic [ref=e217]:
+              - img [ref=e219]
+              - heading "罗盘算法" [level=3] [ref=e222]
+              - paragraph [ref=e223]: AI 智能方位识别
+            - generic [ref=e225]:
+              - generic [ref=e226]: 了解更多
+              - img [ref=e227]
+        - link "户型图分析 上传户型图即可分析 了解更多" [ref=e230] [cursor=pointer]:
+          - /url: /zh-CN/tools/floor-plan
+          - generic [ref=e231]:
+            - generic [ref=e232]:
+              - img [ref=e234]
+              - heading "户型图分析" [level=3] [ref=e237]
+              - paragraph [ref=e238]: 上传户型图即可分析
+            - generic [ref=e240]:
+              - generic [ref=e241]: 了解更多
+              - img [ref=e242]
+        - link "3D 可视化 立体风水布局展示 了解更多" [ref=e245] [cursor=pointer]:
+          - /url: /zh-CN/tools/3d-visualization
+          - generic [ref=e246]:
+            - generic [ref=e247]:
+              - img [ref=e249]
+              - heading "3D 可视化" [level=3] [ref=e252]
+              - paragraph [ref=e253]: 立体风水布局展示
+            - generic [ref=e255]:
+              - generic [ref=e256]: 了解更多
+              - img [ref=e257]
+        - link "AI 助手 24/7 智能问答 了解更多" [ref=e260] [cursor=pointer]:
+          - /url: /zh-CN/ai-chat
+          - generic [ref=e261]:
+            - generic [ref=e262]:
+              - img [ref=e264]
+              - heading "AI 助手" [level=3] [ref=e266]
+              - paragraph [ref=e267]: 24/7 智能问答
+            - generic [ref=e269]:
+              - generic [ref=e270]: 了解更多
+              - img [ref=e271]
+      - paragraph [ref=e274]: 💡 所有功能均采用先进的AI算法，确保准确性和专业性
+    - generic [ref=e277]:
+      - generic [ref=e278]:
+        - heading "选择适合你的套餐" [level=2] [ref=e279]
+        - paragraph [ref=e280]: 所有套餐均享首充 50% 优惠，选择更大套餐更划算
+        - generic [ref=e281]:
+          - img [ref=e282]
+          - text: 首次充值额外赠送 50% 积分
+      - generic [ref=e284]:
+        - group [ref=e286]:
+          - radio "月付" [checked] [ref=e287] [cursor=pointer]
+          - radio "年付" [ref=e288] [cursor=pointer]
+        - generic [ref=e289]:
+          - generic [ref=e290]:
+            - generic [ref=e291]:
+              - heading "免费版" [level=3] [ref=e292]
+              - generic [ref=e294]: $0
+              - paragraph [ref=e295]: 适用于个人使用的基本功能
+            - generic [ref=e296]:
+              - separator [ref=e297]
+              - list [ref=e298]:
+                - listitem [ref=e299]:
+                  - img [ref=e300]
+                  - generic [ref=e303]: 最多3个项目
+                - listitem [ref=e304]:
+                  - img [ref=e305]
+                  - generic [ref=e308]: 1GB存储空间
+                - listitem [ref=e309]:
+                  - img [ref=e310]
+                  - generic [ref=e313]: 基础分析功能
+                - listitem [ref=e314]:
+                  - img [ref=e315]
+                  - generic [ref=e318]: 社区支持
+              - list [ref=e319]:
+                - listitem [ref=e320]:
+                  - img [ref=e321]
+                  - generic [ref=e325]: 不支持自定义域名
+                - listitem [ref=e326]:
+                  - img [ref=e327]
+                  - generic [ref=e331]: 不支持自定义品牌
+                - listitem [ref=e332]:
+                  - img [ref=e333]
+                  - generic [ref=e337]: 不支持终身更新
+          - generic [ref=e338]:
+            - generic [ref=e340]: 热门
+            - generic [ref=e341]:
+              - heading "专业版" [level=3] [ref=e342]
+              - generic [ref=e343]:
+                - generic [ref=e344]: $9.9
+                - generic [ref=e345]: /月
+              - paragraph [ref=e346]: 专业人士的高级功能
+            - generic [ref=e347]:
+              - separator [ref=e348]
+              - list [ref=e349]:
+                - listitem [ref=e350]:
+                  - img [ref=e351]
+                  - generic [ref=e354]: 无限项目
+                - listitem [ref=e355]:
+                  - img [ref=e356]
+                  - generic [ref=e359]: 10GB存储空间
+                - listitem [ref=e360]:
+                  - img [ref=e361]
+                  - generic [ref=e364]: 高级分析功能
+                - listitem [ref=e365]:
+                  - img [ref=e366]
+                  - generic [ref=e369]: 优先支持
+                - listitem [ref=e370]:
+                  - img [ref=e371]
+                  - generic [ref=e374]: 自定义域名
+              - list [ref=e375]:
+                - listitem [ref=e376]:
+                  - img [ref=e377]
+                  - generic [ref=e381]: 不支持自定义品牌
+                - listitem [ref=e382]:
+                  - img [ref=e383]
+                  - generic [ref=e387]: 不支持终身更新
+          - generic [ref=e388]:
+            - generic [ref=e389]:
+              - heading "终身版" [level=3] [ref=e390]
+              - generic [ref=e392]: $199
+              - paragraph [ref=e393]: 一次性付款获得所有高级功能
+            - generic [ref=e394]:
+              - separator [ref=e395]
+              - list [ref=e396]:
+                - listitem [ref=e397]:
+                  - img [ref=e398]
+                  - generic [ref=e401]: 所有专业版功能
+                - listitem [ref=e402]:
+                  - img [ref=e403]
+                  - generic [ref=e406]: 100GB存储空间
+                - listitem [ref=e407]:
+                  - img [ref=e408]
+                  - generic [ref=e411]: 专属支持
+                - listitem [ref=e412]:
+                  - img [ref=e413]
+                  - generic [ref=e416]: 企业级安全
+                - listitem [ref=e417]:
+                  - img [ref=e418]
+                  - generic [ref=e421]: 高级集成
+                - listitem [ref=e422]:
+                  - img [ref=e423]
+                  - generic [ref=e426]: 自定义品牌
+                - listitem [ref=e427]:
+                  - img [ref=e428]
+                  - generic [ref=e431]: 终身更新
+              - list
+      - generic [ref=e432]:
+        - paragraph [ref=e433]: 💡 所有套餐均支持 支付宝、微信支付、信用卡等多种支付方式
+        - paragraph [ref=e434]: 7 天无理由退款 · 数据加密保护 · 安全可靠
+    - generic [ref=e437]:
+      - generic [ref=e438]:
+        - heading "您的信任，我们的承诺" [level=2] [ref=e439]
+        - paragraph [ref=e440]: 专业、安全、高效的AI命理服务
+      - generic [ref=e441]:
+        - generic [ref=e442]:
+          - generic [ref=e444]: 🔒
+          - heading "隐私保护" [level=3] [ref=e445]
+          - paragraph [ref=e446]: 数据加密存储，绝不泄露个人信息
+        - generic [ref=e447]:
+          - generic [ref=e449]: ⚡
+          - heading "极速响应" [level=3] [ref=e450]
+          - paragraph [ref=e451]: AI 算法驱动，3分钟内完成分析
+        - generic [ref=e452]:
+          - generic [ref=e454]: ✨
+          - heading "专业准确" [level=3] [ref=e455]
+          - paragraph [ref=e456]: 结合传统命理与现代AI，准确率高达98%
+    - contentinfo [ref=e457]:
+      - generic [ref=e459]:
+        - generic [ref=e461]:
+          - img "QiFlow AI" [ref=e463]
+          - paragraph [ref=e464]: 透明计费 · 隐私保护 · 专家方法与 AI 双重校验
+          - generic [ref=e466]:
+            - link "GitHub" [ref=e467] [cursor=pointer]:
+              - /url: https://github.com/qiflowai
+              - generic [ref=e468]: GitHub
+              - img "GitHub" [ref=e469]
+            - link "Twitter" [ref=e471] [cursor=pointer]:
+              - /url: https://qiflowai.link/twitter
+              - generic [ref=e472]: Twitter
+              - img "X (Twitter)" [ref=e473]
+            - link "Bluesky" [ref=e475] [cursor=pointer]:
+              - /url: https://qiflowai.link/bsky
+              - generic [ref=e476]: Bluesky
+              - img "Bluesky" [ref=e477]
+            - link "Mastodon" [ref=e479] [cursor=pointer]:
+              - /url: https://qiflowai.link/mastodon
+              - generic [ref=e480]: Mastodon
+              - img [ref=e481]
+            - link "Discord" [ref=e483] [cursor=pointer]:
+              - /url: https://qiflowai.link/discord
+              - generic [ref=e484]: Discord
+              - img [ref=e485]
+            - link "YouTube" [ref=e487] [cursor=pointer]:
+              - /url: https://qiflowai.link/youtube
+              - generic [ref=e488]: YouTube
+              - img "YouTube" [ref=e489]
+            - link "LinkedIn" [ref=e491] [cursor=pointer]:
+              - /url: https://qiflowai.link/linkedin
+              - generic [ref=e492]: LinkedIn
+              - img [ref=e493]
+            - link "Email" [ref=e495] [cursor=pointer]:
+              - /url: mailto:QiFlow AI <support@qiflowai.com>
+              - generic [ref=e496]: Email
+              - img [ref=e497]
+          - link "Powered by QiFlow AI Logo of QiFlow AI QiFlow AI" [ref=e500] [cursor=pointer]:
+            - /url: https://qiflowai.com?utm_source=built-with-qiflowai
+            - generic [ref=e501]: Powered by QiFlow AI
+            - img "Logo of QiFlow AI" [ref=e503]
+            - generic [ref=e504]: QiFlow AI
+        - generic [ref=e505]:
+          - text: 产品
+          - list [ref=e506]:
+            - listitem [ref=e507]:
+              - link "功能" [ref=e508] [cursor=pointer]:
+                - /url: /zh-CN#features
+            - listitem [ref=e509]:
+              - link "价格" [ref=e510] [cursor=pointer]:
+                - /url: /zh-CN/pricing
+            - listitem [ref=e511]:
+              - link "常见问题" [ref=e512] [cursor=pointer]:
+                - /url: /zh-CN#faq
+        - generic [ref=e513]:
+          - text: 资源
+          - list [ref=e514]:
+            - listitem [ref=e515]:
+              - link "博客" [ref=e516] [cursor=pointer]:
+                - /url: /zh-CN/blog
+            - listitem [ref=e517]:
+              - link "文档" [ref=e518] [cursor=pointer]:
+                - /url: /zh-CN/docs
+            - listitem [ref=e519]:
+              - link "更新日志" [ref=e520] [cursor=pointer]:
+                - /url: /zh-CN/changelog
+            - listitem [ref=e521]:
+              - link "路线图" [ref=e522] [cursor=pointer]:
+                - /url: https://qiflowai.link/roadmap
+        - generic [ref=e523]:
+          - text: 公司
+          - list [ref=e524]:
+            - listitem [ref=e525]:
+              - link "关于我们" [ref=e526] [cursor=pointer]:
+                - /url: /zh-CN/about
+            - listitem [ref=e527]:
+              - link "联系我们" [ref=e528] [cursor=pointer]:
+                - /url: /zh-CN/contact
+            - listitem [ref=e529]:
+              - link "邮件列表" [ref=e530] [cursor=pointer]:
+                - /url: /zh-CN/waitlist
+        - generic [ref=e531]:
+          - text: 法律
+          - list [ref=e532]:
+            - listitem [ref=e533]:
+              - link "Cookie政策" [ref=e534] [cursor=pointer]:
+                - /url: /zh-CN/cookie
+            - listitem [ref=e535]:
+              - link "隐私政策" [ref=e536] [cursor=pointer]:
+                - /url: /zh-CN/privacy
+            - listitem [ref=e537]:
+              - link "服务条款" [ref=e538] [cursor=pointer]:
+                - /url: /zh-CN/terms
+      - generic [ref=e540]:
+        - generic [ref=e541]: © 2025 QiFlow AI All Rights Reserved.
+        - generic [ref=e543]:
+          - button "Light" [ref=e544] [cursor=pointer]:
+            - img
+          - button "Dark" [ref=e545] [cursor=pointer]:
+            - img
+          - button "System" [ref=e546] [cursor=pointer]:
+            - img
+  - generic [ref=e547]:
+    - img [ref=e549]
+    - button "Open Tanstack query devtools" [ref=e597] [cursor=pointer]:
+      - img [ref=e598]
+  - button "Open Next.js Dev Tools" [ref=e651] [cursor=pointer]:
+    - img [ref=e652]
+  - alert [ref=e655]
+```

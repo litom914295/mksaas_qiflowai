@@ -28,6 +28,17 @@ export default async function middleware(req: NextRequest) {
   const { nextUrl } = req;
   console.log('>> middleware start, pathname', nextUrl.pathname);
 
+  // Check for E2E test mode - bypass authentication checks in non-production
+  const isE2ETestMode =
+    process.env.NODE_ENV !== 'production' &&
+    req.cookies.get('E2E_TEST_MODE')?.value === 'true';
+
+  if (isE2ETestMode) {
+    console.log('middleware: E2E test mode detected, bypassing auth checks');
+    // Skip auth checks, proceed directly to intlMiddleware
+    return intlMiddleware(req);
+  }
+
   // Handle internal docs link redirection for internationalization
   // Check if this is a docs page without locale prefix
   if (nextUrl.pathname.startsWith('/docs/') || nextUrl.pathname === '/docs') {

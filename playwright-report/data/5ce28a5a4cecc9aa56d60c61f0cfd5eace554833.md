@@ -1,0 +1,119 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "返回首页" [ref=e6] [cursor=pointer]:
+    - /url: /zh-CN
+    - button "返回首页" [ref=e7]:
+      - img
+      - text: 返回首页
+  - generic [ref=e9]:
+    - generic [ref=e10]: 功能展示
+    - heading "探索 QiFlow AI 的强大功能" [level=1] [ref=e11]:
+      - text: 探索
+      - generic [ref=e12]: QiFlow AI
+      - text: 的强大功能
+    - paragraph [ref=e13]: 融合传统命理智慧与现代AI技术，为您提供专业、精准、易用的分析服务
+  - generic [ref=e14]:
+    - heading "核心功能" [level=2] [ref=e15]
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - img [ref=e22]
+            - generic [ref=e24]: 新上线
+          - heading "八字命理分析" [level=3] [ref=e25]
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: 基于专业算法的个人化命理洞察，结合传统十神理论与现代AI技术
+          - link "立即体验" [ref=e28] [cursor=pointer]:
+            - /url: /zh-CN/report
+            - button "立即体验" [ref=e29]
+      - generic [ref=e30]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - img [ref=e35]
+            - generic [ref=e38]: 热门
+          - heading "玄空飞星罗盘" [level=3] [ref=e39]
+        - generic [ref=e40]:
+          - paragraph [ref=e41]: 精确测量方位，智能生成风水布局建议，助力优化居住与工作空间
+          - link "立即体验" [ref=e42] [cursor=pointer]:
+            - /url: /zh-CN/report
+            - button "立即体验" [ref=e43]
+      - generic [ref=e44]:
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - img [ref=e49]
+            - generic [ref=e51]: 推荐
+          - heading "AI智能咨询" [level=3] [ref=e52]
+        - generic [ref=e53]:
+          - paragraph [ref=e54]: 实时多轮对话，专业命理风水问题解答，个性化建议推荐
+          - link "立即体验" [ref=e55] [cursor=pointer]:
+            - /url: /zh-CN/ai-chat
+            - button "立即体验" [ref=e56]
+      - generic [ref=e57]:
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - img [ref=e62]
+            - generic [ref=e64]: 即将推出
+          - heading "数据可视化" [level=3] [ref=e65]
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: 直观展示命理分析结果，九宫飞星图，运势趋势图表
+          - button "敬请期待" [disabled]
+  - generic [ref=e68]:
+    - heading "技术特性" [level=2] [ref=e69]
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - heading "性能优化组件" [level=3] [ref=e73]
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - generic [ref=e78]: Web Vitals监控 (LCP < 2.5s)
+          - listitem [ref=e79]:
+            - generic [ref=e81]: 优化图片组件 (WebP/AVIF)
+          - listitem [ref=e82]:
+            - generic [ref=e84]: 字体优化 (Next.js Font Optimization)
+      - generic [ref=e85]:
+        - heading "用户体验组件" [level=3] [ref=e87]
+        - list [ref=e89]:
+          - listitem [ref=e90]:
+            - generic [ref=e92]: 深色模式支持
+          - listitem [ref=e93]:
+            - generic [ref=e95]: 响应式设计 (移动端/平板/桌面)
+          - listitem [ref=e96]:
+            - generic [ref=e98]: 自适应Logo
+      - generic [ref=e99]:
+        - heading "SEO优化" [level=3] [ref=e101]
+        - list [ref=e103]:
+          - listitem [ref=e104]:
+            - generic [ref=e106]: 完整元数据 (Open Graph/Twitter Card)
+          - listitem [ref=e107]:
+            - generic [ref=e109]: 自动Sitemap生成
+          - listitem [ref=e110]:
+            - generic [ref=e112]: JSON-LD结构化数据
+  - generic [ref=e114]:
+    - heading "项目成果" [level=2] [ref=e115]
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - generic [ref=e118]: 10+
+        - generic [ref=e119]: 核心组件
+      - generic [ref=e120]:
+        - generic [ref=e121]: 6,500+
+        - generic [ref=e122]: 代码行数
+      - generic [ref=e123]:
+        - generic [ref=e124]: 85%
+        - generic [ref=e125]: 测试覆盖率
+      - generic [ref=e126]:
+        - generic [ref=e127]: 95+
+        - generic [ref=e128]: Lighthouse评分
+  - generic [ref=e130]:
+    - heading "准备好开始了吗？" [level=2] [ref=e131]
+    - paragraph [ref=e132]: 立即体验QiFlow AI，获取专业的命理风水分析
+    - generic [ref=e133]:
+      - link "开始八字分析" [ref=e134] [cursor=pointer]:
+        - /url: /zh-CN/report
+        - button "开始八字分析" [ref=e135]
+      - link "使用风水罗盘" [ref=e136] [cursor=pointer]:
+        - /url: /zh-CN/report
+        - button "使用风水罗盘" [ref=e137]
+  - contentinfo [ref=e138]:
+    - paragraph [ref=e140]: © 2025 QiFlow AI. 保留所有权利。
+```

@@ -1,0 +1,159 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - navigation [ref=e6]:
+      - link "QiFlow AI" [ref=e8] [cursor=pointer]:
+        - /url: /zh-CN
+        - img "QiFlow AI" [ref=e9]
+      - navigation "Main" [ref=e11]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "功能" [ref=e15] [cursor=pointer]:
+              - /url: /zh-CN#features
+          - listitem [ref=e16]:
+            - link "价格" [ref=e17] [cursor=pointer]:
+              - /url: /zh-CN/pricing
+          - listitem [ref=e18]:
+            - link "博客" [ref=e19] [cursor=pointer]:
+              - /url: /zh-CN/blog
+          - listitem [ref=e20]:
+            - link "文档" [ref=e21] [cursor=pointer]:
+              - /url: /zh-CN/docs
+          - listitem [ref=e22]:
+            - button "AI 工具" [ref=e23] [cursor=pointer]:
+              - text: AI 工具
+              - img [ref=e24]
+          - listitem [ref=e26]:
+            - button "内置页面" [ref=e27] [cursor=pointer]:
+              - text: 内置页面
+              - img [ref=e28]
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - button "Login" [ref=e32] [cursor=pointer]
+          - link "Sign Up" [ref=e33] [cursor=pointer]:
+            - /url: /zh-CN/auth/register
+        - button "Theme Mode" [ref=e34] [cursor=pointer]:
+          - img
+          - img
+          - generic [ref=e35]: Theme Mode
+        - 'button "Current language: 简体中文" [ref=e36]':
+          - generic [ref=e37]: 🇨🇳
+          - generic [ref=e38]: 简体中文
+    - main [ref=e39]:
+      - generic [ref=e42]:
+        - img [ref=e43]
+        - paragraph [ref=e45]: 正在进行专业八字分析...
+        - paragraph [ref=e46]: 包含四柱、五行、神煞、大运流年等...
+    - contentinfo [ref=e47]:
+      - generic [ref=e49]:
+        - generic [ref=e51]:
+          - img "QiFlow AI" [ref=e53]
+          - paragraph [ref=e54]: 使用 QiFlow AI 在几天内轻松构建您的 AI SaaS
+          - generic [ref=e56]:
+            - link "GitHub" [ref=e57] [cursor=pointer]:
+              - /url: https://github.com/qiflowai
+              - generic [ref=e58]: GitHub
+              - img "GitHub" [ref=e59]
+            - link "Twitter" [ref=e61] [cursor=pointer]:
+              - /url: https://qiflowai.link/twitter
+              - generic [ref=e62]: Twitter
+              - img "X (Twitter)" [ref=e63]
+            - link "Bluesky" [ref=e65] [cursor=pointer]:
+              - /url: https://qiflowai.link/bsky
+              - generic [ref=e66]: Bluesky
+              - img "Bluesky" [ref=e67]
+            - link "Mastodon" [ref=e69] [cursor=pointer]:
+              - /url: https://qiflowai.link/mastodon
+              - generic [ref=e70]: Mastodon
+              - img [ref=e71]
+            - link "Discord" [ref=e73] [cursor=pointer]:
+              - /url: https://qiflowai.link/discord
+              - generic [ref=e74]: Discord
+              - img [ref=e75]
+            - link "YouTube" [ref=e77] [cursor=pointer]:
+              - /url: https://qiflowai.link/youtube
+              - generic [ref=e78]: YouTube
+              - img "YouTube" [ref=e79]
+            - link "LinkedIn" [ref=e81] [cursor=pointer]:
+              - /url: https://qiflowai.link/linkedin
+              - generic [ref=e82]: LinkedIn
+              - img [ref=e83]
+            - link "Email" [ref=e85] [cursor=pointer]:
+              - /url: mailto:QiFlow AI <support@qiflowai.com>
+              - generic [ref=e86]: Email
+              - img [ref=e87]
+          - link "Powered by QiFlow AI Logo of QiFlow AI QiFlow AI" [ref=e90] [cursor=pointer]:
+            - /url: https://qiflowai.com?utm_source=built-with-qiflowai
+            - generic [ref=e91]: Powered by QiFlow AI
+            - img "Logo of QiFlow AI" [ref=e93]
+            - generic [ref=e94]: QiFlow AI
+        - generic [ref=e95]:
+          - text: 产品
+          - list [ref=e96]:
+            - listitem [ref=e97]:
+              - link "功能" [ref=e98] [cursor=pointer]:
+                - /url: /zh-CN#features
+            - listitem [ref=e99]:
+              - link "价格" [ref=e100] [cursor=pointer]:
+                - /url: /zh-CN/pricing
+            - listitem [ref=e101]:
+              - link "常见问题" [ref=e102] [cursor=pointer]:
+                - /url: /zh-CN#faq
+        - generic [ref=e103]:
+          - text: 资源
+          - list [ref=e104]:
+            - listitem [ref=e105]:
+              - link "博客" [ref=e106] [cursor=pointer]:
+                - /url: /zh-CN/blog
+            - listitem [ref=e107]:
+              - link "文档" [ref=e108] [cursor=pointer]:
+                - /url: /zh-CN/docs
+            - listitem [ref=e109]:
+              - link "更新日志" [ref=e110] [cursor=pointer]:
+                - /url: /zh-CN/changelog
+            - listitem [ref=e111]:
+              - link "路线图" [ref=e112] [cursor=pointer]:
+                - /url: https://qiflowai.link/roadmap
+        - generic [ref=e113]:
+          - text: 公司
+          - list [ref=e114]:
+            - listitem [ref=e115]:
+              - link "关于我们" [ref=e116] [cursor=pointer]:
+                - /url: /zh-CN/about
+            - listitem [ref=e117]:
+              - link "联系我们" [ref=e118] [cursor=pointer]:
+                - /url: /zh-CN/contact
+            - listitem [ref=e119]:
+              - link "邮件列表" [ref=e120] [cursor=pointer]:
+                - /url: /zh-CN/waitlist
+        - generic [ref=e121]:
+          - text: 法律
+          - list [ref=e122]:
+            - listitem [ref=e123]:
+              - link "Cookie政策" [ref=e124] [cursor=pointer]:
+                - /url: /zh-CN/cookie
+            - listitem [ref=e125]:
+              - link "隐私政策" [ref=e126] [cursor=pointer]:
+                - /url: /zh-CN/privacy
+            - listitem [ref=e127]:
+              - link "服务条款" [ref=e128] [cursor=pointer]:
+                - /url: /zh-CN/terms
+      - generic [ref=e130]:
+        - generic [ref=e131]: © 2025 QiFlow AI All Rights Reserved.
+        - generic [ref=e133]:
+          - button "Light" [ref=e134] [cursor=pointer]:
+            - img
+          - button "Dark" [ref=e135] [cursor=pointer]:
+            - img
+          - button "System" [ref=e136] [cursor=pointer]:
+            - img
+  - generic [ref=e137]:
+    - img [ref=e139]
+    - button "Open Tanstack query devtools" [ref=e187] [cursor=pointer]:
+      - img [ref=e188]
+  - button "Open Next.js Dev Tools" [ref=e241] [cursor=pointer]:
+    - img [ref=e242]
+  - alert [ref=e245]
+```

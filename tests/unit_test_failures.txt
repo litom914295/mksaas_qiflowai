@@ -1,0 +1,971 @@
+﻿
+> qiflowai@0.1.0 test
+> vitest
+
+
+[1m[44m DEV [49m[22m [34mv3.2.4 [39m[90mD:/test/mksaas_qiflowai[39m
+
+ [31mΓ¥»[39m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts [2m([22m[2m25 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 129[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑµêÉσèƒτöƒµêÉΣ╕¬µÇºσîûσêåµ₧É[32m 9[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»Ñµ¡úτí«Φ»åσê½τö¿µê╖τöƒΦéû[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑΦ»åσê½µ£¼σæ╜σàâτ┤á[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑΦ»åσê½σû£τö¿τÑ₧[32m 4[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑΦ»åσê½σ┐îΦ«│σàâτ┤á[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσà½σ¡ùΣ╕ÄΘúÄµ░┤Φ₧ìσÉêµ╡ïΦ»ò[2m > [22mσ║öΦ»ÑΦ»åσê½σ╣╕Φ┐Éµû╣Σ╜ì[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσà½σ¡ùΣ╕ÄΘúÄµ░┤Φ₧ìσÉêµ╡ïΦ»ò[2m > [22mσ╣╕Φ┐Éµû╣Σ╜ìσ║öΦ»Ñµÿ»µ£ëµòêτÜäµû╣Σ╜ì[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσà½σ¡ùΣ╕ÄΘúÄµ░┤Φ₧ìσÉêµ╡ïΦ»ò[2m > [22mσû£τö¿τÑ₧σÆîσ┐îΦ«│σàâτ┤áΣ╕ìσ║öΦ»ÑΘçìσñì[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσà½σ¡ùΣ╕ÄΘúÄµ░┤Φ₧ìσÉêµ╡ïΦ»ò[2m > [22mΣ║öΦíîσàâτ┤áµÇ╗µò░σ║öΦ»Ñµÿ»5[39m[32m 50[2mms[22m[39m
+[31m     ΓåÆ expected 3 to be 5 // Object.is equality[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕¬µÇºσîûµÄ¿ΦìÉµ╡ïΦ»ò[2m > [22mσ║öΦ»ÑτöƒµêÉΣ╕¬µÇºσîûµÄ¿ΦìÉσêùΦí¿[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕¬µÇºσîûµÄ¿ΦìÉµ╡ïΦ»ò[2m > [22mµ»Åµ¥íµÄ¿ΦìÉσ║öΦ»ÑσîàσÉ½σ«îµò┤Σ┐íµü»[32m 4[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕¬µÇºσîûµÄ¿ΦìÉµ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσîàσÉ½σñÜΣ╕¬τ▒╗σê½τÜäµÄ¿ΦìÉ[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕¬µÇºσîûµÄ¿ΦìÉµ╡ïΦ»ò[2m > [22mΘ½ÿΣ╝ÿσàêτ║ºµÄ¿ΦìÉσ║öΦ»ÑµÄÆσ£¿σëìΘ¥ó[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕¬µÇºσîûµÄ¿ΦìÉµ╡ïΦ»ò[2m > [22mµ»Åµ¥íµÄ¿ΦìÉσ║öΦ»Ñµ£ëΦç│σ░æ1Σ╕¬Φíîσè¿σ╗║Φ««[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕ìσÉîσà½σ¡ùµ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåΣ╕ìσÉîσ╣┤Σ╗╜σç║τöƒτÜäτö¿µê╖[32m 6[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕ìσÉîσà½σ¡ùµ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåΣ╕ìσÉîσ¡úΦèéσç║τöƒτÜäτö¿µê╖[32m 5[2mms[22m[39m
+[31m   [31m├ù[31m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕ìσÉîσà½σ¡ùµ╡ïΦ»ò[2m > [22mΣ╕ìσÉîσà½σ¡ùσ║öΦ»ÑΣ║ºτöƒΣ╕ìσÉîτÜäσû£τö¿τÑ₧[39m[32m 6[2mms[22m[39m
+[31m     ΓåÆ expected 1 to be greater than 1[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåτ╝║σ░æµù╢Φ╛░Σ┐íµü»[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµ₧üτ½»Φ»äσêåτÜäσ«àτ¢ÿ[39m[32m 2[2mms[22m[39m
+[31m     ΓåÆ expected 2 to be greater than 3[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåσ╣┤Θ╛äΦ╛╣τòî∩╝êσä┐τ½ÑπÇüµêÉσ╣┤πÇüΦÇüσ╣┤∩╝ë[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mσìòµ¼íΣ╕¬µÇºσîûσêåµ₧Éσ║öΦ»Ñσ£¿150msσåàσ«îµêÉ[32m 4[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mµë╣ΘçÅσêåµ₧ÉσñÜΣ╕¬τö¿µê╖σ║öΦ»ÑΣ┐¥µîüΘ½ÿµòê[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mτ¢╕σÉîΦ╛ôσàÑσ║öΦ»ÑΣ║ºτöƒτ¢╕σÉîΦ╛ôσç║[32m 2[2mms[22m[39m
+[31m   [31m├ù[31m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mµÄ¿ΦìÉµò░ΘçÅσ║öΦ»ÑσÉêτÉå[39m[32m 2[2mms[22m[39m
+[31m     ΓåÆ expected 2 to be greater than or equal to 3[39m
+   [32mΓ£ô[39m PersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mµ»ÅΣ╕¬τ▒╗σê½Φç│σ░æµ£ëΣ╕Çµ¥íµÄ¿ΦìÉ[32m 1[2mms[22m[39m
+ [31mΓ¥»[39m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts [2m([22m[2m26 tests[22m[2m | [22m[31m7 failed[39m[2m)[22m[32m 165[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑµêÉσèƒτöƒµêÉµ╡üσ╣┤σêåµ₧É[32m 24[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσîàσÉ½σ╜ôσëìσ╣┤Σ╗╜τÜäσƒ║µ£¼Σ┐íµü»[32m 4[2mms[22m[39m
+[31m   [31m├ù[31m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑτöƒµêÉσ╣┤σ║ªΦ┐Éσè┐τë╣σ╛üµÅÅΦ┐░[39m[32m 34[2mms[22m[39m
+[31m     ΓåÆ expected 8 to be greater than 10[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑΦ»åσê½µ£ëσê⌐σÆîΣ╕ìσê⌐µû╣Θ¥ó[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµ£êσ║ªσêåµ₧Éµ╡ïΦ»ò[2m > [22mσîàσÉ½µ£êσ║ªσêåµ₧Éµù╢σ║öΦ»ÑΦ┐öσ¢₧12Σ╕¬µ£êτÜäµò░µì«[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµ£êσ║ªσêåµ₧Éµ╡ïΦ»ò[2m > [22mµ»ÅΣ╕¬µ£êσ║ªµò░µì«σ║öΦ»ÑσîàσÉ½σ«îµò┤Σ┐íµü»[32m 12[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµ£êσ║ªσêåµ₧Éµ╡ïΦ»ò[2m > [22mΣ╕ìσîàσÉ½µ£êσ║ªσêåµ₧Éµù╢σ║öΦ»ÑΦ┐öσ¢₧τ⌐║µò░τ╗ä[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµ£êσ║ªσêåµ₧Éµ╡ïΦ»ò[2m > [22mµ£êσ║ªΦ»äσêåσ║öΦ»Ñµ£ëσÉêτÉåτÜäσÅÿσîûΦîâσ¢┤[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσà│Θö«µù╢Θù┤Φèéτé╣µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑΦ»åσê½σç║σà│Θö«µù╢Θù┤Φèéτé╣[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσà│Θö«µù╢Θù┤Φèéτé╣µ╡ïΦ»ò[2m > [22mµ»ÅΣ╕¬σà│Θö«µù╢Θù┤Φèéτé╣σ║öΦ»ÑσîàσÉ½σ«îµò┤Σ┐íµü»[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσà│Θö«µù╢Θù┤Φèéτé╣µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑµîëΘçìΦªüµÇºµÄÆσ║Åσà│Θö«µù╢Θù┤Φèéτé╣[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσ╣┤σ║ªσ╗║Φ««µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑτöƒµêÉσ╣┤σ║ªσ╗║Φ««σêùΦí¿[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσ╣┤σ║ªσ╗║Φ««µ╡ïΦ»ò[2m > [22mµ»Åµ¥íσ╗║Φ««σ║öΦ»Ñµ£ëσ«₧Φ┤¿µÇºσåàσ«╣[39m[32m 5[2mms[22m[39m
+[31m     ΓåÆ expected 6 to be greater than 10[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåσÄåσÅ▓σ╣┤Σ╗╜[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµ£¬µ¥Ñσ╣┤Σ╗╜[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµ₧üτ½»Φ»äσêåτÜäσ«àτ¢ÿ[39m[32m 2[2mms[22m[39m
+[31m     ΓåÆ expected 2 to be greater than 2[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåΣ╕ìσÉîΦ┐Éµ£ƒτÜäσ«àτ¢ÿ[32m 3[2mms[22m[39m
+[31m   [31m├ù[31m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ┐Éσè┐Φ╢ïσè┐µ╡ïΦ»ò[2m > [22mσ║öΦ»Ñµ¡úτí«σêñµû¡Φ┐Éσè┐Φ╢ïσè┐[39m[32m 12[2mms[22m[39m
+[31m     ΓåÆ .toMatch() expects to receive a string, but got undefined[39m
+[31m   [31m├ù[31m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ┐Éσè┐Φ╢ïσè┐µ╡ïΦ»ò[2m > [22mΘ½ÿσêåσ«àτ¢ÿσÇ╛σÉæΣ║Äimprovingµêûstable[39m[32m 15[2mms[22m[39m
+[31m     ΓåÆ expected false to be true // Object.is equality[39m
+[31m   [31m├ù[31m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ┐Éσè┐Φ╢ïσè┐µ╡ïΦ»ò[2m > [22mΣ╜Äσêåσ«àτ¢ÿσÅ»Φâ╜µÿ╛τñ║declining[39m[32m 2[2mms[22m[39m
+[31m     ΓåÆ expected undefined to be defined[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mσƒ║τíÇσêåµ₧Éσ║öΦ»Ñσ£¿100msσåàσ«îµêÉ[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mσîàσÉ½µ£êσ║ªσêåµ₧Éσ║öΦ»Ñσ£¿200msσåàσ«îµêÉ[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mµë╣ΘçÅσêåµ₧ÉσñÜσ╣┤σ║öΦ»ÑΣ┐¥µîüΘ½ÿµòê[32m 8[2mms[22m[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mτ¢╕σÉîΦ╛ôσàÑσ║öΦ»ÑΣ║ºτöƒτ¢╕σÉîΦ╛ôσç║[32m 3[2mms[22m[39m
+[31m   [31m├ù[31m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mσ╣┤σ║ªΦ»äσêåσ║öΦ»ÑΣ╕Äµ£êσ║ªσ╣│σ¥çΦ»äσêåτ¢╕σà│[39m[32m 3[2mms[22m[39m
+[31m     ΓåÆ expected 0.26838235294117646 to be less than 0.15[39m
+   [32mΓ£ô[39m LiunianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mµ£ëσê⌐σÆîΣ╕ìσê⌐µû╣Θ¥óµò░ΘçÅσ║öΦ»Ñσ╣│Φíí[32m 2[2mms[22m[39m
+ [31mΓ¥»[39m src/lib/fengshui/fengshui/__tests__/enhanced-flying-star.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 82[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould generate complete flying star analysis with all new features[32m 25[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould handle jianxiang (σà╝σÉæ) correctly[32m 4[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould generate detailed explanation[32m 14[2mms[22m[39m
+[31m   [31m├ù[31m Enhanced Flying Star System[2m > [22mshould detect various geju patterns[39m[32m 31[2mms[22m[39m
+[31m     ΓåÆ expected [ 'µù║σ▒▒µù║µ░┤', 'σìòσ«½Σ╝ÅσÉƒ' ] to include 'σÅîµÿƒΣ╝Üσ¥É'[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould provide meaningful wenchangwei and caiwei[32m 2[2mms[22m[39m
+ [31mΓ¥»[39m src/lib/fengshui/__tests__/enhanced-flying-star.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 84[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould generate complete flying star analysis with all new features[32m 25[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould handle jianxiang (σà╝σÉæ) correctly[32m 5[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould generate detailed explanation[32m 16[2mms[22m[39m
+[31m   [31m├ù[31m Enhanced Flying Star System[2m > [22mshould detect various geju patterns[39m[32m 29[2mms[22m[39m
+[31m     ΓåÆ expected [ 'µù║σ▒▒µù║µ░┤', 'σìòσ«½Σ╝ÅσÉƒ' ] to include 'σÅîµÿƒΣ╝Üσ¥É'[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould provide meaningful wenchangwei and caiwei[32m 2[2mms[22m[39m
+[90mstdout[2m | src/components/qiflow/__tests__/result-display.sections.test.ts
+[22m[39m[UI] result-display sections tests: OK
+
+ [31mΓ¥»[39m src/lib/bazi-pro/__tests__/four-pillars.test.ts [2m([22m[2m10 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 1373[2mms[22m[39m
+[31m   [31m├ù[31m ProfessionalFourPillarsCalculator[2m > [22mcalculate[2m > [22mσ║öµ¡úτí«Φ«íτ«ù µ╡ïΦ»òµíêΣ╛ï1[39m[33m 332[2mms[22m[39m
+[31m     ΓåÆ expected 'σ║Ü' to be 'Σ╕Ö' // Object.is equality[39m
+[31m   [31m├ù[31m ProfessionalFourPillarsCalculator[2m > [22mcalculate[2m > [22mσ║öµ¡úτí«Φ«íτ«ù µ╡ïΦ»òµíêΣ╛ï2 - σ¡Éµù╢Φ╛╣τòî[39m[32m 92[2mms[22m[39m
+[31m     ΓåÆ expected 'σìê' to be 'µêî' // Object.is equality[39m
+[31m   [31m├ù[31m ProfessionalFourPillarsCalculator[2m > [22mcalculate[2m > [22mσ║öµ¡úτí«Φ«íτ«ù µ╡ïΦ»òµíêΣ╛ï3 - σå£σÄåΦ╛ôσàÑ[39m[32m 20[2mms[22m[39m
+[31m     ΓåÆ expected 'σú¼' to be 'τö▓' // Object.is equality[39m
+   [32mΓ£ô[39m ProfessionalFourPillarsCalculator[2m > [22mcalculate[2m > [22mσ║öµ¡úτí«Φ«íτ«ùτ£ƒσñ¬Θÿ│µù╢[32m 13[2mms[22m[39m
+   [32mΓ£ô[39m ProfessionalFourPillarsCalculator[2m > [22mcalculate[2m > [22mσ║öµ¡úτí«σñäτÉåΘù░µ£ê[32m 39[2mms[22m[39m
+   [32mΓ£ô[39m ProfessionalFourPillarsCalculator[2m > [22mvalidate[2m > [22mσ║öΘ¬îΦ»üµ£ëµòêτÜäσ¢¢µƒ▒[32m 6[2mms[22m[39m
+   [32mΓ£ô[39m ProfessionalFourPillarsCalculator[2m > [22mvalidate[2m > [22mσ║öµúÇµ╡ïµùáµòêτÜäσñ⌐σ╣▓[32m 6[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m ProfessionalFourPillarsCalculator[2m > [22mgetDescription[2m > [22mσ║öτöƒµêÉµ¡úτí«τÜäµûçσ¡ùµÅÅΦ┐░ [33m 304[2mms[22m[39m
+   [32mΓ£ô[39m ProfessionalFourPillarsCalculator[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mσ║öσ£¿100msσåàσ«îµêÉσìòµ¼íΦ«íτ«ù[32m 73[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m ProfessionalFourPillarsCalculator[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΘ½ÿµòêσñäτÉåµë╣ΘçÅΦ«íτ«ù [33m 431[2mms[22m[39m
+node.exe : [90mstderr[2m | src/lib/qiflow/__tests__/env.test.ts
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([90mstderr[2m...s__/env.test.ts:String) [], RemoteEx 
+   ception
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[22m[39mΓ¥î τÄ»σóâσÅÿΘçÅΘ¬îΦ»üσñ▒Φ┤Ñ:
+{
+  DATABASE_URL: [ [32m'Invalid input: expected string, received undefined'[39m ],
+  BETTER_AUTH_SECRET: [ [32m'Invalid input: expected string, received undefined'[39m ]
+}
+
+[90mstdout[2m | src/lib/qiflow/__tests__/rate-limit.test.ts
+[22m[39m[rate-limit.test] τ¼¼Σ╕ëµ¼íΦ»╖µ▒éΦó½ΘÖÉµ╡ü Γ£à
+
+[90mstdout[2m | src/lib/qiflow/__tests__/rate-limit.test.ts
+[22m[39m[rate-limit.test] τ¬ùσÅúΘçìτ╜«σÉÄΦ»╖µ▒éΘÇÜΦ┐ç Γ£à
+
+ [31mΓ¥»[39m src/lib/qiflow/xuankong/__tests__/comprehensive-engine.test.ts [2m([22m[2m16 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 134[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mBasic Analysis[2m > [22mshould return valid analysis result with basic options[32m 23[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mBasic Analysis[2m > [22mshould calculate correct period for given date[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mBasic Analysis[2m > [22mshould generate enhanced plate with all required fields[32m 11[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mBasic Analysis[2m > [22mshould generate overall assessment with valid score[32m 4[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mLiunian Analysis[2m > [22mshould include liunian analysis when enabled[32m 8[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mLiunian Analysis[2m > [22mshould not include liunian analysis when disabled[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mPersonalized Analysis[2m > [22mshould include personalized analysis when user profile provided[32m 7[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mSmart Recommendations[2m > [22mshould always include smart recommendations[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mSmart Recommendations[2m > [22mshould categorize recommendations correctly[32m 6[2mms[22m[39m
+[31m   [31m├ù[31m Comprehensive Analysis Engine[2m > [22mMetadata[2m > [22mshould include correct metadata[39m[32m 35[2mms[22m[39m
+[31m     ΓåÆ expected '6.0.0' to be '1.0.0' // Object.is equality[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mMetadata[2m > [22mshould determine correct analysis depth[32m 10[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mPerformance[2m > [22mshould complete basic analysis in reasonable time[32m 2[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mPerformance[2m > [22mshould complete expert analysis in reasonable time[32m 7[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mEdge Cases[2m > [22mshould handle boundary dates correctly[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mEdge Cases[2m > [22mshould handle edge case angles[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m Comprehensive Analysis Engine[2m > [22mEdge Cases[2m > [22mshould handle zero degree angle[32m 1[2mms[22m[39m
+ [31mΓ¥»[39m src/lib/qiflow/xuankong/__tests__/enhanced-flying-star.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 96[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould generate complete flying star analysis with all new features[32m 25[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould handle jianxiang (σà╝σÉæ) correctly[32m 4[2mms[22m[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould generate detailed explanation[32m 16[2mms[22m[39m
+[31m   [31m├ù[31m Enhanced Flying Star System[2m > [22mshould detect various geju patterns[39m[32m 43[2mms[22m[39m
+[31m     ΓåÆ expected [ 'µù║σ▒▒µù║µ░┤', 'σìòσ«½Σ╝ÅσÉƒ' ] to include 'σÅîµÿƒΣ╝Üσ¥É'[39m
+   [32mΓ£ô[39m Enhanced Flying Star System[2m > [22mshould provide meaningful wenchangwei and caiwei[32m 2[2mms[22m[39m
+ [31mΓ¥»[39m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts [2m([22m[2m31 tests[22m[2m | [22m[31m10 failed[39m[2m)[22m[32m 109[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑµêÉσèƒτöƒµêÉµÖ║Φâ╜µÄ¿ΦìÉ[32m 18[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑτöƒµêÉΣ╝ÿσàêτ║ºµÄÆσ║ÅτÜäΦíîσè¿µ╕àσìò[32m 3[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mµ»Åµ¥íµÄ¿ΦìÉσ║öΦ»ÑσîàσÉ½σ«îµò┤Σ┐íµü»[32m 4[2mms[22m[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσ┐½ΘÇƒΦºüµòêµû╣µíêµ╡ïΦ»ò[2m > [22mσîàσÉ½σ┐½ΘÇƒΦºüµòêµù╢σ║öΦ»ÑΦ┐öσ¢₧µû╣µíêσêùΦí¿[39m[32m 20[2mms[22m[39m
+[31m     ΓåÆ expected 0 to be greater than 0[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσ┐½ΘÇƒΦºüµòêµû╣µíêµ╡ïΦ»ò[2m > [22mµ»ÅΣ╕¬σ┐½ΘÇƒµû╣µíêσ║öΦ»ÑσîàσÉ½σ«îµò┤Σ┐íµü»[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσ┐½ΘÇƒΦºüµòêµû╣µíêµ╡ïΦ»ò[2m > [22mΣ╕ìσîàσÉ½σ┐½ΘÇƒΦºüµòêµù╢σ║öΦ»ÑΦ┐öσ¢₧τ⌐║µò░τ╗ä[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσ┐½ΘÇƒΦºüµòêµû╣µíêµ╡ïΦ»ò[2m > [22mσ┐½ΘÇƒΦºüµòêµû╣µíêσ║öΦ»Ñτ¢╕σ»╣τ«Çσìò[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΘò┐µ£ƒΦºäσêÆµ╡ïΦ»ò[2m > [22mσîàσÉ½Θò┐µ£ƒΦºäσêÆµù╢σ║öΦ»ÑΦ┐öσ¢₧Θÿ╢µ«╡Φ«íσêÆ[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΘò┐µ£ƒΦºäσêÆµ╡ïΦ»ò[2m > [22mµ»ÅΣ╕¬Θÿ╢µ«╡σ║öΦ»ÑσîàσÉ½σ«îµò┤Σ┐íµü»[39m[32m 5[2mms[22m[39m
+[31m     ΓåÆ expected undefined to be defined[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΘò┐µ£ƒΦºäσêÆµ╡ïΦ»ò[2m > [22mΘÿ╢µ«╡σ║öΦ»Ñµîëµù╢Θù┤Θí║σ║ÅµÄÆσêù[39m[32m 8[2mms[22m[39m
+[31m     ΓåÆ the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΘò┐µ£ƒΦºäσêÆµ╡ïΦ»ò[2m > [22mΣ╕ìσîàσÉ½Θò┐µ£ƒΦºäσêÆµù╢phasesσ║öΦ»ÑΣ╕║τ⌐║[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΘò┐µ£ƒΦºäσêÆµ╡ïΦ»ò[2m > [22mΘò┐µ£ƒΦºäσêÆσ║öΦ»Ñµ£ëσÉêτÉåτÜäΘÿ╢µ«╡µò░ΘçÅ[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦíîσè¿µù╢Θù┤Φ╜┤µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑτöƒµêÉΦíîσè¿µù╢Θù┤Φ╜┤[39m[32m 4[2mms[22m[39m
+[31m     ΓåÆ expected undefined to be defined[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦíîσè¿µù╢Θù┤Φ╜┤µ╡ïΦ»ò[2m > [22mµ»ÅΣ╕¬µù╢Θù┤µ«╡σ║öΦ»ÑσîàσÉ½σ«îµò┤Σ┐íµü»[39m[32m 2[2mms[22m[39m
+[31m     ΓåÆ Cannot read properties of undefined (reading 'forEach')[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦíîσè¿µù╢Θù┤Φ╜┤µ╡ïΦ»ò[2m > [22mµù╢Θù┤Φ╜┤σ║öΦ»Ñµîëµù╢Θù┤Θí║σ║Å[39m[32m 1[2mms[22m[39m
+[31m     ΓåÆ Cannot read properties of undefined (reading 'map')[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσêåτ▒╗ΘÇ╗Φ╛æµ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσîàσÉ½σñÜΣ╕¬Σ╕ìσÉîτ▒╗σê½τÜäµÄ¿ΦìÉ[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσêåτ▒╗ΘÇ╗Φ╛æµ╡ïΦ»ò[2m > [22mσ╕âσ▒Çτ▒╗σê½σ║öΦ»ÑΘÆêσ»╣σ«½Σ╜ìΘù«Θóÿ[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσêåτ▒╗ΘÇ╗Φ╛æµ╡ïΦ»ò[2m > [22mΣ╕ìσÉîΦ»äσêåτÜäσ«àτ¢ÿσ║öΦ»Ñµ£ëΣ╕ìσÉîτÜäµÄ¿ΦìÉΣ╛ºΘçì[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµÖ║Φâ╜µÄ¿ΦìÉΦ┤¿ΘçÅµ╡ïΦ»ò[2m > [22mσç╢σ«½σ║öΦ»ÑΣ║ºτöƒµ¢┤σñÜµö╣σûäσ╗║Φ««[39m[32m 1[2mms[22m[39m
+[31m     ΓåÆ expected 0 to be greater than 0[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµÖ║Φâ╜µÄ¿ΦìÉΦ┤¿ΘçÅµ╡ïΦ»ò[2m > [22mσñºσÉëσ«½σ║öΦ»Ñµ£ëΣ┐¥µîüσÆîσ╝║σîûσ╗║Φ««[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµÖ║Φâ╜µÄ¿ΦìÉΦ┤¿ΘçÅµ╡ïΦ»ò[2m > [22mµÄ¿ΦìÉσ║öΦ»Ñµ£ëσÉêτÉåτÜäµò░ΘçÅ[32m 0[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµÖ║Φâ╜µÄ¿ΦìÉΦ┤¿ΘçÅµ╡ïΦ»ò[2m > [22mµ»Åµ¥íµÄ¿ΦìÉσ║öΦ»Ñµ£ëσà╖Σ╜ôτÜäσ«₧µû╜µ¡ÑΘ¬ñ[32m 0[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµ₧üΘ½ÿσêåσ«àτ¢ÿ[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµ₧üΣ╜Äσêåσ«àτ¢ÿ[39m[32m 2[2mms[22m[39m
+[31m     ΓåÆ expected 5 to be greater than 5[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµëÇµ£ëσ«½Σ╜ìΦ»äσêåτ¢╕Φ┐æτÜäµâàσå╡[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mσìòµ¼íµÄ¿ΦìÉτöƒµêÉσ║öΦ»Ñσ£¿200msσåàσ«îµêÉ[32m 1[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mσîàσÉ½σà¿Θâ¿σèƒΦâ╜τÜäµÄ¿ΦìÉτöƒµêÉσ║öΦ»Ñσ£¿300msσåàσ«îµêÉ[32m 0[2mms[22m[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµÇºΦâ╜µ╡ïΦ»ò[2m > [22mµë╣ΘçÅτöƒµêÉσñÜΣ╕¬σ«àτ¢ÿτÜäµÄ¿ΦìÉσ║öΦ»ÑΘ½ÿµòê[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mτ¢╕σÉîΦ╛ôσàÑσ║öΦ»ÑΣ║ºτöƒτ¢╕σÉîΦ╛ôσç║[39m[32m 4[2mms[22m[39m
+[31m     ΓåÆ Cannot read properties of undefined (reading 'length')[39m
+   [32mΓ£ô[39m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mΣ╝ÿσàêτ║ºσêåσ╕âσ║öΦ»ÑσÉêτÉå[32m 1[2mms[22m[39m
+[31m   [31m├ù[31m SmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mµÄ¿ΦìÉσÄƒσ¢áσ║öΦ»ÑΣ╕ÄΣ╝ÿσàêτ║ºσî╣Θàì[39m[32m 16[2mms[22m[39m
+[31m     ΓåÆ expected false to be true // Object.is equality[39m
+ [32mΓ£ô[39m tests/unit/formatter.test.ts [2m([22m[2m37 tests[22m[2m)[22m[33m 470[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/utils.test.ts [2m([22m[2m32 tests[22m[2m)[22m[32m 227[2mms[22m[39m
+[90mstderr[2m | src/lib/services/__tests__/ai-enhanced-analysis.test.ts[2m > [22m[2mAIσó₧σ╝║σêå
+µ₧Éµ£ìσèí[2m > [22m[2mgenerateAIEnhancedAnalysis[2m > [22m[2mAIΦ░âτö¿σñ▒Φ┤Ñµù╢σ║öΦ»ÑΦ┐öσ¢₧ΘÖìτ
+║ºσêåµ₧É
+[22m[39mAIσó₧σ╝║σêåµ₧ÉτöƒµêÉσñ▒Φ┤Ñ: Error: API Error
+    at [90mD:\test\mksaas_qiflowai\[39msrc\lib\services\__tests__\ai-enhanced-analysis.test.ts:79:
+47
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at [90mfile:///D:/test/mksaas_qiflowai/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hoo
+ks.js:752:20
+
+[90mstderr[2m | src/lib/services/__tests__/ai-enhanced-analysis.test.ts[2m > [22m[2mAIσó₧σ╝║σêå
+µ₧Éµ£ìσèí[2m > [22m[2mgenerateQuickAIAnalysis[2m > [22m[2mσ┐½ΘÇƒσêåµ₧Éσñ▒Φ┤Ñµù╢σ║öΦ»ÑΦ┐öσ¢₧σƒ║
+τíÇσêåµ₧É
+[22m[39mσ┐½ΘÇƒAIσêåµ₧ÉτöƒµêÉσñ▒Φ┤Ñ: Error: API Error
+    at [90mD:\test\mksaas_qiflowai\[39msrc\lib\services\__tests__\ai-enhanced-analysis.test.ts:124
+:47
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at [90mfile:///D:/test/mksaas_qiflowai/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hoo
+ks.js:752:20
+
+ [32mΓ£ô[39m src/lib/services/__tests__/ai-enhanced-analysis.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+ [32mΓ£ô[39m tests/api/credits.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32mΓ£ô[39m tests/api/analysis.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/api-helpers.test.ts [2m([22m[2m29 tests[22m[2m)[22m[32m 65[2mms[22m[39m
+ [32mΓ£ô[39m tests/api/xuankong-stripe.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/environment.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32mΓ£ô[39m tests/api/health.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/compass/__tests__/feng-shui-engine.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+ [32mΓ£ô[39m tests/api/bazi-analyze.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/compass/compass/__tests__/feng-shui-engine.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 48[2mms[22m[39m
+ [32mΓ£ô[39m lib/auth/__tests__/permissions.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/compass/__tests__/simple.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/compass/compass/__tests__/simple.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/ai/__tests__/policy-engine.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 438[2mms[22m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m[1m[41m Failed Suites 48 [49m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src/lib/__tests__/i18n-routes.test.ts[2m [ src/lib/__tests__/i18n-routes.
+test.ts ][22m
+[41m[1m FAIL [22m[49m src/tests/integration/xuankong-api.test.ts[2m [ src/tests/integration/xua
+nkong-api.test.ts ][22m
+[41m[1m FAIL [22m[49m src/tests/performance/xuankong-performance.test.ts[2m [ src/tests/perform
+ance/xuankong-performance.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/ai/__tests__/master-orchestrator-integration.test.ts[2m [ src/lib
+/ai/__tests__/master-orchestrator-integration.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/__tests__/authoritative-reference.test.ts[2m [ src/lib/bazi/
+__tests__/authoritative-reference.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/__tests__/day-branch-validation.test.ts[2m [ src/lib/bazi/__
+tests__/day-branch-validation.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/__tests__/dayun-analysis.test.ts[2m [ src/lib/bazi/__tests__
+/dayun-analysis.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/__tests__/enhanced-calculator.test.ts[2m [ src/lib/bazi/__te
+sts__/enhanced-calculator.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/__tests__/integration.test.ts[2m [ src/lib/bazi/__tests__/in
+tegration.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/__tests__/verified-day-pillars.test.ts[2m [ src/lib/bazi/__t
+ests__/verified-day-pillars.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi-pro/__tests__/bazi-calculator.test.ts[2m [ src/lib/bazi-pro/
+__tests__/bazi-calculator.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/__tests__/declination.test.ts[2m [ src/lib/compass/__test
+s__/declination.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/__tests__/ekf.test.ts[2m [ src/lib/compass/__tests__/ekf.
+test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/__tests__/sensor-fusion.test.ts[2m [ src/lib/compass/__te
+sts__/sensor-fusion.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/__tests__/true-north.test.ts[2m [ src/lib/compass/__tests
+__/true-north.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/fengshui/__tests__/luoshu-algorithm-validation.test.ts[2m [ src/l
+ib/fengshui/__tests__/luoshu-algorithm-validation.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/bazi/__tests__/authoritative-reference.test.ts[2m [ src/lib/
+bazi/bazi/__tests__/authoritative-reference.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/bazi/__tests__/day-branch-validation.test.ts[2m [ src/lib/ba
+zi/bazi/__tests__/day-branch-validation.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/bazi/__tests__/dayun-analysis.test.ts[2m [ src/lib/bazi/bazi
+/__tests__/dayun-analysis.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/bazi/__tests__/enhanced-calculator.test.ts[2m [ src/lib/bazi
+/bazi/__tests__/enhanced-calculator.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/bazi/__tests__/integration.test.ts[2m [ src/lib/bazi/bazi/__
+tests__/integration.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/bazi/bazi/__tests__/verified-day-pillars.test.ts[2m [ src/lib/baz
+i/bazi/__tests__/verified-day-pillars.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/compass/__tests__/declination.test.ts[2m [ src/lib/compas
+s/compass/__tests__/declination.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/compass/__tests__/ekf.test.ts[2m [ src/lib/compass/compas
+s/__tests__/ekf.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/compass/__tests__/sensor-fusion.test.ts[2m [ src/lib/comp
+ass/compass/__tests__/sensor-fusion.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/compass/__tests__/true-north.test.ts[2m [ src/lib/compass
+/compass/__tests__/true-north.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/fengshui/fengshui/__tests__/luoshu-algorithm-validation.test.ts[2
+m [ src/lib/fengshui/fengshui/__tests__/luoshu-algorithm-validation.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/qiflow/bazi/__tests__/authoritative-reference.test.ts[2m [ src/li
+b/qiflow/bazi/__tests__/authoritative-reference.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/qiflow/bazi/__tests__/day-branch-validation.test.ts[2m [ src/lib/
+qiflow/bazi/__tests__/day-branch-validation.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/qiflow/bazi/__tests__/dayun-analysis.test.ts[2m [ src/lib/qiflow/
+bazi/__tests__/dayun-analysis.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/qiflow/bazi/__tests__/enhanced-calculator.test.ts[2m [ src/lib/qi
+flow/bazi/__tests__/enhanced-calculator.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/qiflow/bazi/__tests__/integration.test.ts[2m [ src/lib/qiflow/baz
+i/__tests__/integration.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/qiflow/bazi/__tests__/verified-day-pillars.test.ts[2m [ src/lib/q
+iflow/bazi/__tests__/verified-day-pillars.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/qiflow/unified/__tests__/frontend-adapter.test.ts[2m [ src/lib/qi
+flow/unified/__tests__/frontend-adapter.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/luoshu-algorithm-validation.test.ts[2m 
+[ src/lib/qiflow/xuankong/__tests__/luoshu-algorithm-validation.test.ts ][22m
+[31m[1mError[22m: Do not import `@jest/globals` outside of the Jest test environment[39m
+[36m [2mΓ¥»[22m node_modules/@jest/globals/build/index.js:[2m23:7[22m[39m
+    [90m 21| [39m[90m// eslint-disable-next-line @typescript-eslint/no-namespace[39m
+    [90m 22| [39m
+    [90m 23| [39mthrow new Error('Do not import `@jest/globals` outside of the Jest tesΓÇª
+    [90m   | [39m      [31m^[39m
+    [90m 24| [39mmodule[33m.[39mexports [33m=[39m __webpack_exports__[33m;[39m
+    [90m 25| [39m[90m/******/[39m })()
+[90m [2mΓ¥»[22m Object.<anonymous> node_modules/@jest/globals/build/index.js:[2m25:12[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/components/qiflow/__tests__/interpretation-view.boundaries.test.tsx[2
+m [ src/components/qiflow/__tests__/interpretation-view.boundaries.test.tsx ][22m
+[31m[1mReferenceError[22m: InterpretationView is not defined[39m
+[36m [2mΓ¥»[22m src/components/qiflow/__tests__/interpretation-view.boundaries.test.tsx:[2m13:28
+[22m[39m
+    [90m 11| [39m[90m// τ⌐║µò░µì«[39m
+    [90m 12| [39m{
+    [90m 13| [39m  [35mconst[39m html [33m=[39m [34msafeRender[39m([33m<[39m[33mInterpret
+ationView[39m [33mdata[39m[33m=[39m[33m{[39m{}[33m}[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 14| [39m  assert[33m.[39m[34mok[39m([35mtypeof[39m html [33m===[39m [32m'string'
+[39m)[33m;[39m
+    [90m 15| [39m}
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/components/qiflow/__tests__/result-display.sections.test.ts[2m [ src/
+components/qiflow/__tests__/result-display.sections.test.ts ][22m
+[31m[1mError[22m: No test suite found in file D:/test/mksaas_qiflowai/src/components/qiflow/__tes
+ts__/result-display.sections.test.ts[39m
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/components/qiflow/__tests__/ui-boundaries.test.tsx[2m [ src/component
+s/qiflow/__tests__/ui-boundaries.test.tsx ][22m
+[31m[1mReferenceError[22m: LoShuGrid is not defined[39m
+[36m [2mΓ¥»[22m src/components/qiflow/__tests__/ui-boundaries.test.tsx:[2m17:28[22m[39m
+    [90m 15| [39m[90m// LoShuGrid: τ⌐║Σ╕Äµ¡úσ╕╕Φ╛╣τòî[39m
+    [90m 16| [39m{
+    [90m 17| [39m  [35mconst[39m html [33m=[39m [34msafeRender[39m([33m<[39m[33mLoShuGrid
+[39m [33mgrid[39m[33m=[39m[33m{[39mundefined [35mas[39m any[33m}[39m [33m/[39m[33m>[3
+9m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 18| [39m  assert[33m.[39m[34mok[39m([35mtypeof[39m html [33m===[39m [32m'string'
+[39m)[33m;[39m
+    [90m 19| [39m}
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/ai/__tests__/cost-controller.test.ts[2m [ src/lib/ai/__tests__/co
+st-controller.test.ts ][22m
+[31m[1mReferenceError[22m: jest is not defined[39m
+[36m [2mΓ¥»[22m src/lib/ai/__tests__/cost-controller.test.ts:[2m10:1[22m[39m
+    [90m  8| [39m
+    [90m  9| [39m[90m// Mock the cost module[39m
+    [90m 10| [39mjest[33m.[39m[34mmock[39m([32m'../cost'[39m[33m,[39m () [33m=>[39m ({
+    [90m   | [39m[31m^[39m
+    [90m 11| [39m  recordUsage[33m:[39m jest[33m.[39m[34mfn[39m()[33m,[39m
+    [90m 12| [39m}))[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[5/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/ai/__tests__/knowledge-service.test.ts[2m [ src/lib/ai/__tests__/
+knowledge-service.test.ts ][22m
+[31m[1mReferenceError[22m: jest is not defined[39m
+[36m [2mΓ¥»[22m src/lib/ai/__tests__/knowledge-service.test.ts:[2m10:8[22m[39m
+    [90m  8| [39m[90m// Mock the Supabase client[39m
+    [90m  9| [39m[35mconst[39m mockSupabaseClient [33m=[39m {
+    [90m 10| [39m  rpc[33m:[39m jest[33m.[39m[34mfn[39m()[33m,[39m
+    [90m   | [39m       [31m^[39m
+    [90m 11| [39m  auth[33m:[39m { persistSession[33m:[39m [35mfalse[39m }[33m,[39m
+    [90m 12| [39m} [35mas[39m unknown [35mas[39m [33mSupabaseClient[39m[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[6/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/ai/__tests__/state-machine.test.ts[2m [ src/lib/ai/__tests__/stat
+e-machine.test.ts ][22m
+[31m[1mReferenceError[22m: jest is not defined[39m
+[36m [2mΓ¥»[22m src/lib/ai/__tests__/state-machine.test.ts:[2m14:1[22m[39m
+    [90m 12| [39m
+    [90m 13| [39m[90m// Mock the retry utility[39m
+    [90m 14| [39mjest[33m.[39m[34mmock[39m([32m'@/lib/utils/retry-utils'[39m[33m,[39m () 
+[33m=>[39m ({
+    [90m   | [39m[31m^[39m
+    [90m 15| [39m  withRetry[33m:[39m jest[33m.[39m[34mfn[39m()[33m.[39m[34mmockImplement
+ation[39m([35masync[39m (fn[33m,[39m options) [33m=>[39m {
+    [90m 16| [39m    [35mtry[39m {
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[7/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/compass/__tests__/feng-shui-renderer.test.ts[2m [ src/lib/compass
+/__tests__/feng-shui-renderer.test.ts ][22m
+[41m[1m FAIL [22m[49m src/lib/compass/compass/__tests__/feng-shui-renderer.test.ts[2m [ src/lib
+/compass/compass/__tests__/feng-shui-renderer.test.ts ][22m
+[31m[1mError[22m: Cannot find module 'canvas'
+Require stack:
+- D:\test\mksaas_qiflowai\node_modules\konva\lib\index-node.js[39m
+[36m [2mΓ¥»[22m Object.<anonymous> node_modules/konva/lib/index-node.js:[2m4:16[22m[39m
+    [90m  2| [39m[33mObject[39m[33m.[39m[34mdefineProperty[39m(exports[33m,[39m [32m"__es
+Module"[39m[33m,[39m { value[33m:[39m [35mtrue[39m })[33m;[39m
+    [90m  3| [39m[35mconst[39m _FullInternals_1 [33m=[39m [34mrequire[39m([32m"./_FullInter
+nals"[39m)[33m;[39m
+    [90m  4| [39m[35mconst[39m [33mCanvas[39m [33m=[39m [34mrequire[39m([32m"canvas"[39m
+)[33m;[39m
+    [90m   | [39m               [31m^[39m
+    [90m  5| [39m[35mconst[39m canvas [33m=[39m [33mCanvas[39m[[32m'default'[39m] [33m||
+[39m [33mCanvas[39m[33m;[39m
+    [90m  6| [39mglobal[33m.[39m[33mDOMMatrix[39m [33m=[39m canvas[33m.[39m[33mDOMMatrix
+[39m[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[8/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/__tests__/env.test.ts[2m [ src/lib/qiflow/__tests__/env.te
+st.ts ][22m
+[31m[1mError[22m: τÄ»σóâσÅÿΘçÅΘàìτ╜«ΘöÖΦ»»∩╝îΦ»╖µúÇµƒÑµ£ìσèíσÖ¿Θàìτ╜«[39m
+[36m [2mΓ¥»[22m validateEnv src/lib/env.ts:[2m69:13[22m[39m
+    [90m 67| [39m      }
+    [90m 68| [39m      [90m// τöƒΣ║ºτÄ»σóâΣ╕ìµÜ┤Θ£▓σà╖Σ╜ôΘöÖΦ»»τ╗åΦèé[39m
+    [90m 69| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'τÄ»σóâσÅÿΘçÅΘàìτ╜«ΘöÖΦ»
+»∩╝îΦ»╖µúÇµƒÑµ£ìσèíσÖ¿Θàìτ╜«'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 70| [39m    }
+    [90m 71| [39m    [35mthrow[39m error[33m;[39m
+[90m [2mΓ¥»[22m src/lib/env.ts:[2m79:20[22m[39m
+[90m [2mΓ¥»[22m src/lib/qiflow/__tests__/env.test.ts:[2m2:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[9/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/__tests__/rate-limit.test.ts[2m [ src/lib/qiflow/__tests__
+/rate-limit.test.ts ][22m
+[31m[1mError[22m: No test suite found in file D:/test/mksaas_qiflowai/src/lib/qiflow/__tests__/ra
+te-limit.test.ts[39m
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[10/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/components/qiflow/xuankong/__tests__/e2e.test.tsx[2m [ src/components
+/qiflow/xuankong/__tests__/e2e.test.tsx ][22m
+[41m[1m FAIL [22m[49m src/components/qiflow/xuankong/__tests__/integration.test.tsx[2m [ src/co
+mponents/qiflow/xuankong/__tests__/integration.test.tsx ][22m
+[31m[1mError[22m: This module cannot be imported from a Client Component module. It should only b
+e used from a Server Component.[39m
+[36m [2mΓ¥»[22m Object.<anonymous> node_modules/server-only/index.js:[2m1:7[22m[39m
+    [90m  1| [39m[35mthrow[39m [35mnew[39m [33mError[39m(
+    [90m   | [39m      [31m^[39m
+    [90m  2| [39m  [32m"This module cannot be imported from a Client Component module. "[39m [3
+3m+[39m
+    [90m  3| [39m    [32m"It should only be used from a Server Component."[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[11/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/unified/__tests__/engine-basic.test.ts[2m [ src/lib/qiflow
+/unified/__tests__/engine-basic.test.ts ][22m
+[31m[1mError[22m: No test suite found in file D:/test/mksaas_qiflowai/src/lib/qiflow/unified/__te
+sts__/engine-basic.test.ts[39m
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[12/76]ΓÄ»[22m[39m
+
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m[1m[41m Failed Tests 28 [49m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src/lib/bazi-pro/__tests__/four-pillars.test.ts[2m > [22mProfessionalFou
+rPillarsCalculator[2m > [22mcalculate[2m > [22mσ║öµ¡úτí«Φ«íτ«ù µ╡ïΦ»òµíêΣ╛ï1
+[31m[1mAssertionError[22m: expected 'σ║Ü' to be 'Σ╕Ö' // Object.is equality[39m
+
+Expected: [32m"Σ╕Ö"[39m
+Received: [31m"σ║Ü"[39m
+
+[36m [2mΓ¥»[22m src/lib/bazi-pro/__tests__/four-pillars.test.ts:[2m76:32[22m[39m
+    [90m 74| [39m
+    [90m 75| [39m        [90m// Θ¬îΦ»üµùÑµƒ▒[39m
+    [90m 76| [39m        [34mexpect[39m(result[33m.[39mday[33m.[39mgan)[33m.[39m[34mtoBe
+[39m(testCase[33m.[39mexpected[33m.[39mday[33m.[39mgan)[33m;[39m
+    [90m   | [39m                               [31m^[39m
+    [90m 77| [39m        [34mexpect[39m(result[33m.[39mday[33m.[39mzhi)[33m.[39m[34mtoBe
+[39m(testCase[33m.[39mexpected[33m.[39mday[33m.[39mzhi)[33m;[39m
+    [90m 78| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[13/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/bazi-pro/__tests__/four-pillars.test.ts[2m > [22mProfessionalFou
+rPillarsCalculator[2m > [22mcalculate[2m > [22mσ║öµ¡úτí«Φ«íτ«ù µ╡ïΦ»òµíêΣ╛ï2 - σ¡Éµù╢Φ╛╣τòî
+[31m[1mAssertionError[22m: expected 'σìê' to be 'µêî' // Object.is equality[39m
+
+Expected: [32m"µêî"[39m
+Received: [31m"σìê"[39m
+
+[36m [2mΓ¥»[22m src/lib/bazi-pro/__tests__/four-pillars.test.ts:[2m77:32[22m[39m
+    [90m 75| [39m        [90m// Θ¬îΦ»üµùÑµƒ▒[39m
+    [90m 76| [39m        [34mexpect[39m(result[33m.[39mday[33m.[39mgan)[33m.[39m[34mtoBe
+[39m(testCase[33m.[39mexpected[33m.[39mday[33m.[39mgan)[33m;[39m
+    [90m 77| [39m        [34mexpect[39m(result[33m.[39mday[33m.[39mzhi)[33m.[39m[34mtoBe
+[39m(testCase[33m.[39mexpected[33m.[39mday[33m.[39mzhi)[33m;[39m
+    [90m   | [39m                               [31m^[39m
+    [90m 78| [39m
+    [90m 79| [39m        [90m// Θ¬îΦ»üµù╢µƒ▒[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[14/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/bazi-pro/__tests__/four-pillars.test.ts[2m > [22mProfessionalFou
+rPillarsCalculator[2m > [22mcalculate[2m > [22mσ║öµ¡úτí«Φ«íτ«ù µ╡ïΦ»òµíêΣ╛ï3 - σå£σÄåΦ╛ôσàÑ
+[31m[1mAssertionError[22m: expected 'σú¼' to be 'τö▓' // Object.is equality[39m
+
+Expected: [32m"τö▓"[39m
+Received: [31m"σú¼"[39m
+
+[36m [2mΓ¥»[22m src/lib/bazi-pro/__tests__/four-pillars.test.ts:[2m76:32[22m[39m
+    [90m 74| [39m
+    [90m 75| [39m        [90m// Θ¬îΦ»üµùÑµƒ▒[39m
+    [90m 76| [39m        [34mexpect[39m(result[33m.[39mday[33m.[39mgan)[33m.[39m[34mtoBe
+[39m(testCase[33m.[39mexpected[33m.[39mday[33m.[39mgan)[33m;[39m
+    [90m   | [39m                               [31m^[39m
+    [90m 77| [39m        [34mexpect[39m(result[33m.[39mday[33m.[39mzhi)[33m.[39m[34mtoBe
+[39m(testCase[33m.[39mexpected[33m.[39mday[33m.[39mzhi)[33m;[39m
+    [90m 78| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[15/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/fengshui/__tests__/enhanced-flying-star.test.ts[2m > [22mEnhance
+d Flying Star System[2m > [22mshould detect various geju patterns
+[31m[1mAssertionError[22m: expected [ 'µù║σ▒▒µù║µ░┤', 'σìòσ«½Σ╝ÅσÉƒ' ] to include 'σÅîµÿƒΣ╝Üσ¥É'
+[39m
+[36m [2mΓ¥»[22m src/lib/fengshui/__tests__/enhanced-flying-star.test.ts:[2m136:36[22m[39m
+    [90m134| [39m      [90m// µúÇµƒÑµÿ»σÉªσîàσÉ½Θóäµ£ƒτÜäµá╝σ▒Çτ▒╗σ₧ï[39m
+    [90m135| [39m      expectedGeju[33m.[39m[34mforEach[39m((gejuType) [33m=>[39m {
+    [90m136| [39m        [34mexpect[39m(result[33m.[39mgeju[33m?.[39mtypes)[33m.[39m[34mt
+oContain[39m(gejuType)[33m;[39m
+    [90m   | [39m                                   [31m^[39m
+    [90m137| [39m      })[33m;[39m
+    [90m138| [39m    })[33m;[39m
+[90m [2mΓ¥»[22m src/lib/fengshui/__tests__/enhanced-flying-star.test.ts:[2m135:20[22m[39m
+[90m [2mΓ¥»[22m src/lib/fengshui/__tests__/enhanced-flying-star.test.ts:[2m119:15[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[16/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/fengshui/fengshui/__tests__/enhanced-flying-star.test.ts[2m > [2
+2mEnhanced Flying Star System[2m > [22mshould detect various geju patterns
+[31m[1mAssertionError[22m: expected [ 'µù║σ▒▒µù║µ░┤', 'σìòσ«½Σ╝ÅσÉƒ' ] to include 'σÅîµÿƒΣ╝Üσ¥É'
+[39m
+[36m [2mΓ¥»[22m src/lib/fengshui/fengshui/__tests__/enhanced-flying-star.test.ts:[2m136:36[22m
+[39m
+    [90m134| [39m      [90m// µúÇµƒÑµÿ»σÉªσîàσÉ½Θóäµ£ƒτÜäµá╝σ▒Çτ▒╗σ₧ï[39m
+    [90m135| [39m      expectedGeju[33m.[39m[34mforEach[39m((gejuType) [33m=>[39m {
+    [90m136| [39m        [34mexpect[39m(result[33m.[39mgeju[33m?.[39mtypes)[33m.[39m[34mt
+oContain[39m(gejuType)[33m;[39m
+    [90m   | [39m                                   [31m^[39m
+    [90m137| [39m      })[33m;[39m
+    [90m138| [39m    })[33m;[39m
+[90m [2mΓ¥»[22m src/lib/fengshui/fengshui/__tests__/enhanced-flying-star.test.ts:[2m135:20[22m
+[39m
+[90m [2mΓ¥»[22m src/lib/fengshui/fengshui/__tests__/enhanced-flying-star.test.ts:[2m119:15[22m
+[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[17/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/comprehensive-engine.test.ts[2m > [22m
+Comprehensive Analysis Engine[2m > [22mMetadata[2m > [22mshould include correct metadata
+[31m[1mAssertionError[22m: expected '6.0.0' to be '1.0.0' // Object.is equality[39m
+
+Expected: [32m"[7m1[27m.0.0"[39m
+Received: [31m"[7m6[27m.0.0"[39m
+
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/comprehensive-engine.test.ts:[2m167:39[22m[3
+9m
+    [90m165| [39m
+    [90m166| [39m      [34mexpect[39m(result[33m.[39mmetadata[33m.[39manalyzedAt)[33m.[39m
+[34mtoBeInstanceOf[39m([33mDate[39m)[33m;[39m
+    [90m167| [39m      [34mexpect[39m(result[33m.[39mmetadata[33m.[39mversion)[33m.[39m[3
+4mtoBe[39m([32m'1.0.0'[39m)[33m;[39m
+    [90m   | [39m                                      [31m^[39m
+    [90m168| [39m      expect(['basic', 'standard', 'comprehensive', 'expert']).toContaΓÇª
+    [90m169| [39m        result[33m.[39mmetadata[33m.[39manalysisDepth
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[18/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/enhanced-flying-star.test.ts[2m > [22m
+Enhanced Flying Star System[2m > [22mshould detect various geju patterns
+[31m[1mAssertionError[22m: expected [ 'µù║σ▒▒µù║µ░┤', 'σìòσ«½Σ╝ÅσÉƒ' ] to include 'σÅîµÿƒΣ╝Üσ¥É'
+[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/enhanced-flying-star.test.ts:[2m136:36[22m[3
+9m
+    [90m134| [39m      [90m// µúÇµƒÑµÿ»σÉªσîàσÉ½Θóäµ£ƒτÜäµá╝σ▒Çτ▒╗σ₧ï[39m
+    [90m135| [39m      expectedGeju[33m.[39m[34mforEach[39m((gejuType) [33m=>[39m {
+    [90m136| [39m        [34mexpect[39m(result[33m.[39mgeju[33m?.[39mtypes)[33m.[39m[34mt
+oContain[39m(gejuType)[33m;[39m
+    [90m   | [39m                                   [31m^[39m
+    [90m137| [39m      })[33m;[39m
+    [90m138| [39m    })[33m;[39m
+[90m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/enhanced-flying-star.test.ts:[2m135:20[22m[3
+9m
+[90m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/enhanced-flying-star.test.ts:[2m119:15[22m[3
+9m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[19/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts[2m > [22mLiun
+ianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσƒ║τíÇσèƒΦâ╜µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑτöƒµêÉσ╣┤σ║ªΦ┐Éσè┐τë╣σ╛üµÅ
+ÅΦ┐░
+[31m[1mAssertionError[22m: expected 8 to be greater than 10[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts:[2m91:59[22m[39m
+    [90m 89| [39m      [34mexpect[39m(result[33m.[39myearlyFortune[33m.[39mcharacteristics)
+[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m 90| [39m      expect(typeof result.yearlyFortune.characteristics).toBe('stringΓÇª
+    [90m 91| [39m      expect(result.yearlyFortune.characteristics.length).toBeGreaterTΓÇª
+    [90m   | [39m                                                          [31m^[39m
+    [90m 92| [39m    })[33m;[39m
+    [90m 93| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[20/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts[2m > [22mLiun
+ianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mσ╣┤σ║ªσ╗║Φ««µ╡ïΦ»ò[2m > [22mµ»Åµ¥íσ╗║Φ««σ║öΦ»Ñµ£ëσ«₧Φ┤¿µÇºσå
+àσ«╣
+[31m[1mAssertionError[22m: expected 6 to be greater than 10[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts:[2m213:28[22m[39m
+    [90m211| [39m      result[33m.[39myearlyFortune[33m.[39myearlyRecommendations[33m.[39m[
+34mforEach[39m((rec) [33m=>[39m {
+    [90m212| [39m        [34mexpect[39m([35mtypeof[39m rec)[33m.[39m[34mtoBe[39m([32m'str
+ing'[39m)[33m;[39m
+    [90m213| [39m        [34mexpect[39m(rec[33m.[39mlength)[33m.[39m[34mtoBeGreaterThan[39
+m([34m10[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m214| [39m      })[33m;[39m
+    [90m215| [39m    })[33m;[39m
+[90m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts:[2m211:50[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[21/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts[2m > [22mLiun
+ianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµ₧üτ½»Φ»äσêåτÜäσ«àτ¢
+ÿ
+[31m[1mAssertionError[22m: expected 2 to be greater than 2[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts:[2m238:62[22m[39m
+    [90m236| [39m
+    [90m237| [39m      [34mexpect[39m(result[33m.[39myearlyFortune[33m.[39moverallScore)[33
+m.[39m[34mtoBeLessThan[39m([34m50[39m)[33m;[39m
+    [90m238| [39m      expect(result.yearlyFortune.unfavorableAspects.length).toBeGreatΓÇª
+    [90m   | [39m                                                             [31m^[39m
+    [90m239| [39m        result[33m.[39myearlyFortune[33m.[39mfavorableAspects[33m.[39mlengt
+h
+    [90m240| [39m      )[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[22/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts[2m > [22mLiun
+ianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ┐Éσè┐Φ╢ïσè┐µ╡ïΦ»ò[2m > [22mσ║öΦ»Ñµ¡úτí«σêñµû¡Φ┐Éσè┐Φ╢ïσè┐
+[31m[1mTypeError[22m: .toMatch() expects to receive a string, but got undefined[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts:[2m260:42[22m[39m
+    [90m258| [39m      [35mconst[39m result [33m=[39m [34manalyzeLiunian[39m(mockPlate[33m,
+[39m baseOptions)[33m;[39m
+    [90m259| [39m
+    [90m260| [39m      [34mexpect[39m(result[33m.[39myearlyFortune[33m.[39mtrend)[33m.[39m
+[34mtoMatch[39m(
+    [90m   | [39m                                         [31m^[39m
+    [90m261| [39m        [36m/^(improving|declining|stable)$/[39m
+    [90m262| [39m      )[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[23/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts[2m > [22mLiun
+ianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ┐Éσè┐Φ╢ïσè┐µ╡ïΦ»ò[2m > [22mΘ½ÿσêåσ«àτ¢ÿσÇ╛σÉæΣ║Äimprovingµê
+ûstable
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts:[2m269:76[22m[39m
+    [90m267| [39m      [35mconst[39m result [33m=[39m [34manalyzeLiunian[39m(goodPlate[33m,
+[39m baseOptions)[33m;[39m
+    [90m268| [39m
+    [90m269| [39m      expect(['improving', 'stable'].includes(result.yearlyFortune.treΓÇª
+    [90m   | [39m                                                                           [31m^
+[39m
+    [90m270| [39m        [35mtrue[39m
+    [90m271| [39m      )[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[24/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts[2m > [22mLiun
+ianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mΦ┐Éσè┐Φ╢ïσè┐µ╡ïΦ»ò[2m > [22mΣ╜Äσêåσ«àτ¢ÿσÅ»Φâ╜µÿ╛τñ║declinin
+g
+[31m[1mAssertionError[22m: expected undefined to be defined[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts:[2m279:42[22m[39m
+    [90m277| [39m
+    [90m278| [39m      [90m// Σ╜Äσêåσ«àτ¢ÿσÅ»Φâ╜µÿ»declining∩╝îΣ╜åΣ╕ìτ╗¥σ»╣[39m
+    [90m279| [39m      [34mexpect[39m(result[33m.[39myearlyFortune[33m.[39mtrend)[33m.[39m
+[34mtoBeDefined[39m()[33m;[39m
+    [90m   | [39m                                         [31m^[39m
+    [90m280| [39m    })[33m;[39m
+    [90m281| [39m  })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[25/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts[2m > [22mLiun
+ianAnalysis (µ╡üσ╣┤σêåµ₧É)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mσ╣┤σ║ªΦ»äσêåσ║öΦ»ÑΣ╕Äµ£êσ║ªσ╣
+│σ¥çΦ»äσêåτ¢╕σà│
+[31m[1mAssertionError[22m: expected 0.26838235294117646 to be less than 0.15[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/liunian-analysis.test.ts:[2m337:25[22m[39m
+    [90m335| [39m      [90m// Σ╕ñΦÇàσ║öΦ»Ñτ¢╕σ»╣µÄÑΦ┐æ∩╝êσàüΦ«╕15%τÜäσüÅσ╖«∩╝ë[39m
+    [90m336| [39m      const deviation = Math.abs(monthlyAvg - yearlyScore) / yearlyScoΓÇª
+    [90m337| [39m      [34mexpect[39m(deviation)[33m.[39m[34mtoBeLessThan[39m([34m0.15[39m
+)[33m;[39m
+    [90m   | [39m                        [31m^[39m
+    [90m338| [39m    })[33m;[39m
+    [90m339| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[26/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts[2m > [22
+mPersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mσà½σ¡ùΣ╕ÄΘúÄµ░┤Φ₧ìσÉêµ╡ïΦ»ò[2m > [22mΣ║öΦíîσàâτ
+┤áµÇ╗µò░σ║öΦ»Ñµÿ»5
+[31m[1mAssertionError[22m: expected 3 to be 5 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 5[39m
+[31m+ 3[39m
+
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts:[2m159:32[22m[
+39m
+    [90m157| [39m      ])[33m;[39m
+    [90m158| [39m
+    [90m159| [39m      [34mexpect[39m(allElements[33m.[39msize)[33m.[39m[34mtoBe[39m([34m
+5[39m)[33m;[39m
+    [90m   | [39m                               [31m^[39m
+    [90m160| [39m    })[33m;[39m
+    [90m161| [39m  })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[27/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts[2m > [22
+mPersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΣ╕ìσÉîσà½σ¡ùµ╡ïΦ»ò[2m > [22mΣ╕ìσÉîσà½σ¡ùσ║öΦ»ÑΣ
+║ºτöƒΣ╕ìσÉîτÜäσû£τö¿τÑ₧
+[31m[1mAssertionError[22m: expected 1 to be greater than 1[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts:[2m289:36[22m[
+39m
+    [90m287| [39m
+    [90m288| [39m      [90m// Σ╕ìσÉîτöƒµùÑΦç│σ░æσ║öΦ»Ñµ£ëΣ╕ÇΣ║¢Σ╕ìσÉîτÜäσû£τö¿τÑ₧τ╗äσÉê[39m
+    [90m289| [39m      [34mexpect[39m(uniqueFavorable[33m.[39msize)[33m.[39m[34mtoBeGreater
+Than[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                                   [31m^[39m
+    [90m290| [39m    })[33m;[39m
+    [90m291| [39m  })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[28/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts[2m > [22
+mPersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµ₧üτ½»Φ
+»äσêåτÜäσ«àτ¢ÿ
+[31m[1mAssertionError[22m: expected 2 to be greater than 3[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts:[2m318:57[22m[
+39m
+    [90m316| [39m      [34mexpect[39m(result)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m317| [39m      [90m// Σ╜Äσêåσ«àτ¢ÿσ║öΦ»Ñµ£ëµ¢┤σñÜµö╣σûäσ╗║Φ««[39m
+    [90m318| [39m      expect(result.personalizedRecommendations.length).toBeGreaterThaΓÇª
+    [90m   | [39m                                                        [31m^[39m
+    [90m319| [39m    })[33m;[39m
+    [90m320| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[29/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts[2m > [22
+mPersonalizedAnalysis (Σ╕¬µÇºσîûσêåµ₧É)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mµÄ¿ΦìÉµò░ΘçÅσ║öΦ
+»ÑσÉêτÉå
+[31m[1mAssertionError[22m: expected 2 to be greater than or equal to 3[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/personalized-analysis.test.ts:[2m394:57[22m[
+39m
+    [90m392| [39m
+    [90m393| [39m      [90m// µÄ¿ΦìÉµÇ╗µò░σ║öΦ»Ñσ£¿3-15µ¥íΣ╣ïΘù┤[39m
+    [90m394| [39m      expect(result.personalizedRecommendations.length).toBeGreaterThaΓÇª
+    [90m   | [39m                                                        [31m^[39m
+    [90m395| [39m        [34m3[39m
+    [90m396| [39m      )[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[30/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mσ┐½ΘÇƒΦºüµòêµû╣µíêµ╡ïΦ»ò[2m > [22mσîàσÉ½σ┐½ΘÇƒΦºüµ
+òêµù╢σ║öΦ»ÑΦ┐öσ¢₧µû╣µíêσêùΦí¿
+[31m[1mAssertionError[22m: expected 0 to be greater than 0[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m157:39[22m[
+39m
+    [90m155| [39m      [34mexpect[39m(result[33m.[39mquickWins)[33m.[39m[34mtoBeDefined[39
+m()[33m;[39m
+    [90m156| [39m      [34mexpect[39m([33mArray[39m[33m.[39m[34misArray[39m(result[33m.[
+39mquickWins))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m157| [39m      [34mexpect[39m(result[33m.[39mquickWins[33m.[39mlength)[33m.[39m[3
+4mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                                      [31m^[39m
+    [90m158| [39m    })[33m;[39m
+    [90m159| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[31/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΘò┐µ£ƒΦºäσêÆµ╡ïΦ»ò[2m > [22mµ»ÅΣ╕¬Θÿ╢µ«╡σ║öΦ»Ñσîàσ
+É½σ«îµò┤Σ┐íµü»
+[31m[1mAssertionError[22m: expected undefined to be defined[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m222:28[22m[
+39m
+    [90m220| [39m
+    [90m221| [39m      result[33m.[39mlongTermPlan[33m.[39mphases[33m.[39m[34mforEach[39m(
+(phase) [33m=>[39m {
+    [90m222| [39m        [34mexpect[39m(phase[33m.[39mname)[33m.[39m[34mtoBeDefined[39m()
+[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m223| [39m        [34mexpect[39m(phase[33m.[39mduration)[33m.[39m[34mtoBeDefined[39
+m()[33m;[39m
+    [90m224| [39m        [34mexpect[39m(phase[33m.[39mdescription)[33m.[39m[34mtoBeDefined
+[39m()[33m;[39m
+[90m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m221:34[22m[
+39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[32/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΘò┐µ£ƒΦºäσêÆµ╡ïΦ»ò[2m > [22mΘÿ╢µ«╡σ║öΦ»Ñµîëµù╢Θù┤Θ
+í║σ║ÅµÄÆσêù
+[31m[1mAssertionError[22m: the given combination of arguments (undefined and string) is invalid f
+or this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of 
+a string[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m238:29[22m[
+39m
+    [90m236| [39m      [90m// Θ¬îΦ»üΘÿ╢µ«╡σÉìτº░µÿ»σÉªτ¼ªσÉêµù╢Θù┤Θí║σ║Å[39m
+    [90m237| [39m      [35mconst[39m phaseNames [33m=[39m result[33m.[39mlongTermPlan[33m.
+[39mphases[33m.[39m[34mmap[39m((p) [33m=>[39m p[33m.[39mname)[33m;[39m
+    [90m238| [39m      [34mexpect[39m(phaseNames[[34m0[39m])[33m.[39m[34mtoContain[39m([3
+2m'τ¼¼'[39m)[33m;[39m
+    [90m   | [39m                            [31m^[39m
+    [90m239| [39m      [34mexpect[39m(phaseNames[[34m0[39m])[33m.[39m[34mtoContain[39m([3
+2m'Θÿ╢µ«╡'[39m)[33m;[39m
+    [90m240| [39m    })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[33/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦíîσè¿µù╢Θù┤Φ╜┤µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑτöƒµêÉΦíîσè¿µ
+ù╢Θù┤Φ╜┤
+[31m[1mAssertionError[22m: expected undefined to be defined[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m267:37[22m[
+39m
+    [90m265| [39m      const result = generateSmartRecommendations(mockPlate, baseOptioΓÇª
+    [90m266| [39m
+    [90m267| [39m      [34mexpect[39m(result[33m.[39mactionTimeline)[33m.[39m[34mtoBeDefine
+d[39m()[33m;[39m
+    [90m   | [39m                                    [31m^[39m
+    [90m268| [39m      [34mexpect[39m([33mArray[39m[33m.[39m[34misArray[39m(result[33m.[
+39mactionTimeline))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m269| [39m      [34mexpect[39m(result[33m.[39mactionTimeline[33m.[39mlength)[33m.[3
+9m[34mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[34/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦíîσè¿µù╢Θù┤Φ╜┤µ╡ïΦ»ò[2m > [22mµ»ÅΣ╕¬µù╢Θù┤µ«╡σ║öΦ
+»ÑσîàσÉ½σ«îµò┤Σ┐íµü»
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'forEach')[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m275:29[22m[
+39m
+    [90m273| [39m      const result = generateSmartRecommendations(mockPlate, baseOptioΓÇª
+    [90m274| [39m
+    [90m275| [39m      result[33m.[39mactionTimeline[33m.[39m[34mforEach[39m((period) [33m=
+>[39m {
+    [90m   | [39m                            [31m^[39m
+    [90m276| [39m        [34mexpect[39m(period[33m.[39mtimeframe)[33m.[39m[34mtoBeDefined[
+39m()[33m;[39m
+    [90m277| [39m        [34mexpect[39m(period[33m.[39mfocus)[33m.[39m[34mtoBeDefined[39m(
+)[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[35/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦíîσè¿µù╢Θù┤Φ╜┤µ╡ïΦ»ò[2m > [22mµù╢Θù┤Φ╜┤σ║öΦ»Ñµîëµ
+ù╢Θù┤Θí║σ║Å
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'map')[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m286:48[22m[
+39m
+    [90m284| [39m      const result = generateSmartRecommendations(mockPlate, baseOptioΓÇª
+    [90m285| [39m
+    [90m286| [39m      [35mconst[39m timeframes [33m=[39m result[33m.[39mactionTimeline[33m
+.[39m[34mmap[39m((p) [33m=>[39m p[33m.[39mtimeframe)[33m;[39m
+    [90m   | [39m                                               [31m^[39m
+    [90m287| [39m
+    [90m288| [39m      [90m// Θ¬îΦ»üµù╢Θù┤µíåµ₧╢τÜäΘí║σ║Å∩╝êσªé∩╝Üτ½ïσì│πÇü1σæ¿σåàπÇü1µ£êσåàτ¡ë∩╝
+ë[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[36/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµÖ║Φâ╜µÄ¿ΦìÉΦ┤¿ΘçÅµ╡ïΦ»ò[2m > [22mσç╢σ«½σ║öΦ»ÑΣ║ºτ
+öƒµ¢┤σñÜµö╣σûäσ╗║Φ««
+[31m[1mAssertionError[22m: expected 0 to be greater than 0[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m350:36[22m[
+39m
+    [90m348| [39m
+    [90m349| [39m      [90m// Φç│σ░æσ║öΦ»Ñµ£ëΣ╕ÇΣ║¢ΘÆêσ»╣σç╢σ«½τÜäσ╗║Φ««[39m
+    [90m350| [39m      [34mexpect[39m(targetActions[33m.[39mlength)[33m.[39m[34mtoBeGreater
+Than[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                                   [31m^[39m
+    [90m351| [39m    })[33m;[39m
+    [90m352| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[37/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mΦ╛╣τòîµ¥íΣ╗╢µ╡ïΦ»ò[2m > [22mσ║öΦ»ÑσñäτÉåµ₧üΣ╜Äσêåσ
+«àτ¢ÿ
+[31m[1mAssertionError[22m: expected 5 to be greater than 5[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m407:48[22m[
+39m
+    [90m405| [39m
+    [90m406| [39m      [34mexpect[39m(result)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m407| [39m      [34mexpect[39m(result[33m.[39mprioritizedActions[33m.[39mlength)[33m
+.[39m[34mtoBeGreaterThan[39m([34m5[39m)[33m;[39m
+    [90m   | [39m                                               [31m^[39m
+    [90m408| [39m
+    [90m409| [39m      [90m// Σ╜Äσêåσ«àτ¢ÿσ║öΦ»Ñµ£ëσ╛êσñÜτ┤ºµÇÑµö╣σûäσ╗║Φ««[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[38/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mτ¢╕σÉîΦ╛ôσàÑσ║öΦ»ÑΣ
+║ºτöƒτ¢╕σÉîΦ╛ôσç║
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'length')[39m
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m485:37[22m[
+39m
+    [90m483| [39m        result2[33m.[39mlongTermPlan[33m.[39mphases[33m.[39mlength
+    [90m484| [39m      )[33m;[39m
+    [90m485| [39m      expect(result1.actionTimeline.length).toBe(result2.actionTimelinΓÇª
+    [90m   | [39m                                    [31m^[39m
+    [90m486| [39m    })[33m;[39m
+    [90m487| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39/76]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts[2m > [22
+mSmartRecommendations (µÖ║Φâ╜µÄ¿ΦìÉ)[2m > [22mµò░µì«Σ╕ÇΦç┤µÇºµ╡ïΦ»ò[2m > [22mµÄ¿ΦìÉσÄƒσ¢áσ║öΦ»ÑΣ
+╕ÄΣ╝ÿσàêτ║ºσî╣Θàì
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m523:62[22m[
+39m
+
+    [90m521| [39m      urgentActions[33m.[39m[34mforEach[39m((action) [33m=>[39m {
+    [90m522| [39m        [90m// τ┤ºµÇÑσ╗║Φ««τÜäσÄƒσ¢áσ║öΦ»ÑσîàσÉ½τ¢╕σà│σà│Θö«Φ»ì[39m
+    [90m523| [39m        expect(action.reason.match(/σç╢|τà₧|Θù«Θóÿ|Σ╕ÑΘçì|τ┤ºµÇÑ/) !== null).toBe
+(trueΓÇª
+    [90m   | [39m                                                             [31m^[39m
+    [90m524| [39m      })[33m;[39m
+    [90m525| [39m    })[33m;[39m
+[90m [2mΓ¥»[22m src/lib/qiflow/xuankong/__tests__/smart-recommendations.test.ts:[2m521:21[22m[
+39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[40/76]ΓÄ»[22m[39m
+
+[2m Test Files [22m [1m[31m56 failed[39m[22m[2m | [22m[1m[32m16 passed[39m[22m[90m (72)[39m
+[2m      Tests [22m [1m[31m28 failed[39m[22m[2m | [22m[1m[32m342 passed[39m[22m[90m (370)[39m
+[2m   Start at [22m 11:37:39
+[2m   Duration [22m 261.76s[2m (transform 23.22s, setup 199.62s, collect 13.22s, tests 3.79s, environment 600.16s, prepare 99.99s)[22m
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+[31mCancelling test run. Press CTRL+c again to exit forcefully.
+[39m

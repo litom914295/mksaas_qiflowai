@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('烟雾测试 - 基础功能验证', () => {
   test('首页可以正常访问', async ({ page }) => {
-    await page.goto('/zh');
+    await page.goto('/zh-CN');
 
     // 验证页面加载成功
     await expect(page).toHaveURL(/.*localhost:3000.*/);
@@ -13,7 +13,7 @@ test.describe('烟雾测试 - 基础功能验证', () => {
   });
 
   test('八字分析页面可以访问', async ({ page }) => {
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
 
     // 等待页面加载
     await page.waitForLoadState('networkidle');
@@ -27,7 +27,7 @@ test.describe('烟雾测试 - 基础功能验证', () => {
   });
 
   test('AI聊天页面可以访问', async ({ page }) => {
-    await page.goto('/zh/ai-chat');
+    await page.goto('/zh-CN/ai-chat');
 
     // 等待页面加载
     await page.waitForLoadState('networkidle');
@@ -41,7 +41,7 @@ test.describe('烟雾测试 - 基础功能验证', () => {
   });
 
   test('展示页面可以访问', async ({ page }) => {
-    await page.goto('/zh/showcase');
+    await page.goto('/zh-CN/showcase');
 
     // 等待页面加载
     await page.waitForLoadState('networkidle');
@@ -55,7 +55,7 @@ test.describe('烟雾测试 - 基础功能验证', () => {
   });
 
   test('导航功能正常', async ({ page }) => {
-    await page.goto('/zh');
+    await page.goto('/zh-CN');
 
     // 查找并点击八字分析链接
     const baziLink = page.locator('a[href*="analysis/bazi"]').first();

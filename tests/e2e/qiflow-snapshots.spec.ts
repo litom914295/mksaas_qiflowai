@@ -14,7 +14,7 @@ test.skip(!enableSnapshots, 'Snapshots are gated by E2E_SNAPSHOTS=1');
 
 test.describe('QiFlow - Visual Snapshots', () => {
   test('Bazi form card snapshot (zh)', async ({ page }) => {
-    await page.goto('/zh/analysis/bazi');
+    await page.goto('/zh-CN/analysis/bazi');
     await dismissAgeOverlay(page);
 
     const formCard = page.locator('[data-testid="bazi-form-card"]').first();
@@ -23,7 +23,7 @@ test.describe('QiFlow - Visual Snapshots', () => {
   });
 
   test('Xuankong form card snapshot (zh)', async ({ page }) => {
-    await page.goto('/zh/analysis/xuankong');
+    await page.goto('/zh-CN/analysis/xuankong');
     await dismissAgeOverlay(page);
 
     const formCard = page.locator('[data-testid="xuankong-form-card"]').first();

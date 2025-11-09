@@ -1,0 +1,143 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - navigation [ref=e6]:
+      - link "QiFlow AI" [ref=e8] [cursor=pointer]:
+        - /url: /zh-CN
+        - img "QiFlow AI" [ref=e9]
+      - navigation "Main" [ref=e11]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "功能" [ref=e15] [cursor=pointer]:
+              - /url: /zh-CN#features
+          - listitem [ref=e16]:
+            - link "价格" [ref=e17] [cursor=pointer]:
+              - /url: /zh-CN/pricing
+          - listitem [ref=e18]:
+            - link "博客" [ref=e19] [cursor=pointer]:
+              - /url: /zh-CN/blog
+          - listitem [ref=e20]:
+            - link "文档" [ref=e21] [cursor=pointer]:
+              - /url: /zh-CN/docs
+          - listitem [ref=e22]:
+            - button "AI 工具" [ref=e23] [cursor=pointer]:
+              - text: AI 工具
+              - img [ref=e24]
+          - listitem [ref=e26]:
+            - button "内置页面" [ref=e27] [cursor=pointer]:
+              - text: 内置页面
+              - img [ref=e28]
+      - generic [ref=e30]:
+        - button "Theme Mode" [ref=e32] [cursor=pointer]:
+          - img
+          - img
+          - generic [ref=e33]: Theme Mode
+        - 'button "Current language: 简体中文" [ref=e34]':
+          - generic [ref=e35]: 🇨🇳
+          - generic [ref=e36]: 简体中文
+    - main [ref=e37]:
+      - generic [ref=e40]:
+        - img [ref=e41]
+        - paragraph [ref=e43]: 正在进行专业八字分析...
+        - paragraph [ref=e44]: 包含四柱、五行、神煞、大运流年等...
+    - contentinfo [ref=e45]:
+      - generic [ref=e47]:
+        - generic [ref=e49]:
+          - img "QiFlow AI" [ref=e51]
+          - paragraph [ref=e52]: 使用 QiFlow AI 在几天内轻松构建您的 AI SaaS
+          - generic [ref=e54]:
+            - link "GitHub" [ref=e55] [cursor=pointer]:
+              - /url: https://github.com/qiflowai
+              - generic [ref=e56]: GitHub
+              - img "GitHub" [ref=e57]
+            - link "Twitter" [ref=e59] [cursor=pointer]:
+              - /url: https://qiflowai.link/twitter
+              - generic [ref=e60]: Twitter
+              - img "X (Twitter)" [ref=e61]
+            - link "Bluesky" [ref=e63] [cursor=pointer]:
+              - /url: https://qiflowai.link/bsky
+              - generic [ref=e64]: Bluesky
+              - img "Bluesky" [ref=e65]
+            - link "Mastodon" [ref=e67] [cursor=pointer]:
+              - /url: https://qiflowai.link/mastodon
+              - generic [ref=e68]: Mastodon
+              - img [ref=e69]
+            - link "Discord" [ref=e71] [cursor=pointer]:
+              - /url: https://qiflowai.link/discord
+              - generic [ref=e72]: Discord
+              - img [ref=e73]
+            - link "YouTube" [ref=e75] [cursor=pointer]:
+              - /url: https://qiflowai.link/youtube
+              - generic [ref=e76]: YouTube
+              - img "YouTube" [ref=e77]
+            - link "LinkedIn" [ref=e79] [cursor=pointer]:
+              - /url: https://qiflowai.link/linkedin
+              - generic [ref=e80]: LinkedIn
+              - img [ref=e81]
+            - link "Email" [ref=e83] [cursor=pointer]:
+              - /url: mailto:QiFlow AI <support@qiflowai.com>
+              - generic [ref=e84]: Email
+              - img [ref=e85]
+          - link "Powered by QiFlow AI Logo of QiFlow AI QiFlow AI" [ref=e88] [cursor=pointer]:
+            - /url: https://qiflowai.com?utm_source=built-with-qiflowai
+            - generic [ref=e89]: Powered by QiFlow AI
+            - img "Logo of QiFlow AI" [ref=e91]
+            - generic [ref=e92]: QiFlow AI
+        - generic [ref=e93]:
+          - text: 产品
+          - list [ref=e94]:
+            - listitem [ref=e95]:
+              - link "功能" [ref=e96] [cursor=pointer]:
+                - /url: /zh-CN#features
+            - listitem [ref=e97]:
+              - link "价格" [ref=e98] [cursor=pointer]:
+                - /url: /zh-CN/pricing
+            - listitem [ref=e99]:
+              - link "常见问题" [ref=e100] [cursor=pointer]:
+                - /url: /zh-CN#faq
+        - generic [ref=e101]:
+          - text: 资源
+          - list [ref=e102]:
+            - listitem [ref=e103]:
+              - link "博客" [ref=e104] [cursor=pointer]:
+                - /url: /zh-CN/blog
+            - listitem [ref=e105]:
+              - link "文档" [ref=e106] [cursor=pointer]:
+                - /url: /zh-CN/docs
+            - listitem [ref=e107]:
+              - link "更新日志" [ref=e108] [cursor=pointer]:
+                - /url: /zh-CN/changelog
+            - listitem [ref=e109]:
+              - link "路线图" [ref=e110] [cursor=pointer]:
+                - /url: https://qiflowai.link/roadmap
+        - generic [ref=e111]:
+          - text: 公司
+          - list [ref=e112]:
+            - listitem [ref=e113]:
+              - link "关于我们" [ref=e114] [cursor=pointer]:
+                - /url: /zh-CN/about
+            - listitem [ref=e115]:
+              - link "联系我们" [ref=e116] [cursor=pointer]:
+                - /url: /zh-CN/contact
+            - listitem [ref=e117]:
+              - link "邮件列表" [ref=e118] [cursor=pointer]:
+                - /url: /zh-CN/waitlist
+        - generic [ref=e119]:
+          - text: 法律
+          - list [ref=e120]:
+            - listitem [ref=e121]:
+              - link "Cookie政策" [ref=e122] [cursor=pointer]:
+                - /url: /zh-CN/cookie
+            - listitem [ref=e123]:
+              - link "隐私政策" [ref=e124] [cursor=pointer]:
+                - /url: /zh-CN/privacy
+            - listitem [ref=e125]:
+              - link "服务条款" [ref=e126] [cursor=pointer]:
+                - /url: /zh-CN/terms
+      - generic [ref=e129]: © 2025 QiFlow AI All Rights Reserved.
+  - button "Open Next.js Dev Tools" [ref=e140] [cursor=pointer]:
+    - img [ref=e141]
+  - alert [ref=e144]
+```

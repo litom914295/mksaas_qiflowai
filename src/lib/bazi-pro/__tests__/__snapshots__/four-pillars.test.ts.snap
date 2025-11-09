@@ -1,0 +1,115 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProfessionalFourPillarsCalculator > calculate > 应正确计算 测试案例1 1`] = `
+{
+  "day": {
+    "element": "金",
+    "gan": "庚",
+    "nayin": "白蜡金",
+    "zhi": "辰",
+  },
+  "dayMaster": "庚",
+  "hour": {
+    "element": "水",
+    "gan": "癸",
+    "nayin": "杨柳木",
+    "zhi": "未",
+  },
+  "lunarDate": {
+    "day": 21,
+    "isLeap": false,
+    "month": 4,
+    "year": 1990,
+  },
+  "month": {
+    "element": "金",
+    "gan": "辛",
+    "nayin": "白蜡金",
+    "zhi": "巳",
+  },
+  "monthOrder": "丑",
+  "realSolarTime": 1990-05-15T05:19:00.000Z,
+  "year": {
+    "element": "金",
+    "gan": "庚",
+    "nayin": "路旁土",
+    "zhi": "午",
+  },
+}
+`;
+
+exports[`ProfessionalFourPillarsCalculator > calculate > 应正确计算 测试案例2 - 子时边界 1`] = `
+{
+  "day": {
+    "element": "土",
+    "gan": "戊",
+    "nayin": "天上火",
+    "zhi": "午",
+  },
+  "dayMaster": "戊",
+  "hour": {
+    "element": "木",
+    "gan": "甲",
+    "nayin": "海中金",
+    "zhi": "子",
+  },
+  "lunarDate": {
+    "day": 29,
+    "isLeap": false,
+    "month": 1,
+    "year": 1985,
+  },
+  "month": {
+    "element": "土",
+    "gan": "己",
+    "nayin": "城墙土",
+    "zhi": "卯",
+  },
+  "monthOrder": "丑",
+  "realSolarTime": 1985-03-20T15:27:00.000Z,
+  "year": {
+    "element": "木",
+    "gan": "乙",
+    "nayin": "海中金",
+    "zhi": "丑",
+  },
+}
+`;
+
+exports[`ProfessionalFourPillarsCalculator > calculate > 应正确计算 测试案例3 - 农历输入 1`] = `
+{
+  "day": {
+    "element": "水",
+    "gan": "壬",
+    "nayin": "长流水",
+    "zhi": "辰",
+  },
+  "dayMaster": "壬",
+  "hour": {
+    "element": "水",
+    "gan": "壬",
+    "nayin": "桑柘木",
+    "zhi": "子",
+  },
+  "lunarDate": {
+    "day": 29,
+    "isLeap": false,
+    "month": 12,
+    "year": 1999,
+  },
+  "month": {
+    "element": "土",
+    "gan": "戊",
+    "nayin": "城墙土",
+    "zhi": "寅",
+  },
+  "monthOrder": "丑",
+  "realSolarTime": 2000-02-04T15:20:00.000Z,
+  "year": {
+    "element": "金",
+    "gan": "庚",
+    "nayin": "白蜡金",
+    "zhi": "辰",
+  },
+}
+`;

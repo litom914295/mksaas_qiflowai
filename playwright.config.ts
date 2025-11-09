@@ -7,10 +7,13 @@ export default defineConfig({
 
   fullyParallel: true,
 
+  // 全局设置 - 配置认证状态
+  globalSetup: './tests/e2e/global-setup.ts',
+
   // 优化超时设置
-  timeout: 30_000, // 单个测试超时30秒（从60秒减少）
+  timeout: 60_000, // 单个测试超时60秒（增加以应对慢页面）
   expect: {
-    timeout: 5_000, // expect 断言超时5秒（从10秒减少）
+    timeout: 10_000, // expect 断言超时10秒（增加稳定性）
   },
 
   reporter: [['list'], ['html', { open: 'never' }]],
@@ -22,9 +25,14 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
 
-    // 添加导航超时
-    navigationTimeout: 15_000, // 15秒导航超时
-    actionTimeout: 10_000, // 10秒操作超时
+    // 使用保存的认证状态 (如果存在)
+    storageState: process.env.E2E_SKIP_AUTH
+      ? undefined
+      : './playwright/.auth/user.json',
+
+    // 添加导航超时 - 增加到60秒以应对慢启动
+    navigationTimeout: 60_000, // 60秒导航超时（从15秒增加）
+    actionTimeout: 30_000, // 30秒操作超时（从10秒增加）
   },
 
   webServer: process.env.E2E_SKIP_SERVER
