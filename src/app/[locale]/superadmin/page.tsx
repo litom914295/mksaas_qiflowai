@@ -54,11 +54,11 @@ export default function SuperAdminLoginPage() {
 
       if (response.ok && data.success) {
         // 验证是否为管理员
-        if (email === 'admin@mksaas.com') {
+        if (email === 'admin@qiflowai.com') {
           setSuccess(true);
           // 跳转到管理后台
           setTimeout(() => {
-            window.location.href = '/zh-CN/admin/dashboard';
+            window.location.href = '/zh-CN/admin';
           }, 1000);
         } else {
           setError('此账户没有管理员权限');
@@ -83,10 +83,10 @@ export default function SuperAdminLoginPage() {
             <Shield className="h-8 w-8 text-white" />
           </div>
           <CardTitle className="text-2xl font-bold text-white">
-            超级管理后台
+            🔮 超级管理后台
           </CardTitle>
           <CardDescription className="text-slate-400">
-            MKSaaS 系统核心管理中心
+            QiFlow AI 智能命理风水平台管理中心
           </CardDescription>
         </CardHeader>
 
@@ -115,7 +115,7 @@ export default function SuperAdminLoginPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@mksaas.com"
+                  placeholder="admin@qiflowai.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10 bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-500 focus:border-purple-500"

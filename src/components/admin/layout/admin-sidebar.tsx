@@ -28,6 +28,26 @@ const menuItems = [
     title: '概览',
     items: [
       { icon: LayoutDashboard, label: '仪表板', href: '/admin/dashboard' },
+      { icon: BarChart3, label: '数据分析', href: '/admin/analytics' },
+    ],
+  },
+  {
+    title: 'QiFlow 业务',
+    items: [
+      { icon: Target, label: '八字分析', href: '/admin/qiflow/bazi' },
+      { icon: Target, label: '风水管理', href: '/admin/qiflow/fengshui' },
+      { icon: Target, label: '罗盘统计', href: '/admin/qiflow/compass' },
+      { icon: MessageSquare, label: 'AI 对话', href: '/admin/qiflow/ai-chat' },
+    ],
+  },
+  {
+    title: '增长运营',
+    items: [
+      { icon: TrendingUp, label: '增长看板', href: '/admin/operations/growth/dashboard' },
+      { icon: DollarSign, label: '积分系统', href: '/admin/operations/growth/credits' },
+      { icon: Share2, label: '推荐系统', href: '/admin/operations/growth/referrals' },
+      { icon: Share2, label: '分享激励', href: '/admin/operations/growth/shares' },
+      { icon: Shield, label: '反欺诈', href: '/admin/operations/growth/fraud' },
     ],
   },
   {
@@ -45,37 +65,10 @@ const menuItems = [
     ],
   },
   {
-    title: '运营管理',
-    items: [
-      { icon: Target, label: '增长看板', href: '/admin/metrics' },
-      { icon: Share2, label: '推荐管理', href: '/admin/operations/referrals' },
-      { icon: TrendingUp, label: '分享管理', href: '/admin/operations/shares' },
-      {
-        icon: DollarSign,
-        label: '积分管理',
-        href: '/admin/operations/credits',
-      },
-      { icon: Shield, label: '风控管理', href: '/admin/operations/fraud' },
-      { icon: Package, label: '订单管理', href: '/admin/operations/orders' },
-      {
-        icon: MessageSquare,
-        label: '消息中心',
-        href: '/admin/operations/messages',
-      },
-    ],
-  },
-  {
-    title: '数据分析',
-    items: [
-      { icon: BarChart3, label: '数据看板', href: '/admin/analytics' },
-      { icon: FileText, label: '报表管理', href: '/admin/analytics/reports' },
-    ],
-  },
-  {
     title: '系统设置',
     items: [
       { icon: Settings, label: '系统配置', href: '/admin/settings' },
-      { icon: Shield, label: '审计日志', href: '/admin/settings/audit' },
+      { icon: Shield, label: '审计日志', href: '/admin/audit' },
       { icon: BookOpen, label: '文档中心', href: '/admin/docs' },
     ],
   },
