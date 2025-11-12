@@ -167,7 +167,11 @@ export async function getUserNewbieMissions(userId: string) {
       }
 
       // 如果进度有更新，更新数据库
-      if (dbProgress && dbProgress.progress !== null && actualProgress > dbProgress.progress) {
+      if (
+        dbProgress &&
+        dbProgress.progress !== null &&
+        actualProgress > dbProgress.progress
+      ) {
         const completed = actualProgress >= mission.target;
 
         await db

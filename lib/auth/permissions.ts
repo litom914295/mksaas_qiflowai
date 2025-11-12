@@ -145,7 +145,10 @@ export function getRoleByName(roleName: string) {
 /**
  * 检查用户是否有特定角色
  */
-export function hasRole(user: User & { role?: string }, roleName: string): boolean {
+export function hasRole(
+  user: User & { role?: string },
+  roleName: string
+): boolean {
   return user.role === roleName;
 }
 
@@ -153,8 +156,10 @@ export function hasRole(user: User & { role?: string }, roleName: string): boole
  * 获取用户的所有权限（包括角色权限）
  */
 export function getUserPermissions(user: User & { role?: string }): string[] {
-  const rolePermissions = user.role ? getRoleByName(user.role)?.permissions || [] : [];
+  const rolePermissions = user.role
+    ? getRoleByName(user.role)?.permissions || []
+    : [];
   const userPermissions = user.permissions || [];
-  
+
   return [...new Set([...rolePermissions, ...userPermissions])];
 }

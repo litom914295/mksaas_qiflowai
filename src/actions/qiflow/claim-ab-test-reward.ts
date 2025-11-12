@@ -1,11 +1,11 @@
-"use server";
+'use server';
 
+import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
+import { db } from '@/db';
+import { creditTransaction, users } from '@/db/schema';
+import { abTestManager } from '@/lib/ab-test/manager';
 import { auth } from '@/lib/auth';
-import { db } from "@/db";
-import { creditTransaction, users } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { abTestManager } from "@/lib/ab-test/manager";
-import { CREDIT_TRANSACTION_TYPE } from "@/credits/types";
+import { eq } from 'drizzle-orm';
 
 /**
  * 领取 A/B 测试参与奖励
@@ -17,7 +17,7 @@ export async function claimABTestRewardAction(params: {
     // 1. 验证用户登录
     const session = await auth();
     if (!session?.user?.id) {
-      return { success: false, error: "未登录" };
+      return { success: false, error: '未登录' };
     }
 
     const userId = session.user.id;
@@ -29,7 +29,7 @@ export async function claimABTestRewardAction(params: {
     });
 
     if (hasReceived) {
-      return { success: false, error: "您已领取过该实验的奖励" };
+      return { success: false, error: '您已领取过该实验的奖励' };
     }
 
     // 3. 获取实验配置中的奖励金额
@@ -39,7 +39,7 @@ export async function claimABTestRewardAction(params: {
     });
 
     if (!variant) {
-      return { success: false, error: "实验不存在或未激活" };
+      return { success: false, error: '实验不存在或未激活' };
     }
 
     // 默认奖励 10 积分
@@ -69,7 +69,7 @@ export async function claimABTestRewardAction(params: {
     await abTestManager.trackEvent({
       experimentName: params.experimentName,
       userId,
-      eventType: "reward",
+      eventType: 'reward',
       eventData: {
         creditsEarned: rewardAmount,
       },
@@ -84,10 +84,10 @@ export async function claimABTestRewardAction(params: {
       creditsEarned: rewardAmount,
     };
   } catch (error) {
-    console.error("[Reward] Error claiming reward:", error);
+    console.error('[Reward] Error claiming reward:', error);
     return {
       success: false,
-      error: "领取奖励失败，请稍后重试",
+      error: '领取奖励失败，请稍后重试',
     };
   }
 }

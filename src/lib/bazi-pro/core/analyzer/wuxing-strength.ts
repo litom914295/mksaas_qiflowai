@@ -3,9 +3,9 @@
  * 精确量化五行力量评分系统
  */
 
+import { type BaziConfig, getCurrentConfig } from '../../config';
 import { type FourPillars, Pillar } from '../calculator/four-pillars';
 import { hiddenStemsAnalyzer } from './hidden-stems';
-import { getCurrentConfig, type BaziConfig } from '../../config';
 
 export interface WuxingStrength {
   wood: number; // 木
@@ -44,10 +44,22 @@ interface WuxingStrengthMutable {
   details: {
     stems: { 木: number; 火: number; 土: number; 金: number; 水: number };
     hiddenStems: { 木: number; 火: number; 土: number; 金: number; 水: number };
-    monthlyEffect: { 木: number; 火: number; 土: number; 金: number; 水: number };
+    monthlyEffect: {
+      木: number;
+      火: number;
+      土: number;
+      金: number;
+      水: number;
+    };
     rooting: { 木: number; 火: number; 土: number; 金: number; 水: number };
     revealing: { 木: number; 火: number; 土: number; 金: number; 水: number };
-    interactions: { 木: number; 火: number; 土: number; 金: number; 水: number };
+    interactions: {
+      木: number;
+      火: number;
+      土: number;
+      金: number;
+      水: number;
+    };
   };
 }
 
@@ -340,7 +352,9 @@ export class WuxingStrengthAnalyzer {
       const generatorKey = this.getElementKey(generator);
 
       if (strength[generatorKey] > 0) {
-        const bonus = strength[generatorKey] * this.config.interactionCoefficients.generation;
+        const bonus =
+          strength[generatorKey] *
+          this.config.interactionCoefficients.generation;
         strength[elementKey] += bonus;
         strength.details.interactions[element] += bonus;
       }
@@ -353,7 +367,8 @@ export class WuxingStrengthAnalyzer {
       const controllerKey = this.getElementKey(controller);
 
       if (strength[controllerKey] > 0) {
-        const penalty = strength[controllerKey] * this.config.interactionCoefficients.control;
+        const penalty =
+          strength[controllerKey] * this.config.interactionCoefficients.control;
         strength[elementKey] -= penalty;
         strength.details.interactions[element] -= penalty;
       }
@@ -493,7 +508,10 @@ export class WuxingStrengthAnalyzer {
   }
 
   private getSeasonalCoefficients(season: string): Record<string, number> {
-    const seasonMap: Record<string, keyof typeof this.config.monthlyCoefficients> = {
+    const seasonMap: Record<
+      string,
+      keyof typeof this.config.monthlyCoefficients
+    > = {
       春: 'spring',
       夏: 'summer',
       秋: 'autumn',

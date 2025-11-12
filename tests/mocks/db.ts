@@ -10,21 +10,21 @@ export const mockDb = {
       limit: vi.fn(() => Promise.resolve([])),
     })),
   })),
-  
+
   insert: vi.fn(() => ({
     values: vi.fn(() => Promise.resolve()),
   })),
-  
+
   update: vi.fn(() => ({
     set: vi.fn(() => ({
       where: vi.fn(() => Promise.resolve()),
     })),
   })),
-  
+
   delete: vi.fn(() => ({
     where: vi.fn(() => Promise.resolve()),
   })),
-  
+
   transaction: vi.fn(async (callback) => {
     return await callback(mockDb);
   }),
@@ -40,7 +40,7 @@ export function setupTestDb() {
     getDb: mockGetDb,
     closeDb: vi.fn(),
   }));
-  
+
   // Mock @/db/schema
   vi.mock('@/db/schema', () => ({
     user: {
@@ -59,6 +59,6 @@ export function setupTestDb() {
       updatedAt: 'updatedAt',
     },
   }));
-  
+
   return { mockDb, mockGetDb };
 }

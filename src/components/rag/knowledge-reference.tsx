@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -8,29 +9,28 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import { Progress } from '@/components/ui/progress';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Progress } from '@/components/ui/progress';
-import { 
-  BookOpenIcon, 
-  ChevronDownIcon, 
+import type { SearchResult } from '@/lib/rag';
+import { cn } from '@/lib/utils';
+import {
+  BookOpenIcon,
+  ChevronDownIcon,
   ChevronUpIcon,
   ExternalLinkIcon,
   InfoIcon,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import type { SearchResult } from '@/lib/rag';
+import React, { useState } from 'react';
 
 export interface KnowledgeReferenceProps {
   references: SearchResult[];
@@ -64,7 +64,7 @@ export function KnowledgeReference({
 
   // 切换展开状态
   const toggleExpanded = (id: string) => {
-    setExpandedItems(prev => {
+    setExpandedItems((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
         next.delete(id);
@@ -141,19 +141,22 @@ export function KnowledgeReference({
                       <h4 className="text-sm font-medium truncate">
                         {ref.title}
                       </h4>
-                      <Badge 
-                        variant="outline" 
-                        className={cn('text-xs', getCategoryColor(ref.category))}
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          'text-xs',
+                          getCategoryColor(ref.category)
+                        )}
                       >
                         {ref.category}
                       </Badge>
                     </div>
-                    
+
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
                       <span className="truncate">
                         来源: {formatSource(ref.source)}
                       </span>
-                      
+
                       {ref.chunkIndex !== null && (
                         <span>第 {ref.chunkIndex + 1} 部分</span>
                       )}
@@ -170,7 +173,12 @@ export function KnowledgeReference({
                               value={ref.similarity * 100}
                               className="w-12 h-2"
                             />
-                            <span className={cn('text-xs font-medium', similarityLevel.color)}>
+                            <span
+                              className={cn(
+                                'text-xs font-medium',
+                                similarityLevel.color
+                              )}
+                            >
                               {(ref.similarity * 100).toFixed(0)}%
                             </span>
                           </div>
@@ -236,16 +244,18 @@ export function KnowledgeReference({
                             </span>
                           </div>
                           <div className="grid grid-cols-2 gap-2 text-xs">
-                            {Object.entries(ref.metadata).map(([key, value]) => (
-                              <div key={key} className="flex gap-1">
-                                <span className="text-muted-foreground">
-                                  {key}:
-                                </span>
-                                <span className="font-mono">
-                                  {JSON.stringify(value)}
-                                </span>
-                              </div>
-                            ))}
+                            {Object.entries(ref.metadata).map(
+                              ([key, value]) => (
+                                <div key={key} className="flex gap-1">
+                                  <span className="text-muted-foreground">
+                                    {key}:
+                                  </span>
+                                  <span className="font-mono">
+                                    {JSON.stringify(value)}
+                                  </span>
+                                </div>
+                              )
+                            )}
                           </div>
                         </div>
                       )}
@@ -352,12 +362,16 @@ export function KnowledgeReferenceStats({
 
   // 计算统计
   const avgSimilarity =
-    references.reduce((sum, ref) => sum + ref.similarity, 0) / references.length;
+    references.reduce((sum, ref) => sum + ref.similarity, 0) /
+    references.length;
 
-  const categoryCount = references.reduce((acc, ref) => {
-    acc[ref.category] = (acc[ref.category] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+  const categoryCount = references.reduce(
+    (acc, ref) => {
+      acc[ref.category] = (acc[ref.category] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
 
   return (
     <div className={cn('grid grid-cols-3 gap-3 text-xs', className)}>

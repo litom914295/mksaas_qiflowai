@@ -8,7 +8,7 @@ import {
 import { getCreditPackageById } from '@/credits/server';
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { getDb } from '@/db';
-import { payment, user, stripeWebhookEvents } from '@/db/schema';
+import { payment, stripeWebhookEvents, user } from '@/db/schema';
 import {
   findPlanByPlanId,
   findPlanByPriceId,
@@ -552,7 +552,9 @@ export class StripeProvider implements PaymentProvider {
         return; // 已处理，跳过
       }
 
-      console.log(`[Webhook] Processing new event ${eventId}, type: ${eventType}`);
+      console.log(
+        `[Webhook] Processing new event ${eventId}, type: ${eventType}`
+      );
 
       // 记录事件（处理前）
       await db.insert(stripeWebhookEvents).values({
@@ -619,7 +621,10 @@ export class StripeProvider implements PaymentProvider {
           })
           .where(eq(stripeWebhookEvents.id, eventId));
       } catch (updateError) {
-        console.error('[Webhook] Failed to update event error status:', updateError);
+        console.error(
+          '[Webhook] Failed to update event error status:',
+          updateError
+        );
       }
 
       throw new Error('Failed to handle webhook event');

@@ -1,6 +1,6 @@
 /**
  * 向量化服务 - EmbeddingService
- * 
+ *
  * 封装 OpenAI Embeddings API
  * 支持单个和批量文本向量化
  */
@@ -20,11 +20,11 @@ export interface BatchEmbeddingResult {
 }
 
 export interface EmbeddingOptions {
-  model?: string;          // 默认 'text-embedding-3-small'
-  dimensions?: number;     // 向量维度，默认 1536
-  batchSize?: number;      // 批量处理大小，默认 100
-  retryAttempts?: number;  // 重试次数，默认 3
-  retryDelay?: number;     // 重试延迟（毫秒），默认 1000
+  model?: string; // 默认 'text-embedding-3-small'
+  dimensions?: number; // 向量维度，默认 1536
+  batchSize?: number; // 批量处理大小，默认 100
+  retryAttempts?: number; // 重试次数，默认 3
+  retryDelay?: number; // 重试延迟（毫秒），默认 1000
 }
 
 const DEFAULT_OPTIONS: Required<EmbeddingOptions> = {
@@ -41,12 +41,9 @@ export class EmbeddingService {
   private requestCount = 0;
   private totalTokens = 0;
 
-  constructor(
-    apiKey?: string,
-    options?: Partial<EmbeddingOptions>
-  ) {
+  constructor(apiKey?: string, options?: Partial<EmbeddingOptions>) {
     const key = apiKey || process.env.OPENAI_API_KEY;
-    
+
     if (!key) {
       throw new Error('OPENAI_API_KEY is required');
     }
@@ -65,7 +62,7 @@ export class EmbeddingService {
 
     try {
       const response = await this.makeEmbeddingRequest([text]);
-      
+
       this.requestCount++;
       this.totalTokens += response.usage.total_tokens;
 
@@ -88,8 +85,8 @@ export class EmbeddingService {
     }
 
     // 过滤空文本
-    const validTexts = texts.filter(t => t && t.trim().length > 0);
-    
+    const validTexts = texts.filter((t) => t && t.trim().length > 0);
+
     if (validTexts.length === 0) {
       throw new Error('No valid texts to embed');
     }
@@ -100,21 +97,23 @@ export class EmbeddingService {
     // 分批处理
     for (let i = 0; i < validTexts.length; i += this.options.batchSize) {
       const batch = validTexts.slice(i, i + this.options.batchSize);
-      
+
       try {
         const response = await this.makeEmbeddingRequest(batch);
-        
+
         // 按正确顺序添加 embeddings
-        response.data.forEach(item => {
+        response.data.forEach((item) => {
           embeddings[item.index] = item.embedding;
         });
 
         totalTokens += response.usage.total_tokens;
         this.requestCount++;
         this.totalTokens += response.usage.total_tokens;
-
       } catch (error) {
-        throw this.handleError(error, `Failed to embed batch ${i / this.options.batchSize + 1}`);
+        throw this.handleError(
+          error,
+          `Failed to embed batch ${i / this.options.batchSize + 1}`
+        );
       }
     }
 
@@ -147,8 +146,10 @@ export class EmbeddingService {
         (error.status === 429 || error.code === 'ECONNRESET')
       ) {
         const delay = this.options.retryDelay * attempt;
-        console.warn(`Retrying embedding request (attempt ${attempt + 1}/${this.options.retryAttempts}) after ${delay}ms`);
-        
+        console.warn(
+          `Retrying embedding request (attempt ${attempt + 1}/${this.options.retryAttempts}) after ${delay}ms`
+        );
+
         await this.sleep(delay);
         return this.makeEmbeddingRequest(input, attempt + 1);
       }
@@ -226,7 +227,9 @@ export class EmbeddingService {
    */
   private handleError(error: any, message: string): Error {
     if (error instanceof OpenAI.APIError) {
-      return new Error(`${message}: ${error.message} (Status: ${error.status})`);
+      return new Error(
+        `${message}: ${error.message} (Status: ${error.status})`
+      );
     }
     return new Error(`${message}: ${error.message || 'Unknown error'}`);
   }
@@ -235,7 +238,7 @@ export class EmbeddingService {
    * Sleep 工具函数
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 

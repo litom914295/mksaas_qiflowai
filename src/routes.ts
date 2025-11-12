@@ -91,7 +91,7 @@ export const protectedRoutes = [
   Routes.SettingsSecurity,
   Routes.SettingsNotifications,
   Routes.AnalysisHistory,
-  '/qiflow/.*',  // 保护所有 qiflow 路由
+  '/qiflow/.*', // 保护所有 qiflow 路由
 ];
 
 /**

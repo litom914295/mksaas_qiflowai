@@ -1,14 +1,15 @@
-import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { EssentialReportPurchasePage } from '@/components/qiflow/essential-report-purchase-page';
+import { db } from '@/db';
+import { users } from '@/db/schema';
 import { auth } from '@/lib/auth';
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { EssentialReportPurchasePage } from "@/components/qiflow/essential-report-purchase-page";
+import { eq } from 'drizzle-orm';
+import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: "购买精华报告 | QiFlow AI",
-  description: "购买 AI 深度解析的八字精华报告，三大主题故事化解读，终身有效查看",
+  title: '购买精华报告 | QiFlow AI',
+  description:
+    '购买 AI 深度解析的八字精华报告，三大主题故事化解读，终身有效查看',
 };
 
 async function getUserCredits(userId: string): Promise<number> {
@@ -16,7 +17,7 @@ async function getUserCredits(userId: string): Promise<number> {
     where: eq(users.id, userId),
     columns: { credits: true },
   });
-  
+
   return user?.credits ?? 0;
 }
 
@@ -26,9 +27,9 @@ export default async function BuyEssentialReportPage({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const session = await auth();
-  
+
   if (!session?.user?.id) {
-    redirect("/login?callbackUrl=/reports/essential/buy");
+    redirect('/login?callbackUrl=/reports/essential/buy');
   }
 
   // 获取用户积分余额
@@ -47,7 +48,7 @@ export default async function BuyEssentialReportPage({
       prefillData={{
         birthDate,
         birthHour,
-        gender: gender as "male" | "female" | undefined,
+        gender: gender as 'male' | 'female' | undefined,
         location,
       }}
     />

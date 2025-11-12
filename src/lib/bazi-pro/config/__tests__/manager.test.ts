@@ -2,7 +2,7 @@
  * 配置管理器测试
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { BaziConfigManager } from '../manager';
 import type { BaziConfig } from '../types';
 
@@ -193,7 +193,7 @@ describe('BaziConfigManager', () => {
     it('应该更新部分配置', () => {
       const originalName = manager.getCurrentConfig().name;
       manager.updateConfig({ name: 'Updated Name' });
-      
+
       const updated = manager.getCurrentConfig();
       expect(updated.name).toBe('Updated Name');
       expect(updated.version).toBe('1.0.0'); // 其他字段保持不变
@@ -204,7 +204,7 @@ describe('BaziConfigManager', () => {
     it('应该导出配置为JSON', () => {
       const json = manager.exportToJSON();
       expect(json).toBeTruthy();
-      
+
       const parsed = JSON.parse(json);
       expect(parsed.version).toBe('1.0.0');
       expect(parsed.config).toBeDefined();
@@ -214,10 +214,10 @@ describe('BaziConfigManager', () => {
     it('应该从JSON导入配置', () => {
       const originalConfig = manager.getCurrentConfig();
       const json = JSON.stringify(originalConfig);
-      
+
       manager.updateConfig({ name: 'Different Name' });
       manager.loadFromJSON(json);
-      
+
       const restoredConfig = manager.getCurrentConfig();
       expect(restoredConfig.name).toBe(originalConfig.name);
     });

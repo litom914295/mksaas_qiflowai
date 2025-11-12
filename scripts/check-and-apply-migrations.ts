@@ -1,6 +1,6 @@
 /**
  * 数据库迁移检查和应用脚本
- * 
+ *
  * 用途：
  * 1. 检查哪些表已经存在
  * 2. 列出未应用的迁移
@@ -17,7 +17,7 @@ async function checkMigrationStatus() {
 
   // 使用环境变量中的数据库连接
   const connectionString = process.env.DATABASE_URL;
-  
+
   if (!connectionString) {
     console.error('❌ DATABASE_URL 环境变量未设置');
     console.log('\n请确保 .env.local 文件中配置了 DATABASE_URL');
@@ -28,12 +28,12 @@ async function checkMigrationStatus() {
   const db = drizzle(client);
 
   const tablesToCheck = [
-    'stripe_webhook_events',      // Phase 1
-    'qiflow_reports',             // Phase 2
-    'chat_sessions',              // Phase 2
-    'knowledge_documents',        // Phase 7
-    'rag_retrieval_logs',         // Phase 7
-    'monthly_fortunes',           // Phase 8
+    'stripe_webhook_events', // Phase 1
+    'qiflow_reports', // Phase 2
+    'chat_sessions', // Phase 2
+    'knowledge_documents', // Phase 7
+    'rag_retrieval_logs', // Phase 7
+    'monthly_fortunes', // Phase 8
   ];
 
   const results: Record<string, boolean> = {};
@@ -47,10 +47,10 @@ async function checkMigrationStatus() {
           AND table_name = ${table}
         )
       `;
-      
+
       const exists = result[0]?.exists === true;
       results[table] = exists;
-      
+
       console.log(`${exists ? '✅' : '❌'} ${table}`);
     } catch (error) {
       console.error(`❌ ${table} - 检查失败:`, error);
@@ -68,7 +68,7 @@ async function checkMigrationStatus() {
     console.log('🎉 所有表都已创建！数据库迁移完成。');
   } else {
     console.log('⚠️  以下表尚未创建:\n');
-    missingTables.forEach(table => console.log(`   - ${table}`));
+    missingTables.forEach((table) => console.log(`   - ${table}`));
     console.log('\n运行以下命令应用迁移:\n');
     console.log('   npx drizzle-kit push');
     console.log('   或');

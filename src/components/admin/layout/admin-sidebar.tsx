@@ -43,10 +43,26 @@ const menuItems = [
   {
     title: '增长运营',
     items: [
-      { icon: TrendingUp, label: '增长看板', href: '/admin/operations/growth/dashboard' },
-      { icon: DollarSign, label: '积分系统', href: '/admin/operations/growth/credits' },
-      { icon: Share2, label: '推荐系统', href: '/admin/operations/growth/referrals' },
-      { icon: Share2, label: '分享激励', href: '/admin/operations/growth/shares' },
+      {
+        icon: TrendingUp,
+        label: '增长看板',
+        href: '/admin/operations/growth/dashboard',
+      },
+      {
+        icon: DollarSign,
+        label: '积分系统',
+        href: '/admin/operations/growth/credits',
+      },
+      {
+        icon: Share2,
+        label: '推荐系统',
+        href: '/admin/operations/growth/referrals',
+      },
+      {
+        icon: Share2,
+        label: '分享激励',
+        href: '/admin/operations/growth/shares',
+      },
       { icon: Shield, label: '反欺诈', href: '/admin/operations/growth/fraud' },
     ],
   },

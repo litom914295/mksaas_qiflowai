@@ -136,50 +136,57 @@ export function getBaguaYinYang(bagua: string): '阴' | '阳' {
 
 /**
  * 获取飞星的对宫星（用于简单替卦）
- * 
+ *
  * 对宫星映射规则：
  * - 1 ↔ 9 (坎 ↔ 离)
  * - 2 ↔ 8 (坤 ↔ 艮)
  * - 3 ↔ 7 (震 ↔ 兑)
  * - 4 ↔ 6 (巽 ↔ 乾)
  * - 5 ↔ 5 (中宫，无对宫)
- * 
+ *
  * @param star - 原始飞星（1-9）
  * @returns 对宫飞星
- * 
+ *
  * @example
  * ```typescript
  * getOppositeStar(1); // 返回 9
  * getOppositeStar(8); // 返回 2
  * getOppositeStar(5); // 返回 5（特殊情况）
  * ```
- * 
+ *
  * @internal 此函数为内部实现，不对外导出
  */
 function getOppositeStar(star: FlyingStar): FlyingStar {
   const oppositeMap: Record<FlyingStar, FlyingStar> = {
-    1: 9, 2: 8, 3: 7, 4: 6, 5: 5,
-    6: 4, 7: 3, 8: 2, 9: 1,
+    1: 9,
+    2: 8,
+    3: 7,
+    4: 6,
+    5: 5,
+    6: 4,
+    7: 3,
+    8: 2,
+    9: 1,
   };
   return oppositeMap[star];
 }
 
 /**
  * 判断是否需要简单替卦（伏吟检测）
- * 
+ *
  * 替卦触发条件：
  * - 天盘（运盘）的飞星与该宫位的本宫星相同
  * - 即：会造成伏吟格局
- * 
+ *
  * 伏吟含义：
  * - 运盘与山盘/向盘的飞星完全一致
  * - 风水上主停滞、重复、无突破
  * - 需要通过替卦化解
- * 
+ *
  * @param palace - 宫位（1-9）
  * @param tianpan - 天盘（运盘）
  * @returns 是否需要替卦
- * 
+ *
  * @example
  * ```typescript
  * // 八运（8入中宫），艮宫（8宫）
@@ -187,48 +194,45 @@ function getOppositeStar(star: FlyingStar): FlyingStar {
  * shouldApplySimpleTigua(8, tianpan); // true（8宫天盘星为8，伏吟）
  * shouldApplySimpleTigua(1, tianpan); // false（1宫天盘星为7，非伏吟）
  * ```
- * 
+ *
  * @internal 此函数为内部实现，不对外导出
  */
-function shouldApplySimpleTigua(
-  palace: PalaceIndex,
-  tianpan: Plate
-): boolean {
-  const tianpanCell = tianpan.find(c => c.palace === palace);
+function shouldApplySimpleTigua(palace: PalaceIndex, tianpan: Plate): boolean {
+  const tianpanCell = tianpan.find((c) => c.palace === palace);
   if (!tianpanCell || !tianpanCell.periodStar) return false;
-  
+
   // 伏吟判断：天盘星 === 本宫星
   return tianpanCell.periodStar === (palace as FlyingStar);
 }
 
 /**
  * 生成山盘（山星飞星排盘）
- * 
+ *
  * 山盘生成流程：
  * 1. 根据坐山找到对应宫位
  * 2. 获取该宫位的天盘飞星作为起始星
  * 3. 如果启用替卦且检测到伏吟，使用对宫星替代
  * 4. 根据起始星的八卦阴阳属性和元龙属性决定顺飞或逆飞
  * 5. 按洛书顺序（5→6→7→8→9→1→2→3→4）排布飞星
- * 
+ *
  * @param tianpan - 天盘（运盘）
  * @param zuo - 坐山（二十四山之一）
  * @param isJian - 是否兼向（默认 false）
  * @param applyTigua - 是否启用简单替卦（默认 false）
  * @returns 山盘
- * 
+ *
  * @example
  * ```typescript
  * // 八运，艮山坤向，不启用替卦
  * const tianpan = generateTianpan(8);
  * const shanpan = generateShanpan(tianpan, '艮', false, false);
  * // 艮宫山星为8（伏吟但未启用替卦）
- * 
+ *
  * // 八运，艮山坤向，启用替卦
  * const shanpanWithTigua = generateShanpan(tianpan, '艮', false, true);
  * // 艮宫山星为2（伏吟触发，8替换为对宫星2）
  * ```
- * 
+ *
  * @remarks
  * - 兼向（isJian）暂不影响飞星起始点，仅用于格局分析
  * - 简单替卦采用对宫星替换法，与增强替卦（规则表法）互补
@@ -289,32 +293,32 @@ export function generateShanpan(
 
 /**
  * 生成向盘（向星飞星排盘）
- * 
+ *
  * 向盘生成流程：
  * 1. 根据向山找到对应宫位
  * 2. 获取该宫位的天盘飞星作为起始星
  * 3. 如果启用替卦且检测到伏吟，使用对宫星替代
  * 4. 根据起始星的八卦阴阳属性和元龙属性决定顺飞或逆飞
  * 5. 按洛书顺序（5→6→7→8→9→1→2→3→4）排布飞星
- * 
+ *
  * @param tianpan - 天盘（运盘）
  * @param xiang - 向山（二十四山之一）
  * @param isJian - 是否兼向（默认 false）
  * @param applyTigua - 是否启用简单替卦（默认 false）
  * @returns 向盘
- * 
+ *
  * @example
  * ```typescript
  * // 九运，午山子向，不启用替卦
  * const tianpan = generateTianpan(9);
  * const xiangpan = generateXiangpan(tianpan, '午', false, false);
  * // 午向离宫向星为9（伏吟但未启用替卦）
- * 
+ *
  * // 九运，午山子向，启用替卦
  * const xiangpanWithTigua = generateXiangpan(tianpan, '午', false, true);
  * // 午向离宫向星为1（伏吟触发，9替换为对宫星1）
  * ```
- * 
+ *
  * @remarks
  * - 向盘替卦逻辑与山盘一致
  * - 兼向（isJian）暂不影响飞星起始点

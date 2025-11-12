@@ -1,6 +1,6 @@
 /**
  * 全球智能路由 EmbeddingService
- * 
+ *
  * 根据用户地理位置和配置自动选择最优的 Embedding 提供商
  * - 中国大陆: 硅基流动 (免费)
  * - 亚太地区: Jina AI (便宜)
@@ -13,7 +13,7 @@ export interface EmbeddingResult {
   embedding: number[];
   tokens: number;
   index: number;
-  provider?: string;  // 实际使用的提供商
+  provider?: string; // 实际使用的提供商
 }
 
 export interface BatchEmbeddingResult {
@@ -23,14 +23,19 @@ export interface BatchEmbeddingResult {
   provider?: string;
 }
 
-export type EmbeddingProvider = 'openai' | 'siliconflow' | 'jina' | 'dashscope' | 'auto';
+export type EmbeddingProvider =
+  | 'openai'
+  | 'siliconflow'
+  | 'jina'
+  | 'dashscope'
+  | 'auto';
 
 export interface GlobalEmbeddingOptions {
   provider?: EmbeddingProvider;
-  forceProvider?: boolean;  // 强制使用指定提供商
+  forceProvider?: boolean; // 强制使用指定提供商
   batchSize?: number;
   retryAttempts?: number;
-  userRegion?: string;  // 用户地区代码 (cn, us, sg, etc.)
+  userRegion?: string; // 用户地区代码 (cn, us, sg, etc.)
 }
 
 /**
@@ -38,38 +43,40 @@ export interface GlobalEmbeddingOptions {
  */
 const REGION_PROVIDER_MAP: Record<string, EmbeddingProvider[]> = {
   // 中国大陆及港澳台
-  'cn': ['siliconflow', 'dashscope', 'jina', 'openai'],
-  'hk': ['siliconflow', 'jina', 'openai'],
-  'tw': ['siliconflow', 'jina', 'openai'],
-  'mo': ['siliconflow', 'jina', 'openai'],
-  
+  cn: ['siliconflow', 'dashscope', 'jina', 'openai'],
+  hk: ['siliconflow', 'jina', 'openai'],
+  tw: ['siliconflow', 'jina', 'openai'],
+  mo: ['siliconflow', 'jina', 'openai'],
+
   // 东南亚
-  'sg': ['jina', 'openai', 'siliconflow'],
-  'my': ['jina', 'openai', 'siliconflow'],
-  'th': ['jina', 'openai', 'siliconflow'],
-  'id': ['jina', 'openai', 'siliconflow'],
-  'ph': ['jina', 'openai', 'siliconflow'],
-  'vn': ['jina', 'openai', 'siliconflow'],
-  
+  sg: ['jina', 'openai', 'siliconflow'],
+  my: ['jina', 'openai', 'siliconflow'],
+  th: ['jina', 'openai', 'siliconflow'],
+  id: ['jina', 'openai', 'siliconflow'],
+  ph: ['jina', 'openai', 'siliconflow'],
+  vn: ['jina', 'openai', 'siliconflow'],
+
   // 日韩
-  'jp': ['jina', 'openai', 'siliconflow'],
-  'kr': ['jina', 'openai', 'siliconflow'],
-  
+  jp: ['jina', 'openai', 'siliconflow'],
+  kr: ['jina', 'openai', 'siliconflow'],
+
   // 欧美
-  'us': ['openai', 'jina'],
-  'ca': ['openai', 'jina'],
-  'gb': ['openai', 'jina'],
-  'de': ['openai', 'jina'],
-  'fr': ['openai', 'jina'],
-  'au': ['openai', 'jina'],
-  
+  us: ['openai', 'jina'],
+  ca: ['openai', 'jina'],
+  gb: ['openai', 'jina'],
+  de: ['openai', 'jina'],
+  fr: ['openai', 'jina'],
+  au: ['openai', 'jina'],
+
   // 默认（其他地区）
-  'default': ['openai', 'jina', 'siliconflow'],
+  default: ['openai', 'jina', 'siliconflow'],
 };
 
 export class GlobalEmbeddingService {
   private providers: Map<EmbeddingProvider, any> = new Map();
-  private options: Required<Omit<GlobalEmbeddingOptions, 'userRegion'>> & { userRegion?: string };
+  private options: Required<Omit<GlobalEmbeddingOptions, 'userRegion'>> & {
+    userRegion?: string;
+  };
   private stats = {
     requestsByProvider: {} as Record<string, number>,
     totalTokens: 0,
@@ -94,17 +101,23 @@ export class GlobalEmbeddingService {
   private initializeProviders() {
     // OpenAI
     if (process.env.OPENAI_API_KEY) {
-      this.providers.set('openai', new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-      }));
+      this.providers.set(
+        'openai',
+        new OpenAI({
+          apiKey: process.env.OPENAI_API_KEY,
+        })
+      );
     }
 
     // 硅基流动 (OpenAI 兼容)
     if (process.env.SILICONFLOW_API_KEY) {
-      this.providers.set('siliconflow', new OpenAI({
-        apiKey: process.env.SILICONFLOW_API_KEY,
-        baseURL: 'https://api.siliconflow.cn/v1',
-      }));
+      this.providers.set(
+        'siliconflow',
+        new OpenAI({
+          apiKey: process.env.SILICONFLOW_API_KEY,
+          baseURL: 'https://api.siliconflow.cn/v1',
+        })
+      );
     }
 
     // Jina AI
@@ -140,7 +153,8 @@ export class GlobalEmbeddingService {
 
     // 自动选择：根据地区
     const region = this.options.userRegion || this.detectRegion();
-    const preferredProviders = REGION_PROVIDER_MAP[region] || REGION_PROVIDER_MAP['default'];
+    const preferredProviders =
+      REGION_PROVIDER_MAP[region] || REGION_PROVIDER_MAP['default'];
 
     // 选择第一个可用的提供商
     for (const provider of preferredProviders) {
@@ -154,7 +168,9 @@ export class GlobalEmbeddingService {
     if (this.providers.has('jina')) return 'jina';
     if (this.providers.has('siliconflow')) return 'siliconflow';
 
-    throw new Error('No embedding provider available. Please configure at least one API key.');
+    throw new Error(
+      'No embedding provider available. Please configure at least one API key.'
+    );
   }
 
   /**
@@ -175,22 +191,22 @@ export class GlobalEmbeddingService {
    */
   async embed(text: string): Promise<EmbeddingResult> {
     const provider = this.selectProvider();
-    
+
     try {
       const result = await this.embedWithProvider(text, provider);
-      
+
       // 更新统计
-      this.stats.requestsByProvider[provider] = 
+      this.stats.requestsByProvider[provider] =
         (this.stats.requestsByProvider[provider] || 0) + 1;
       this.stats.totalTokens += result.tokens;
-      
+
       return {
         ...result,
         provider,
       };
     } catch (error) {
       console.error(`[Embedding] ${provider} failed:`, error);
-      
+
       // 尝试降级到备用提供商
       return this.embedWithFallback(text, provider);
     }
@@ -260,7 +276,7 @@ export class GlobalEmbeddingService {
     const response = await fetch(`${config.baseURL}/embeddings`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${config.apiKey}`,
+        Authorization: `Bearer ${config.apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -291,7 +307,7 @@ export class GlobalEmbeddingService {
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${config.apiKey}`,
+          Authorization: `Bearer ${config.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -321,8 +337,9 @@ export class GlobalEmbeddingService {
     failedProvider: EmbeddingProvider
   ): Promise<EmbeddingResult> {
     const region = this.options.userRegion || this.detectRegion();
-    const preferredProviders = REGION_PROVIDER_MAP[region] || REGION_PROVIDER_MAP['default'];
-    
+    const preferredProviders =
+      REGION_PROVIDER_MAP[region] || REGION_PROVIDER_MAP['default'];
+
     // 尝试其他提供商
     for (const provider of preferredProviders) {
       if (provider !== failedProvider && this.providers.has(provider)) {
@@ -350,7 +367,7 @@ export class GlobalEmbeddingService {
     // 分批处理
     for (let i = 0; i < texts.length; i += this.options.batchSize) {
       const batch = texts.slice(i, i + this.options.batchSize);
-      
+
       for (const text of batch) {
         const result = await this.embed(text);
         embeddings.push(result.embedding);
@@ -374,9 +391,9 @@ export class GlobalEmbeddingService {
   private calculateCost(tokens: number, provider: EmbeddingProvider): number {
     const costPerMillion: Record<EmbeddingProvider, number> = {
       openai: 0.02,
-      siliconflow: 0,  // 免费
+      siliconflow: 0, // 免费
       jina: 0.02,
-      dashscope: 0.0007 * 1000,  // 人民币转美元
+      dashscope: 0.0007 * 1000, // 人民币转美元
       auto: 0,
     };
 

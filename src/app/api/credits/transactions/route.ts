@@ -19,17 +19,24 @@ export async function GET(request: Request) {
 
     if (!session || !userId) {
       console.warn('[Credits Transactions API] Unauthorized access attempt');
-      return NextResponse.json(
-        { error: 'UNAUTHORIZED' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
     }
 
     // Parse query parameters
     const url = new URL(request.url);
-    const page = Math.max(Number.parseInt(url.searchParams.get('page') || '1'), 1);
+    const page = Math.max(
+      Number.parseInt(url.searchParams.get('page') || '1'),
+      1
+    );
     const pageSize = Math.min(
-      Math.max(Number.parseInt(url.searchParams.get('pageSize') || url.searchParams.get('limit') || '10'), 1),
+      Math.max(
+        Number.parseInt(
+          url.searchParams.get('pageSize') ||
+            url.searchParams.get('limit') ||
+            '10'
+        ),
+        1
+      ),
       100
     ); // Max 100 per page
     const offset = (page - 1) * pageSize;
@@ -55,17 +62,17 @@ export async function GET(request: Request) {
 
     // Build where conditions
     const conditions = [eq(creditTransaction.userId, userId)];
-    
+
     // Search filter (description)
     if (search) {
       conditions.push(like(creditTransaction.description, `%${search}%`));
     }
-    
+
     // Type filter
     if (type && type !== 'all') {
       conditions.push(eq(creditTransaction.type, type));
     }
-    
+
     const whereClause = and(...conditions);
 
     // Get total count
@@ -78,9 +85,10 @@ export async function GET(request: Request) {
     const totalPages = Math.ceil(total / pageSize);
 
     // Determine sort order
-    const orderByClause = sortOrder === 'desc'
-      ? desc(creditTransaction[sortBy as 'createdAt' | 'amount'])
-      : asc(creditTransaction[sortBy as 'createdAt' | 'amount']);
+    const orderByClause =
+      sortOrder === 'desc'
+        ? desc(creditTransaction[sortBy as 'createdAt' | 'amount'])
+        : asc(creditTransaction[sortBy as 'createdAt' | 'amount']);
 
     // Get transactions with filters, sorting, and pagination
     const transactions = await db

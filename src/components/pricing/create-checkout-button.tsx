@@ -134,8 +134,7 @@ export function CheckoutButton({
         console.log('[Checkout] Redirecting to:', result.data.data.url);
         window.location.href = result.data.data.url;
       } else {
-        const errorMsg =
-          result.data?.error || 'Unknown error';
+        const errorMsg = result.data?.error || 'Unknown error';
         console.error('[Checkout] Failed:', {
           hasData: !!result.data,
           success: result.data?.success,

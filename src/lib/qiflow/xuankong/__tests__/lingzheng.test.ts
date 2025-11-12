@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest';
 import {
+  LINGZHENG_PERIOD_TABLE,
   analyzeLingzheng,
   analyzeLingzhengPositions,
   analyzeLingzhengTimeChange,
   checkZeroPositiveReversed,
   generateLingzhengRecommendations,
   getLingzhengInfo,
-  LINGZHENG_PERIOD_TABLE,
 } from '../lingzheng';
 import type { Plate, Yun } from '../types';
 
@@ -444,7 +444,9 @@ describe('零正理论模块测试', () => {
           '午'
         );
         expect(
-          recommendations.generalAdvice.some((advice) => advice.includes('五黄'))
+          recommendations.generalAdvice.some((advice) =>
+            advice.includes('五黄')
+          )
         ).toBe(true);
       });
     });
@@ -520,9 +522,9 @@ describe('零正理论模块测试', () => {
         });
 
         expect(analysis.isZeroPositiveReversed).toBe(true);
-        expect(
-          analysis.recommendations.some((r) => r.includes('颠倒'))
-        ).toBe(true);
+        expect(analysis.recommendations.some((r) => r.includes('颠倒'))).toBe(
+          true
+        );
       });
     });
 

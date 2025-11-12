@@ -64,7 +64,9 @@ export function ActivityChart() {
   const { data, isLoading } = useQuery<ActivityData[]>({
     queryKey: ['activity-chart', timeRange],
     queryFn: async () => {
-      const response = await fetch(`/api/dashboard/activity?range=${timeRange}`);
+      const response = await fetch(
+        `/api/dashboard/activity?range=${timeRange}`
+      );
       if (!response.ok) throw new Error('Failed to fetch activity data');
       return response.json();
     },
@@ -96,10 +98,20 @@ export function ActivityChart() {
           <CardTitle>活动趋势</CardTitle>
           <CardDescription>
             <span className="hidden @[540px]/card:block">
-              近{timeRange === '7d' ? '7天' : timeRange === '30d' ? '30天' : '90天'}的使用统计
+              近
+              {timeRange === '7d'
+                ? '7天'
+                : timeRange === '30d'
+                  ? '30天'
+                  : '90天'}
+              的使用统计
             </span>
             <span className="@[540px]/card:hidden">
-              {timeRange === '7d' ? '最近7天' : timeRange === '30d' ? '最近30天' : '最近90天'}
+              {timeRange === '7d'
+                ? '最近7天'
+                : timeRange === '30d'
+                  ? '最近30天'
+                  : '最近90天'}
             </span>
           </CardDescription>
         </div>
@@ -141,15 +153,21 @@ export function ActivityChart() {
         {/* 统计摘要 */}
         <div className="mb-6 grid grid-cols-3 gap-4 text-center">
           <div>
-            <div className="text-2xl font-bold text-purple-600">{totals.bazi}</div>
+            <div className="text-2xl font-bold text-purple-600">
+              {totals.bazi}
+            </div>
             <div className="text-xs text-muted-foreground">八字分析</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-amber-600">{totals.fengshui}</div>
+            <div className="text-2xl font-bold text-amber-600">
+              {totals.fengshui}
+            </div>
             <div className="text-xs text-muted-foreground">风水分析</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-blue-600">{totals.aiChat}</div>
+            <div className="text-2xl font-bold text-blue-600">
+              {totals.aiChat}
+            </div>
             <div className="text-xs text-muted-foreground">AI对话</div>
           </div>
         </div>

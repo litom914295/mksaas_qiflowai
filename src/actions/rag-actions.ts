@@ -1,16 +1,16 @@
 'use server';
 
-import { auth } from '@/lib/auth';
-import { 
-  RAGGenerator, 
-  quickRAG,
-  type RAGOptions,
-  type RAGResponse,
-  type DocumentCategoryType,
-  type SearchResult 
-} from '@/lib/rag';
 import { db } from '@/db';
 import { user } from '@/db/schema';
+import { auth } from '@/lib/auth';
+import {
+  type DocumentCategoryType,
+  RAGGenerator,
+  type RAGOptions,
+  type RAGResponse,
+  type SearchResult,
+  quickRAG,
+} from '@/lib/rag';
 import { eq } from 'drizzle-orm';
 
 /**
@@ -82,7 +82,7 @@ export async function ragChatAction({
 
     // 3. 执行 RAG 生成
     let response: RAGResponse;
-    
+
     if (enableRAG) {
       // RAG 增强生成
       const generator = new RAGGenerator();
@@ -157,11 +157,7 @@ export async function quickRAGAction({
     }
 
     // 执行快速 RAG
-    const response = await quickRAG(
-      query,
-      session.user.id,
-      { topK, category }
-    );
+    const response = await quickRAG(query, session.user.id, { topK, category });
 
     return {
       success: true,

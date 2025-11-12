@@ -1,29 +1,35 @@
 /**
  * Phase 8: 月度运势主页面
- * 
+ *
  * 路由: /qiflow/monthly-fortune
- * 
+ *
  * 功能：
  * 1. 显示当月运势卡片（未生成则显示生成按钮）
  * 2. 显示历史运势列表
  * 3. Pro 会员专享提示
  */
 
-import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/auth/session';
-import { getUserPlan } from '@/lib/user-plan';
-import { getDb } from '@/db';
-import { baziCalculations } from '@/db/schema';
-import { eq, desc } from 'drizzle-orm';
+import { getMyMonthlyFortunes } from '@/actions/qiflow/generate-monthly-fortune';
 import { MonthlyFortuneCard } from '@/components/qiflow/monthly-fortune-card';
 import { MonthlyFortuneHistory } from '@/components/qiflow/monthly-fortune-history';
-import { getMyMonthlyFortunes } from '@/actions/qiflow/generate-monthly-fortune';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { getDb } from '@/db';
+import { baziCalculations } from '@/db/schema';
+import { getSession } from '@/lib/auth/session';
+import { getUserPlan } from '@/lib/user-plan';
+import { desc, eq } from 'drizzle-orm';
 import { Crown, Info } from 'lucide-react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 // ==================== Metadata ====================
 
@@ -37,7 +43,7 @@ export const metadata: Metadata = {
 export default async function MonthlyFortunePage() {
   // 获取当前用户
   const session = await getSession();
-  
+
   if (!session?.user) {
     redirect('/auth/signin?callbackUrl=/qiflow/monthly-fortune');
   }
@@ -46,10 +52,11 @@ export default async function MonthlyFortunePage() {
 
   // 获取用户计划信息
   const userPlan = await getUserPlan(user.id);
-  
+
   // 检查是否为 Pro 会员（终身或订阅）
-  const isPro = userPlan?.type === 'LIFETIME' || userPlan?.type === 'SUBSCRIPTION';
-  
+  const isPro =
+    userPlan?.type === 'LIFETIME' || userPlan?.type === 'SUBSCRIPTION';
+
   console.log('[monthly-fortune] User plan check:', {
     userId: user.id,
     planType: userPlan?.type,
@@ -114,7 +121,8 @@ export default async function MonthlyFortunePage() {
                     <span className="text-xs text-primary">✓</span>
                   </div>
                   <div>
-                    <strong>每月自动生成</strong> - Pro 会员每月 1 日自动生成新运势
+                    <strong>每月自动生成</strong> - Pro 会员每月 1
+                    日自动生成新运势
                   </div>
                 </li>
               </ul>
@@ -128,9 +136,7 @@ export default async function MonthlyFortunePage() {
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="flex-1">
-                <Link href="/qiflow/bazi">
-                  返回八字排盘
-                </Link>
+                <Link href="/qiflow/bazi">返回八字排盘</Link>
               </Button>
             </div>
           </CardContent>
@@ -145,9 +151,9 @@ export default async function MonthlyFortunePage() {
     where: eq(baziCalculations.userId, user.id),
     orderBy: [desc(baziCalculations.createdAt)],
   });
-  
+
   const baziChart = latestBazi?.result as any;
-  
+
   console.log('[monthly-fortune] Bazi data check:', {
     userId: user.id,
     hasBazi: !!latestBazi,
@@ -157,7 +163,7 @@ export default async function MonthlyFortunePage() {
 
   // 获取历史运势
   const fortunesResult = await getMyMonthlyFortunes({ limit: 10 });
-  const fortunes = fortunesResult.success ? (fortunesResult.data || []) : [];
+  const fortunes = fortunesResult.success ? fortunesResult.data || [] : [];
 
   // 当前年月
   const now = new Date();
@@ -197,8 +203,11 @@ export default async function MonthlyFortunePage() {
             <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
             <div className="flex-1">
               <p className="text-sm text-blue-900">
-                请先完成 <Link href="/qiflow/bazi" className="underline font-medium">八字排盘</Link>，
-                才能生成个性化的月度运势分析。
+                请先完成{' '}
+                <Link href="/qiflow/bazi" className="underline font-medium">
+                  八字排盘
+                </Link>
+                ， 才能生成个性化的月度运势分析。
               </p>
             </div>
           </CardContent>
@@ -211,15 +220,19 @@ export default async function MonthlyFortunePage() {
           year={currentYear}
           month={currentMonth}
           baziChart={baziChart || undefined}
-          fortune={currentFortune ? {
-            id: currentFortune.id,
-            status: currentFortune.status,
-            overallScore: currentFortune.overallScore || 0,
-            luckyDirections: currentFortune.luckyDirections || [],
-            luckyColors: currentFortune.luckyColors || [],
-            luckyNumbers: currentFortune.luckyNumbers || [],
-            generatedAt: currentFortune.generatedAt,
-          } : undefined}
+          fortune={
+            currentFortune
+              ? {
+                  id: currentFortune.id,
+                  status: currentFortune.status,
+                  overallScore: currentFortune.overallScore || 0,
+                  luckyDirections: currentFortune.luckyDirections || [],
+                  luckyColors: currentFortune.luckyColors || [],
+                  luckyNumbers: currentFortune.luckyNumbers || [],
+                  generatedAt: currentFortune.generatedAt,
+                }
+              : undefined
+          }
         />
 
         {/* 功能说明卡片 */}
@@ -245,8 +258,9 @@ export default async function MonthlyFortunePage() {
             <div>
               <h4 className="font-semibold mb-2">积分消耗</h4>
               <p className="text-muted-foreground leading-relaxed">
-                每次生成月度运势消耗 <strong className="text-primary">30 积分</strong>。
-                Pro 会员每月 1 日会自动生成当月运势，无需手动操作。
+                每次生成月度运势消耗{' '}
+                <strong className="text-primary">30 积分</strong>。 Pro 会员每月
+                1 日会自动生成当月运势，无需手动操作。
               </p>
             </div>
           </CardContent>

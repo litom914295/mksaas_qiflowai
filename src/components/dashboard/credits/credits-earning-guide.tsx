@@ -13,6 +13,7 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
 import {
   ArrowRightIcon,
   CalendarCheckIcon,
@@ -24,7 +25,6 @@ import {
   TrophyIcon,
   UserPlusIcon,
 } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 
 interface CreditsEarningGuideProps {
   className?: string;
@@ -358,14 +358,20 @@ export function CreditsEarningGuide({ className }: CreditsEarningGuideProps) {
 
             {/* 下一个里程碑预览 */}
             {progressData.streak.nextMilestone &&
-              !progressData.streak.milestones[progressData.streak.milestones.length - 1].achieved && (
+              !progressData.streak.milestones[
+                progressData.streak.milestones.length - 1
+              ].achieved && (
                 <div className="bg-gradient-to-r from-primary/10 to-purple-100 border border-primary/30 rounded-lg p-4">
                   <div className="flex items-start gap-3">
                     <TrophyIcon className="h-5 w-5 text-primary mt-0.5" />
                     <div className="flex-1 space-y-2">
                       <h4 className="text-sm font-medium">下一个里程碑</h4>
                       <p className="text-sm text-muted-foreground">
-                        再签到 <span className="font-semibold text-primary">{progressData.streak.nextMilestone.daysLeft}</span> 天即可获得{' '}
+                        再签到{' '}
+                        <span className="font-semibold text-primary">
+                          {progressData.streak.nextMilestone.daysLeft}
+                        </span>{' '}
+                        天即可获得{' '}
                         <span className="font-semibold text-primary">
                           {progressData.streak.nextMilestone.reward}
                         </span>
@@ -387,77 +393,79 @@ export function CreditsEarningGuide({ className }: CreditsEarningGuideProps) {
             <GiftIcon className="h-4 w-4" />
             更多获取方式
           </h3>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {earningMethods.map((method) => {
-            const Icon = method.icon;
-            return (
-              <div
-                key={method.id}
-                className="relative border rounded-lg p-4 space-y-3 hover:shadow-md transition-shadow"
-              >
-                {/* Status indicator */}
-                <div className="absolute top-3 right-3">
-                  <div
-                    className={cn(
-                      'w-2 h-2 rounded-full',
-                      getStatusColor(method.status)
-                    )}
-                  />
-                </div>
-
-                {/* Icon and Title */}
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="bg-primary/10 p-2 rounded-lg">
-                      <Icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-medium text-sm">{method.title}</h4>
-                      <Badge
-                        variant="secondary"
-                        className={cn(
-                          'text-xs px-2 py-0.5',
-                          getDifficultyColor(method.difficulty)
-                        )}
-                      >
-                        {getDifficultyText(method.difficulty)}
-                      </Badge>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {method.description}
-                  </p>
-                </div>
-
-                {/* Credits amount */}
-                <div className="flex items-center justify-between">
-                  <div className="text-sm">
-                    <span className="text-muted-foreground">可获得: </span>
-                    <span className="font-semibold text-primary">
-                      {method.credits} 积分
-                    </span>
-                  </div>
-                </div>
-
-                {/* Action button */}
-                <Button
-                  variant={method.status === 'active' ? 'default' : 'secondary'}
-                  size="sm"
-                  className="w-full"
-                  disabled={method.status !== 'active'}
-                  onClick={() => {
-                    if (method.action.href.startsWith('/')) {
-                      window.location.href = method.action.href;
-                    }
-                  }}
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {earningMethods.map((method) => {
+              const Icon = method.icon;
+              return (
+                <div
+                  key={method.id}
+                  className="relative border rounded-lg p-4 space-y-3 hover:shadow-md transition-shadow"
                 >
-                  {method.action.label}
-                  <ArrowRightIcon className="h-3 w-3 ml-2" />
-                </Button>
-              </div>
-            );
-          })}
-        </div>
+                  {/* Status indicator */}
+                  <div className="absolute top-3 right-3">
+                    <div
+                      className={cn(
+                        'w-2 h-2 rounded-full',
+                        getStatusColor(method.status)
+                      )}
+                    />
+                  </div>
+
+                  {/* Icon and Title */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="bg-primary/10 p-2 rounded-lg">
+                        <Icon className="h-4 w-4 text-primary" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-medium text-sm">{method.title}</h4>
+                        <Badge
+                          variant="secondary"
+                          className={cn(
+                            'text-xs px-2 py-0.5',
+                            getDifficultyColor(method.difficulty)
+                          )}
+                        >
+                          {getDifficultyText(method.difficulty)}
+                        </Badge>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {method.description}
+                    </p>
+                  </div>
+
+                  {/* Credits amount */}
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm">
+                      <span className="text-muted-foreground">可获得: </span>
+                      <span className="font-semibold text-primary">
+                        {method.credits} 积分
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Action button */}
+                  <Button
+                    variant={
+                      method.status === 'active' ? 'default' : 'secondary'
+                    }
+                    size="sm"
+                    className="w-full"
+                    disabled={method.status !== 'active'}
+                    onClick={() => {
+                      if (method.action.href.startsWith('/')) {
+                        window.location.href = method.action.href;
+                      }
+                    }}
+                  >
+                    {method.action.label}
+                    <ArrowRightIcon className="h-3 w-3 ml-2" />
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Tips section */}

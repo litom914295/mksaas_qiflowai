@@ -3,10 +3,10 @@ import { getCreditBalanceAction } from '@/actions/get-credit-balance';
 import { getDb } from '@/db';
 import { baziCalculations } from '@/db/schema';
 import { auth } from '@/lib/auth';
+import { type EnhancedBirthData, computeBaziSmart } from '@/lib/bazi';
+import { buildLegacyBaziResponse } from '@/lib/bazi/legacy-response';
 import { computeBaziWithCache } from '@/lib/cache/bazi-cache';
 import { tryMarkActivation } from '@/lib/growth/activation';
-import { computeBaziSmart, type EnhancedBirthData } from '@/lib/bazi';
-import { buildLegacyBaziResponse } from '@/lib/bazi/legacy-response';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -19,16 +19,8 @@ const BaziRequestSchema = z.object({
   }),
   birthCity: z.string().optional(),
   calendarType: z.enum(['solar', 'lunar']).default('solar'),
-  longitude: z
-    .number()
-    .min(-180, '��������ȷ')
-    .max(180, '��������ȷ')
-    .optional(),
-  latitude: z
-    .number()
-    .min(-90, 'γ�ȱ�������')
-    .max(90, 'γ�ȱ�������')
-    .optional(),
+  longitude: z.number().min(-180, '��������ȷ').max(180, '��������ȷ').optional(),
+  latitude: z.number().min(-90, 'γ�ȱ�������').max(90, 'γ�ȱ�������').optional(),
 });
 
 type BaziRequest = z.infer<typeof BaziRequestSchema>;
@@ -212,7 +204,6 @@ export async function GET(req: NextRequest) {
     version: '1.0.0',
     methods: ['POST'],
     requiredCredits: 10,
-    description:
-      '���ڰ������������������������Ը���ҵ�����ˡ������ȷ������ϸ���',
+    description: '���ڰ������������������������Ը���ҵ�����ˡ������ȷ������ϸ���',
   });
 }

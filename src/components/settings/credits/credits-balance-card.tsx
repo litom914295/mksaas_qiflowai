@@ -196,7 +196,9 @@ export default function CreditsBalanceCard() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-semibold">{t('title')}</CardTitle>
+            <CardTitle className="text-lg font-semibold">
+              {t('title')}
+            </CardTitle>
             <CardDescription>{t('description')}</CardDescription>
           </div>
           <Button
@@ -274,9 +276,7 @@ export default function CreditsBalanceCard() {
                   onClick={() => localeRouter.push(Routes.Pricing)}
                 >
                   <div className="text-lg font-semibold">{amount}</div>
-                  <div className="text-xs text-muted-foreground">
-                    积分
-                  </div>
+                  <div className="text-xs text-muted-foreground">积分</div>
                 </Button>
               ))}
             </div>
@@ -285,7 +285,9 @@ export default function CreditsBalanceCard() {
       </CardContent>
       <CardFooter className="px-6 py-4 flex justify-between items-center bg-muted/30 rounded-none border-t">
         {/* Expiring credits warning */}
-        {!isLoadingStats && creditStats && creditStats.expiringCredits.amount > 0 ? (
+        {!isLoadingStats &&
+        creditStats &&
+        creditStats.expiringCredits.amount > 0 ? (
           <div className="flex items-center gap-2 text-sm">
             <span className="text-amber-600">⚠️</span>
             <span className="text-muted-foreground">

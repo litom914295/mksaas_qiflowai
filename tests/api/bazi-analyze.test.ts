@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, test } from 'vitest';
 
 describe('API: 八字分析 - /api/bazi/analyze', () => {
   const validRequest = {
@@ -13,7 +13,7 @@ describe('API: 八字分析 - /api/bazi/analyze', () => {
       // Mock API handler
       const mockAnalyze = async (body: typeof validRequest) => {
         const datetime = new Date(body.datetime);
-        
+
         return {
           success: true,
           data: {
@@ -99,27 +99,27 @@ describe('API: 八字分析 - /api/bazi/analyze', () => {
       // 验证响应结构
       expect(result.success).toBe(true);
       expect(result.data).toBeDefined();
-      
+
       // 验证四柱
       expect(result.data.chart.pillars).toHaveProperty('year');
       expect(result.data.chart.pillars).toHaveProperty('month');
       expect(result.data.chart.pillars).toHaveProperty('day');
       expect(result.data.chart.pillars).toHaveProperty('hour');
-      
+
       // 验证日主
       expect(result.data.chart.dayMaster).toMatch(/^[甲乙丙丁戊己庚辛壬癸]$/);
-      
+
       // 验证五行
       expect(result.data.wuxing.elements).toHaveProperty('木');
       expect(result.data.wuxing.elements).toHaveProperty('火');
       expect(result.data.wuxing.elements).toHaveProperty('土');
       expect(result.data.wuxing.elements).toHaveProperty('金');
       expect(result.data.wuxing.elements).toHaveProperty('水');
-      
+
       // 验证用神
       expect(result.data.yongshen.primary.element).toMatch(/^[木火土金水]$/);
       expect(result.data.yongshen.recommendations).toBeInstanceOf(Array);
-      
+
       // 验证格局
       expect(result.data.pattern.primary).toBeTruthy();
       expect(result.data.pattern.strength).toBeGreaterThanOrEqual(0);
@@ -150,7 +150,7 @@ describe('API: 八字分析 - /api/bazi/analyze', () => {
 
       for (const timezone of timezones) {
         const request = { ...validRequest, timezone };
-        
+
         const mockAnalyze = async (body: typeof request) => ({
           success: true,
           data: {
@@ -247,7 +247,7 @@ describe('API: 八字分析 - /api/bazi/analyze', () => {
     test('未来日期应可以处理（预测场景）', () => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1);
-      
+
       const futureRequest = {
         datetime: futureDate.toISOString().slice(0, 16),
         gender: 'male',
@@ -297,8 +297,32 @@ describe('API: 八字分析 - /api/bazi/analyze', () => {
 
   describe('POST - 数据质量验证', () => {
     test('返回的天干地支应在有效范围内', async () => {
-      const heavenlyStems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
-      const earthlyBranches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+      const heavenlyStems = [
+        '甲',
+        '乙',
+        '丙',
+        '丁',
+        '戊',
+        '己',
+        '庚',
+        '辛',
+        '壬',
+        '癸',
+      ];
+      const earthlyBranches = [
+        '子',
+        '丑',
+        '寅',
+        '卯',
+        '辰',
+        '巳',
+        '午',
+        '未',
+        '申',
+        '酉',
+        '戌',
+        '亥',
+      ];
 
       const mockAnalyze = async () => ({
         success: true,
@@ -316,7 +340,7 @@ describe('API: 八字分析 - /api/bazi/analyze', () => {
 
       const result = await mockAnalyze();
       const { heavenlyStem, earthlyBranch } = result.data.chart.pillars.day;
-      
+
       expect(heavenlyStems).toContain(heavenlyStem);
       expect(earthlyBranches).toContain(earthlyBranch);
     });
@@ -340,7 +364,7 @@ describe('API: 八字分析 - /api/bazi/analyze', () => {
       const result = await mockAnalyze();
       const { elements } = result.data.wuxing;
       const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
-      
+
       // 五行总和应该是100%左右（允许误差范围）
       expect(total).toBeGreaterThanOrEqual(95);
       expect(total).toBeLessThanOrEqual(105);
@@ -359,7 +383,7 @@ describe('API: 八字分析 - /api/bazi/analyze', () => {
 
       const result = await mockAnalyze();
       const { strength } = result.data.pattern;
-      
+
       expect(strength).toBeGreaterThanOrEqual(0);
       expect(strength).toBeLessThanOrEqual(100);
     });

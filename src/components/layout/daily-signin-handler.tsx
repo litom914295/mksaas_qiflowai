@@ -33,7 +33,7 @@ export function DailySigninHandler() {
         // 关键修复：先检查服务器是否已签到，避免重复签到
         const checkRes = await fetch('/api/credits/daily-signin/status');
         const checkData = await checkRes.json();
-        
+
         if (checkData?.success && checkData?.data?.hasSignedToday) {
           console.log('[自动签到] 今日已签到，跳过');
           localStorage.setItem(key, today);

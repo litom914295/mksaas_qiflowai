@@ -3,8 +3,8 @@
  * 测试价格格式化和日期格式化功能
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { formatPrice, formatDate } from '@/lib/formatter';
+import { formatDate, formatPrice } from '@/lib/formatter';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('Formatter 测试', () => {
   describe('formatPrice - 价格格式化', () => {

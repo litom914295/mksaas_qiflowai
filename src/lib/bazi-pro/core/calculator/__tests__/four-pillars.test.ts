@@ -385,7 +385,20 @@ describe('四柱计算集成测试', () => {
       expect(uniqueBranches.size).toBe(12);
 
       // 验证地支顺序正确
-      const expectedOrder = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+      const expectedOrder = [
+        '子',
+        '丑',
+        '寅',
+        '卯',
+        '辰',
+        '巳',
+        '午',
+        '未',
+        '申',
+        '酉',
+        '戌',
+        '亥',
+      ];
       pillars.forEach((branch, index) => {
         expect(expectedOrder).toContain(branch);
       });
@@ -546,8 +559,8 @@ describe('四柱计算集成测试', () => {
           year: 2000 + (i % 24),
           month: (i % 12) + 1,
           day: (i % 28) + 1,
-          hour: (i % 24),
-          minute: (i % 60),
+          hour: i % 24,
+          minute: i % 60,
           isLunar: false,
         });
       }
@@ -568,8 +581,8 @@ describe('四柱计算集成测试', () => {
           year: 2000 + (i % 24),
           month: (i % 12) + 1,
           day: (i % 28) + 1,
-          hour: (i % 24),
-          minute: (i % 60),
+          hour: i % 24,
+          minute: i % 60,
           longitude: 70 + (i % 100),
           latitude: 20 + (i % 50),
           useTrueSolarTime: true,

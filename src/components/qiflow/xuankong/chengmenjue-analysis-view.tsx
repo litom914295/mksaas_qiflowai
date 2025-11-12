@@ -248,7 +248,9 @@ export function ChengmenjueAnalysisView({
                           <p className="text-xs text-muted-foreground mb-1">
                             效果
                           </p>
-                          <p className="text-sm text-green-700">{gate.effect}</p>
+                          <p className="text-sm text-green-700">
+                            {gate.effect}
+                          </p>
                         </div>
                       </div>
                     </div>

@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Calendar,
-  MapPin,
-  Download,
-  Share2,
-  Sparkles,
-  CheckCircle2,
-  Clock,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/use-toast';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  Calendar,
+  CheckCircle2,
+  Clock,
+  Download,
+  MapPin,
+  Share2,
+  Sparkles,
+} from 'lucide-react';
+import { useState } from 'react';
 
 type ReportOutput = {
   bazi: {
@@ -60,8 +60,8 @@ type ReportOutput = {
 type Report = {
   id: string;
   userId: string;
-  reportType: "basic" | "essential";
-  status: "generating" | "completed" | "failed";
+  reportType: 'basic' | 'essential';
+  status: 'generating' | 'completed' | 'failed';
   input: Record<string, unknown>;
   output: ReportOutput | null;
   creditsUsed: number;
@@ -78,25 +78,25 @@ type Props = {
 };
 
 const THEME_LABELS: Record<string, string> = {
-  career: "事业财运",
-  relationship: "感情姻缘",
-  health: "健康养生",
-  education: "学业智慧",
-  family: "家庭子女",
+  career: '事业财运',
+  relationship: '感情姻缘',
+  health: '健康养生',
+  education: '学业智慧',
+  family: '家庭子女',
 };
 
 const THEME_ICONS: Record<string, string> = {
-  career: "💼",
-  relationship: "💖",
-  health: "🌿",
-  education: "📚",
-  family: "🏡",
+  career: '💼',
+  relationship: '💖',
+  health: '🌿',
+  education: '📚',
+  family: '🏡',
 };
 
 export function ReportDetailView({ report, userId }: Props) {
   const { toast } = useToast();
   const [activeTheme, setActiveTheme] = useState(
-    report.output?.themes[0]?.themeId || ""
+    report.output?.themes[0]?.themeId || ''
   );
 
   if (!report.output) {
@@ -111,7 +111,7 @@ export function ReportDetailView({ report, userId }: Props) {
   const input = report.input as {
     birthDate: string;
     birthHour: string;
-    gender: "male" | "female";
+    gender: 'male' | 'female';
     location: string;
   };
 
@@ -120,16 +120,16 @@ export function ReportDetailView({ report, userId }: Props) {
     const shareUrl = `${window.location.origin}/reports/${report.id}`;
     navigator.clipboard.writeText(shareUrl);
     toast({
-      title: "链接已复制",
-      description: "报告链接已复制到剪贴板",
+      title: '链接已复制',
+      description: '报告链接已复制到剪贴板',
     });
   }
 
   // PDF 导出 (TODO: 实际实现需要后端 API)
   function handleExport() {
     toast({
-      title: "导出功能开发中",
-      description: "PDF 导出功能即将上线，敬请期待",
+      title: '导出功能开发中',
+      description: 'PDF 导出功能即将上线，敬请期待',
     });
   }
 
@@ -157,7 +157,7 @@ export function ReportDetailView({ report, userId }: Props) {
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
-                {new Date(report.createdAt).toLocaleDateString("zh-CN")}
+                {new Date(report.createdAt).toLocaleDateString('zh-CN')}
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
@@ -195,7 +195,9 @@ export function ReportDetailView({ report, userId }: Props) {
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">性别</p>
-              <p className="font-medium">{input.gender === "male" ? "男" : "女"}</p>
+              <p className="font-medium">
+                {input.gender === 'male' ? '男' : '女'}
+              </p>
             </div>
             <div className="flex items-start gap-1">
               <MapPin className="w-4 h-4 mt-1 text-muted-foreground" />
@@ -218,10 +220,10 @@ export function ReportDetailView({ report, userId }: Props) {
           <CardContent>
             <div className="grid grid-cols-4 gap-4">
               {[
-                { label: "年柱", pillar: bazi.yearPillar },
-                { label: "月柱", pillar: bazi.monthPillar },
-                { label: "日柱", pillar: bazi.dayPillar },
-                { label: "时柱", pillar: bazi.hourPillar },
+                { label: '年柱', pillar: bazi.yearPillar },
+                { label: '月柱', pillar: bazi.monthPillar },
+                { label: '日柱', pillar: bazi.dayPillar },
+                { label: '时柱', pillar: bazi.hourPillar },
               ].map((item, index) => (
                 <div
                   key={index}
@@ -256,15 +258,15 @@ export function ReportDetailView({ report, userId }: Props) {
                       />
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      {element === "wood"
-                        ? "木"
-                        : element === "fire"
-                          ? "火"
-                          : element === "earth"
-                            ? "土"
-                            : element === "metal"
-                              ? "金"
-                              : "水"}
+                      {element === 'wood'
+                        ? '木'
+                        : element === 'fire'
+                          ? '火'
+                          : element === 'earth'
+                            ? '土'
+                            : element === 'metal'
+                              ? '金'
+                              : '水'}
                       : {value}
                     </p>
                   </div>
@@ -294,11 +296,11 @@ export function ReportDetailView({ report, userId }: Props) {
                   <p className="text-sm text-muted-foreground mb-1">吉凶</p>
                   <Badge
                     className={
-                      flyingStar.fortuneLevel === "吉"
-                        ? "bg-green-600"
-                        : flyingStar.fortuneLevel === "凶"
-                          ? "bg-red-600"
-                          : "bg-yellow-600"
+                      flyingStar.fortuneLevel === '吉'
+                        ? 'bg-green-600'
+                        : flyingStar.fortuneLevel === '凶'
+                          ? 'bg-red-600'
+                          : 'bg-yellow-600'
                     }
                   >
                     {flyingStar.fortuneLevel}
@@ -400,7 +402,9 @@ export function ReportDetailView({ report, userId }: Props) {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">报告质量评分</p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  报告质量评分
+                </p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-bold text-purple-900">
                     {metadata.qualityScore}
@@ -422,7 +426,8 @@ export function ReportDetailView({ report, userId }: Props) {
           <CardContent className="pt-6">
             <p className="text-xs text-yellow-800 leading-relaxed">
               <strong>免责声明：</strong>
-              本报告由 AI 根据传统命理学知识生成，仅供参考和娱乐。请理性看待，不应作为重大决策的唯一依据。
+              本报告由 AI
+              根据传统命理学知识生成，仅供参考和娱乐。请理性看待，不应作为重大决策的唯一依据。
               命运掌握在自己手中，积极努力才是成功的关键。本平台不对报告内容的准确性或由此产生的任何后果承担责任。
             </p>
           </CardContent>

@@ -3,7 +3,7 @@
  * 基于用户八字特征（五行、年龄、性别）智能推荐最适合的 3 个主题
  */
 
-import type { ThemeId } from "./reports/essential-report";
+import type { ThemeId } from './reports/essential-report';
 
 export type BaziElements = {
   wood: number;
@@ -15,7 +15,7 @@ export type BaziElements = {
 
 export type RecommendationInput = {
   birthDate: string; // YYYY-MM-DD
-  gender: "male" | "female";
+  gender: 'male' | 'female';
   elements: BaziElements;
 };
 
@@ -29,11 +29,11 @@ function calculateAge(birthDate: string): number {
   const today = new Date();
   let age = today.getFullYear() - birth.getFullYear();
   const monthDiff = today.getMonth() - birth.getMonth();
-  
+
   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
     age--;
   }
-  
+
   return age;
 }
 
@@ -92,7 +92,7 @@ function analyzeByElements(elements: BaziElements): ThemeScores {
   // 五行平衡检查
   const maxElement = Math.max(...Object.values(elements));
   const minElement = Math.min(...Object.values(elements));
-  
+
   if (maxElement - minElement <= 1) {
     // 五行平衡，所有主题加分
     Object.keys(scores).forEach((theme) => {
@@ -148,7 +148,7 @@ function analyzeByAge(birthDate: string): ThemeScores {
 /**
  * 基于性别分析推荐主题 (20% 权重)
  */
-function analyzeByGender(gender: "male" | "female"): ThemeScores {
+function analyzeByGender(gender: 'male' | 'female'): ThemeScores {
   const scores: ThemeScores = {
     career: 0,
     relationship: 0,
@@ -157,7 +157,7 @@ function analyzeByGender(gender: "male" | "female"): ThemeScores {
     family: 0,
   };
 
-  if (gender === "male") {
+  if (gender === 'male') {
     // 男性：事业、教育相对更重要
     scores.career += 10;
     scores.education += 5;
@@ -216,8 +216,8 @@ export function recommendThemes(input: RecommendationInput): ThemeId[] {
     .slice(0, 3)
     .map(([theme]) => theme as ThemeId);
 
-  console.log("[ThemeRec] Recommendation scores:", totalScores);
-  console.log("[ThemeRec] Recommended themes:", sortedThemes);
+  console.log('[ThemeRec] Recommendation scores:', totalScores);
+  console.log('[ThemeRec] Recommended themes:', sortedThemes);
 
   return sortedThemes;
 }
@@ -226,7 +226,7 @@ export function recommendThemes(input: RecommendationInput): ThemeId[] {
  * 获取默认推荐 (Control 组)
  */
 export function getDefaultThemes(): ThemeId[] {
-  return ["career", "relationship", "health"];
+  return ['career', 'relationship', 'health'];
 }
 
 /**
@@ -234,37 +234,38 @@ export function getDefaultThemes(): ThemeId[] {
  */
 export function explainRecommendation(input: RecommendationInput): string {
   const age = calculateAge(input.birthDate);
-  const dominantElement = Object.entries(input.elements)
-    .sort(([, a], [, b]) => b - a)[0][0];
+  const dominantElement = Object.entries(input.elements).sort(
+    ([, a], [, b]) => b - a
+  )[0][0];
 
   const elementNames: Record<string, string> = {
-    wood: "木",
-    fire: "火",
-    earth: "土",
-    metal: "金",
-    water: "水",
+    wood: '木',
+    fire: '火',
+    earth: '土',
+    metal: '金',
+    water: '水',
   };
 
   const elementDescriptions: Record<string, string> = {
-    wood: "木旺者适合发展事业，追求成长",
-    fire: "火旺者热情洋溢，感情丰富",
-    earth: "土旺者注重稳定，关注健康",
-    metal: "金旺者理性睿智，适合学习",
-    water: "水旺者灵活变通，重视家庭",
+    wood: '木旺者适合发展事业，追求成长',
+    fire: '火旺者热情洋溢，感情丰富',
+    earth: '土旺者注重稳定，关注健康',
+    metal: '金旺者理性睿智，适合学习',
+    water: '水旺者灵活变通，重视家庭',
   };
 
   let explanation = `根据您的八字特征，您的五行以${elementNames[dominantElement]}为主，${elementDescriptions[dominantElement]}。`;
 
   if (age < 25) {
-    explanation += "您正值青年，建议关注学业和事业发展。";
+    explanation += '您正值青年，建议关注学业和事业发展。';
   } else if (age < 35) {
-    explanation += "您处于成长期，事业上升和感情稳定是重点。";
+    explanation += '您处于成长期，事业上升和感情稳定是重点。';
   } else if (age < 45) {
-    explanation += "您已步入成熟期，事业和家庭并重。";
+    explanation += '您已步入成熟期，事业和家庭并重。';
   } else if (age < 60) {
-    explanation += "您处于稳定期，健康和家庭和睦最为重要。";
+    explanation += '您处于稳定期，健康和家庭和睦最为重要。';
   } else {
-    explanation += "您已进入晚年，健康和家庭幸福是首要关注。";
+    explanation += '您已进入晚年，健康和家庭幸福是首要关注。';
   }
 
   return explanation;

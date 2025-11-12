@@ -1,8 +1,8 @@
 /**
  * Phase 8: 月度运势详情页面
- * 
+ *
  * 路由: /qiflow/monthly-fortune/[id]
- * 
+ *
  * 功能：
  * 1. 显示完整的运势报告
  * 2. 飞星九宫格详细分析
@@ -10,14 +10,14 @@
  * 4. 化解方法建议
  */
 
-import { Metadata } from 'next';
-import { redirect, notFound } from 'next/navigation';
-import { getCurrentUser } from '@/lib/auth/session';
-import { MonthlyFortuneDetail } from '@/components/qiflow/monthly-fortune-detail';
 import { getMonthlyFortuneById } from '@/actions/qiflow/generate-monthly-fortune';
+import { MonthlyFortuneDetail } from '@/components/qiflow/monthly-fortune-detail';
 import { Button } from '@/components/ui/button';
+import { getCurrentUser } from '@/lib/auth/session';
 import { ArrowLeft } from 'lucide-react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound, redirect } from 'next/navigation';
 
 // ==================== 类型定义 ====================
 
@@ -29,9 +29,11 @@ interface PageProps {
 
 // ==================== Metadata ====================
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const result = await getMonthlyFortuneById(params.id);
-  
+
   if (!result.success || !result.data) {
     return {
       title: '运势未找到 - QiFlow AI',
@@ -39,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const fortune = result.data;
-  
+
   return {
     title: `${fortune.year}年${fortune.month}月运势 - QiFlow AI`,
     description: `基于玄空飞星和八字命理的个性化月度运势分析 - 综合评分 ${fortune.overallScore}`,
@@ -51,7 +53,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function MonthlyFortuneDetailPage({ params }: PageProps) {
   // 获取当前用户
   const user = await getCurrentUser();
-  
+
   if (!user) {
     redirect(`/auth/signin?callbackUrl=/qiflow/monthly-fortune/${params.id}`);
   }
@@ -87,20 +89,18 @@ export default async function MonthlyFortuneDetailPage({ params }: PageProps) {
             </Link>
           </Button>
         </div>
-        
+
         <div className="text-center py-12">
           <h2 className="text-2xl font-bold mb-4">
             {fortune.status === 'generating' ? '运势生成中...' : '运势生成失败'}
           </h2>
           <p className="text-muted-foreground mb-6">
-            {fortune.status === 'generating' 
-              ? '请稍候，预计需要 3-5 秒' 
+            {fortune.status === 'generating'
+              ? '请稍候，预计需要 3-5 秒'
               : '请返回列表重新生成'}
           </p>
           <Button asChild>
-            <Link href="/qiflow/monthly-fortune">
-              返回列表
-            </Link>
+            <Link href="/qiflow/monthly-fortune">返回列表</Link>
           </Button>
         </div>
       </div>

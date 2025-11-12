@@ -70,8 +70,8 @@ export function QiFlowStatsCards() {
             <Badge variant="outline" className="text-xs">
               {stats.baziAnalysisTrend >= 0 ? (
                 <>
-                  <IconTrendingUp className="h-3 w-3" />
-                  +{stats.baziAnalysisTrend}%
+                  <IconTrendingUp className="h-3 w-3" />+
+                  {stats.baziAnalysisTrend}%
                 </>
               ) : (
                 <>
@@ -107,8 +107,8 @@ export function QiFlowStatsCards() {
             <Badge variant="outline" className="text-xs">
               {stats.fengshuiAnalysisTrend >= 0 ? (
                 <>
-                  <IconTrendingUp className="h-3 w-3" />
-                  +{stats.fengshuiAnalysisTrend}%
+                  <IconTrendingUp className="h-3 w-3" />+
+                  {stats.fengshuiAnalysisTrend}%
                 </>
               ) : (
                 <>
@@ -144,8 +144,7 @@ export function QiFlowStatsCards() {
             <Badge variant="outline" className="text-xs">
               {stats.aiChatTrend >= 0 ? (
                 <>
-                  <IconTrendingUp className="h-3 w-3" />
-                  +{stats.aiChatTrend}%
+                  <IconTrendingUp className="h-3 w-3" />+{stats.aiChatTrend}%
                 </>
               ) : (
                 <>

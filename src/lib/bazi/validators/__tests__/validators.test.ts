@@ -4,21 +4,21 @@
  */
 
 import {
-  validateDateFormat,
-  validateTimeFormat,
-  validateDateValidity,
-  validateYearRange,
-  validateLongitude,
-  validateLatitude,
-  validateGender,
-  validateBirthInfo,
-  validateBaziAnalysisInput,
-  assertValidBirthInfo,
   assertValidBaziAnalysisInput,
-  safeParseNumber,
-  safeParseInt,
+  assertValidBirthInfo,
   normalizeDateString,
   normalizeTimeString,
+  safeParseInt,
+  safeParseNumber,
+  validateBaziAnalysisInput,
+  validateBirthInfo,
+  validateDateFormat,
+  validateDateValidity,
+  validateGender,
+  validateLatitude,
+  validateLongitude,
+  validateTimeFormat,
+  validateYearRange,
 } from '../index';
 
 import { ValidationError } from '../../errors';
@@ -219,7 +219,9 @@ describe('出生信息验证', () => {
       });
 
       expect(result.isValid).toBe(false);
-      expect(result.errors.some((e) => e.includes('无效的历法类型'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('无效的历法类型'))).toBe(
+        true
+      );
     });
   });
 
@@ -326,7 +328,7 @@ describe('数据解析工具', () => {
 
     test('无效数字返回默认值', () => {
       expect(safeParseNumber('invalid', 99)).toBe(99);
-      expect(safeParseNumber(NaN, 99)).toBe(99);
+      expect(safeParseNumber(Number.NaN, 99)).toBe(99);
       expect(safeParseNumber(undefined, 99)).toBe(99);
     });
 
@@ -346,7 +348,7 @@ describe('数据解析工具', () => {
 
     test('无效整数返回默认值', () => {
       expect(safeParseInt('invalid', 99)).toBe(99);
-      expect(safeParseInt(NaN, 99)).toBe(99);
+      expect(safeParseInt(Number.NaN, 99)).toBe(99);
     });
 
     test('范围限制', () => {
@@ -391,7 +393,10 @@ describe('边界条件测试', () => {
   });
 
   test('null 和 undefined', () => {
-    expect(validateBirthInfo({ date: undefined as any, calendar: 'gregorian' }).isValid).toBe(false);
+    expect(
+      validateBirthInfo({ date: undefined as any, calendar: 'gregorian' })
+        .isValid
+    ).toBe(false);
   });
 
   test('特殊日期: 闰年2月29日', () => {

@@ -1,9 +1,9 @@
 import { getDb } from '@/db';
 import { baziCalculations } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth';
+import { type EnhancedBirthData, computeBaziSmart } from '@/lib/bazi';
 import { computeBaziWithCache } from '@/lib/cache/bazi-cache';
 import { tryMarkActivation } from '@/lib/growth/activation';
-import { type EnhancedBirthData, computeBaziSmart } from '@/lib/bazi';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 

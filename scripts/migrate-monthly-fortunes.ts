@@ -1,6 +1,6 @@
 /**
  * Phase 8: 月度运势表迁移脚本
- * 
+ *
  * 直接执行 SQL 创建 monthly_fortunes 表
  */
 
@@ -45,7 +45,7 @@ async function migrate() {
 
     // 2. 创建索引
     console.log('2️⃣ 创建索引...');
-    
+
     await db.execute(sql`
       CREATE INDEX IF NOT EXISTS "monthly_fortunes_user_id_idx" 
       ON "monthly_fortunes"("user_id")
@@ -96,7 +96,7 @@ async function migrate() {
         WHERE table_name = 'monthly_fortunes'
       )
     `);
-    
+
     if (result.rows[0]?.exists) {
       console.log('✅ monthly_fortunes 表验证成功\n');
     } else {
@@ -111,15 +111,16 @@ async function migrate() {
       WHERE table_name = 'monthly_fortunes'
       ORDER BY ordinal_position
     `);
-    
+
     console.log('\n字段列表：');
     columnsResult.rows.forEach((row: any) => {
-      console.log(`   - ${row.column_name}: ${row.data_type} ${row.is_nullable === 'NO' ? '(NOT NULL)' : ''}`);
+      console.log(
+        `   - ${row.column_name}: ${row.data_type} ${row.is_nullable === 'NO' ? '(NOT NULL)' : ''}`
+      );
     });
 
     console.log('\n🎉 迁移完成！\n');
     process.exit(0);
-
   } catch (error) {
     console.error('❌ 迁移失败:', error);
     process.exit(1);

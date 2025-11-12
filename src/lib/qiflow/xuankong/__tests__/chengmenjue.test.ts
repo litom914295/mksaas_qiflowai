@@ -1,16 +1,16 @@
 import { describe, expect, test } from 'vitest';
 import {
-  analyzeChengmenjue,
+  CHENGMEN_PRINCIPLES,
+  type ChengmenMethod,
+  type ChengmenType,
   analyzeChengmenTimeline,
+  analyzeChengmenjue,
   checkSpecialChengmenCombinations,
   generateChengmenActivationMethods,
   generateChengmenTaboos,
   identifyChengmenPositions,
-  CHENGMEN_PRINCIPLES,
-  type ChengmenType,
-  type ChengmenMethod,
 } from '../chengmenjue';
-import type { Plate, PalaceIndex, Mountain, Yun } from '../types';
+import type { Mountain, PalaceIndex, Plate, Yun } from '../types';
 
 // Helper function to create test plates
 function createTestPlate(
@@ -645,9 +645,9 @@ describe('城门诀测试套件', () => {
       );
 
       // 可能同时存在常规城门和七星打劫城门
-      expect(chengmenPositions.length + specialCombinations.length).toBeGreaterThan(
-        0
-      );
+      expect(
+        chengmenPositions.length + specialCombinations.length
+      ).toBeGreaterThan(0);
     });
 
     test('案例3.4：多元龙七星打劫城门检测', () => {
@@ -814,11 +814,15 @@ describe('城门诀测试套件', () => {
       expect(methods.length).toBeGreaterThan(0);
 
       // 应该包含动作相关建议
-      const hasDongzuo = methods.some((m) => m.includes('活动') || m.includes('动'));
+      const hasDongzuo = methods.some(
+        (m) => m.includes('活动') || m.includes('动')
+      );
       expect(hasDongzuo).toBe(true);
 
       // 应该包含人丁相关建议
-      const hasDing = methods.some((m) => m.includes('人丁') || m.includes('健康'));
+      const hasDing = methods.some(
+        (m) => m.includes('人丁') || m.includes('健康')
+      );
       expect(hasDing).toBe(true);
     });
 
@@ -839,7 +843,9 @@ describe('城门诀测试套件', () => {
       expect(hasShezhì).toBe(true);
 
       // 应该包含贵人相关建议
-      const hasGui = methods.some((m) => m.includes('贵人') || m.includes('文昌'));
+      const hasGui = methods.some(
+        (m) => m.includes('贵人') || m.includes('文昌')
+      );
       expect(hasGui).toBe(true);
     });
 
@@ -854,7 +860,9 @@ describe('城门诀测试套件', () => {
       expect(methods.length).toBeGreaterThan(0);
 
       // 应该包含事业相关建议
-      const hasLu = methods.some((m) => m.includes('事业') || m.includes('职位'));
+      const hasLu = methods.some(
+        (m) => m.includes('事业') || m.includes('职位')
+      );
       expect(hasLu).toBe(true);
     });
 
@@ -1089,7 +1097,17 @@ describe('城门诀测试套件', () => {
         expect(pos.description.length).toBeGreaterThan(0);
 
         // 描述应该包含宫位名称
-        const baguaNames = ['坎', '坤', '震', '巽', '中', '乾', '兑', '艮', '离'];
+        const baguaNames = [
+          '坎',
+          '坤',
+          '震',
+          '巽',
+          '中',
+          '乾',
+          '兑',
+          '艮',
+          '离',
+        ];
         const hasBagua = baguaNames.some((name) =>
           pos.description.includes(name)
         );

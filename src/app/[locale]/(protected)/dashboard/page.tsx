@@ -10,11 +10,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
-// 新增优化组件
-import { QiFlowStatsCardsServer } from '@/components/dashboard/qiflow-stats-cards-server';
+import { EnhancedSignInCalendar } from '@/components/daily-signin/enhanced-signin-calendar';
 import { ActivityChart } from '@/components/dashboard/activity-chart';
 import { EnhancedCreditsEarningGuide } from '@/components/dashboard/credits/enhanced-credits-earning-guide';
-import { EnhancedSignInCalendar } from '@/components/daily-signin/enhanced-signin-calendar';
+// 新增优化组件
+import { QiFlowStatsCardsServer } from '@/components/dashboard/qiflow-stats-cards-server';
 
 // 注意：骨架屏组件已移动到 @/components/dashboard/dashboard-skeleton.tsx
 

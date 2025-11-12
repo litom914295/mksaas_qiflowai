@@ -1,36 +1,40 @@
 /**
  * RAG 生成器 - RAGGenerator
- * 
+ *
  * 检索增强生成 (Retrieval-Augmented Generation)
  * 整合向量搜索和 LLM 生成
  */
 
-import { getSharedVectorSearchService, type SearchResult, type DocumentCategoryType } from './vector-search';
-import { getSharedEmbeddingService } from './embedding-service';
 import { db } from '@/db';
 import { ragRetrievalLogs } from '@/db/schema-knowledge';
 import OpenAI from 'openai';
+import { getSharedEmbeddingService } from './embedding-service';
+import {
+  type DocumentCategoryType,
+  type SearchResult,
+  getSharedVectorSearchService,
+} from './vector-search';
 
 export interface RAGOptions {
-  query: string;                        // 用户问题
-  userId: string;                       // 用户 ID
-  sessionId?: string;                   // 会话 ID（可选）
-  model?: string;                       // LLM 模型，默认 'deepseek-chat'
-  topK?: number;                        // 检索文档数，默认 5
-  category?: DocumentCategoryType;      // 文档类别过滤
-  temperature?: number;                 // 生成温度，默认 0.7
-  maxTokens?: number;                   // 最大 token 数，默认 1000
-  enableRAG?: boolean;                  // 是否启用 RAG，默认 true
+  query: string; // 用户问题
+  userId: string; // 用户 ID
+  sessionId?: string; // 会话 ID（可选）
+  model?: string; // LLM 模型，默认 'deepseek-chat'
+  topK?: number; // 检索文档数，默认 5
+  category?: DocumentCategoryType; // 文档类别过滤
+  temperature?: number; // 生成温度，默认 0.7
+  maxTokens?: number; // 最大 token 数，默认 1000
+  enableRAG?: boolean; // 是否启用 RAG，默认 true
 }
 
 export interface RAGResponse {
-  answer: string;                       // AI 回答
-  references: SearchResult[];           // 引用的文档
-  retrievalTimeMs: number;              // 检索耗时
-  generationTimeMs: number;             // 生成耗时
-  totalTokens: number;                  // 总 token 数
-  modelUsed: string;                    // 使用的模型
-  ragEnabled: boolean;                  // 是否启用了 RAG
+  answer: string; // AI 回答
+  references: SearchResult[]; // 引用的文档
+  retrievalTimeMs: number; // 检索耗时
+  generationTimeMs: number; // 生成耗时
+  totalTokens: number; // 总 token 数
+  modelUsed: string; // 使用的模型
+  ragEnabled: boolean; // 是否启用了 RAG
 }
 
 const DEFAULT_MODEL = 'deepseek-chat';
@@ -42,8 +46,9 @@ export class RAGGenerator {
   private llmClient: OpenAI;
 
   constructor(apiKey?: string) {
-    const key = apiKey || process.env.DEEPSEEK_API_KEY || process.env.OPENAI_API_KEY;
-    
+    const key =
+      apiKey || process.env.DEEPSEEK_API_KEY || process.env.OPENAI_API_KEY;
+
     if (!key) {
       throw new Error('DEEPSEEK_API_KEY or OPENAI_API_KEY is required');
     }
@@ -100,7 +105,12 @@ export class RAGGenerator {
     if (references.length > 0) {
       // 有相关文档，使用 RAG
       const prompt = this.buildRAGPrompt(query, references);
-      const response = await this.callLLM(prompt, model, temperature, maxTokens);
+      const response = await this.callLLM(
+        prompt,
+        model,
+        temperature,
+        maxTokens
+      );
       answer = response.answer;
       totalTokens = response.tokens;
     } else {
@@ -117,9 +127,9 @@ export class RAGGenerator {
       userId,
       sessionId,
       query,
-      retrievedDocIds: references.map(r => r.id),
+      retrievedDocIds: references.map((r) => r.id),
       topK,
-      similarityScores: references.map(r => r.similarity),
+      similarityScores: references.map((r) => r.similarity),
       generatedResponse: answer,
       model,
       retrievalTimeMs,
@@ -148,9 +158,9 @@ export class RAGGenerator {
     maxTokens = DEFAULT_MAX_TOKENS
   ): Promise<RAGResponse> {
     const startTime = Date.now();
-    
+
     const response = await this.callLLM(query, model, temperature, maxTokens);
-    
+
     const generationTimeMs = Date.now() - startTime;
 
     return {
@@ -212,7 +222,8 @@ ${context}
         max_tokens: maxTokens,
       });
 
-      const answer = response.choices[0]?.message?.content || '抱歉，生成回答失败。';
+      const answer =
+        response.choices[0]?.message?.content || '抱歉，生成回答失败。';
       const tokens = response.usage?.total_tokens || 0;
 
       return { answer, tokens };

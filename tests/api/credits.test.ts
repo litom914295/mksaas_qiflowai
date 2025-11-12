@@ -198,19 +198,23 @@ describe('API: 积分系统', () => {
   describe('积分操作验证', () => {
     test('扣费金额必须为正数', () => {
       const validateAmount = (amount: number): boolean => {
-        return typeof amount === 'number' && amount > 0 && Number.isFinite(amount);
+        return (
+          typeof amount === 'number' && amount > 0 && Number.isFinite(amount)
+        );
       };
 
       expect(validateAmount(5)).toBe(true);
       expect(validateAmount(0)).toBe(false);
       expect(validateAmount(-5)).toBe(false);
-      expect(validateAmount(NaN)).toBe(false);
-      expect(validateAmount(Infinity)).toBe(false);
+      expect(validateAmount(Number.NaN)).toBe(false);
+      expect(validateAmount(Number.POSITIVE_INFINITY)).toBe(false);
     });
 
     test('用户 ID 必须有效', () => {
       const validateUserId = (userId: string): boolean => {
-        return typeof userId === 'string' && userId.length > 0 && userId.length < 100;
+        return (
+          typeof userId === 'string' && userId.length > 0 && userId.length < 100
+        );
       };
 
       expect(validateUserId('user-123')).toBe(true);

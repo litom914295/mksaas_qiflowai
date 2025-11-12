@@ -11,8 +11,10 @@ beforeAll(async () => {
     // Node 环境下设置 MSW
     try {
       const { setupServer } = await import('msw/node');
-      const { handlers } = await import('./mocks/handlers').catch(() => ({ handlers: [] }));
-      
+      const { handlers } = await import('./mocks/handlers').catch(() => ({
+        handlers: [],
+      }));
+
       if (handlers.length > 0) {
         server = setupServer(...handlers);
         server.listen({ onUnhandledRequest: 'warn' });

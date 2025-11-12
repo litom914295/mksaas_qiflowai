@@ -21,11 +21,11 @@ describe('安全测试 - 基础防护', () => {
           /\/\*/,
           /\bEXEC\b|\bEXECUTE\b/i,
         ];
-        
-        return patterns.some(pattern => pattern.test(input));
+
+        return patterns.some((pattern) => pattern.test(input));
       };
 
-      sqlInjectionPayloads.forEach(payload => {
+      sqlInjectionPayloads.forEach((payload) => {
         const result = detectSQLInjection(payload);
         expect(result).toBe(true);
       });
@@ -44,11 +44,11 @@ describe('安全测试 - 基础防护', () => {
           /('|")\s*(OR|AND)\s*('|")\s*=\s*('|")/i,
           /\bEXEC\b|\bEXECUTE\b/i,
         ];
-        
-        return patterns.some(pattern => pattern.test(input));
+
+        return patterns.some((pattern) => pattern.test(input));
       };
 
-      validInputs.forEach(input => {
+      validInputs.forEach((input) => {
         const result = detectSQLInjection(input);
         expect(result).toBe(false);
       });
@@ -93,7 +93,7 @@ describe('安全测试 - 基础防护', () => {
         );
       };
 
-      xssPayloads.forEach(payload => {
+      xssPayloads.forEach((payload) => {
         const result = detectXSS(payload);
         expect(result).toBe(true);
       });
@@ -109,14 +109,16 @@ describe('安全测试 - 基础防护', () => {
           "'": '&#x27;',
           '/': '&#x2F;',
         };
-        
-        return input.replace(/[&<>"'/]/g, char => map[char] || char);
+
+        return input.replace(/[&<>"'/]/g, (char) => map[char] || char);
       };
 
       const dangerous = '<script>alert("XSS")</script>';
       const safe = escapeHtml(dangerous);
 
-      expect(safe).toBe('&lt;script&gt;alert(&quot;XSS&quot;)&lt;&#x2F;script&gt;');
+      expect(safe).toBe(
+        '&lt;script&gt;alert(&quot;XSS&quot;)&lt;&#x2F;script&gt;'
+      );
       expect(safe).not.toContain('<script>');
     });
 
@@ -137,7 +139,9 @@ describe('安全测试 - 基础防护', () => {
   describe('CSRF Token 验证', () => {
     test('生成唯一的 CSRF token', () => {
       const generateCSRFToken = (): string => {
-        return Math.random().toString(36).substring(2) + Date.now().toString(36);
+        return (
+          Math.random().toString(36).substring(2) + Date.now().toString(36)
+        );
       };
 
       const token1 = generateCSRFToken();
@@ -150,12 +154,15 @@ describe('安全测试 - 基础防护', () => {
     });
 
     test('验证 CSRF token 匹配', () => {
-      const validateCSRFToken = (sessionToken: string, requestToken: string): boolean => {
+      const validateCSRFToken = (
+        sessionToken: string,
+        requestToken: string
+      ): boolean => {
         return sessionToken === requestToken && sessionToken.length > 0;
       };
 
       const validToken = 'abc123xyz789';
-      
+
       expect(validateCSRFToken(validToken, validToken)).toBe(true);
       expect(validateCSRFToken(validToken, 'different')).toBe(false);
       expect(validateCSRFToken('', '')).toBe(false);
@@ -166,10 +173,11 @@ describe('安全测试 - 基础防护', () => {
     test('JWT 结构验证', () => {
       const isValidJWTStructure = (token: string): boolean => {
         const parts = token.split('.');
-        return parts.length === 3 && parts.every(part => part.length > 0);
+        return parts.length === 3 && parts.every((part) => part.length > 0);
       };
 
-      const validJWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U';
+      const validJWT =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U';
       const invalidJWT = 'invalid.token';
 
       expect(isValidJWTStructure(validJWT)).toBe(true);
@@ -198,8 +206,13 @@ describe('安全测试 - 基础防护', () => {
         const hasNumber = /\d/.test(password);
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-        const score = [hasMinLength, hasUpperCase, hasLowerCase, hasNumber, hasSpecialChar]
-          .filter(Boolean).length;
+        const score = [
+          hasMinLength,
+          hasUpperCase,
+          hasLowerCase,
+          hasNumber,
+          hasSpecialChar,
+        ].filter(Boolean).length;
 
         return {
           isStrong: score >= 4,
@@ -227,7 +240,7 @@ describe('安全测试 - 基础防护', () => {
 
     test('常见密码黑名单', () => {
       const commonPasswords = ['password', '123456', 'qwerty', 'admin'];
-      
+
       const isCommonPassword = (password: string): boolean => {
         return commonPasswords.includes(password.toLowerCase());
       };
@@ -253,10 +266,10 @@ describe('安全测试 - 基础防护', () => {
         isAllowed(identifier: string): boolean {
           const now = Date.now();
           const userRequests = this.requests.get(identifier) || [];
-          
+
           // 移除窗口外的请求
           const validRequests = userRequests.filter(
-            timestamp => now - timestamp < this.windowMs
+            (timestamp) => now - timestamp < this.windowMs
           );
 
           if (validRequests.length >= this.limit) {

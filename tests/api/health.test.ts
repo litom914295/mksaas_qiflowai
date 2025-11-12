@@ -21,10 +21,10 @@ async function GET() {
 describe('API 健康检查测试', () => {
   test('健康检查端点返回正确状态', async () => {
     const response = await GET();
-    
+
     expect(response.status).toBe(200);
     expect(response.headers.get('Content-Type')).toBe('application/json');
-    
+
     const data = await response.json();
     expect(data.ok).toBe(true);
     expect(data.time).toBeDefined();
@@ -34,7 +34,7 @@ describe('API 健康检查测试', () => {
   test('响应包含必要的字段', async () => {
     const response = await GET();
     const data = await response.json();
-    
+
     expect(data).toHaveProperty('ok');
     expect(data).toHaveProperty('time');
     expect(data).toHaveProperty('version');
@@ -44,11 +44,11 @@ describe('API 健康检查测试', () => {
   test('时间戳格式正确', async () => {
     const response = await GET();
     const data = await response.json();
-    
+
     // ISO 8601 格式验证
     const isoDateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
     expect(data.time).toMatch(isoDateRegex);
-    
+
     // 验证时间戳可以被解析
     const timestamp = new Date(data.time);
     expect(timestamp).toBeInstanceOf(Date);
@@ -58,7 +58,7 @@ describe('API 健康检查测试', () => {
   test('环境变量正确返回', async () => {
     const response = await GET();
     const data = await response.json();
-    
+
     expect(data.environment).toBe('test');
   });
 });
@@ -87,9 +87,9 @@ describe('API 错误处理', () => {
     };
 
     const response = await errorHandler();
-    
+
     expect(response.status).toBe(500);
-    
+
     const data = await response.json();
     expect(data.ok).toBe(false);
     expect(data.error).toBe('Internal server error');
@@ -106,17 +106,17 @@ describe('API 错误处理', () => {
           status: 405,
           headers: {
             'Content-Type': 'application/json',
-            'Allow': 'GET',
+            Allow: 'GET',
           },
         }
       );
     };
 
     const response = await methodNotAllowed();
-    
+
     expect(response.status).toBe(405);
     expect(response.headers.get('Allow')).toBe('GET');
-    
+
     const data = await response.json();
     expect(data.ok).toBe(false);
     expect(data.error).toBe('Method not allowed');

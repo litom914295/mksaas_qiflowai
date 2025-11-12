@@ -5,6 +5,7 @@
  */
 
 import { auth } from '@/lib/auth';
+import { computeBaziSmart } from '@/lib/bazi';
 import { creditsManager } from '@/lib/credits/manager';
 import {
   detectFengshuiIntent,
@@ -14,7 +15,6 @@ import {
   AI_FENGSHUI_QUICK_PROMPT,
   getSystemPrompt,
 } from '@/lib/qiflow/ai/system-prompt';
-import { computeBaziSmart } from '@/lib/bazi';
 import { google } from '@ai-sdk/google';
 import { openai } from '@ai-sdk/openai';
 import { generateText, streamText } from 'ai';

@@ -1,15 +1,15 @@
 /**
  * Phase 8: AI 驱动的月度运势生成引擎
- * 
+ *
  * 使用 DeepSeek API 基于飞星数据和八字信息生成个性化运势文本
- * 
+ *
  * 成本目标: <$0.05/运势
  */
 
-import { generateText } from 'ai';
 import { createDeepSeek } from '@ai-sdk/deepseek';
-import type { MonthlyFortuneResult } from './engine';
+import { generateText } from 'ai';
 import type { BaziChart } from '../bazi/types';
+import type { MonthlyFortuneResult } from './engine';
 
 // ==================== AI 配置 ====================
 
@@ -28,8 +28,12 @@ function buildMonthlyFortunePrompt(
   baziChart: BaziChart,
   fortuneData: MonthlyFortuneResult
 ): string {
-  const { flyingStarAnalysis, baziTimeliness, fortuneData: basicData } = fortuneData;
-  
+  const {
+    flyingStarAnalysis,
+    baziTimeliness,
+    fortuneData: basicData,
+  } = fortuneData;
+
   return `你是一位资深的命理师，精通八字命理和玄空风水。现在需要为用户生成 ${year}年${month}月 的个性化月度运势分析。
 
 ## 用户八字信息
@@ -113,9 +117,11 @@ function formatBaziInfo(baziChart: BaziChart): string {
 `;
 }
 
-function formatFlyingStarGrid(analysis: MonthlyFortuneResult['flyingStarAnalysis']): string {
+function formatFlyingStarGrid(
+  analysis: MonthlyFortuneResult['flyingStarAnalysis']
+): string {
   return analysis.monthlyGrid
-    .map(palace => {
+    .map((palace) => {
       const emoji = getAuspiciousnessEmoji(palace.auspiciousness);
       return `- ${palace.direction} ${emoji}: ${palace.meaning}`;
     })
@@ -133,13 +139,15 @@ function getAuspiciousnessEmoji(level: string): string {
   return emojiMap[level] || '';
 }
 
-function formatWarnings(warnings: Array<{ direction: string; issue: string; remedy: string }>): string {
+function formatWarnings(
+  warnings: Array<{ direction: string; issue: string; remedy: string }>
+): string {
   if (warnings.length === 0) {
     return '本月无重大凶煞，运势较为平顺。';
   }
-  
+
   return warnings
-    .map(w => `- ${w.direction}: ${w.issue}\n  化解: ${w.remedy}`)
+    .map((w) => `- ${w.direction}: ${w.issue}\n  化解: ${w.remedy}`)
     .join('\n');
 }
 
@@ -159,41 +167,49 @@ export async function generateFortuneWithAI(
   tokensUsed: { prompt: number; completion: number };
 }> {
   const startTime = Date.now();
-  
+
   try {
-    const prompt = buildMonthlyFortunePrompt(year, month, baziChart, fortuneData);
-    
+    const prompt = buildMonthlyFortunePrompt(
+      year,
+      month,
+      baziChart,
+      fortuneData
+    );
+
     const result = await generateText({
       model: deepseek(MODEL),
       prompt,
       temperature: 0.7,
       maxTokens: 2000,
     });
-    
+
     // 解析 JSON 输出
     const jsonMatch = result.text.match(/```json\n([\s\S]*?)\n```/);
     let parsedResult;
-    
+
     if (jsonMatch) {
       parsedResult = JSON.parse(jsonMatch[1]);
     } else {
       // 尝试直接解析
       parsedResult = JSON.parse(result.text);
     }
-    
+
     // 计算成本（DeepSeek 价格：$0.14/1M input, $0.28/1M output）
-    const inputCost = (result.usage?.promptTokens || 0) / 1_000_000 * 0.14;
-    const outputCost = (result.usage?.completionTokens || 0) / 1_000_000 * 0.28;
+    const inputCost = ((result.usage?.promptTokens || 0) / 1_000_000) * 0.14;
+    const outputCost =
+      ((result.usage?.completionTokens || 0) / 1_000_000) * 0.28;
     const totalCost = inputCost + outputCost;
-    
+
     console.log(`✅ AI 运势生成成功 (${Date.now() - startTime}ms)`);
-    console.log(`   Tokens: ${result.usage?.promptTokens} input + ${result.usage?.completionTokens} output`);
+    console.log(
+      `   Tokens: ${result.usage?.promptTokens} input + ${result.usage?.completionTokens} output`
+    );
     console.log(`   Cost: $${totalCost.toFixed(6)}`);
-    
+
     return {
       careerForecast: parsedResult.careerForecast,
-      healthWarnings: Array.isArray(parsedResult.healthWarnings) 
-        ? parsedResult.healthWarnings 
+      healthWarnings: Array.isArray(parsedResult.healthWarnings)
+        ? parsedResult.healthWarnings
         : [parsedResult.healthWarnings],
       relationshipTips: Array.isArray(parsedResult.relationshipTips)
         ? parsedResult.relationshipTips
@@ -207,7 +223,7 @@ export async function generateFortuneWithAI(
     };
   } catch (error) {
     console.error('❌ AI 运势生成失败:', error);
-    
+
     // 降级方案：返回基础分析
     return {
       careerForecast: fortuneData.fortuneData.careerForecast,
@@ -234,14 +250,16 @@ export async function batchGenerateFortunesWithAI(
     baziChart: BaziChart;
     fortuneData: MonthlyFortuneResult;
   }>
-): Promise<Array<{
-  userId: string;
-  result: Awaited<ReturnType<typeof generateFortuneWithAI>>;
-}>> {
+): Promise<
+  Array<{
+    userId: string;
+    result: Awaited<ReturnType<typeof generateFortuneWithAI>>;
+  }>
+> {
   console.log(`📦 批量生成 ${requests.length} 个月度运势...`);
-  
+
   const results = [];
-  
+
   // 串行处理，避免并发过多导致 API 限流
   for (const req of requests) {
     try {
@@ -251,17 +269,17 @@ export async function batchGenerateFortunesWithAI(
         req.baziChart,
         req.fortuneData
       );
-      
+
       results.push({
         userId: req.userId,
         result,
       });
-      
+
       // 间隔 100ms，避免触发速率限制
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     } catch (error) {
       console.error(`❌ 用户 ${req.userId} 运势生成失败:`, error);
-      
+
       // 继续处理下一个
       results.push({
         userId: req.userId,
@@ -276,10 +294,10 @@ export async function batchGenerateFortunesWithAI(
       });
     }
   }
-  
+
   const totalCost = results.reduce((sum, r) => sum + r.result.aiCostUSD, 0);
   console.log(`✅ 批量生成完成！总成本: $${totalCost.toFixed(4)}`);
-  
+
   return results;
 }
 

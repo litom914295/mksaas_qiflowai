@@ -3,8 +3,8 @@
  * 配置测试用户认证状态,避免每个测试都需要登录
  */
 
-import { chromium, type FullConfig } from '@playwright/test';
 import path from 'node:path';
+import { type FullConfig, chromium } from '@playwright/test';
 
 async function globalSetup(config: FullConfig) {
   const { baseURL } = config.projects[0].use;

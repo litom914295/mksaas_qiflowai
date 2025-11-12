@@ -1,10 +1,10 @@
-import { Metadata } from "next";
-import { redirect, notFound } from "next/navigation";
+import { ReportDetailView } from '@/components/qiflow/report-detail-view';
+import { db } from '@/db';
+import { qiflowReports } from '@/db/schema';
 import { auth } from '@/lib/auth';
-import { db } from "@/db";
-import { qiflowReports } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
-import { ReportDetailView } from "@/components/qiflow/report-detail-view";
+import { and, eq } from 'drizzle-orm';
+import type { Metadata } from 'next';
+import { notFound, redirect } from 'next/navigation';
 
 type Props = {
   params: { reportId: string };
@@ -13,7 +13,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `报告详情 | QiFlow AI`,
-    description: "查看您的 AI 八字精华报告",
+    description: '查看您的 AI 八字精华报告',
   };
 }
 
@@ -42,7 +42,7 @@ export default async function ReportDetailPage({ params }: Props) {
   }
 
   // 如果报告还在生成中
-  if (report.status === "generating") {
+  if (report.status === 'generating') {
     return (
       <div className="container max-w-4xl py-12">
         <div className="text-center space-y-4">
@@ -57,7 +57,7 @@ export default async function ReportDetailPage({ params }: Props) {
   }
 
   // 如果报告生成失败
-  if (report.status === "failed") {
+  if (report.status === 'failed') {
     return (
       <div className="container max-w-4xl py-12">
         <div className="text-center space-y-4">
@@ -80,10 +80,5 @@ export default async function ReportDetailPage({ params }: Props) {
   }
 
   // 正常展示报告
-  return (
-    <ReportDetailView
-      report={report}
-      userId={session.user.id}
-    />
-  );
+  return <ReportDetailView report={report} userId={session.user.id} />;
 }

@@ -12,15 +12,15 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { addDays, format, startOfWeek } from 'date-fns';
+import { zhCN } from 'date-fns/locale';
 import {
   CalendarIcon,
   FlameIcon,
-  TrophyIcon,
   TrendingUpIcon,
+  TrophyIcon,
 } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { format, startOfWeek, addDays } from 'date-fns';
-import { zhCN } from 'date-fns/locale';
 
 interface EnhancedSignInCalendarProps {
   className?: string;
@@ -96,7 +96,9 @@ export function EnhancedSignInCalendar({
     return (
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">签到热力图（最近90天）</span>
+          <span className="text-xs text-muted-foreground">
+            签到热力图（最近90天）
+          </span>
           <div className="flex items-center gap-2 text-xs">
             <span className="text-muted-foreground">少</span>
             <div className="flex gap-1">
@@ -291,7 +293,8 @@ export function EnhancedSignInCalendar({
                     <div className="text-right">
                       <div className="text-xs text-muted-foreground">进度</div>
                       <div className="text-lg font-bold text-amber-700">
-                        {Math.floor(progressData.streak.nextMilestone.progress)}%
+                        {Math.floor(progressData.streak.nextMilestone.progress)}
+                        %
                       </div>
                     </div>
                   </div>

@@ -82,18 +82,44 @@ export function QixingdajieAnalysisView({
   };
 
   // 打劫类型映射
-  const dajieTypeMap: Record<string, { name: string; desc: string; color: string }> = {
-    full: { name: '全劫格局', desc: '同时劫财劫丁，效果最佳', color: 'text-purple-600' },
+  const dajieTypeMap: Record<
+    string,
+    { name: string; desc: string; color: string }
+  > = {
+    full: {
+      name: '全劫格局',
+      desc: '同时劫财劫丁，效果最佳',
+      color: 'text-purple-600',
+    },
     jie_cai: { name: '劫财格局', desc: '催旺财运', color: 'text-green-600' },
     jie_ding: { name: '劫丁格局', desc: '催旺人丁', color: 'text-blue-600' },
   };
 
   // 有效性等级映射
-  const effectivenessMap: Record<string, { name: string; color: string; bgColor: string }> = {
-    peak: { name: '卓越', color: 'text-purple-600', bgColor: 'bg-purple-50 border-purple-300' },
-    high: { name: '良好', color: 'text-green-600', bgColor: 'bg-green-50 border-green-300' },
-    medium: { name: '中等', color: 'text-blue-600', bgColor: 'bg-blue-50 border-blue-300' },
-    low: { name: '较弱', color: 'text-gray-600', bgColor: 'bg-gray-50 border-gray-300' },
+  const effectivenessMap: Record<
+    string,
+    { name: string; color: string; bgColor: string }
+  > = {
+    peak: {
+      name: '卓越',
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-50 border-purple-300',
+    },
+    high: {
+      name: '良好',
+      color: 'text-green-600',
+      bgColor: 'bg-green-50 border-green-300',
+    },
+    medium: {
+      name: '中等',
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50 border-blue-300',
+    },
+    low: {
+      name: '较弱',
+      color: 'text-gray-600',
+      bgColor: 'bg-gray-50 border-gray-300',
+    },
   };
 
   // 三般卦线名称映射
@@ -131,9 +157,7 @@ export function QixingdajieAnalysisView({
             <Alert className="bg-yellow-50 border-yellow-200">
               <CheckCircle2 className="h-4 w-4 text-yellow-600" />
               <AlertDescription className="text-yellow-800">
-                <div className="font-semibold mb-2">
-                  {description}
-                </div>
+                <div className="font-semibold mb-2">{description}</div>
                 {dajieType && (
                   <div className="flex items-center gap-2 mt-2">
                     <Badge className="bg-yellow-600">
@@ -150,7 +174,8 @@ export function QixingdajieAnalysisView({
             <Alert>
               <Info className="h-4 w-4" />
               <AlertDescription>
-                {description || '当前飞星盘未构成七星打劫格局。七星打劫要求极为严格，需要山向运三星在同一条线上。'}
+                {description ||
+                  '当前飞星盘未构成七星打劫格局。七星打劫要求极为严格，需要山向运三星在同一条线上。'}
               </AlertDescription>
             </Alert>
           )}
@@ -166,7 +191,10 @@ export function QixingdajieAnalysisView({
               </div>
               <Progress value={score} className="h-2" />
               <div className="flex items-center gap-2 mt-2">
-                <Badge variant="outline" className={effectivenessMap[effectiveness]?.color}>
+                <Badge
+                  variant="outline"
+                  className={effectivenessMap[effectiveness]?.color}
+                >
                   有效性：{effectivenessMap[effectiveness]?.name}
                 </Badge>
               </div>
@@ -186,13 +214,17 @@ export function QixingdajieAnalysisView({
                   <TrendingUp className="w-5 h-5" />
                   三般卦验证
                 </CardTitle>
-                <Badge variant={sanbanGuaValidation.isValid ? 'default' : 'secondary'}>
+                <Badge
+                  variant={
+                    sanbanGuaValidation.isValid ? 'default' : 'secondary'
+                  }
+                >
                   {sanbanGuaValidation.isValid ? '✓ 验证通过' : '✗ 未通过'}
                 </Badge>
               </div>
               <CardDescription>
-                {sanbanLineMap[sanbanGuaValidation.group.join(',')]} - 
-                匹配度：{sanbanGuaValidation.matchCount}/27
+                {sanbanLineMap[sanbanGuaValidation.group.join(',')]} - 匹配度：
+                {sanbanGuaValidation.matchCount}/27
               </CardDescription>
             </CardHeader>
             <CardContent>

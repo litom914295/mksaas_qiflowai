@@ -5,9 +5,9 @@
 
 import type {
   BaziConfig,
+  ConfigExport,
   ConfigValidationResult,
   PresetConfigName,
-  ConfigExport,
 } from './types';
 import { BaziConfigSchema } from './types';
 
@@ -93,7 +93,9 @@ export class BaziConfigManager {
       };
     } catch (error) {
       if (error instanceof Error && 'errors' in error) {
-        const zodError = error as { errors: Array<{ path: Array<string | number>; message: string }> };
+        const zodError = error as {
+          errors: Array<{ path: Array<string | number>; message: string }>;
+        };
         return {
           success: false,
           errors: zodError.errors.map((err) => ({
@@ -166,7 +168,7 @@ export class BaziConfigManager {
     try {
       const module = await import(`./presets/${preset}.json`);
       const config = module.default as BaziConfig;
-      
+
       const validation = this.validateConfig(config);
       if (!validation.success) {
         throw new Error(

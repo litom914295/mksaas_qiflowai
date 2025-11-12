@@ -1,7 +1,7 @@
 /**
  * 八字计算错误类型定义
  * 提供详细的错误分类和上下文信息
- * 
+ *
  * @module bazi/errors
  */
 
@@ -16,7 +16,7 @@ export class BaziError extends Error {
   ) {
     super(message);
     this.name = 'BaziError';
-    
+
     // 确保正确的原型链
     Object.setPrototypeOf(this, new.target.prototype);
   }
@@ -62,10 +62,7 @@ export class ValidationError extends BaziError {
  * 当农历/公历转换失败时抛出
  */
 export class DateConversionError extends BaziError {
-  constructor(
-    message: string,
-    context?: Record<string, any>
-  ) {
+  constructor(message: string, context?: Record<string, any>) {
     super(message, 'DATE_CONVERSION_ERROR', context);
     this.name = 'DateConversionError';
   }
@@ -76,10 +73,7 @@ export class DateConversionError extends BaziError {
  * 当真太阳时计算失败时抛出
  */
 export class TrueSolarTimeError extends BaziError {
-  constructor(
-    message: string,
-    context?: Record<string, any>
-  ) {
+  constructor(message: string, context?: Record<string, any>) {
     super(message, 'TRUE_SOLAR_TIME_ERROR', context);
     this.name = 'TrueSolarTimeError';
   }
@@ -90,10 +84,7 @@ export class TrueSolarTimeError extends BaziError {
  * 当四柱计算过程中出现问题时抛出
  */
 export class FourPillarsCalculationError extends BaziError {
-  constructor(
-    message: string,
-    context?: Record<string, any>
-  ) {
+  constructor(message: string, context?: Record<string, any>) {
     super(message, 'FOUR_PILLARS_CALCULATION_ERROR', context);
     this.name = 'FourPillarsCalculationError';
   }
@@ -104,10 +95,7 @@ export class FourPillarsCalculationError extends BaziError {
  * 当五行强度分析失败时抛出
  */
 export class WuxingAnalysisError extends BaziError {
-  constructor(
-    message: string,
-    context?: Record<string, any>
-  ) {
+  constructor(message: string, context?: Record<string, any>) {
     super(message, 'WUXING_ANALYSIS_ERROR', context);
     this.name = 'WuxingAnalysisError';
   }
@@ -118,10 +106,7 @@ export class WuxingAnalysisError extends BaziError {
  * 当用神推算失败时抛出
  */
 export class YongshenAnalysisError extends BaziError {
-  constructor(
-    message: string,
-    context?: Record<string, any>
-  ) {
+  constructor(message: string, context?: Record<string, any>) {
     super(message, 'YONGSHEN_ANALYSIS_ERROR', context);
     this.name = 'YongshenAnalysisError';
   }
@@ -147,10 +132,7 @@ export class DataNotFoundError extends BaziError {
  * 当配置参数无效时抛出
  */
 export class ConfigError extends BaziError {
-  constructor(
-    message: string,
-    context?: Record<string, any>
-  ) {
+  constructor(message: string, context?: Record<string, any>) {
     super(message, 'CONFIG_ERROR', context);
     this.name = 'ConfigError';
   }
@@ -163,7 +145,7 @@ export enum BaziErrorCode {
   // 通用错误
   UNKNOWN_ERROR = 'UNKNOWN_ERROR',
   INTERNAL_ERROR = 'INTERNAL_ERROR',
-  
+
   // 输入验证错误
   VALIDATION_ERROR = 'VALIDATION_ERROR',
   INVALID_DATE = 'INVALID_DATE',
@@ -171,19 +153,19 @@ export enum BaziErrorCode {
   INVALID_LONGITUDE = 'INVALID_LONGITUDE',
   INVALID_LATITUDE = 'INVALID_LATITUDE',
   INVALID_GENDER = 'INVALID_GENDER',
-  
+
   // 计算错误
   DATE_CONVERSION_ERROR = 'DATE_CONVERSION_ERROR',
   TRUE_SOLAR_TIME_ERROR = 'TRUE_SOLAR_TIME_ERROR',
   FOUR_PILLARS_CALCULATION_ERROR = 'FOUR_PILLARS_CALCULATION_ERROR',
   WUXING_ANALYSIS_ERROR = 'WUXING_ANALYSIS_ERROR',
   YONGSHEN_ANALYSIS_ERROR = 'YONGSHEN_ANALYSIS_ERROR',
-  
+
   // 数据错误
   DATA_NOT_FOUND = 'DATA_NOT_FOUND',
   NAYIN_NOT_FOUND = 'NAYIN_NOT_FOUND',
   HIDDEN_STEM_NOT_FOUND = 'HIDDEN_STEM_NOT_FOUND',
-  
+
   // 配置错误
   CONFIG_ERROR = 'CONFIG_ERROR',
   MISSING_DEPENDENCY = 'MISSING_DEPENDENCY',

@@ -6,9 +6,9 @@ import { EnhancedCreditPackages } from '@/components/dashboard/credits/enhanced-
 import { CreditPackages } from '@/components/settings/credits/credit-packages';
 import { CreditTransactions } from '@/components/settings/credits/credit-transactions';
 import CreditsBalanceCard from '@/components/settings/credits/credits-balance-card';
-import { VouchersList } from '@/components/settings/credits/vouchers-list';
 // 新增：增强版交易历史
 import { EnhancedTransactionHistory } from '@/components/settings/credits/enhanced-transaction-history';
+import { VouchersList } from '@/components/settings/credits/vouchers-list';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { Routes } from '@/routes';

@@ -31,7 +31,10 @@ export async function GET(request: Request) {
 
     // 查询今天是否已签到
     const todaySignIn = await db
-      .select({ id: creditTransaction.id, createdAt: creditTransaction.createdAt })
+      .select({
+        id: creditTransaction.id,
+        createdAt: creditTransaction.createdAt,
+      })
       .from(creditTransaction)
       .where(
         and(
@@ -75,7 +78,7 @@ export async function GET(request: Request) {
       const cur = new Date(today);
       cur.setDate(today.getDate() - i);
       const curKey = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}-${String(cur.getDate()).padStart(2, '0')}`;
-      
+
       if (marked.has(curKey)) {
         streak += 1;
       } else {

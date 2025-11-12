@@ -2,7 +2,7 @@
 
 /**
  * Phase 8: 生成月度运势 Server Action
- * 
+ *
  * 功能：
  * 1. 验证用户权限（Pro 会员）
  * 2. 检查是否已生成（防重复）
@@ -15,11 +15,11 @@
 import { getDb } from '@/db';
 import { monthlyFortunes } from '@/db/schema';
 import { creditTransaction } from '@/db/schema';
-import { eq, and } from 'drizzle-orm';
-import { generateMonthlyFortune } from '@/lib/qiflow/monthly-fortune/engine';
-import { generateFortuneWithAI } from '@/lib/qiflow/monthly-fortune/ai-generator';
 import { getSession } from '@/lib/auth/session';
 import type { BaziChart } from '@/lib/qiflow/bazi/types';
+import { generateFortuneWithAI } from '@/lib/qiflow/monthly-fortune/ai-generator';
+import { generateMonthlyFortune } from '@/lib/qiflow/monthly-fortune/engine';
+import { and, eq } from 'drizzle-orm';
 
 // ==================== 常量定义 ====================
 
@@ -96,10 +96,11 @@ export async function generateMonthlyFortuneAction(
           fortuneId: existing.id,
         };
       }
-      
+
       // 如果之前生成失败，允许重新生成
       if (existing.status === 'failed') {
-        await db.delete(monthlyFortunes)
+        await db
+          .delete(monthlyFortunes)
           .where(eq(monthlyFortunes.id, existing.id));
       }
     }
@@ -115,14 +116,17 @@ export async function generateMonthlyFortuneAction(
     }
 
     // 5. 创建待生成记录
-    const [newFortune] = await db.insert(monthlyFortunes).values({
-      userId,
-      year,
-      month,
-      status: 'generating',
-      fortuneData: {} as any, // 临时占位
-      creditsUsed: 0, // 生成成功后更新
-    }).returning();
+    const [newFortune] = await db
+      .insert(monthlyFortunes)
+      .values({
+        userId,
+        year,
+        month,
+        status: 'generating',
+        fortuneData: {} as any, // 临时占位
+        creditsUsed: 0, // 生成成功后更新
+      })
+      .returning();
 
     const fortuneId = newFortune.id;
 
@@ -165,7 +169,8 @@ export async function generateMonthlyFortuneAction(
       await deductCredits(userId, MONTHLY_FORTUNE_CREDITS, fortuneId);
 
       // 9. 更新运势记录为完成状态
-      await db.update(monthlyFortunes)
+      await db
+        .update(monthlyFortunes)
         .set({
           status: 'completed',
           fortuneData: finalFortuneData,
@@ -188,13 +193,13 @@ export async function generateMonthlyFortuneAction(
         fortuneId,
         message: `${year}年${month}月运势生成成功`,
       };
-
     } catch (generationError) {
       // 生成失败，回滚
       console.error('月度运势生成失败:', generationError);
 
       // 标记为失败状态
-      await db.update(monthlyFortunes)
+      await db
+        .update(monthlyFortunes)
         .set({
           status: 'failed',
           updatedAt: new Date(),
@@ -202,17 +207,16 @@ export async function generateMonthlyFortuneAction(
         .where(eq(monthlyFortunes.id, fortuneId));
 
       // 不扣积分（因为还没扣）
-      
+
       return {
         success: false,
         error: 'GENERATION_FAILED',
         message: '运势生成失败，请稍后重试',
       };
     }
-
   } catch (error) {
     console.error('generateMonthlyFortuneAction error:', error);
-    
+
     return {
       success: false,
       error: 'INTERNAL_ERROR',
@@ -320,7 +324,7 @@ export async function getMyMonthlyFortunes(options?: {
 
     return {
       success: true,
-      data: fortunes.map(f => ({
+      data: fortunes.map((f) => ({
         id: f.id,
         year: f.year,
         month: f.month,
@@ -365,7 +369,4 @@ export async function getMonthlyFortuneById(fortuneId: string) {
 
 // ==================== 导出 ====================
 
-export type {
-  GenerateMonthlyFortuneInput,
-  GenerateMonthlyFortuneResult,
-};
+export type { GenerateMonthlyFortuneInput, GenerateMonthlyFortuneResult };

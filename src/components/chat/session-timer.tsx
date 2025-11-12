@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Clock, AlertCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { AlertCircle, Clock } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 type SessionTimerProps = {
   expiresAt: Date;
@@ -45,8 +45,8 @@ export function SessionTimer({
         !hasNotified5Min
       ) {
         toast({
-          title: "会话即将到期",
-          description: "您的会话将在 5 分钟后到期，请及时续费",
+          title: '会话即将到期',
+          description: '您的会话将在 5 分钟后到期，请及时续费',
         });
         setHasNotified5Min(true);
       }
@@ -58,9 +58,9 @@ export function SessionTimer({
         !hasNotified1Min
       ) {
         toast({
-          title: "会话即将到期",
-          description: "您的会话将在 1 分钟后到期",
-          variant: "destructive",
+          title: '会话即将到期',
+          description: '您的会话将在 1 分钟后到期',
+          variant: 'destructive',
         });
         setHasNotified1Min(true);
       }
@@ -84,11 +84,11 @@ export function SessionTimer({
         <Clock className="w-4 h-4" />
         <Badge
           variant={
-            isDanger ? "destructive" : isWarning ? "secondary" : "default"
+            isDanger ? 'destructive' : isWarning ? 'secondary' : 'default'
           }
           className="font-mono"
         >
-          {minutes}:{seconds.toString().padStart(2, "0")}
+          {minutes}:{seconds.toString().padStart(2, '0')}
         </Badge>
       </div>
 
@@ -98,7 +98,7 @@ export function SessionTimer({
           <AlertDescription className="flex items-center justify-between">
             <span>会话即将到期</span>
             <Button size="sm" onClick={onRenew} disabled={isRenewing}>
-              {isRenewing ? "续费中..." : "续费 (40 积分)"}
+              {isRenewing ? '续费中...' : '续费 (40 积分)'}
             </Button>
           </AlertDescription>
         </Alert>
@@ -115,7 +115,7 @@ export function SessionTimer({
               onClick={onRenew}
               disabled={isRenewing}
             >
-              {isRenewing ? "续费中..." : "立即续费"}
+              {isRenewing ? '续费中...' : '立即续费'}
             </Button>
           </AlertDescription>
         </Alert>
