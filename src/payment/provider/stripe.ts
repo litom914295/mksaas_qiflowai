@@ -8,7 +8,7 @@ import {
 import { getCreditPackageById } from '@/credits/server';
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { getDb } from '@/db';
-import { payment, user } from '@/db/schema';
+import { payment, user, stripeWebhookEvents } from '@/db/schema';
 import {
   findPlanByPlanId,
   findPlanByPriceId,
@@ -521,15 +521,47 @@ export class StripeProvider implements PaymentProvider {
     payload: string,
     signature: string
   ): Promise<void> {
+    const db = await getDb();
+    let event: Stripe.Event;
+
     try {
       // Verify the event signature if webhook secret is available
-      const event = this.stripe.webhooks.constructEvent(
+      event = this.stripe.webhooks.constructEvent(
         payload,
         signature,
         this.webhookSecret
       );
-      const eventType = event.type;
-      console.log(`handle webhook event, type: ${eventType}`);
+    } catch (error) {
+      console.error('[Webhook] Signature verification failed:', error);
+      throw new Error('Invalid webhook signature');
+    }
+
+    const eventType = event.type;
+    const eventId = event.id;
+
+    try {
+      // Phase 1: 幂等性检查 - 防止重复处理
+      const existingEvent = await db.query.stripeWebhookEvents.findFirst({
+        where: eq(stripeWebhookEvents.id, eventId),
+      });
+
+      if (existingEvent) {
+        console.log(
+          `[Webhook] Event ${eventId} (${eventType}) already processed at ${existingEvent.processedAt}`
+        );
+        return; // 已处理，跳过
+      }
+
+      console.log(`[Webhook] Processing new event ${eventId}, type: ${eventType}`);
+
+      // 记录事件（处理前）
+      await db.insert(stripeWebhookEvents).values({
+        id: eventId,
+        eventType: eventType,
+        processedAt: new Date(),
+        payload: event as any, // 存储完整 event 对象
+        success: true, // 先设为 true，如果失败会更新
+      });
 
       // Handle subscription events
       if (eventType.startsWith('customer.subscription.')) {
@@ -571,8 +603,25 @@ export class StripeProvider implements PaymentProvider {
           }
         }
       }
+
+      console.log(`[Webhook] Event ${eventId} processed successfully`);
     } catch (error) {
-      console.error('handle webhook event error:', error);
+      console.error(`[Webhook] Event ${eventId} processing failed:`, error);
+
+      // 更新事件记录为失败状态
+      try {
+        await db
+          .update(stripeWebhookEvents)
+          .set({
+            success: false,
+            errorMessage:
+              error instanceof Error ? error.message : String(error),
+          })
+          .where(eq(stripeWebhookEvents.id, eventId));
+      } catch (updateError) {
+        console.error('[Webhook] Failed to update event error status:', updateError);
+      }
+
       throw new Error('Failed to handle webhook event');
     }
   }

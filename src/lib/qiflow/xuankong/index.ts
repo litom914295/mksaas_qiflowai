@@ -35,9 +35,19 @@ export function generateFlyingStar(
   // 生成天盘（运盘）
   const tianpan = generateTianpan(period);
 
-  // 生成山盘和向盘
-  const shanpan = generateShanpan(tianpan, location.zuo, location.isJian);
-  const xiangpan = generateXiangpan(tianpan, location.xiang, location.isJian);
+  // 生成山盘和向盘，传入替卦配置
+  const shanpan = generateShanpan(
+    tianpan,
+    location.zuo,
+    location.isJian,
+    config.applyTiGua || false
+  );
+  const xiangpan = generateXiangpan(
+    tianpan,
+    location.xiang,
+    location.isJian,
+    config.applyTiGua || false
+  );
 
   // 合并三盘
   const mergedPlate = mergePlates(tianpan, shanpan, xiangpan);

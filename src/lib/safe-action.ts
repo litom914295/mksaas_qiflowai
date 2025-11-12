@@ -28,10 +28,7 @@ export const actionClient = createSafeActionClient({
 export const userActionClient = actionClient.use(async ({ next }) => {
   const session = await getSession();
   if (!session?.user) {
-    return {
-      success: false,
-      error: 'Unauthorized',
-    };
+    throw new Error('Unauthorized: Please login to continue');
   }
 
   return next({ ctx: { user: session.user } });
@@ -47,10 +44,7 @@ export const adminActionClient = userActionClient.use(async ({ next, ctx }) => {
 
   // If this is a demo website and user is not an admin, allow the request
   if (!isAdmin && !isDemo) {
-    return {
-      success: false,
-      error: 'Unauthorized',
-    };
+    throw new Error('Unauthorized: Admin access required');
   }
 
   return next({ ctx });

@@ -100,6 +100,20 @@ export const payment = pgTable("payment", {
 	paymentInvoiceIdIdx: index("payment_invoice_id_idx").on(table.invoiceId),
 }));
 
+// Phase 1: Stripe Webhook 幂等性表
+export const stripeWebhookEvents = pgTable('stripe_webhook_events', {
+	id: text('id').primaryKey(), // Stripe event.id (天然唯一)
+	eventType: text('event_type').notNull(),
+	processedAt: timestamp('processed_at').notNull().defaultNow(),
+	payload: jsonb('payload').notNull(), // 完整 event 对象
+	success: boolean('success').notNull().default(true),
+	errorMessage: text('error_message'),
+	createdAt: timestamp('created_at').notNull().defaultNow(),
+}, (table) => ({
+	eventTypeIdx: index('stripe_webhook_events_event_type_idx').on(table.eventType),
+	processedAtIdx: index('stripe_webhook_events_processed_at_idx').on(table.processedAt),
+}));
+
 export const userCredit = pgTable("user_credit", {
 	id: text("id").primaryKey(),
 	userId: text("user_id").notNull().references(() => user.id, { onDelete: 'cascade' }),
@@ -321,6 +335,170 @@ copyrightAuditCreatedAtIdx: index("copyright_audit_created_at_idx").on(table.cre
 }));
 
 // ===========================================
+// Phase 2: 报告产品与 Chat 会话表
+// ===========================================
+
+// 精华报告主表
+export const qiflowReports = pgTable('qiflow_reports', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  
+  // 报告类型与状态
+  reportType: text('report_type').notNull(), // 'basic' | 'essential'
+  status: text('status').notNull().default('pending'), // 'pending' | 'generating' | 'completed' | 'failed'
+  
+  // 输入输出数据
+  input: jsonb('input').$type<{
+    birthInfo: Record<string, unknown>;
+    selectedThemes?: string[];
+  }>().notNull(),
+  output: jsonb('output').$type<{
+    baziData: Record<string, unknown>;
+    flyingStarData: Record<string, unknown>;
+    themes: Array<{
+      id: string;
+      title: string;
+      story: string;
+      synthesis: string;
+      recommendations: string[];
+    }>;
+    qualityScore?: number;
+  }>(),
+  
+  // 计费与时间
+  creditsUsed: integer('credits_used').notNull(),
+  generatedAt: timestamp('generated_at'),
+  expiresAt: timestamp('expires_at'), // null = 终身有效
+  
+  // 元数据
+  metadata: jsonb('metadata').$type<{
+    aiModel: string;
+    generationTimeMs: number;
+    aiCostUSD: number;
+    purchaseMethod: 'credits' | 'stripe';
+    stripePaymentId?: string;
+  }>(),
+  
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index('qiflow_reports_user_id_idx').on(table.userId),
+  statusIdx: index('qiflow_reports_status_idx').on(table.status),
+  reportTypeIdx: index('qiflow_reports_report_type_idx').on(table.reportType),
+  createdAtIdx: index('qiflow_reports_created_at_idx').on(table.createdAt),
+}));
+
+// Chat 会话表 (Phase 6)
+export const chatSessions = pgTable('chat_sessions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  
+  // 时间控制
+  startedAt: timestamp('started_at').notNull().defaultNow(),
+  expiresAt: timestamp('expires_at').notNull(), // startedAt + 15 mins
+  
+  // 使用统计
+  messageCount: integer('message_count').notNull().default(0),
+  creditsUsed: integer('credits_used').notNull().default(40),
+  
+  // 会话状态
+  status: text('status').notNull().default('active'), // 'active' | 'expired' | 'completed' | 'renewed'
+  
+  // 元数据
+  metadata: jsonb('metadata').$type<{
+    aiModel: string;
+    totalTokens: number;
+    totalCostUSD: number;
+    renewalCount: number;
+  }>(),
+  
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index('chat_sessions_user_id_idx').on(table.userId),
+  statusIdx: index('chat_sessions_status_idx').on(table.status),
+  expiresAtIdx: index('chat_sessions_expires_at_idx').on(table.expiresAt),
+}));
+
+// ===========================================
+// Phase 8: Pro 月度运势表
+// ===========================================
+
+export const monthlyFortunes = pgTable('monthly_fortunes', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  
+  // 时间范围
+  year: integer('year').notNull(),
+  month: integer('month').notNull(), // 1-12
+  
+  // 运势数据
+  fortuneData: jsonb('fortune_data').$type<{
+    overallScore: number;  // 0-100
+    luckyDirections: string[];
+    luckyColors: string[];
+    luckyNumbers: number[];
+    careerForecast: string;
+    healthWarnings: string[];
+    relationshipTips: string[];
+    wealthAdvice: string;
+  }>().notNull(),
+  
+  // 飞星分析
+  flyingStarAnalysis: jsonb('flying_star_analysis').$type<{
+    monthlyGrid: Array<{
+      direction: string;
+      stars: number[];
+      meaning: string;
+      auspiciousness: 'excellent' | 'good' | 'neutral' | 'poor' | 'dangerous';
+    }>;
+    criticalWarnings: Array<{
+      direction: string;
+      issue: string;
+      remedy: string;
+    }>;
+  }>(),
+  
+  // 八字流年流月分析
+  baziTimeliness: jsonb('bazi_timeliness').$type<{
+    yearPillar: string;  // 流年天干地支
+    monthPillar: string; // 流月天干地支
+    interactions: Array<{
+      type: string;  // '冲', '合', '刑', '克', '泄'
+      target: string;
+      impact: string;
+    }>;
+    strengthAnalysis: Record<string, number>;  // 五行强弱变化
+  }>(),
+  
+  // 生成状态
+  status: text('status').notNull().default('pending'),
+  // 'pending' → 'generating' → 'completed' | 'failed'
+  
+  generatedAt: timestamp('generated_at'),
+  notifiedAt: timestamp('notified_at'), // 推送通知时间
+  
+  // AI 成本与元数据
+  creditsUsed: integer('credits_used').default(0),
+  metadata: jsonb('metadata').$type<{
+    aiModel: string;
+    generationTimeMs: number;
+    aiCostUSD: number;
+    generationMethod: 'manual' | 'auto_cron';
+  }>(),
+  
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index('monthly_fortunes_user_id_idx').on(table.userId),
+  yearMonthIdx: index('monthly_fortunes_year_month_idx').on(table.year, table.month),
+  statusIdx: index('monthly_fortunes_status_idx').on(table.status),
+  // 唯一约束: 每人每月只有一份运势
+  userYearMonthUnique: index('monthly_fortunes_user_year_month_unique')
+    .on(table.userId, table.year, table.month),
+}));
+
+// ===========================================
 // Prisma 兼容表 - 签到/推荐/积分系统
 // ===========================================
 
@@ -417,6 +595,97 @@ export const creditLevels = pgTable('credit_levels', {
   levelIdx: index('credit_levels_level_idx').on(table.level),
   minCreditsIdx: index('credit_levels_min_credits_idx').on(table.minCredits),
 }));
+
+// ===========================================
+// Phase 5: A/B 测试系统
+// ===========================================
+
+// A/B 测试实验表
+export const abTestExperiments = pgTable(
+  "ab_test_experiments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    
+    // 实验基本信息
+    name: text("name").notNull().unique(),
+    description: text("description"),
+    status: text("status").notNull().default("draft"), // 'draft' | 'active' | 'paused' | 'completed'
+    
+    // 变体配置
+    variants: jsonb("variants").notNull(), // VariantConfig[]
+    
+    // 时间控制
+    startDate: timestamp("start_date"),
+    endDate: timestamp("end_date"),
+    
+    // 目标指标
+    goalMetric: text("goal_metric"), // 'conversion_rate' | 'revenue' | 'engagement'
+    
+    // 元数据
+    metadata: jsonb("metadata"),
+    
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    nameIdx: index("ab_test_experiments_name_idx").on(table.name),
+    statusIdx: index("ab_test_experiments_status_idx").on(table.status),
+  })
+);
+
+// A/B 测试用户分组表
+export const abTestAssignments = pgTable(
+  "ab_test_assignments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    
+    experimentId: uuid("experiment_id")
+      .notNull()
+      .references(() => abTestExperiments.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    
+    variantId: text("variant_id").notNull(), // 'control' | 'variant_a' | 'variant_b'
+    
+    assignedAt: timestamp("assigned_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    experimentIdx: index("ab_test_assignments_experiment_idx").on(table.experimentId),
+    userIdx: index("ab_test_assignments_user_idx").on(table.userId),
+    variantIdx: index("ab_test_assignments_variant_idx").on(table.variantId),
+  })
+);
+
+// A/B 测试事件追踪表
+export const abTestEvents = pgTable(
+  "ab_test_events",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    
+    experimentId: uuid("experiment_id")
+      .notNull()
+      .references(() => abTestExperiments.id, { onDelete: "cascade" }),
+    assignmentId: uuid("assignment_id")
+      .notNull()
+      .references(() => abTestAssignments.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    
+    eventType: text("event_type").notNull(), // 'view' | 'click' | 'adoption' | 'conversion' | 'reward'
+    eventData: jsonb("event_data"), // 事件附加数据
+    
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    experimentIdx: index("ab_test_events_experiment_idx").on(table.experimentId),
+    assignmentIdx: index("ab_test_events_assignment_idx").on(table.assignmentId),
+    userIdx: index("ab_test_events_user_idx").on(table.userId),
+    typeIdx: index("ab_test_events_type_idx").on(table.eventType),
+    createdAtIdx: index("ab_test_events_created_at_idx").on(table.createdAt),
+  })
+);
 
 
 

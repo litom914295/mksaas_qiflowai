@@ -13,11 +13,13 @@ import { useAnalysisContextOptional } from '@/contexts/analysis-context';
 import type { Message } from '@/types/ai';
 import { streamChat } from '@/utils/chat-stream';
 import {
+  Clock,
   Copy,
   ExternalLink,
   Info,
   Loader2,
   MessageCircle,
+  RefreshCw,
   Send,
   Share2,
   Sparkles,
@@ -25,6 +27,13 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useToast } from '@/components/ui/use-toast';
+import { createChatSessionAction } from '@/actions/chat/create-chat-session';
+import { renewChatSessionAction } from '@/actions/chat/renew-chat-session';
+import { getChatSessionStatusAction } from '@/actions/chat/get-chat-session-status';
+import { ragChatAction } from '@/actions/rag-actions';
+import { KnowledgeReferenceMini } from '@/components/rag/knowledge-reference';
+import type { SearchResult } from '@/lib/rag';
 
 
 interface AIChatWithContextProps {
@@ -34,6 +43,16 @@ interface AIChatWithContextProps {
   welcomeMessage?: string;
   /** 是否显示未读消息数 */
   unreadCount?: number;
+  /** 是否启用会话计费模式 */
+  enableSessionBilling?: boolean;
+  /** 会话费用（积分） */
+  sessionCost?: number;
+  /** 会话时长（分钟） */
+  sessionDuration?: number;
+  /** 是否启用 RAG 知识增强 */
+  enableRAG?: boolean;
+  /** RAG 文档类别 */
+  ragCategory?: 'bazi' | 'fengshui' | 'faq' | 'case';
 }
 
 /**
@@ -54,9 +73,15 @@ export function AIChatWithContext({
   ],
   welcomeMessage,
   unreadCount = 0,
+  enableSessionBilling = false,
+  sessionCost = 40,
+  sessionDuration = 15,
+  enableRAG = false,
+  ragCategory,
 }: AIChatWithContextProps) {
   const router = useRouter();
   const analysisContext = useAnalysisContextOptional();
+  const { toast } = useToast();
 
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -72,6 +97,13 @@ export function AIChatWithContext({
 
   // 新增: 标记是否已激活（用于避免重复激活）
   const hasActivated = useRef(false);
+
+  // 会话计费状态
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [sessionStatus, setSessionStatus] = useState<'none' | 'active' | 'expired'>('none');
+  const [remainingMs, setRemainingMs] = useState<number>(0);
+  const [isCreatingSession, setIsCreatingSession] = useState(false);
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // 根据八字信息生成个性化欢迎消息
   const getWelcomeMessage = (): string => {
@@ -441,6 +473,173 @@ export function AIChatWithContext({
       }, 100);
     }
   }, [isOpen, analysisContext]);
+
+  // ======== 会话计费相关函数 ========
+
+  // 创建会话
+  const handleCreateSession = async () => {
+    setIsCreatingSession(true);
+    try {
+      const result = await createChatSessionAction();
+      if (result.success && result.data) {
+        setSessionId(result.data.sessionId);
+        setSessionStatus('active');
+        setRemainingMs(result.data.remainingMs);
+        toast({
+          title: '会话开启成功',
+          description: `已扣除 ${sessionCost} 积分，会话时长 ${sessionDuration} 分钟`,
+        });
+      } else {
+        if (result.errorCode === 'INSUFFICIENT_CREDITS') {
+          toast({
+            title: '积分不足',
+            description: `需要 ${sessionCost} 积分，当前余额 ${result.current}`,
+            variant: 'destructive',
+          });
+          // 跳转到积分购买页
+          router.push('/credits/buy');
+        } else {
+          toast({
+            title: '创建失败',
+            description: result.error || '请稍后重试',
+            variant: 'destructive',
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Create session error:', error);
+      toast({
+        title: '创建失败',
+        description: '系统错误，请稍后重试',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsCreatingSession(false);
+    }
+  };
+
+  // 续费会话
+  const handleRenewSession = async () => {
+    if (!sessionId) return;
+    
+    try {
+      const result = await renewChatSessionAction(sessionId);
+      if (result.success && result.data) {
+        setSessionStatus('active');
+        setRemainingMs(result.data.remainingMs);
+        toast({
+          title: '续费成功',
+          description: `已扣除 ${sessionCost} 积分，会话延长 ${sessionDuration} 分钟`,
+        });
+      } else {
+        if (result.errorCode === 'INSUFFICIENT_CREDITS') {
+          toast({
+            title: '积分不足',
+            description: `需要 ${sessionCost} 积分，请充值后重试`,
+            variant: 'destructive',
+          });
+          router.push('/credits/buy');
+        } else {
+          toast({
+            title: '续费失败',
+            description: result.error || '请稍后重试',
+            variant: 'destructive',
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Renew session error:', error);
+      toast({
+        title: '续费失败',
+        description: '系统错误，请稍后重试',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  // 检查会话状态
+  const checkSessionStatus = useCallback(async () => {
+    if (!sessionId) return;
+    
+    try {
+      const result = await getChatSessionStatusAction(sessionId);
+      if (result.success && result.data) {
+        setSessionStatus(result.data.status);
+        setRemainingMs(result.data.remainingMs);
+      }
+    } catch (error) {
+      console.error('Check session status error:', error);
+    }
+  }, [sessionId]);
+
+  // 实时更新倒计时
+  useEffect(() => {
+    if (!enableSessionBilling || sessionStatus !== 'active') {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+      return;
+    }
+
+    // 每秒更新剩余时间
+    timerIntervalRef.current = setInterval(() => {
+      setRemainingMs(prev => {
+        const newRemaining = Math.max(0, prev - 1000);
+        
+        // 5 分钟警告
+        if (prev > 5 * 60 * 1000 && newRemaining <= 5 * 60 * 1000) {
+          toast({
+            title: '会话即将过期',
+            description: '剩余 5 分钟，请及时续费',
+          });
+        }
+        
+        // 1 分钟危险警告
+        if (prev > 60 * 1000 && newRemaining <= 60 * 1000) {
+          toast({
+            title: '会话即将过期！',
+            description: '仅剩 1 分钟，请立即续费',
+            variant: 'destructive',
+          });
+        }
+        
+        // 过期
+        if (newRemaining === 0) {
+          setSessionStatus('expired');
+          toast({
+            title: '会话已过期',
+            description: '请续费后继续对话',
+            variant: 'destructive',
+          });
+        }
+        
+        return newRemaining;
+      });
+    }, 1000);
+
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
+    };
+  }, [enableSessionBilling, sessionStatus, toast]);
+
+  // 清理定时器
+  useEffect(() => {
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
+    };
+  }, []);
+
+  // 格式化剩余时间
+  const formatRemainingTime = (ms: number): string => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
 
   // 智能滚动：只在用户发送消息后自动滚动一次
   const scrollToBottom = () => {
@@ -898,9 +1097,30 @@ export function AIChatWithContext({
     return suggestions.slice(0, 3);
   };
 
-  // 发送消息（支持上下文 + 流式渲染）
+  // 发送消息（支持上下文 + 流式渲染 + RAG）
   const handleSend = async (content: string) => {
     if (!content.trim()) return;
+
+    // 会话计费模式: 检查状态
+    if (enableSessionBilling) {
+      if (sessionStatus === 'none') {
+        // 未创建会话
+        toast({
+          title: '请先开启会话',
+          description: `需要 ${sessionCost} 积分开启 ${sessionDuration} 分钟会话`,
+        });
+        return;
+      }
+      if (sessionStatus === 'expired') {
+        // 会话已过期
+        toast({
+          title: '会话已过期',
+          description: '请续费后继续对话',
+          variant: 'destructive',
+        });
+        return;
+      }
+    }
 
     // 添加用户消息
     const userMessage: Message = {
@@ -931,23 +1151,54 @@ export function AIChatWithContext({
     abortControllerRef.current = controller;
 
     try {
-      // 构建带上下文的消息历史
-      const messagesWithContext = [...messages, userMessage].map((msg) => ({
-        role: msg.role,
-        content: msg.content,
-      }));
+      // 如果启用了 RAG，使用 RAG Action
+      if (enableRAG) {
+        const response = await ragChatAction({
+          query: content.trim(),
+          sessionId: sessionId || undefined,
+          enableRAG: true,
+          category: ragCategory,
+          topK: 5,
+          temperature: 0.7,
+        });
 
-      // 如果启用了上下文且有可用的上下文数据，添加上下文信息
-      let contextSummary = '';
-      if (contextEnabled && analysisContext) {
-        contextSummary = analysisContext.getAIContextSummary();
-        console.log('📤 [AI-Chat] 发送流式请求:');
-        console.log('  - 消息数:', messages.length + 1);
-        console.log('  - 上下文长度:', contextSummary.length);
-      }
+        if (!response.success || !response.answer) {
+          throw new Error(response.error || '生成失败');
+        }
 
-      // 使用流式聊天
-      await streamChat(messagesWithContext, contextSummary, {
+        // 更新 AI 消息
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === aiMessageId
+              ? {
+                  ...msg,
+                  content: response.answer,
+                  references: response.references as any,
+                  ragEnabled: true,
+                  isThinking: false,
+                }
+              : msg
+          )
+        );
+      } else {
+        // 原有流式聊天逻辑
+        // 构建带上下文的消息历史
+        const messagesWithContext = [...messages, userMessage].map((msg) => ({
+          role: msg.role,
+          content: msg.content,
+        }));
+
+        // 如果启用了上下文且有可用的上下文数据，添加上下文信息
+        let contextSummary = '';
+        if (contextEnabled && analysisContext) {
+          contextSummary = analysisContext.getAIContextSummary();
+          console.log('📤 [AI-Chat] 发送流式请求:');
+          console.log('  - 消息数:', messages.length + 1);
+          console.log('  - 上下文长度:', contextSummary.length);
+        }
+
+        // 使用流式聊天
+        await streamChat(messagesWithContext, contextSummary, {
         signal: controller.signal,
         onStart: () => {
           console.log('🚀 [Stream] 开始接收数据');
@@ -986,7 +1237,8 @@ export function AIChatWithContext({
             )
           );
         },
-      });
+        });
+      }
     } catch (error) {
       console.error('AI chat error:', error);
       setMessages((prev) =>
@@ -1133,21 +1385,51 @@ export function AIChatWithContext({
               <div>
                 <h3 className="font-bold">AI风水大师</h3>
                 <p className="text-xs opacity-90 flex items-center gap-1">
-                  在线
-                  {hasContext && contextEnabled && (
+                  {enableSessionBilling ? (
+                    sessionStatus === 'active' ? (
+                      <>
+                        <Clock className="w-3 h-3" />
+                        <span
+                          className={remainingMs <= 60000 ? 'text-red-300 font-bold' : remainingMs <= 5 * 60000 ? 'text-yellow-300' : ''}
+                        >
+                          {formatRemainingTime(remainingMs)}
+                        </span>
+                      </>
+                    ) : sessionStatus === 'expired' ? (
+                      <span className="text-red-300">会话已过期</span>
+                    ) : (
+                      <span>未开启会话</span>
+                    )
+                  ) : (
                     <>
-                      <span>·</span>
-                      <span className="flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        智能模式
-                      </span>
+                      在线
+                      {hasContext && contextEnabled && (
+                        <>
+                          <span>·</span>
+                          <span className="flex items-center gap-1">
+                            <Sparkles className="w-3 h-3" />
+                            智能模式
+                          </span>
+                        </>
+                      )}
                     </>
                   )}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {hasContext && (
+              {enableSessionBilling && (sessionStatus === 'active' || sessionStatus === 'expired') && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRenewSession}
+                  className="text-white hover:bg-white/20"
+                  title="续费会话"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                </Button>
+              )}
+              {hasContext && !enableSessionBilling && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -1158,27 +1440,29 @@ export function AIChatWithContext({
                   <Info className="w-4 h-4" />
                 </Button>
               )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleGoToFullChat}
-                className="text-white hover:bg-white/20"
-                title="打开完整对话"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              {!enableSessionBilling && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleGoToFullChat}
+                  className="text-white hover:bg-white/20"
+                  title="打开完整对话"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-                  />
-                </svg>
-              </Button>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                    />
+                  </svg>
+                </Button>
+              )}
               <Button
                 variant="ghost"
                 size="sm"
@@ -1274,6 +1558,19 @@ export function AIChatWithContext({
                   </div>
                 </div>
 
+                {/* RAG 知识引用 */}
+                {message.role === 'assistant' && message.references && message.references.length > 0 && (
+                  <div className="ml-4 mt-2">
+                    <KnowledgeReferenceMini
+                      references={message.references}
+                      onReferenceClick={(ref) => {
+                        console.log('📚 [RAG] 点击引用:', ref);
+                        // 可以添加点击引用的处理逻辑
+                      }}
+                    />
+                  </div>
+                )}
+
                 {/* 关联话题推荐 */}
                 {message.role === 'assistant' &&
                   showRelatedTopics[message.id] && (
@@ -1348,32 +1645,76 @@ export function AIChatWithContext({
 
           {/* 输入区域 */}
           <div className="p-4 bg-white border-t border-gray-200">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSend(inputValue);
-                  }
-                }}
-                placeholder="输入您的问题..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-              <Button
-                onClick={() => handleSend(inputValue)}
-                disabled={!inputValue.trim()}
-                className="rounded-full w-10 h-10 p-0 bg-gradient-to-r from-purple-600 to-blue-600"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
-            </div>
-            {hasContext && (
-              <p className="text-xs text-center text-gray-500 mt-2">
-                {contextEnabled ? '✨ 智能模式已启用' : '普通对话模式'}
-              </p>
+            {enableSessionBilling && sessionStatus === 'none' ? (
+              <div className="text-center">
+                <Button
+                  onClick={handleCreateSession}
+                  disabled={isCreatingSession}
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600"
+                >
+                  {isCreatingSession ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      创建中...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      开启会话 ({sessionCost} 积分 / {sessionDuration}分钟)
+                    </>
+                  )}
+                </Button>
+                <p className="text-xs text-gray-500 mt-2">
+                  开启后即可开始对话
+                </p>
+              </div>
+            ) : enableSessionBilling && sessionStatus === 'expired' ? (
+              <div className="text-center">
+                <p className="text-sm text-red-600 mb-2">会话已过期</p>
+                <Button
+                  onClick={handleRenewSession}
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600"
+                >
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  续费会话 ({sessionCost} 积分 / {sessionDuration}分钟)
+                </Button>
+              </div>
+            ) : (
+              <>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend(inputValue);
+                      }
+                    }}
+                    placeholder="输入您的问题..."
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    disabled={enableSessionBilling && sessionStatus !== 'active'}
+                  />
+                  <Button
+                    onClick={() => handleSend(inputValue)}
+                    disabled={!inputValue.trim() || (enableSessionBilling && sessionStatus !== 'active')}
+                    className="rounded-full w-10 h-10 p-0 bg-gradient-to-r from-purple-600 to-blue-600"
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+                {(hasContext || enableRAG) && !enableSessionBilling && (
+                  <p className="text-xs text-center text-gray-500 mt-2">
+                    {enableRAG 
+                      ? '📚 知识增强模式' 
+                      : contextEnabled 
+                        ? '✨ 智能模式已启用' 
+                        : '普通对话模式'
+                    }
+                  </p>
+                )}
+              </>
             )}
           </div>
         </div>

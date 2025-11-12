@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "name": "Ziping (子平派)",
+  "description": "传统子平派算法,强调月令提纲和通根力量",
+  "school": "ziping",
+  "wuxingWeights": {
+    "stemBase": 10,
+    "branchMainQi": 8,
+    "branchMiddleQi": 5,
+    "branchResidualQi": 2
+  },
+  "rootingCoefficients": {
+    "year": 1.1,
+    "month": 1.6,
+    "day": 1.5,
+    "hour": 1.0
+  },
+  "monthlyCoefficients": {
+    "spring": {
+      "wood": 1.6,
+      "fire": 1.2,
+      "earth": 1.0,
+      "metal": 0.7,
+      "water": 1.0
+    },
+    "summer": {
+      "wood": 1.0,
+      "fire": 1.6,
+      "earth": 1.3,
+      "metal": 0.6,
+      "water": 0.7
+    },
+    "autumn": {
+      "wood": 0.7,
+      "fire": 0.8,
+      "earth": 1.0,
+      "metal": 1.6,
+      "water": 1.0
+    },
+    "winter": {
+      "wood": 1.0,
+      "fire": 0.7,
+      "earth": 1.0,
+      "metal": 1.2,
+      "water": 1.6
+    }
+  },
+  "interactionCoefficients": {
+    "generation": 0.2,
+    "control": 0.2,
+    "drainage": 0.12,
+    "controlled": 0.12
+  },
+  "options": {
+    "enableCache": true,
+    "cacheSize": 100,
+    "enableTrueSolarTime": true,
+    "normalizeToHundred": true,
+    "precision": 2
+  },
+  "createdAt": "2025-01-01T00:00:00.000Z"
+}

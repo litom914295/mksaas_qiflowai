@@ -1,5 +1,6 @@
 'use client';
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -9,7 +10,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import type { ComprehensiveAnalysisResult } from '@/lib/qiflow/xuankong/comprehensive-engine';
-import { AlertCircle, Droplets, Mountain, Target } from 'lucide-react';
+import {
+  AlertCircle,
+  AlertTriangle,
+  Droplets,
+  Mountain,
+  Target,
+} from 'lucide-react';
 import React from 'react';
 
 interface LingzhengAnalysisViewProps {
@@ -163,6 +170,28 @@ export function LingzhengAnalysisView({
 
   return (
     <div className={`space-y-6 ${className}`}>
+      {/* 零正颠倒警告 */}
+      {isZeroPositiveReversed && (
+        <Alert variant="destructive" className="border-red-500">
+          <AlertTriangle className="h-5 w-5" />
+          <AlertTitle className="font-bold">⚠️ 检测到零正颠倒</AlertTitle>
+          <AlertDescription className="mt-2">
+            <p className="mb-2">
+              当前布局存在<strong>零正颠倒</strong>现象（零神位见山、正神位见水），
+              这会导致财运、人丁运不佳，建议尽快调整。
+            </p>
+            <div className="bg-red-50 rounded p-3 mt-2">
+              <p className="text-sm font-medium mb-1">建议调整：</p>
+              <ul className="text-sm space-y-1 ml-4">
+                <li>• 零神位（宜水）：移除高大山形物件，添加水景或动态元素</li>
+                <li>• 正神位（宜山）：移除水景设施，添加高大家具或山石装饰</li>
+                <li>• 严重的零正颠倒建议咨询专业风水师</li>
+              </ul>
+            </div>
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* 零正理论概述 */}
       <Card>
         <CardHeader>

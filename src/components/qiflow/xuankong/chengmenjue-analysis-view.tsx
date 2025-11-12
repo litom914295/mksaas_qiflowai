@@ -45,16 +45,7 @@ export function ChengmenjueAnalysisView({
     chengmenPositions = [],
     activationMethods = [],
     taboos = [],
-    overallAssessment,
-    keyPoints,
-    priorities,
   } = chengmenjueAnalysis as any;
-
-  const analysis = {
-    overallAssessment,
-    keyPoints,
-    priorities,
-  };
 
   const applicable = hasChengmen;
 
@@ -71,43 +62,72 @@ export function ChengmenjueAnalysisView({
     9: '南',
   };
 
+  const palaceToBagua: Record<number, string> = {
+    1: '坎',
+    2: '坤',
+    3: '震',
+    4: '巽',
+    5: '中',
+    6: '乾',
+    7: '兑',
+    8: '艮',
+    9: '离',
+  };
+
+  // 从分析结果中获取飞星盘数据（用于显示星曜组合）
+  const plate = analysisResult?.basicAnalysis?.plates?.period || [];
+
   // 最佳城门位置（效果高的）
   const optimalGates = chengmenPositions
     .filter((p: any) => p.effectiveness === 'high')
-    .map((p: any) => ({
-      direction: palaceToDirection[p.palace] || '未知',
-      palace: p.palace,
-      stars: [`宫位${p.palace}`],
-      rating: '上吉',
-      suitableFor: p.description || '主门、主窗',
-      effect: `高效催旺，${activationMethods[0] || '可提升整体运势'}`,
-    }));
+    .map((p: any) => {
+      const cell = plate.find((c: any) => c.palace === p.palace);
+      return {
+        direction: `${palaceToDirection[p.palace]}（${palaceToBagua[p.palace]}）`,
+        palace: p.palace,
+        mountainStar: cell?.mountainStar,
+        facingStar: cell?.facingStar,
+        rating: '上吉',
+        description: p.description || `${palaceToBagua[p.palace]}宫城门`,
+        effect: `高效催旺，建议重点利用`,
+      };
+    });
 
   // 所有城门位置分析
-  const gatePositions = chengmenPositions.map((p: any) => ({
-    direction: palaceToDirection[p.palace] || '未知',
-    palace: p.palace,
-    rating:
-      p.effectiveness === 'high'
-        ? '上吉'
-        : p.effectiveness === 'medium'
-          ? '次吉'
-          : '一般',
-    mountainStar: Math.floor(Math.random() * 9) + 1,
-    facingStar: Math.floor(Math.random() * 9) + 1,
-    analysis: p.description || `${palaceToDirection[p.palace]}方位城门分析`,
-    suggestion: activationMethods[0] || '建议在此方位开门开窗',
-    caution: taboos[0] || null,
-  }));
+  const gatePositions = chengmenPositions.map((p: any) => {
+    const cell = plate.find((c: any) => c.palace === p.palace);
+    return {
+      direction: `${palaceToDirection[p.palace]}（${palaceToBagua[p.palace]}）`,
+      palace: p.palace,
+      rating:
+        p.effectiveness === 'high'
+          ? '上吉'
+          : p.effectiveness === 'medium'
+            ? '次吉'
+            : '一般',
+      mountainStar: cell?.mountainStar || '?',
+      facingStar: cell?.facingStar || '?',
+      analysis: p.description || `${palaceToBagua[p.palace]}宫城门分析`,
+      suggestion:
+        p.effectiveness === 'high'
+          ? '强烈建议在此方位开门或设置动态元素'
+          : p.effectiveness === 'medium'
+            ? '可考虑在此方位开门或开窗'
+            : '此方位作为城门效果一般',
+      caution:
+        p.effectiveness === 'low' ? '此方位城门效果较弱，需谨慎使用' : null,
+    };
+  });
 
+  // 综合建议
   const recommendations = [
-    ...activationMethods.map((m: string) => ({
-      title: '催旺方法',
+    ...activationMethods.slice(0, 3).map((m: string, i: number) => ({
+      title: `催旺方法 ${i + 1}`,
       description: m,
       priority: 1,
     })),
-    ...taboos.map((t: string) => ({
-      title: '禁忌事项',
+    ...taboos.slice(0, 3).map((t: string, i: number) => ({
+      title: `禁忌事项 ${i + 1}`,
       description: t,
       priority: 2,
     })),
@@ -176,64 +196,69 @@ export function ChengmenjueAnalysisView({
               <CardDescription>当前宅运最适合开门开窗的方位</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {optimalGates?.map((gate: any, idx: number) => (
-                  <div
-                    key={idx}
-                    className="border-2 border-green-500 rounded-lg p-4 bg-green-50"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center space-x-2">
-                        <MapPin className="w-5 h-5 text-green-600" />
-                        <span className="font-medium text-lg">
-                          {gate.direction}
-                        </span>
+              {optimalGates && optimalGates.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {optimalGates.map((gate: any, idx: number) => (
+                    <div
+                      key={idx}
+                      className="border-2 border-green-500 rounded-lg p-4 bg-green-50"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <MapPin className="w-5 h-5 text-green-600" />
+                          <span className="font-medium text-lg">
+                            {gate.direction}
+                          </span>
+                        </div>
+                        <Badge className="bg-green-600">第{idx + 1}优选</Badge>
                       </div>
-                      <Badge className="bg-green-600">第{idx + 1}优选</Badge>
-                    </div>
-                    <div className="space-y-2">
-                      <div>
-                        <p className="text-xs text-muted-foreground mb-1">
-                          星曜组合
-                        </p>
-                        <div className="flex flex-wrap gap-1">
-                          {gate.stars?.map((star: any, i: number) => (
-                            <Badge
-                              key={i}
-                              variant="outline"
-                              className="text-xs"
-                            >
-                              {star}
-                            </Badge>
-                          ))}
+                      <div className="space-y-2">
+                        {/* 飞星组合 */}
+                        {gate.mountainStar && gate.facingStar && (
+                          <div>
+                            <p className="text-xs text-muted-foreground mb-1">
+                              飞星组合
+                            </p>
+                            <div className="flex flex-wrap gap-1">
+                              <Badge variant="outline" className="text-xs">
+                                山星: {gate.mountainStar}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs">
+                                向星: {gate.facingStar}
+                              </Badge>
+                            </div>
+                          </div>
+                        )}
+                        {/* 评级 */}
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">
+                            吉凶评价
+                          </p>
+                          <Badge className="bg-green-500">{gate.rating}</Badge>
+                        </div>
+                        {/* 说明 */}
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">
+                            说明
+                          </p>
+                          <p className="text-sm">{gate.description}</p>
+                        </div>
+                        {/* 效果 */}
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">
+                            效果
+                          </p>
+                          <p className="text-sm text-green-700">{gate.effect}</p>
                         </div>
                       </div>
-                      <div>
-                        <p className="text-xs text-muted-foreground mb-1">
-                          吉凶评价
-                        </p>
-                        <Badge className="bg-green-500">{gate.rating}</Badge>
-                      </div>
-                      <div>
-                        <p className="text-xs text-muted-foreground mb-1">
-                          适合类型
-                        </p>
-                        <p className="text-sm">{gate.suitableFor}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-muted-foreground mb-1">
-                          效果
-                        </p>
-                        <p className="text-sm text-green-700">{gate.effect}</p>
-                      </div>
                     </div>
-                  </div>
-                )) || (
-                  <div className="col-span-3 text-center text-sm text-muted-foreground py-8">
-                    暂无最佳城门数据
-                  </div>
-                )}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center text-sm text-muted-foreground py-8">
+                  当前格局无高效城门位置
+                </div>
+              )}
             </CardContent>
           </Card>
 

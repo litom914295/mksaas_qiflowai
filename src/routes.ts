@@ -49,6 +49,8 @@ export enum Routes {
   QiflowBazi = '/analysis/bazi',
   QiflowXuankong = '/analysis/xuankong',
   AnalysisHistory = '/analysis/history',
+  QiflowMonthlyFortune = '/qiflow/monthly-fortune',
+  QiflowMonthlyFortuneDetail = '/qiflow/monthly-fortune/[id]',
 
   // block routes
   MagicuiBlocks = '/magicui',
@@ -89,6 +91,7 @@ export const protectedRoutes = [
   Routes.SettingsSecurity,
   Routes.SettingsNotifications,
   Routes.AnalysisHistory,
+  '/qiflow/.*',  // 保护所有 qiflow 路由
 ];
 
 /**

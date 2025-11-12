@@ -64,12 +64,22 @@ export function LuckCyclesAnalysis({ data }: LuckCyclesAnalysisProps) {
   );
   const [currentYear] = useState(new Date().getFullYear());
 
-  // 计算当前年龄
+  // 计算当前年龄（精确的周岁计算）
   const currentAge = useMemo(() => {
     if (!base?.birth?.datetime) return 30;
-    const birthYear = new Date(base.birth.datetime).getFullYear();
-    return currentYear - birthYear;
-  }, [base?.birth?.datetime, currentYear]);
+    const now = new Date();
+    const birthDate = new Date(base.birth.datetime);
+    let age = now.getFullYear() - birthDate.getFullYear();
+    // 如果今年生日还没到，年龄减1
+    if (
+      now.getMonth() < birthDate.getMonth() ||
+      (now.getMonth() === birthDate.getMonth() &&
+        now.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return Math.max(0, age);
+  }, [base?.birth?.datetime]);
 
   // 获取选中的大运详情
   const selectedDaYunDetail = useMemo(() => {

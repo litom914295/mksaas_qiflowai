@@ -128,8 +128,19 @@ export class DayunLiuNianCalculator {
       birthDate.getFullYear()
     );
 
-    // 确定当前大运
-    const currentAge = new Date().getFullYear() - birthDate.getFullYear();
+    // 确定当前大运（使用精确的周岁年龄计算）
+    const now = new Date();
+    let currentAge = now.getFullYear() - birthDate.getFullYear();
+    // 如果今年生日还没到，年龄减1
+    if (
+      now.getMonth() < birthDate.getMonth() ||
+      (now.getMonth() === birthDate.getMonth() &&
+        now.getDate() < birthDate.getDate())
+    ) {
+      currentAge--;
+    }
+    currentAge = Math.max(0, currentAge); // 确保不为负数
+
     const currentDayun = dayunList.find(
       (d) => currentAge >= d.startAge && currentAge <= d.endAge
     );

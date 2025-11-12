@@ -878,20 +878,38 @@ function generateCharacteristics(dominant: string[]): string[] {
 }
 
 function calculateAge(result: any): number {
-  // 从结果中提取出生年份计算年龄
-  const currentYear = new Date().getFullYear();
-  let birthYear = 1990; // 默认值
+  // 从结果中提取出生日期，计算周岁年龄（考虑月日）
+  const now = new Date();
+  let birthDate: Date | null = null;
 
-  // 尝试从多个可能的位置获取出生年份
+  // 尝试从多个可能的位置获取出生日期
   if (result?.birthData?.datetime) {
-    birthYear = new Date(result.birthData.datetime).getFullYear();
-  } else if (result?.solar?.year) {
-    birthYear = result.solar.year;
+    birthDate = new Date(result.birthData.datetime);
+  } else if (result?.solar?.year && result?.solar?.month && result?.solar?.day) {
+    birthDate = new Date(result.solar.year, result.solar.month - 1, result.solar.day);
   } else if (result?.fourPillars?.year?.year) {
-    birthYear = result.fourPillars.year.year;
+    // 如果只有年份，使用年份的1月1日作为默认
+    birthDate = new Date(result.fourPillars.year.year, 0, 1);
+  } else {
+    // 完全没有出生信息，使用默认值（当前年份-30岁）
+    birthDate = new Date(now.getFullYear() - 30, 0, 1);
   }
 
-  return currentYear - birthYear;
+  // 计算周岁年龄：考虑月份和日期
+  let age = now.getFullYear() - birthDate.getFullYear();
+  
+  // 如果今年生日还没到，年龄减1
+  const currentMonth = now.getMonth();
+  const currentDay = now.getDate();
+  const birthMonth = birthDate.getMonth();
+  const birthDay = birthDate.getDate();
+  
+  if (currentMonth < birthMonth || (currentMonth === birthMonth && currentDay < birthDay)) {
+    age--;
+  }
+
+  // 确保年龄不为负数
+  return Math.max(0, age);
 }
 
 function generateDaYunTheme(pillar: any): string {

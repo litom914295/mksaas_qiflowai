@@ -10,6 +10,7 @@ import { intelligentTiguaJudgment } from './enhanced-tigua';
 import { analyzeGeju } from './geju';
 import { generateFlyingStar } from './index';
 import { analyzeLingzheng } from './lingzheng';
+import { checkQixingDajiePattern } from './qixing-dajie';
 import {
   analyzeDayunTransition,
   analyzeLiunianOverlay,
@@ -40,6 +41,7 @@ import type {
   Mountain,
   PalaceIndex,
   Plate,
+  QixingDajieAnalysis,
   Yun,
 } from './types';
 
@@ -66,6 +68,7 @@ export interface ComprehensiveAnalysisOptions {
   includeTiguaAnalysis?: boolean; // 包含替卦分析
   includeLingzheng?: boolean; // 包含零正理论
   includeChengmenjue?: boolean; // 包含城门诀
+  includeQixingdajie?: boolean; // 包含七星打劫
   includeTimeSelection?: boolean; // 包含择吉时间
 
   // P1 新增分析选项
@@ -143,6 +146,9 @@ export interface ComprehensiveAnalysisResult {
   // 城门诀
   chengmenjueAnalysis?: any;
 
+  // 七星打劫
+  qixingdajieAnalysis?: QixingDajieAnalysis;
+
   // 择吉时间
   timeSelection?: {
     recommendedPeriods: any[];
@@ -183,17 +189,60 @@ export async function comprehensiveAnalysis(
 ): Promise<ComprehensiveAnalysisResult> {
   const startTime = Date.now();
 
+  // 参数验证
+  if (!options) {
+    throw new Error('[comprehensive-engine] options is required');
+  }
+  if (!options.observedAt) {
+    throw new Error('[comprehensive-engine] options.observedAt is required');
+  }
+  if (!options.facing || typeof options.facing.degrees !== 'number') {
+    throw new Error(
+      '[comprehensive-engine] options.facing.degrees must be a number'
+    );
+  }
+
   // 1. 基础飞星分析
-  const basicAnalysis = generateFlyingStar({
-    observedAt: options.observedAt,
-    facing: options.facing,
-    location: options.location,
-    config: options.config,
-  });
+  let basicAnalysis;
+  try {
+    basicAnalysis = generateFlyingStar({
+      observedAt: options.observedAt,
+      facing: options.facing,
+      location: options.location,
+      config: options.config,
+    });
+  } catch (error) {
+    throw new Error(
+      `[comprehensive-engine] generateFlyingStar failed: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
+
+  // 验证 basicAnalysis 结构
+  if (!basicAnalysis) {
+    throw new Error('[comprehensive-engine] basicAnalysis is null or undefined');
+  }
+  if (!basicAnalysis.plates) {
+    throw new Error('[comprehensive-engine] basicAnalysis.plates is missing');
+  }
+  if (!basicAnalysis.plates.period) {
+    throw new Error(
+      '[comprehensive-engine] basicAnalysis.plates.period is missing'
+    );
+  }
 
   const { period, plates, evaluation, geju, wenchangwei, caiwei } =
     basicAnalysis;
   const basePlate = plates.period;
+
+  // 验证 basePlate
+  if (!basePlate || !Array.isArray(basePlate)) {
+    throw new Error(
+      `[comprehensive-engine] Invalid basePlate: ${typeof basePlate}, expected array`
+    );
+  }
+  if (basePlate.length === 0) {
+    throw new Error('[comprehensive-engine] basePlate is empty');
+  }
 
   // 提取坐向信息
   const zuo = extractZuo(options.facing.degrees);
@@ -321,6 +370,17 @@ export async function comprehensiveAnalysis(
     chengmenjueAnalysis = analyzeChengmenjue(basePlate, period, zuo, xiang);
   }
 
+  // 8.5. 七星打劫分析（如果启用）
+  let qixingdajieAnalysis;
+  if (options.includeQixingdajie) {
+    qixingdajieAnalysis = checkQixingDajiePattern(
+      basePlate,
+      period,
+      zuo,
+      xiang
+    );
+  }
+
   // 9. 择吉时间（如果启用）
   let timeSelection;
   if (options.includeTimeSelection && options.eventType) {
@@ -389,6 +449,7 @@ export async function comprehensiveAnalysis(
     tiguaAnalysis,
     lingzhengAnalysis,
     chengmenjueAnalysis,
+    qixingdajieAnalysis,
     timeSelection,
     geju,
     diagnosticReport,
@@ -421,13 +482,14 @@ export async function comprehensiveAnalysis(
     tiguaAnalysis,
     lingzhengAnalysis,
     chengmenjueAnalysis,
+    qixingdajieAnalysis,
     timeSelection,
     diagnosticReport,
     remedyPlans,
     overallAssessment,
     metadata: {
       analyzedAt: new Date(),
-      version: '6.0.0', // 升级到 v6.0
+      version: '6.1.0', // 升级到 v6.1 - 添加七星打劫
       analysisDepth,
       computationTime,
     },
@@ -442,7 +504,31 @@ function generateEnhancedPlate(
   period: Yun,
   evaluation: Record<PalaceIndex, any>
 ): EnhancedPlate {
-  return basePlate.map((cell) => {
+  // 参数验证
+  if (!basePlate || !Array.isArray(basePlate)) {
+    throw new Error(
+      `[generateEnhancedPlate] Invalid basePlate: ${typeof basePlate}`
+    );
+  }
+  if (!evaluation || typeof evaluation !== 'object') {
+    throw new Error(
+      `[generateEnhancedPlate] Invalid evaluation: ${typeof evaluation}`
+    );
+  }
+
+  return basePlate.map((cell, index) => {
+    // 验证每个 cell
+    if (!cell) {
+      throw new Error(
+        `[generateEnhancedPlate] cell at index ${index} is null or undefined`
+      );
+    }
+    if (typeof cell.palace === 'undefined') {
+      throw new Error(
+        `[generateEnhancedPlate] cell at index ${index} missing palace property`
+      );
+    }
+
     const bagua = PALACE_TO_BAGUA[cell.palace];
     const mountainStarInfo = getStarInterpretation(cell.mountainStar, period);
     const facingStarInfo = getStarInterpretation(cell.facingStar, period);
@@ -587,6 +673,40 @@ function generateOverallAssessment(data: any): any {
     score += 5;
     strengths.push('具备城门诀催旺条件');
     longTermPlan.push('利用城门诀催旺财丁运');
+  }
+
+  // 分析七星打劫
+  if (data.qixingdajieAnalysis?.isQixingDajie) {
+    const dajie = data.qixingdajieAnalysis;
+    
+    // 根据有效性等级计分
+    const effectivenessScores: Record<string, number> = {
+      peak: 20,
+      high: 15,
+      medium: 10,
+      low: 5,
+    };
+    score += effectivenessScores[dajie.effectiveness] || 0;
+    
+    // 根据打劫类型进一步计分
+    if (dajie.dajieType === 'full') {
+      score += 10;
+      strengths.push('形成七星打劫全劫格局（同时劫财劫丁）');
+    } else if (dajie.dajieType === 'jie_cai') {
+      score += 5;
+      strengths.push('形成七星打劫劫财格局');
+    } else if (dajie.dajieType === 'jie_ding') {
+      score += 5;
+      strengths.push('形成七星打劫劫丁格局');
+    }
+    
+    // 根据评分等级添加建议
+    if (dajie.effectiveness === 'peak' || dajie.effectiveness === 'high') {
+      topPriorities.push('优先利用七星打劫格局催旺');
+      longTermPlan.push('在打劫位布置动水或增加活动频率');
+    } else {
+      longTermPlan.push('七星打劫格局存在但效果较弱，谨慎应用');
+    }
   }
 
   // P1新增：分析诊断预警

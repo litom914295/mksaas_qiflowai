@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "name": "Modern (现代派)",
+  "description": "现代平衡算法,综合考虑各项因素",
+  "school": "modern",
+  "wuxingWeights": {
+    "stemBase": 10,
+    "branchMainQi": 8,
+    "branchMiddleQi": 5,
+    "branchResidualQi": 2
+  },
+  "rootingCoefficients": {
+    "year": 1.2,
+    "month": 1.5,
+    "day": 1.5,
+    "hour": 1.1
+  },
+  "monthlyCoefficients": {
+    "spring": {
+      "wood": 1.5,
+      "fire": 1.2,
+      "earth": 1.0,
+      "metal": 0.8,
+      "water": 1.0
+    },
+    "summer": {
+      "wood": 1.0,
+      "fire": 1.5,
+      "earth": 1.2,
+      "metal": 0.7,
+      "water": 0.8
+    },
+    "autumn": {
+      "wood": 0.8,
+      "fire": 0.9,
+      "earth": 1.0,
+      "metal": 1.5,
+      "water": 1.0
+    },
+    "winter": {
+      "wood": 1.0,
+      "fire": 0.8,
+      "earth": 1.0,
+      "metal": 1.2,
+      "water": 1.5
+    }
+  },
+  "interactionCoefficients": {
+    "generation": 0.15,
+    "control": 0.15,
+    "drainage": 0.1,
+    "controlled": 0.1
+  },
+  "options": {
+    "enableCache": true,
+    "cacheSize": 100,
+    "enableTrueSolarTime": true,
+    "normalizeToHundred": true,
+    "precision": 2
+  },
+  "createdAt": "2025-01-01T00:00:00.000Z"
+}

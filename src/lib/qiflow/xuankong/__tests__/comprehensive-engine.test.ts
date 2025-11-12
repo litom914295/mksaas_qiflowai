@@ -164,7 +164,9 @@ describe('Comprehensive Analysis Engine', () => {
       const result = await comprehensiveAnalysis(basicOptions);
 
       expect(result.metadata.analyzedAt).toBeInstanceOf(Date);
-      expect(result.metadata.version).toBe('1.0.0');
+      // 版本号应该是字符串格式，不固定具体值（因为会升级）
+      expect(typeof result.metadata.version).toBe('string');
+      expect(result.metadata.version).toMatch(/^\d+\.\d+\.\d+$/);
       expect(['basic', 'standard', 'comprehensive', 'expert']).toContain(
         result.metadata.analysisDepth
       );
@@ -297,6 +299,291 @@ describe('Comprehensive Analysis Engine', () => {
       const result = await comprehensiveAnalysis(options);
       expect(result).toBeDefined();
       expect(result.basicAnalysis).toBeDefined();
+    });
+  });
+
+  describe('Advanced Patterns Integration (Week 4 Tests)', () => {
+    describe('Qixingdajie Analysis', () => {
+      it('should include qixingdajie analysis when enabled', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: true,
+          observedAt: new Date('2024-06-01T12:00:00Z'), // 九运
+          facing: { degrees: 180 }, // 坐子向午
+        };
+
+        const result = await comprehensiveAnalysis(options);
+
+        expect(result.qixingdajieAnalysis).toBeDefined();
+        expect(result.qixingdajieAnalysis).toHaveProperty('isQixingDajie');
+        expect(result.qixingdajieAnalysis).toHaveProperty('dajieType');
+        expect(result.qixingdajieAnalysis).toHaveProperty('dajiePositions');
+        expect(result.qixingdajieAnalysis).toHaveProperty('effectiveness');
+        expect(result.qixingdajieAnalysis).toHaveProperty('score');
+        expect(result.qixingdajieAnalysis).toHaveProperty('sanbanGuaValidation');
+        expect(result.qixingdajieAnalysis).toHaveProperty(
+          'activationRequirements'
+        );
+        expect(result.qixingdajieAnalysis).toHaveProperty('taboos');
+      });
+
+      it('should not include qixingdajie analysis when disabled', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: false,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+        expect(result.qixingdajieAnalysis).toBeUndefined();
+      });
+
+      it('should validate sanban gua structure', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+        const sanbanValidation =
+          result.qixingdajieAnalysis?.sanbanGuaValidation;
+
+        expect(sanbanValidation).toBeDefined();
+        expect(sanbanValidation).toHaveProperty('isValid');
+        expect(sanbanValidation).toHaveProperty('group');
+        expect(sanbanValidation).toHaveProperty('matchCount');
+        expect(sanbanValidation).toHaveProperty('details');
+        expect(Array.isArray(sanbanValidation?.group)).toBe(true);
+        expect(Array.isArray(sanbanValidation?.details)).toBe(true);
+      });
+
+      it('should return valid effectiveness level', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+        const effectiveness = result.qixingdajieAnalysis?.effectiveness;
+
+        expect(['peak', 'high', 'medium', 'low']).toContain(effectiveness);
+      });
+
+      it('should return score between 0-100', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+        const score = result.qixingdajieAnalysis?.score;
+
+        expect(score).toBeGreaterThanOrEqual(0);
+        expect(score).toBeLessThanOrEqual(100);
+      });
+
+      it('should include qixingdajie in overall assessment when present', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+
+        if (result.qixingdajieAnalysis?.isQixingDajie) {
+          const hasQixingInStrengths = result.overallAssessment.strengths.some(
+            (s) => s.includes('七星打劫')
+          );
+          const hasQixingInPriorities =
+            result.overallAssessment.topPriorities.some((p) =>
+              p.includes('七星打劫')
+            );
+
+          expect(hasQixingInStrengths || hasQixingInPriorities).toBe(true);
+        }
+      });
+    });
+
+    describe('Chengmenjue Analysis', () => {
+      it('should include chengmenjue analysis when enabled', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeChengmenjue: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+
+        expect(result.chengmenjueAnalysis).toBeDefined();
+        expect(result.chengmenjueAnalysis).toHaveProperty('hasChengmen');
+        expect(result.chengmenjueAnalysis).toHaveProperty('chengmenPositions');
+        expect(result.chengmenjueAnalysis).toHaveProperty('activationMethods');
+        expect(result.chengmenjueAnalysis).toHaveProperty('taboos');
+      });
+
+      it('should return valid chengmen positions', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeChengmenjue: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+        const positions = result.chengmenjueAnalysis?.chengmenPositions;
+
+        expect(Array.isArray(positions)).toBe(true);
+        positions?.forEach((pos: any) => {
+          expect(pos).toHaveProperty('palace');
+          expect(pos).toHaveProperty('description');
+          expect(pos).toHaveProperty('effectiveness');
+          expect(['high', 'medium', 'low']).toContain(pos.effectiveness);
+        });
+      });
+    });
+
+    describe('Lingzheng Analysis', () => {
+      it('should include lingzheng analysis when enabled', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeLingzheng: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+
+        expect(result.lingzhengAnalysis).toBeDefined();
+        expect(result.lingzhengAnalysis).toHaveProperty('zeroGodPosition');
+        expect(result.lingzhengAnalysis).toHaveProperty('positiveGodPosition');
+        expect(result.lingzhengAnalysis).toHaveProperty(
+          'isZeroPositiveReversed'
+        );
+        expect(result.lingzhengAnalysis).toHaveProperty('waterPlacement');
+        expect(result.lingzhengAnalysis).toHaveProperty('mountainPlacement');
+      });
+
+      it('should detect zero-positive reversal', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeLingzheng: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+        const isReversed = result.lingzhengAnalysis?.isZeroPositiveReversed;
+
+        expect(typeof isReversed).toBe('boolean');
+
+        if (isReversed) {
+          // 如果零正颠倒，应该在综合评估中反映
+          const hasWarning = result.overallAssessment.weaknesses.some(
+            (w) => w.includes('零正颠倒') || w.includes('零正')
+          );
+          expect(hasWarning).toBe(true);
+        }
+      });
+
+      it('should return valid water and mountain placements', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeLingzheng: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+        const waterPlacement = result.lingzhengAnalysis?.waterPlacement;
+        const mountainPlacement = result.lingzhengAnalysis?.mountainPlacement;
+
+        expect(waterPlacement).toBeDefined();
+        expect(waterPlacement).toHaveProperty('favorable');
+        expect(waterPlacement).toHaveProperty('unfavorable');
+        expect(Array.isArray(waterPlacement?.favorable)).toBe(true);
+        expect(Array.isArray(waterPlacement?.unfavorable)).toBe(true);
+
+        expect(mountainPlacement).toBeDefined();
+        expect(mountainPlacement).toHaveProperty('favorable');
+        expect(mountainPlacement).toHaveProperty('unfavorable');
+        expect(Array.isArray(mountainPlacement?.favorable)).toBe(true);
+        expect(Array.isArray(mountainPlacement?.unfavorable)).toBe(true);
+      });
+    });
+
+    describe('All Three Patterns Together', () => {
+      it('should handle all three advanced patterns simultaneously', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: true,
+          includeChengmenjue: true,
+          includeLingzheng: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+
+        expect(result.qixingdajieAnalysis).toBeDefined();
+        expect(result.chengmenjueAnalysis).toBeDefined();
+        expect(result.lingzhengAnalysis).toBeDefined();
+
+        // 验证综合评估考虑了所有三种格局
+        expect(result.overallAssessment).toBeDefined();
+        expect(result.overallAssessment.score).toBeGreaterThanOrEqual(0);
+        expect(result.overallAssessment.score).toBeLessThanOrEqual(100);
+      });
+
+      it('should complete all three patterns within performance threshold', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: true,
+          includeChengmenjue: true,
+          includeLingzheng: true,
+        };
+
+        const startTime = Date.now();
+        const result = await comprehensiveAnalysis(options);
+        const endTime = Date.now();
+
+        const duration = endTime - startTime;
+        expect(duration).toBeLessThan(2000); // 应该在2秒内完成
+        expect(result).toBeDefined();
+      });
+
+      it('should update version to 6.1.0 when qixingdajie is included', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          includeQixingdajie: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+        expect(result.metadata.version).toBe('6.1.0');
+      });
+    });
+
+    describe('Different Yun Periods', () => {
+      it('should analyze Yun 8 (2004-2023)', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          observedAt: new Date('2020-06-01T12:00:00Z'), // 八运
+          includeQixingdajie: true,
+          includeChengmenjue: true,
+          includeLingzheng: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+
+        expect(result.basicAnalysis.period).toBe(8);
+        expect(result.qixingdajieAnalysis).toBeDefined();
+        expect(result.chengmenjueAnalysis).toBeDefined();
+        expect(result.lingzhengAnalysis).toBeDefined();
+      });
+
+      it('should analyze Yun 9 (2024-2043)', async () => {
+        const options: ComprehensiveAnalysisOptions = {
+          ...basicOptions,
+          observedAt: new Date('2025-06-01T12:00:00Z'), // 九运
+          includeQixingdajie: true,
+          includeChengmenjue: true,
+          includeLingzheng: true,
+        };
+
+        const result = await comprehensiveAnalysis(options);
+
+        expect(result.basicAnalysis.period).toBe(9);
+        expect(result.qixingdajieAnalysis).toBeDefined();
+        expect(result.chengmenjueAnalysis).toBeDefined();
+        expect(result.lingzhengAnalysis).toBeDefined();
+      });
     });
   });
 });

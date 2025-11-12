@@ -105,17 +105,41 @@ export function CheckoutButton({
           Object.keys(mergedMetadata).length > 0 ? mergedMetadata : undefined,
       });
 
-      console.log('[Checkout] Result:', result);
+      console.log('[Checkout] Result:', JSON.stringify(result, null, 2));
 
-      // Redirect to checkout page
-      if (result?.data?.success && result.data.data?.url) {
+      // Check if result is undefined or null
+      if (!result) {
+        console.error('[Checkout] Result is null or undefined');
+        toast.error(t('checkoutFailed') + ': No response from server');
+        return;
+      }
+
+      // Check for server error
+      if (result.serverError) {
+        console.error('[Checkout] Server error:', result.serverError);
+        toast.error(`${t('checkoutFailed')}: ${result.serverError}`);
+        return;
+      }
+
+      // Check for validation errors
+      if (result.validationErrors) {
+        console.error('[Checkout] Validation errors:', result.validationErrors);
+        const firstError = Object.values(result.validationErrors)[0];
+        toast.error(`${t('checkoutFailed')}: ${firstError}`);
+        return;
+      }
+
+      // Check for data and success
+      if (result.data?.success && result.data.data?.url) {
         console.log('[Checkout] Redirecting to:', result.data.data.url);
-        window.location.href = result.data.data?.url;
+        window.location.href = result.data.data.url;
       } else {
         const errorMsg =
-          result?.data?.error || result?.serverError || 'Unknown error';
+          result.data?.error || 'Unknown error';
         console.error('[Checkout] Failed:', {
-          success: result?.data?.success,
+          hasData: !!result.data,
+          success: result.data?.success,
+          hasUrl: !!result.data?.data?.url,
           error: errorMsg,
           fullResult: result,
         });

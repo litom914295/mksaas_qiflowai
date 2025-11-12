@@ -38,6 +38,16 @@ export interface Message {
     reasoning?: string;
     sources?: any[];
   };
+  // RAG 相关
+  references?: Array<{
+    id: string;
+    title: string;
+    content: string;
+    category: string;
+    source: string;
+    similarity: number;
+  }>;
+  ragEnabled?: boolean;
 }
 
 /**

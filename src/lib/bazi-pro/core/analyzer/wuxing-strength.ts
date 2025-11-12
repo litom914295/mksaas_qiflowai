@@ -5,6 +5,7 @@
 
 import { type FourPillars, Pillar } from '../calculator/four-pillars';
 import { hiddenStemsAnalyzer } from './hidden-stems';
+import { getCurrentConfig, type BaziConfig } from '../../config';
 
 export interface WuxingStrength {
   wood: number; // 木
@@ -32,9 +33,31 @@ export interface DayMasterStrength {
 }
 
 /**
+ * 五行力量可变类型（计算过程中使用）
+ */
+interface WuxingStrengthMutable {
+  wood: number;
+  fire: number;
+  earth: number;
+  metal: number;
+  water: number;
+  details: {
+    stems: { 木: number; 火: number; 土: number; 金: number; 水: number };
+    hiddenStems: { 木: number; 火: number; 土: number; 金: number; 水: number };
+    monthlyEffect: { 木: number; 火: number; 土: number; 金: number; 水: number };
+    rooting: { 木: number; 火: number; 土: number; 金: number; 水: number };
+    revealing: { 木: number; 火: number; 土: number; 金: number; 水: number };
+    interactions: { 木: number; 火: number; 土: number; 金: number; 水: number };
+  };
+}
+
+/**
  * 五行力量分析器
  */
 export class WuxingStrengthAnalyzer {
+  // 配置实例
+  private readonly config: BaziConfig;
+
   // 天干五行映射
   private readonly STEM_ELEMENTS: Record<string, string> = {
     甲: '木',
@@ -83,6 +106,14 @@ export class WuxingStrengthAnalyzer {
   };
 
   /**
+   * 构造函数
+   * @param config 八字配置,如果未提供则使用默认配置
+   */
+  constructor(config?: BaziConfig) {
+    this.config = config || getCurrentConfig();
+  }
+
+  /**
    * 计算五行综合力量
    */
   public calculateWuxingStrength(fourPillars: FourPillars): WuxingStrength {
@@ -127,7 +158,10 @@ export class WuxingStrengthAnalyzer {
   /**
    * 计算天干力量
    */
-  private calculateStemStrength(fourPillars: FourPillars, strength: any): void {
+  private calculateStemStrength(
+    fourPillars: FourPillars,
+    strength: WuxingStrengthMutable
+  ): void {
     const stems = [
       fourPillars.year.gan,
       fourPillars.month.gan,
@@ -135,12 +169,14 @@ export class WuxingStrengthAnalyzer {
       fourPillars.hour.gan,
     ];
 
+    const stemBase = this.config.wuxingWeights.stemBase;
+
     for (const stem of stems) {
       const element = this.STEM_ELEMENTS[stem];
       if (element) {
         const elementKey = this.getElementKey(element);
-        strength[elementKey] += 10;
-        strength.details.stems[element] += 10;
+        strength[elementKey] += stemBase;
+        strength.details.stems[element] += stemBase;
       }
     }
   }
@@ -150,7 +186,7 @@ export class WuxingStrengthAnalyzer {
    */
   private calculateHiddenStemStrength(
     fourPillars: FourPillars,
-    strength: any
+    strength: WuxingStrengthMutable
   ): void {
     const branches = [
       fourPillars.year.zhi,
@@ -181,7 +217,7 @@ export class WuxingStrengthAnalyzer {
    */
   private applyMonthlyCoefficients(
     fourPillars: FourPillars,
-    strength: any
+    strength: WuxingStrengthMutable
   ): void {
     const monthBranch = fourPillars.monthOrder || fourPillars.month.zhi;
     const season = this.getSeason(monthBranch);
@@ -200,13 +236,17 @@ export class WuxingStrengthAnalyzer {
 
   /**
    * 计算通根加成
+   * 改进：区分不同柱位的通根系数
    */
-  private calculateRootingBonus(fourPillars: FourPillars, strength: any): void {
+  private calculateRootingBonus(
+    fourPillars: FourPillars,
+    strength: WuxingStrengthMutable
+  ): void {
     const stems = [
-      { stem: fourPillars.year.gan, position: '年' },
-      { stem: fourPillars.month.gan, position: '月' },
-      { stem: fourPillars.day.gan, position: '日' },
-      { stem: fourPillars.hour.gan, position: '时' },
+      { stem: fourPillars.year.gan, position: '年' as const },
+      { stem: fourPillars.month.gan, position: '月' as const },
+      { stem: fourPillars.day.gan, position: '日' as const },
+      { stem: fourPillars.hour.gan, position: '时' as const },
     ];
 
     const branches = [
@@ -227,9 +267,15 @@ export class WuxingStrengthAnalyzer {
       if (element && rootingStrength > 0) {
         const elementKey = this.getElementKey(element);
 
-        // 日主通根加成更多
-        const bonus =
-          position === '日' ? rootingStrength * 1.5 : rootingStrength;
+        // 根据柱位应用不同的通根系数
+        const coefficientMap = {
+          年: this.config.rootingCoefficients.year,
+          月: this.config.rootingCoefficients.month,
+          日: this.config.rootingCoefficients.day,
+          时: this.config.rootingCoefficients.hour,
+        };
+        const coefficient = coefficientMap[position];
+        const bonus = rootingStrength * coefficient;
 
         strength[elementKey] += bonus;
         strength.details.rooting[element] += bonus;
@@ -242,7 +288,7 @@ export class WuxingStrengthAnalyzer {
    */
   private calculateRevealingBonus(
     fourPillars: FourPillars,
-    strength: any
+    strength: WuxingStrengthMutable
   ): void {
     const stems = [
       fourPillars.year.gan,
@@ -279,20 +325,24 @@ export class WuxingStrengthAnalyzer {
 
   /**
    * 计算生克制化影响
+   * 改进：调整生扶系数从20%到15%，使用类型安全访问
    */
-  private calculateInteractions(fourPillars: FourPillars, strength: any): void {
-    const elements = ['木', '火', '土', '金', '水'];
+  private calculateInteractions(
+    fourPillars: FourPillars,
+    strength: WuxingStrengthMutable
+  ): void {
+    const elements = ['木', '火', '土', '金', '水'] as const;
 
-    // 计算生的影响
+    // 计算生的影响（调整为15%）
     for (const element of elements) {
       const elementKey = this.getElementKey(element);
       const generator = this.getGeneratingElement(element);
       const generatorKey = this.getElementKey(generator);
 
-      if ((strength as any)[generatorKey] > 0) {
-        const bonus = (strength as any)[generatorKey] * 0.2; // 被生加20%
-        (strength as any)[elementKey] += bonus;
-        (strength.details.interactions as any)[element] += bonus;
+      if (strength[generatorKey] > 0) {
+        const bonus = strength[generatorKey] * this.config.interactionCoefficients.generation;
+        strength[elementKey] += bonus;
+        strength.details.interactions[element] += bonus;
       }
     }
 
@@ -302,10 +352,10 @@ export class WuxingStrengthAnalyzer {
       const controller = this.getControllingElement(element);
       const controllerKey = this.getElementKey(controller);
 
-      if ((strength as any)[controllerKey] > 0) {
-        const penalty = (strength as any)[controllerKey] * 0.15; // 被克减15%
-        (strength as any)[elementKey] -= penalty;
-        (strength.details.interactions as any)[element] -= penalty;
+      if (strength[controllerKey] > 0) {
+        const penalty = strength[controllerKey] * this.config.interactionCoefficients.control;
+        strength[elementKey] -= penalty;
+        strength.details.interactions[element] -= penalty;
       }
     }
   }
@@ -313,7 +363,7 @@ export class WuxingStrengthAnalyzer {
   /**
    * 归一化力量到100分制
    */
-  private normalizeStrength(strength: any): WuxingStrength {
+  private normalizeStrength(strength: WuxingStrengthMutable): WuxingStrength {
     const total =
       strength.wood +
       strength.fire +
@@ -325,15 +375,22 @@ export class WuxingStrengthAnalyzer {
       return strength;
     }
 
+    // 根据配置决定是否归一化
+    if (!this.config.options?.normalizeToHundred) {
+      return strength;
+    }
+
     // 归一化到100分
     const factor = 100 / total;
+    const precision = this.config.options?.precision ?? 2;
 
+    const multiplier = Math.pow(10, precision);
     return {
-      wood: Math.round(strength.wood * factor),
-      fire: Math.round(strength.fire * factor),
-      earth: Math.round(strength.earth * factor),
-      metal: Math.round(strength.metal * factor),
-      water: Math.round(strength.water * factor),
+      wood: Math.round(strength.wood * factor * multiplier) / multiplier,
+      fire: Math.round(strength.fire * factor * multiplier) / multiplier,
+      earth: Math.round(strength.earth * factor * multiplier) / multiplier,
+      metal: Math.round(strength.metal * factor * multiplier) / multiplier,
+      water: Math.round(strength.water * factor * multiplier) / multiplier,
       details: strength.details,
     };
   }
@@ -436,13 +493,23 @@ export class WuxingStrengthAnalyzer {
   }
 
   private getSeasonalCoefficients(season: string): Record<string, number> {
-    const coefficients: Record<string, Record<string, number>> = {
-      春: { 木: 1.5, 火: 1.2, 水: 1.0, 金: 0.7, 土: 0.5 },
-      夏: { 火: 1.5, 土: 1.2, 木: 1.0, 水: 0.7, 金: 0.5 },
-      秋: { 金: 1.5, 水: 1.2, 土: 1.0, 火: 0.7, 木: 0.5 },
-      冬: { 水: 1.5, 木: 1.2, 金: 1.0, 土: 0.7, 火: 0.5 },
+    const seasonMap: Record<string, keyof typeof this.config.monthlyCoefficients> = {
+      春: 'spring',
+      夏: 'summer',
+      秋: 'autumn',
+      冬: 'winter',
     };
-    return coefficients[season] || coefficients.春;
+
+    const seasonKey = seasonMap[season] || 'spring';
+    const seasonCoeff = this.config.monthlyCoefficients[seasonKey];
+
+    return {
+      木: seasonCoeff.wood,
+      火: seasonCoeff.fire,
+      土: seasonCoeff.earth,
+      金: seasonCoeff.metal,
+      水: seasonCoeff.water,
+    };
   }
 
   private getSupportingElements(element: string): string[] {

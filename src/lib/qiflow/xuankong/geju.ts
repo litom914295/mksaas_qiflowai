@@ -1,4 +1,5 @@
 import { PALACE_TO_BAGUA, getPalaceByMountain } from './luoshu';
+import { checkQixingDajiePattern } from './qixing-dajie';
 import {
   type FlyingStar,
   type GejuAnalysis,
@@ -254,7 +255,7 @@ export function checkFuyin(plate: Plate): {
   return { isMatch: false, description: '非伏吟格局', locations: [] };
 }
 
-// 检查反吟格局
+// 检查反吹格局
 export function checkFanyin(plate: Plate): {
   isMatch: boolean;
   description: string;
@@ -265,19 +266,19 @@ export function checkFanyin(plate: Plate): {
   for (const cell of plate) {
     const bagua = PALACE_TO_BAGUA[cell.palace];
 
-    // 山星反吟（山星+地盘=10）
+    // 山星反吹（山星+地盘=10）
     if (cell.mountainStar && cell.periodStar) {
       const sum = Number(cell.mountainStar) + Number(cell.periodStar);
       if (sum === 10) {
-        fanyinLocations.push(`${bagua}宫山星反吟`);
+        fanyinLocations.push(`${bagua}宫山星反吹`);
       }
     }
 
-    // 向星反吟（向星+地盘=10）
+    // 向星反吹（向星+地盘=10）
     if (cell.facingStar && cell.periodStar) {
       const sum = Number(cell.facingStar) + Number(cell.periodStar);
       if (sum === 10) {
-        fanyinLocations.push(`${bagua}宫向星反吟`);
+        fanyinLocations.push(`${bagua}宫向星反吹`);
       }
     }
   }
@@ -285,12 +286,38 @@ export function checkFanyin(plate: Plate): {
   if (fanyinLocations.length > 0) {
     return {
       isMatch: true,
-      description: '反吟格局',
+      description: '反吹格局',
       locations: fanyinLocations,
     };
   }
 
-  return { isMatch: false, description: '非反吟格局', locations: [] };
+  return { isMatch: false, description: '非反吹格局', locations: [] };
+}
+
+// 检查七星打劫格局
+export function checkQixingDajie(
+  plate: Plate,
+  zuo: Mountain,
+  xiang: Mountain,
+  period: Yun
+): { isMatch: boolean; description: string } {
+  // 调用qixing-dajie.ts的检测函数
+  const analysis = checkQixingDajiePattern(plate, period, zuo, xiang);
+
+  if (analysis.isQixingDajie) {
+    const typeDesc =
+      analysis.dajieType === 'full'
+        ? '全劫'
+        : analysis.dajieType === 'jie_cai'
+          ? '劫财'
+          : '劫丁';
+    return {
+      isMatch: true,
+      description: `七星打劫格局（${typeDesc}），${analysis.description}`,
+    };
+  }
+
+  return { isMatch: false, description: '非七星打劫格局' };
 }
 
 // 综合分析格局
@@ -381,7 +408,14 @@ export function analyzeGeju(
     descriptions.push(fanyin.description + '：' + fanyin.locations.join('、'));
   }
 
-  // 替卦反伏吟
+  // 七星打劫
+  const qixingDajie = checkQixingDajie(plate, zuo, xiang, period);
+  if (qixingDajie.isMatch) {
+    gejuTypes.push('七星打劫');
+    descriptions.push(qixingDajie.description);
+  }
+
+  // 替卦反伏吹
   if (isJian && period === 5) {
     const specialPairs = ['乾巽', '巽乾', '亥巳', '巳亥', '辰戌', '戌辰'];
     const zuoXiang = zuo + xiang;
@@ -400,6 +434,7 @@ export function analyzeGeju(
     '对宫合十',
     '连珠三般',
     '父母三般',
+    '七星打劫',
   ];
   const unfavorableGeju = [
     '上山下水',

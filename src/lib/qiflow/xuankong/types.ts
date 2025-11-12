@@ -137,6 +137,27 @@ export type ChengmenjueAnalysis = {
   taboos: string[]; // 禁忌事项
 };
 
+// 七星打劫类型
+export type QixingDajieType = 'jie_cai' | 'jie_ding' | 'full';
+
+// 七星打劫分析结果
+export type QixingDajieAnalysis = {
+  isQixingDajie: boolean; // 是否形成七星打劫格局
+  dajieType: QixingDajieType | null; // 打劫类型
+  dajiePositions: PalaceIndex[]; // 打劫位置
+  sanbanGuaValidation: {
+    isValid: boolean; // 是否满足三般卦条件
+    group: number[]; // 三般卦组 (1,4,7 或 2,5,8 或 3,6,9)
+    matchCount: number; // 三般卦星匹配数量
+    details: string[]; // 匹配详情
+  };
+  effectiveness: 'peak' | 'high' | 'medium' | 'low'; // 有效性等级
+  description: string; // 格局描述
+  activationRequirements: string[]; // 催旺要求
+  taboos: string[]; // 禁忌事项
+  score: number; // 评分 (0-100)
+};
+
 // 九星生旺死煞退状态
 export type StarStatus = '旺' | '生' | '死' | '煞' | '退';
 

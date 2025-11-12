@@ -205,9 +205,19 @@ export class ProfessionalBaziCalculator {
         birthDate
       );
 
-      // 计算当年流年
-      const currentYear = new Date().getFullYear();
-      const currentAge = currentYear - birthDate.getFullYear();
+      // 计算当年流年（使用精确的周岁年龄）
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      let currentAge = currentYear - birthDate.getFullYear();
+      // 如果今年生日还没到，年龄减1
+      if (
+        now.getMonth() < birthDate.getMonth() ||
+        (now.getMonth() === birthDate.getMonth() &&
+          now.getDate() < birthDate.getDate())
+      ) {
+        currentAge--;
+      }
+      currentAge = Math.max(0, currentAge);
       const currentLiunian = {
         year: currentYear,
         age: currentAge,

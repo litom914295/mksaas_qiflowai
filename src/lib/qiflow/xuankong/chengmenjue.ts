@@ -3,6 +3,7 @@ import {
   PALACE_TO_BAGUA,
   getPalaceByMountain,
 } from './luoshu';
+import { checkQixingDajiePattern } from './qixing-dajie';
 import type {
   ChengmenjueAnalysis,
   FlyingStar,
@@ -286,7 +287,9 @@ export function identifyChengmenPositions(
 // 检查城门诀的特殊组合
 export function checkSpecialChengmenCombinations(
   plate: Plate,
-  period: Yun
+  period: Yun,
+  zuo: Mountain,
+  xiang: Mountain
 ): {
   combination: string;
   positions: PalaceIndex[];
@@ -312,7 +315,7 @@ export function checkSpecialChengmenCombinations(
   }
 
   // 检查"七星打劫城门"
-  const qixingPositions = checkQixingDajieChengmen(plate, period);
+  const qixingPositions = checkQixingDajieChengmen(plate, period, zuo, xiang);
   if (qixingPositions.length > 0) {
     specialCombinations.push({
       combination: '七星打劫城门',
@@ -363,25 +366,22 @@ function checkSanbanChengmen(plate: Plate, period: Yun): PalaceIndex[] {
   return sanbanPositions;
 }
 
-// 七星打劫城门检查
-function checkQixingDajieChengmen(plate: Plate, period: Yun): PalaceIndex[] {
-  const qixingPositions: PalaceIndex[] = [];
+// 七星打劫城门检查（集成qixing-dajie模块）
+function checkQixingDajieChengmen(
+  plate: Plate,
+  period: Yun,
+  zuo: Mountain,
+  xiang: Mountain
+): PalaceIndex[] {
+  // 调用七星打劫完整检测
+  const dajieAnalysis = checkQixingDajiePattern(plate, period, zuo, xiang);
 
-  // 七星打劫的特殊条件
-  for (const cell of plate) {
-    // 简化的七星打劫判断：山向星与运星形成特殊组合
-    if (cell.mountainStar && cell.facingStar) {
-      const sum = Number(cell.mountainStar) + Number(cell.facingStar);
-      if (
-        sum === 10 &&
-        (cell.mountainStar === period || cell.facingStar === period)
-      ) {
-        qixingPositions.push(cell.palace);
-      }
-    }
+  // 如果形成七星打劫格局，返回打劫位置
+  if (dajieAnalysis.isQixingDajie) {
+    return dajieAnalysis.dajiePositions;
   }
 
-  return qixingPositions;
+  return [];
 }
 
 // 合十城门检查
@@ -508,7 +508,12 @@ export function analyzeChengmenjue(
     zuo,
     xiang
   );
-  const specialCombinations = checkSpecialChengmenCombinations(plate, period);
+  const specialCombinations = checkSpecialChengmenCombinations(
+    plate,
+    period,
+    zuo,
+    xiang
+  );
 
   const analysis: ChengmenjueAnalysis = {
     hasChengmen: chengmenPositions.length > 0 || specialCombinations.length > 0,
@@ -571,7 +576,7 @@ export function analyzeChengmenTimeline(
 } {
   const periodStartYear = 1864 + (period - 1) * 20;
   const periodEndYear = periodStartYear + 19;
-  const currentYear = new Date().getFullYear();
+  const currentYear = targetYear; // 使用传入的targetYear而不是当前系统年份
 
   let effectiveness: 'peak' | 'good' | 'declining' | 'ineffective';
   const transitionAdvice: string[] = [];

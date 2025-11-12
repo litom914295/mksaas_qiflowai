@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "name": "Traditional (传统派)",
+  "description": "保守传统算法,强调天干地支基础分值",
+  "school": "traditional",
+  "wuxingWeights": {
+    "stemBase": 12,
+    "branchMainQi": 10,
+    "branchMiddleQi": 6,
+    "branchResidualQi": 3
+  },
+  "rootingCoefficients": {
+    "year": 1.15,
+    "month": 1.4,
+    "day": 1.4,
+    "hour": 1.05
+  },
+  "monthlyCoefficients": {
+    "spring": {
+      "wood": 1.4,
+      "fire": 1.1,
+      "earth": 1.0,
+      "metal": 0.85,
+      "water": 1.0
+    },
+    "summer": {
+      "wood": 1.0,
+      "fire": 1.4,
+      "earth": 1.15,
+      "metal": 0.75,
+      "water": 0.85
+    },
+    "autumn": {
+      "wood": 0.85,
+      "fire": 0.9,
+      "earth": 1.0,
+      "metal": 1.4,
+      "water": 1.0
+    },
+    "winter": {
+      "wood": 1.0,
+      "fire": 0.85,
+      "earth": 1.0,
+      "metal": 1.15,
+      "water": 1.4
+    }
+  },
+  "interactionCoefficients": {
+    "generation": 0.12,
+    "control": 0.12,
+    "drainage": 0.08,
+    "controlled": 0.08
+  },
+  "options": {
+    "enableCache": true,
+    "cacheSize": 100,
+    "enableTrueSolarTime": true,
+    "normalizeToHundred": true,
+    "precision": 2
+  },
+  "createdAt": "2025-01-01T00:00:00.000Z"
+}

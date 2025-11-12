@@ -359,18 +359,55 @@ export class EnhancedBaziCalculator {
         return null;
       }
 
-      const luckPillars: LuckPillarResult[] = analysis.luckPillars.pillars.map(
-        (pillar) => ({
-          period: pillar.number,
-          heavenlyStem: pillar.heavenlyStem.character,
-          earthlyBranch: pillar.earthlyBranch.character,
-          startAge: pillar.ageStart || 0,
-          endAge: (pillar.ageStart || 0) + 9,
-          startDate: pillar.startTime || undefined,
-          endDate: pillar.yearEnd ? new Date(pillar.yearEnd * 1000) : undefined,
-          strength: this.evaluateLuckPillarStrength(pillar),
-        })
+      // 获取起运年龄和出生年份
+      const startAgeYears = analysis.luckPillars.startAgeYears || 0;
+      const birthDate = new Date(this.birthData.datetime);
+      const birthYear = birthDate.getFullYear();
+
+      console.log('[EnhancedBaziCalculator] 起运年龄:', startAgeYears, '岁');
+      console.log('[EnhancedBaziCalculator] 出生年份:', birthYear);
+
+      // 过滤并修正大运列表（去除重复或错误的大运）
+      const uniquePillars: any[] = [];
+      const seenPeriods = new Set<number>();
+
+      for (const pillar of analysis.luckPillars.pillars) {
+        const period = pillar.number;
+        // 过滤重复的period
+        if (!seenPeriods.has(period)) {
+          seenPeriods.add(period);
+          uniquePillars.push(pillar);
+        }
+      }
+
+      console.log('[EnhancedBaziCalculator] 过滤后大运数量:', uniquePillars.length);
+
+      // 生成正确的大运列表
+      const luckPillars: LuckPillarResult[] = uniquePillars.map(
+        (pillar, index) => {
+          // 正确计算年龄范围：第一个大运从起运年龄开始，每个大运持续10年
+          const startAge = startAgeYears + index * 10;
+          const endAge = startAge + 9;
+          const startYear = birthYear + startAge;
+          const endYear = birthYear + endAge;
+
+          return {
+            period: index + 1,  // 重新编号，从1开始
+            heavenlyStem: pillar.heavenlyStem.character,
+            earthlyBranch: pillar.earthlyBranch.character,
+            startAge,
+            endAge,
+            startDate: pillar.startTime || new Date(startYear, 0, 1),
+            endDate: new Date(endYear, 11, 31),
+            strength: this.evaluateLuckPillarStrength(pillar),
+          };
+        }
       );
+
+      console.log('[EnhancedBaziCalculator] 生成的前3个大运:');
+      luckPillars.slice(0, 3).forEach(p => {
+        console.log(`  第${p.period}大运: ${p.heavenlyStem}${p.earthlyBranch} ${p.startAge}-${p.endAge}岁 (${p.startDate?.getFullYear()}-${p.endDate?.getFullYear()}年)`);
+      });
 
       this.cachedResults.set(cacheKey, luckPillars);
       return luckPillars;
