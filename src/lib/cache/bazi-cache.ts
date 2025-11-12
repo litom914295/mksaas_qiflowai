@@ -1,7 +1,7 @@
 // 八字缓存模块 - 简化版本
 
-import type { EnhancedBaziResult } from '../qiflow/bazi';
-import type { BaziResult } from '../services/bazi-calculator-service';
+import type { EnhancedBaziResult } from '@/lib/bazi';
+
 
 interface CacheEntry<T> {
   data: T;
@@ -46,6 +46,20 @@ class SimpleCache<T> {
   }
 }
 
+function extractBirthParts(datetime: string): {
+  birthDate: string;
+  birthTime: string;
+} {
+  if (!datetime) {
+    return { birthDate: '', birthTime: '' };
+  }
+
+  const match = datetime.match(/^(\d{4}-\d{2}-\d{2})[T\s]?(\d{2}:\d{2})?/);
+  const birthDate = match?.[1] ?? datetime;
+  const birthTime = match?.[2] ?? '00:00';
+
+  return { birthDate, birthTime };
+}
 // 带缓存的八字计算函数
 export async function computeBaziWithCache(
   params: {
@@ -56,23 +70,20 @@ export async function computeBaziWithCache(
   computeFn: () => Promise<EnhancedBaziResult>
 ): Promise<EnhancedBaziResult | null> {
   const cache = BaziCache.getInstance();
-  const cacheKey = `${params.datetime}:${params.gender}:${params.timezone}`;
+  const { birthDate, birthTime } = extractBirthParts(params.datetime);
 
-  // 尝试从缓存获取
-  const cached = await cache.get(
-    params.datetime,
-    params.gender,
-    params.timezone
-  );
+  if (!birthDate) {
+    return await computeFn();
+  }
+
+  const cached = await cache.get(birthDate, birthTime, params.gender);
   if (cached) {
     return cached;
   }
 
-  // 计算新结果
   const result = await computeFn();
   if (result) {
-    // 存入缓存
-    await cache.set(params.datetime, params.gender, params.timezone, result);
+    await cache.set(birthDate, birthTime, params.gender, result);
   }
 
   return result;

@@ -1,37 +1,46 @@
 import { consumeCreditsAction } from '@/actions/consume-credits';
 import { getCreditBalanceAction } from '@/actions/get-credit-balance';
+import { getDb } from '@/db';
+import { baziCalculations } from '@/db/schema';
 import { auth } from '@/lib/auth';
+import { computeBaziWithCache } from '@/lib/cache/bazi-cache';
+import { tryMarkActivation } from '@/lib/growth/activation';
+import { computeBaziSmart, type EnhancedBirthData } from '@/lib/bazi';
+import { buildLegacyBaziResponse } from '@/lib/bazi/legacy-response';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-// 请求参数验证Schema
 const BaziRequestSchema = z.object({
-  name: z.string().min(1, '姓名不能为空'),
-  birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '日期格式错误'),
-  birthTime: z.string().regex(/^\d{2}:\d{2}$/, '时间格式错误'),
+  name: z.string().min(1, '��������Ϊ��'),
+  birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '���ڸ�ʽ����'),
+  birthTime: z.string().regex(/^\d{2}:\d{2}$/, 'ʱ���ʽ����'),
   gender: z.enum(['male', 'female'], {
-    message: '性别必须为男或女',
+    message: '�Ա����Ϊ�л�Ů',
   }),
   birthCity: z.string().optional(),
   calendarType: z.enum(['solar', 'lunar']).default('solar'),
+  longitude: z
+    .number()
+    .min(-180, '��������ȷ')
+    .max(180, '��������ȷ')
+    .optional(),
+  latitude: z
+    .number()
+    .min(-90, 'γ�ȱ�������')
+    .max(90, 'γ�ȱ�������')
+    .optional(),
 });
 
 type BaziRequest = z.infer<typeof BaziRequestSchema>;
 
-/**
- * 八字分析API - 扣除10积分
- * POST /api/qiflow/bazi-unified
- */
 export async function POST(req: NextRequest) {
   try {
-    // 1. 验证用户登录状态（可选）
     const session = await auth.api.getSession({
       headers: req.headers,
     });
 
     const isLoggedIn = !!session?.user;
 
-    // 2. 解析和验证请求参数
     const body = await req.json();
     const parsed = BaziRequestSchema.safeParse(body);
 
@@ -39,17 +48,24 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: '参数验证失败',
+          error: '������֤ʧ��',
           details: parsed.error.issues,
         },
         { status: 400 }
       );
     }
 
-    const { name, birthDate, birthTime, gender, birthCity, calendarType } =
-      parsed.data;
+    const {
+      name,
+      birthDate,
+      birthTime,
+      gender,
+      birthCity,
+      calendarType,
+      longitude,
+      latitude,
+    } = parsed.data;
 
-    // 3. 如果用户已登录，检查积分并扣除
     const REQUIRED_CREDITS = 10;
     let creditsUsed = 0;
     let isFreeTrial = false;
@@ -65,7 +81,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            error: '积分不足',
+            error: '���ֲ���',
             needsCredits: true,
             required: REQUIRED_CREDITS,
             available: balanceResult?.data?.credits || 0,
@@ -74,18 +90,17 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // 4. 扣除积分
       const consumeResult = await consumeCreditsAction({
         amount: REQUIRED_CREDITS,
-        description: `八字分析 - ${name}`,
+        description: `���ַ��� - ${name}`,
       });
 
       if (!consumeResult?.data?.success) {
         return NextResponse.json(
           {
             success: false,
-            error: '积分扣除失败',
-            details: consumeResult?.data?.error || '未知错误',
+            error: '���ֿ۳�ʧ��',
+            details: consumeResult?.data?.error || 'δ֪����',
           },
           { status: 500 }
         );
@@ -93,59 +108,69 @@ export async function POST(req: NextRequest) {
 
       creditsUsed = REQUIRED_CREDITS;
     } else {
-      // 未登录用户可以免费试用基础功能
       isFreeTrial = true;
     }
 
-    // 5. 调用八字分析引擎
-    // TODO: 集成实际的八字分析引擎
-    // 暂时返回模拟数据
-    const baziAnalysisResult = {
-      bazi: {
-        year: { gan: '甲', zhi: '子' },
-        month: { gan: '丙', zhi: '寅' },
-        day: { gan: '戊', zhi: '辰' },
-        hour: { gan: '庚', zhi: '申' },
-      },
-      wuxing: {
-        wood: 2,
-        fire: 2,
-        earth: 2,
-        metal: 1,
-        water: 1,
-        analysis: '五行较为平衡，略缺金水',
-      },
-      personality: {
-        summary: '性格稳重，做事踏实，善于思考',
-        strengths: ['责任心强', '有条理', '善于分析'],
-        weaknesses: ['有时过于谨慎', '决断力需提升'],
-      },
-      career: {
-        suitable: ['管理', '金融', '教育', '技术'],
-        direction: '适合从事需要分析和决策的工作',
-        timing: '本年度事业运势平稳，下半年有突破机会',
-      },
-      wealth: {
-        overall: '财运中等偏上',
-        advice: '正财稳定，偏财需谨慎，适合稳健投资',
-        timing: '农历三、六、九、十二月为财运高峰',
-      },
-      health: {
-        concerns: ['注意肠胃健康', '适度运动', '保持作息规律'],
-        advice: '加强锻炼，注意饮食，定期体检',
-      },
-      relationships: {
-        love: '感情运势平稳，单身者有桃花机会',
-        family: '家庭和睦，与长辈关系融洽',
-        friends: '人际关系良好，贵人运佳',
-      },
+    const timezone = 'Asia/Shanghai';
+    const datetime = `${birthDate}T${birthTime}:00`;
+
+    const enhancedBirthData: EnhancedBirthData = {
+      datetime,
+      gender,
+      timezone,
+      isTimeKnown: true,
+      preferredLocale: 'zh-CN',
+      calendarType,
+      longitude,
+      latitude,
     };
 
-    // 6. 返回分析结果
-    return NextResponse.json({
-      success: true,
-      data: {
-        ...baziAnalysisResult,
+    const analysisResult = await computeBaziWithCache(
+      {
+        datetime,
+        gender,
+        timezone,
+      },
+      async () => {
+        const computed = await computeBaziSmart(enhancedBirthData);
+        if (!computed) {
+          throw new Error('δ�ܻ�ȡ��Ч�İ��ַ����');
+        }
+        return computed;
+      }
+    );
+
+    if (!analysisResult) {
+      throw new Error('δ�ܻ�ȡ��Ч�İ��ַ����');
+    }
+
+    if (isLoggedIn && session?.user?.id) {
+      try {
+        const db = await getDb();
+        await db.insert(baziCalculations).values({
+          userId: session.user.id,
+          input: {
+            name,
+            birthDate,
+            birthTime,
+            gender,
+            birthCity,
+            calendarType,
+            timezone,
+          },
+          result: analysisResult as any,
+          creditsUsed: creditsUsed || 0,
+        });
+
+        tryMarkActivation(session.user.id).catch(() => {});
+      } catch (persistError) {
+        console.warn('bazi unified persist failed:', persistError);
+      }
+    }
+
+    const responseData = buildLegacyBaziResponse({
+      analysis: analysisResult,
+      metadata: {
         creditsUsed,
         isFreeTrial,
         analysisDate: new Date().toISOString(),
@@ -156,16 +181,23 @@ export async function POST(req: NextRequest) {
           gender,
           birthCity,
           calendarType,
+          longitude,
+          latitude,
         },
       },
-      message: isFreeTrial ? '八字分析完成（试用版）' : '八字分析完成',
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: responseData,
+      message: isFreeTrial ? '���ַ�����ɣ����ð棩' : '���ַ������',
     });
   } catch (error) {
-    console.error('八字分析API错误:', error);
+    console.error('���ַ���API����:', error);
     return NextResponse.json(
       {
         success: false,
-        error: '服务器内部错误',
+        error: '�������ڲ�����',
         details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
@@ -173,9 +205,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-/**
- * GET 方法 - 返回API信息
- */
 export async function GET(req: NextRequest) {
   return NextResponse.json({
     status: 'ok',
@@ -184,6 +213,6 @@ export async function GET(req: NextRequest) {
     methods: ['POST'],
     requiredCredits: 10,
     description:
-      '基于八字四柱的命理分析，包含性格、事业、财运、健康等方面的详细解读',
+      '���ڰ������������������������Ը���ҵ�����ˡ������ȷ������ϸ���',
   });
 }

@@ -246,6 +246,8 @@ export default function BaziAnalysisPage() {
             gender: formData.gender === '男' ? 'male' : 'female',
             birthCity: formData.birthPlace.city || '',
             calendarType: 'solar' as const,
+            longitude: formData.birthPlace.longitude,
+            latitude: formData.birthPlace.latitude,
           },
           house: {
             direction: '',
@@ -383,6 +385,8 @@ export default function BaziAnalysisPage() {
           gender: formData.gender === '男' ? 'male' : 'female',
           birthCity: formData.birthPlace.city || '',
           calendarType: 'solar',
+          longitude: formData.birthPlace.longitude,
+          latitude: formData.birthPlace.latitude,
         }),
       });
 

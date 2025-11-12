@@ -17,6 +17,8 @@ interface BaziCompleteAnalysisProps {
     gender: 'male' | 'female';
     birthCity?: string;
     calendarType?: 'solar' | 'lunar';
+    longitude?: number;
+    latitude?: number;
   };
   onAnalysisComplete?: (result: any) => void;
 }
@@ -47,14 +49,16 @@ export default function BaziCompleteAnalysis({
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            name: personal.name,
-            birthDate: personal.birthDate,
-            birthTime: personal.birthTime,
-            gender: personal.gender,
-            birthCity: personal.birthCity || '',
-            calendarType: personal.calendarType || 'solar',
-          }),
+            body: JSON.stringify({
+              name: personal.name,
+              birthDate: personal.birthDate,
+              birthTime: personal.birthTime,
+              gender: personal.gender,
+              birthCity: personal.birthCity || '',
+              calendarType: personal.calendarType || 'solar',
+              longitude: personal.longitude,
+              latitude: personal.latitude,
+            }),
         });
 
         if (!response.ok) {

@@ -17,6 +17,10 @@
 npm install
 ```
 
+### 缓存回归保障
+
+- `src/lib/cache/__tests__/bazi-cache.test.ts`：确保 `computeBaziWithCache` 在重复请求下能够命中缓存，避免重复计算导致的性能回退。
+
 ### 运行测试
 
 ```bash

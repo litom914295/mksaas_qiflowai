@@ -30,6 +30,16 @@ import type {
   EnhancedBirthData,
 } from './enhanced-calculator';
 
+const isDevLoggingEnabled =
+  process.env.NODE_ENV === 'development' ||
+  process.env.BAZI_PRO_DEBUG === 'true';
+
+const debugLog = (...args: any[]) => {
+  if (isDevLoggingEnabled) {
+    console.log(...args);
+  }
+};
+
 /**
  * 专业版八字计算器
  * 整合所有已完成的专业算法模块
@@ -77,11 +87,11 @@ export class ProfessionalBaziCalculator {
       const cacheKey = this.getCacheKey(birthData);
       const cached = await this.cache.get<EnhancedBaziResult>(cacheKey);
       if (cached) {
-        console.log('[Pro Calculator] 使用缓存结果');
+        debugLog('[Pro Calculator] 使用缓存结果');
         return cached;
       }
 
-      console.log('[Pro Calculator] 开始专业级八字计算');
+      debugLog('[Pro Calculator] 开始专业级八字计算');
       this.performanceMonitor.clear();
       this.performanceMonitor.start('total');
 
@@ -97,7 +107,7 @@ export class ProfessionalBaziCalculator {
 
       const fourPillars = this.fourPillarsCalc.calculate(birthInfo);
       this.performanceMonitor.end('fourPillarsCalculation');
-      console.log('[Pro Calculator] 四柱计算完成:', fourPillars);
+      debugLog('[Pro Calculator] 四柱计算完成:', fourPillars);
 
       // 验证 fourPillars 数据完整性
       if (!fourPillars.month?.zhi) {
@@ -110,7 +120,7 @@ export class ProfessionalBaziCalculator {
         );
       }
 
-      console.log(
+      debugLog(
         '[Pro Calculator] 四柱验证通过: 年=%s%s 月=%s%s 日=%s%s 时=%s%s',
         fourPillars.year.gan,
         fourPillars.year.zhi,
@@ -127,10 +137,10 @@ export class ProfessionalBaziCalculator {
       const wuxingStrength =
         this.wuxingAnalyzer.calculateWuxingStrength(fourPillars);
       this.performanceMonitor.end('wuxingAnalysis');
-      console.log('[Pro Calculator] 五行力量分析完成:', wuxingStrength);
+      debugLog('[Pro Calculator] 五行力量分析完成:', wuxingStrength);
 
       // Step 3: 地支藏干分析（已在 wuxingStrength 计算中完成）
-      console.log('[Pro Calculator] 地支藏干分析已集成在五行力量计算中');
+      debugLog('[Pro Calculator] 地支藏干分析已集成在五行力量计算中');
 
       // Step 4: 计算十神
       const tenGods = tenGodsCalculator.calculate(fourPillars);
@@ -138,7 +148,7 @@ export class ProfessionalBaziCalculator {
         fourPillars,
         tenGods
       );
-      console.log('[Pro Calculator] 十神系统分析完成');
+      debugLog('[Pro Calculator] 十神系统分析完成');
 
       // Step 5: 分析用神（先定义 birthDate）
       this.performanceMonitor.start('yongshenAnalysis');
@@ -149,7 +159,7 @@ export class ProfessionalBaziCalculator {
         birthDate
       );
       this.performanceMonitor.end('yongshenAnalysis');
-      console.log('[Pro Calculator] 用神分析完成:', yongshen);
+      debugLog('[Pro Calculator] 用神分析完成:', yongshen);
 
       // Step 6: 判定格局
       this.performanceMonitor.start('patternDetection');
@@ -180,7 +190,7 @@ export class ProfessionalBaziCalculator {
         baziChart as any
       );
       this.performanceMonitor.end('patternDetection');
-      console.log('[Pro Calculator] 格局判定完成:', patternAnalysis);
+      debugLog('[Pro Calculator] 格局判定完成:', patternAnalysis);
 
       // Step 7: 计算大运流年
       this.performanceMonitor.start('dayunCalculation');
@@ -207,11 +217,11 @@ export class ProfessionalBaziCalculator {
       };
 
       this.performanceMonitor.end('dayunCalculation');
-      console.log('[Pro Calculator] 大运流年计算完成');
+      debugLog('[Pro Calculator] 大运流年计算完成');
 
       // Step 8: 计算神煞
       const shenshaAnalysis = this.shenshaCalc.analyzeShenSha(baziChart as any);
-      console.log('[Pro Calculator] 神煞计算完成:', shenshaAnalysis);
+      debugLog('[Pro Calculator] 神煞计算完成:', shenshaAnalysis);
 
       // Step 9: 生成智能解读
       this.performanceMonitor.start('interpretation');
@@ -249,8 +259,8 @@ export class ProfessionalBaziCalculator {
         },
       });
       this.performanceMonitor.end('interpretation');
-      console.log('[Pro Calculator] 智能解读生成完成');
-      console.log(
+      debugLog('[Pro Calculator] 智能解读生成完成');
+      debugLog(
         '[Pro Calculator] 智能解读预览:',
         Object.keys(interpretation || {})
       );
@@ -357,7 +367,7 @@ export class ProfessionalBaziCalculator {
 
       // 结束总计时并输出性能报告
       this.performanceMonitor.end('total');
-      console.log('[Pro Calculator] 专业级八字计算完成');
+      debugLog('[Pro Calculator] 专业级八字计算完成');
 
       // 输出性能报告到控制台（仅开发模式）
       if (process.env.NODE_ENV === 'development') {

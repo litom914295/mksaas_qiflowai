@@ -294,7 +294,7 @@ interface AnalysisOptions {
 
 如有问题，请联系开发团队或查看相关文档：
 
-- 八字算法：`src/lib/qiflow/bazi/`
+- 八字算法：`src/lib/bazi/`
 - 风水引擎：`src/lib/qiflow/xuankong/`
 - 整合逻辑：`app/[locale]/(routes)/report/page-enhanced.tsx`
 

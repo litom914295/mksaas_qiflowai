@@ -231,7 +231,7 @@ npm run dev
 - 功能：处理用户请求，协调算法计算和AI生成
 
 ### 3. 算法模块
-- 八字算法：`src/lib/qiflow/bazi/compute-bazi-smart.ts`
+- 八字算法：`src/lib/bazi/compute-bazi-smart.ts`
 - 风水算法：内置九宫飞星计算
 
 ### 4. 前端交互

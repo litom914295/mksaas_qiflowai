@@ -3,7 +3,7 @@ import { baziCalculations } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth';
 import { computeBaziWithCache } from '@/lib/cache/bazi-cache';
 import { tryMarkActivation } from '@/lib/growth/activation';
-import { type EnhancedBirthData, computeBaziSmart } from '@/lib/qiflow/bazi';
+import { type EnhancedBirthData, computeBaziSmart } from '@/lib/bazi';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -12,6 +12,8 @@ const RequestSchema = z.object({
   birthDate: z.string().min(1),
   gender: z.enum(['male', 'female']).optional(),
   timezone: z.string().optional().default('Asia/Shanghai'),
+  longitude: z.number().min(-180).max(180).optional(),
+  latitude: z.number().min(-90).max(90).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -34,6 +36,8 @@ export async function POST(req: NextRequest) {
       timezone: parsed.data.timezone || 'Asia/Shanghai',
       isTimeKnown: true,
       preferredLocale: 'zh-CN',
+      longitude: parsed.data.longitude,
+      latitude: parsed.data.latitude,
     };
 
     // 使用带缓存的八字计算
@@ -65,6 +69,8 @@ export async function POST(req: NextRequest) {
             birthDate: parsed.data.birthDate,
             gender: parsed.data.gender || 'male',
             timezone: parsed.data.timezone || 'Asia/Shanghai',
+            longitude: parsed.data.longitude,
+            latitude: parsed.data.latitude,
           },
           result: result as any,
           creditsUsed: 10,

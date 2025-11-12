@@ -13,6 +13,21 @@ import {
 } from './adapter';
 import { createEnhancedBaziCalculator } from './enhanced-calculator';
 
+const isBaziDebugEnabled =
+  process.env.NODE_ENV === 'development' || process.env.BAZI_DEBUG === 'true';
+
+const debugLog = (...args: any[]) => {
+  if (isBaziDebugEnabled) {
+    console.log(...args);
+  }
+};
+
+const debugWarn = (...args: any[]) => {
+  if (isBaziDebugEnabled) {
+    console.warn(...args);
+  }
+};
+
 /**
  * 智能八字计算函数（推荐使用）
  */
@@ -24,7 +39,7 @@ export async function computeBaziSmart(
     const { professionalBaziCalculator } = await import('./integrate-pro');
     const result =
       await professionalBaziCalculator.calculateProfessional(input);
-    console.log('[Bazi Smart] 使用专业版计算器成功');
+    debugLog('[Bazi Smart] 使用专业版计算器成功');
     return result;
   } catch (error) {
     console.warn('[Bazi Smart] 专业版计算器失败，回退到标准版:', error);

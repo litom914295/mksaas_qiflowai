@@ -49,8 +49,14 @@ export const getCacheKey = (
 export const cachedBaziAnalysis = unstable_cache(
   async (birthData: string, gender: string) => {
     // 这里调用实际的八字分析函数
-    const mod: any = await import('@/lib/qiflow/bazi');
-    return mod.calculateBazi({ birthData, gender });
+    const mod: any = await import('@/lib/bazi');
+    return mod.computeBaziSmart({
+      datetime: birthData,
+      gender,
+      timezone: 'Asia/Shanghai',
+      isTimeKnown: true,
+      preferredLocale: 'zh-CN',
+    });
   },
   ['bazi-analysis'],
   {
@@ -187,3 +193,4 @@ export const browserCache = {
     }
   },
 };
+

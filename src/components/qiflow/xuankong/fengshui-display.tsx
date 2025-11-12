@@ -7,7 +7,7 @@
 
 'use client';
 
-import type { EnhancedBaziResult } from '@/lib/qiflow/bazi/enhanced-calculator';
+import type { EnhancedBaziResult } from '@/lib/bazi/enhanced-calculator';
 import {
   PALACE_PROFILES,
   buildStackedPlates,

@@ -200,10 +200,10 @@ ${colors.reset}\n`);
 
     // 检查八字核心文件
     const baziFiles = [
-      'src/lib/qiflow/bazi/index.ts',
-      'src/lib/qiflow/bazi/types.ts',
-      'src/lib/qiflow/bazi/solar-lunar.ts',
-      'src/lib/qiflow/bazi/calculator.ts',
+      'src/lib/bazi/index.ts',
+      'src/lib/bazi/types.ts',
+      'src/lib/bazi/solar-lunar.ts',
+      'src/lib/bazi/adapter.ts',
     ];
 
     for (const file of baziFiles) {
@@ -221,7 +221,7 @@ ${colors.reset}\n`);
     }
 
     // 测试关键函数存在性
-    const indexFile = path.join(this.rootDir, 'src/lib/qiflow/bazi/index.ts');
+    const indexFile = path.join(this.rootDir, 'src/lib/bazi/index.ts');
     if (fs.existsSync(indexFile)) {
       const content = fs.readFileSync(indexFile, 'utf-8');
       const functions = [
