@@ -946,7 +946,7 @@ export function HeroWithForm() {
                               </Button>
                             </div>
                             <p className="text-xs text-muted-foreground flex items-center gap-1">
-                              <span className="inline-block w-1 h-1 rounded-full bg-primary/60"></span>
+                              <span className="inline-block w-1 h-1 rounded-full bg-primary/60" />
                               0° 正北 | 90° 正东 | 180° 正南 | 270° 正西
                             </p>
                           </div>
@@ -1001,7 +1001,7 @@ export function HeroWithForm() {
                                 </div>
                                 {houseInfo.directionDegree && (
                                   <p className="text-xs text-primary/70 mt-1.5 flex items-center gap-1">
-                                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse"></span>
+                                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
                                     {getCoarseDirectionLabel(
                                       Number(houseInfo.directionDegree)
                                     )}

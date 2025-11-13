@@ -47,7 +47,7 @@ export async function purchaseReportWithCreditsAction(
   input: EssentialReportInput
 ): Promise<PurchaseReportResult> {
   // 1. 认证检查
-  const session = await auth();
+  const session = await getSession();
   if (!session?.user?.id) {
     return {
       success: false,
@@ -121,7 +121,7 @@ export async function purchaseReportWithCreditsAction(
     console.log(`[Purchase] 积分已扣除: ${price}`);
 
     // 5. 生成报告 (同步，约 12 秒)
-    console.log(`[Purchase] 开始生成报告...`);
+    console.log('[Purchase] 开始生成报告...');
     const startTime = Date.now();
 
     try {
@@ -158,7 +158,7 @@ export async function purchaseReportWithCreditsAction(
         reportId: report.id,
       };
     } catch (genError) {
-      console.error(`[Purchase] 报告生成失败:`, genError);
+      console.error('[Purchase] 报告生成失败:', genError);
 
       // 7. 失败回滚积分
       await creditsManager.addCredits(userId, price);
@@ -199,7 +199,7 @@ export async function purchaseReportWithCreditsAction(
  * 查询报告状态
  */
 export async function getReportStatusAction(reportId: string) {
-  const session = await auth();
+  const session = await getSession();
   if (!session?.user?.id) {
     return { error: '请先登录' };
   }

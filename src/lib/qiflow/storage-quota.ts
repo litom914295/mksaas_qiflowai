@@ -63,7 +63,7 @@ export function cleanOldFloorplanCache(keepDays = 7): number {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
 
-      if (key && key.startsWith('floorplan_')) {
+      if (key?.startsWith('floorplan_')) {
         try {
           const value = localStorage.getItem(key);
           if (value) {
@@ -108,7 +108,7 @@ export function cleanAnonymousFloorplanCache(): number {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
 
-      if (key && key.startsWith('floorplan_anonymous_')) {
+      if (key?.startsWith('floorplan_anonymous_')) {
         keysToRemove.push(key);
       }
     }
@@ -150,7 +150,7 @@ export function getFloorplanCacheStats(): {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
 
-      if (key && key.startsWith('floorplan_')) {
+      if (key?.startsWith('floorplan_')) {
         totalCount++;
 
         if (key.startsWith('floorplan_anonymous_')) {

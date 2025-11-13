@@ -448,11 +448,11 @@ function extractMetrics(
       description: (dayMasterStrength.factors as any)?.join('；') || '',
     },
     elementScores: {
-      wood: elements.wood || elements['木'] || 0,
-      fire: elements.fire || elements['火'] || 0,
-      earth: elements.earth || elements['土'] || 0,
-      metal: elements.metal || elements['金'] || 0,
-      water: elements.water || elements['水'] || 0,
+      wood: elements.wood || elements.木 || 0,
+      fire: elements.fire || elements.火 || 0,
+      earth: elements.earth || elements.土 || 0,
+      metal: elements.metal || elements.金 || 0,
+      water: elements.water || elements.水 || 0,
     },
     balance: {
       status: elements.balance?.status || 'balanced',
@@ -612,8 +612,28 @@ function extractLuckInfo(
     ? new Date(_anyResult.birthData.datetime).getFullYear()
     : new Date().getFullYear() - 30; // 默认30岁
 
+  // 过滤重复的大运（与 enhanced-calculator.ts 保持一致）
+  const uniquePillars: any[] = [];
+  const seenPeriods = new Set<number>();
+  const seenAgeRanges = new Set<string>();
+
+  for (const pillar of luckPillars) {
+    const period = pillar.period;
+    const ageStart = pillar.startAge || 0;
+    const ageRangeKey = `${ageStart}`;
+    
+    // 过滤重复的period或重复的年龄范围
+    if (!seenPeriods.has(period) && !seenAgeRanges.has(ageRangeKey)) {
+      seenPeriods.add(period);
+      seenAgeRanges.add(ageRangeKey);
+      uniquePillars.push(pillar);
+    }
+  }
+
+  console.log('[normalize] 过滤后大运数量:', uniquePillars.length, '(原始:', luckPillars.length, ')');
+
   // 构建大运时间线
-  const daYunTimeline: DaYunPeriod[] = luckPillars.map(
+  const daYunTimeline: DaYunPeriod[] = uniquePillars.map(
     (pillar: any, index: number) => {
       // 计算年份范围
       const startYear = pillar.startYear || birthYear + pillar.startAge;

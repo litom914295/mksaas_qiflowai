@@ -63,7 +63,7 @@ export async function performDailySignIn(): Promise<SignInResult> {
       // 签到成功
       return {
         success: true,
-        message: `签到成功！获得积分奖励`,
+        message: '签到成功！获得积分奖励',
         data: {
           points: 5, // 签到积分从配置获取
           streak: result.data?.streak || 1,

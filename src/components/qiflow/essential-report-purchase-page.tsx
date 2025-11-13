@@ -284,7 +284,8 @@ export function EssentialReportPurchasePage({
           ...prev,
           selectedThemes: currentThemes.filter((id) => id !== themeId),
         };
-      } else if (currentThemes.length < 3) {
+      }
+      if (currentThemes.length < 3) {
         // 添加选择 (最多 3 个)
         const newThemes = [...currentThemes, themeId];
 
@@ -350,6 +351,7 @@ export function EssentialReportPurchasePage({
           location: formData.location,
           themes: formData.selectedThemes,
         },
+        selectedThemes: formData.selectedThemes,
       });
 
       if (!result.success) {
@@ -378,7 +380,7 @@ export function EssentialReportPurchasePage({
           userId: userId,
           eventType: 'purchase_completed',
           eventData: {
-            reportId: result.data.reportId,
+            reportId: result.reportId,
             selectedThemes: formData.selectedThemes,
             adoptedRecommendation: hasAdoptedRecommendation,
           },

@@ -171,22 +171,23 @@ export default function CreditsBalanceCard() {
         text: '积分余额较低，建议及时充值以体验更多AI功能',
         variant: 'destructive' as const,
       };
-    } else if (balance < 200) {
+    }
+    if (balance < 200) {
       return {
         text: '每日签到可获得免费积分，坚持签到还有额外奖励',
         variant: 'default' as const,
       };
-    } else if (balance < 500) {
+    }
+    if (balance < 500) {
       return {
         text: '积分充足，可以放心使用八字分析和风水服务',
         variant: 'default' as const,
       };
-    } else {
-      return {
-        text: '积分余额非常充足，可以尽情体验所有高级功能',
-        variant: 'default' as const,
-      };
     }
+    return {
+      text: '积分余额非常充足，可以尽情体验所有高级功能',
+      variant: 'default' as const,
+    };
   };
 
   const suggestion = getSuggestion();

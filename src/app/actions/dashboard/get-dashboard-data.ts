@@ -224,12 +224,12 @@ const getDashboardDataUncached = async (): Promise<DashboardData | null> => {
           ...recentBazi.map((r) => ({
             ...r,
             type: 'bazi' as const,
-            title: `八字分析`,
+            title: '八字分析',
           })),
           ...recentFengshui.map((r) => ({
             ...r,
             type: 'fengshui' as const,
-            title: `玄空风水分析`,
+            title: '玄空风水分析',
           })),
         ]
           .sort((a, b) => {

@@ -2,17 +2,19 @@
  * Fixed PostgreSQL Database Connection for Supabase
  * 修复了 Better Auth 与 Supabase 的兼容性问题
  */
-import { drizzle } from 'drizzle-orm/postgres-js';
+import { type PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
+
+export type DbType = PostgresJsDatabase<typeof schema>;
 // DNS resolution is handled by postgres-js library internally
 // No need for manual DNS lookup
 
 // 使用全局变量缓存连接，避免 Next.js 热重载时丢失
 const globalForDb = globalThis as unknown as {
-  db: ReturnType<typeof drizzle> | null;
+  db: DbType | null;
   connectionClient: ReturnType<typeof postgres> | null;
-  connectionPromise: Promise<ReturnType<typeof drizzle>> | null;
+  connectionPromise: Promise<DbType> | null;
 };
 
 globalForDb.db = globalForDb.db || null;
@@ -40,7 +42,7 @@ async function createClient(conn: string) {
   });
 }
 
-export async function getDb() {
+export async function getDb(): Promise<DbType> {
   // 检查是否禁用数据库连接
   if (process.env.DISABLE_DATABASE === 'true') {
     console.log('⚠️ Database disabled via DISABLE_DATABASE=true');

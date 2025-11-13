@@ -459,7 +459,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
                         key={idx}
                         className="flex items-center gap-2 text-sm text-gray-700"
                       >
-                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -490,7 +490,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
                         key={idx}
                         className="flex items-center gap-2 text-sm text-gray-700"
                       >
-                        <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+                        <span className="w-2 h-2 rounded-full bg-orange-500" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -611,7 +611,7 @@ export function CareerWealth({ data }: CareerWealthProps) {
                                       ? '#f3f4f6'
                                       : '#000000',
                         }}
-                      ></div>
+                      />
                       <span className="text-xs text-gray-700">{color}</span>
                     </div>
                   ))}
@@ -619,11 +619,11 @@ export function CareerWealth({ data }: CareerWealthProps) {
                   ?.length === 0 && (
                   <>
                     <div className="flex items-center gap-1">
-                      <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-gray-300"></div>
+                      <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-gray-300" />
                       <span className="text-xs text-gray-700">蓝色</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-gray-300"></div>
+                      <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-gray-300" />
                       <span className="text-xs text-gray-700">绿色</span>
                     </div>
                   </>

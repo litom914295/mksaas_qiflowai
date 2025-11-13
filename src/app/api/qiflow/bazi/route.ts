@@ -1,4 +1,4 @@
-import { getDb } from '@/db';
+﻿import { getDb } from '@/db';
 import { baziCalculations } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth';
 import { type EnhancedBirthData, computeBaziSmart } from '@/lib/bazi';
@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    // 验证请求数据
     const parsed = RequestSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -29,7 +28,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 准备增强型八字输入数据
     const enhancedBirthData: EnhancedBirthData = {
       datetime: parsed.data.birthDate,
       gender: parsed.data.gender || 'male',
@@ -40,14 +38,19 @@ export async function POST(req: NextRequest) {
       latitude: parsed.data.latitude,
     };
 
-    // 使用带缓存的八字计算
     const result = await computeBaziWithCache(
       {
         datetime: enhancedBirthData.datetime,
         gender: enhancedBirthData.gender,
         timezone: enhancedBirthData.timezone || 'Asia/Shanghai',
       },
-      async () => computeBaziSmart(enhancedBirthData)
+      async () => {
+        const computed = await computeBaziSmart(enhancedBirthData);
+        if (!computed) {
+          throw new Error('Failed to compute bazi');
+        }
+        return computed;
+      }
     );
 
     if (!result) {
@@ -57,7 +60,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 可选：记录业务完成并触发推荐激活（仅登录用户）
     try {
       const auth = await verifyAuth(req as unknown as Request);
       if (auth?.authenticated && auth.userId) {
@@ -75,7 +77,6 @@ export async function POST(req: NextRequest) {
           result: result as any,
           creditsUsed: 10,
         });
-        // 异步触发激活检测，不阻塞主流程
         tryMarkActivation(auth.userId).catch(() => {});
       }
     } catch (e) {
@@ -97,7 +98,6 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  // 健康检查端点
   return NextResponse.json({
     status: 'ok',
     endpoint: 'bazi',

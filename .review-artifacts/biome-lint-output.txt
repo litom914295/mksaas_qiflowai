@@ -1,0 +1,439 @@
+﻿
+> qiflowai@0.1.0 lint
+> biome check --write .
+
+node.exe : .\.taskmaster\tasks\tasks.json:317:9 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓö
+üΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (.\.taskmaster\t...ΓöüΓöüΓöüΓöüΓöü:String 
+   ) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+  ├ù expected `,` but instead found `{`
+  
+    315 Γöé         {"id": "18", "title": "τöƒµêÉµ╕àτÉåµÇ╗τ╗ôµèÑσæè", "status": "done"
+, "priority": "low", "description": "qiflowai/cleanup-summary-2025-10-26.md"},
+    316 Γöé {"id": "19", "title": "Round2 σÇÖΘÇëσñìµá╕∩╝êsrc/components/ui τ¡ë∩╝ë", "s
+tatus": "done", "priority": "medium", "description": "σ»╣ round2 σÇÖΘÇëµëºΦíîσ╝òτö¿µúÇ
+µƒÑΣ╕Äσ░Åµë╣τº╗σè¿∩╝êσ╖▓τöƒµêÉ round2.safe.json∩╝îσ«₧ΘÖàτº╗σè¿81Θí╣Φç│ .attic/2025-10-
+27∩╝ë"}
+  > 317 Γöé         {"id": "20", "title": "τ▒╗σ₧ïΘöÖΦ»»Σ┐«σñìΦ«íσêÆσ╣╢σÉ»σè¿", "status
+": "pending", "priority": "high", "description": "µò┤τÉå TS ΘöÖΦ»»∩╝îσêåµë╣Σ┐«σñì∩╝îΘü
+┐σàìΣ╕Äµ╕àτÉåτ¢╕Σ║Æσ╜▒σôì"},
+        Γöé         ^
+    318 Γöé {"id": "21", "title": "σà¿ΘçÅµ₧äσ╗║ + τ▒╗σ₧ïµúÇµƒÑΘÇÜΦ┐ç", "status": "in-p
+rogress", "priority": "high", "description": "µ₧äσ╗║Σ╕Äτ▒╗σ₧ïµúÇµƒÑΦ┐¢ΦíîΣ╕¡∩╝¢µùÑσ┐ùΦ
+ºü qiflowai/artifacts/cleanup/2025-10-27/"}
+    319 Γöé         {"id": "22", "title": "σÅæΦ╡╖ PR Σ╕ÄΦ»äσ«í", "status": "pending", 
+"priority": "medium", "description": "σÅæΦ╡╖µ╕àτÉå PR∩╝îΘÖäσ╕ªσ«íΦ«íΣ╕Äσ¢₧µ╗ÜΦ»┤µÿÄ"}
+  
+  i Remove {
+  
+
+.\.taskmaster\tasks\tasks.json:319:9 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `{`
+  
+    317 Γöé         {"id": "20", "title": "τ▒╗σ₧ïΘöÖΦ»»Σ┐«σñìΦ«íσêÆσ╣╢σÉ»σè¿", "status
+": "pending", "priority": "high", "description": "µò┤τÉå TS ΘöÖΦ»»∩╝îσêåµë╣Σ┐«σñì∩╝îΘü
+┐σàìΣ╕Äµ╕àτÉåτ¢╕Σ║Æσ╜▒σôì"},
+    318 Γöé {"id": "21", "title": "σà¿ΘçÅµ₧äσ╗║ + τ▒╗σ₧ïµúÇµƒÑΘÇÜΦ┐ç", "status": "in-p
+rogress", "priority": "high", "description": "µ₧äσ╗║Σ╕Äτ▒╗σ₧ïµúÇµƒÑΦ┐¢ΦíîΣ╕¡∩╝¢µùÑσ┐ùΦ
+ºü qiflowai/artifacts/cleanup/2025-10-27/"}
+  > 319 Γöé         {"id": "22", "title": "σÅæΦ╡╖ PR Σ╕ÄΦ»äσ«í", "status": "pending", 
+"priority": "medium", "description": "σÅæΦ╡╖µ╕àτÉå PR∩╝îΘÖäσ╕ªσ«íΦ«íΣ╕Äσ¢₧µ╗ÜΦ»┤µÿÄ"}
+        Γöé         ^
+    320 Γöé       ]
+    321 Γöé     }
+  
+  i Remove {
+  
+
+.\.taskmaster\tasks\tasks.json:317:9 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `{`
+  
+    315 Γöé         {"id": "18", "title": "τöƒµêÉµ╕àτÉåµÇ╗τ╗ôµèÑσæè", "status": "done"
+, "priority": "low", "description": "qiflowai/cleanup-summary-2025-10-26.md"},
+    316 Γöé {"id": "19", "title": "Round2 σÇÖΘÇëσñìµá╕∩╝êsrc/components/ui τ¡ë∩╝ë", "s
+tatus": "done", "priority": "medium", "description": "σ»╣ round2 σÇÖΘÇëµëºΦíîσ╝òτö¿µúÇ
+µƒÑΣ╕Äσ░Åµë╣τº╗σè¿∩╝êσ╖▓τöƒµêÉ round2.safe.json∩╝îσ«₧ΘÖàτº╗σè¿81Θí╣Φç│ .attic/2025-10-
+27∩╝ë"}
+  > 317 Γöé         {"id": "20", "title": "τ▒╗σ₧ïΘöÖΦ»»Σ┐«σñìΦ«íσêÆσ╣╢σÉ»σè¿", "status
+": "pending", "priority": "high", "description": "µò┤τÉå TS ΘöÖΦ»»∩╝îσêåµë╣Σ┐«σñì∩╝îΘü
+┐σàìΣ╕Äµ╕àτÉåτ¢╕Σ║Æσ╜▒σôì"},
+        Γöé         ^
+    318 Γöé {"id": "21", "title": "σà¿ΘçÅµ₧äσ╗║ + τ▒╗σ₧ïµúÇµƒÑΘÇÜΦ┐ç", "status": "in-p
+rogress", "priority": "high", "description": "µ₧äσ╗║Σ╕Äτ▒╗σ₧ïµúÇµƒÑΦ┐¢ΦíîΣ╕¡∩╝¢µùÑσ┐ùΦ
+ºü qiflowai/artifacts/cleanup/2025-10-27/"}
+    319 Γöé         {"id": "22", "title": "σÅæΦ╡╖ PR Σ╕ÄΦ»äσ«í", "status": "pending", 
+"priority": "medium", "description": "σÅæΦ╡╖µ╕àτÉå PR∩╝îΘÖäσ╕ªσ«íΦ«íΣ╕Äσ¢₧µ╗ÜΦ»┤µÿÄ"}
+  
+  i Remove {
+  
+
+.\.taskmaster\tasks\tasks.json:319:9 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `{`
+  
+    317 Γöé         {"id": "20", "title": "τ▒╗σ₧ïΘöÖΦ»»Σ┐«σñìΦ«íσêÆσ╣╢σÉ»σè¿", "status
+": "pending", "priority": "high", "description": "µò┤τÉå TS ΘöÖΦ»»∩╝îσêåµë╣Σ┐«σñì∩╝îΘü
+┐σàìΣ╕Äµ╕àτÉåτ¢╕Σ║Æσ╜▒σôì"},
+    318 Γöé {"id": "21", "title": "σà¿ΘçÅµ₧äσ╗║ + τ▒╗σ₧ïµúÇµƒÑΘÇÜΦ┐ç", "status": "in-p
+rogress", "priority": "high", "description": "µ₧äσ╗║Σ╕Äτ▒╗σ₧ïµúÇµƒÑΦ┐¢ΦíîΣ╕¡∩╝¢µùÑσ┐ùΦ
+ºü qiflowai/artifacts/cleanup/2025-10-27/"}
+  > 319 Γöé         {"id": "22", "title": "σÅæΦ╡╖ PR Σ╕ÄΦ»äσ«í", "status": "pending", 
+"priority": "medium", "description": "σÅæΦ╡╖µ╕àτÉå PR∩╝îΘÖäσ╕ªσ«íΦ«íΣ╕Äσ¢₧µ╗ÜΦ»┤µÿÄ"}
+        Γöé         ^
+    320 Γöé       ]
+    321 Γöé     }
+  
+  i Remove {
+  
+
+.\messages\ko.json:662:3 lint/suspicious/noDuplicateObjectKeys ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓö
+üΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öü
+
+  ├ù The key compass was already declared.
+  
+    660 Γöé     "low_accuracy": "Low Accuracy"
+    661 Γöé   },
+  > 662 Γöé   "compass": {
+        Γöé   ^^^^^^^^^
+    663 Γöé     "pickerTitle": "δéÿ∞╣¿δ░ÿ ∞╕í∞áò",
+    664 Γöé     "pickerDesc": "Ω╕░Ω╕░δÑ╝ ∞êÿφÅë∞£╝δí£ δæÉΩ│á ∞▓£∞▓£φ₧ê φÜî∞áä∞ï£φéñΩ▒░
+δéÿ, ∞êÿδÅÖ∞£╝δí£ Ω░üδÅäδÑ╝ δ»╕∞ä╕ ∞í░∞áòφòÿ∞ä╕∞Üö. ∞Öäδúî φ¢ä ΓÇ£∞¥┤ δ░⌐∞£äδÑ╝ ∞é¼∞Ü⌐
+ΓÇ¥∞¥ä δêäδÑ┤∞ä╕∞Üö.",
+  
+  i This where a duplicated key was declared again.
+  
+    3342 Γöé     "selected": "∞äáφâ¥δÉ£ φÅëδ⌐┤δÅä"
+    3343 Γöé   },
+  > 3344 Γöé   "compass": {
+         Γöé   ^^^^^^^^^
+    3345 Γöé     "pickerTitle": "δéÿ∞╣¿δ░ÿ ∞╕í∞áò",
+    3346 Γöé     "pickerDesc": "φ£┤δîÇδÑ╝ φÅëφÅëφòÿΩ▓î δæÉΩ│á ∞▓£∞▓£φ₧ê φÜî∞áäφòÿΩ▒░δé
+ÿ, ∞êÿδÅÖ∞£╝δí£ δ»╕∞ä╕ ∞í░∞áòφòÿ∞ä╕∞Üö. ∞ÖäδúîδÉÿδ⌐┤ ΓÇÿ∞¥┤ δ░⌐∞£äδÑ╝ ∞é¼∞Ü⌐ΓÇÖ δ▓äφè╝
+∞¥ä δêäδÑ┤∞ä╕∞Üö.",
+  
+  i If a key is defined multiple times, only the last definition takes effect. Previou
+s definitions are ignored.
+  
+
+.\messages\ja.json:662:3 lint/suspicious/noDuplicateObjectKeys ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓö
+üΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öü
+
+  ├ù The key compass was already declared.
+  
+    660 Γöé     "low_accuracy": "Low Accuracy"
+    661 Γöé   },
+  > 662 Γöé   "compass": {
+        Γöé   ^^^^^^^^^
+    663 Γöé     "pickerTitle": "πé│πâ│πâæπé╣µ╕¼σ«Ü",
+    664 Γöé     "pickerDesc": "τ½»µ£½πéÆµ░┤σ╣│πü½τ╜«πüìπÇüπéåπüúπüÅπéèσ¢₧Φ╗óπüòπü¢πéïπ
+üïπÇüµëïσïòπüºσ╛«Φ¬┐µò┤πüùπüªπüÅπüáπüòπüäπÇéσ«îΣ║åπüùπüƒπéëπÇîπüôπü«µû╣Σ╜ìπéÆΣ╜┐πüåπÇì
+πéÆµè╝πüùπüªπüÅπüáπüòπüäπÇé",
+  
+  i This where a duplicated key was declared again.
+  
+    3305 Γöé     "totalRecords": "µÇ╗Φ«í"
+    3306 Γöé   },
+  > 3307 Γöé   "compass": {
+         Γöé   ^^^^^^^^^
+    3308 Γöé     "pickerTitle": "πé│πâ│πâæπé╣µ╕¼σ«Ü",
+    3309 Γöé     "pickerDesc": "πé╣πâ₧πâ¢πéÆσ╣│πéëπü½τ╜«πüìπéåπüúπüÅπéèσ¢₧Φ╗óπüòπü¢πéï
+πüïπÇüµëïσïòπüºσ╛«Φ¬┐µò┤πüùπüªπüÅπüáπüòπüäπÇéσ«îΣ║åπüùπüƒπéëπÇîπüôπü«µû╣Σ╜ìπéÆΣ╜┐τö¿πÇ
+ìπéÆµè╝πüùπüªπüÅπüáπüòπüäπÇé",
+  
+  i If a key is defined multiple times, only the last definition takes effect. Previou
+s definitions are ignored.
+  
+
+.\messages\zh-TW.json:662:3 lint/suspicious/noDuplicateObjectKeys ΓöüΓöüΓöüΓöüΓöüΓöüΓö
+üΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The key compass was already declared.
+  
+    660 Γöé     "low_accuracy": "Low Accuracy"
+    661 Γöé   },
+  > 662 Γöé   "compass": {
+        Γöé   ^^^^^^^^^
+    663 Γöé     "pickerTitle": "τ╛àτ¢ñσ«ÜΣ╜ì",
+    664 Γöé     "pickerDesc": "σ░çµëïµ⌐ƒσ╣│µö╛Σ╕ªτ╖⌐µàóµùïΦ╜ë∩╝îµêûµëïσïòσ╛«Φ¬┐ΦºÆσ║ªπ
+Çéσ«îµêÉσ╛îΘ╗₧µôèπÇîΣ╜┐τö¿µ¡ñµ£¥σÉæπÇìπÇé",
+  
+  i This where a duplicated key was declared again.
+  
+    3342 Γöé     "selected": "σ╖▓Θü╕µôçµê╢σ₧ïσ£û"
+    3343 Γöé   },
+  > 3344 Γöé   "compass": {
+         Γöé   ^^^^^^^^^
+    3345 Γöé     "title": "µò╕σ¡ùτ╛àτ¢ñ",
+    3346 Γöé     "calibration": "µáíµ║û",
+  
+  i This where a duplicated key was declared again.
+  
+    3473 Γöé     "mobileAccuracy": "98%µ║ûτó║"
+    3474 Γöé   },
+  > 3475 Γöé   "compass": {
+         Γöé   ^^^^^^^^^
+    3476 Γöé     "pickerTitle": "τ╛àτ¢ñσ«ÜΣ╜ì",
+    3477 Γöé     "pickerDesc": "Φ½ïσ░çµëïµ⌐ƒσ╣│µö╛Σ╕ªτ╖⌐µàóµùïΦ╜ë∩╝îµêûΣ╜┐τö¿µëïσïòσ╛«
+Φ¬┐ΦºÆσ║ªπÇéσ«îµêÉσ╛îΘ╗₧µôèπÇîΣ╜┐τö¿µ¡ñµ£¥σÉæπÇìπÇé",
+  
+  i If a key is defined multiple times, only the last definition takes effect. Previou
+s definitions are ignored.
+  
+
+.\scripts\apply-translations-zh-CN.ts:54:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓö
+üΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    53 Γöé   // HomePage
+  > 54 Γöé   QiFlow AI: 'QiFlow AI',
+       Γöé          ^^
+    55 Γöé 
+    56 Γöé   // I18nTest
+  
+  i Remove AI
+  
+
+.\scripts\apply-translations-zh-CN.ts:54:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓö
+üΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    53 Γöé   // HomePage
+  > 54 Γöé   QiFlow AI: 'QiFlow AI',
+       Γöé          ^^
+    55 Γöé 
+    56 Γöé   // I18nTest
+  
+  i Remove AI
+  
+
+.\scripts\apply-all-translations.ts:108:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    106 Γöé   System: 'Φ╖ƒΘÜ¿τ│╗τ╡▒',
+    107 Γöé   'Get Started': 'ΘûïσºïΣ╜┐τö¿',
+  > 108 Γöé   QiFlow AI: 'QiFlow AI',
+        Γöé          ^^
+    109 Γöé   Bazi: 'σà½σ¡ù',
+    110 Γöé };
+  
+  i Remove AI
+  
+
+.\scripts\apply-all-translations.ts:201:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    199 Γöé   System: 'πé╖πé╣πâåπâá',
+    200 Γöé   'Get Started': 'σºïπéüπéï',
+Skipped 154 suggested fixes.
+If you wish to apply the suggested (unsafe) fixes, use the command biome check --fix --unsafe
+
+The number of diagnostics exceeds the number allowed by Biome.
+Diagnostics not shown: 369.
+Checked 1642 files in 11s. Fixed 253 files.
+Found 386 errors.
+  > 201 Γöé   QiFlow AI: 'QiFlow AI',
+        Γöé          ^^
+    202 Γöé   Bazi: 'σà½σ¡ù',
+    203 Γöé };
+  
+  i Remove AI
+  
+
+.\scripts\apply-all-translations.ts:293:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    291 Γöé   System: '∞ï£∞èñφà£',
+    292 Γöé   'Get Started': '∞ï£∞₧æφòÿΩ╕░',
+  > 293 Γöé   QiFlow AI: 'QiFlow AI',
+        Γöé          ^^
+    294 Γöé   Bazi: 'φîö∞₧É',
+    295 Γöé };
+  
+  i Remove AI
+  
+
+.\scripts\apply-all-translations.ts:385:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    383 Γöé   System: 'Sistem',
+    384 Γöé   'Get Started': 'Mulakan',
+  > 385 Γöé   QiFlow AI: 'QiFlow AI',
+        Γöé          ^^
+    386 Γöé   Bazi: 'Bazi',
+    387 Γöé };
+  
+  i Remove AI
+  
+
+.\scripts\apply-all-translations.ts:108:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    106 Γöé   System: 'Φ╖ƒΘÜ¿τ│╗τ╡▒',
+    107 Γöé   'Get Started': 'ΘûïσºïΣ╜┐τö¿',
+  > 108 Γöé   QiFlow AI: 'QiFlow AI',
+        Γöé          ^^
+    109 Γöé   Bazi: 'σà½σ¡ù',
+    110 Γöé };
+  
+  i Remove AI
+  
+
+.\scripts\apply-all-translations.ts:201:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    199 Γöé   System: 'πé╖πé╣πâåπâá',
+    200 Γöé   'Get Started': 'σºïπéüπéï',
+  > 201 Γöé   QiFlow AI: 'QiFlow AI',
+        Γöé          ^^
+    202 Γöé   Bazi: 'σà½σ¡ù',
+    203 Γöé };
+  
+  i Remove AI
+  
+
+.\scripts\apply-all-translations.ts:293:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    291 Γöé   System: '∞ï£∞èñφà£',
+    292 Γöé   'Get Started': '∞ï£∞₧æφòÿΩ╕░',
+  > 293 Γöé   QiFlow AI: 'QiFlow AI',
+        Γöé          ^^
+    294 Γöé   Bazi: 'φîö∞₧É',
+    295 Γöé };
+  
+  i Remove AI
+  
+
+.\scripts\apply-all-translations.ts:385:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `,` but instead found `AI`
+  
+    383 Γöé   System: 'Sistem',
+    384 Γöé   'Get Started': 'Mulakan',
+  > 385 Γöé   QiFlow AI: 'QiFlow AI',
+        Γöé          ^^
+    386 Γöé   Bazi: 'Bazi',
+    387 Γöé };
+  
+  i Remove AI
+  
+
+.\scripts\diagnostics\check-all-passwords.ts:28:19 lint/style/noUnusedTemplateLiteral 
+ FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Do not use template literals if interpolation and special-character handling are 
+not needed.
+  
+    27 Γöé     if (accounts.length === 0) {
+  > 28 Γöé       console.log(`  Γ¥î µ▓íµ£ë credential account`);
+       Γöé                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    29 Γöé     } else {
+    30 Γöé       const pwd = accounts[0].password;
+  
+  i Unsafe fix: Replace with string literal
+  
+    26 26 Γöé   
+    27 27 Γöé       if (accounts.length === 0) {
+    28    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖console.log(`┬╖┬╖Γ¥î┬╖µ▓íµ£ë┬╖credential┬╖account`);
+       28 Γöé + ┬╖┬╖┬╖┬╖┬╖┬╖console.log('┬╖┬╖Γ¥î┬╖µ▓íµ£ë┬╖credential┬╖account');
+    29 29 Γöé       } else {
+    30 30 Γöé         const pwd = accounts[0].password;
+  
+
+.\scripts\diagnostics\check-all-passwords.ts:34:21 lint/style/noUnusedTemplateLiteral 
+ FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Do not use template literals if interpolation and special-character handling are 
+not needed.
+  
+    32 Γöé         console.log(`  Γ£à σ»åτáüσ¡ÿσ£¿: ${pwd.substring(0, 10)}...`);
+    33 Γöé       } else {
+  > 34 Γöé         console.log(`  Γ¥î σ»åτáüΣ╕║ NULL/undefined`);
+       Γöé                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    35 Γöé       }
+    36 Γöé     }
+  
+  i Unsafe fix: Replace with string literal
+  
+    32 32 Γöé           console.log(`  Γ£à σ»åτáüσ¡ÿσ£¿: ${pwd.substring(0, 10)}...`);
+    33 33 Γöé         } else {
+    34    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖console.log(`┬╖┬╖Γ¥î┬╖σ»åτáüΣ╕║┬╖NULL/undefined`);
+       34 Γöé + ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖console.log('┬╖┬╖Γ¥î┬╖σ»åτáüΣ╕║┬╖NULL/undefined');
+    35 35 Γöé         }
+    36 36 Γöé       }
+  
+
+.\scripts\diagnostics\check-admin-user.ts:37:19 lint/style/noUnusedTemplateLiteral  FI
+XABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Do not use template literals if interpolation and special-character handling are 
+not needed.
+  
+    36 Γöé     for (const admin of adminUsers) {
+  > 37 Γöé       console.log(`\n≡ƒôï τö¿µê╖Σ┐íµü»:`);
+       Γöé                   ^^^^^^^^^^^^^^^^
+    38 Γöé       console.log(`   ID: ${admin.id}`);
+    39 Γöé       console.log(`   Θé«τ«▒: ${admin.email}`);
+  
+  i Unsafe fix: Replace with string literal
+  
+    35 35 Γöé   
+    36 36 Γöé       for (const admin of adminUsers) {
+    37    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖console.log(`\n≡ƒôï┬╖τö¿µê╖Σ┐íµü»:`);
+       37 Γöé + ┬╖┬╖┬╖┬╖┬╖┬╖console.log('\n≡ƒôï┬╖τö¿µê╖Σ┐íµü»:');
+    38 38 Γöé         console.log(`   ID: ${admin.id}`);
+    39 39 Γöé         console.log(`   Θé«τ«▒: ${admin.email}`);
+  
+
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓö
+üΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while applying fixes.
+  
+

@@ -72,14 +72,15 @@ export async function generateMonthlyFortunesForAllProUsers(): Promise<CronJobRe
     );
 
     // 2. 查询所有 Pro 会员
+    const db = await getDb();
     const proUsers = await db
       .select({
-        id: users.id,
-        email: users.email,
-        metadata: users.metadata,
+        id: user.id,
+        email: user.email,
+        metadata: user.metadata,
       })
-      .from(users)
-      .where(eq(users.subscriptionTier, 'pro'));
+      .from(user)
+      .where(eq(user.subscriptionTier, 'pro'));
 
     result.totalUsers = proUsers.length;
     console.log(`[Cron] Found ${result.totalUsers} Pro users`);
@@ -249,7 +250,7 @@ async function generateFortuneWithRetry(params: {
 
       if (attempt < maxRetries) {
         // 指数退避：1s, 2s, 4s
-        const delayMs = Math.pow(2, attempt - 1) * 1000;
+        const delayMs = 2 ** (attempt - 1) * 1000;
         console.log(`[Cron] Retrying in ${delayMs}ms...`);
         await sleep(delayMs);
       }
@@ -264,7 +265,7 @@ async function generateFortuneWithRetry(params: {
       }
 
       // 重试前延迟
-      const delayMs = Math.pow(2, attempt - 1) * 1000;
+      const delayMs = 2 ** (attempt - 1) * 1000;
       await sleep(delayMs);
     }
   }
@@ -340,11 +341,6 @@ export async function generateFortuneForUser(params: {
       return {
         success: true,
         message: `Fortune generated successfully for ${user.email}`,
-      };
-    } else {
-      return {
-        success: false,
-        message: result.message || 'Generation failed',
       };
     }
   } catch (error) {

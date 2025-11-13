@@ -70,9 +70,15 @@ type Report = {
   creditsUsed: number;
   generatedAt: Date | null;
   expiresAt: Date | null;
-  purchaseMethod: string;
-  metadata: Record<string, unknown> | null;
+  metadata: {
+    aiModel: string;
+    generationTimeMs: number;
+    aiCostUSD: number;
+    purchaseMethod: 'credits' | 'stripe';
+    stripePaymentId?: string;
+  } | null;
   createdAt: Date;
+  updatedAt: Date;
 };
 
 type Props = {
@@ -158,7 +164,8 @@ export function ReportDetailView({ report, userId }: Props) {
     );
   }
 
-  const { bazi, flyingStar, themes, metadata } = report.output;
+  const { bazi, flyingStar, themes } = report.output;
+  const metadata = report.metadata;
   const input = report.input as {
     birthDate: string;
     birthHour: string;
@@ -348,7 +355,7 @@ export function ReportDetailView({ report, userId }: Props) {
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                生成用时: {(metadata.generationTimeMs / 1000).toFixed(1)}s
+                生成用时: {metadata ? (metadata.generationTimeMs / 1000).toFixed(1) : '0.0'}s
               </div>
             </div>
           </div>

@@ -268,7 +268,7 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
                                 ? '#9ca3af'
                                 : '#3b82f6',
                     }}
-                  ></div>
+                  />
                   <span className="text-gray-700">
                     {elementNames[element]} {score}%
                   </span>
@@ -509,15 +509,15 @@ export function ElementsAnalysis({ data }: ElementsAnalysisProps) {
           <div className="mt-4 space-y-2">
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-0.5 bg-green-500"></div>
+                <div className="w-8 h-0.5 bg-green-500" />
                 <span className="text-gray-600">相生（外圈）</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-0.5 bg-red-500"></div>
+                <div className="w-8 h-0.5 bg-red-500" />
                 <span className="text-gray-600">相克（内星）</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full border-2 border-teal-600 bg-teal-50"></div>
+                <div className="w-6 h-6 rounded-full border-2 border-teal-600 bg-teal-50" />
                 <span className="text-gray-600">强势五行</span>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { consumeCreditsAction } from '@/actions/consume-credits';
+﻿import { consumeCreditsAction } from '@/actions/consume-credits';
 import { getCreditBalanceAction } from '@/actions/get-credit-balance';
 import { getDb } from '@/db';
 import { baziCalculations } from '@/db/schema';
@@ -11,11 +11,11 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const BaziRequestSchema = z.object({
-  name: z.string().min(1, '��������Ϊ��'),
-  birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '���ڸ�ʽ����'),
-  birthTime: z.string().regex(/^\d{2}:\d{2}$/, 'ʱ���ʽ����'),
+  name: z.string().min(1, '姓名不能为空'),
+  birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '日期格式错误'),
+  birthTime: z.string().regex(/^\d{2}:\d{2}$/, '时间格式错误'),
   gender: z.enum(['male', 'female'], {
-    message: '�Ա����Ϊ�л�Ů',
+    message: '性别必须为男或女',
   }),
   birthCity: z.string().optional(),
   calendarType: z.enum(['solar', 'lunar']).default('solar'),
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: '������֤ʧ��',
+          error: '输入验证失败',
           details: parsed.error.issues,
         },
         { status: 400 }
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            error: '���ֲ���',
+            error: '积分不足',
             needsCredits: true,
             required: REQUIRED_CREDITS,
             available: balanceResult?.data?.credits || 0,
@@ -84,15 +84,15 @@ export async function POST(req: NextRequest) {
 
       const consumeResult = await consumeCreditsAction({
         amount: REQUIRED_CREDITS,
-        description: `���ַ��� - ${name}`,
+        description: `八字分析 - ${name}`,
       });
 
       if (!consumeResult?.data?.success) {
         return NextResponse.json(
           {
             success: false,
-            error: '���ֿ۳�ʧ��',
-            details: consumeResult?.data?.error || 'δ֪����',
+            error: '积分扣除失败',
+            details: consumeResult?.data?.error || '未知错误',
           },
           { status: 500 }
         );
@@ -126,14 +126,14 @@ export async function POST(req: NextRequest) {
       async () => {
         const computed = await computeBaziSmart(enhancedBirthData);
         if (!computed) {
-          throw new Error('δ�ܻ�ȡ��Ч�İ��ַ����');
+          throw new Error('未能获取有效的八字分析结果');
         }
         return computed;
       }
     );
 
     if (!analysisResult) {
-      throw new Error('δ�ܻ�ȡ��Ч�İ��ַ����');
+      throw new Error('未能获取有效的八字分析结果');
     }
 
     if (isLoggedIn && session?.user?.id) {
@@ -149,7 +149,7 @@ export async function POST(req: NextRequest) {
             birthCity,
             calendarType,
             timezone,
-          },
+          } as Record<string, unknown>,
           result: analysisResult as any,
           creditsUsed: creditsUsed || 0,
         });
@@ -182,14 +182,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       data: responseData,
-      message: isFreeTrial ? '���ַ�����ɣ����ð棩' : '���ַ������',
+      message: isFreeTrial ? '八字分析完成（免费版）' : '八字分析完成',
     });
   } catch (error) {
-    console.error('���ַ���API����:', error);
+    console.error('八字分析API错误:', error);
     return NextResponse.json(
       {
         success: false,
-        error: '�������ڲ�����',
+        error: '服务器内部错误',
         details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }

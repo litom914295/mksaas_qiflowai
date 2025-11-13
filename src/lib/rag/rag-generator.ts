@@ -254,6 +254,7 @@ ${context}
       const embeddingService = getSharedEmbeddingService();
       const result = await embeddingService.embed(data.query);
 
+      const db = await getDb();
       await db.insert(ragRetrievalLogs).values({
         userId: data.userId,
         sessionId: data.sessionId,

@@ -46,9 +46,11 @@ export async function ragChatAction({
     ragEnabled: boolean;
   };
 }> {
+  const db = await getDb();
+  
   try {
     // 1. 验证用户身份
-    const session = await auth();
+    const session = await getSession();
     if (!session?.user?.id) {
       return {
         success: false,
@@ -148,7 +150,7 @@ export async function quickRAGAction({
 }> {
   try {
     // 验证用户
-    const session = await auth();
+    const session = await getSession();
     if (!session?.user?.id) {
       return {
         success: false,
@@ -185,7 +187,7 @@ export async function getKnowledgeStatsAction(): Promise<{
   error?: string;
 }> {
   try {
-    const session = await auth();
+    const session = await getSession();
     if (!session?.user?.id) {
       return {
         success: false,
@@ -230,7 +232,7 @@ export async function searchKnowledgeAction({
   error?: string;
 }> {
   try {
-    const session = await auth();
+    const session = await getSession();
     if (!session?.user?.id) {
       return {
         success: false,

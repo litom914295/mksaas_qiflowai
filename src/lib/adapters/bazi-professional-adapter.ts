@@ -96,11 +96,11 @@ export function adaptToProfessionalBaziData(
   // 提取五行数据（支持英文和中文键名）
   const wuxingData = apiData.wuxing || {};
   const elements: Record<string, number> = {
-    木: wuxingData.wood || wuxingData['木'] || 20,
-    火: wuxingData.fire || wuxingData['火'] || 20,
-    土: wuxingData.earth || wuxingData['土'] || 20,
-    金: wuxingData.metal || wuxingData['金'] || 20,
-    水: wuxingData.water || wuxingData['水'] || 20,
+    木: wuxingData.wood || wuxingData.木 || 20,
+    火: wuxingData.fire || wuxingData.火 || 20,
+    土: wuxingData.earth || wuxingData.土 || 20,
+    金: wuxingData.metal || wuxingData.金 || 20,
+    水: wuxingData.water || wuxingData.水 || 20,
   };
 
   // 找出最强和最弱的五行
@@ -125,7 +125,7 @@ export function adaptToProfessionalBaziData(
     水: { primary: '金', secondary: '水', avoid: '土' },
   };
 
-  const yongshenRelation = elementRelations[weakest] || elementRelations['木'];
+  const yongshenRelation = elementRelations[weakest] || elementRelations.木;
 
   // 生成神煞数据（模拟）
   const jiShenPool = [

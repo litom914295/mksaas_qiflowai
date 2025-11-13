@@ -308,8 +308,7 @@ export class BaziBenchmark {
       const min = Math.min(...times);
       const max = Math.max(...times);
       const variance =
-        times.reduce((sum, time) => sum + Math.pow(time - avg, 2), 0) /
-        times.length;
+        times.reduce((sum, time) => sum + (time - avg) ** 2, 0) / times.length;
       const std = Math.sqrt(variance);
 
       summary.set(name, { avg, min, max, std });

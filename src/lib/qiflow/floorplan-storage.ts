@@ -84,12 +84,11 @@ export async function uploadFloorplanImage(
             imageType: 'url',
             storageKey: uploadResult.key,
           };
-        } else {
-          console.warn(
-            '[Floorplan Storage] 云上传失败，降级到 Base64:',
-            uploadResult.error
-          );
         }
+        console.warn(
+          '[Floorplan Storage] 云上传失败，降级到 Base64:',
+          uploadResult.error
+        );
       } catch (cloudError) {
         console.error('[Floorplan Storage] 云上传异常:', cloudError);
       }
@@ -161,12 +160,11 @@ async function uploadToCloud(
         url,
         key,
       };
-    } else {
-      return {
-        success: false,
-        error: '上传响应格式错误：缺少 url 字段',
-      };
     }
+    return {
+      success: false,
+      error: '上传响应格式错误：缺少 url 字段',
+    };
   } catch (error) {
     return {
       success: false,
@@ -194,11 +192,10 @@ export async function deleteCloudFile(storageKey: string): Promise<boolean> {
     if (response.ok) {
       console.log('[Floorplan Storage] 云文件删除成功:', storageKey);
       return true;
-    } else {
-      console.warn('[Floorplan Storage] 云文件删除失败:', response.status);
-      // 删除失败不应该阻塞主流程
-      return false;
     }
+    console.warn('[Floorplan Storage] 云文件删除失败:', response.status);
+    // 删除失败不应该阻塞主流程
+    return false;
   } catch (error) {
     console.error('[Floorplan Storage] 删除云文件异常:', error);
     // 如果 API 不存在或网络错误，仍返回 true（允许继续）

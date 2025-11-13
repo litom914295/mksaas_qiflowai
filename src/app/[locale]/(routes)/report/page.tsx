@@ -608,7 +608,7 @@ export default function ReportPage() {
                     location: formData.personal.birthCity,
                   }}
                   onAnalysisComplete={handleBaziAnalysisComplete}
-                  isPremium={session?.user?.id ? true : false}
+                  isPremium={!!session?.user?.id}
                   creditsAvailable={creditsAvailable}
                 />
               ) : (
@@ -647,7 +647,7 @@ export default function ReportPage() {
                       location: formData.personal.birthCity,
                     }}
                     onAnalysisComplete={handleBaziAnalysisComplete}
-                    isPremium={session?.user?.id ? true : false}
+                    isPremium={!!session?.user?.id}
                     creditsAvailable={creditsAvailable}
                   />
                 ) : (

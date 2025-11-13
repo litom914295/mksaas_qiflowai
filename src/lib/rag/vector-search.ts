@@ -124,6 +124,7 @@ export class VectorSearchService {
         LIMIT ${topK}
       `;
 
+      const db = await getDb();
       const results = await db.execute(query);
 
       // 转换为 SearchResult 格式
@@ -153,6 +154,7 @@ export class VectorSearchService {
     }
 
     try {
+      const db = await getDb();
       const results = await db
         .select({
           id: knowledgeDocuments.id,
@@ -189,6 +191,7 @@ export class VectorSearchService {
     byCategory: Record<DocumentCategoryType, number>;
   }> {
     try {
+      const db = await getDb();
       const results = await db
         .select({
           category: knowledgeDocuments.category,

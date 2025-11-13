@@ -30,6 +30,10 @@ jobs:
       
       - name: Type check
         run: npm run type-check
+      
+      - name: Check code duplication
+        run: npm run check:duplicates
+        continue-on-error: true
 
   unit-tests:
     name: Unit Tests

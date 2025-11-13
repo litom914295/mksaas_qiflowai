@@ -240,7 +240,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = creditTransactionSchema.parse(body);
 
-    console.log(`[管理员接口] 创建积分交易:`, validatedData);
+    console.log('[管理员接口] 创建积分交易:', validatedData);
 
     // 使用统一的积分系统
     if (validatedData.amount > 0) {

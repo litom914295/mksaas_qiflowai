@@ -186,7 +186,7 @@ export function EnhancedLoading({
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center">
                   <Icon className="w-8 h-8 text-white" />
                 </div>
-                <div className="absolute -inset-2 rounded-full border-2 border-purple-300 animate-spin opacity-60"></div>
+                <div className="absolute -inset-2 rounded-full border-2 border-purple-300 animate-spin opacity-60" />
               </div>
             </div>
 
@@ -282,7 +282,7 @@ export function EnhancedLoading({
                       {isAnimated ? (
                         <LoadingSpinner className="w-4 h-4 text-purple-600" />
                       ) : (
-                        <div className="w-4 h-1 bg-gray-300 rounded"></div>
+                        <div className="w-4 h-1 bg-gray-300 rounded" />
                       )}
                     </div>
                   </div>

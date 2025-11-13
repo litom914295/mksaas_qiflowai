@@ -57,7 +57,7 @@ describe('五行权重计算', () => {
 
       // 木的力量应该非常强（有月柱和日柱强根）
       expect(result.wood).toBeGreaterThan(25);
-      expect(result.details.rooting['木']).toBeGreaterThan(0);
+      expect(result.details.rooting.木).toBeGreaterThan(0);
     });
 
     test('年柱和时柱通根系数应较弱 (1.2, 1.1)', () => {
@@ -95,7 +95,7 @@ describe('五行权重计算', () => {
       expect(result.wood).toBeGreaterThan(0);
 
       // 验证interactions中有生扶加成
-      expect(result.details.interactions['火']).toBeGreaterThan(0);
+      expect(result.details.interactions.火).toBeGreaterThan(0);
     });
 
     test('克制影响应保持15%', () => {
@@ -115,7 +115,7 @@ describe('五行权重计算', () => {
       expect(result.metal).toBeGreaterThan(0);
 
       // 验证interactions中有克制惩罚
-      expect(result.details.interactions['木']).toBeLessThan(0);
+      expect(result.details.interactions.木).toBeLessThan(0);
     });
   });
 

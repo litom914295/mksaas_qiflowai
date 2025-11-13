@@ -62,7 +62,7 @@ export async function getUserPlan(userId: string): Promise<UserPlan | null> {
 
     if (lifetimePayment) {
       const plan = findPlanByPriceId(lifetimePayment.priceId);
-      if (plan && plan.isLifetime) {
+      if (plan?.isLifetime) {
         return {
           type: 'LIFETIME',
           planId: plan.id,

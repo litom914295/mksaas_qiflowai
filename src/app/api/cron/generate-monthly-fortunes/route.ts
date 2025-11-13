@@ -67,22 +67,6 @@ export async function POST(request: NextRequest) {
         },
         { status: 200 }
       );
-    } else {
-      // 部分失败或完全失败
-      return NextResponse.json(
-        {
-          success: false,
-          data: {
-            totalUsers: result.totalUsers,
-            successCount: result.successCount,
-            failureCount: result.failureCount,
-            skippedCount: result.skippedCount,
-            executionTime: result.executionTime,
-            errors: result.errors,
-          },
-        },
-        { status: 207 } // 207 Multi-Status
-      );
     }
   } catch (error) {
     console.error('[Cron API] Fatal error:', error);
@@ -116,18 +100,6 @@ export async function GET(request: NextRequest) {
       // 单用户测试
       const result = await generateFortuneForUser({ userId });
       return NextResponse.json(result);
-    } else {
-      // 批量生成测试
-      const result = await generateMonthlyFortunesForAllProUsers();
-      return NextResponse.json({
-        success: result.success,
-        totalUsers: result.totalUsers,
-        successCount: result.successCount,
-        failureCount: result.failureCount,
-        skippedCount: result.skippedCount,
-        executionTime: result.executionTime,
-        errors: result.errors,
-      });
     }
   } catch (error) {
     console.error('[Cron API] GET error:', error);

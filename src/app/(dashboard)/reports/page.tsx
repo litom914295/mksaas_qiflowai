@@ -12,16 +12,18 @@ export const metadata: Metadata = {
 };
 
 async function getUserReports(userId: string) {
-  const reports = await db.query.qiflowReports.findMany({
-    where: eq(qiflowReports.userId, userId),
-    orderBy: [desc(qiflowReports.createdAt)],
-  });
+  const db = await getDb();
+  const reports = await db
+    .select()
+    .from(qiflowReports)
+    .where(eq(qiflowReports.userId, userId))
+    .orderBy(desc(qiflowReports.createdAt));
 
   return reports;
 }
 
 export default async function MyReportsPage() {
-  const session = await auth();
+  const session = await getSession();
 
   if (!session?.user?.id) {
     redirect('/login?callbackUrl=/reports');
@@ -29,5 +31,5 @@ export default async function MyReportsPage() {
 
   const reports = await getUserReports(session.user.id);
 
-  return <MyReportsView reports={reports} />;
+  return <MyReportsView reports={reports as any} />;
 }

@@ -18,18 +18,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 async function getReport(reportId: string, userId: string) {
-  const report = await db.query.qiflowReports.findFirst({
-    where: and(
-      eq(qiflowReports.id, reportId),
-      eq(qiflowReports.userId, userId)
-    ),
-  });
+  const db = await getDb();
+  const [report] = await db
+    .select()
+    .from(qiflowReports)
+    .where(
+      and(
+        eq(qiflowReports.id, reportId),
+        eq(qiflowReports.userId, userId)
+      )
+    )
+    .limit(1);
 
   return report;
 }
 
 export default async function ReportDetailPage({ params }: Props) {
-  const session = await auth();
+  const session = await getSession();
 
   if (!session?.user?.id) {
     redirect(`/login?callbackUrl=/reports/${params.reportId}`);

@@ -246,7 +246,7 @@ describe('TrueSolarTimeCalculator', () => {
       });
 
       expect(result).toBeInstanceOf(Date);
-      expect(isNaN(result.getTime())).toBe(false);
+      expect(Number.isNaN(result.getTime())).toBe(false);
     });
 
     test('东西经交界: -180度', () => {
@@ -256,7 +256,7 @@ describe('TrueSolarTimeCalculator', () => {
       });
 
       expect(result).toBeInstanceOf(Date);
-      expect(isNaN(result.getTime())).toBe(false);
+      expect(Number.isNaN(result.getTime())).toBe(false);
     });
   });
 

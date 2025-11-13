@@ -34,7 +34,7 @@ async function checkAdminUsers() {
     console.log(`找到 ${adminUsers.length} 个admin用户:\n`);
 
     for (const admin of adminUsers) {
-      console.log(`\n📋 用户信息:`);
+      console.log('\n📋 用户信息:');
       console.log(`   ID: ${admin.id}`);
       console.log(`   邮箱: ${admin.email}`);
       console.log(`   名称: ${admin.name || '(未设置)'}`);
@@ -52,7 +52,7 @@ async function checkAdminUsers() {
       if (credits.length > 0) {
         console.log(`   当前积分: ${credits[0].currentCredits}`);
       } else {
-        console.log(`   当前积分: (未初始化)`);
+        console.log('   当前积分: (未初始化)');
       }
 
       console.log(`   实际使用: 无限积分 (${Number.MAX_SAFE_INTEGER})`);

@@ -17,6 +17,8 @@ export const user = pgTable("user", {
 	credits: integer('credits').default(0),
 	successfulInvites: integer('successful_invites').default(0),
 	totalInvites: integer('total_invites').default(0),
+	// 订阅层级
+	subscriptionTier: text('subscription_tier').default('free'),
 }, (table) => ({
 	userIdIdx: index("user_id_idx").on(table.id),
 	userCustomerIdIdx: index("user_customer_id_idx").on(table.customerId),

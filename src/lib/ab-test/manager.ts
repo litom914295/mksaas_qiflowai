@@ -69,12 +69,16 @@ export class ABTestManager {
     }
 
     // 2. 检查用户是否已分组
-    const existingAssignment = await db.query.abTestAssignments.findFirst({
-      where: and(
-        eq(abTestAssignments.experimentId, experiment.id),
-        eq(abTestAssignments.userId, params.userId)
-      ),
-    });
+    const [existingAssignment] = await db
+      .select()
+      .from(abTestAssignments)
+      .where(
+        and(
+          eq(abTestAssignments.experimentId, experiment.id),
+          eq(abTestAssignments.userId, params.userId)
+        )
+      )
+      .limit(1);
 
     if (existingAssignment) {
       const variant = (experiment.variants as VariantConfig[]).find(
@@ -152,11 +156,15 @@ export class ABTestManager {
     eventType: string;
     eventData?: Record<string, any>;
   }): Promise<void> {
+    const db = await getDb();
+    
     try {
       // 1. 获取实验
-      const experiment = await db.query.abTestExperiments.findFirst({
-        where: eq(abTestExperiments.name, params.experimentName),
-      });
+      const [experiment] = await db
+        .select()
+        .from(abTestExperiments)
+        .where(eq(abTestExperiments.name, params.experimentName))
+        .limit(1);
 
       if (!experiment) {
         console.warn(`[ABTest] Experiment not found: ${params.experimentName}`);
@@ -164,12 +172,16 @@ export class ABTestManager {
       }
 
       // 2. 获取用户分配
-      const assignment = await db.query.abTestAssignments.findFirst({
-        where: and(
-          eq(abTestAssignments.experimentId, experiment.id),
-          eq(abTestAssignments.userId, params.userId)
-        ),
-      });
+      const [assignment] = await db
+        .select()
+        .from(abTestAssignments)
+        .where(
+          and(
+            eq(abTestAssignments.experimentId, experiment.id),
+            eq(abTestAssignments.userId, params.userId)
+          )
+        )
+        .limit(1);
 
       if (!assignment) {
         console.warn(`[ABTest] No assignment found for user ${params.userId}`);
@@ -200,9 +212,13 @@ export class ABTestManager {
     experimentName: string;
     userId: string;
   }): Promise<boolean> {
-    const experiment = await db.query.abTestExperiments.findFirst({
-      where: eq(abTestExperiments.name, params.experimentName),
-    });
+    const db = await getDb();
+    
+    const [experiment] = await db
+      .select()
+      .from(abTestExperiments)
+      .where(eq(abTestExperiments.name, params.experimentName))
+      .limit(1);
 
     if (!experiment) return false;
 

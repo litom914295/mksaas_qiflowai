@@ -82,7 +82,7 @@ export class CreditsManager {
 
       // 管理员返回无限积分
       if (await this.isAdmin(userId)) {
-        console.log(`[积分管理] 管理员用户，返回无限积分`);
+        console.log('[积分管理] 管理员用户，返回无限积分');
         return Number.MAX_SAFE_INTEGER;
       }
 
@@ -110,11 +110,19 @@ export class CreditsManager {
   }
 
   // 扣除用户积分
-  async deduct(userId: string, amount: number): Promise<boolean> {
+  async deduct(
+    userId: string,
+    amount: number,
+    options?: {
+      type?: string;
+      description?: string;
+      metadata?: Record<string, any>;
+    }
+  ): Promise<boolean> {
     try {
       // 管理员不扣除积分
       if (await this.isAdmin(userId)) {
-        console.log(`[积分管理] 管理员用户，跳过积分扣除`);
+        console.log('[积分管理] 管理员用户，跳过积分扣除');
         return true;
       }
 
@@ -133,10 +141,11 @@ export class CreditsManager {
       await db.insert(creditTransaction).values({
         id: `txn_${Date.now()}`,
         userId,
-        type: 'deduction',
+        type: options?.type || 'deduction',
         amount: -amount,
         remainingAmount: currentBalance - amount,
-        description: 'Feature usage',
+        description: options?.description || 'Feature usage',
+        metadata: options?.metadata,
         createdAt: new Date(),
         updatedAt: new Date(),
       });

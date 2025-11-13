@@ -89,7 +89,7 @@ export function ChengmenjueAnalysisView({
         facingStar: cell?.facingStar,
         rating: '上吉',
         description: p.description || `${palaceToBagua[p.palace]}宫城门`,
-        effect: `高效催旺，建议重点利用`,
+        effect: '高效催旺，建议重点利用',
       };
     });
 

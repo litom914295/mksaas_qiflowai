@@ -188,7 +188,7 @@ export class WuxingStrengthAnalyzer {
       if (element) {
         const elementKey = this.getElementKey(element);
         strength[elementKey] += stemBase;
-        strength.details.stems[element] += stemBase;
+        (strength.details.stems as any)[element] += stemBase;
       }
     }
   }
@@ -219,7 +219,7 @@ export class WuxingStrengthAnalyzer {
         const elementKey = this.getElementKey(element);
         const score = value * 10; // 基础分值10分
         strength[elementKey] += score;
-        strength.details.hiddenStems[element] += score;
+        (strength.details.hiddenStems as any)[element] += score;
       }
     }
   }
@@ -242,7 +242,7 @@ export class WuxingStrengthAnalyzer {
       const adjustment =
         strength[elementKey] * coefficient - strength[elementKey];
       strength[elementKey] += adjustment;
-      strength.details.monthlyEffect[element] = adjustment;
+      (strength.details.monthlyEffect as any)[element] = adjustment;
     }
   }
 
@@ -290,7 +290,7 @@ export class WuxingStrengthAnalyzer {
         const bonus = rootingStrength * coefficient;
 
         strength[elementKey] += bonus;
-        strength.details.rooting[element] += bonus;
+        (strength.details.rooting as any)[element] += bonus;
       }
     }
   }
@@ -329,7 +329,7 @@ export class WuxingStrengthAnalyzer {
             hidden.type === '本气' ? 8 : hidden.type === '中气' ? 5 : 3;
 
           strength[elementKey] += bonus;
-          strength.details.revealing[element] += bonus;
+          (strength.details.revealing as any)[element] += bonus;
         }
       }
     }
@@ -356,7 +356,7 @@ export class WuxingStrengthAnalyzer {
           strength[generatorKey] *
           this.config.interactionCoefficients.generation;
         strength[elementKey] += bonus;
-        strength.details.interactions[element] += bonus;
+        (strength.details.interactions as any)[element] += bonus;
       }
     }
 
@@ -370,7 +370,7 @@ export class WuxingStrengthAnalyzer {
         const penalty =
           strength[controllerKey] * this.config.interactionCoefficients.control;
         strength[elementKey] -= penalty;
-        strength.details.interactions[element] -= penalty;
+        (strength.details.interactions as any)[element] -= penalty;
       }
     }
   }
@@ -399,7 +399,7 @@ export class WuxingStrengthAnalyzer {
     const factor = 100 / total;
     const precision = this.config.options?.precision ?? 2;
 
-    const multiplier = Math.pow(10, precision);
+    const multiplier = 10 ** precision;
     return {
       wood: Math.round(strength.wood * factor * multiplier) / multiplier,
       fire: Math.round(strength.fire * factor * multiplier) / multiplier,
