@@ -86,7 +86,8 @@
     "backup:db": "tsx scripts/backup-database.ts",
     "backup:list": "tsx scripts/backup-database.ts list",
     "brand:verify": "powershell -ExecutionPolicy Bypass -File scripts/gates/verify-brand.ps1",
-    "test:embedding": "tsx scripts/test-embedding-config.ts"
+    "test:embedding": "tsx scripts/test-embedding-config.ts",
+    "check:duplicates": "npx jscpd --min-lines 10 --min-tokens 100 --threshold 5 --format \"typescript,javascript,tsx,jsx\" --ignore \"**/__tests__/**,**/*.test.ts,**/*.test.tsx,**/node_modules/**,**/.next/**,**/dist/**\" src"
   },
   "dependencies": {
     "@aharris02/bazi-calculator-by-alvamind": "^1.0.16",
