@@ -303,27 +303,28 @@ export async function generateFortuneForUser(params: {
     );
 
     // 获取用户数据
-    const [user] = await db
+    const db = await getDb();
+    const [userData] = await db
       .select({
-        id: users.id,
-        email: users.email,
-        metadata: users.metadata,
-        subscriptionTier: users.subscriptionTier,
+        id: user.id,
+        email: user.email,
+        metadata: user.metadata,
+        subscriptionTier: user.subscriptionTier,
       })
-      .from(users)
-      .where(eq(users.id, userId))
+      .from(user)
+      .where(eq(user.id, userId))
       .limit(1);
 
-    if (!user) {
+    if (!userData) {
       return { success: false, message: 'User not found' };
     }
 
-    if (user.subscriptionTier !== 'pro') {
+    if (userData.subscriptionTier !== 'pro') {
       return { success: false, message: 'User is not a Pro member' };
     }
 
     // 获取八字数据
-    const baziChart = extractBaziFromMetadata(user.metadata);
+    const baziChart = extractBaziFromMetadata(userData.metadata);
 
     if (!baziChart) {
       return { success: false, message: 'User has no bazi data' };
@@ -340,7 +341,7 @@ export async function generateFortuneForUser(params: {
     if (result.success) {
       return {
         success: true,
-        message: `Fortune generated successfully for ${user.email}`,
+        message: `Fortune generated successfully for ${userData.email}`,
       };
     }
   } catch (error) {

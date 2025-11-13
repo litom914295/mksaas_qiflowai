@@ -180,7 +180,7 @@ export async function generateFortuneWithAI(
       model: deepseek(MODEL),
       prompt,
       temperature: 0.7,
-      maxTokens: 2000,
+      maxCompletionTokens: 2000,
     });
 
     // 解析 JSON 输出
@@ -195,14 +195,16 @@ export async function generateFortuneWithAI(
     }
 
     // 计算成本（DeepSeek 价格：$0.14/1M input, $0.28/1M output）
-    const inputCost = ((result.usage?.promptTokens || 0) / 1_000_000) * 0.14;
-    const outputCost =
-      ((result.usage?.completionTokens || 0) / 1_000_000) * 0.28;
+    const usage = result.usage as any;
+    const promptTokens = usage?.promptTokens || 0;
+    const completionTokens = usage?.completionTokens || 0;
+    const inputCost = (promptTokens / 1_000_000) * 0.14;
+    const outputCost = (completionTokens / 1_000_000) * 0.28;
     const totalCost = inputCost + outputCost;
 
     console.log(`✅ AI 运势生成成功 (${Date.now() - startTime}ms)`);
     console.log(
-      `   Tokens: ${result.usage?.promptTokens} input + ${result.usage?.completionTokens} output`
+      `   Tokens: ${promptTokens} input + ${completionTokens} output`
     );
     console.log(`   Cost: $${totalCost.toFixed(6)}`);
 
@@ -217,8 +219,8 @@ export async function generateFortuneWithAI(
       wealthAdvice: parsedResult.wealthAdvice,
       aiCostUSD: totalCost,
       tokensUsed: {
-        prompt: result.usage?.promptTokens || 0,
-        completion: result.usage?.completionTokens || 0,
+        prompt: promptTokens,
+        completion: completionTokens,
       },
     };
   } catch (error) {
@@ -303,4 +305,4 @@ export async function batchGenerateFortunesWithAI(
 
 // ==================== 导出 ====================
 
-export type { MonthlyFortuneResult };
+// MonthlyFortuneResult 已在 engine.ts 中导出

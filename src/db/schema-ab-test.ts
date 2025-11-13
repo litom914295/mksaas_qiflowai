@@ -5,7 +5,7 @@
  */
 
 import { pgTable, uuid, text, timestamp, jsonb, index, unique } from "drizzle-orm/pg-core";
-import { users } from "./schema"; // 假设 users 表已存在
+import { user } from "./schema"; // user 表已存在
 
 // ===========================================
 // 1. ab_test_experiments - 实验配置表
@@ -55,7 +55,7 @@ export const abTestAssignments = pgTable(
       .references(() => abTestExperiments.id, { onDelete: "cascade" }),
     userId: text("user_id")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     
     variantId: text("variant_id").notNull(), // 'control' | 'variant_a' | 'variant_b'
     
@@ -85,7 +85,7 @@ export const abTestEvents = pgTable(
       .references(() => abTestAssignments.id, { onDelete: "cascade" }),
     userId: text("user_id")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     
     eventType: text("event_type").notNull(), // 'view' | 'click' | 'adoption' | 'conversion' | 'reward'
     eventData: jsonb("event_data"), // 事件附加数据

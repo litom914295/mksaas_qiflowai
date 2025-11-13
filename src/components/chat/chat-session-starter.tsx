@@ -44,6 +44,15 @@ export function ChatSessionStarter({ userId }: { userId: string }) {
         return;
       }
 
+      if (!result.data) {
+        toast({
+          title: '创建失败',
+          description: '未能获取会话信息',
+          variant: 'destructive',
+        });
+        return;
+      }
+
       toast({
         title: '会话已创建',
         description: '开始与 AI 大师对话吧',

@@ -1,0 +1,55 @@
+﻿'use client';
+
+/**
+ * 上下文感知的 AI-Chat 悬浮球
+ *
+ * 能够自动获取用户输入的信息和生成的分析结果，
+ * 无需用户重复输入，提供更智能的对话体验
+ */
+
+import { createChatSessionAction } from '@/actions/chat/create-chat-session';
+import { getChatSessionStatusAction } from '@/actions/chat/get-chat-session-status';
+import { renewChatSessionAction } from '@/actions/chat/renew-chat-session';
+import { ragChatAction } from '@/actions/rag-actions';
+import { KnowledgeReferenceMini } from '@/components/rag/knowledge-reference';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { useAnalysisContextOptional } from '@/contexts/analysis-context';
+import type { SearchResult } from '@/lib/rag';
+import type { Message } from '@/types/ai';
+import { streamChat } from '@/utils/chat-stream';
+import {
+  Clock,
+  Copy,
+  ExternalLink,
+  Info,
+  Loader2,
+  MessageCircle,
+  RefreshCw,
+  Send,
+  Share2,
+  Sparkles,
+  X,
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+interface AIChatWithContextProps {
+  /** 智能推荐的问题 */
+  suggestedQuestions?: string[];
+  /** 初始欢迎消息 */
+  welcomeMessage?: string;
+  /** 是否显示未读消息数 */
+  unreadCount?: number;
+  /** 是否启用会话计费模式 */
+  enableSessionBilling?: boolean;
+  /** 会话费用（积分） */
+  sessionCost?: number;
+  /** 会话时长（分钟） */
+  sessionDuration?: number;
+  /** 是否启用 RAG 知识增强 */
+  enableRAG?: boolean;
+  /** RAG 文档类别 */
+  ragCategory?: 'bazi' | 'fengshui' | 'faq' | 'case';
+}

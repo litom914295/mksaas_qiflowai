@@ -125,6 +125,8 @@ interface LegacyMetadata {
     gender: string;
     birthCity?: string;
     calendarType?: string;
+    longitude?: number;
+    latitude?: number;
   };
 }
 

@@ -351,7 +351,7 @@ export function EssentialReportPurchasePage({
           location: formData.location,
           themes: formData.selectedThemes,
         },
-        selectedThemes: formData.selectedThemes,
+        selectedThemes: formData.selectedThemes as ('career' | 'relationship' | 'health' | 'education' | 'family')[],
       });
 
       if (!result.success) {

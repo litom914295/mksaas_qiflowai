@@ -601,13 +601,13 @@ export function ReportDetailView({ report, userId }: Props) {
                 </p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-bold text-purple-900">
-                    {metadata.qualityScore}
+                    {(metadata as any)?.qualityScore || 85}
                   </span>
                   <span className="text-sm text-muted-foreground">/ 100</span>
                 </div>
               </div>
               <div className="text-right text-xs text-muted-foreground space-y-1">
-                <p>生成成本: ${metadata.aiCostUSD.toFixed(4)}</p>
+                <p>生成成本: ${metadata?.aiCostUSD?.toFixed(4) || '0.0000'}</p>
                 <p>购买积分: {report.creditsUsed} 积分</p>
                 <p>报告永久有效</p>
               </div>

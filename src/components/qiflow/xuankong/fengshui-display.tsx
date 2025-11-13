@@ -737,8 +737,8 @@ export const FengshuiDisplay: React.FC<FengshuiDisplayProps> = ({
                         <div className="col-span-2 mt-1">
                           <div className="text-xs text-gray-500">
                             分层来源：基础运盘结合年/月/日权重与个人喜忌（喜{' '}
-                            {bazi.yongshen.favorable.join('、')} / 忌{' '}
-                            {bazi.yongshen.unfavorable.join('、')}）动态加权。
+                            {bazi.yongshen.favorable?.join('、') || '未知'} / 忌{' '}
+                            {bazi.yongshen.unfavorable?.join('、') || '未知'}）动态加权。
                           </div>
                         </div>
                       )}

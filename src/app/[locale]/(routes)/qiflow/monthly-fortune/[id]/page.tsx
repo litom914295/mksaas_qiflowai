@@ -59,7 +59,7 @@ export default async function MonthlyFortuneDetailPage({ params }: PageProps) {
   }
 
   // 检查是否为 Pro 会员
-  if (user.subscriptionTier !== 'pro') {
+  if ((user as any).subscriptionTier !== 'pro') {
     redirect('/qiflow/monthly-fortune');
   }
 

@@ -67,6 +67,9 @@ export interface BaziChart {
   // 性别
   gender: 'male' | 'female';
 
+  // 日主
+  dayMaster?: Tiangan;
+
   // 五行强弱
   wuxingStrength?: Record<Wuxing, number>;
 
@@ -77,6 +80,10 @@ export interface BaziChart {
     favorable: Wuxing[];
     unfavorable: Wuxing[];
   };
+
+  // 别名：喜用神
+  usefulGod?: Wuxing;
+  favorableElements?: Wuxing[];
 
   // 十神
   shishen?: {

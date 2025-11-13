@@ -187,7 +187,7 @@ export class WuxingStrengthAnalyzer {
       const element = this.STEM_ELEMENTS[stem];
       if (element) {
         const elementKey = this.getElementKey(element);
-        strength[elementKey] += stemBase;
+        (strength as any)[elementKey] += stemBase;
         (strength.details.stems as any)[element] += stemBase;
       }
     }
@@ -217,8 +217,8 @@ export class WuxingStrengthAnalyzer {
 
       for (const [element, value] of Object.entries(hiddenStrength)) {
         const elementKey = this.getElementKey(element);
-        const score = value * 10; // 基础分值10分
-        strength[elementKey] += score;
+        const score = value * 10; // 基础分倴10分
+        (strength as any)[elementKey] += score;
         (strength.details.hiddenStems as any)[element] += score;
       }
     }
@@ -240,8 +240,8 @@ export class WuxingStrengthAnalyzer {
     for (const [element, coefficient] of Object.entries(coefficients)) {
       const elementKey = this.getElementKey(element);
       const adjustment =
-        strength[elementKey] * coefficient - strength[elementKey];
-      strength[elementKey] += adjustment;
+        (strength as any)[elementKey] * coefficient - (strength as any)[elementKey];
+      (strength as any)[elementKey] += adjustment;
       (strength.details.monthlyEffect as any)[element] = adjustment;
     }
   }
@@ -289,7 +289,7 @@ export class WuxingStrengthAnalyzer {
         const coefficient = coefficientMap[position];
         const bonus = rootingStrength * coefficient;
 
-        strength[elementKey] += bonus;
+        (strength as any)[elementKey] += bonus;
         (strength.details.rooting as any)[element] += bonus;
       }
     }
@@ -328,7 +328,7 @@ export class WuxingStrengthAnalyzer {
           const bonus =
             hidden.type === '本气' ? 8 : hidden.type === '中气' ? 5 : 3;
 
-          strength[elementKey] += bonus;
+          (strength as any)[elementKey] += bonus;
           (strength.details.revealing as any)[element] += bonus;
         }
       }
@@ -351,11 +351,11 @@ export class WuxingStrengthAnalyzer {
       const generator = this.getGeneratingElement(element);
       const generatorKey = this.getElementKey(generator);
 
-      if (strength[generatorKey] > 0) {
+      if ((strength as any)[generatorKey] > 0) {
         const bonus =
-          strength[generatorKey] *
+          (strength as any)[generatorKey] *
           this.config.interactionCoefficients.generation;
-        strength[elementKey] += bonus;
+        (strength as any)[elementKey] += bonus;
         (strength.details.interactions as any)[element] += bonus;
       }
     }
@@ -366,10 +366,10 @@ export class WuxingStrengthAnalyzer {
       const controller = this.getControllingElement(element);
       const controllerKey = this.getElementKey(controller);
 
-      if (strength[controllerKey] > 0) {
+      if ((strength as any)[controllerKey] > 0) {
         const penalty =
-          strength[controllerKey] * this.config.interactionCoefficients.control;
-        strength[elementKey] -= penalty;
+          (strength as any)[controllerKey] * this.config.interactionCoefficients.control;
+        (strength as any)[elementKey] -= penalty;
         (strength.details.interactions as any)[element] -= penalty;
       }
     }

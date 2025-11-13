@@ -75,8 +75,8 @@ export function calculateWuxingStrength(
 export function calculateYongshen(chart: BaziChart) {
   // 临时实现
   return {
-    primary: '水' as const,
-    favorable: ['水', '木'] as const[],
-    unfavorable: ['火', '土'] as const[],
+    primary: '水' as Wuxing,
+    favorable: ['水', '木'] as Wuxing[],
+    unfavorable: ['火', '土'] as Wuxing[],
   };
 }

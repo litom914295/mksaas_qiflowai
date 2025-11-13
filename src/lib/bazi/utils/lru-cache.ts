@@ -88,8 +88,10 @@ export class LRUCache<K, V> {
     }
     // 如果缓存已满,删除最旧的条目(Map的第一个元素)
     else if (this.cache.size >= this.maxSize) {
-      const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
+      const firstKey = this.cache.keys().next().value as K;
+      if (firstKey !== undefined) {
+        this.cache.delete(firstKey);
+      }
     }
 
     // 添加新条目

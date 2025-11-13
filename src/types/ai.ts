@@ -39,14 +39,7 @@ export interface Message {
     sources?: any[];
   };
   // RAG 相关
-  references?: Array<{
-    id: string;
-    title: string;
-    content: string;
-    category: string;
-    source: string;
-    similarity: number;
-  }>;
+  references?: any; // 兼容 SearchResult 类型
   ragEnabled?: boolean;
 }
 
