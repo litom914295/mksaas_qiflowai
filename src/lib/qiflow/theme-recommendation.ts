@@ -5,6 +5,9 @@
 
 import type { ThemeId } from './reports/essential-report';
 
+// Re-export ThemeId for external use
+export type { ThemeId };
+
 export type BaziElements = {
   wood: number;
   fire: number;

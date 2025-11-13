@@ -348,11 +348,11 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
           {/* 图例 */}
           <div className="flex items-center justify-center gap-6 mt-4 text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full bg-purple-600"></div>
+              <div className="w-4 h-4 rounded-full bg-purple-600" />
               <span className="text-gray-600">十神力量</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-1 bg-gray-300"></div>
+              <div className="w-4 h-1 bg-gray-300" />
               <span className="text-gray-600">基准线</span>
             </div>
           </div>
@@ -403,7 +403,7 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
                       <div
                         className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-400 to-purple-500 transition-all"
                         style={{ width: `${Math.min(percentage, 100)}%` }}
-                      ></div>
+                      />
                       <div className="absolute inset-0 flex items-center justify-center">
                         <span className="text-xs font-medium text-gray-700">
                           {god.count > 0 ? `出现 ${god.count} 次` : '未出现'}
@@ -600,15 +600,15 @@ export function TenGodsAnalysis({ data }: TenGodsAnalysisProps) {
           <div className="mt-4 space-y-2">
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-0.5 bg-green-500"></div>
+                <div className="w-6 h-0.5 bg-green-500" />
                 <span className="text-gray-600">相生相助</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-0.5 bg-red-500"></div>
+                <div className="w-6 h-0.5 bg-red-500" />
                 <span className="text-gray-600">相克相制</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full border-2 border-purple-600 bg-purple-50"></div>
+                <div className="w-6 h-6 rounded-full border-2 border-purple-600 bg-purple-50" />
                 <span className="text-gray-600">强势十神</span>
               </div>
             </div>

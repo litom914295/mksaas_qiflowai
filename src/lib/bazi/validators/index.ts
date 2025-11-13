@@ -31,7 +31,7 @@ export function validateDateValidity(date: string): boolean {
   if (!validateDateFormat(date)) return false;
 
   const dateObj = new Date(date);
-  if (isNaN(dateObj.getTime())) return false;
+  if (Number.isNaN(dateObj.getTime())) return false;
 
   // 检查日期是否被JavaScript修正过(如2月30日会被修正为3月)
   const [year, month, day] = date.split('-').map(Number);
@@ -248,7 +248,7 @@ export function safeParseNumber(
 ): number {
   const num = typeof value === 'number' ? value : Number.parseFloat(value);
 
-  if (isNaN(num)) {
+  if (Number.isNaN(num)) {
     return defaultValue;
   }
 
@@ -275,7 +275,7 @@ export function safeParseInt(
   const num =
     typeof value === 'number' ? Math.floor(value) : Number.parseInt(value, 10);
 
-  if (isNaN(num)) {
+  if (Number.isNaN(num)) {
     return defaultValue;
   }
 

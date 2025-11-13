@@ -44,11 +44,15 @@ export class SensitiveTopicFilter {
   ];
 
   static isSensitive(text: string): boolean {
-    return this.sensitiveTopics.some((topic) => text.includes(topic));
+    return SensitiveTopicFilter.sensitiveTopics.some((topic) =>
+      text.includes(topic)
+    );
   }
 
   static getSensitiveReason(text: string): string | null {
-    const found = this.sensitiveTopics.find((topic) => text.includes(topic));
+    const found = SensitiveTopicFilter.sensitiveTopics.find((topic) =>
+      text.includes(topic)
+    );
     return found ? `内容包含敏感话题: ${found}` : null;
   }
 
@@ -123,7 +127,7 @@ export class AlgorithmFirstGuard {
    * 识别问题类型（route-with-limit.ts 使用）
    */
   static identifyQuestionType(message: string): QuestionType {
-    return this.determineQuestionType(message);
+    return AlgorithmFirstGuard.determineQuestionType(message);
   }
 
   /**

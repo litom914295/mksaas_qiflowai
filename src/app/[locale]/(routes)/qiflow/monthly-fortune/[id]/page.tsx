@@ -13,7 +13,7 @@
 import { getMonthlyFortuneById } from '@/actions/qiflow/generate-monthly-fortune';
 import { MonthlyFortuneDetail } from '@/components/qiflow/monthly-fortune-detail';
 import { Button } from '@/components/ui/button';
-import { getCurrentUser } from '@/lib/auth/session';
+import { getSession } from '@/lib/auth/session';
 import { ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -52,7 +52,8 @@ export async function generateMetadata({
 
 export default async function MonthlyFortuneDetailPage({ params }: PageProps) {
   // 获取当前用户
-  const user = await getCurrentUser();
+  const session = await getSession();
+  const user = session?.user;
 
   if (!user) {
     redirect(`/auth/signin?callbackUrl=/qiflow/monthly-fortune/${params.id}`);

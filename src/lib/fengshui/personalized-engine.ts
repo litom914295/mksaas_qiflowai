@@ -1,6 +1,6 @@
 /**
  * Personalized Engine Types Stub
- * 
+ *
  * DEPRECATED: This is a compatibility stub for type definitions.
  * Please migrate to @/lib/qiflow/xuankong/personalized-analysis
  */

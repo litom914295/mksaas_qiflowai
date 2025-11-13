@@ -73,22 +73,22 @@ function getTenGod(dayStem: string, otherStem: string): string {
   }
 
   // 我生：食神、伤官
-  if (ELEMENT_RELATIONS[dayElement]['生'] === otherElement) {
+  if (ELEMENT_RELATIONS[dayElement].生 === otherElement) {
     return samePolarity ? '食神' : '伤官';
   }
 
   // 我克：正财、偏财
-  if (ELEMENT_RELATIONS[dayElement]['克'] === otherElement) {
+  if (ELEMENT_RELATIONS[dayElement].克 === otherElement) {
     return samePolarity ? '偏财' : '正财';
   }
 
   // 克我：正官、七杀（偏官）
-  if (ELEMENT_RELATIONS[otherElement]['克'] === dayElement) {
+  if (ELEMENT_RELATIONS[otherElement].克 === dayElement) {
     return samePolarity ? '偏官' : '正官';
   }
 
   // 生我：正印、偏印
-  if (ELEMENT_RELATIONS[otherElement]['生'] === dayElement) {
+  if (ELEMENT_RELATIONS[otherElement].生 === dayElement) {
     return samePolarity ? '偏印' : '正印';
   }
 

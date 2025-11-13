@@ -70,7 +70,7 @@ export async function activateReferralReward(userId: string) {
         userId: referral.referredId,
         amount: REFERRAL_CONFIG.inviteeBonus,
         type: 'referred_bonus',
-        description: `完成首次分析,获得新用户奖励`,
+        description: '完成首次分析,获得新用户奖励',
       });
 
       await tx

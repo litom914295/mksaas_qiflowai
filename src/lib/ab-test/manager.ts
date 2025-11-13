@@ -4,7 +4,7 @@
  */
 
 import { createHash } from 'crypto';
-import { db } from '@/db';
+import { getDb } from '@/db';
 import {
   abTestAssignments,
   abTestEvents,
@@ -53,13 +53,19 @@ export class ABTestManager {
     variantId: string;
     variantConfig?: Record<string, any>;
   } | null> {
+    const db = await getDb();
+    
     // 1. 获取实验配置
-    const experiment = await db.query.abTestExperiments.findFirst({
-      where: and(
-        eq(abTestExperiments.name, params.experimentName),
-        eq(abTestExperiments.status, 'active')
-      ),
-    });
+    const [experiment] = await db
+      .select()
+      .from(abTestExperiments)
+      .where(
+        and(
+          eq(abTestExperiments.name, params.experimentName),
+          eq(abTestExperiments.status, 'active')
+        )
+      )
+      .limit(1);
 
     if (!experiment) {
       console.warn(
@@ -69,12 +75,16 @@ export class ABTestManager {
     }
 
     // 2. 检查用户是否已分组
-    const existingAssignment = await db.query.abTestAssignments.findFirst({
-      where: and(
-        eq(abTestAssignments.experimentId, experiment.id),
-        eq(abTestAssignments.userId, params.userId)
-      ),
-    });
+    const [existingAssignment] = await db
+      .select()
+      .from(abTestAssignments)
+      .where(
+        and(
+          eq(abTestAssignments.experimentId, experiment.id),
+          eq(abTestAssignments.userId, params.userId)
+        )
+      )
+      .limit(1);
 
     if (existingAssignment) {
       const variant = (experiment.variants as VariantConfig[]).find(
@@ -152,11 +162,15 @@ export class ABTestManager {
     eventType: string;
     eventData?: Record<string, any>;
   }): Promise<void> {
+    const db = await getDb();
+    
     try {
       // 1. 获取实验
-      const experiment = await db.query.abTestExperiments.findFirst({
-        where: eq(abTestExperiments.name, params.experimentName),
-      });
+      const [experiment] = await db
+        .select()
+        .from(abTestExperiments)
+        .where(eq(abTestExperiments.name, params.experimentName))
+        .limit(1);
 
       if (!experiment) {
         console.warn(`[ABTest] Experiment not found: ${params.experimentName}`);
@@ -164,12 +178,16 @@ export class ABTestManager {
       }
 
       // 2. 获取用户分配
-      const assignment = await db.query.abTestAssignments.findFirst({
-        where: and(
-          eq(abTestAssignments.experimentId, experiment.id),
-          eq(abTestAssignments.userId, params.userId)
-        ),
-      });
+      const [assignment] = await db
+        .select()
+        .from(abTestAssignments)
+        .where(
+          and(
+            eq(abTestAssignments.experimentId, experiment.id),
+            eq(abTestAssignments.userId, params.userId)
+          )
+        )
+        .limit(1);
 
       if (!assignment) {
         console.warn(`[ABTest] No assignment found for user ${params.userId}`);
@@ -200,19 +218,27 @@ export class ABTestManager {
     experimentName: string;
     userId: string;
   }): Promise<boolean> {
-    const experiment = await db.query.abTestExperiments.findFirst({
-      where: eq(abTestExperiments.name, params.experimentName),
-    });
+    const db = await getDb();
+    
+    const [experiment] = await db
+      .select()
+      .from(abTestExperiments)
+      .where(eq(abTestExperiments.name, params.experimentName))
+      .limit(1);
 
     if (!experiment) return false;
 
-    const rewardEvent = await db.query.abTestEvents.findFirst({
-      where: and(
-        eq(abTestEvents.experimentId, experiment.id),
-        eq(abTestEvents.userId, params.userId),
-        eq(abTestEvents.eventType, 'reward')
-      ),
-    });
+    const [rewardEvent] = await db
+      .select()
+      .from(abTestEvents)
+      .where(
+        and(
+          eq(abTestEvents.experimentId, experiment.id),
+          eq(abTestEvents.userId, params.userId),
+          eq(abTestEvents.eventType, 'reward')
+        )
+      )
+      .limit(1);
 
     return !!rewardEvent;
   }

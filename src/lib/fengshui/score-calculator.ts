@@ -1,6 +1,6 @@
 /**
  * Score Calculator Stub
- * 
+ *
  * DEPRECATED: This is a compatibility stub.
  * Consider implementing full scoring logic or migrating to xuankong
  */
@@ -31,7 +31,7 @@ export class ScoreCalculator {
   ): Promise<ScoreResult> {
     // Stub implementation - returns neutral score
     console.warn('[ScoreCalculator] Using stub implementation');
-    
+
     return {
       overall: 70,
       level: 'good',

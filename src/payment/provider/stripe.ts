@@ -541,9 +541,11 @@ export class StripeProvider implements PaymentProvider {
 
     try {
       // Phase 1: 幂等性检查 - 防止重复处理
-      const existingEvent = await db.query.stripeWebhookEvents.findFirst({
-        where: eq(stripeWebhookEvents.id, eventId),
-      });
+      const [existingEvent] = await db
+        .select()
+        .from(stripeWebhookEvents)
+        .where(eq(stripeWebhookEvents.id, eventId))
+        .limit(1);
 
       if (existingEvent) {
         console.log(

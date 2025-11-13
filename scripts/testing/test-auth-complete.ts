@@ -44,7 +44,7 @@ function log(result: TestResult) {
   console.log(`${emoji} ${result.name}`);
   console.log(`   ${result.message}`);
   if (result.details) {
-    console.log(`   Details:`, JSON.stringify(result.details, null, 2));
+    console.log('   Details:', JSON.stringify(result.details, null, 2));
   }
   results.push(result);
 }
@@ -178,14 +178,13 @@ async function testUserRegistration(): Promise<{
         },
       });
       return { userId, email: testEmail };
-    } else {
-      log({
-        name: 'User Registration',
-        status: 'failed',
-        message: 'User not found after creation',
-      });
-      return { userId: null, email: testEmail };
     }
+    log({
+      name: 'User Registration',
+      status: 'failed',
+      message: 'User not found after creation',
+    });
+    return { userId: null, email: testEmail };
   } catch (error) {
     log({
       name: 'User Registration',
@@ -241,14 +240,13 @@ async function testCreditsInitialization(userId: string): Promise<boolean> {
         },
       });
       return true;
-    } else {
-      log({
-        name: 'Credits Initialization',
-        status: 'failed',
-        message: 'Credits not initialized correctly',
-      });
-      return false;
     }
+    log({
+      name: 'Credits Initialization',
+      status: 'failed',
+      message: 'Credits not initialized correctly',
+    });
+    return false;
   } catch (error) {
     log({
       name: 'Credits Initialization',
@@ -316,14 +314,13 @@ async function testUserLogin(email: string): Promise<boolean> {
         },
       });
       return true;
-    } else {
-      log({
-        name: 'User Login',
-        status: 'failed',
-        message: 'Session not created',
-      });
-      return false;
     }
+    log({
+      name: 'User Login',
+      status: 'failed',
+      message: 'Session not created',
+    });
+    return false;
   } catch (error) {
     log({
       name: 'User Login',
@@ -377,25 +374,23 @@ async function testSessionPersistence(email: string): Promise<boolean> {
           },
         });
         return true;
-      } else {
-        log({
-          name: 'Session Persistence',
-          status: 'warning',
-          message: 'Session exists but expired',
-          details: {
-            expiresAt: currentSession.expiresAt,
-          },
-        });
-        return false;
       }
-    } else {
       log({
         name: 'Session Persistence',
-        status: 'failed',
-        message: 'No session found',
+        status: 'warning',
+        message: 'Session exists but expired',
+        details: {
+          expiresAt: currentSession.expiresAt,
+        },
       });
       return false;
     }
+    log({
+      name: 'Session Persistence',
+      status: 'failed',
+      message: 'No session found',
+    });
+    return false;
   } catch (error) {
     log({
       name: 'Session Persistence',
@@ -416,7 +411,7 @@ async function generateReport() {
   const warnings = results.filter((r) => r.status === 'warning').length;
   const total = results.length;
 
-  console.log(`📊 Summary:`);
+  console.log('📊 Summary:');
   console.log(`   Total Tests: ${total}`);
   console.log(`   ✅ Passed: ${passed}`);
   console.log(`   ❌ Failed: ${failed}`);

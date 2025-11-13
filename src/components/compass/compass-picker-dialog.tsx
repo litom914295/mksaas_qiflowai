@@ -126,11 +126,10 @@ export function CompassPickerDialog({
           const val =
             tr != null ? tr : m != null ? normalizeDeg(m + declination) : null;
           return val;
-        } else {
-          const val =
-            m != null ? m : tr != null ? normalizeDeg(tr - declination) : null;
-          return val;
         }
+        const val =
+          m != null ? m : tr != null ? normalizeDeg(tr - declination) : null;
+        return val;
       };
       const disp = computeDisplay();
       if (disp != null) {

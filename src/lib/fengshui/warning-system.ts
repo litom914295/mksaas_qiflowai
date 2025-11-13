@@ -1,6 +1,6 @@
 /**
  * Warning System Stub
- * 
+ *
  * DEPRECATED: This is a compatibility stub.
  * Consider implementing full warning logic or migrating to xuankong
  */
@@ -27,7 +27,7 @@ export class WarningSystem {
   ): Promise<FengshuiIssue[]> {
     // Stub implementation - returns empty array
     console.warn('[WarningSystem] Using stub implementation');
-    
+
     // Return empty array for now
     // TODO: Implement proper warning detection logic
     return [];

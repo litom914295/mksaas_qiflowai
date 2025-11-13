@@ -35,23 +35,22 @@ async function checkRateLimit(
     }
 
     return { allowed: true };
-  } else {
-    // 使用内存进行速率限制
-    const record = rateLimitMemory.get(key);
+  }
+  // 使用内存进行速率限制
+  const record = rateLimitMemory.get(key);
 
-    if (!record || record.resetAt < now) {
-      rateLimitMemory.set(key, { count: 1, resetAt: now + window });
-      return { allowed: true };
-    }
-
-    if (record.count >= maxAttempts) {
-      const retryAfter = Math.ceil((record.resetAt - now) / 1000);
-      return { allowed: false, retryAfter };
-    }
-
-    record.count++;
+  if (!record || record.resetAt < now) {
+    rateLimitMemory.set(key, { count: 1, resetAt: now + window });
     return { allowed: true };
   }
+
+  if (record.count >= maxAttempts) {
+    const retryAfter = Math.ceil((record.resetAt - now) / 1000);
+    return { allowed: false, retryAfter };
+  }
+
+  record.count++;
+  return { allowed: true };
 }
 
 export async function POST(request: NextRequest) {

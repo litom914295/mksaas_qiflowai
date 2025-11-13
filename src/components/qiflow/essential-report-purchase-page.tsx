@@ -284,7 +284,8 @@ export function EssentialReportPurchasePage({
           ...prev,
           selectedThemes: currentThemes.filter((id) => id !== themeId),
         };
-      } else if (currentThemes.length < 3) {
+      }
+      if (currentThemes.length < 3) {
         // 添加选择 (最多 3 个)
         const newThemes = [...currentThemes, themeId];
 
@@ -342,14 +343,14 @@ export function EssentialReportPurchasePage({
 
     try {
       const result = await purchaseReportWithCreditsAction({
-        reportType: 'essential',
-        input: {
-          birthDate: formData.birthDate,
-          birthHour: formData.birthHour,
+        birthInfo: {
+          date: formData.birthDate,
+          time: `${formData.birthHour}:00`,
           gender: formData.gender as 'male' | 'female',
-          location: formData.location,
-          themes: formData.selectedThemes,
+          longitude: 116.4074,
+          isLunar: false,
         },
+        selectedThemes: formData.selectedThemes,
       });
 
       if (!result.success) {
@@ -378,7 +379,7 @@ export function EssentialReportPurchasePage({
           userId: userId,
           eventType: 'purchase_completed',
           eventData: {
-            reportId: result.data.reportId,
+            reportId: result.reportId,
             selectedThemes: formData.selectedThemes,
             adoptedRecommendation: hasAdoptedRecommendation,
           },
@@ -393,7 +394,7 @@ export function EssentialReportPurchasePage({
         description: '报告已生成，正在为您跳转...',
       });
 
-      router.push(`/reports/${result.data.reportId}`);
+      router.push(`/reports/${result.reportId}`);
     } catch (error) {
       console.error('Purchase error:', error);
       toast({

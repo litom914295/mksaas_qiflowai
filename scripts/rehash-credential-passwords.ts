@@ -8,10 +8,10 @@ import { and, eq } from 'drizzle-orm';
 
 async function scryptHash(password: string) {
   // mirror better-auth defaults
-  const N = 16384,
-    r = 16,
-    p = 1,
-    dkLen = 64;
+  const N = 16384;
+  const r = 16;
+  const p = 1;
+  const dkLen = 64;
   const saltBytes = randomBytes(16);
   const saltHex = bytesToHex(saltBytes);
   const key = await scryptAsync(password.normalize('NFKC'), saltHex, {

@@ -1,7 +1,7 @@
 import { EssentialReportPurchasePage } from '@/components/qiflow/essential-report-purchase-page';
-import { db } from '@/db';
-import { users } from '@/db/schema';
-import { auth } from '@/lib/auth';
+import { getDb } from '@/db';
+import { user } from '@/db/schema';
+import { getSession } from '@/lib/auth/session';
 import { eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
@@ -13,12 +13,14 @@ export const metadata: Metadata = {
 };
 
 async function getUserCredits(userId: string): Promise<number> {
-  const user = await db.query.users.findFirst({
-    where: eq(users.id, userId),
-    columns: { credits: true },
-  });
+  const db = await getDb();
+  const [userRecord] = await db
+    .select({ credits: user.credits })
+    .from(user)
+    .where(eq(user.id, userId))
+    .limit(1);
 
-  return user?.credits ?? 0;
+  return userRecord?.credits ?? 0;
 }
 
 export default async function BuyEssentialReportPage({
@@ -26,7 +28,7 @@ export default async function BuyEssentialReportPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const session = await auth();
+  const session = await getSession();
 
   if (!session?.user?.id) {
     redirect('/login?callbackUrl=/reports/essential/buy');

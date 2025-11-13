@@ -79,13 +79,18 @@ export async function generateMonthlyFortuneAction(
 
     // 3. 检查是否已生成（防重复）
     const db = await getDb();
-    const existing = await db.query.monthlyFortunes.findFirst({
-      where: and(
-        eq(monthlyFortunes.userId, userId),
-        eq(monthlyFortunes.year, year),
-        eq(monthlyFortunes.month, month)
-      ),
-    });
+    const existingList = await db
+      .select()
+      .from(monthlyFortunes)
+      .where(
+        and(
+          eq(monthlyFortunes.userId, userId),
+          eq(monthlyFortunes.year, year),
+          eq(monthlyFortunes.month, month)
+        )
+      )
+      .limit(1);
+    const existing = existingList[0];
 
     if (existing) {
       if (existing.status === 'completed') {
@@ -180,7 +185,7 @@ export async function generateMonthlyFortuneAction(
           generatedAt: new Date(),
           metadata: {
             aiModel,
-            generationTimeMs: basicFortune.metadata.generationTimeMs,
+            generationTimeMs: basicFortune.metadata.generationTimeMs || 0,
             aiCostUSD,
             generationMethod: 'manual',
           },
@@ -232,12 +237,14 @@ export async function generateMonthlyFortuneAction(
  */
 async function getUserCredits(userId: string): Promise<number> {
   const db = await getDb();
-  const user = await db.query.user.findFirst({
-    where: (users, { eq }) => eq(users.id, userId),
-    columns: { credits: true },
-  });
+  const { user } = await import('@/db/schema');
+  const userList = await db
+    .select({ credits: user.credits })
+    .from(user)
+    .where(eq(user.id, userId))
+    .limit(1);
 
-  return user?.credits || 0;
+  return userList[0]?.credits || 0;
 }
 
 /**
@@ -308,19 +315,17 @@ export async function getMyMonthlyFortunes(options?: {
     const { year, limit = 12 } = options || {};
 
     const db = await getDb();
-    const fortunes = await db.query.monthlyFortunes.findMany({
-      where: year
-        ? and(
-            eq(monthlyFortunes.userId, userId),
-            eq(monthlyFortunes.year, year)
-          )
-        : eq(monthlyFortunes.userId, userId),
-      orderBy: (fortunes, { desc }) => [
-        desc(fortunes.year),
-        desc(fortunes.month),
-      ],
-      limit,
-    });
+    let query = db.select().from(monthlyFortunes);
+
+    if (year) {
+      query = query.where(
+        and(eq(monthlyFortunes.userId, userId), eq(monthlyFortunes.year, year))
+      ) as any;
+    } else {
+      query = query.where(eq(monthlyFortunes.userId, userId)) as any;
+    }
+
+    const fortunes = await query.limit(limit);
 
     return {
       success: true,
@@ -350,23 +355,44 @@ export async function getMyMonthlyFortunes(options?: {
 /**
  * 获取特定月度运势详情
  */
-export async function getMonthlyFortuneById(fortuneId: string) {
+export async function getMonthlyFortuneById(fortuneId: string): Promise<{
+  success: boolean;
+  data?: any;
+  error?: string;
+}> {
   const session = await getSession();
   if (!session?.user?.id) {
-    return null;
+    return {
+      success: false,
+      error: 'UNAUTHORIZED',
+    };
   }
 
   const db = await getDb();
-  const fortune = await db.query.monthlyFortunes.findFirst({
-    where: and(
-      eq(monthlyFortunes.id, fortuneId),
-      eq(monthlyFortunes.userId, session.user.id)
-    ),
-  });
+  const fortuneList = await db
+    .select()
+    .from(monthlyFortunes)
+    .where(
+      and(
+        eq(monthlyFortunes.id, fortuneId),
+        eq(monthlyFortunes.userId, session.user.id)
+      )
+    )
+    .limit(1);
+  const fortune = fortuneList[0];
 
-  return fortune;
+  if (!fortune) {
+    return {
+      success: false,
+      error: 'NOT_FOUND',
+    };
+  }
+
+  return {
+    success: true,
+    data: fortune,
+  };
 }
 
 // ==================== 导出 ====================
-
-export type { GenerateMonthlyFortuneInput, GenerateMonthlyFortuneResult };
+// 类型已在文件开头通过 export interface 导出

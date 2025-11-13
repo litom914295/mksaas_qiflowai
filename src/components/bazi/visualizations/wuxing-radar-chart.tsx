@@ -167,11 +167,11 @@ function getBalanceAnalysis(data: any[]) {
 
   if (diff < 15) {
     return '五行力量分布均衡，整体和谐稳定。';
-  } else if (diff < 30) {
-    return '五行力量略有偏颇，建议适当补充较弱的元素。';
-  } else {
-    const strongest = data.find((d) => d.percentage === max);
-    const weakest = data.find((d) => d.percentage === min);
-    return `${strongest?.element}过旺，${weakest?.element}偏弱，需要调和平衡。`;
   }
+  if (diff < 30) {
+    return '五行力量略有偏颇，建议适当补充较弱的元素。';
+  }
+  const strongest = data.find((d) => d.percentage === max);
+  const weakest = data.find((d) => d.percentage === min);
+  return `${strongest?.element}过旺，${weakest?.element}偏弱，需要调和平衡。`;
 }

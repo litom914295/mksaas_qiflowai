@@ -64,7 +64,7 @@ async function verifyAdminPrivileges() {
       console.log(`   积分余额: ${isUnlimited ? '∞ (无限)' : balance}`);
 
       if (!isUnlimited) {
-        console.error(`   ⚠️ 警告: 管理员积分应该是无限的!`);
+        console.error('   ⚠️ 警告: 管理员积分应该是无限的!');
       }
 
       // 2.3 测试积分扣除（应该返回成功但不扣除）
@@ -79,7 +79,7 @@ async function verifyAdminPrivileges() {
       );
 
       if (!stillUnlimited) {
-        console.error(`   ⚠️ 错误: 管理员积分被扣除了!`);
+        console.error('   ⚠️ 错误: 管理员积分被扣除了!');
       }
 
       // 2.5 检查可用功能

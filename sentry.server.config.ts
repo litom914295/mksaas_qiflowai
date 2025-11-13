@@ -37,8 +37,8 @@ Sentry.init({
     // 过滤敏感数据
     if (event.request) {
       // 不发送请求体中的敏感信息
-      delete event.request.data;
-      delete event.request.cookies;
+      event.request.data = undefined;
+      event.request.cookies = undefined;
     }
 
     // 过滤掉开发环境错误

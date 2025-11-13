@@ -14,7 +14,7 @@ async function testAuth() {
     const sessionRes = await fetch(`${baseUrl}/api/auth/get-session`);
     console.log(`   Status: ${sessionRes.status}`);
     const sessionData = await sessionRes.json();
-    console.log(`   Response:`, sessionData);
+    console.log('   Response:', sessionData);
     console.log('   ✅ Session endpoint working\n');
   } catch (error: any) {
     console.log(`   ❌ Failed: ${error.message}\n`);

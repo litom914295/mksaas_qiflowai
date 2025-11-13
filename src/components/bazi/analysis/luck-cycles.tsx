@@ -689,15 +689,15 @@ export function LuckCyclesAnalysis({ data }: LuckCyclesAnalysisProps) {
             {/* 曲线图说明 */}
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+                <div className="w-3 h-3 rounded-full bg-purple-500" />
                 <span className="text-gray-600">综合运势</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500" />
                 <span className="text-gray-600">事业</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                <div className="w-3 h-3 rounded-full bg-amber-500" />
                 <span className="text-gray-600">财运</span>
               </div>
             </div>

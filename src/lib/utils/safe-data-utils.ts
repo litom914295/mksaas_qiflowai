@@ -116,7 +116,7 @@ export function deepClone<T>(obj: T): T {
     return new Date(obj.getTime()) as any;
   }
 
-  if (obj instanceof Array) {
+  if (Array.isArray(obj)) {
     return obj.map((item) => deepClone(item)) as any;
   }
 

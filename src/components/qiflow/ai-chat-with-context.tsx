@@ -244,13 +244,16 @@ export function AIChatWithContext({
         // 根据年龄调整欢迎语
         if (age < 3) {
           // 婴幼儿（父母查看）
-          coreInsight = `您的宝宝还在褥褴中，这份分析可以帮助您了解孩子的天赋特质，从小培养`;
+          coreInsight =
+            '您的宝宝还在褥褴中，这份分析可以帮助您了解孩子的天赋特质，从小培养';
         } else if (age < 12) {
           // 儿童
-          coreInsight = `孩子正处于成长关键期，这份分析可以帮助发掘天赋、引导教育方向`;
+          coreInsight =
+            '孩子正处于成长关键期，这份分析可以帮助发掘天赋、引导教育方向';
         } else if (age < 18) {
           // 青少年
-          coreInsight = `青少年时期是性格塑造的关键阶段，这份分析可以帮助了解自己、规划未来`;
+          coreInsight =
+            '青少年时期是性格塑造的关键阶段，这份分析可以帮助了解自己、规划未来';
         } else {
           // 成年人（保留原有逻辑）
           if (result.pillars?.day?.stem) {
@@ -952,16 +955,16 @@ export function AIChatWithContext({
             `宝宝的房间应该在哪个方位才能助长${yongshen ? yongshen + '运' : '运势'}？`,
             `${personal?.gender === 'male' ? '男宝' : '女宝'}的睡眠方位和房间布置有什么讲究？`,
             `如何为${dayMaster}日主的孩子选择幸运物和玩具？`,
-            `宝宝的天赋才能在哪些方面？应该怎么培养？`,
+            '宝宝的天赋才能在哪些方面？应该怎么培养？',
             strongestElement
               ? `宝宝${strongestElement}属性特别强，适合哪些颜色和玩具？`
               : null,
             yongshen ? `如何通过${yongshen}属性的引导开发宝宝天赋？` : null,
           ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
-            babyQuestions.push(`根据家居风水，宝宝最常待的区域应该在哪？`);
+            babyQuestions.push('根据家居风水，宝宝最常待的区域应该在哪？');
             if (result.xuankong) {
-              babyQuestions.push(`根据飞星风水，宝宝的房间应该选哪个方位？`);
+              babyQuestions.push('根据飞星风水，宝宝的房间应该选哪个方位？');
             }
           }
           // 随机选择3个
@@ -973,7 +976,7 @@ export function AIChatWithContext({
             `${dayMaster}日主的孩子，最适合发展哪些兴趣特长？`,
             `如何布置书房和学习区提升${dayMaster}日主孩子的学业？`,
             `${personal?.gender === 'male' ? '男孩' : '女孩'}的${dayMaster}日主，性格有哪些优势和需要注意的地方？`,
-            `孩子的贵人方位在哪里？如何布置才能带来贵人运？`,
+            '孩子的贵人方位在哪里？如何布置才能带来贵人运？',
             `${age}岁${dayMaster}日主的孩子，现在最适合学习哪类课程？`,
             yongshen
               ? `如何通过${yongshen}属性的活动和物品提升孩子运势？`
@@ -987,9 +990,9 @@ export function AIChatWithContext({
             pattern ? `${pattern}格局的孩子，应该重点培养哪些能力？` : null,
           ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
-            childQuestions.push(`根据风水分析，孩子的文昌位在哪里？`);
+            childQuestions.push('根据风水分析，孩子的文昌位在哪里？');
             if (result.rooms?.study) {
-              childQuestions.push(`学习区应该如何布置才能提升专注力？`);
+              childQuestions.push('学习区应该如何布置才能提升专注力？');
             }
           }
           const shuffled = childQuestions.sort(() => 0.5 - Math.random());
@@ -1011,9 +1014,9 @@ export function AIChatWithContext({
               : null,
           ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
-            teenQuestions.push(`我的房间应该如何布置才能助力学业？`);
+            teenQuestions.push('我的房间应该如何布置才能助力学业？');
             if (result.xuankong) {
-              teenQuestions.push(`根据飞星风水，我的书桌应该放在哪个方位？`);
+              teenQuestions.push('根据飞星风水，我的书桌应该放在哪个方位？');
             }
           }
           const shuffled = teenQuestions.sort(() => 0.5 - Math.random());
@@ -1037,7 +1040,7 @@ export function AIChatWithContext({
               : null,
           ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
-            youthQuestions.push(`根据我的风水格局，工作位应该在哪个方位？`);
+            youthQuestions.push('根据我的风水格局，工作位应该在哪个方位？');
           }
           if (warnings.length > 0 && warnings[0].category) {
             youthQuestions.push(`如何防范${warnings[0].category}方面的问题？`);
@@ -1068,9 +1071,9 @@ export function AIChatWithContext({
               : null,
           ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
-            middleAgeQuestions.push(`根据风水分析，我的财位和事业位在哪？`);
+            middleAgeQuestions.push('根据风水分析，我的财位和事业位在哪？');
             if (result.rooms?.office) {
-              middleAgeQuestions.push(`我的办公室应该如何布置才能提升事业运？`);
+              middleAgeQuestions.push('我的办公室应该如何布置才能提升事业运？');
             }
           }
           if (warnings.length > 0) {
@@ -1089,7 +1092,7 @@ export function AIChatWithContext({
           const seniorQuestions = [
             `${dayMaster}日主的我，如何保持身心健康和长寿？`,
             `${age}岁${dayMaster}日主，晚年运势如何？需要注意什么？`,
-            `如何为子女布局，让家族运势更加兴旺？`,
+            '如何为子女布局，让家族运势更加兴旺？',
             yongshen
               ? `${yongshen}为用神，晚年如何通过风水调整提升健康？`
               : null,
@@ -1098,13 +1101,13 @@ export function AIChatWithContext({
               ? `${weakestElement}属性较弱，如何补救保持健康？`
               : null,
             weakestDimensions.find((d: string) => d === 'health')
-              ? `如何通过风水改善健康运势？`
+              ? '如何通过风水改善健康运势？'
               : null,
           ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {
-            seniorQuestions.push(`根据家居风水，卧室应该如何布置才利于健康？`);
+            seniorQuestions.push('根据家居风水，卧室应该如何布置才利于健康？');
             if (result.rooms?.bedroom) {
-              seniorQuestions.push(`卧室的床位应该朝向哪个方位才利于休息？`);
+              seniorQuestions.push('卧室的床位应该朝向哪个方位才利于休息？');
             }
           }
           if (warnings.length > 0) {

@@ -154,7 +154,7 @@ export class GlobalEmbeddingService {
     // 自动选择：根据地区
     const region = this.options.userRegion || this.detectRegion();
     const preferredProviders =
-      REGION_PROVIDER_MAP[region] || REGION_PROVIDER_MAP['default'];
+      REGION_PROVIDER_MAP[region] || REGION_PROVIDER_MAP.default;
 
     // 选择第一个可用的提供商
     for (const provider of preferredProviders) {
@@ -338,7 +338,7 @@ export class GlobalEmbeddingService {
   ): Promise<EmbeddingResult> {
     const region = this.options.userRegion || this.detectRegion();
     const preferredProviders =
-      REGION_PROVIDER_MAP[region] || REGION_PROVIDER_MAP['default'];
+      REGION_PROVIDER_MAP[region] || REGION_PROVIDER_MAP.default;
 
     // 尝试其他提供商
     for (const provider of preferredProviders) {

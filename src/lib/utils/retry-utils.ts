@@ -60,7 +60,7 @@ function calculateDelay(
   backoff: 'linear' | 'exponential'
 ): number {
   if (backoff === 'exponential') {
-    return baseDelay * Math.pow(2, attempt - 1);
+    return baseDelay * 2 ** (attempt - 1);
   }
   return baseDelay * attempt;
 }

@@ -1,7 +1,7 @@
 import { ReportDetailView } from '@/components/qiflow/report-detail-view';
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { qiflowReports } from '@/db/schema';
-import { auth } from '@/lib/auth';
+import { getSession } from '@/lib/auth/session';
 import { and, eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
@@ -12,24 +12,29 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
-    title: `报告详情 | QiFlow AI`,
+    title: '报告详情 | QiFlow AI',
     description: '查看您的 AI 八字精华报告',
   };
 }
 
 async function getReport(reportId: string, userId: string) {
-  const report = await db.query.qiflowReports.findFirst({
-    where: and(
-      eq(qiflowReports.id, reportId),
-      eq(qiflowReports.userId, userId)
-    ),
-  });
+  const db = await getDb();
+  const [report] = await db
+    .select()
+    .from(qiflowReports)
+    .where(
+      and(
+        eq(qiflowReports.id, reportId),
+        eq(qiflowReports.userId, userId)
+      )
+    )
+    .limit(1);
 
   return report;
 }
 
 export default async function ReportDetailPage({ params }: Props) {
-  const session = await auth();
+  const session = await getSession();
 
   if (!session?.user?.id) {
     redirect(`/login?callbackUrl=/reports/${params.reportId}`);
@@ -80,5 +85,5 @@ export default async function ReportDetailPage({ params }: Props) {
   }
 
   // 正常展示报告
-  return <ReportDetailView report={report} userId={session.user.id} />;
+  return <ReportDetailView report={report as any} userId={session.user.id} />;
 }

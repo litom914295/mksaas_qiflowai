@@ -304,7 +304,7 @@ export function BaziOverview({ data }: BaziOverviewProps) {
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: item.color }}
-                  ></div>
+                  />
                   <span className="text-gray-700">
                     {item.label} {item.score}%
                   </span>

@@ -462,7 +462,7 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                       >
                         {isCurrent && (
                           <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                            <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></div>
+                            <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
                           </div>
                         )}
                       </div>
@@ -488,15 +488,15 @@ export function DailyFortune({ data }: DailyFortuneProps) {
             {/* 时间段说明 */}
             <div className="grid grid-cols-3 gap-2 text-xs">
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded bg-green-400"></div>
+                <div className="w-3 h-3 rounded bg-green-400" />
                 <span className="text-gray-600">吉时</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded bg-gray-400"></div>
+                <div className="w-3 h-3 rounded bg-gray-400" />
                 <span className="text-gray-600">平时</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded bg-indigo-500"></div>
+                <div className="w-3 h-3 rounded bg-indigo-500" />
                 <span className="text-gray-600">当前时辰</span>
               </div>
             </div>
@@ -561,7 +561,7 @@ export function DailyFortune({ data }: DailyFortuneProps) {
                                     ? '#eab308'
                                     : '#f3f4f6',
                         }}
-                      ></div>
+                      />
                       <span className="text-xs text-gray-700">{color}</span>
                     </div>
                   )) || [

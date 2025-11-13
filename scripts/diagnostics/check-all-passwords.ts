@@ -25,13 +25,13 @@ async function checkAllPasswords() {
       .limit(1);
 
     if (accounts.length === 0) {
-      console.log(`  ❌ 没有 credential account`);
+      console.log('  ❌ 没有 credential account');
     } else {
       const pwd = accounts[0].password;
       if (pwd) {
         console.log(`  ✅ 密码存在: ${pwd.substring(0, 10)}...`);
       } else {
-        console.log(`  ❌ 密码为 NULL/undefined`);
+        console.log('  ❌ 密码为 NULL/undefined');
       }
     }
     console.log('');

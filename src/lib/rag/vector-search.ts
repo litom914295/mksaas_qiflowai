@@ -4,7 +4,7 @@
  * 使用 PostgreSQL pgvector 进行语义相似度搜索
  */
 
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { knowledgeDocuments } from '@/db/schema-knowledge';
 import { sql } from 'drizzle-orm';
 import { getSharedEmbeddingService } from './embedding-service';
@@ -124,10 +124,12 @@ export class VectorSearchService {
         LIMIT ${topK}
       `;
 
+      const db = await getDb();
       const results = await db.execute(query);
 
       // 转换为 SearchResult 格式
-      return (results.rows as any[])
+      const rows = results as unknown as any[];
+      return rows
         .filter((row) => row.similarity >= threshold)
         .map((row) => ({
           id: row.id,
@@ -153,6 +155,7 @@ export class VectorSearchService {
     }
 
     try {
+      const db = await getDb();
       const results = await db
         .select({
           id: knowledgeDocuments.id,
@@ -189,6 +192,7 @@ export class VectorSearchService {
     byCategory: Record<DocumentCategoryType, number>;
   }> {
     try {
+      const db = await getDb();
       const results = await db
         .select({
           category: knowledgeDocuments.category,

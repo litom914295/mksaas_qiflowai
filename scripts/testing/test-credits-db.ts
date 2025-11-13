@@ -79,7 +79,7 @@ async function testDatabaseConnection() {
     console.log('========================================');
     console.log('测试汇总:');
     console.log('========================================');
-    console.log(`✅ 数据库连接: 正常`);
+    console.log('✅ 数据库连接: 正常');
     console.log(`✅ 用户表: ${users.length} 条记录`);
     console.log(
       `${credits.length > 0 ? '✅' : '⚠️'} 积分表: ${credits.length} 条记录`

@@ -35,11 +35,7 @@ export function CreditsNavBadge() {
       setIsLoading(true);
       getCreditBalanceAction()
         .then((result) => {
-          if (
-            result &&
-            result.data?.success &&
-            result.data.credits !== undefined
-          ) {
+          if (result?.data?.success && result.data.credits !== undefined) {
             const balance = result.data.credits;
             setCredits(balance);
             setIsLow(balance < 50);
@@ -150,11 +146,7 @@ export function CreditsNavBadgeCompact() {
     if (session?.user && !isPending) {
       getCreditBalanceAction()
         .then((result) => {
-          if (
-            result &&
-            result.data?.success &&
-            result.data.credits !== undefined
-          ) {
+          if (result?.data?.success && result.data.credits !== undefined) {
             const balance = result.data.credits;
             setCredits(balance);
             setIsLow(balance < 50);

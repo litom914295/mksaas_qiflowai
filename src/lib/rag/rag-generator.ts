@@ -5,7 +5,7 @@
  * 整合向量搜索和 LLM 生成
  */
 
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { ragRetrievalLogs } from '@/db/schema-knowledge';
 import OpenAI from 'openai';
 import { getSharedEmbeddingService } from './embedding-service';
@@ -254,6 +254,7 @@ ${context}
       const embeddingService = getSharedEmbeddingService();
       const result = await embeddingService.embed(data.query);
 
+      const db = await getDb();
       await db.insert(ragRetrievalLogs).values({
         userId: data.userId,
         sessionId: data.sessionId,

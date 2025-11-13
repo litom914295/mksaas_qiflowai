@@ -395,7 +395,7 @@ export function BaziProfessionalResult({
       </Card>
 
       {/* 大运流年时间线 */}
-      {dayun && dayun.cycles && dayun.cycles.length > 0 && (
+      {dayun?.cycles && dayun.cycles.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

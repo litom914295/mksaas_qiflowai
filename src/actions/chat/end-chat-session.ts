@@ -1,6 +1,6 @@
 'use server';
 
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { chatSessions } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
 import { eq } from 'drizzle-orm';
@@ -10,6 +10,8 @@ export async function endChatSessionAction(sessionId: string) {
   if (!session?.user) {
     return { success: false, error: '请先登录' };
   }
+
+  const db = await getDb();
 
   try {
     const [chatSession] = await db

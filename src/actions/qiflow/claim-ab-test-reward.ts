@@ -1,11 +1,11 @@
 'use server';
 
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
-import { db } from '@/db';
-import { creditTransaction, users } from '@/db/schema';
+import { getDb } from '@/db';
+import { creditTransaction, user } from '@/db/schema';
 import { abTestManager } from '@/lib/ab-test/manager';
-import { auth } from '@/lib/auth';
-import { eq } from 'drizzle-orm';
+import { getSession } from '@/lib/auth/session';
+import { eq, sql } from 'drizzle-orm';
 
 /**
  * 领取 A/B 测试参与奖励
@@ -13,9 +13,11 @@ import { eq } from 'drizzle-orm';
 export async function claimABTestRewardAction(params: {
   experimentName: string;
 }): Promise<{ success: boolean; error?: string; creditsEarned?: number }> {
+  const db = await getDb();
+  
   try {
     // 1. 验证用户登录
-    const session = await auth();
+    const session = await getSession();
     if (!session?.user?.id) {
       return { success: false, error: '未登录' };
     }
@@ -47,14 +49,15 @@ export async function claimABTestRewardAction(params: {
 
     // 4. 发放积分
     await db
-      .update(users)
+      .update(user)
       .set({
-        credits: db.$increment(users.credits, rewardAmount),
+        credits: sql`${user.credits} + ${rewardAmount}`,
       })
-      .where(eq(users.id, userId));
+      .where(eq(user.id, userId));
 
     // 5. 记录积分交易
     await db.insert(creditTransaction).values({
+      id: `txn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       userId,
       type: CREDIT_TRANSACTION_TYPE.AB_TEST_BONUS,
       amount: rewardAmount,

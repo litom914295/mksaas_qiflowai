@@ -37,16 +37,16 @@ export const PUT = withAdminAuth(async (request: NextRequest) => {
     const flattenConfig: Record<string, any> = {};
 
     if (body.signin) {
-      flattenConfig['signin'] = body.signin;
+      flattenConfig.signin = body.signin;
     }
     if (body.milestones) {
-      flattenConfig['milestones'] = body.milestones;
+      flattenConfig.milestones = body.milestones;
     }
     if (body.tasks) {
-      flattenConfig['tasks'] = body.tasks;
+      flattenConfig.tasks = body.tasks;
     }
     if (body.referral) {
-      flattenConfig['referral'] = body.referral;
+      flattenConfig.referral = body.referral;
     }
 
     // 保存到数据库

@@ -40,9 +40,15 @@ type Report = {
   creditsUsed: number;
   generatedAt: Date | null;
   expiresAt: Date | null;
-  purchaseMethod: string;
-  metadata: Record<string, unknown> | null;
+  metadata: {
+    aiModel: string;
+    generationTimeMs: number;
+    aiCostUSD: number;
+    purchaseMethod: 'credits' | 'stripe';
+    stripePaymentId?: string;
+  } | null;
   createdAt: Date;
+  updatedAt: Date;
 };
 
 type Props = {

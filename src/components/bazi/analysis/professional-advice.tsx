@@ -409,7 +409,7 @@ export function ProfessionalAdvice({ data }: ProfessionalAdviceProps) {
                           {isCompleted ? (
                             <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                           ) : (
-                            <div className="w-5 h-5 rounded-full border-2 border-gray-300 mt-0.5 flex-shrink-0"></div>
+                            <div className="w-5 h-5 rounded-full border-2 border-gray-300 mt-0.5 flex-shrink-0" />
                           )}
                           <div className="flex-1">
                             <span

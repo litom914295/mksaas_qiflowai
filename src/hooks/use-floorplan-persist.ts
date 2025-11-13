@@ -98,9 +98,8 @@ export function useFloorplanPersist(
   const getStorageKey = useCallback(() => {
     if (userId) {
       return FloorplanStorageKeys.user(userId, analysisId);
-    } else {
-      return FloorplanStorageKeys.anonymous(analysisId);
     }
+    return FloorplanStorageKeys.anonymous(analysisId);
   }, [userId, analysisId]);
 
   /**
