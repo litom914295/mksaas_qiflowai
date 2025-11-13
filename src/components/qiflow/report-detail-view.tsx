@@ -1,28 +1,31 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Calendar,
-  MapPin,
-  Download,
-  Share2,
-  Sparkles,
-  CheckCircle2,
-  Clock,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/use-toast';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  Calendar,
+  CheckCircle2,
+  Clock,
+  Download,
+  MapPin,
+  Share2,
+  Sparkles,
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ReportPaywall } from '@/components/reports/ReportPaywall';
+import { globalABTest, PAYWALL_EXPERIMENT } from '@/lib/qiflow/ab-testing/ab-test';
+import { track } from '@/lib/qiflow/tracking/conversion-tracker';
 
 type ReportOutput = {
   bazi: {
@@ -60,8 +63,8 @@ type ReportOutput = {
 type Report = {
   id: string;
   userId: string;
-  reportType: "basic" | "essential";
-  status: "generating" | "completed" | "failed";
+  reportType: 'basic' | 'essential';
+  status: 'generating' | 'completed' | 'failed';
   input: Record<string, unknown>;
   output: ReportOutput | null;
   creditsUsed: number;
@@ -78,26 +81,74 @@ type Props = {
 };
 
 const THEME_LABELS: Record<string, string> = {
-  career: "事业财运",
-  relationship: "感情姻缘",
-  health: "健康养生",
-  education: "学业智慧",
-  family: "家庭子女",
+  career: '事业财运',
+  relationship: '感情姻缘',
+  health: '健康养生',
+  education: '学业智慧',
+  family: '家庭子女',
 };
 
 const THEME_ICONS: Record<string, string> = {
-  career: "💼",
-  relationship: "💖",
-  health: "🌿",
-  education: "📚",
-  family: "🏡",
+  career: '💼',
+  relationship: '💖',
+  health: '🌿',
+  education: '📚',
+  family: '🏡',
 };
 
 export function ReportDetailView({ report, userId }: Props) {
   const { toast } = useToast();
   const [activeTheme, setActiveTheme] = useState(
-    report.output?.themes[0]?.themeId || ""
+    report.output?.themes[0]?.themeId || ''
   );
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [isUnlocking, setIsUnlocking] = useState(false);
+
+  // 判断是否需要显示付费墙
+  const isPaidReport = report.reportType === 'essential';
+  const isPurchased = report.metadata?.purchaseMethod === 'stripe';
+  const needsPayment = isPaidReport && !isPurchased;
+
+  // 获取A/B测试变体
+  const [abVariant, setAbVariant] = useState<any>(null);
+
+  useEffect(() => {
+    // 生成sessionId（可从cookie或localStorage获取）
+    let sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) {
+      sessionId = `session_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      localStorage.setItem('sessionId', sessionId);
+    }
+
+    // 获取A/B测试变体
+    const variant = globalABTest.getVariant(
+      PAYWALL_EXPERIMENT.id,
+      userId,
+      sessionId
+    );
+    setAbVariant(variant);
+
+    // 追踪页面浏览
+    track.pageView({
+      reportId: report.id,
+      reportType: report.reportType,
+      userId,
+      experimentId: PAYWALL_EXPERIMENT.id,
+      variantId: variant?.id,
+    });
+
+    // 如果需要付费且还未购买，显示Paywall
+    if (needsPayment) {
+      setShowPaywall(true);
+      // 追踪Paywall显示
+      track.paywallShown(variant?.id || 'default', {
+        reportId: report.id,
+        userId,
+        experimentId: PAYWALL_EXPERIMENT.id,
+        variantId: variant?.id,
+      });
+    }
+  }, [userId, report.id, report.reportType, needsPayment]);
 
   if (!report.output) {
     return (
@@ -111,7 +162,7 @@ export function ReportDetailView({ report, userId }: Props) {
   const input = report.input as {
     birthDate: string;
     birthHour: string;
-    gender: "male" | "female";
+    gender: 'male' | 'female';
     location: string;
   };
 
@@ -120,20 +171,156 @@ export function ReportDetailView({ report, userId }: Props) {
     const shareUrl = `${window.location.origin}/reports/${report.id}`;
     navigator.clipboard.writeText(shareUrl);
     toast({
-      title: "链接已复制",
-      description: "报告链接已复制到剪贴板",
+      title: '链接已复制',
+      description: '报告链接已复制到剪贴板',
     });
   }
 
-  // PDF 导出 (TODO: 实际实现需要后端 API)
-  function handleExport() {
-    toast({
-      title: "导出功能开发中",
-      description: "PDF 导出功能即将上线，敬请期待",
+  // PDF 导出
+  async function handleExport() {
+    if (needsPayment && !isPurchased) {
+      setShowPaywall(true);
+      return;
+    }
+
+    try {
+      // 追踪PDF下载
+      track.pdfDownloaded(report.id, { userId });
+
+      // TODO: 实际PDF生成API调用
+      toast({
+        title: 'PDF生成中',
+        description: 'PDF文件即将准备好，请稍候...',
+      });
+    } catch (error) {
+      toast({
+        title: '下载失败',
+        description: '生成PDF时出错，请稍后重试',
+        variant: 'destructive',
+      });
+    }
+  }
+
+  // 处理解锁报告
+  async function handleUnlock() {
+    setIsUnlocking(true);
+
+    try {
+      // 追踪支付发起
+      track.paymentInitiated(9.9, {
+        reportId: report.id,
+        userId,
+        experimentId: PAYWALL_EXPERIMENT.id,
+        variantId: abVariant?.id,
+      });
+
+      // 创建Stripe Checkout Session
+      const response = await fetch('/api/payments/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reportId: report.id,
+          priceId: 'price_essential_report', // 从环境变量或配置获取
+          successUrl: `${window.location.origin}/reports/${report.id}?payment=success`,
+          cancelUrl: `${window.location.origin}/reports/${report.id}?payment=cancelled`,
+        }),
+      });
+
+      const { sessionUrl } = await response.json();
+
+      if (sessionUrl) {
+        // 重定向到Stripe支付页面
+        window.location.href = sessionUrl;
+      } else {
+        throw new Error('未能创建支付会话');
+      }
+    } catch (error) {
+      console.error('支付发起失败:', error);
+      track.paymentFailed('checkout_creation_failed', {
+        reportId: report.id,
+        userId,
+      });
+      toast({
+        title: '支付失败',
+        description: '无法创建支付会话，请稍后重试',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsUnlocking(false);
+    }
+  }
+
+  // 处理关闭Paywall
+  function handleDismissPaywall() {
+    setShowPaywall(false);
+    track.paywallDismissed('user_dismissed', {
+      reportId: report.id,
+      userId,
     });
   }
 
   const currentTheme = themes.find((t) => t.themeId === activeTheme);
+
+  // 如果需要付费且显示Paywall
+  if (needsPayment && showPaywall) {
+    return (
+      <div className="container max-w-4xl py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          {/* 显示部分预览内容 */}
+          <Card className="mb-6 border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
+            <CardHeader>
+              <CardTitle className="text-lg">精华报告预览</CardTitle>
+              <CardDescription>解锁完整报告查看深度分析</CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">出生日期</p>
+                <p className="font-medium">{input.birthDate}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">出生时辰</p>
+                <p className="font-medium">{input.birthHour}时</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">性别</p>
+                <p className="font-medium">
+                  {input.gender === 'male' ? '男' : '女'}
+                </p>
+              </div>
+              <div className="flex items-start gap-1">
+                <MapPin className="w-4 h-4 mt-1 text-muted-foreground" />
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">出生地</p>
+                  <p className="font-medium">{input.location}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* 显示Paywall */}
+          <ReportPaywall
+            config={{
+              price: 9.9,
+              originalPrice: 29.9,
+              highlights: [
+                '深度人宅合一分析',
+                '5大主题专业解读',
+                '可下载PDF完整报告',
+                '个性化吉位与化解方案',
+              ],
+              variant: abVariant?.config?.variant || 'default',
+              discountEndsAt: abVariant?.config?.discountEndsAt,
+            }}
+            onUnlock={handleUnlock}
+            onDismiss={handleDismissPaywall}
+          />
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="container max-w-6xl py-8">
@@ -157,7 +344,7 @@ export function ReportDetailView({ report, userId }: Props) {
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
-                {new Date(report.createdAt).toLocaleDateString("zh-CN")}
+                {new Date(report.createdAt).toLocaleDateString('zh-CN')}
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
@@ -195,7 +382,9 @@ export function ReportDetailView({ report, userId }: Props) {
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">性别</p>
-              <p className="font-medium">{input.gender === "male" ? "男" : "女"}</p>
+              <p className="font-medium">
+                {input.gender === 'male' ? '男' : '女'}
+              </p>
             </div>
             <div className="flex items-start gap-1">
               <MapPin className="w-4 h-4 mt-1 text-muted-foreground" />
@@ -218,10 +407,10 @@ export function ReportDetailView({ report, userId }: Props) {
           <CardContent>
             <div className="grid grid-cols-4 gap-4">
               {[
-                { label: "年柱", pillar: bazi.yearPillar },
-                { label: "月柱", pillar: bazi.monthPillar },
-                { label: "日柱", pillar: bazi.dayPillar },
-                { label: "时柱", pillar: bazi.hourPillar },
+                { label: '年柱', pillar: bazi.yearPillar },
+                { label: '月柱', pillar: bazi.monthPillar },
+                { label: '日柱', pillar: bazi.dayPillar },
+                { label: '时柱', pillar: bazi.hourPillar },
               ].map((item, index) => (
                 <div
                   key={index}
@@ -256,15 +445,15 @@ export function ReportDetailView({ report, userId }: Props) {
                       />
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      {element === "wood"
-                        ? "木"
-                        : element === "fire"
-                          ? "火"
-                          : element === "earth"
-                            ? "土"
-                            : element === "metal"
-                              ? "金"
-                              : "水"}
+                      {element === 'wood'
+                        ? '木'
+                        : element === 'fire'
+                          ? '火'
+                          : element === 'earth'
+                            ? '土'
+                            : element === 'metal'
+                              ? '金'
+                              : '水'}
                       : {value}
                     </p>
                   </div>
@@ -294,11 +483,11 @@ export function ReportDetailView({ report, userId }: Props) {
                   <p className="text-sm text-muted-foreground mb-1">吉凶</p>
                   <Badge
                     className={
-                      flyingStar.fortuneLevel === "吉"
-                        ? "bg-green-600"
-                        : flyingStar.fortuneLevel === "凶"
-                          ? "bg-red-600"
-                          : "bg-yellow-600"
+                      flyingStar.fortuneLevel === '吉'
+                        ? 'bg-green-600'
+                        : flyingStar.fortuneLevel === '凶'
+                          ? 'bg-red-600'
+                          : 'bg-yellow-600'
                     }
                   >
                     {flyingStar.fortuneLevel}
@@ -400,7 +589,9 @@ export function ReportDetailView({ report, userId }: Props) {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">报告质量评分</p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  报告质量评分
+                </p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-bold text-purple-900">
                     {metadata.qualityScore}
@@ -422,7 +613,8 @@ export function ReportDetailView({ report, userId }: Props) {
           <CardContent className="pt-6">
             <p className="text-xs text-yellow-800 leading-relaxed">
               <strong>免责声明：</strong>
-              本报告由 AI 根据传统命理学知识生成，仅供参考和娱乐。请理性看待，不应作为重大决策的唯一依据。
+              本报告由 AI
+              根据传统命理学知识生成，仅供参考和娱乐。请理性看待，不应作为重大决策的唯一依据。
               命运掌握在自己手中，积极努力才是成功的关键。本平台不对报告内容的准确性或由此产生的任何后果承担责任。
             </p>
           </CardContent>

@@ -1,6 +1,6 @@
 /**
  * 向量化服务 - EmbeddingService
- * 
+ *
  * 封装 OpenAI Embeddings API
  * 支持单个和批量文本向量化
  */
@@ -20,15 +20,16 @@ export interface BatchEmbeddingResult {
 }
 
 export interface EmbeddingOptions {
-  model?: string;          // 默认 'text-embedding-3-small'
-  dimensions?: number;     // 向量维度，默认 1536
-  batchSize?: number;      // 批量处理大小，默认 100
-  retryAttempts?: number;  // 重试次数，默认 3
-  retryDelay?: number;     // 重试延迟（毫秒），默认 1000
+  model?: string; // 默认 'text-embedding-3-small'
+  dimensions?: number; // 向量维度，默认 1536
+  batchSize?: number; // 批量处理大小，默认 100
+  retryAttempts?: number; // 重试次数，默认 3
+  retryDelay?: number; // 重试延迟（毫秒），默认 1000
 }
 
+// 默认配置：优先使用环境变量，否则使用OpenAI
 const DEFAULT_OPTIONS: Required<EmbeddingOptions> = {
-  model: 'text-embedding-3-small',
+  model: process.env.EMBEDDING_MODEL || 'text-embedding-3-small',
   dimensions: 1536,
   batchSize: 100,
   retryAttempts: 3,
@@ -41,18 +42,35 @@ export class EmbeddingService {
   private requestCount = 0;
   private totalTokens = 0;
 
-  constructor(
-    apiKey?: string,
-    options?: Partial<EmbeddingOptions>
-  ) {
-    const key = apiKey || process.env.OPENAI_API_KEY;
-    
+  constructor(apiKey?: string, options?: Partial<EmbeddingOptions>) {
+    // 优先使用 EMBEDDING_* 环境变量（硅基流动免费），否则使用 OPENAI_* （兔子代理）
+    const key = apiKey || process.env.EMBEDDING_API_KEY || process.env.OPENAI_API_KEY;
+
     if (!key) {
-      throw new Error('OPENAI_API_KEY is required');
+      throw new Error('EMBEDDING_API_KEY or OPENAI_API_KEY is required');
     }
 
-    this.client = new OpenAI({ apiKey: key });
-    this.options = { ...DEFAULT_OPTIONS, ...options };
+    const baseURL = process.env.EMBEDDING_BASE_URL || process.env.OPENAI_BASE_URL || process.env.OPENAI_PROXY_URL || undefined;
+    
+    // 优先使用 EMBEDDING_MODEL 环境变量
+    const model = process.env.EMBEDDING_MODEL || DEFAULT_OPTIONS.model;
+    const dimensions = process.env.EMBEDDING_DIMENSIONS 
+      ? Number.parseInt(process.env.EMBEDDING_DIMENSIONS) 
+      : DEFAULT_OPTIONS.dimensions;
+    
+    console.log('[EmbeddingService] 配置:', {
+      provider: process.env.EMBEDDING_PROVIDER || 'openai',
+      model,
+      baseURL: baseURL ? baseURL.substring(0, 30) + '...' : 'default',
+    });
+
+    this.client = new OpenAI({ apiKey: key, baseURL });
+    this.options = { 
+      ...DEFAULT_OPTIONS, 
+      model, 
+      dimensions,
+      ...options 
+    };
   }
 
   /**
@@ -65,7 +83,7 @@ export class EmbeddingService {
 
     try {
       const response = await this.makeEmbeddingRequest([text]);
-      
+
       this.requestCount++;
       this.totalTokens += response.usage.total_tokens;
 
@@ -88,8 +106,8 @@ export class EmbeddingService {
     }
 
     // 过滤空文本
-    const validTexts = texts.filter(t => t && t.trim().length > 0);
-    
+    const validTexts = texts.filter((t) => t && t.trim().length > 0);
+
     if (validTexts.length === 0) {
       throw new Error('No valid texts to embed');
     }
@@ -100,21 +118,23 @@ export class EmbeddingService {
     // 分批处理
     for (let i = 0; i < validTexts.length; i += this.options.batchSize) {
       const batch = validTexts.slice(i, i + this.options.batchSize);
-      
+
       try {
         const response = await this.makeEmbeddingRequest(batch);
-        
+
         // 按正确顺序添加 embeddings
-        response.data.forEach(item => {
+        response.data.forEach((item) => {
           embeddings[item.index] = item.embedding;
         });
 
         totalTokens += response.usage.total_tokens;
         this.requestCount++;
         this.totalTokens += response.usage.total_tokens;
-
       } catch (error) {
-        throw this.handleError(error, `Failed to embed batch ${i / this.options.batchSize + 1}`);
+        throw this.handleError(
+          error,
+          `Failed to embed batch ${i / this.options.batchSize + 1}`
+        );
       }
     }
 
@@ -134,12 +154,22 @@ export class EmbeddingService {
     input: string[],
     attempt = 1
   ): Promise<OpenAI.Embeddings.CreateEmbeddingResponse> {
+    const isSiliconFlow = process.env.EMBEDDING_PROVIDER === 'siliconflow' || 
+                          process.env.EMBEDDING_BASE_URL?.includes('siliconflow');
+    
+    // 硅基流动使用原生fetch（OpenAI SDK有认证问题）
+    if (isSiliconFlow) {
+      return this.makeSiliconFlowRequest(input, attempt);
+    }
+    
     try {
-      return await this.client.embeddings.create({
+      const params: any = {
         model: this.options.model,
         input,
         dimensions: this.options.dimensions,
-      });
+      };
+      
+      return await this.client.embeddings.create(params);
     } catch (error: any) {
       // Rate limit 或网络错误，重试
       if (
@@ -147,8 +177,10 @@ export class EmbeddingService {
         (error.status === 429 || error.code === 'ECONNRESET')
       ) {
         const delay = this.options.retryDelay * attempt;
-        console.warn(`Retrying embedding request (attempt ${attempt + 1}/${this.options.retryAttempts}) after ${delay}ms`);
-        
+        console.warn(
+          `Retrying embedding request (attempt ${attempt + 1}/${this.options.retryAttempts}) after ${delay}ms`
+        );
+
         await this.sleep(delay);
         return this.makeEmbeddingRequest(input, attempt + 1);
       }
@@ -158,10 +190,64 @@ export class EmbeddingService {
   }
 
   /**
+   * 硅基流动直接fetch请求（绕过OpenAI SDK）
+   */
+  private async makeSiliconFlowRequest(
+    input: string[],
+    attempt = 1
+  ): Promise<OpenAI.Embeddings.CreateEmbeddingResponse> {
+    try {
+      const baseURL = process.env.EMBEDDING_BASE_URL || 'https://api.siliconflow.cn/v1';
+      const apiKey = process.env.EMBEDDING_API_KEY || process.env.OPENAI_API_KEY;
+      
+      const response = await fetch(`${baseURL}/embeddings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: this.options.model,
+          input,
+        }),
+      });
+      
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`SiliconFlow API error: ${response.status} ${text}`);
+      }
+      
+      return await response.json();
+    } catch (error: any) {
+      // 重试逻辑
+      if (
+        attempt < this.options.retryAttempts &&
+        (error.message?.includes('429') || error.code === 'ECONNRESET')
+      ) {
+        const delay = this.options.retryDelay * attempt;
+        console.warn(
+          `Retrying SiliconFlow request (attempt ${attempt + 1}/${this.options.retryAttempts}) after ${delay}ms`
+        );
+        await this.sleep(delay);
+        return this.makeSiliconFlowRequest(input, attempt + 1);
+      }
+      throw error;
+    }
+  }
+
+  /**
    * 计算成本
-   * text-embedding-3-small: $0.00002 per 1K tokens
+   * - 硅基流动: 免费
+   * - text-embedding-3-small: $0.00002 per 1K tokens
    */
   private calculateCost(tokens: number): number {
+    // 如果使用硅基流动或配置了免费模型，成本为0
+    if (process.env.EMBEDDING_PROVIDER === 'siliconflow' || 
+        process.env.EMBEDDING_BASE_URL?.includes('siliconflow')) {
+      return 0;
+    }
+    
+    // OpenAI 官方或代理价格
     const COST_PER_1K_TOKENS = 0.00002;
     return (tokens / 1000) * COST_PER_1K_TOKENS;
   }
@@ -226,7 +312,9 @@ export class EmbeddingService {
    */
   private handleError(error: any, message: string): Error {
     if (error instanceof OpenAI.APIError) {
-      return new Error(`${message}: ${error.message} (Status: ${error.status})`);
+      return new Error(
+        `${message}: ${error.message} (Status: ${error.status})`
+      );
     }
     return new Error(`${message}: ${error.message || 'Unknown error'}`);
   }
@@ -235,7 +323,7 @@ export class EmbeddingService {
    * Sleep 工具函数
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 

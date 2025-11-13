@@ -1,8 +1,12 @@
 import { getDb } from '@/db';
-import { baziCalculations, fengshuiAnalysis, creditTransaction } from '@/db/schema';
+import {
+  baziCalculations,
+  creditTransaction,
+  fengshuiAnalysis,
+} from '@/db/schema';
 import { auth } from '@/lib/auth';
 import { and, count, eq, gte, sql } from 'drizzle-orm';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 /**
  * 获取用户活动趋势数据
@@ -14,10 +18,7 @@ export async function GET(request: NextRequest) {
     const userId = session?.user?.id;
 
     if (!session || !userId) {
-      return NextResponse.json(
-        { error: 'UNAUTHORIZED' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
     }
 
     const searchParams = request.nextUrl.searchParams;
@@ -103,9 +104,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(activityData);
   } catch (error) {
     console.error('[Activity API] Error:', error);
-    return NextResponse.json(
-      { error: 'INTERNAL_ERROR' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'INTERNAL_ERROR' }, { status: 500 });
   }
 }

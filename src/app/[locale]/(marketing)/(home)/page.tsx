@@ -13,8 +13,8 @@ import { LiveActivityFeed } from '@/components/qiflow/homepage/LiveActivityFeed'
 import { Testimonials } from '@/components/qiflow/homepage/Testimonials';
 import { TrustBar } from '@/components/qiflow/homepage/TrustBar';
 import { TrustBarEnhanced } from '@/components/qiflow/homepage/TrustBarEnhanced';
-import { getSession } from '@/lib/server';
 import { constructMetadata } from '@/lib/metadata';
+import { getSession } from '@/lib/server';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -89,7 +89,7 @@ export default async function HomePage(props: HomePageProps) {
   // 复用上面的 cookieStore，不需要重新声明
   const sessionCookie = cookieStore.get('better-auth.session_token');
   const isLoggedIn = !!sessionCookie;
-  
+
   // 只在已登录时才获取完整 session 信息
   let session = null;
   if (isLoggedIn) {

@@ -8,7 +8,7 @@ import {
 import { getCreditPackageById } from '@/credits/server';
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { getDb } from '@/db';
-import { payment, user, stripeWebhookEvents } from '@/db/schema';
+import { payment, stripeWebhookEvents, user, qiflowReports } from '@/db/schema';
 import {
   findPlanByPlanId,
   findPlanByPriceId,
@@ -552,7 +552,9 @@ export class StripeProvider implements PaymentProvider {
         return; // 已处理，跳过
       }
 
-      console.log(`[Webhook] Processing new event ${eventId}, type: ${eventType}`);
+      console.log(
+        `[Webhook] Processing new event ${eventId}, type: ${eventType}`
+      );
 
       // 记录事件（处理前）
       await db.insert(stripeWebhookEvents).values({
@@ -597,10 +599,25 @@ export class StripeProvider implements PaymentProvider {
           if (session.mode === 'payment') {
             if (session.metadata?.type === 'credit_purchase') {
               await this.onCreditPurchase(session);
+            } else if (session.metadata?.type === 'report_unlock') {
+              // 新增: 处理报告解锁
+              await this.onReportUnlock(session);
             } else {
               await this.onOnetimePayment(session);
             }
           }
+        }
+      } else if (eventType.startsWith('payment_intent.')) {
+        // 新增: 处理PaymentIntent事件
+        if (eventType === 'payment_intent.succeeded') {
+          const paymentIntent = event.data.object as Stripe.PaymentIntent;
+          // 如果是报告解锁的支付
+          if (paymentIntent.metadata?.type === 'report_unlock') {
+            await this.onReportUnlockViaPaymentIntent(paymentIntent);
+          }
+        } else if (eventType === 'payment_intent.payment_failed') {
+          const paymentIntent = event.data.object as Stripe.PaymentIntent;
+          await this.onPaymentIntentFailed(paymentIntent);
         }
       }
 
@@ -619,7 +636,10 @@ export class StripeProvider implements PaymentProvider {
           })
           .where(eq(stripeWebhookEvents.id, eventId));
       } catch (updateError) {
-        console.error('[Webhook] Failed to update event error status:', updateError);
+        console.error(
+          '[Webhook] Failed to update event error status:',
+          updateError
+        );
       }
 
       throw new Error('Failed to handle webhook event');
@@ -1020,6 +1040,184 @@ export class StripeProvider implements PaymentProvider {
       console.error('onCreditPurchase error for session: ' + session.id, error);
       throw error;
     }
+  }
+
+  /**
+   * Handle report unlock (via Checkout Session)
+   * @param session Stripe checkout session
+   */
+  private async onReportUnlock(
+    session: Stripe.Checkout.Session
+  ): Promise<void> {
+    console.log('>> Handle report unlock for session:', session.id);
+
+    const userId = session.metadata?.userId;
+    const reportId = session.metadata?.reportId;
+
+    if (!userId || !reportId) {
+      console.warn('Missing userId or reportId in session metadata');
+      return;
+    }
+
+    try {
+      const db = await getDb();
+
+      // 查找报告
+      const report = await db.query.qiflowReports.findFirst({
+        where: eq(qiflowReports.id, reportId),
+      });
+
+      if (!report) {
+        throw new Error(`Report not found: ${reportId}`);
+      }
+
+      if (report.userId !== userId) {
+        throw new Error(`User ID mismatch: ${userId} vs ${report.userId}`);
+      }
+
+      // 检查是否已解锁
+      if (report.metadata?.purchaseMethod === 'stripe') {
+        console.log(`Report already unlocked: ${reportId}`);
+        return;
+      }
+
+      // 更新报告为已购买状态
+      const paymentIntentId = session.payment_intent as string;
+      await db
+        .update(qiflowReports)
+        .set({
+          metadata: {
+            ...report.metadata,
+            purchaseMethod: 'stripe',
+            stripePaymentId: paymentIntentId,
+            paidAt: new Date().toISOString(),
+          } as any,
+          updatedAt: new Date(),
+        })
+        .where(eq(qiflowReports.id, reportId));
+
+      console.log(`<< Report unlocked: ${reportId}`);
+
+      // 记录转化追踪
+      const { track } = await import('@/lib/qiflow/tracking/conversion-tracker');
+      const amount = session.amount_total ? session.amount_total / 100 : 0;
+
+      track.paymentCompleted(paymentIntentId, amount, {
+        reportId,
+        userId,
+        paymentMethod: 'stripe',
+        sessionId: session.id,
+      });
+
+      track.reportUnlocked(reportId, {
+        userId,
+        paymentId: paymentIntentId,
+        amount,
+      });
+
+      // TODO: 发送邮件通知
+      // TODO: 生成PDF（异步处理）
+
+    } catch (error) {
+      console.error('onReportUnlock error for session:', session.id, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Handle report unlock via PaymentIntent
+   * @param paymentIntent Stripe payment intent
+   */
+  private async onReportUnlockViaPaymentIntent(
+    paymentIntent: Stripe.PaymentIntent
+  ): Promise<void> {
+    console.log('>> Handle report unlock via PaymentIntent:', paymentIntent.id);
+
+    const userId = paymentIntent.metadata?.userId;
+    const reportId = paymentIntent.metadata?.reportId;
+
+    if (!userId || !reportId) {
+      console.warn('Missing userId or reportId in PaymentIntent metadata');
+      return;
+    }
+
+    try {
+      const db = await getDb();
+
+      // 查找报告
+      const report = await db.query.qiflowReports.findFirst({
+        where: eq(qiflowReports.id, reportId),
+      });
+
+      if (!report) {
+        throw new Error(`Report not found: ${reportId}`);
+      }
+
+      // 检查是否已解锁
+      if (report.metadata?.purchaseMethod === 'stripe') {
+        console.log(`Report already unlocked: ${reportId}`);
+        return;
+      }
+
+      // 更新报告
+      await db
+        .update(qiflowReports)
+        .set({
+          metadata: {
+            ...report.metadata,
+            purchaseMethod: 'stripe',
+            stripePaymentId: paymentIntent.id,
+            paidAt: new Date().toISOString(),
+          } as any,
+          updatedAt: new Date(),
+        })
+        .where(eq(qiflowReports.id, reportId));
+
+      console.log(`<< Report unlocked via PaymentIntent: ${reportId}`);
+
+      // 记录转化追踪
+      const { track } = await import('@/lib/qiflow/tracking/conversion-tracker');
+      const amount = paymentIntent.amount / 100;
+
+      track.paymentCompleted(paymentIntent.id, amount, {
+        reportId,
+        userId,
+        paymentMethod: 'stripe',
+      });
+
+      track.reportUnlocked(reportId, {
+        userId,
+        paymentId: paymentIntent.id,
+        amount,
+      });
+
+    } catch (error) {
+      console.error('onReportUnlockViaPaymentIntent error:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Handle payment intent failed
+   * @param paymentIntent Stripe payment intent
+   */
+  private async onPaymentIntentFailed(
+    paymentIntent: Stripe.PaymentIntent
+  ): Promise<void> {
+    console.log('>> Payment intent failed:', paymentIntent.id);
+
+    const { track } = await import('@/lib/qiflow/tracking/conversion-tracker');
+
+    track.paymentFailed(
+      paymentIntent.last_payment_error?.code || 'unknown',
+      {
+        paymentIntentId: paymentIntent.id,
+        reportId: paymentIntent.metadata?.reportId,
+        userId: paymentIntent.metadata?.userId,
+        amount: paymentIntent.amount / 100,
+        errorMessage: paymentIntent.last_payment_error?.message,
+      }
+    );
   }
 
   /**

@@ -97,11 +97,9 @@ export function validateSanbanGua(
   const details: string[] = [];
 
   for (const cell of plate) {
-    const stars = [
-      cell.periodStar,
-      cell.mountainStar,
-      cell.facingStar,
-    ].filter(Boolean) as FlyingStar[];
+    const stars = [cell.periodStar, cell.mountainStar, cell.facingStar].filter(
+      Boolean
+    ) as FlyingStar[];
 
     for (const star of stars) {
       if (targetGroup.includes(star)) {
@@ -303,9 +301,7 @@ export function generateDajieDescription(
           ? '效果中等'
           : '效果较弱';
 
-  const palaceNames = positions
-    .map((p) => PALACE_TO_BAGUA[p])
-    .join('、');
+  const palaceNames = positions.map((p) => PALACE_TO_BAGUA[p]).join('、');
 
   return `七星打劫${typeDesc}，打劫位：${palaceNames}宫，${effectDesc}`;
 }
@@ -334,9 +330,7 @@ export function generateDajieActivationRequirements(
 
   // 根据打劫类型添加特定要求
   if (dajieType === 'jie_cai' || dajieType === 'full') {
-    requirements.push(
-      `在${palaceNames.join('、')}宫放置流动的水以催旺财运`
-    );
+    requirements.push(`在${palaceNames.join('、')}宫放置流动的水以催旺财运`);
     requirements.push('可设置鱼缸、水景或流水装置');
     requirements.push('保持水质清洁，水流不可停滞');
   }
@@ -523,11 +517,7 @@ export function checkQixingDajiePattern(
   const taboos = generateDajieTaboos(allPositions);
 
   // 步骤7：计算评分
-  const score = calculateDajieScore(
-    effectiveness,
-    sanbanValidation,
-    dajieType
-  );
+  const score = calculateDajieScore(effectiveness, sanbanValidation, dajieType);
 
   return {
     isQixingDajie,

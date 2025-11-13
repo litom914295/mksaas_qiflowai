@@ -1,16 +1,16 @@
 /**
  * Phase 6 - 数据库迁移验证与功能测试
- * 
+ *
  * 用途: 验证 chatSessions 表和 Phase 6 功能是否正常工作
  */
 
-import { db } from "@/db";
-import { chatSessions, creditTransaction } from "@/db/schema";
-import { createChatSessionAction } from "@/actions/chat/create-chat-session";
-import { renewChatSessionAction } from "@/actions/chat/renew-chat-session";
-import { getChatSessionStatusAction } from "@/actions/chat/get-chat-session-status";
-import { endChatSessionAction } from "@/actions/chat/end-chat-session";
-import { sql } from "drizzle-orm";
+import { createChatSessionAction } from '@/actions/chat/create-chat-session';
+import { endChatSessionAction } from '@/actions/chat/end-chat-session';
+import { getChatSessionStatusAction } from '@/actions/chat/get-chat-session-status';
+import { renewChatSessionAction } from '@/actions/chat/renew-chat-session';
+import { db } from '@/db';
+import { chatSessions, creditTransaction } from '@/db/schema';
+import { sql } from 'drizzle-orm';
 
 // 颜色输出辅助函数
 const colors = {
@@ -55,7 +55,9 @@ async function verifyDatabaseSchema() {
 
       console.log(colors.cyan('\n列信息:'));
       columns.rows.forEach((col: any) => {
-        console.log(`  - ${col.column_name}: ${col.data_type} ${col.is_nullable === 'NO' ? '(NOT NULL)' : ''}`);
+        console.log(
+          `  - ${col.column_name}: ${col.data_type} ${col.is_nullable === 'NO' ? '(NOT NULL)' : ''}`
+        );
       });
 
       // 检查索引
@@ -75,7 +77,11 @@ async function verifyDatabaseSchema() {
       console.log(colors.red('❌ chatSessions 表不存在'));
       console.log(colors.yellow('\n请执行以下命令创建表:'));
       console.log(colors.yellow('  npx drizzle-kit push'));
-      console.log(colors.yellow('  或手动执行: drizzle/0002_phase2_reports_and_sessions.sql'));
+      console.log(
+        colors.yellow(
+          '  或手动执行: drizzle/0002_phase2_reports_and_sessions.sql'
+        )
+      );
       return false;
     }
   } catch (error) {
@@ -196,7 +202,9 @@ async function printSummary(results: boolean[]) {
   results.forEach((result, index) => {
     const icon = result ? '✅' : '❌';
     const color = result ? colors.green : colors.red;
-    console.log(color(`${icon} ${testNames[index]}: ${result ? '通过' : '失败'}`));
+    console.log(
+      color(`${icon} ${testNames[index]}: ${result ? '通过' : '失败'}`)
+    );
   });
 
   const allPassed = results.every((r) => r);

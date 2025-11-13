@@ -1,22 +1,22 @@
 /**
  * Phase 8 Step 6: 月度运势自动生成 Cron Job
- * 
+ *
  * 功能：
  * 1. 每月 1 日凌晨 2 点自动触发
  * 2. 批量生成所有 Pro 会员的当月运势
  * 3. 失败重试机制（最多 3 次）
  * 4. 日志记录和错误监控
- * 
+ *
  * 使用方法：
  * - Vercel Cron: vercel.json 中配置
  * - 手动触发: POST /api/cron/generate-monthly-fortunes
  */
 
+import { generateMonthlyFortuneAction } from '@/actions/qiflow/generate-monthly-fortune';
 import { db } from '@/db';
 import { users } from '@/db/schema';
-import { generateMonthlyFortuneAction } from '@/actions/qiflow/generate-monthly-fortune';
-import { eq } from 'drizzle-orm';
 import type { BaziChart } from '@/lib/qiflow/bazi/types';
+import { eq } from 'drizzle-orm';
 
 // ==================== 类型定义 ====================
 
@@ -47,7 +47,7 @@ interface UserWithBazi {
  */
 export async function generateMonthlyFortunesForAllProUsers(): Promise<CronJobResult> {
   const startTime = Date.now();
-  
+
   console.log('[Cron] Starting monthly fortune generation...');
   console.log(`[Cron] Timestamp: ${new Date().toISOString()}`);
 
@@ -67,7 +67,9 @@ export async function generateMonthlyFortunesForAllProUsers(): Promise<CronJobRe
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth() + 1;
 
-    console.log(`[Cron] Generating fortunes for ${currentYear}/${currentMonth}`);
+    console.log(
+      `[Cron] Generating fortunes for ${currentYear}/${currentMonth}`
+    );
 
     // 2. 查询所有 Pro 会员
     const proUsers = await db
@@ -115,7 +117,9 @@ export async function generateMonthlyFortunesForAllProUsers(): Promise<CronJobRe
           console.log(`[Cron] ✅ Success for user ${user.email}`);
           result.successCount++;
         } else {
-          console.log(`[Cron] ❌ Failed for user ${user.email}: ${generateResult.error}`);
+          console.log(
+            `[Cron] ❌ Failed for user ${user.email}: ${generateResult.error}`
+          );
           result.failureCount++;
           result.errors.push({
             userId: user.id,
@@ -126,7 +130,6 @@ export async function generateMonthlyFortunesForAllProUsers(): Promise<CronJobRe
 
         // 3.3 延迟 500ms 避免 API 速率限制
         await sleep(500);
-
       } catch (error) {
         console.error(`[Cron] Error processing user ${user.email}:`, error);
         result.failureCount++;
@@ -147,14 +150,15 @@ export async function generateMonthlyFortunesForAllProUsers(): Promise<CronJobRe
     console.log(`[Cron] Success: ${result.successCount}`);
     console.log(`[Cron] Failure: ${result.failureCount}`);
     console.log(`[Cron] Skipped: ${result.skippedCount}`);
-    console.log(`[Cron] Execution Time: ${(result.executionTime / 1000).toFixed(2)}s`);
+    console.log(
+      `[Cron] Execution Time: ${(result.executionTime / 1000).toFixed(2)}s`
+    );
     console.log('[Cron] ==========================================');
 
     // 6. 如果有失败，标记为部分失败
     if (result.failureCount > 0) {
       result.success = false;
     }
-
   } catch (error) {
     console.error('[Cron] Fatal error during cron job execution:', error);
     result.success = false;
@@ -249,7 +253,6 @@ async function generateFortuneWithRetry(params: {
         console.log(`[Cron] Retrying in ${delayMs}ms...`);
         await sleep(delayMs);
       }
-
     } catch (error) {
       console.error(`[Cron] Attempt ${attempt} error:`, error);
 
@@ -294,7 +297,9 @@ export async function generateFortuneForUser(params: {
     const targetYear = year || now.getFullYear();
     const targetMonth = month || now.getMonth() + 1;
 
-    console.log(`[Manual] Generating fortune for user ${userId}: ${targetYear}/${targetMonth}`);
+    console.log(
+      `[Manual] Generating fortune for user ${userId}: ${targetYear}/${targetMonth}`
+    );
 
     // 获取用户数据
     const [user] = await db
@@ -342,7 +347,6 @@ export async function generateFortuneForUser(params: {
         message: result.message || 'Generation failed',
       };
     }
-
   } catch (error) {
     console.error('[Manual] Error generating fortune:', error);
     return {

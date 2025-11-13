@@ -885,8 +885,16 @@ function calculateAge(result: any): number {
   // 尝试从多个可能的位置获取出生日期
   if (result?.birthData?.datetime) {
     birthDate = new Date(result.birthData.datetime);
-  } else if (result?.solar?.year && result?.solar?.month && result?.solar?.day) {
-    birthDate = new Date(result.solar.year, result.solar.month - 1, result.solar.day);
+  } else if (
+    result?.solar?.year &&
+    result?.solar?.month &&
+    result?.solar?.day
+  ) {
+    birthDate = new Date(
+      result.solar.year,
+      result.solar.month - 1,
+      result.solar.day
+    );
   } else if (result?.fourPillars?.year?.year) {
     // 如果只有年份，使用年份的1月1日作为默认
     birthDate = new Date(result.fourPillars.year.year, 0, 1);
@@ -897,14 +905,17 @@ function calculateAge(result: any): number {
 
   // 计算周岁年龄：考虑月份和日期
   let age = now.getFullYear() - birthDate.getFullYear();
-  
+
   // 如果今年生日还没到，年龄减1
   const currentMonth = now.getMonth();
   const currentDay = now.getDate();
   const birthMonth = birthDate.getMonth();
   const birthDay = birthDate.getDate();
-  
-  if (currentMonth < birthMonth || (currentMonth === birthMonth && currentDay < birthDay)) {
+
+  if (
+    currentMonth < birthMonth ||
+    (currentMonth === birthMonth && currentDay < birthDay)
+  ) {
     age--;
   }
 

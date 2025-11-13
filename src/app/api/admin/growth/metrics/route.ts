@@ -1,79 +1,47 @@
+import { getDb } from '@/db';
+import {
+  analysis,
+  creditTransaction,
+  referralRelationships,
+  shareRecords,
+  user,
+  userCredit,
+} from '@/db/schema';
+import { verifyAuth } from '@/lib/auth/verify';
+import { and, count, eq, gte, lt, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
-// 增长指标API - 获取核心增长KPI
+// 增长指标API - 真实数据版本
 export async function GET(request: NextRequest) {
   try {
+    // 验证权限
+    const userId = await verifyAuth(request);
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, error: '未授权访问' },
+        { status: 401 }
+      );
+    }
+
     const searchParams = request.nextUrl.searchParams;
     const dateRange = searchParams.get('dateRange') || '7d';
     const type = searchParams.get('type') || 'summary';
 
-    // 模拟数据 - 实际应从数据库获取
+    const db = await getDb();
+
+    // 计算真实指标
     const metrics = {
       summary: {
-        // K因子 (病毒系数)
-        kFactor: {
-          value: 1.35,
-          trend: 12.5,
-          breakdown: {
-            invitationRate: 0.45, // 邀请率
-            conversionRate: 0.3, // 转化率
-            averageInvites: 10, // 平均邀请数
-          },
-        },
-        // 激活率
-        activationRate: {
-          value: 0.68,
-          trend: 5.2,
-          total: 12500,
-          activated: 8500,
-        },
-        // 留存率
-        retentionRate: {
-          d1: 0.85,
-          d7: 0.65,
-          d30: 0.45,
-          trend: -2.1,
-        },
-        // 分享统计
-        shareStats: {
-          totalShares: 45000,
-          uniqueSharers: 8900,
-          shareConversion: 0.12,
-          trend: 18.3,
-        },
-        // 积分统计
-        creditsStats: {
-          totalDistributed: 1250000,
-          totalRedeemed: 890000,
-          averageBalance: 450,
-          activeUsers: 15600,
-        },
-        // 风控统计
-        fraudStats: {
-          blockedUsers: 234,
-          fraudAttempts: 1567,
-          preventionRate: 0.95,
-          falsePositiveRate: 0.02,
-        },
+        kFactor: await calculateKFactor(db),
+        activationRate: await calculateActivationRate(db),
+        retentionRate: await calculateRetentionRate(db),
+        shareStats: await calculateShareStats(db),
+        creditsStats: await calculateCreditsStats(db),
+        fraudStats: await calculateFraudStats(db),
       },
-      // 详细数据
       detailed: {
-        // 按时间段的增长数据
-        timeline: generateTimelineData(dateRange),
-        // 渠道分布
-        channels: [
-          { name: '微信', users: 45000, conversion: 0.15 },
-          { name: 'QQ', users: 23000, conversion: 0.12 },
-          { name: '短信', users: 12000, conversion: 0.08 },
-          { name: '邮件', users: 8000, conversion: 0.05 },
-        ],
-        // 用户分层
-        userSegments: [
-          { segment: '高价值用户', count: 2500, avgLTV: 1250 },
-          { segment: '活跃用户', count: 8900, avgLTV: 450 },
-          { segment: '普通用户', count: 25000, avgLTV: 120 },
-          { segment: '休眠用户', count: 12000, avgLTV: 30 },
-        ],
+        timeline: await generateRealTimelineData(db, dateRange),
+        userSegments: await calculateUserSegments(db),
       },
     };
 
@@ -91,55 +59,240 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// 更新指标配置
-export async function PUT(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { metricType, config } = body;
+// K因子计算 (病毒系数)
+async function calculateKFactor(db: any) {
+  const totalUsers = await db.select({ count: count() }).from(user);
+  const totalReferrals = await db
+    .select({ count: count() })
+    .from(referralRelationships);
+  const activatedReferrals = await db
+    .select({ count: count() })
+    .from(referralRelationships)
+    .where(eq(referralRelationships.status, 'activated'));
 
-    // 验证参数
-    if (!metricType || !config) {
-      return NextResponse.json(
-        { success: false, error: 'Missing required parameters' },
-        { status: 400 }
-      );
-    }
+  const userCount = Number(totalUsers[0]?.count || 0);
+  const referralCount = Number(totalReferrals[0]?.count || 0);
+  const activatedCount = Number(activatedReferrals[0]?.count || 0);
 
-    // 模拟更新配置 - 实际应更新数据库
-    console.log('Updating metric config:', { metricType, config });
+  const invitationRate = userCount > 0 ? referralCount / userCount : 0;
+  const conversionRate = referralCount > 0 ? activatedCount / referralCount : 0;
+  const averageInvites = userCount > 0 ? referralCount / userCount : 0;
+  const kFactorValue = invitationRate * conversionRate * (averageInvites || 1);
 
-    return NextResponse.json({
-      success: true,
-      message: 'Metric configuration updated successfully',
-      data: { metricType, config },
-    });
-  } catch (error) {
-    console.error('Error updating metric config:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to update configuration' },
-      { status: 500 }
-    );
-  }
+  return {
+    value: Number(kFactorValue.toFixed(2)),
+    trend: 0, // TODO: 需要历史数据对比
+    breakdown: {
+      invitationRate: Number(invitationRate.toFixed(2)),
+      conversionRate: Number(conversionRate.toFixed(2)),
+      averageInvites: Number(averageInvites.toFixed(1)),
+    },
+  };
 }
 
-// 生成时间线数据
-function generateTimelineData(range: string) {
+// 激活率计算
+async function calculateActivationRate(db: any) {
+  const totalUsers = await db.select({ count: count() }).from(user);
+  const usersWithAnalysis = await db
+    .selectDistinct({ userId: analysis.userId })
+    .from(analysis);
+
+  const total = Number(totalUsers[0]?.count || 0);
+  const activated = usersWithAnalysis.length;
+  const activationRate = total > 0 ? activated / total : 0;
+
+  return {
+    value: Number(activationRate.toFixed(2)),
+    trend: 0, // TODO: 需要历史数据对比
+    total,
+    activated,
+  };
+}
+
+// 留存率计算
+async function calculateRetentionRate(db: any) {
+  const now = new Date();
+  const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+  // D1用户: 注册于1天前的用户
+  const d1Users = await db
+    .select({ id: user.id })
+    .from(user)
+    .where(
+      and(
+        gte(user.createdAt, oneDayAgo),
+        lt(user.createdAt, new Date(oneDayAgo.getTime() + 24 * 60 * 60 * 1000))
+      )
+    );
+
+  // D1活跃用户: 这些用户在注册后24小时内有过分析行为
+  const d1ActiveUsers =
+    d1Users.length > 0
+      ? await db
+          .selectDistinct({ userId: analysis.userId })
+          .from(analysis)
+          .where(
+            and(
+              sql`${analysis.userId} IN (${sql.join(
+                d1Users.map((u) => sql`${u.id}`),
+                sql`, `
+              )})`,
+              gte(analysis.createdAt, oneDayAgo)
+            )
+          )
+      : [];
+
+  const d1Retention =
+    d1Users.length > 0 ? d1ActiveUsers.length / d1Users.length : 0;
+
+  return {
+    d1: Number(d1Retention.toFixed(2)),
+    d7: 0, // 简化版本,仅计算D1
+    d30: 0, // 简化版本,仅计算D1
+    trend: 0,
+  };
+}
+
+// 分享统计
+async function calculateShareStats(db: any) {
+  const totalShares = await db.select({ count: count() }).from(shareRecords);
+  const uniqueSharers = await db
+    .selectDistinct({ userId: shareRecords.userId })
+    .from(shareRecords);
+  const rewardedShares = await db
+    .select({ count: count() })
+    .from(shareRecords)
+    .where(eq(shareRecords.rewardGranted, true));
+
+  const total = Number(totalShares[0]?.count || 0);
+  const rewarded = Number(rewardedShares[0]?.count || 0);
+
+  return {
+    totalShares: total,
+    uniqueSharers: uniqueSharers.length,
+    shareConversion: total > 0 ? Number((rewarded / total).toFixed(2)) : 0,
+    trend: 0,
+  };
+}
+
+// 积分统计
+async function calculateCreditsStats(db: any) {
+  const transactions = await db
+    .select({
+      totalIn: sql<number>`COALESCE(SUM(CASE WHEN ${creditTransaction.amount} > 0 THEN ${creditTransaction.amount} ELSE 0 END), 0)`,
+      totalOut: sql<number>`COALESCE(SUM(CASE WHEN ${creditTransaction.amount} < 0 THEN ABS(${creditTransaction.amount}) ELSE 0 END), 0)`,
+    })
+    .from(creditTransaction);
+
+  const usersWithCredits = await db
+    .select({
+      count: count(),
+      avgBalance: sql<number>`AVG(${userCredit.currentCredits})`,
+    })
+    .from(userCredit)
+    .where(sql`${userCredit.currentCredits} > 0`);
+
+  return {
+    totalDistributed: Number(transactions[0]?.totalIn || 0),
+    totalRedeemed: Number(transactions[0]?.totalOut || 0),
+    averageBalance: Number(
+      Number(usersWithCredits[0]?.avgBalance || 0).toFixed(0)
+    ),
+    activeUsers: Number(usersWithCredits[0]?.count || 0),
+  };
+}
+
+// 风控统计 (简化版本)
+async function calculateFraudStats(db: any) {
+  return {
+    blockedUsers: 0, // TODO: 需要黑名单表
+    fraudAttempts: 0, // TODO: 需要风控日志表
+    preventionRate: 0,
+    falsePositiveRate: 0,
+  };
+}
+
+// 生成真实时间线数据
+async function generateRealTimelineData(db: any, range: string) {
   const days = range === '30d' ? 30 : range === '14d' ? 14 : 7;
   const data = [];
 
-  for (let i = 0; i < days; i++) {
+  for (let i = days - 1; i >= 0; i--) {
     const date = new Date();
     date.setDate(date.getDate() - i);
+    const startOfDay = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+    const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
+
+    // 新用户数
+    const newUsers = await db
+      .select({ count: count() })
+      .from(user)
+      .where(
+        and(gte(user.createdAt, startOfDay), lt(user.createdAt, endOfDay))
+      );
+
+    // 推荐数
+    const referrals = await db
+      .select({ count: count() })
+      .from(referralRelationships)
+      .where(
+        and(
+          gte(referralRelationships.createdAt, startOfDay),
+          lt(referralRelationships.createdAt, endOfDay)
+        )
+      );
+
+    // 分享数
+    const shares = await db
+      .select({ count: count() })
+      .from(shareRecords)
+      .where(
+        and(
+          gte(shareRecords.createdAt, startOfDay),
+          lt(shareRecords.createdAt, endOfDay)
+        )
+      );
 
     data.push({
-      date: date.toISOString().split('T')[0],
-      newUsers: Math.floor(Math.random() * 500) + 200,
-      referrals: Math.floor(Math.random() * 300) + 100,
-      shares: Math.floor(Math.random() * 1000) + 500,
-      credits: Math.floor(Math.random() * 10000) + 5000,
-      kFactor: (Math.random() * 0.5 + 1).toFixed(2),
+      date: startOfDay.toISOString().split('T')[0],
+      newUsers: Number(newUsers[0]?.count || 0),
+      referrals: Number(referrals[0]?.count || 0),
+      shares: Number(shares[0]?.count || 0),
     });
   }
 
-  return data.reverse();
+  return data;
+}
+
+// 用户分层
+async function calculateUserSegments(db: any) {
+  // 基于积分余额和活跃度进行简单分层
+  const usersWithCredits = await db
+    .select({
+      userId: userCredit.userId,
+      credits: userCredit.currentCredits,
+    })
+    .from(userCredit);
+
+  const highValue = usersWithCredits.filter((u) => u.credits >= 1000).length;
+  const active = usersWithCredits.filter(
+    (u) => u.credits >= 100 && u.credits < 1000
+  ).length;
+  const normal = usersWithCredits.filter(
+    (u) => u.credits > 0 && u.credits < 100
+  ).length;
+  const dormant = usersWithCredits.filter((u) => u.credits === 0).length;
+
+  return [
+    { segment: '高价值用户', count: highValue, avgLTV: 1000 },
+    { segment: '活跃用户', count: active, avgLTV: 500 },
+    { segment: '普通用户', count: normal, avgLTV: 50 },
+    { segment: '休眠用户', count: dormant, avgLTV: 0 },
+  ];
 }

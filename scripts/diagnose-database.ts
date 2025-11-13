@@ -3,8 +3,8 @@
  * 用于排查仪表盘加载慢的问题
  */
 
-import { getDb } from '../src/db';
 import { getUserCredits } from '../src/credits/credits';
+import { getDb } from '../src/db';
 
 async function diagnose() {
   console.log('🔍 开始数据库性能诊断...\n');
@@ -35,7 +35,7 @@ async function diagnose() {
     const credits = await getUserCredits(testUserId);
     const creditsTime = Date.now() - creditsStart;
     console.log(`✅ 获取积分: ${credits} (${creditsTime}ms)`);
-    
+
     if (creditsTime > 1000) {
       console.warn(`⚠️  警告: getUserCredits 耗时超过 1秒 (${creditsTime}ms)`);
       console.warn('   建议: 检查 user_credit 表是否有索引');
@@ -50,7 +50,7 @@ async function diagnose() {
   const db = await getDb();
   const { creditTransaction } = await import('../src/db/schema');
   const { and, eq, gte } = await import('drizzle-orm');
-  
+
   const signInStart = Date.now();
   try {
     const now = new Date();
@@ -72,7 +72,7 @@ async function diagnose() {
     const signInTime = Date.now() - signInStart;
     console.log(`✅ 签到查询完成 (${signInTime}ms)`);
     console.log(`   今日已签到: ${todaySignIn.length > 0 ? '是' : '否'}`);
-    
+
     if (signInTime > 500) {
       console.warn(`⚠️  警告: 签到查询耗时超过 500ms (${signInTime}ms)`);
       console.warn('   建议: 创建索引 idx_credit_transaction_signin');
@@ -103,7 +103,7 @@ async function diagnose() {
     const historyTime = Date.now() - historyStart;
     console.log(`✅ 签到历史查询完成 (${historyTime}ms)`);
     console.log(`   30天内签到次数: ${signInRecords.length}`);
-    
+
     if (historyTime > 1000) {
       console.error(`❌ 严重: 签到历史查询耗时超过 1秒 (${historyTime}ms)`);
       console.error('   这是导致仪表盘加载慢的主要原因！');
@@ -129,7 +129,7 @@ async function diagnose() {
       WHERE tablename IN ('user_credit', 'credit_transaction', 'bazi_calculations', 'fengshui_analysis')
       ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
     `;
-    
+
     console.log('表大小统计:');
     for (const row of result as any[]) {
       console.log(`  ${row.tablename}: ${row.size} (${row.rows} 行)`);
@@ -152,17 +152,19 @@ async function diagnose() {
       AND tablename IN ('user_credit', 'credit_transaction', 'bazi_calculations', 'fengshui_analysis')
       ORDER BY tablename, indexname;
     `;
-    
+
     console.log('现有索引:');
     let hasRequiredIndexes = false;
     for (const row of result as any[]) {
       console.log(`  ${row.tablename}.${row.indexname}`);
-      if (row.indexname.includes('credit_transaction') && 
-          (row.indexname.includes('signin') || row.indexname.includes('user_id'))) {
+      if (
+        row.indexname.includes('credit_transaction') &&
+        (row.indexname.includes('signin') || row.indexname.includes('user_id'))
+      ) {
         hasRequiredIndexes = true;
       }
     }
-    
+
     if (!hasRequiredIndexes) {
       console.error('\n❌ 缺少关键索引！');
       console.error('   请执行: scripts/optimize-database-indexes.sql');

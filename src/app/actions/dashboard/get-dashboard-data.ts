@@ -1,6 +1,5 @@
 'use server';
 
-import { cache } from 'react';
 import { getUserCredits } from '@/credits/credits';
 import { getDb } from '@/db';
 import {
@@ -13,6 +12,7 @@ import {
 import { getSession } from '@/lib/server';
 import { getUserPlan } from '@/lib/user-plan';
 import { and, count, eq, gte, sql } from 'drizzle-orm';
+import { cache } from 'react';
 
 export interface DashboardStats {
   credits: number;

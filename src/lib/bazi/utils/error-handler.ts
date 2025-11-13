@@ -1,16 +1,16 @@
 /**
  * 八字错误处理工具
  * 提供 try-catch 包装器和错误边界
- * 
+ *
  * @module bazi/utils/error-handler
  */
 
 import {
   BaziError,
-  ValidationError,
   DateConversionError,
-  TrueSolarTimeError,
   FourPillarsCalculationError,
+  TrueSolarTimeError,
+  ValidationError,
   WuxingAnalysisError,
   YongshenAnalysisError,
   createErrorResponse,
@@ -27,7 +27,7 @@ export type Result<T, E = Error> =
 /**
  * 安全执行函数(同步)
  * 捕获所有异常并返回 Result
- * 
+ *
  * @example
  * ```ts
  * const result = safeExecute(() => calculateBazi(input));
@@ -57,7 +57,7 @@ export function safeExecute<T>(
 /**
  * 安全执行函数(异步)
  * 捕获所有异常并返回 Result
- * 
+ *
  * @example
  * ```ts
  * const result = await safeExecuteAsync(async () => {
@@ -83,7 +83,7 @@ export async function safeExecuteAsync<T>(
 
 /**
  * 包装函数为安全版本
- * 
+ *
  * @example
  * ```ts
  * const safeBaziCalc = wrapSafe(calculateBazi);
@@ -113,7 +113,7 @@ export function wrapSafeAsync<TArgs extends any[], TReturn>(
 
 /**
  * 重试执行(带指数退避)
- * 
+ *
  * @example
  * ```ts
  * const result = await retryAsync(
@@ -203,17 +203,15 @@ export function toBaziError(error: unknown): BaziError {
   }
 
   // 非 Error 对象
-  return new BaziError(
-    String(error) || '未知错误',
-    'UNKNOWN_ERROR',
-    { originalError: error }
-  );
+  return new BaziError(String(error) || '未知错误', 'UNKNOWN_ERROR', {
+    originalError: error,
+  });
 }
 
 /**
  * 错误边界装饰器
  * 用于类方法
- * 
+ *
  * @example
  * ```ts
  * class BaziCalculator {
@@ -227,11 +225,11 @@ export function toBaziError(error: unknown): BaziError {
 export function withErrorBoundary(
   errorType: typeof BaziError = BaziError
 ): MethodDecorator {
-  return function (
+  return (
     target: any,
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor
-  ) {
+  ) => {
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {
@@ -257,7 +255,7 @@ export function withErrorBoundary(
 
 /**
  * 创建错误处理中间件(用于API路由)
- * 
+ *
  * @example
  * ```ts
  * export async function POST(req: Request) {
@@ -316,7 +314,7 @@ function getHttpStatus(error: BaziError): number {
 
 /**
  * 断言函数(类型守卫)
- * 
+ *
  * @example
  * ```ts
  * assert(date !== null, '日期不能为空');
@@ -338,7 +336,7 @@ export function assert(
  */
 export function assertNotNull<T>(
   value: T | null | undefined,
-  message: string = '值不能为空'
+  message = '值不能为空'
 ): asserts value is T {
   assert(value != null, message);
 }
@@ -349,7 +347,7 @@ export function assertNotNull<T>(
 export function assertType<T>(
   value: unknown,
   typeGuard: (value: unknown) => value is T,
-  message: string = '类型不匹配'
+  message = '类型不匹配'
 ): asserts value is T {
   assert(typeGuard(value), message, ValidationError);
 }

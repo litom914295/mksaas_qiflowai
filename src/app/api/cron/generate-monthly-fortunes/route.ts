@@ -1,14 +1,14 @@
 /**
  * Phase 8 Step 6: 月度运势自动生成 API 路由
- * 
+ *
  * 路由: POST /api/cron/generate-monthly-fortunes
- * 
+ *
  * 功能：
  * 1. 接收 Vercel Cron 触发请求
  * 2. 验证授权密钥（防止未授权调用）
  * 3. 执行批量生成任务
  * 4. 返回执行结果
- * 
+ *
  * Vercel Cron 配置 (vercel.json):
  * {
  *   "crons": [{
@@ -18,8 +18,11 @@
  * }
  */
 
-import { NextRequest, NextResponse } from 'next/server';
-import { generateMonthlyFortunesForAllProUsers, generateFortuneForUser } from '@/cron/generate-monthly-fortunes';
+import {
+  generateFortuneForUser,
+  generateMonthlyFortunesForAllProUsers,
+} from '@/cron/generate-monthly-fortunes';
+import { type NextRequest, NextResponse } from 'next/server';
 
 // ==================== 主处理函数 ====================
 
@@ -39,7 +42,9 @@ export async function POST(request: NextRequest) {
         );
       }
     } else {
-      console.warn('[Cron API] No CRON_SECRET set, skipping authorization check');
+      console.warn(
+        '[Cron API] No CRON_SECRET set, skipping authorization check'
+      );
     }
 
     console.log('[Cron API] Authorized, starting batch generation...');
@@ -79,7 +84,6 @@ export async function POST(request: NextRequest) {
         { status: 207 } // 207 Multi-Status
       );
     }
-
   } catch (error) {
     console.error('[Cron API] Fatal error:', error);
     return NextResponse.json(
@@ -125,7 +129,6 @@ export async function GET(request: NextRequest) {
         errors: result.errors,
       });
     }
-
   } catch (error) {
     console.error('[Cron API] GET error:', error);
     return NextResponse.json(
@@ -146,7 +149,7 @@ export async function OPTIONS() {
     {
       status: 200,
       headers: {
-        'Allow': 'POST, GET, OPTIONS',
+        Allow: 'POST, GET, OPTIONS',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
         'Access-Control-Allow-Headers': 'Authorization, Content-Type',

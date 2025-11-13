@@ -2,7 +2,8 @@ import { http, HttpResponse } from 'msw';
 
 // 基础 API URL
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321';
+const SUPABASE_URL =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321';
 
 export const handlers = [
   // Health check endpoint
@@ -59,9 +60,15 @@ export const handlers = [
     return new HttpResponse(
       new ReadableStream({
         async start(controller) {
-          controller.enqueue(new TextEncoder().encode('data: {"content":"Hello"}\n\n'));
-          controller.enqueue(new TextEncoder().encode('data: {"content":" from"}\n\n'));
-          controller.enqueue(new TextEncoder().encode('data: {"content":" AI"}\n\n'));
+          controller.enqueue(
+            new TextEncoder().encode('data: {"content":"Hello"}\n\n')
+          );
+          controller.enqueue(
+            new TextEncoder().encode('data: {"content":" from"}\n\n')
+          );
+          controller.enqueue(
+            new TextEncoder().encode('data: {"content":" AI"}\n\n')
+          );
           controller.close();
         },
       }),
@@ -69,7 +76,7 @@ export const handlers = [
         headers: {
           'Content-Type': 'text/event-stream',
           'Cache-Control': 'no-cache',
-          'Connection': 'keep-alive',
+          Connection: 'keep-alive',
         },
       }
     );

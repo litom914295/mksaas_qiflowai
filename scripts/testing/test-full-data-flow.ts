@@ -20,7 +20,7 @@ async function testFullDataFlow() {
   try {
     // Step 1: 创建计算器（和前端一样）
     const calculator = createEnhancedBaziCalculator(birthData);
-    
+
     // Step 2: 获取完整分析
     const rawResult = await calculator.getCompleteAnalysis();
     console.log('Step 1: 获取原始分析结果');
@@ -36,8 +36,14 @@ async function testFullDataFlow() {
 
     console.log('  归一化后的结构:');
     console.log('  - base.birth.datetime:', normalized.base.birth.datetime);
-    console.log('  - luck.daYunTimeline数量:', normalized.luck.daYunTimeline?.length || 0);
-    console.log('  - luck.currentDaYun:', normalized.luck.currentDaYun ? '存在' : '不存在');
+    console.log(
+      '  - luck.daYunTimeline数量:',
+      normalized.luck.daYunTimeline?.length || 0
+    );
+    console.log(
+      '  - luck.currentDaYun:',
+      normalized.luck.currentDaYun ? '存在' : '不存在'
+    );
     console.log('');
 
     // Step 4: 检查大运时间线
@@ -45,22 +51,28 @@ async function testFullDataFlow() {
     if (normalized.luck.daYunTimeline) {
       console.log('前5个大运:');
       normalized.luck.daYunTimeline.slice(0, 5).forEach((dayun, index) => {
-        console.log(`  ${index + 1}. ${dayun.heavenlyStem}${dayun.earthlyBranch}  ${dayun.ageRange[0]}-${dayun.ageRange[1]}岁  (${dayun.yearRange[0]}-${dayun.yearRange[1]}年)`);
-        
+        console.log(
+          `  ${index + 1}. ${dayun.heavenlyStem}${dayun.earthlyBranch}  ${dayun.ageRange[0]}-${dayun.ageRange[1]}岁  (${dayun.yearRange[0]}-${dayun.yearRange[1]}年)`
+        );
+
         // 特别标记乙未
         if (dayun.heavenlyStem === '乙' && dayun.earthlyBranch === '未') {
-          console.log(`     ⭐ 这就是乙未！年龄范围: ${dayun.ageRange[0]}-${dayun.ageRange[1]}岁`);
+          console.log(
+            `     ⭐ 这就是乙未！年龄范围: ${dayun.ageRange[0]}-${dayun.ageRange[1]}岁`
+          );
         }
       });
       console.log('');
 
       // 找出所有乙未大运
       const yiweiList = normalized.luck.daYunTimeline.filter(
-        d => d.heavenlyStem === '乙' && d.earthlyBranch === '未'
+        (d) => d.heavenlyStem === '乙' && d.earthlyBranch === '未'
       );
       console.log('所有乙未大运:');
-      yiweiList.forEach(d => {
-        console.log(`  period ${d.period}: ${d.ageRange[0]}-${d.ageRange[1]}岁`);
+      yiweiList.forEach((d) => {
+        console.log(
+          `  period ${d.period}: ${d.ageRange[0]}-${d.ageRange[1]}岁`
+        );
       });
       console.log('');
     }
@@ -82,14 +94,14 @@ async function testFullDataFlow() {
     let currentAge = now.getFullYear() - birthDate.getFullYear();
     if (
       now.getMonth() < birthDate.getMonth() ||
-      (now.getMonth() === birthDate.getMonth() && now.getDate() < birthDate.getDate())
+      (now.getMonth() === birthDate.getMonth() &&
+        now.getDate() < birthDate.getDate())
     ) {
       currentAge--;
     }
     console.log('Step 5: 验证');
     console.log(`  实际年龄: ${currentAge}岁`);
     console.log(`  应该显示: ${currentAge < 10 ? '尚未起运' : '已起运'}`);
-
   } catch (error) {
     console.error('错误:', error);
   }

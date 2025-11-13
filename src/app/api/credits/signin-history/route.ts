@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
 import { creditTransaction } from '@/db/schema';
-import { eq, and, gte, sql } from 'drizzle-orm';
 import { getSession } from '@/lib/server';
+import { and, eq, gte, sql } from 'drizzle-orm';
+import { type NextRequest, NextResponse } from 'next/server';
 
 /**
  * GET /api/credits/signin-history
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     const userId = session.user.id;
     const searchParams = request.nextUrl.searchParams;
-    const days = parseInt(searchParams.get('days') || '90', 10);
+    const days = Number.parseInt(searchParams.get('days') || '90', 10);
 
     // 计算查询起始日期
     const startDate = new Date();
@@ -43,7 +43,10 @@ export async function GET(request: NextRequest) {
       .orderBy(sql`${creditTransaction.createdAt} DESC`);
 
     // 按日期分组（一天可能有多次签到记录，取第一次）
-    const signInByDate: Record<string, { date: string; amount: number; count: number }> = {};
+    const signInByDate: Record<
+      string,
+      { date: string; amount: number; count: number }
+    > = {};
 
     signIns.forEach((signin) => {
       const date = new Date(signin.createdAt);
@@ -140,9 +143,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('获取签到历史失败:', error);
-    return NextResponse.json(
-      { error: '获取签到历史失败' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: '获取签到历史失败' }, { status: 500 });
   }
 }

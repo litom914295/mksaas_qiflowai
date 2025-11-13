@@ -1,5 +1,9 @@
 import { getDb } from '@/db';
-import { baziCalculations, fengshuiAnalysis, creditTransaction } from '@/db/schema';
+import {
+  baziCalculations,
+  creditTransaction,
+  fengshuiAnalysis,
+} from '@/db/schema';
 import { auth } from '@/lib/auth';
 import { and, count, eq, gte, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -14,10 +18,7 @@ export async function GET(request: Request) {
     const userId = session?.user?.id;
 
     if (!session || !userId) {
-      return NextResponse.json(
-        { error: 'UNAUTHORIZED' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
     }
 
     const db = await getDb();
@@ -116,7 +117,8 @@ export async function GET(request: Request) {
     const marked = new Set<string>();
     for (const r of signInRows) {
       // 确保 createdAt 是 Date 对象
-      const d = r.createdAt instanceof Date ? r.createdAt : new Date(r.createdAt);
+      const d =
+        r.createdAt instanceof Date ? r.createdAt : new Date(r.createdAt);
       const dateKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
       marked.add(dateKey);
     }
@@ -129,7 +131,7 @@ export async function GET(request: Request) {
       const cur = new Date(today);
       cur.setDate(today.getDate() - i);
       const curKey = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}-${String(cur.getDate()).padStart(2, '0')}`;
-      
+
       if (marked.has(curKey)) {
         consecutiveSignIns += 1;
       } else {
@@ -162,9 +164,6 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error('[Dashboard Stats API] Error:', error);
-    return NextResponse.json(
-      { error: 'INTERNAL_ERROR' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'INTERNAL_ERROR' }, { status: 500 });
   }
 }

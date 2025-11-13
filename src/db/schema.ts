@@ -687,5 +687,108 @@ export const abTestEvents = pgTable(
   })
 );
 
+// ===========================================
+// Phase 3: RBAC 权限管理系统
+// ===========================================
 
+// 角色表 (Roles)
+export const roles = pgTable('roles', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull().unique(), // 角色标识: super_admin, admin, user
+  displayName: text('display_name').notNull(), // 显示名称: 超级管理员, 管理员, 普通用户
+  description: text('description'), // 角色描述
+  isSystem: boolean('is_system').notNull().default(false), // 系统角色标记(不可删除/修改)
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+}, (table) => ({
+  nameIdx: index('roles_name_idx').on(table.name),
+}));
+
+// 权限表 (Permissions)
+export const permissions = pgTable('permissions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull().unique(), // 权限标识: admin.users.read, admin.users.write
+  displayName: text('display_name').notNull(), // 显示名称: 查看用户, 编辑用户
+  description: text('description'), // 权限描述
+  category: text('category').notNull(), // 权限分类: user_management, content_management, system
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+}, (table) => ({
+  nameIdx: index('permissions_name_idx').on(table.name),
+  categoryIdx: index('permissions_category_idx').on(table.category),
+}));
+
+// 角色-权限关联表 (Role Permissions)
+export const rolePermissions = pgTable('role_permissions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  roleId: uuid('role_id').notNull().references(() => roles.id, { onDelete: 'cascade' }),
+  permissionId: uuid('permission_id').notNull().references(() => permissions.id, { onDelete: 'cascade' }),
+  grantedAt: timestamp('granted_at').notNull().defaultNow(),
+}, (table) => ({
+  roleIdIdx: index('role_permissions_role_id_idx').on(table.roleId),
+  permissionIdIdx: index('role_permissions_permission_id_idx').on(table.permissionId),
+  // 唯一索引: 同一角色不能重复授予同一权限
+  rolePermissionUnique: index('role_permissions_role_id_permission_id_unique').on(table.roleId, table.permissionId),
+}));
+
+// 用户-角色关联表 (User Roles)
+export const userRoles = pgTable('user_roles', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  roleId: uuid('role_id').notNull().references(() => roles.id, { onDelete: 'cascade' }),
+  assignedAt: timestamp('assigned_at').notNull().defaultNow(),
+  assignedBy: text('assigned_by'), // 分配者的userId
+}, (table) => ({
+  userIdIdx: index('user_roles_user_id_idx').on(table.userId),
+  roleIdIdx: index('user_roles_role_id_idx').on(table.roleId),
+  // 唯一索引: 同一用户不能重复分配同一角色
+  userRoleUnique: index('user_roles_user_id_role_id_unique').on(table.userId, table.roleId),
+}));
+
+// ===========================================
+// Phase 4: 审计日志系统
+// ===========================================
+
+// 审计日志表
+export const auditLogs = pgTable('audit_logs', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  
+  // 操作者信息
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  userEmail: text('user_email').notNull(), // 冗余存储,防止用户删除后无法查询
+  
+  // 操作信息
+  action: text('action').notNull(), // 'create', 'update', 'delete', 'read'
+  resource: text('resource').notNull(), // 'user', 'role', 'analysis', 'credit', etc.
+  resourceId: text('resource_id'), // 被操作资源的ID
+  
+  // 操作详情
+  description: text('description').notNull(), // 操作描述: "创建了角色: 内容管理员"
+  changes: jsonb('changes').$type<{
+    before?: Record<string, unknown>;
+    after?: Record<string, unknown>;
+  }>(), // 数据变更记录 (before/after)
+  
+  // 请求信息
+  ipAddress: text('ip_address'), // 请求IP
+  userAgent: text('user_agent'), // User-Agent
+  method: text('method'), // HTTP方法: GET, POST, PUT, DELETE
+  path: text('path'), // API路径
+  
+  // 状态信息
+  status: text('status').notNull().default('success'), // 'success', 'failed', 'pending'
+  errorMessage: text('error_message'), // 失败原因
+  
+  // 时间信息
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+}, (table) => ({
+  userIdIdx: index('audit_logs_user_id_idx').on(table.userId),
+  actionIdx: index('audit_logs_action_idx').on(table.action),
+  resourceIdx: index('audit_logs_resource_idx').on(table.resource),
+  resourceIdIdx: index('audit_logs_resource_id_idx').on(table.resourceId),
+  createdAtIdx: index('audit_logs_created_at_idx').on(table.createdAt),
+  // 组合索引用于常用查询
+  userActionIdx: index('audit_logs_user_action_idx').on(table.userId, table.action),
+  resourceActionIdx: index('audit_logs_resource_action_idx').on(table.resource, table.action),
+}));
 

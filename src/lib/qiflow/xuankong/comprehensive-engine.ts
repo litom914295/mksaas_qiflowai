@@ -10,7 +10,6 @@ import { intelligentTiguaJudgment } from './enhanced-tigua';
 import { analyzeGeju } from './geju';
 import { generateFlyingStar } from './index';
 import { analyzeLingzheng } from './lingzheng';
-import { checkQixingDajiePattern } from './qixing-dajie';
 import {
   analyzeDayunTransition,
   analyzeLiunianOverlay,
@@ -22,6 +21,7 @@ import {
   calculatePersonalGua,
   personalizedFlyingStarAnalysis,
 } from './personalized-analysis';
+import { checkQixingDajiePattern } from './qixing-dajie';
 import {
   type ComprehensiveRemedyPlan,
   type RemedyLevel,
@@ -219,7 +219,9 @@ export async function comprehensiveAnalysis(
 
   // 验证 basicAnalysis 结构
   if (!basicAnalysis) {
-    throw new Error('[comprehensive-engine] basicAnalysis is null or undefined');
+    throw new Error(
+      '[comprehensive-engine] basicAnalysis is null or undefined'
+    );
   }
   if (!basicAnalysis.plates) {
     throw new Error('[comprehensive-engine] basicAnalysis.plates is missing');
@@ -678,7 +680,7 @@ function generateOverallAssessment(data: any): any {
   // 分析七星打劫
   if (data.qixingdajieAnalysis?.isQixingDajie) {
     const dajie = data.qixingdajieAnalysis;
-    
+
     // 根据有效性等级计分
     const effectivenessScores: Record<string, number> = {
       peak: 20,
@@ -687,7 +689,7 @@ function generateOverallAssessment(data: any): any {
       low: 5,
     };
     score += effectivenessScores[dajie.effectiveness] || 0;
-    
+
     // 根据打劫类型进一步计分
     if (dajie.dajieType === 'full') {
       score += 10;
@@ -699,7 +701,7 @@ function generateOverallAssessment(data: any): any {
       score += 5;
       strengths.push('形成七星打劫劫丁格局');
     }
-    
+
     // 根据评分等级添加建议
     if (dajie.effectiveness === 'peak' || dajie.effectiveness === 'high') {
       topPriorities.push('优先利用七星打劫格局催旺');

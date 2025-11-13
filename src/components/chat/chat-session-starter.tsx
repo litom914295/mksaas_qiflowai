@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { createChatSessionAction } from '@/actions/chat/create-chat-session';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Clock, Sparkles } from "lucide-react";
-import { createChatSessionAction } from "@/actions/chat/create-chat-session";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { Clock, Sparkles } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export function ChatSessionStarter({ userId }: { userId: string }) {
   const router = useRouter();
@@ -26,36 +26,36 @@ export function ChatSessionStarter({ userId }: { userId: string }) {
       const result = await createChatSessionAction();
 
       if (!result.success) {
-        if (result.errorCode === "INSUFFICIENT_CREDITS") {
+        if (result.errorCode === 'INSUFFICIENT_CREDITS') {
           toast({
-            title: "积分不足",
-            description: "您的积分余额不足，请先充值",
-            variant: "destructive",
+            title: '积分不足',
+            description: '您的积分余额不足，请先充值',
+            variant: 'destructive',
           });
-          router.push("/credits/buy");
+          router.push('/credits/buy');
           return;
         }
 
         toast({
-          title: "创建会话失败",
+          title: '创建会话失败',
           description: result.error,
-          variant: "destructive",
+          variant: 'destructive',
         });
         return;
       }
 
       toast({
-        title: "会话已创建",
-        description: "开始与 AI 大师对话吧",
+        title: '会话已创建',
+        description: '开始与 AI 大师对话吧',
       });
 
       router.push(`/chat/${result.data.sessionId}`);
     } catch (error) {
-      console.error("Start session error:", error);
+      console.error('Start session error:', error);
       toast({
-        title: "系统错误",
-        description: "创建会话失败，请稍后重试",
-        variant: "destructive",
+        title: '系统错误',
+        description: '创建会话失败，请稍后重试',
+        variant: 'destructive',
       });
     } finally {
       setIsCreating(false);
@@ -99,7 +99,7 @@ export function ChatSessionStarter({ userId }: { userId: string }) {
           className="w-full"
           size="lg"
         >
-          {isCreating ? "创建中..." : "开始对话 (40 积分)"}
+          {isCreating ? '创建中...' : '开始对话 (40 积分)'}
         </Button>
       </CardContent>
     </Card>

@@ -9,13 +9,13 @@ export const QIFLOW_PRICING = {
   xuankong: 20,
   deepInterpretation: 30,
   pdfExport: 5,
-  
+
   // Phase 2 新增: 报告产品
-  reportBasic: 50,        // 基础报告 (仅生辰解读)
-  reportEssential: 120,   // 精华报告 (3 主题精选)
-  
+  reportBasic: 50, // 基础报告 (仅生辰解读)
+  reportEssential: 99, // 精华报告 (3 主题精选) - 统一为99积分
+
   // Phase 6 新增: Chat 会话制
-  chatSession15Min: 40,   // 15 分钟 Chat 会话
+  chatSession15Min: 15, // 15 分钟 Chat 会话 (1积分/分钟，易于理解)
 } as const;
 
 export type QiflowProduct = keyof typeof QIFLOW_PRICING;

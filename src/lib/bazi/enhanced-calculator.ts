@@ -380,7 +380,10 @@ export class EnhancedBaziCalculator {
         }
       }
 
-      console.log('[EnhancedBaziCalculator] 过滤后大运数量:', uniquePillars.length);
+      console.log(
+        '[EnhancedBaziCalculator] 过滤后大运数量:',
+        uniquePillars.length
+      );
 
       // 生成正确的大运列表
       const luckPillars: LuckPillarResult[] = uniquePillars.map(
@@ -392,7 +395,7 @@ export class EnhancedBaziCalculator {
           const endYear = birthYear + endAge;
 
           return {
-            period: index + 1,  // 重新编号，从1开始
+            period: index + 1, // 重新编号，从1开始
             heavenlyStem: pillar.heavenlyStem.character,
             earthlyBranch: pillar.earthlyBranch.character,
             startAge,
@@ -405,8 +408,10 @@ export class EnhancedBaziCalculator {
       );
 
       console.log('[EnhancedBaziCalculator] 生成的前3个大运:');
-      luckPillars.slice(0, 3).forEach(p => {
-        console.log(`  第${p.period}大运: ${p.heavenlyStem}${p.earthlyBranch} ${p.startAge}-${p.endAge}岁 (${p.startDate?.getFullYear()}-${p.endDate?.getFullYear()}年)`);
+      luckPillars.slice(0, 3).forEach((p) => {
+        console.log(
+          `  第${p.period}大运: ${p.heavenlyStem}${p.earthlyBranch} ${p.startAge}-${p.endAge}岁 (${p.startDate?.getFullYear()}-${p.endDate?.getFullYear()}年)`
+        );
       });
 
       this.cachedResults.set(cacheKey, luckPillars);

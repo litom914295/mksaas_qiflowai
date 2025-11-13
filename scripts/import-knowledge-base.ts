@@ -1,35 +1,35 @@
 #!/usr/bin/env tsx
 /**
  * 知识库导入脚本
- * 
+ *
  * 功能：批量导入文档到向量数据库
  * 使用：npx tsx scripts/import-knowledge-base.ts --source ./knowledge/bazi --category bazi
  */
 
 import { promises as fs } from 'fs';
 import path from 'path';
-import { glob } from 'glob';
-import { v4 as uuidv4 } from 'uuid';
-import chalk from 'chalk';
-import ora from 'ora';
-import { program } from 'commander';
 import { db } from '@/db';
 import { knowledgeDocuments } from '@/db/schema-knowledge';
-import { 
-  TextChunker, 
+import {
+  type DocumentCategoryType,
   EmbeddingService,
   type TextChunk,
-  type DocumentCategoryType 
+  TextChunker,
 } from '@/lib/rag';
+import chalk from 'chalk';
+import { program } from 'commander';
+import { glob } from 'glob';
+import ora from 'ora';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ImportOptions {
-  source: string;           // 源文件夹路径
-  category: DocumentCategoryType;  // 文档类别
-  chunkSize?: number;       // 分块大小
-  overlap?: number;         // 重叠大小
-  batchSize?: number;       // 批量处理大小
-  dryRun?: boolean;         // 干运行（不写入数据库）
-  verbose?: boolean;        // 详细输出
+  source: string; // 源文件夹路径
+  category: DocumentCategoryType; // 文档类别
+  chunkSize?: number; // 分块大小
+  overlap?: number; // 重叠大小
+  batchSize?: number; // 批量处理大小
+  dryRun?: boolean; // 干运行（不写入数据库）
+  verbose?: boolean; // 详细输出
 }
 
 interface DocumentMetadata {
@@ -56,7 +56,7 @@ class KnowledgeImporter {
       maxChunkSize: options.chunkSize || 1000,
       overlap: options.overlap || 200,
     });
-    
+
     this.embeddingService = new EmbeddingService();
   }
 
@@ -70,14 +70,14 @@ class KnowledgeImporter {
       // 1. 查找所有文档文件
       spinner.text = 'Finding documents...';
       const files = await this.findDocumentFiles();
-      
+
       if (files.length === 0) {
         spinner.fail('No documents found');
         return;
       }
 
       spinner.succeed(`Found ${files.length} document(s)`);
-      
+
       // 2. 处理每个文件
       for (const file of files) {
         await this.processFile(file);
@@ -85,7 +85,6 @@ class KnowledgeImporter {
 
       // 3. 显示统计
       this.printStats();
-      
     } catch (error) {
       spinner.fail(`Import failed: ${error}`);
       process.exit(1);
@@ -96,11 +95,7 @@ class KnowledgeImporter {
    * 查找文档文件
    */
   private async findDocumentFiles(): Promise<string[]> {
-    const patterns = [
-      '**/*.txt',
-      '**/*.md',
-      '**/*.markdown',
-    ];
+    const patterns = ['**/*.txt', '**/*.md', '**/*.markdown'];
 
     const files: string[] = [];
 
@@ -125,10 +120,10 @@ class KnowledgeImporter {
     try {
       // 1. 读取文件
       const content = await fs.readFile(filePath, 'utf-8');
-      
+
       // 2. 解析元数据
       const { metadata, bodyContent } = this.parseDocument(content);
-      
+
       // 3. 设置默认元数据
       if (!metadata.title) {
         metadata.title = path.basename(filePath, path.extname(filePath));
@@ -140,7 +135,7 @@ class KnowledgeImporter {
       // 4. 分块
       spinner.text = `Chunking ${metadata.title}...`;
       const chunks = this.chunker.chunk(bodyContent);
-      
+
       if (this.options.verbose) {
         console.log(chalk.gray(`  → Created ${chunks.length} chunk(s)`));
       }
@@ -148,7 +143,7 @@ class KnowledgeImporter {
       // 5. 向量化
       spinner.text = `Vectorizing ${metadata.title}...`;
       const embeddings = await this.vectorizeChunks(chunks);
-      
+
       // 6. 保存到数据库
       if (!this.options.dryRun) {
         spinner.text = `Saving ${metadata.title}...`;
@@ -158,13 +153,12 @@ class KnowledgeImporter {
       // 7. 更新统计
       this.stats.filesProcessed++;
       this.stats.chunksCreated += chunks.length;
-      
+
       spinner.succeed(`✓ ${metadata.title} (${chunks.length} chunks)`);
-      
     } catch (error) {
       this.stats.errors++;
       spinner.fail(`Failed to process ${path.basename(filePath)}: ${error}`);
-      
+
       if (this.options.verbose) {
         console.error(error);
       }
@@ -174,9 +168,9 @@ class KnowledgeImporter {
   /**
    * 解析文档（支持 Front Matter）
    */
-  private parseDocument(content: string): { 
-    metadata: DocumentMetadata; 
-    bodyContent: string 
+  private parseDocument(content: string): {
+    metadata: DocumentMetadata;
+    bodyContent: string;
   } {
     const metadata: DocumentMetadata = { title: '' };
     let bodyContent = content;
@@ -184,7 +178,7 @@ class KnowledgeImporter {
     // 检查是否有 Front Matter (---开头的 YAML)
     if (content.startsWith('---')) {
       const endIndex = content.indexOf('\n---', 4);
-      
+
       if (endIndex !== -1) {
         const frontMatter = content.substring(4, endIndex);
         bodyContent = content.substring(endIndex + 4).trim();
@@ -196,7 +190,7 @@ class KnowledgeImporter {
           if (colonIndex !== -1) {
             const key = line.substring(0, colonIndex).trim().toLowerCase();
             const value = line.substring(colonIndex + 1).trim();
-            
+
             switch (key) {
               case 'title':
                 metadata.title = value;
@@ -208,7 +202,7 @@ class KnowledgeImporter {
                 metadata.source = value;
                 break;
               case 'tags':
-                metadata.tags = value.split(',').map(t => t.trim());
+                metadata.tags = value.split(',').map((t) => t.trim());
                 break;
               case 'date':
                 metadata.date = value;
@@ -232,16 +226,20 @@ class KnowledgeImporter {
    * 批量向量化分块
    */
   private async vectorizeChunks(chunks: TextChunk[]): Promise<number[][]> {
-    const texts = chunks.map(c => c.content);
+    const texts = chunks.map((c) => c.content);
     const batchSize = this.options.batchSize || 100;
     const embeddings: number[][] = [];
 
     // 分批处理
     for (let i = 0; i < texts.length; i += batchSize) {
       const batch = texts.slice(i, i + batchSize);
-      
+
       if (this.options.verbose) {
-        console.log(chalk.gray(`    Embedding batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(texts.length / batchSize)}`));
+        console.log(
+          chalk.gray(
+            `    Embedding batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(texts.length / batchSize)}`
+          )
+        );
       }
 
       const result = await this.embeddingService.embedBatch(batch);
@@ -266,7 +264,7 @@ class KnowledgeImporter {
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i];
       const embedding = embeddings[i];
-      
+
       documents.push({
         id: uuidv4(),
         title: metadata.title,
@@ -309,19 +307,25 @@ class KnowledgeImporter {
     const cost = (this.stats.tokensUsed / 1000) * 0.00002;
 
     console.log('\n' + chalk.bold('Import Summary:'));
-    console.log(chalk.green(`  ✓ Files processed: ${this.stats.filesProcessed}`));
+    console.log(
+      chalk.green(`  ✓ Files processed: ${this.stats.filesProcessed}`)
+    );
     console.log(chalk.green(`  ✓ Chunks created: ${this.stats.chunksCreated}`));
-    console.log(chalk.blue(`  → Tokens used: ${this.stats.tokensUsed.toLocaleString()}`));
+    console.log(
+      chalk.blue(`  → Tokens used: ${this.stats.tokensUsed.toLocaleString()}`)
+    );
     console.log(chalk.blue(`  → Estimated cost: $${cost.toFixed(4)}`));
-    
+
     if (this.stats.errors > 0) {
       console.log(chalk.red(`  ✗ Errors: ${this.stats.errors}`));
     }
-    
+
     console.log(chalk.gray(`  ⏱ Duration: ${seconds}s`));
 
     if (this.options.dryRun) {
-      console.log(chalk.yellow('\n⚠ Dry run mode - no data was written to database'));
+      console.log(
+        chalk.yellow('\n⚠ Dry run mode - no data was written to database')
+      );
     }
   }
 }
@@ -333,8 +337,14 @@ program
   .name('import-knowledge-base')
   .description('Import documents into the RAG knowledge base')
   .version('1.0.0')
-  .requiredOption('-s, --source <path>', 'Source directory containing documents')
-  .requiredOption('-c, --category <type>', 'Document category (bazi|fengshui|faq|case)')
+  .requiredOption(
+    '-s, --source <path>',
+    'Source directory containing documents'
+  )
+  .requiredOption(
+    '-c, --category <type>',
+    'Document category (bazi|fengshui|faq|case)'
+  )
   .option('--chunk-size <number>', 'Maximum chunk size in characters', '1000')
   .option('--overlap <number>', 'Overlap size between chunks', '200')
   .option('--batch-size <number>', 'Batch size for embedding', '100')
@@ -348,7 +358,12 @@ program.parse(process.argv);
 const options = program.opts() as ImportOptions;
 
 // 验证类别
-const validCategories: DocumentCategoryType[] = ['bazi', 'fengshui', 'faq', 'case'];
+const validCategories: DocumentCategoryType[] = [
+  'bazi',
+  'fengshui',
+  'faq',
+  'case',
+];
 if (!validCategories.includes(options.category)) {
   console.error(chalk.red(`Invalid category: ${options.category}`));
   console.error(chalk.gray(`Valid categories: ${validCategories.join(', ')}`));
@@ -375,11 +390,11 @@ fs.access(options.source)
     console.log(`Category: ${chalk.cyan(options.category)}`);
     console.log(`Chunk size: ${chalk.cyan(options.chunkSize || 1000)}`);
     console.log(`Overlap: ${chalk.cyan(options.overlap || 200)}`);
-    
+
     if (options.dryRun) {
       console.log(chalk.yellow('\n⚠ DRY RUN MODE - No data will be saved\n'));
     }
-    
+
     const importer = new KnowledgeImporter(options);
     return importer.import();
   })

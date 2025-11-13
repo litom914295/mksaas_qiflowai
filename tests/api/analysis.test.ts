@@ -19,7 +19,10 @@ describe('API: 统一分析 - /api/analysis/unified-full', () => {
 
   describe('POST - 成功场景', () => {
     test('应返回完整的统一分析结果', async () => {
-      const mockAnalyze = async (body: typeof validRequest, isAuthenticated: boolean) => {
+      const mockAnalyze = async (
+        body: typeof validRequest,
+        isAuthenticated: boolean
+      ) => {
         if (!isAuthenticated) {
           return { error: 'Unauthorized. Please login first.', status: 401 };
         }
@@ -43,10 +46,22 @@ describe('API: 统一分析 - /api/analysis/unified-full', () => {
             },
             baziAnalysis: {
               fourPillars: {
-                year: { heavenlyStem: expect.any(String), earthlyBranch: expect.any(String) },
-                month: { heavenlyStem: expect.any(String), earthlyBranch: expect.any(String) },
-                day: { heavenlyStem: expect.any(String), earthlyBranch: expect.any(String) },
-                hour: { heavenlyStem: expect.any(String), earthlyBranch: expect.any(String) },
+                year: {
+                  heavenlyStem: expect.any(String),
+                  earthlyBranch: expect.any(String),
+                },
+                month: {
+                  heavenlyStem: expect.any(String),
+                  earthlyBranch: expect.any(String),
+                },
+                day: {
+                  heavenlyStem: expect.any(String),
+                  earthlyBranch: expect.any(String),
+                },
+                hour: {
+                  heavenlyStem: expect.any(String),
+                  earthlyBranch: expect.any(String),
+                },
               },
               elements: {
                 wood: expect.any(Number),
@@ -82,7 +97,7 @@ describe('API: 统一分析 - /api/analysis/unified-full', () => {
 
     test('应正确计算积分费用（30积分）', () => {
       const REQUIRED_CREDITS = 30;
-      
+
       const mockCheckCredits = (userBalance: number) => {
         if (userBalance < REQUIRED_CREDITS) {
           return {
@@ -137,8 +152,15 @@ describe('API: 统一分析 - /api/analysis/unified-full', () => {
   describe('POST - 参数验证', () => {
     test('缺少个人信息应返回 400', () => {
       const validateRequest = (body: any) => {
-        if (!body.personalInfo?.name || !body.personalInfo?.birthDate || !body.personalInfo?.gender) {
-          return { error: 'Missing required personal information fields.', status: 400 };
+        if (
+          !body.personalInfo?.name ||
+          !body.personalInfo?.birthDate ||
+          !body.personalInfo?.gender
+        ) {
+          return {
+            error: 'Missing required personal information fields.',
+            status: 400,
+          };
         }
         return { success: true };
       };
@@ -155,8 +177,15 @@ describe('API: 统一分析 - /api/analysis/unified-full', () => {
 
     test('缺少房屋信息应返回 400', () => {
       const validateRequest = (body: any) => {
-        if (!body.houseInfo?.address || !body.houseInfo?.direction || !body.houseInfo?.buildYear) {
-          return { error: 'Missing required house information fields.', status: 400 };
+        if (
+          !body.houseInfo?.address ||
+          !body.houseInfo?.direction ||
+          !body.houseInfo?.buildYear
+        ) {
+          return {
+            error: 'Missing required house information fields.',
+            status: 400,
+          };
         }
         return { success: true };
       };
@@ -176,7 +205,10 @@ describe('API: 统一分析 - /api/analysis/unified-full', () => {
     test('分析引擎错误应返回 503', async () => {
       const mockAnalyze = async (shouldFail: boolean) => {
         if (shouldFail) {
-          return { error: 'Analysis engine error. Please try again later.', status: 503 };
+          return {
+            error: 'Analysis engine error. Please try again later.',
+            status: 503,
+          };
         }
         return { success: true };
       };
@@ -277,7 +309,7 @@ describe('API: AI增强分析 - /api/analysis/ai-enhanced', () => {
 
       for (const testCase of testCases) {
         const request = { ...validRequest, gender: testCase.gender };
-        
+
         const mockAnalyze = async (body: typeof request) => ({
           success: true,
           data: {
@@ -298,13 +330,17 @@ describe('API: AI增强分析 - /api/analysis/ai-enhanced', () => {
       const validateRequest = (body: any) => {
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
         if (!dateRegex.test(body.birthDate)) {
-          return { error: '生日格式必须为 YYYY-MM-DD', success: false, status: 400 };
+          return {
+            error: '生日格式必须为 YYYY-MM-DD',
+            success: false,
+            status: 400,
+          };
         }
         return { success: true };
       };
 
       const invalidDates = ['1990/01/15', '1990-1-15', '90-01-15', 'invalid'];
-      
+
       for (const date of invalidDates) {
         const result = validateRequest({ birthDate: date });
         expect(result.success).toBe(false);
@@ -321,7 +357,7 @@ describe('API: AI增强分析 - /api/analysis/ai-enhanced', () => {
       };
 
       const invalidTimes = ['8:30', '08:3', '8:30 AM', 'invalid'];
-      
+
       for (const time of invalidTimes) {
         const result = validateRequest({ birthTime: time });
         expect(result.success).toBe(false);
@@ -331,7 +367,11 @@ describe('API: AI增强分析 - /api/analysis/ai-enhanced', () => {
     test('无效的性别应返回错误', () => {
       const validateRequest = (body: any) => {
         if (!['male', 'female'].includes(body.gender)) {
-          return { error: '性别必须为 male 或 female', success: false, status: 400 };
+          return {
+            error: '性别必须为 male 或 female',
+            success: false,
+            status: 400,
+          };
         }
         return { success: true };
       };
@@ -344,11 +384,12 @@ describe('API: AI增强分析 - /api/analysis/ai-enhanced', () => {
       const validateRequest = (body: any) => {
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
         const timeRegex = /^\d{2}:\d{2}$/;
-        
+
         if (!dateRegex.test(body.birthDate)) return { success: false };
         if (!timeRegex.test(body.birthTime)) return { success: false };
-        if (!['male', 'female'].includes(body.gender)) return { success: false };
-        
+        if (!['male', 'female'].includes(body.gender))
+          return { success: false };
+
         return { success: true };
       };
 
@@ -361,7 +402,10 @@ describe('API: AI增强分析 - /api/analysis/ai-enhanced', () => {
     test('提供userId时应验证用户身份', async () => {
       const requestWithUserId = { ...validRequest, userId: 'user_123' };
 
-      const mockAnalyze = async (body: any, authenticatedUserId: string | null) => {
+      const mockAnalyze = async (
+        body: any,
+        authenticatedUserId: string | null
+      ) => {
         if (body.userId && authenticatedUserId !== body.userId) {
           return { error: '用户身份验证失败', success: false, status: 401 };
         }
@@ -401,7 +445,11 @@ describe('API: AI增强分析 - /api/analysis/ai-enhanced', () => {
           await mockAnalyze();
         } catch (error: any) {
           if (error.message.includes('API')) {
-            return { error: 'AI服务暂时不可用，请稍后重试', success: false, status: 503 };
+            return {
+              error: 'AI服务暂时不可用，请稍后重试',
+              success: false,
+              status: 503,
+            };
           }
           throw error;
         }
@@ -422,7 +470,7 @@ describe('API: AI增强分析 - /api/analysis/ai-enhanced', () => {
 
       const zodError = { name: 'ZodError', issues: [] };
       const result = handleZodError(zodError);
-      
+
       expect(result.success).toBe(false);
       expect(result.status).toBe(400);
     });

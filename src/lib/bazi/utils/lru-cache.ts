@@ -36,8 +36,8 @@ export class LRUCache<K, V> {
   private maxSize: number;
   private ttl: number;
   private refreshOnAccess: boolean;
-  private hits: number = 0;
-  private misses: number = 0;
+  private hits = 0;
+  private misses = 0;
 
   constructor(options: LRUCacheOptions) {
     this.cache = new Map();

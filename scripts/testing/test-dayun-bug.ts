@@ -109,13 +109,7 @@ console.log('1. 起运年龄是:', dayunAnalysis.qiYunAge, '岁');
 if (dayunAnalysis.qiYunAge > 20) {
   console.log('   ⚠️  起运年龄异常偏大！正常应该在1-10岁之间');
 }
-console.log(
-  '2. 当前实际年龄:',
-  correctAge,
-  '岁（不到',
-  correctAge + 1,
-  '岁）'
-);
+console.log('2. 当前实际年龄:', correctAge, '岁（不到', correctAge + 1, '岁）');
 console.log(
   '3. 如果起运年龄正常，当前应该是:',
   correctAge < dayunAnalysis.qiYunAge ? '尚未起运' : '已起运'

@@ -177,7 +177,8 @@ export function LingzhengAnalysisView({
           <AlertTitle className="font-bold">⚠️ 检测到零正颠倒</AlertTitle>
           <AlertDescription className="mt-2">
             <p className="mb-2">
-              当前布局存在<strong>零正颠倒</strong>现象（零神位见山、正神位见水），
+              当前布局存在<strong>零正颠倒</strong>
+              现象（零神位见山、正神位见水），
               这会导致财运、人丁运不佳，建议尽快调整。
             </p>
             <div className="bg-red-50 rounded p-3 mt-2">

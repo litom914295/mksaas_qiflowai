@@ -85,7 +85,9 @@ describe('TrueSolarTimeCalculator', () => {
 
       // 应该有边界警告
       expect(result.warnings.length).toBeGreaterThan(0);
-      expect(result.warnings.some((w) => w.includes('接近时辰边界'))).toBe(true);
+      expect(result.warnings.some((w) => w.includes('接近时辰边界'))).toBe(
+        true
+      );
     });
 
     test('边界警告: 子时前半 (23:30)', () => {
@@ -271,7 +273,7 @@ describe('TrueSolarTimeCalculator', () => {
       // 改进前的简化公式精度约±2分钟
       // 改进后的5项级数精度约±30秒
       // 验证计算结果在合理范围内
-      expect(Math.abs(result.corrections.equationMinutes - (-14))).toBeLessThan(
+      expect(Math.abs(result.corrections.equationMinutes - -14)).toBeLessThan(
         0.5
       );
     });

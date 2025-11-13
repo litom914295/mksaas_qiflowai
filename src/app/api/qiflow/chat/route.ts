@@ -5,6 +5,7 @@
  */
 
 import { auth } from '@/lib/auth';
+import { computeBaziSmart } from '@/lib/bazi';
 import { creditsManager } from '@/lib/credits/manager';
 import {
   detectFengshuiIntent,
@@ -14,7 +15,10 @@ import {
   AI_FENGSHUI_QUICK_PROMPT,
   getSystemPrompt,
 } from '@/lib/qiflow/ai/system-prompt';
-import { computeBaziSmart } from '@/lib/bazi';
+import {
+  type DocumentCategoryType,
+  VectorSearchService,
+} from '@/lib/rag/vector-search';
 import { google } from '@ai-sdk/google';
 import { openai } from '@ai-sdk/openai';
 import { generateText, streamText } from 'ai';
@@ -239,7 +243,49 @@ function getStrongestElement(elements: any): string {
   return sorted[0]?.[0] || '水';
 }
 
-// 使用AI回答命理问题（基于算法数据）
+// RAG知识检索辅助函数
+async function searchKnowledge(
+  query: string,
+  category: DocumentCategoryType,
+  topK = 3
+): Promise<{ knowledgeContext: string; sources: string[] }> {
+  try {
+    const vectorSearchService = new VectorSearchService();
+    const results = await vectorSearchService.search({
+      query,
+      topK,
+      category,
+      threshold: 0.6,
+      minSimilarity: 0.5,
+    });
+
+    if (results.length === 0) {
+      return { knowledgeContext: '', sources: [] };
+    }
+
+    // 格式化知识内容
+    const knowledgeContext = results
+      .map(
+        (result, index) =>
+          `【知识片段 ${index + 1}】（相似度：${(result.similarity * 100).toFixed(1)}%）\n` +
+          `来源：${result.title}\n` +
+          `内容：${result.content}\n`
+      )
+      .join('\n');
+
+    // 记录来源
+    const sources = results.map(
+      (r) => `${r.title}（相似度 ${(r.similarity * 100).toFixed(1)}%）`
+    );
+
+    return { knowledgeContext, sources };
+  } catch (error) {
+    console.error('RAG知识检索失败:', error);
+    return { knowledgeContext: '', sources: [] };
+  }
+}
+
+// 使用AI回答命理问题（基于算法数据 + RAG知识库）
 async function generateAIResponse(
   message: string,
   baziData: any,
@@ -247,8 +293,15 @@ async function generateAIResponse(
 ): Promise<string> {
   const actualQuestion = originalQuestion || message;
 
+  // 【RAG集成】检索八字相关知识库
+  const { knowledgeContext, sources } = await searchKnowledge(
+    actualQuestion,
+    'bazi',
+    3
+  );
+
   // 使用优化后的系统提示词
-  const systemPrompt =
+  let systemPrompt =
     getSystemPrompt('bazi') +
     '\n\n【当前用户八字数据】\n' +
     '四柱八字：\n' +
@@ -268,6 +321,15 @@ async function generateAIResponse(
     (baziData.yearlyFortune
       ? `流年运势：${JSON.stringify(baziData.yearlyFortune)}`
       : '');
+
+  // 如果有检索到的知识内容，注入到系统提示词
+  if (knowledgeContext) {
+    systemPrompt +=
+      '\n\n【知识库参考资料】\n' +
+      knowledgeContext +
+      '\n\n请参考以上知识库内容，结合用户八字数据给出专业准确的回答。';
+    console.log(`[RAG] 检索到 ${sources.length} 条相关知识:`, sources);
+  }
 
   try {
     // 尝试使用配置的AI服务
@@ -688,8 +750,15 @@ async function generateFengshuiResponse(
   message: string,
   fengshuiData: any
 ): Promise<string> {
+  // 【RAG集成】检索风水相关知识库
+  const { knowledgeContext, sources } = await searchKnowledge(
+    message,
+    'fengshui',
+    3
+  );
+
   // 使用优化后的系统提示词
-  const systemPrompt =
+  let systemPrompt =
     getSystemPrompt('fengshui') +
     '\n\n【当前房屋风水数据】\n' +
     `坐山朝向：坐${fengshuiData.mountain}朝${fengshuiData.facing}\n` +
@@ -703,6 +772,15 @@ async function generateFengshuiResponse(
           `${k}（${v.position}）：${v.star}号星，属${v.element}，代表${v.meaning}`
       )
       .join('\n');
+
+  // 如果有检索到的知识内容，注入到系统提示词
+  if (knowledgeContext) {
+    systemPrompt +=
+      '\n\n【知识库参考资料】\n' +
+      knowledgeContext +
+      '\n\n请参考以上知识库内容，结合房屋风水数据给出专业准确的回答。';
+    console.log(`[RAG] 检索到 ${sources.length} 条相关知识:`, sources);
+  }
 
   try {
     // 使用AI生成回答
@@ -761,8 +839,15 @@ async function generateCombinedFengshuiResponse(
   fengshuiData: any,
   baziData: any
 ): Promise<string> {
+  // 【RAG集成】检索风水相关知识库（综合分析优先风水知识）
+  const { knowledgeContext, sources } = await searchKnowledge(
+    message,
+    'fengshui',
+    3
+  );
+
   // 使用优化后的系统提示词，同时标记有八字和房屋数据
-  const systemPrompt =
+  let systemPrompt =
     getSystemPrompt('fengshui') +
     '\n\n【综合分析数据】\n' +
     '\n一、用户八字信息：\n' +
@@ -784,6 +869,15 @@ async function generateCombinedFengshuiResponse(
       )
       .join('\n') +
     `\n\n请严格遵循"算法优先、语言后置"原则，基于以上算法计算结果，结合用户八字喜忌与房屋九宫位特点，提供个性化的风水布局建议。`;
+
+  // 如果有检索到的知识内容，注入到系统提示词
+  if (knowledgeContext) {
+    systemPrompt +=
+      '\n\n【知识库参考资料】\n' +
+      knowledgeContext +
+      '\n\n请参考以上知识库内容，结合用户八字五行喜忌和房屋九宫飞星特点，给出专业且个性化的风水布局建议。';
+    console.log(`[RAG] 检索到 ${sources.length} 条相关知识:`, sources);
+  }
 
   try {
     // 使用AI生成结合分析

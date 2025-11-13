@@ -1,22 +1,22 @@
 /**
  * 向量搜索服务 - VectorSearchService
- * 
+ *
  * 使用 PostgreSQL pgvector 进行语义相似度搜索
  */
 
 import { db } from '@/db';
-import { sql } from 'drizzle-orm';
 import { knowledgeDocuments } from '@/db/schema-knowledge';
+import { sql } from 'drizzle-orm';
 import { getSharedEmbeddingService } from './embedding-service';
 
 export type DocumentCategoryType = 'bazi' | 'fengshui' | 'faq' | 'case';
 
 export interface SearchOptions {
-  query: string;                        // 搜索查询
-  topK?: number;                        // 返回结果数，默认 5
-  threshold?: number;                   // 相似度阈值 (0-1)，默认 0.7
-  category?: DocumentCategoryType;      // 文档类别过滤
-  minSimilarity?: number;               // 最小相似度，默认 0.6
+  query: string; // 搜索查询
+  topK?: number; // 返回结果数，默认 5
+  threshold?: number; // 相似度阈值 (0-1)，默认 0.7
+  category?: DocumentCategoryType; // 文档类别过滤
+  minSimilarity?: number; // 最小相似度，默认 0.6
 }
 
 export interface SearchResult {
@@ -25,7 +25,7 @@ export interface SearchResult {
   content: string;
   category: DocumentCategoryType;
   source: string;
-  similarity: number;                   // 相似度分数 (0-1)
+  similarity: number; // 相似度分数 (0-1)
   chunkIndex: number | null;
   metadata?: Record<string, any>;
 }
@@ -49,7 +49,13 @@ export class VectorSearchService {
    * 2. 执行相似度搜索
    */
   async search(options: SearchOptions): Promise<SearchResult[]> {
-    const { query, topK = DEFAULT_TOP_K, threshold = DEFAULT_THRESHOLD, category, minSimilarity = DEFAULT_MIN_SIMILARITY } = options;
+    const {
+      query,
+      topK = DEFAULT_TOP_K,
+      threshold = DEFAULT_THRESHOLD,
+      category,
+      minSimilarity = DEFAULT_MIN_SIMILARITY,
+    } = options;
 
     if (!query || query.trim().length === 0) {
       throw new Error('Search query cannot be empty');
@@ -73,13 +79,15 @@ export class VectorSearchService {
   /**
    * 使用现有向量进行搜索
    */
-  async searchByEmbedding(options: SearchByEmbeddingOptions): Promise<SearchResult[]> {
-    const { 
-      embedding, 
-      topK = DEFAULT_TOP_K, 
+  async searchByEmbedding(
+    options: SearchByEmbeddingOptions
+  ): Promise<SearchResult[]> {
+    const {
+      embedding,
+      topK = DEFAULT_TOP_K,
       threshold = DEFAULT_THRESHOLD,
       category,
-      minSimilarity = DEFAULT_MIN_SIMILARITY 
+      minSimilarity = DEFAULT_MIN_SIMILARITY,
     } = options;
 
     if (!embedding || embedding.length === 0) {
@@ -89,7 +97,7 @@ export class VectorSearchService {
     try {
       // 使用 PostgreSQL 函数进行向量搜索
       const embeddingString = `[${embedding.join(',')}]`;
-      
+
       let query = sql`
         SELECT 
           id,
@@ -120,14 +128,14 @@ export class VectorSearchService {
 
       // 转换为 SearchResult 格式
       return (results.rows as any[])
-        .filter(row => row.similarity >= threshold)
-        .map(row => ({
+        .filter((row) => row.similarity >= threshold)
+        .map((row) => ({
           id: row.id,
           title: row.title,
           content: row.content,
           category: row.category as DocumentCategoryType,
           source: row.source,
-          similarity: parseFloat(row.similarity),
+          similarity: Number.parseFloat(row.similarity),
           chunkIndex: row.chunk_index,
           metadata: row.metadata,
         }));
@@ -158,7 +166,7 @@ export class VectorSearchService {
         .from(knowledgeDocuments)
         .where(sql`${knowledgeDocuments.id} = ANY(${ids})`);
 
-      return results.map(row => ({
+      return results.map((row) => ({
         id: row.id,
         title: row.title,
         content: row.content,
@@ -189,12 +197,18 @@ export class VectorSearchService {
         .from(knowledgeDocuments)
         .groupBy(knowledgeDocuments.category);
 
-      const byCategory = results.reduce((acc, row) => {
-        acc[row.category as DocumentCategoryType] = Number(row.count);
-        return acc;
-      }, {} as Record<DocumentCategoryType, number>);
+      const byCategory = results.reduce(
+        (acc, row) => {
+          acc[row.category as DocumentCategoryType] = Number(row.count);
+          return acc;
+        },
+        {} as Record<DocumentCategoryType, number>
+      );
 
-      const totalDocuments = Object.values(byCategory).reduce((sum, count) => sum + count, 0);
+      const totalDocuments = Object.values(byCategory).reduce(
+        (sum, count) => sum + count,
+        0
+      );
 
       return {
         totalDocuments,

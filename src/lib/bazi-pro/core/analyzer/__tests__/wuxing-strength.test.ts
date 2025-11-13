@@ -3,8 +3,8 @@
  * 验证优化后的权重系统
  */
 
-import { WuxingStrengthAnalyzer } from '../wuxing-strength';
 import type { FourPillars } from '@/lib/bazi/types';
+import { WuxingStrengthAnalyzer } from '../wuxing-strength';
 
 describe('五行权重计算', () => {
   let analyzer: WuxingStrengthAnalyzer;
@@ -34,7 +34,8 @@ describe('五行权重计算', () => {
       expect(result.water).toBeGreaterThan(0);
 
       // 总和应该是100
-      const total = result.wood + result.fire + result.earth + result.metal + result.water;
+      const total =
+        result.wood + result.fire + result.earth + result.metal + result.water;
       expect(total).toBe(100);
 
       // 验证details存在
@@ -47,7 +48,7 @@ describe('五行权重计算', () => {
       const fourPillars: FourPillars = {
         year: { gan: '甲', zhi: '子' },
         month: { gan: '甲', zhi: '寅' }, // 甲木在寅有本气根
-        day: { gan: '甲', zhi: '卯' },   // 甲木在卯有本气根
+        day: { gan: '甲', zhi: '卯' }, // 甲木在卯有本气根
         hour: { gan: '丙', zhi: '午' },
         dayMaster: '甲',
       };
@@ -82,7 +83,7 @@ describe('五行权重计算', () => {
       const fourPillars: FourPillars = {
         year: { gan: '甲', zhi: '寅' },
         month: { gan: '甲', zhi: '卯' }, // 强木
-        day: { gan: '丙', zhi: '午' },   // 火日主
+        day: { gan: '丙', zhi: '午' }, // 火日主
         hour: { gan: '甲', zhi: '辰' },
         dayMaster: '丙',
       };
@@ -102,7 +103,7 @@ describe('五行权重计算', () => {
       const fourPillars: FourPillars = {
         year: { gan: '庚', zhi: '申' },
         month: { gan: '庚', zhi: '酉' }, // 强金
-        day: { gan: '甲', zhi: '寅' },   // 木日主
+        day: { gan: '甲', zhi: '寅' }, // 木日主
         hour: { gan: '乙', zhi: '卯' },
         dayMaster: '甲',
       };
@@ -185,7 +186,8 @@ describe('五行权重计算', () => {
       expect(result.earth).toBeGreaterThan(0); // 辰土
 
       // 总和100
-      const total = result.wood + result.fire + result.earth + result.metal + result.water;
+      const total =
+        result.wood + result.fire + result.earth + result.metal + result.water;
       expect(total).toBe(100);
     });
 
@@ -214,7 +216,8 @@ describe('五行权重计算', () => {
       expect(result.water).toBeGreaterThan(0);
 
       // 总和100
-      const total = result.wood + result.fire + result.earth + result.metal + result.water;
+      const total =
+        result.wood + result.fire + result.earth + result.metal + result.water;
       expect(total).toBe(100);
     });
   });
@@ -233,16 +236,17 @@ describe('五行权重计算', () => {
 
       // 木应该占绝对优势
       expect(result.wood).toBeGreaterThan(70);
-      const total = result.wood + result.fire + result.earth + result.metal + result.water;
+      const total =
+        result.wood + result.fire + result.earth + result.metal + result.water;
       expect(total).toBeCloseTo(100, 1); // 允许浮点数误差
     });
 
     test('五行相对均衡', () => {
       const fourPillars: FourPillars = {
-        year: { gan: '甲', zhi: '子' },  // 木+水
+        year: { gan: '甲', zhi: '子' }, // 木+水
         month: { gan: '丙', zhi: '午' }, // 火
-        day: { gan: '戊', zhi: '辰' },   // 土
-        hour: { gan: '庚', zhi: '申' },  // 金
+        day: { gan: '戊', zhi: '辰' }, // 土
+        hour: { gan: '庚', zhi: '申' }, // 金
         dayMaster: '戊',
       };
 

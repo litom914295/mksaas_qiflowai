@@ -3,12 +3,12 @@
  * 测试API响应格式化、错误处理和认证包装器
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
-  successResponse,
-  errorResponse,
   type ApiResponse,
+  errorResponse,
+  successResponse,
 } from '@/lib/api-helpers';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('API Helpers 测试', () => {
   describe('successResponse - 成功响应格式化', () => {

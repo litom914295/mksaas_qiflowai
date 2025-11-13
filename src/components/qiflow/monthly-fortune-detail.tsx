@@ -2,7 +2,7 @@
 
 /**
  * Phase 8: 月度运势详情页面组件
- * 
+ *
  * 功能：
  * 1. 完整显示运势报告（事业、财运、感情、健康）
  * 2. 飞星九宫格详细分析
@@ -10,21 +10,27 @@
  * 4. 化解方法建议
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { 
-  TrendingUp, 
-  DollarSign, 
-  Heart, 
-  Activity, 
-  MapPin, 
-  Palette, 
-  Hash,
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Activity,
   AlertCircle,
+  Calendar,
+  DollarSign,
+  Hash,
+  Heart,
   Lightbulb,
-  Calendar
+  MapPin,
+  Palette,
+  TrendingUp,
 } from 'lucide-react';
 import { FlyingStarGrid } from './monthly-fortune-card';
 
@@ -93,9 +99,7 @@ export function MonthlyFortuneDetail({ fortune }: MonthlyFortuneDetailProps) {
           <div className="text-5xl font-bold text-primary">
             {fortune.overallScore}
           </div>
-          <div className="text-sm text-muted-foreground mt-1">
-            综合评分
-          </div>
+          <div className="text-sm text-muted-foreground mt-1">综合评分</div>
         </div>
       </div>
 
@@ -266,18 +270,14 @@ export function MonthlyFortuneDetail({ fortune }: MonthlyFortuneDetailProps) {
       <Card>
         <CardHeader>
           <CardTitle>玄空飞星九宫分析</CardTitle>
-          <CardDescription>
-            当月九宫飞星分布及吉凶评判
-          </CardDescription>
+          <CardDescription>当月九宫飞星分布及吉凶评判</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <FlyingStarGrid grid={fortune.flyingStarAnalysis.grid} />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-              <h4 className="font-semibold text-green-900 mb-2">
-                吉利方位
-              </h4>
+              <h4 className="font-semibold text-green-900 mb-2">吉利方位</h4>
               <ul className="space-y-1">
                 {fortune.flyingStarAnalysis.auspiciousDirections.map((dir) => (
                   <li key={dir} className="text-sm text-green-700">
@@ -286,17 +286,17 @@ export function MonthlyFortuneDetail({ fortune }: MonthlyFortuneDetailProps) {
                 ))}
               </ul>
             </div>
-            
+
             <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-              <h4 className="font-semibold text-red-900 mb-2">
-                不利方位
-              </h4>
+              <h4 className="font-semibold text-red-900 mb-2">不利方位</h4>
               <ul className="space-y-1">
-                {fortune.flyingStarAnalysis.inauspiciousDirections.map((dir) => (
-                  <li key={dir} className="text-sm text-red-700">
-                    • {dir}
-                  </li>
-                ))}
+                {fortune.flyingStarAnalysis.inauspiciousDirections.map(
+                  (dir) => (
+                    <li key={dir} className="text-sm text-red-700">
+                      • {dir}
+                    </li>
+                  )
+                )}
               </ul>
             </div>
           </div>
@@ -307,9 +307,7 @@ export function MonthlyFortuneDetail({ fortune }: MonthlyFortuneDetailProps) {
       <Card>
         <CardHeader>
           <CardTitle>八字时令性分析</CardTitle>
-          <CardDescription>
-            根据您的八字命局分析当月时令影响
-          </CardDescription>
+          <CardDescription>根据您的八字命局分析当月时令影响</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
@@ -331,9 +329,7 @@ export function MonthlyFortuneDetail({ fortune }: MonthlyFortuneDetailProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold mb-3 text-green-700">
-                有利元素
-              </h4>
+              <h4 className="font-semibold mb-3 text-green-700">有利元素</h4>
               <div className="flex flex-wrap gap-2">
                 {fortune.baziTimeliness.favorableElements.map((elem) => (
                   <Badge key={elem} variant="default">
@@ -342,11 +338,9 @@ export function MonthlyFortuneDetail({ fortune }: MonthlyFortuneDetailProps) {
                 ))}
               </div>
             </div>
-            
+
             <div>
-              <h4 className="font-semibold mb-3 text-red-700">
-                不利元素
-              </h4>
+              <h4 className="font-semibold mb-3 text-red-700">不利元素</h4>
               <div className="flex flex-wrap gap-2">
                 {fortune.baziTimeliness.unfavorableElements.map((elem) => (
                   <Badge key={elem} variant="destructive">
@@ -367,9 +361,7 @@ export function MonthlyFortuneDetail({ fortune }: MonthlyFortuneDetailProps) {
               <Lightbulb className="h-5 w-5" />
               化解方法建议
             </CardTitle>
-            <CardDescription>
-              针对本月不利因素的化解建议
-            </CardDescription>
+            <CardDescription>针对本月不利因素的化解建议</CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
@@ -398,7 +390,10 @@ export function MonthlyFortuneDetail({ fortune }: MonthlyFortuneDetailProps) {
           <CardContent>
             <ul className="space-y-2">
               {fortune.warnings.map((warning, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-yellow-800">
+                <li
+                  key={idx}
+                  className="flex items-start gap-2 text-yellow-800"
+                >
                   <span className="text-yellow-600">⚠️</span>
                   <span>{warning}</span>
                 </li>

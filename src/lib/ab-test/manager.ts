@@ -3,10 +3,14 @@
  * 用于实验管理、用户分组和事件追踪
  */
 
-import { db } from "@/db";
-import { abTestExperiments, abTestAssignments, abTestEvents } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
-import { createHash } from "crypto";
+import { createHash } from 'crypto';
+import { db } from '@/db';
+import {
+  abTestAssignments,
+  abTestEvents,
+  abTestExperiments,
+} from '@/db/schema';
+import { and, eq } from 'drizzle-orm';
 
 export type VariantConfig = {
   id: string;
@@ -45,17 +49,22 @@ export class ABTestManager {
   async getVariant(params: {
     experimentName: string;
     userId: string;
-  }): Promise<{ variantId: string; variantConfig?: Record<string, any> } | null> {
+  }): Promise<{
+    variantId: string;
+    variantConfig?: Record<string, any>;
+  } | null> {
     // 1. 获取实验配置
     const experiment = await db.query.abTestExperiments.findFirst({
       where: and(
         eq(abTestExperiments.name, params.experimentName),
-        eq(abTestExperiments.status, "active")
+        eq(abTestExperiments.status, 'active')
       ),
     });
 
     if (!experiment) {
-      console.warn(`[ABTest] Experiment not found or inactive: ${params.experimentName}`);
+      console.warn(
+        `[ABTest] Experiment not found or inactive: ${params.experimentName}`
+      );
       return null;
     }
 
@@ -78,7 +87,10 @@ export class ABTestManager {
     }
 
     // 3. 分配变体 (哈希分桶)
-    const variantId = this.assignVariant(params.userId, experiment.variants as VariantConfig[]);
+    const variantId = this.assignVariant(
+      params.userId,
+      experiment.variants as VariantConfig[]
+    );
 
     // 4. 保存分配记录
     const [assignment] = await db
@@ -90,9 +102,13 @@ export class ABTestManager {
       })
       .returning();
 
-    console.log(`[ABTest] User ${params.userId} assigned to variant ${variantId}`);
+    console.log(
+      `[ABTest] User ${params.userId} assigned to variant ${variantId}`
+    );
 
-    const variant = (experiment.variants as VariantConfig[]).find((v) => v.id === variantId);
+    const variant = (experiment.variants as VariantConfig[]).find(
+      (v) => v.id === variantId
+    );
     return {
       variantId,
       variantConfig: variant?.config,
@@ -105,8 +121,8 @@ export class ABTestManager {
    */
   private assignVariant(userId: string, variants: VariantConfig[]): string {
     // 1. 计算用户 ID 的哈希值
-    const hash = createHash("md5").update(userId).digest("hex");
-    const hashNum = parseInt(hash.substring(0, 8), 16);
+    const hash = createHash('md5').update(userId).digest('hex');
+    const hashNum = Number.parseInt(hash.substring(0, 8), 16);
 
     // 2. 计算总权重
     const totalWeight = variants.reduce((sum, v) => sum + v.weight, 0);
@@ -173,7 +189,7 @@ export class ABTestManager {
         `[ABTest] Event tracked: ${params.eventType} for user ${params.userId}`
       );
     } catch (error) {
-      console.error("[ABTest] Failed to track event:", error);
+      console.error('[ABTest] Failed to track event:', error);
     }
   }
 
@@ -194,7 +210,7 @@ export class ABTestManager {
       where: and(
         eq(abTestEvents.experimentId, experiment.id),
         eq(abTestEvents.userId, params.userId),
-        eq(abTestEvents.eventType, "reward")
+        eq(abTestEvents.eventType, 'reward')
       ),
     });
 

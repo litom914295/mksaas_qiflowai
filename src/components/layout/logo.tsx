@@ -10,7 +10,8 @@ export function Logo({ className }: { className?: string }) {
   const [mounted, setMounted] = useState(false);
 
   // Use full logo with text
-  const logo = mounted && theme === 'dark' ? '/logo-full-dark.png' : '/logo-full.png';
+  const logo =
+    mounted && theme === 'dark' ? '/logo-full-dark.png' : '/logo-full.png';
 
   useEffect(() => {
     setMounted(true);

@@ -1,7 +1,7 @@
 /**
  * 八字输入验证工具
  * 提供完整的输入数据验证逻辑
- * 
+ *
  * @module bazi/validators
  */
 
@@ -29,10 +29,10 @@ export function validateTimeFormat(time: string): boolean {
  */
 export function validateDateValidity(date: string): boolean {
   if (!validateDateFormat(date)) return false;
-  
+
   const dateObj = new Date(date);
   if (isNaN(dateObj.getTime())) return false;
-  
+
   // 检查日期是否被JavaScript修正过(如2月30日会被修正为3月)
   const [year, month, day] = date.split('-').map(Number);
   return (
@@ -45,7 +45,11 @@ export function validateDateValidity(date: string): boolean {
 /**
  * 验证年份范围
  */
-export function validateYearRange(year: number, min = 1900, max = 2100): boolean {
+export function validateYearRange(
+  year: number,
+  min = 1900,
+  max = 2100
+): boolean {
   return year >= min && year <= max;
 }
 
@@ -81,7 +85,9 @@ export interface ValidationResult {
 /**
  * 验证出生信息
  */
-export function validateBirthInfo(birthInfo: Partial<BirthInput>): ValidationResult {
+export function validateBirthInfo(
+  birthInfo: Partial<BirthInput>
+): ValidationResult {
   const errors: string[] = [];
 
   // 必填字段检查
@@ -114,18 +120,22 @@ export function validateBirthInfo(birthInfo: Partial<BirthInput>): ValidationRes
   }
 
   // 历法类型验证
-  if (birthInfo.calendar && birthInfo.calendar !== 'gregorian' && birthInfo.calendar !== 'lunar') {
+  if (
+    birthInfo.calendar &&
+    birthInfo.calendar !== 'gregorian' &&
+    birthInfo.calendar !== 'lunar'
+  ) {
     errors.push(`无效的历法类型: ${birthInfo.calendar}`);
   }
 
   // 位置信息验证
   if (birthInfo.location) {
     const { longitude, latitude } = birthInfo.location;
-    
+
     if (longitude !== undefined && !validateLongitude(longitude)) {
       errors.push(`经度超出范围 (-180 到 180),当前: ${longitude}`);
     }
-    
+
     if (latitude !== undefined && !validateLatitude(latitude)) {
       errors.push(`纬度超出范围 (-90 到 90),当前: ${latitude}`);
     }
@@ -140,15 +150,13 @@ export function validateBirthInfo(birthInfo: Partial<BirthInput>): ValidationRes
 /**
  * 验证出生信息(抛出异常版本)
  */
-export function assertValidBirthInfo(birthInfo: Partial<BirthInput>): asserts birthInfo is BirthInput {
+export function assertValidBirthInfo(
+  birthInfo: Partial<BirthInput>
+): asserts birthInfo is BirthInput {
   const result = validateBirthInfo(birthInfo);
-  
+
   if (!result.isValid) {
-    throw new ValidationError(
-      '出生信息验证失败',
-      result.errors,
-      { birthInfo }
-    );
+    throw new ValidationError('出生信息验证失败', result.errors, { birthInfo });
   }
 }
 
@@ -167,7 +175,9 @@ export interface BaziAnalysisInput {
 /**
  * 验证八字分析请求
  */
-export function validateBaziAnalysisInput(input: Partial<BaziAnalysisInput>): ValidationResult {
+export function validateBaziAnalysisInput(
+  input: Partial<BaziAnalysisInput>
+): ValidationResult {
   const errors: string[] = [];
 
   // 必填字段
@@ -221,55 +231,62 @@ export function assertValidBaziAnalysisInput(
   input: Partial<BaziAnalysisInput>
 ): asserts input is BaziAnalysisInput {
   const result = validateBaziAnalysisInput(input);
-  
+
   if (!result.isValid) {
-    throw new ValidationError(
-      '八字分析请求验证失败',
-      result.errors,
-      { input }
-    );
+    throw new ValidationError('八字分析请求验证失败', result.errors, { input });
   }
 }
 
 /**
  * 安全的数字解析
  */
-export function safeParseNumber(value: any, defaultValue: number, min?: number, max?: number): number {
-  const num = typeof value === 'number' ? value : parseFloat(value);
-  
+export function safeParseNumber(
+  value: any,
+  defaultValue: number,
+  min?: number,
+  max?: number
+): number {
+  const num = typeof value === 'number' ? value : Number.parseFloat(value);
+
   if (isNaN(num)) {
     return defaultValue;
   }
-  
+
   if (min !== undefined && num < min) {
     return defaultValue;
   }
-  
+
   if (max !== undefined && num > max) {
     return defaultValue;
   }
-  
+
   return num;
 }
 
 /**
  * 安全的整数解析
  */
-export function safeParseInt(value: any, defaultValue: number, min?: number, max?: number): number {
-  const num = typeof value === 'number' ? Math.floor(value) : parseInt(value, 10);
-  
+export function safeParseInt(
+  value: any,
+  defaultValue: number,
+  min?: number,
+  max?: number
+): number {
+  const num =
+    typeof value === 'number' ? Math.floor(value) : Number.parseInt(value, 10);
+
   if (isNaN(num)) {
     return defaultValue;
   }
-  
+
   if (min !== undefined && num < min) {
     return defaultValue;
   }
-  
+
   if (max !== undefined && num > max) {
     return defaultValue;
   }
-  
+
   return num;
 }
 
@@ -279,17 +296,17 @@ export function safeParseInt(value: any, defaultValue: number, min?: number, max
 export function normalizeDateString(date: string): string {
   // 移除多余的空格
   date = date.trim();
-  
+
   // 将 / 替换为 -
   date = date.replace(/\//g, '-');
-  
+
   // 确保年份是4位数
   const parts = date.split('-');
   if (parts.length === 3) {
     const [year, month, day] = parts;
     return `${year.padStart(4, '0')}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   }
-  
+
   return date;
 }
 
@@ -299,13 +316,13 @@ export function normalizeDateString(date: string): string {
 export function normalizeTimeString(time: string): string {
   // 移除多余的空格
   time = time.trim();
-  
+
   // 确保格式为 HH:mm
   const parts = time.split(':');
   if (parts.length >= 2) {
     const [hour, minute] = parts;
     return `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
   }
-  
+
   return time;
 }

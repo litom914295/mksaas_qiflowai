@@ -4,9 +4,11 @@ import { cn } from '@/lib/utils';
 import {
   BarChart3,
   BookOpen,
+  Database,
   DollarSign,
   FileText,
   LayoutDashboard,
+  LineChart,
   MessageSquare,
   Package,
   Settings,
@@ -43,10 +45,26 @@ const menuItems = [
   {
     title: '增长运营',
     items: [
-      { icon: TrendingUp, label: '增长看板', href: '/admin/operations/growth/dashboard' },
-      { icon: DollarSign, label: '积分系统', href: '/admin/operations/growth/credits' },
-      { icon: Share2, label: '推荐系统', href: '/admin/operations/growth/referrals' },
-      { icon: Share2, label: '分享激励', href: '/admin/operations/growth/shares' },
+      {
+        icon: TrendingUp,
+        label: '增长看板',
+        href: '/admin/operations/growth/dashboard',
+      },
+      {
+        icon: DollarSign,
+        label: '积分系统',
+        href: '/admin/operations/growth/credits',
+      },
+      {
+        icon: Share2,
+        label: '推荐系统',
+        href: '/admin/operations/growth/referrals',
+      },
+      {
+        icon: Share2,
+        label: '分享激励',
+        href: '/admin/operations/growth/shares',
+      },
       { icon: Shield, label: '反欺诈', href: '/admin/operations/growth/fraud' },
     ],
   },
@@ -69,6 +87,8 @@ const menuItems = [
     items: [
       { icon: Settings, label: '系统配置', href: '/admin/settings' },
       { icon: Shield, label: '审计日志', href: '/admin/audit' },
+      { icon: Database, label: '知识库管理', href: '/admin/knowledge' },
+      { icon: LineChart, label: 'AI成本监控', href: '/admin/ai-cost' },
       { icon: BookOpen, label: '文档中心', href: '/admin/docs' },
     ],
   },

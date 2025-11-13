@@ -47,16 +47,16 @@ export default function BaziApiResult({
           headers: {
             'Content-Type': 'application/json',
           },
-        body: JSON.stringify({
-          name: personal.name,
-          birthDate: personal.birthDate,
-          birthTime: personal.birthTime,
-          gender: personal.gender,
-          birthCity: personal.birthCity || '',
-          calendarType: personal.calendarType || 'solar',
-          longitude: personal.longitude,
-          latitude: personal.latitude,
-        }),
+          body: JSON.stringify({
+            name: personal.name,
+            birthDate: personal.birthDate,
+            birthTime: personal.birthTime,
+            gender: personal.gender,
+            birthCity: personal.birthCity || '',
+            calendarType: personal.calendarType || 'solar',
+            longitude: personal.longitude,
+            latitude: personal.latitude,
+          }),
         });
 
         if (!response.ok) {

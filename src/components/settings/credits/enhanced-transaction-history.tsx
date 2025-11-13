@@ -81,7 +81,15 @@ export function EnhancedTransactionHistory() {
 
   // 获取交易数据
   const { data, isLoading, error } = useQuery<TransactionsResponse>({
-    queryKey: ['credit-transactions', page, pageSize, search, type, sortBy, sortOrder],
+    queryKey: [
+      'credit-transactions',
+      page,
+      pageSize,
+      search,
+      type,
+      sortBy,
+      sortOrder,
+    ],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: page.toString(),
@@ -101,8 +109,14 @@ export function EnhancedTransactionHistory() {
   const typeLabels: Record<string, { label: string; color: string }> = {
     DAILY_SIGNIN: { label: '每日签到', color: 'bg-orange-100 text-orange-800' },
     PURCHASE: { label: '购买积分', color: 'bg-green-100 text-green-800' },
-    BAZI_ANALYSIS: { label: '八字分析', color: 'bg-purple-100 text-purple-800' },
-    FENGSHUI_ANALYSIS: { label: '风水分析', color: 'bg-amber-100 text-amber-800' },
+    BAZI_ANALYSIS: {
+      label: '八字分析',
+      color: 'bg-purple-100 text-purple-800',
+    },
+    FENGSHUI_ANALYSIS: {
+      label: '风水分析',
+      color: 'bg-amber-100 text-amber-800',
+    },
     AI_CHAT: { label: 'AI对话', color: 'bg-blue-100 text-blue-800' },
     PDF_EXPORT: { label: 'PDF导出', color: 'bg-pink-100 text-pink-800' },
     REFERRAL: { label: '推荐奖励', color: 'bg-cyan-100 text-cyan-800' },
@@ -112,7 +126,7 @@ export function EnhancedTransactionHistory() {
   // 导出CSV功能
   const handleExport = () => {
     if (!data?.items) return;
-    
+
     const csv = [
       ['时间', '类型', '描述', '金额', '余额变化'].join(','),
       ...data.items.map((tx) =>
@@ -126,7 +140,9 @@ export function EnhancedTransactionHistory() {
       ),
     ].join('\n');
 
-    const blob = new Blob([`\ufeff${csv}`], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([`\ufeff${csv}`], {
+      type: 'text/csv;charset=utf-8;',
+    });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = `交易记录_${format(new Date(), 'yyyyMMdd')}.csv`;
@@ -163,10 +179,16 @@ export function EnhancedTransactionHistory() {
           <div>
             <CardTitle>交易记录</CardTitle>
             <CardDescription>
-              共 {data?.total || 0} 条记录 · 收入 {stats.income} · 支出 {stats.expense}
+              共 {data?.total || 0} 条记录 · 收入 {stats.income} · 支出{' '}
+              {stats.expense}
             </CardDescription>
           </div>
-          <Button variant="outline" size="sm" onClick={handleExport} disabled={!data?.items?.length}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleExport}
+            disabled={!data?.items?.length}
+          >
             <Download className="mr-2 h-4 w-4" />
             导出CSV
           </Button>
@@ -208,7 +230,7 @@ export function EnhancedTransactionHistory() {
             onValueChange={(value) => {
               const [newSortBy, newSortOrder] = value.split('-') as [
                 'createdAt' | 'amount',
-                'asc' | 'desc'
+                'asc' | 'desc',
               ];
               setQueryStates({ sortBy: newSortBy, sortOrder: newSortOrder });
             }}
@@ -240,10 +262,18 @@ export function EnhancedTransactionHistory() {
               {isLoading ? (
                 Array.from({ length: pageSize }).map((_, i) => (
                   <TableRow key={i}>
-                    <TableCell><Skeleton className="h-4 w-32" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-48" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-16 ml-auto" /></TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-32" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-20" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-48" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-16 ml-auto" />
+                    </TableCell>
                   </TableRow>
                 ))
               ) : data?.items && data.items.length > 0 ? (
@@ -282,7 +312,10 @@ export function EnhancedTransactionHistory() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                  <TableCell
+                    colSpan={4}
+                    className="text-center py-8 text-muted-foreground"
+                  >
                     暂无交易记录
                   </TableCell>
                 </TableRow>
@@ -301,7 +334,7 @@ export function EnhancedTransactionHistory() {
               <Select
                 value={pageSize.toString()}
                 onValueChange={(value) =>
-                  setQueryStates({ pageSize: parseInt(value), page: 1 })
+                  setQueryStates({ pageSize: Number.parseInt(value), page: 1 })
                 }
               >
                 <SelectTrigger className="w-[100px]">

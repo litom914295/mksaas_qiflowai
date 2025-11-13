@@ -1,32 +1,110 @@
 /**
  * 纳音五行查找表
  * 基于60甲子顺序构建,确保查找准确性
- * 
+ *
  * 参考资料:
  * - 《渊海子平》
  * - 《三命通会》
- * 
+ *
  * @module bazi/constants/nayin
  */
 
 /** 60甲子顺序表 */
 export const SEXAGENARY_CYCLE = [
-  '甲子', '乙丑', '丙寅', '丁卯', '戊辰', '己巳', '庚午', '辛未', '壬申', '癸酉',
-  '甲戌', '乙亥', '丙子', '丁丑', '戊寅', '己卯', '庚辰', '辛巳', '壬午', '癸未',
-  '甲申', '乙酉', '丙戌', '丁亥', '戊子', '己丑', '庚寅', '辛卯', '壬辰', '癸巳',
-  '甲午', '乙未', '丙申', '丁酉', '戊戌', '己亥', '庚子', '辛丑', '壬寅', '癸卯',
-  '甲辰', '乙巳', '丙午', '丁未', '戊申', '己酉', '庚戌', '辛亥', '壬子', '癸丑',
-  '甲寅', '乙卯', '丙辰', '丁巳', '戊午', '己未', '庚申', '辛酉', '壬戌', '癸亥',
+  '甲子',
+  '乙丑',
+  '丙寅',
+  '丁卯',
+  '戊辰',
+  '己巳',
+  '庚午',
+  '辛未',
+  '壬申',
+  '癸酉',
+  '甲戌',
+  '乙亥',
+  '丙子',
+  '丁丑',
+  '戊寅',
+  '己卯',
+  '庚辰',
+  '辛巳',
+  '壬午',
+  '癸未',
+  '甲申',
+  '乙酉',
+  '丙戌',
+  '丁亥',
+  '戊子',
+  '己丑',
+  '庚寅',
+  '辛卯',
+  '壬辰',
+  '癸巳',
+  '甲午',
+  '乙未',
+  '丙申',
+  '丁酉',
+  '戊戌',
+  '己亥',
+  '庚子',
+  '辛丑',
+  '壬寅',
+  '癸卯',
+  '甲辰',
+  '乙巳',
+  '丙午',
+  '丁未',
+  '戊申',
+  '己酉',
+  '庚戌',
+  '辛亥',
+  '壬子',
+  '癸丑',
+  '甲寅',
+  '乙卯',
+  '丙辰',
+  '丁巳',
+  '戊午',
+  '己未',
+  '庚申',
+  '辛酉',
+  '壬戌',
+  '癸亥',
 ] as const;
 
 /** 纳音五行表 (30组,每组对应2个干支) */
 export const NAYIN_LIST = [
-  '海中金', '炉中火', '大林木', '路旁土', '剑锋金',
-  '山头火', '涧下水', '城墙土', '白蜡金', '杨柳木',
-  '泉中水', '屋上土', '霹雳火', '松柏木', '长流水',
-  '沙中金', '山下火', '平地木', '壁上土', '金箔金',
-  '佛灯火', '天河水', '大驿土', '钗钏金', '桑柘木',
-  '大溪水', '沙中土', '天上火', '石榴木', '大海水',
+  '海中金',
+  '炉中火',
+  '大林木',
+  '路旁土',
+  '剑锋金',
+  '山头火',
+  '涧下水',
+  '城墙土',
+  '白蜡金',
+  '杨柳木',
+  '泉中水',
+  '屋上土',
+  '霹雳火',
+  '松柏木',
+  '长流水',
+  '沙中金',
+  '山下火',
+  '平地木',
+  '壁上土',
+  '金箔金',
+  '佛灯火',
+  '天河水',
+  '大驿土',
+  '钗钏金',
+  '桑柘木',
+  '大溪水',
+  '沙中土',
+  '天上火',
+  '石榴木',
+  '大海水',
 ] as const;
 
 /** 纳音查找Map (预计算,性能最优 O(1) 查找) */
@@ -44,7 +122,7 @@ for (let i = 0; i < SEXAGENARY_CYCLE.length; i++) {
  * @param gan 天干
  * @param zhi 地支
  * @returns 纳音五行名称,如"海中金"
- * 
+ *
  * @example
  * ```ts
  * getNayin('甲', '子') // => '海中金'
@@ -62,7 +140,7 @@ export function getNayin(gan: string, zhi: string): string {
  * 获取纳音五行(基于60甲子索引)
  * @param index 60甲子索引 (0-59)
  * @returns 纳音五行名称
- * 
+ *
  * @example
  * ```ts
  * getNayinByIndex(0) // => '海中金' (甲子)
@@ -79,7 +157,7 @@ export function getNayinByIndex(index: number): string {
 /**
  * 验证纳音表完整性
  * @returns 验证结果
- * 
+ *
  * @example
  * ```ts
  * const { isValid, errors } = validateNayinTable();
@@ -132,8 +210,14 @@ export function getNayinInfo(nayin: string): {
   element: '金' | '木' | '水' | '火' | '土' | '未知';
   description: string;
 } {
-  const nayinMap: Record<string, { element: '金' | '木' | '水' | '火' | '土'; description: string }> = {
-    海中金: { element: '金', description: '海中金,深藏不露,需要开采方能显现价值' },
+  const nayinMap: Record<
+    string,
+    { element: '金' | '木' | '水' | '火' | '土'; description: string }
+  > = {
+    海中金: {
+      element: '金',
+      description: '海中金,深藏不露,需要开采方能显现价值',
+    },
     炉中火: { element: '火', description: '炉中火,炽热旺盛,光明磊落' },
     大林木: { element: '木', description: '大林木,根基深厚,成就大业' },
     路旁土: { element: '土', description: '路旁土,稳重踏实,任劳任怨' },
@@ -192,7 +276,7 @@ export function getAllNayin(): string[] {
  * 获取指定纳音五行对应的干支
  * @param nayin 纳音五行名称
  * @returns 对应的干支数组
- * 
+ *
  * @example
  * ```ts
  * getGanZhiByNayin('海中金') // => ['甲子', '乙丑']
@@ -201,12 +285,12 @@ export function getAllNayin(): string[] {
  */
 export function getGanZhiByNayin(nayin: string): string[] {
   const ganZhiList: string[] = [];
-  
+
   for (const [ganZhi, nayinValue] of NAYIN_MAP) {
     if (nayinValue === nayin) {
       ganZhiList.push(ganZhi);
     }
   }
-  
+
   return ganZhiList;
 }

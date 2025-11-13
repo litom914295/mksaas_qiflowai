@@ -6,7 +6,7 @@ import type { DashboardData } from './get-dashboard-data';
 /**
  * 快速获取仪表盘数据 - 最小化版本
  * 用于解决数据库查询超时导致的加载慢问题
- * 
+ *
  * 策略：
  * 1. 只返回基本用户信息
  * 2. 所有统计数据使用默认值
@@ -100,7 +100,10 @@ export async function getDashboardDataFast(): Promise<DashboardData | null> {
     console.log('[getDashboardDataFast] Returning fast minimal data');
     return dashboardData;
   } catch (error) {
-    console.error('[getDashboardDataFast] Failed to get fast dashboard data:', error);
+    console.error(
+      '[getDashboardDataFast] Failed to get fast dashboard data:',
+      error
+    );
     return null;
   }
 }

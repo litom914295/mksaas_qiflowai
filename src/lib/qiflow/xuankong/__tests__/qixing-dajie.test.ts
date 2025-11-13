@@ -350,7 +350,7 @@ describe('七星打劫模块测试', () => {
       const plate = createTestPlate(
         [1, 2, 3, 4, 6, 6, 7, 9, 9], // 2和5共现1次
         [9, 1, 3, 3, 4, 6, 6, 7, 1], // 2和5共现0次
-        [1, 9, 1, 3, 3, 4, 6, 6, 7]  // 2和5共现0次
+        [1, 9, 1, 3, 3, 4, 6, 6, 7] // 2和5共现0次
       );
       // 检查三般卦（八运检查2-5-8组），期望不满足
       const result = validateSanbanGua(plate, 8);
@@ -380,7 +380,11 @@ describe('七星打劫模块测试', () => {
       );
       const sanbanValidation = validateSanbanGua(plate, 8);
       const sanbanGroup = getSanbanGroupByPeriod(8);
-      const positions = identifyDajiePositions(plate, 8, sanbanGroup).allPositions;
+      const positions = identifyDajiePositions(
+        plate,
+        8,
+        sanbanGroup
+      ).allPositions;
       const effectiveness = analyzeDajieEffectiveness(
         plate,
         8,
@@ -398,7 +402,11 @@ describe('七星打劫模块测试', () => {
       );
       const sanbanValidation = validateSanbanGua(plate, 8);
       const sanbanGroup = getSanbanGroupByPeriod(8);
-      const positions = identifyDajiePositions(plate, 8, sanbanGroup).allPositions;
+      const positions = identifyDajiePositions(
+        plate,
+        8,
+        sanbanGroup
+      ).allPositions;
       if (positions.length > 0) {
         const effectiveness = analyzeDajieEffectiveness(
           plate,
@@ -418,7 +426,11 @@ describe('七星打劫模块测试', () => {
       );
       const sanbanValidation = validateSanbanGua(plate, 8);
       const sanbanGroup = getSanbanGroupByPeriod(8);
-      const positions = identifyDajiePositions(plate, 8, sanbanGroup).allPositions;
+      const positions = identifyDajiePositions(
+        plate,
+        8,
+        sanbanGroup
+      ).allPositions;
       if (positions.length > 0 && sanbanValidation.isValid) {
         const effectiveness = analyzeDajieEffectiveness(
           plate,
@@ -438,7 +450,11 @@ describe('七星打劫模块测试', () => {
       );
       const sanbanValidation = validateSanbanGua(plate, 8);
       const sanbanGroup = getSanbanGroupByPeriod(8);
-      const positions = identifyDajiePositions(plate, 8, sanbanGroup).allPositions;
+      const positions = identifyDajiePositions(
+        plate,
+        8,
+        sanbanGroup
+      ).allPositions;
       if (positions.length > 0 && sanbanValidation.isValid) {
         const effectiveness = analyzeDajieEffectiveness(
           plate,
@@ -459,7 +475,11 @@ describe('七星打劫模块测试', () => {
       );
       const sanbanValidation = validateSanbanGua(plate, 8);
       const sanbanGroup = getSanbanGroupByPeriod(8);
-      const positions = identifyDajiePositions(plate, 8, sanbanGroup).allPositions;
+      const positions = identifyDajiePositions(
+        plate,
+        8,
+        sanbanGroup
+      ).allPositions;
       const effectiveness = analyzeDajieEffectiveness(
         plate,
         8,
@@ -478,7 +498,11 @@ describe('七星打劫模块测试', () => {
       );
       const sanbanValidation = validateSanbanGua(plate, 8);
       const sanbanGroup = getSanbanGroupByPeriod(8);
-      const positions = identifyDajiePositions(plate, 8, sanbanGroup).allPositions;
+      const positions = identifyDajiePositions(
+        plate,
+        8,
+        sanbanGroup
+      ).allPositions;
       if (positions.length > 0 && sanbanValidation.isValid) {
         const effectiveness = analyzeDajieEffectiveness(
           plate,
@@ -499,7 +523,11 @@ describe('七星打劫模块测试', () => {
       );
       const sanbanValidation = validateSanbanGua(plate, 8);
       const sanbanGroup = getSanbanGroupByPeriod(8);
-      const positions = identifyDajiePositions(plate, 8, sanbanGroup).allPositions;
+      const positions = identifyDajiePositions(
+        plate,
+        8,
+        sanbanGroup
+      ).allPositions;
       if (positions.length > 0 && sanbanValidation.isValid) {
         const effectiveness = analyzeDajieEffectiveness(
           plate,
@@ -519,7 +547,11 @@ describe('七星打劫模块测试', () => {
       );
       const sanbanValidation = validateSanbanGua(plate, 8);
       const sanbanGroup = getSanbanGroupByPeriod(8);
-      const positions = identifyDajiePositions(plate, 8, sanbanGroup).allPositions;
+      const positions = identifyDajiePositions(
+        plate,
+        8,
+        sanbanGroup
+      ).allPositions;
       expect(positions.length).toBeGreaterThan(0);
     });
   });
@@ -527,20 +559,31 @@ describe('七星打劫模块测试', () => {
   // ==================== 测试组4：建议生成 (6个案例) ====================
   describe('打劫建议生成', () => {
     test('劫财建议 - 水法配置', () => {
-      const requirements = generateDajieActivationRequirements('jie_cai', [2, 5, 8]);
-      expect(requirements).toContain('必须满足三般卦条件（1-4-7、2-5-8或3-6-9组）');
+      const requirements = generateDajieActivationRequirements(
+        'jie_cai',
+        [2, 5, 8]
+      );
+      expect(requirements).toContain(
+        '必须满足三般卦条件（1-4-7、2-5-8或3-6-9组）'
+      );
       expect(requirements.some((r) => r.includes('流动的水'))).toBe(true);
       expect(requirements.some((r) => r.includes('鱼缸'))).toBe(true);
     });
 
     test('劫丁建议 - 山法配置', () => {
-      const requirements = generateDajieActivationRequirements('jie_ding', [2, 5, 8]);
+      const requirements = generateDajieActivationRequirements(
+        'jie_ding',
+        [2, 5, 8]
+      );
       expect(requirements.some((r) => r.includes('活动的场所'))).toBe(true);
       expect(requirements.some((r) => r.includes('人气'))).toBe(true);
     });
 
     test('全劫建议 - 综合配置', () => {
-      const requirements = generateDajieActivationRequirements('full', [2, 5, 8]);
+      const requirements = generateDajieActivationRequirements(
+        'full',
+        [2, 5, 8]
+      );
       expect(requirements.some((r) => r.includes('流动的水'))).toBe(true);
       expect(requirements.some((r) => r.includes('活动的场所'))).toBe(true);
       expect(requirements.length).toBeGreaterThan(5);

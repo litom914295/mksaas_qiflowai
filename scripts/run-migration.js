@@ -6,7 +6,7 @@ const path = require('path');
 
 async function runMigration() {
   const connectionString = process.env.DATABASE_URL;
-  
+
   if (!connectionString) {
     console.error('❌ DATABASE_URL not found in environment variables');
     process.exit(1);
@@ -25,15 +25,15 @@ async function runMigration() {
 
     for (const migrationFile of migrations) {
       const migrationPath = path.join(__dirname, '../drizzle', migrationFile);
-      
+
       if (!fs.existsSync(migrationPath)) {
         console.log(`⚠️ Skipping ${migrationFile} (file not found)`);
         continue;
       }
-      
+
       const migrationSQL = fs.readFileSync(migrationPath, 'utf-8');
       console.log(`📝 Executing migration: ${migrationFile}`);
-      
+
       await sql.unsafe(migrationSQL);
       console.log(`✅ ${migrationFile} completed`);
     }
@@ -45,7 +45,6 @@ async function runMigration() {
     console.log('  - ab_test_experiments');
     console.log('  - ab_test_assignments');
     console.log('  - ab_test_events');
-
   } catch (error) {
     console.error('❌ Migration failed:', error.message);
     process.exit(1);

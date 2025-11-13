@@ -6,38 +6,60 @@
 // 敏感词库 (可扩展)
 const SENSITIVE_WORDS = [
   // 政治敏感词
-  "习近平", "毛泽东", "邓小平", "江泽民", "胡锦涛",
-  "中共", "共产党", "国民党", "台独", "藏独",
-  
+  '习近平',
+  '毛泽东',
+  '邓小平',
+  '江泽民',
+  '胡锦涛',
+  '中共',
+  '共产党',
+  '国民党',
+  '台独',
+  '藏独',
+
   // 暴力极端
-  "自杀", "杀人", "恐怖", "炸弹", "枪支",
-  
+  '自杀',
+  '杀人',
+  '恐怖',
+  '炸弹',
+  '枪支',
+
   // 色情低俗
-  "性交", "做爱", "裸体", "色情", "性虐",
-  
+  '性交',
+  '做爱',
+  '裸体',
+  '色情',
+  '性虐',
+
   // 赌博诈骗
-  "赌博", "六合彩", "诈骗", "传销", "洗钱",
-  
+  '赌博',
+  '六合彩',
+  '诈骗',
+  '传销',
+  '洗钱',
+
   // 迷信邪教
-  "法轮功", "邪教", "占卜", "巫术",
-  
+  '法轮功',
+  '邪教',
+  '占卜',
+  '巫术',
+
   // 其他违禁
-  "毒品", "大麻", "冰毒", "海洛因",
+  '毒品',
+  '大麻',
+  '冰毒',
+  '海洛因',
 ];
 
 // 年龄限制关键词
-const AGE_RESTRICTED_KEYWORDS = [
-  "未成年", "儿童", "孩子", "青少年", "学生",
-];
+const AGE_RESTRICTED_KEYWORDS = ['未成年', '儿童', '孩子', '青少年', '学生'];
 
 /**
  * 检查文本是否包含敏感词
  */
 export function containsSensitiveWords(text: string): boolean {
   const lowerText = text.toLowerCase();
-  return SENSITIVE_WORDS.some((word) =>
-    lowerText.includes(word.toLowerCase())
-  );
+  return SENSITIVE_WORDS.some((word) => lowerText.includes(word.toLowerCase()));
 }
 
 /**
@@ -45,12 +67,12 @@ export function containsSensitiveWords(text: string): boolean {
  */
 export function filterSensitiveWords(text: string): string {
   let filtered = text;
-  
+
   SENSITIVE_WORDS.forEach((word) => {
-    const regex = new RegExp(word, "gi");
-    filtered = filtered.replace(regex, "***");
+    const regex = new RegExp(word, 'gi');
+    filtered = filtered.replace(regex, '***');
   });
-  
+
   return filtered;
 }
 
@@ -67,7 +89,9 @@ export function isAgeRestricted(text: string): boolean {
 /**
  * 生成免责声明
  */
-export function generateDisclaimer(type: "default" | "age" | "strict" = "default"): string {
+export function generateDisclaimer(
+  type: 'default' | 'age' | 'strict' = 'default'
+): string {
   const disclaimers = {
     default: `
 🔔 **免责声明**
@@ -76,7 +100,7 @@ export function generateDisclaimer(type: "default" | "age" | "strict" = "default
 
 使用本服务即表示您已年满 18 周岁，并同意遵守相关法律法规。
     `.trim(),
-    
+
     age: `
 🔞 **年龄限制警告**
 
@@ -84,7 +108,7 @@ export function generateDisclaimer(type: "default" | "age" | "strict" = "default
 
 未成年人请在监护人陪同下使用，家长应对未成年人的使用行为负责。
     `.trim(),
-    
+
     strict: `
 ⚠️ **严重警告**
 
@@ -93,7 +117,7 @@ export function generateDisclaimer(type: "default" | "age" | "strict" = "default
 请遵守法律法规和平台规则，共同维护健康的社区环境。
     `.trim(),
   };
-  
+
   return disclaimers[type];
 }
 
@@ -112,31 +136,31 @@ export function checkAICompliance(input: {
 } {
   const reasons: string[] = [];
   let filtered = input.aiOutput;
-  let disclaimerType: "default" | "age" | "strict" = "default";
-  
+  let disclaimerType: 'default' | 'age' | 'strict' = 'default';
+
   // 检查用户输入
   if (containsSensitiveWords(input.userInput)) {
-    reasons.push("用户输入包含敏感词");
-    disclaimerType = "strict";
+    reasons.push('用户输入包含敏感词');
+    disclaimerType = 'strict';
   }
-  
+
   // 检查 AI 输出
   if (containsSensitiveWords(input.aiOutput)) {
-    reasons.push("AI 输出包含敏感词");
+    reasons.push('AI 输出包含敏感词');
     filtered = filterSensitiveWords(input.aiOutput);
   }
-  
+
   // 检查年龄限制
   if (isAgeRestricted(input.userInput) || isAgeRestricted(input.aiOutput)) {
-    reasons.push("涉及未成年人相关内容");
-    if (disclaimerType === "default") {
-      disclaimerType = "age";
+    reasons.push('涉及未成年人相关内容');
+    if (disclaimerType === 'default') {
+      disclaimerType = 'age';
     }
   }
-  
+
   // 判断是否合规
-  const compliant = disclaimerType !== "strict";
-  
+  const compliant = disclaimerType !== 'strict';
+
   return {
     compliant,
     filtered,
@@ -159,7 +183,7 @@ export function addComplianceConstraints(prompt: string): string {
 
 ${prompt}
   `.trim();
-  
+
   return constraints;
 }
 
@@ -168,13 +192,22 @@ ${prompt}
  */
 export function shouldReject(text: string): boolean {
   const rejectKeywords = [
-    "政治立场", "政治观点", "政府批评",
-    "色情服务", "性交易", "卖淫",
-    "暴力伤害", "犯罪计划", "恐怖活动",
-    "赌博平台", "诈骗方法", "洗钱技巧",
-    "毒品交易", "制毒方法",
+    '政治立场',
+    '政治观点',
+    '政府批评',
+    '色情服务',
+    '性交易',
+    '卖淫',
+    '暴力伤害',
+    '犯罪计划',
+    '恐怖活动',
+    '赌博平台',
+    '诈骗方法',
+    '洗钱技巧',
+    '毒品交易',
+    '制毒方法',
   ];
-  
+
   const lowerText = text.toLowerCase();
   return rejectKeywords.some((keyword) =>
     lowerText.includes(keyword.toLowerCase())

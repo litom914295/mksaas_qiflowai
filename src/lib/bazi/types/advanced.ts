@@ -1,11 +1,18 @@
 /**
  * 八字高级类型定义
  * 包含格局、神煞、十神、大运流年、解读等高级功能的类型
- * 
+ *
  * @module bazi/types/advanced
  */
 
-import type { Element, HeavenlyStem, EarthlyBranch, BaziChart, WuxingStrength, YongshenResult } from './core';
+import type {
+  BaziChart,
+  EarthlyBranch,
+  Element,
+  HeavenlyStem,
+  WuxingStrength,
+  YongshenResult,
+} from './core';
 
 // ===== 用户相关 =====
 

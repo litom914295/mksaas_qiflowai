@@ -1,7 +1,3 @@
-import { getDb } from '@/db';
-import { baziCalculations, fengshuiAnalysis, creditTransaction } from '@/db/schema';
-import { auth } from '@/lib/auth';
-import { and, count, eq, gte, sql } from 'drizzle-orm';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -10,6 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { getDb } from '@/db';
+import {
+  baziCalculations,
+  creditTransaction,
+  fengshuiAnalysis,
+} from '@/db/schema';
+import { auth } from '@/lib/auth';
 import {
   IconCalendar,
   IconFlame,
@@ -19,6 +22,7 @@ import {
   IconTrendingUp,
   IconYinYang,
 } from '@tabler/icons-react';
+import { and, count, eq, gte, sql } from 'drizzle-orm';
 
 type StatsData = {
   baziAnalysisCount: number;
@@ -148,7 +152,8 @@ async function getStatsData(): Promise<StatsData> {
     // 计算连续签到天数
     const marked = new Set<string>();
     for (const r of signInRows) {
-      const d = r.createdAt instanceof Date ? r.createdAt : new Date(r.createdAt);
+      const d =
+        r.createdAt instanceof Date ? r.createdAt : new Date(r.createdAt);
       const dateKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
       marked.add(dateKey);
     }
@@ -228,8 +233,8 @@ export async function QiFlowStatsCardsServer() {
             <Badge variant="outline" className="text-xs">
               {stats.baziAnalysisTrend >= 0 ? (
                 <>
-                  <IconTrendingUp className="h-3 w-3" />
-                  +{stats.baziAnalysisTrend}%
+                  <IconTrendingUp className="h-3 w-3" />+
+                  {stats.baziAnalysisTrend}%
                 </>
               ) : (
                 <>
@@ -265,8 +270,8 @@ export async function QiFlowStatsCardsServer() {
             <Badge variant="outline" className="text-xs">
               {stats.fengshuiAnalysisTrend >= 0 ? (
                 <>
-                  <IconTrendingUp className="h-3 w-3" />
-                  +{stats.fengshuiAnalysisTrend}%
+                  <IconTrendingUp className="h-3 w-3" />+
+                  {stats.fengshuiAnalysisTrend}%
                 </>
               ) : (
                 <>
@@ -302,8 +307,7 @@ export async function QiFlowStatsCardsServer() {
             <Badge variant="outline" className="text-xs">
               {stats.aiChatTrend >= 0 ? (
                 <>
-                  <IconTrendingUp className="h-3 w-3" />
-                  +{stats.aiChatTrend}%
+                  <IconTrendingUp className="h-3 w-3" />+{stats.aiChatTrend}%
                 </>
               ) : (
                 <>

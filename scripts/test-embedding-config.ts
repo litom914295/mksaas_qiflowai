@@ -9,7 +9,7 @@ async function testEmbeddingProviders() {
   console.log('🧪 开始测试 Embedding 提供商配置...\n');
 
   const testText = '八字命理是中国传统的命理学体系';
-  
+
   // 测试 1: 自动选择（应该选择硅基流动，因为 DEFAULT_REGION=cn）
   console.log('📍 测试 1: 自动选择提供商（基于地区 cn）');
   try {
@@ -17,7 +17,7 @@ async function testEmbeddingProviders() {
       provider: 'auto',
       userRegion: 'cn',
     });
-    
+
     const result1 = await service1.embed(testText);
     console.log(`✅ 成功 - 使用提供商: ${result1.provider}`);
     console.log(`   向量维度: ${result1.embedding.length}`);
@@ -35,7 +35,7 @@ async function testEmbeddingProviders() {
       provider: 'siliconflow',
       forceProvider: true,
     });
-    
+
     const result2 = await service2.embed(testText);
     console.log(`✅ 成功 - 使用提供商: ${result2.provider}`);
     console.log(`   向量维度: ${result2.embedding.length}`);
@@ -53,7 +53,7 @@ async function testEmbeddingProviders() {
       provider: 'jina',
       forceProvider: true,
     });
-    
+
     const result3 = await service3.embed(testText);
     console.log(`✅ 成功 - 使用提供商: ${result3.provider}`);
     console.log(`   向量维度: ${result3.embedding.length}`);
@@ -71,7 +71,7 @@ async function testEmbeddingProviders() {
       provider: 'openai',
       forceProvider: true,
     });
-    
+
     const result4 = await service4.embed(testText);
     console.log(`✅ 成功 - 使用提供商: ${result4.provider}`);
     console.log(`   向量维度: ${result4.embedding.length}`);
@@ -86,12 +86,12 @@ async function testEmbeddingProviders() {
   console.log('📊 所有提供商统计:');
   const service = getGlobalEmbeddingService();
   const stats = service.getStats();
-  
+
   console.log(`   可用提供商: ${stats.availableProviders.join(', ')}`);
   console.log(`   总请求数: ${stats.totalRequests}`);
   console.log(`   总成本: $${stats.totalCost.toFixed(6)}`);
   console.log();
-  
+
   console.log('✨ 测试完成！');
 }
 

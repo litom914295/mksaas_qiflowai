@@ -3,9 +3,15 @@
  * 提供完整的八字命理分析服务
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { LocaleLink } from '@/i18n/navigation';
 import { ArrowLeft, Calendar, Star, TrendingUp } from 'lucide-react';
 import type { Metadata } from 'next';

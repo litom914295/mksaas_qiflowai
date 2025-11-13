@@ -1,8 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
-import { creditTransaction, baziCalculations, fengshuiAnalysis } from '@/db/schema';
-import { eq, and, gte, sql } from 'drizzle-orm';
+import {
+  baziCalculations,
+  creditTransaction,
+  fengshuiAnalysis,
+} from '@/db/schema';
 import { getSession } from '@/lib/server';
+import { and, eq, gte, sql } from 'drizzle-orm';
+import { type NextRequest, NextResponse } from 'next/server';
 
 /**
  * GET /api/credits/daily-progress
@@ -93,7 +97,7 @@ export async function GET(request: NextRequest) {
       })
     );
 
-    let checkDate = new Date();
+    const checkDate = new Date();
     while (true) {
       const dateKey = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
       if (!signInDates.has(dateKey)) {
@@ -121,8 +125,12 @@ export async function GET(request: NextRequest) {
     ];
 
     // 计算下一个里程碑
-    const nextMilestone = milestones.find((m) => m.days > streak) || milestones[milestones.length - 1];
-    const progressToNext = nextMilestone ? (streak / nextMilestone.days) * 100 : 100;
+    const nextMilestone =
+      milestones.find((m) => m.days > streak) ||
+      milestones[milestones.length - 1];
+    const progressToNext = nextMilestone
+      ? (streak / nextMilestone.days) * 100
+      : 100;
 
     return NextResponse.json({
       tasks: {
@@ -136,28 +144,44 @@ export async function GET(request: NextRequest) {
           urgent: todaySignIn.length === 0, // 未签到则高亮
         },
         baziAnalysis: {
-          completed: Number(todayBaziCount[0]?.count || 0) >= taskGoals.baziAnalysis,
+          completed:
+            Number(todayBaziCount[0]?.count || 0) >= taskGoals.baziAnalysis,
           current: Number(todayBaziCount[0]?.count || 0),
           goal: taskGoals.baziAnalysis,
-          progress: Math.min((Number(todayBaziCount[0]?.count || 0) / taskGoals.baziAnalysis) * 100, 100),
+          progress: Math.min(
+            (Number(todayBaziCount[0]?.count || 0) / taskGoals.baziAnalysis) *
+              100,
+            100
+          ),
           credits: '-10',
           description: '进行八字命理分析',
           urgent: false,
         },
         fengshuiAnalysis: {
-          completed: Number(todayFengshuiCount[0]?.count || 0) >= taskGoals.fengshuiAnalysis,
+          completed:
+            Number(todayFengshuiCount[0]?.count || 0) >=
+            taskGoals.fengshuiAnalysis,
           current: Number(todayFengshuiCount[0]?.count || 0),
           goal: taskGoals.fengshuiAnalysis,
-          progress: Math.min((Number(todayFengshuiCount[0]?.count || 0) / taskGoals.fengshuiAnalysis) * 100, 100),
+          progress: Math.min(
+            (Number(todayFengshuiCount[0]?.count || 0) /
+              taskGoals.fengshuiAnalysis) *
+              100,
+            100
+          ),
           credits: '-20',
           description: '进行玄空风水分析',
           urgent: false,
         },
         aiChat: {
-          completed: Number(todayAiChatCount[0]?.count || 0) >= taskGoals.aiChat,
+          completed:
+            Number(todayAiChatCount[0]?.count || 0) >= taskGoals.aiChat,
           current: Number(todayAiChatCount[0]?.count || 0),
           goal: taskGoals.aiChat,
-          progress: Math.min((Number(todayAiChatCount[0]?.count || 0) / taskGoals.aiChat) * 100, 100),
+          progress: Math.min(
+            (Number(todayAiChatCount[0]?.count || 0) / taskGoals.aiChat) * 100,
+            100
+          ),
           credits: '-5/轮',
           description: '与AI命理顾问对话',
           urgent: false,
@@ -181,9 +205,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('获取日常进度失败:', error);
-    return NextResponse.json(
-      { error: '获取日常进度失败' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: '获取日常进度失败' }, { status: 500 });
   }
 }

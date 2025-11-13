@@ -320,7 +320,9 @@ describe('Comprehensive Analysis Engine', () => {
         expect(result.qixingdajieAnalysis).toHaveProperty('dajiePositions');
         expect(result.qixingdajieAnalysis).toHaveProperty('effectiveness');
         expect(result.qixingdajieAnalysis).toHaveProperty('score');
-        expect(result.qixingdajieAnalysis).toHaveProperty('sanbanGuaValidation');
+        expect(result.qixingdajieAnalysis).toHaveProperty(
+          'sanbanGuaValidation'
+        );
         expect(result.qixingdajieAnalysis).toHaveProperty(
           'activationRequirements'
         );

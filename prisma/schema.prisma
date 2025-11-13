@@ -1,6 +1,7 @@
-// Prisma Schema for QiFlow AI - P1 Optimization v5.1.1
-// Updated: 2025-10-12
-// Changes: Added instant_previews, leaderboard, posters tables
+// Prisma Schema for QiFlow AI - P1 Optimization v5.2.0
+// Updated: 2025-01-13
+// Changes: Added RBAC tables (Role, Permission, RolePermission, UserRole)
+//          Previous: Added instant_previews, leaderboard, posters tables
 //          Extended referrals, check_ins, users tables
 
 generator client {
@@ -53,6 +54,9 @@ model User {
   leaderboards    Leaderboard[]
   posters         Poster[]
   redemptions     CreditRedemption[]
+
+  // RBAC: 角色关系
+  userRoles UserRole[]
 
   @@index([memberTier])
   @@index([successfulInvites(sort: Desc)])
@@ -348,4 +352,84 @@ model CreditLevel {
   
   @@index([level])
   @@map("credit_levels")
+}
+
+// ============================================
+// RBAC: 权限管理系统
+// ============================================
+
+// 角色表
+model Role {
+  id          String @id @default(uuid())
+  name        String @unique @db.VarChar(50) // 角色名称: super_admin, admin, user
+  displayName String @map("display_name") @db.VarChar(100) // 显示名称: 超级管理员, 管理员, 普通用户
+  description String? @db.Text // 角色描述
+  
+  // 系统角色标记 (不可删除/修改)
+  isSystem    Boolean @default(false) @map("is_system")
+  
+  // 元数据
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  // 关系
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]
+  
+  @@index([name])
+  @@map("roles")
+}
+
+// 权限表
+model Permission {
+  id          String  @id @default(uuid())
+  name        String  @unique @db.VarChar(100) // 权限标识: admin.users.read, admin.users.write
+  displayName String  @map("display_name") @db.VarChar(100) // 显示名称: 查看用户, 编辑用户
+  description String? @db.Text // 权限描述
+  category    String  @db.VarChar(50) // 权限分类: user_management, content_management, system
+  
+  // 元数据
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  // 关系
+  rolePermissions RolePermission[]
+  
+  @@index([category])
+  @@map("permissions")
+}
+
+// 角色-权限关联表 (多对多)
+model RolePermission {
+  id           String @id @default(uuid())
+  roleId       String @map("role_id")
+  permissionId String @map("permission_id")
+  
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  
+  grantedAt DateTime @default(now()) @map("granted_at")
+  
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
+  @@map("role_permissions")
+}
+
+// 用户-角色关联表 (多对多)
+model UserRole {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  roleId String @map("role_id")
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  
+  assignedAt DateTime @default(now()) @map("assigned_at")
+  assignedBy String?  @map("assigned_by") // 分配者的userId
+  
+  @@unique([userId, roleId])
+  @@index([userId])
+  @@index([roleId])
+  @@map("user_roles")
 }

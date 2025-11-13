@@ -53,7 +53,7 @@ export class TrueSolarTimeCalculator {
   /**
    * 计算时差（Equation of Time）
    * 使用5项傅里叶级数,精度提升到±30秒
-   * 
+   *
    * 参考: Jean Meeus, "Astronomical Algorithms", 2nd Edition
    */
   private calculateEquationOfTime(date: Date): number {
@@ -61,7 +61,7 @@ export class TrueSolarTimeCalculator {
     const year = date.getFullYear();
 
     // 计算平近点角 M （弧度）
-    const M = (2 * Math.PI / 365.25) * (dayOfYear - 3);
+    const M = ((2 * Math.PI) / 365.25) * (dayOfYear - 3);
 
     // 使用5项傅里叶级数展开
     // E = 时间方程 （分钟）
@@ -75,7 +75,7 @@ export class TrueSolarTimeCalculator {
     // 考虑黄赤交角的周期性变化
     const obliquity = 23.44 - 0.0000004 * (year - 2000);
     const obliquityCorrection =
-      0.0430 * Math.sin(4 * M) * Math.cos((obliquity * Math.PI) / 180);
+      0.043 * Math.sin(4 * M) * Math.cos((obliquity * Math.PI) / 180);
 
     // 年份长期修正
     const yearCorrection = this.getYearCorrection(year);
@@ -212,14 +212,15 @@ export class TrueSolarTimeCalculator {
       trueSolarTime,
       longitudeCorrection: Math.round(longitudeCorrection * 10) / 10,
       equationOfTime: Math.round(equationOfTime * 10) / 10,
-      totalCorrection: Math.round((longitudeCorrection + equationOfTime) * 10) / 10,
+      totalCorrection:
+        Math.round((longitudeCorrection + equationOfTime) * 10) / 10,
     };
   }
 
   /**
    * 计算真太阳时（增强版）
    * 包含详细校正信息和边界警告
-   * 
+   *
    * @param config 配置参数
    * @returns 真太阳时和详细信息
    */
@@ -270,13 +271,9 @@ export class TrueSolarTimeCalculator {
 
     // 检查子时跨日情况
     if (hour === 23 && minute >= 0) {
-      warnings.push(
-        `当前时间处于子时前半（23:00-24:00）,日柱应为当日`
-      );
+      warnings.push(`当前时间处于子时前半（23:00-24:00）,日柱应为当日`);
     } else if (hour === 0 && minute < 60) {
-      warnings.push(
-        `当前时间处于子时后半（00:00-01:00）,日柱应为前一日`
-      );
+      warnings.push(`当前时间处于子时后半（00:00-01:00）,日柱应为前一日`);
     }
 
     return {

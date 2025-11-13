@@ -1,16 +1,18 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
-  cn,
-  generateId,
-  formatDateLocale,
   calculateAge,
+  cn,
   debounce,
+  formatDateLocale,
+  generateId,
 } from '@/lib/utils';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('Utils 工具函数测试', () => {
   describe('cn - Tailwind CSS 类名合并', () => {
     it('应该合并简单的类名', () => {
-      expect(cn('text-red-500', 'bg-blue-500')).toBe('text-red-500 bg-blue-500');
+      expect(cn('text-red-500', 'bg-blue-500')).toBe(
+        'text-red-500 bg-blue-500'
+      );
     });
 
     it('应该处理冲突的类名 (后者覆盖前者)', () => {

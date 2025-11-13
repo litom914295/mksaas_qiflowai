@@ -24,8 +24,7 @@ export function PricingTableSection() {
               {t('pricing.title') || '选择适合你的套餐'}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t('pricing.subtitle') ||
-                '灵活的定价方案，满足不同需求'}
+              {t('pricing.subtitle') || '灵活的定价方案，满足不同需求'}
             </p>
             <div className="mt-4 inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
               <Sparkles className="w-4 h-4" />

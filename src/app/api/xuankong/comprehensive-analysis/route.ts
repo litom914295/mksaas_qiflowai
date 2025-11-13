@@ -2,9 +2,9 @@ import type { DiagnosticAlert } from '@/components/qiflow/xuankong/diagnostic-al
 import type { RemedyPlan } from '@/components/qiflow/xuankong/remedy-plan-selector';
 import { analyzeKeyPositions } from '@/lib/qiflow/fusion/key-positions';
 import {
-  comprehensiveAnalysis,
   type ComprehensiveAnalysisOptions,
   type ComprehensiveAnalysisResult,
+  comprehensiveAnalysis,
 } from '@/lib/qiflow/xuankong/comprehensive-engine';
 import { analyzeXuankongDiagnosis } from '@/lib/qiflow/xuankong/diagnostic-engine';
 import { generateXuankongPlate } from '@/lib/qiflow/xuankong/plate-generator';
@@ -243,13 +243,11 @@ export async function POST(request: NextRequest) {
           : null,
         lingzheng: comprehensiveResult.lingzhengAnalysis
           ? {
-              zeroPosition:
-                comprehensiveResult.lingzhengAnalysis.zeroPosition,
+              zeroPosition: comprehensiveResult.lingzhengAnalysis.zeroPosition,
               positivePosition:
                 comprehensiveResult.lingzhengAnalysis.positivePosition,
               isReversal:
-                comprehensiveResult.lingzhengAnalysis
-                  .isZeroPositiveReversed,
+                comprehensiveResult.lingzhengAnalysis.isZeroPositiveReversed,
             }
           : null,
         chengmenjue: comprehensiveResult.chengmenjueAnalysis
@@ -339,7 +337,10 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('[API] Comprehensive analysis error:', error);
-    console.error('[API] Error stack:', error instanceof Error ? error.stack : 'No stack');
+    console.error(
+      '[API] Error stack:',
+      error instanceof Error ? error.stack : 'No stack'
+    );
     console.error('[API] Request body:', { facing, buildYear });
 
     return NextResponse.json(
@@ -347,7 +348,10 @@ export async function POST(request: NextRequest) {
         success: false,
         error: '综合分析失败',
         message: error instanceof Error ? error.message : '未知错误',
-        details: error instanceof Error ? error.stack?.split('\n').slice(0, 5).join('\n') : undefined,
+        details:
+          error instanceof Error
+            ? error.stack?.split('\n').slice(0, 5).join('\n')
+            : undefined,
       },
       { status: 500 }
     );

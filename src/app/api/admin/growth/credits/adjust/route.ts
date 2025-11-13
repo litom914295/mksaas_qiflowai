@@ -1,5 +1,6 @@
 import { addCredits, consumeCredits, getUserCredits } from '@/credits/credits';
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
+import { AuditAction, logCreditAction } from '@/lib/audit/logAudit';
 import { withAdminAuth } from '@/lib/middleware/adminAuth';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -56,6 +57,20 @@ export const POST = withAdminAuth(async (request: NextRequest) => {
     // 获取调整后的余额
     const newBalance = await getUserCredits(userId);
     console.log(`[管理员调整] 用户 ${userId} 新余额: ${newBalance}`);
+
+    // 记录审计日志
+    const adminUser = (request as any).user; // 从withAdminAuth中间件获取
+    await logCreditAction({
+      userId: adminUser?.id || 'unknown',
+      action: AuditAction.CREDIT_ADJUST,
+      targetUserId: userId,
+      description: `调整用户积分: ${amount > 0 ? '+' : ''}${amount} (${reason || '无备注'})`,
+      changes: {
+        before: { balance: currentBalance },
+        after: { balance: newBalance },
+      },
+      request,
+    });
 
     return NextResponse.json({
       success: true,

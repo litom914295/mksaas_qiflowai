@@ -2,7 +2,6 @@
 
 import type { EnhancedBaziResult } from '@/lib/bazi';
 
-
 interface CacheEntry<T> {
   data: T;
   timestamp: number;

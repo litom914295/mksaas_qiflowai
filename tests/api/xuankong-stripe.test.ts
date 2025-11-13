@@ -31,7 +31,9 @@ describe('API: 玄空风水分析 - /api/xuankong/comprehensive-analysis', () =>
             alerts: expect.arrayContaining([
               expect.objectContaining({
                 id: expect.any(String),
-                severity: expect.stringMatching(/^(critical|high|medium|low|safe)$/),
+                severity: expect.stringMatching(
+                  /^(critical|high|medium|low|safe)$/
+                ),
                 title: expect.any(String),
                 description: expect.any(String),
                 affectedArea: expect.any(String),
@@ -74,7 +76,7 @@ describe('API: 玄空风水分析 - /api/xuankong/comprehensive-analysis', () =>
 
       for (const facing of facings) {
         const request = { ...validRequest, facing };
-        
+
         const mockAnalyze = async (body: typeof request) => ({
           success: true,
           data: {
@@ -98,7 +100,7 @@ describe('API: 玄空风水分析 - /api/xuankong/comprehensive-analysis', () =>
 
       for (const testCase of testCases) {
         const request = { ...validRequest, buildYear: testCase.buildYear };
-        
+
         const mockAnalyze = async (body: typeof request) => {
           // 简化的运期计算（九运：20年一个周期）
           let period = 7;
@@ -106,7 +108,7 @@ describe('API: 玄空风水分析 - /api/xuankong/comprehensive-analysis', () =>
           else if (body.buildYear >= 2004) period = 8;
           else if (body.buildYear >= 1984) period = 7;
           else if (body.buildYear >= 1964) period = 6;
-          
+
           return {
             success: true,
             data: {
@@ -202,7 +204,7 @@ describe('API: 玄空风水分析 - /api/xuankong/comprehensive-analysis', () =>
 
       const result = await mockAnalyze();
       const { avgScore } = result.data.diagnosis.stats;
-      
+
       expect(avgScore).toBeGreaterThanOrEqual(0);
       expect(avgScore).toBeLessThanOrEqual(100);
     });
@@ -212,20 +214,22 @@ describe('API: 玄空风水分析 - /api/xuankong/comprehensive-analysis', () =>
         success: true,
         data: {
           remedyPlans: {
-            north: [{
-              cost: {
-                min: 100,
-                max: 500,
-                currency: '元',
+            north: [
+              {
+                cost: {
+                  min: 100,
+                  max: 500,
+                  currency: '元',
+                },
               },
-            }],
+            ],
           },
         },
       });
 
       const result = await mockAnalyze();
       const plans = Object.values(result.data.remedyPlans).flat();
-      
+
       for (const plan of plans as any[]) {
         expect(plan.cost.min).toBeGreaterThan(0);
         expect(plan.cost.max).toBeGreaterThanOrEqual(plan.cost.min);
@@ -257,7 +261,7 @@ describe('API: Stripe Webhook - /api/webhooks/stripe', () => {
         if (!payload || !signature) {
           return { error: 'Missing required parameters', status: 400 };
         }
-        
+
         return {
           received: true,
           status: 200,
@@ -332,7 +336,7 @@ describe('API: Stripe Webhook - /api/webhooks/stripe', () => {
       const validateSignature = (signature: string) => {
         // 简化的签名验证
         const isValid = signature.includes('t=') && signature.includes('v1=');
-        
+
         if (!isValid) {
           return { error: 'Invalid Stripe signature', status: 400 };
         }
@@ -373,7 +377,7 @@ describe('API: Stripe Webhook - /api/webhooks/stripe', () => {
             status: 200,
           };
         }
-        
+
         processedEvents.add(eventId);
         return {
           received: true,
@@ -400,7 +404,7 @@ describe('API: Stripe Webhook - /api/webhooks/stripe', () => {
           return { error: 'Invalid signature format', valid: false };
         }
 
-        const timestamp = parseInt(match[1], 10);
+        const timestamp = Number.parseInt(match[1], 10);
         const now = Math.floor(Date.now() / 1000);
         const maxAge = 300; // 5分钟
 

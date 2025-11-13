@@ -12,6 +12,7 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
 import {
   ArrowRightIcon,
   CalendarCheckIcon,
@@ -24,7 +25,6 @@ import {
   TrophyIcon,
   WindIcon,
 } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 interface EnhancedCreditsEarningGuideProps {

@@ -1,6 +1,6 @@
 /**
  * Phase 4: 报告购买 Action (积分支付)
- * 
+ *
  * 流程:
  * 1. 检查积分余额
  * 2. 创建报告记录 (status: generating)
@@ -12,13 +12,16 @@
 
 'use server';
 
-import { auth } from '@/lib/auth';
-import { getDb } from '@/db';
-import { qiflowReports, creditTransaction } from '@/db/schema';
-import { CreditsManager } from '@/lib/credits/manager';
-import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { QIFLOW_PRICING } from '@/config/qiflow-pricing';
-import { generateEssentialReport, type EssentialReportInput } from '@/lib/qiflow/reports/essential-report';
+import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
+import { getDb } from '@/db';
+import { creditTransaction, qiflowReports } from '@/db/schema';
+import { auth } from '@/lib/auth';
+import { CreditsManager } from '@/lib/credits/manager';
+import {
+  type EssentialReportInput,
+  generateEssentialReport,
+} from '@/lib/qiflow/reports/essential-report';
 import { eq } from 'drizzle-orm';
 
 /**
@@ -28,7 +31,11 @@ export interface PurchaseReportResult {
   success: boolean;
   reportId?: string;
   error?: string;
-  errorCode?: 'UNAUTHORIZED' | 'INSUFFICIENT_CREDITS' | 'GENERATION_FAILED' | 'UNKNOWN';
+  errorCode?:
+    | 'UNAUTHORIZED'
+    | 'INSUFFICIENT_CREDITS'
+    | 'GENERATION_FAILED'
+    | 'UNKNOWN';
   requiredCredits?: number;
   currentBalance?: number;
 }
@@ -57,7 +64,7 @@ export async function purchaseReportWithCreditsAction(
     // 2. 检查余额
     console.log(`[Purchase] 用户 ${userId} 购买报告，需要 ${price} 积分`);
     const balance = await creditsManager.getBalance(userId);
-    
+
     if (balance < price) {
       console.log(`[Purchase] 积分不足: ${balance} < ${price}`);
       return {
@@ -71,22 +78,25 @@ export async function purchaseReportWithCreditsAction(
 
     // 3. 创建报告记录 (status: generating)
     const db = await getDb();
-    const [report] = await db.insert(qiflowReports).values({
-      userId,
-      reportType: 'essential',
-      status: 'generating',
-      input: {
-        birthInfo: input.birthInfo,
-        selectedThemes: input.selectedThemes,
-      },
-      creditsUsed: price,
-      metadata: {
-        purchaseMethod: 'credits',
-        aiModel: 'deepseek-chat',
-        generationTimeMs: 0,
-        aiCostUSD: 0,
-      },
-    }).returning();
+    const [report] = await db
+      .insert(qiflowReports)
+      .values({
+        userId,
+        reportType: 'essential',
+        status: 'generating',
+        input: {
+          birthInfo: input.birthInfo,
+          selectedThemes: input.selectedThemes,
+        },
+        creditsUsed: price,
+        metadata: {
+          purchaseMethod: 'credits',
+          aiModel: 'deepseek-chat',
+          generationTimeMs: 0,
+          aiCostUSD: 0,
+        },
+      })
+      .returning();
 
     console.log(`[Purchase] 报告记录已创建: ${report.id}`);
 
@@ -113,12 +123,13 @@ export async function purchaseReportWithCreditsAction(
     // 5. 生成报告 (同步，约 12 秒)
     console.log(`[Purchase] 开始生成报告...`);
     const startTime = Date.now();
-    
+
     try {
       const reportOutput = await generateEssentialReport(input);
-      
+
       // 6. 保存报告结果
-      await db.update(qiflowReports)
+      await db
+        .update(qiflowReports)
         .set({
           status: 'completed',
           output: {
@@ -138,7 +149,9 @@ export async function purchaseReportWithCreditsAction(
         })
         .where(eq(qiflowReports.id, report.id));
 
-      console.log(`[Purchase] 报告生成成功: ${report.id}, 耗时 ${Date.now() - startTime}ms`);
+      console.log(
+        `[Purchase] 报告生成成功: ${report.id}, 耗时 ${Date.now() - startTime}ms`
+      );
 
       return {
         success: true,
@@ -149,7 +162,7 @@ export async function purchaseReportWithCreditsAction(
 
       // 7. 失败回滚积分
       await creditsManager.addCredits(userId, price);
-      
+
       // 记录退款交易
       await db.insert(creditTransaction).values({
         id: `txn_refund_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -161,7 +174,8 @@ export async function purchaseReportWithCreditsAction(
       });
 
       // 更新报告状态为 failed
-      await db.update(qiflowReports)
+      await db
+        .update(qiflowReports)
         .set({ status: 'failed' })
         .where(eq(qiflowReports.id, report.id));
 
@@ -192,11 +206,8 @@ export async function getReportStatusAction(reportId: string) {
 
   const db = await getDb();
   const report = await db.query.qiflowReports.findFirst({
-    where: (reports, { eq, and }) => 
-      and(
-        eq(reports.id, reportId),
-        eq(reports.userId, session.user.id)
-      ),
+    where: (reports, { eq, and }) =>
+      and(eq(reports.id, reportId), eq(reports.userId, session.user.id)),
   });
 
   if (!report) {

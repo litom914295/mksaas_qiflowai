@@ -1,9 +1,9 @@
 /**
  * 八字类型定义模块
- * 
+ *
  * 统一导出所有八字相关的类型定义
  * 使用方式: import { StemBranch, FourPillars } from '@/lib/bazi/types';
- * 
+ *
  * @module bazi/types
  */
 

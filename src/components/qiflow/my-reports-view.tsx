@@ -1,40 +1,40 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import {
-  FileText,
-  Calendar,
-  Clock,
-  CheckCircle2,
-  XCircle,
-  Loader2,
-  Plus,
-  Filter,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from '@/components/ui/card';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
+import { motion } from 'framer-motion';
+import {
+  Calendar,
+  CheckCircle2,
+  Clock,
+  FileText,
+  Filter,
+  Loader2,
+  Plus,
+  XCircle,
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 type Report = {
   id: string;
   userId: string;
-  reportType: "basic" | "essential";
-  status: "generating" | "completed" | "failed";
+  reportType: 'basic' | 'essential';
+  status: 'generating' | 'completed' | 'failed';
   input: Record<string, unknown>;
   output: Record<string, unknown> | null;
   creditsUsed: number;
@@ -51,40 +51,40 @@ type Props = {
 
 const STATUS_CONFIG = {
   generating: {
-    label: "生成中",
+    label: '生成中',
     icon: Loader2,
-    color: "text-blue-600",
-    bgColor: "bg-blue-50",
-    badgeVariant: "secondary" as const,
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-50',
+    badgeVariant: 'secondary' as const,
   },
   completed: {
-    label: "已完成",
+    label: '已完成',
     icon: CheckCircle2,
-    color: "text-green-600",
-    bgColor: "bg-green-50",
-    badgeVariant: "default" as const,
+    color: 'text-green-600',
+    bgColor: 'bg-green-50',
+    badgeVariant: 'default' as const,
   },
   failed: {
-    label: "失败",
+    label: '失败',
     icon: XCircle,
-    color: "text-red-600",
-    bgColor: "bg-red-50",
-    badgeVariant: "destructive" as const,
+    color: 'text-red-600',
+    bgColor: 'bg-red-50',
+    badgeVariant: 'destructive' as const,
   },
 };
 
 const REPORT_TYPE_LABELS = {
-  basic: "基础报告",
-  essential: "精华报告",
+  basic: '基础报告',
+  essential: '精华报告',
 };
 
 export function MyReportsView({ reports }: Props) {
   const router = useRouter();
-  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<string>('all');
 
   // 过滤报告
   const filteredReports =
-    statusFilter === "all"
+    statusFilter === 'all'
       ? reports
       : reports.filter((r) => r.status === statusFilter);
 
@@ -103,7 +103,7 @@ export function MyReportsView({ reports }: Props) {
             </p>
           </div>
           <Button
-            onClick={() => router.push("/reports/essential/buy")}
+            onClick={() => router.push('/reports/essential/buy')}
             className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
             size="lg"
           >
@@ -134,7 +134,7 @@ export function MyReportsView({ reports }: Props) {
           </div>
 
           <Button
-            onClick={() => router.push("/reports/essential/buy")}
+            onClick={() => router.push('/reports/essential/buy')}
             className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -193,10 +193,10 @@ export function MyReportsView({ reports }: Props) {
                 >
                   <Card
                     className={`hover:shadow-lg transition-shadow cursor-pointer ${
-                      report.status === "generating" ? "animate-pulse" : ""
+                      report.status === 'generating' ? 'animate-pulse' : ''
                     }`}
                     onClick={() => {
-                      if (report.status === "completed") {
+                      if (report.status === 'completed') {
                         router.push(`/reports/${report.id}`);
                       }
                     }}
@@ -215,7 +215,9 @@ export function MyReportsView({ reports }: Props) {
                         <Badge variant={statusConfig.badgeVariant}>
                           <StatusIcon
                             className={`w-3 h-3 mr-1 ${
-                              report.status === "generating" ? "animate-spin" : ""
+                              report.status === 'generating'
+                                ? 'animate-spin'
+                                : ''
                             }`}
                           />
                           {statusConfig.label}
@@ -246,12 +248,12 @@ export function MyReportsView({ reports }: Props) {
                       {/* 创建时间 */}
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Clock className="w-3 h-3" />
-                        {new Date(report.createdAt).toLocaleString("zh-CN", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                          hour: "2-digit",
-                          minute: "2-digit",
+                        {new Date(report.createdAt).toLocaleString('zh-CN', {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
                         })}
                       </div>
 
@@ -266,7 +268,7 @@ export function MyReportsView({ reports }: Props) {
                       </div>
 
                       {/* 操作按钮 */}
-                      {report.status === "completed" && (
+                      {report.status === 'completed' && (
                         <Button
                           variant="outline"
                           className="w-full mt-2"
@@ -279,20 +281,20 @@ export function MyReportsView({ reports }: Props) {
                         </Button>
                       )}
 
-                      {report.status === "failed" && (
+                      {report.status === 'failed' && (
                         <Button
                           variant="outline"
                           className="w-full mt-2"
                           onClick={(e) => {
                             e.stopPropagation();
-                            router.push("/reports/essential/buy");
+                            router.push('/reports/essential/buy');
                           }}
                         >
                           重新购买
                         </Button>
                       )}
 
-                      {report.status === "generating" && (
+                      {report.status === 'generating' && (
                         <div className="text-xs text-center text-muted-foreground pt-2">
                           预计还需 10-15 秒...
                         </div>

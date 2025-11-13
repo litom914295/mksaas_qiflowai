@@ -3,14 +3,14 @@
  * 用于验证纳音表的完整性和准确性
  */
 
-import { 
-  validateNayinTable, 
+import {
+  NAYIN_LIST,
+  SEXAGENARY_CYCLE,
+  getAllNayin,
+  getGanZhiByNayin,
   getNayin,
   getNayinByIndex,
-  getGanZhiByNayin,
-  getAllNayin,
-  SEXAGENARY_CYCLE,
-  NAYIN_LIST
+  validateNayinTable,
 } from '../src/lib/bazi/constants/nayin';
 
 console.log('===== 纳音表验证 =====\n');
@@ -39,16 +39,22 @@ for (const testCase of testCases) {
   const result = getNayin(testCase.gan, testCase.zhi);
   const passed = result === testCase.expected;
   if (passed) passedTests++;
-  
-  console.log(`  ${testCase.gan}${testCase.zhi} => ${result} ${passed ? '✅' : '❌ 期望:' + testCase.expected}`);
+
+  console.log(
+    `  ${testCase.gan}${testCase.zhi} => ${result} ${passed ? '✅' : '❌ 期望:' + testCase.expected}`
+  );
 }
 console.log(`通过率: ${passedTests}/${testCases.length}`);
 console.log();
 
 // 3. 数量统计
 console.log('3. 数量统计:');
-console.log(`  60甲子: ${SEXAGENARY_CYCLE.length} ${SEXAGENARY_CYCLE.length === 60 ? '✅' : '❌'}`);
-console.log(`  纳音组: ${NAYIN_LIST.length} ${NAYIN_LIST.length === 30 ? '✅' : '❌'}`);
+console.log(
+  `  60甲子: ${SEXAGENARY_CYCLE.length} ${SEXAGENARY_CYCLE.length === 60 ? '✅' : '❌'}`
+);
+console.log(
+  `  纳音组: ${NAYIN_LIST.length} ${NAYIN_LIST.length === 30 ? '✅' : '❌'}`
+);
 console.log();
 
 // 4. 所有纳音五行
@@ -56,15 +62,23 @@ console.log('4. 所有纳音五行 (30组):');
 const allNayin = getAllNayin();
 allNayin.forEach((nayin, index) => {
   const ganZhiList = getGanZhiByNayin(nayin);
-  console.log(`  ${String(index + 1).padStart(2)}. ${nayin.padEnd(6)} - ${ganZhiList.join(', ')}`);
+  console.log(
+    `  ${String(index + 1).padStart(2)}. ${nayin.padEnd(6)} - ${ganZhiList.join(', ')}`
+  );
 });
 console.log();
 
 // 5. 索引查找验证
 console.log('5. 索引查找验证:');
-console.log(`  索引 0: ${getNayinByIndex(0)} (甲子) ${getNayinByIndex(0) === '海中金' ? '✅' : '❌'}`);
-console.log(`  索引 1: ${getNayinByIndex(1)} (乙丑) ${getNayinByIndex(1) === '海中金' ? '✅' : '❌'}`);
-console.log(`  索引 59: ${getNayinByIndex(59)} (癸亥) ${getNayinByIndex(59) === '大海水' ? '✅' : '❌'}`);
+console.log(
+  `  索引 0: ${getNayinByIndex(0)} (甲子) ${getNayinByIndex(0) === '海中金' ? '✅' : '❌'}`
+);
+console.log(
+  `  索引 1: ${getNayinByIndex(1)} (乙丑) ${getNayinByIndex(1) === '海中金' ? '✅' : '❌'}`
+);
+console.log(
+  `  索引 59: ${getNayinByIndex(59)} (癸亥) ${getNayinByIndex(59) === '大海水' ? '✅' : '❌'}`
+);
 console.log();
 
 // 最终结果

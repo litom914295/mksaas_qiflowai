@@ -61,8 +61,17 @@ async function debugDayunCalculation() {
     const currentLuckPillar = await calculator.getCurrentLuckPillar();
     if (currentLuckPillar) {
       console.log('当前大运:');
-      console.log('  干支:', currentLuckPillar.heavenlyStem, currentLuckPillar.earthlyBranch);
-      console.log('  年龄范围:', currentLuckPillar.startAge, '-', currentLuckPillar.endAge);
+      console.log(
+        '  干支:',
+        currentLuckPillar.heavenlyStem,
+        currentLuckPillar.earthlyBranch
+      );
+      console.log(
+        '  年龄范围:',
+        currentLuckPillar.startAge,
+        '-',
+        currentLuckPillar.endAge
+      );
       console.log('  期数:', currentLuckPillar.period);
     } else {
       console.log('❌ 未找到当前大运');
@@ -73,10 +82,12 @@ async function debugDayunCalculation() {
     const anyResult = result as any;
     console.log('birthData:', anyResult.birthData);
     console.log('solar:', anyResult.solar);
-    
-    // 检查luckPillars的原始数据
-    console.log('\nluckPillars原始数据:', JSON.stringify(result?.luckPillars?.slice(0, 3), null, 2));
 
+    // 检查luckPillars的原始数据
+    console.log(
+      '\nluckPillars原始数据:',
+      JSON.stringify(result?.luckPillars?.slice(0, 3), null, 2)
+    );
   } catch (error) {
     console.error('❌ 错误:', error);
     if (error instanceof Error) {

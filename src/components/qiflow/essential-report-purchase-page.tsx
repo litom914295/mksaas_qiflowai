@@ -1,12 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Clock, MapPin, User, Sparkles, AlertCircle, Gift, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { claimABTestRewardAction } from '@/actions/qiflow/claim-ab-test-reward';
+import { purchaseReportWithCreditsAction } from '@/actions/qiflow/purchase-report-with-credits';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -14,30 +12,46 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { PaywallOverlay } from "./paywall-overlay";
-import { purchaseReportWithCreditsAction } from "@/actions/qiflow/purchase-report-with-credits";
-import { claimABTestRewardAction } from "@/actions/qiflow/claim-ab-test-reward";
-import { QIFLOW_PRICING } from "@/config/qiflow-pricing";
-import { useToast } from "@/hooks/use-toast";
-import { abTestManager } from "@/lib/ab-test/manager";
-import { recommendThemes, explainRecommendation, getDefaultThemes, type ThemeId } from "@/lib/qiflow/theme-recommendation";
-import { calculateBaziElements } from "@/lib/qiflow/bazi";
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { QIFLOW_PRICING } from '@/config/qiflow-pricing';
+import { useToast } from '@/hooks/use-toast';
+import { abTestManager } from '@/lib/ab-test/manager';
+import { calculateBaziElements } from '@/lib/qiflow/bazi';
+import {
+  type ThemeId,
+  explainRecommendation,
+  getDefaultThemes,
+  recommendThemes,
+} from '@/lib/qiflow/theme-recommendation';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  AlertCircle,
+  Calendar,
+  CheckCircle,
+  Clock,
+  Gift,
+  MapPin,
+  Sparkles,
+  User,
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { PaywallOverlay } from './paywall-overlay';
 
 type PrefillData = {
   birthDate?: string;
   birthHour?: string;
-  gender?: "male" | "female";
+  gender?: 'male' | 'female';
   location?: string;
 };
 
@@ -49,27 +63,27 @@ type Props = {
 
 // 时辰选项 (23 个时辰)
 const HOUR_OPTIONS = [
-  { value: "23", label: "子时 (23:00-00:59)" },
-  { value: "01", label: "丑时 (01:00-02:59)" },
-  { value: "03", label: "寅时 (03:00-04:59)" },
-  { value: "05", label: "卯时 (05:00-06:59)" },
-  { value: "07", label: "辰时 (07:00-08:59)" },
-  { value: "09", label: "巳时 (09:00-10:59)" },
-  { value: "11", label: "午时 (11:00-12:59)" },
-  { value: "13", label: "未时 (13:00-14:59)" },
-  { value: "15", label: "申时 (15:00-16:59)" },
-  { value: "17", label: "酉时 (17:00-18:59)" },
-  { value: "19", label: "戌时 (19:00-20:59)" },
-  { value: "21", label: "亥时 (21:00-22:59)" },
+  { value: '23', label: '子时 (23:00-00:59)' },
+  { value: '01', label: '丑时 (01:00-02:59)' },
+  { value: '03', label: '寅时 (03:00-04:59)' },
+  { value: '05', label: '卯时 (05:00-06:59)' },
+  { value: '07', label: '辰时 (07:00-08:59)' },
+  { value: '09', label: '巳时 (09:00-10:59)' },
+  { value: '11', label: '午时 (11:00-12:59)' },
+  { value: '13', label: '未时 (13:00-14:59)' },
+  { value: '15', label: '申时 (15:00-16:59)' },
+  { value: '17', label: '酉时 (17:00-18:59)' },
+  { value: '19', label: '戌时 (19:00-20:59)' },
+  { value: '21', label: '亥时 (21:00-22:59)' },
 ];
 
 // 主题选项
 const THEME_OPTIONS = [
-  { id: "career", label: "事业财运", description: "职业发展、财富机遇" },
-  { id: "relationship", label: "感情姻缘", description: "爱情婚姻、人际关系" },
-  { id: "health", label: "健康养生", description: "身体状况、养生建议" },
-  { id: "education", label: "学业智慧", description: "学习发展、智慧提升" },
-  { id: "family", label: "家庭子女", description: "家庭和睦、子女教育" },
+  { id: 'career', label: '事业财运', description: '职业发展、财富机遇' },
+  { id: 'relationship', label: '感情姻缘', description: '爱情婚姻、人际关系' },
+  { id: 'health', label: '健康养生', description: '身体状况、养生建议' },
+  { id: 'education', label: '学业智慧', description: '学习发展、智慧提升' },
+  { id: 'family', label: '家庭子女', description: '家庭和睦、子女教育' },
 ];
 
 export function EssentialReportPurchasePage({
@@ -79,25 +93,27 @@ export function EssentialReportPurchasePage({
 }: Props) {
   const router = useRouter();
   const { toast } = useToast();
-  
+
   const [formData, setFormData] = useState({
-    birthDate: prefillData?.birthDate || "",
-    birthHour: prefillData?.birthHour || "",
-    gender: prefillData?.gender || ("" as "male" | "female" | ""),
-    location: prefillData?.location || "",
+    birthDate: prefillData?.birthDate || '',
+    birthHour: prefillData?.birthHour || '',
+    gender: prefillData?.gender || ('' as 'male' | 'female' | ''),
+    location: prefillData?.location || '',
     selectedThemes: [] as string[],
   });
 
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
-  const [validationError, setValidationError] = useState("");
-  
+  const [validationError, setValidationError] = useState('');
+
   // A/B 测试相关状态
   const [variant, setVariant] = useState<string | null>(null);
   const [recommendedThemes, setRecommendedThemes] = useState<ThemeId[]>([]);
-  const [recommendationExplanation, setRecommendationExplanation] = useState("");
+  const [recommendationExplanation, setRecommendationExplanation] =
+    useState('');
   const [showRecommendation, setShowRecommendation] = useState(false);
-  const [hasAdoptedRecommendation, setHasAdoptedRecommendation] = useState(false);
+  const [hasAdoptedRecommendation, setHasAdoptedRecommendation] =
+    useState(false);
   const [showRewardNotification, setShowRewardNotification] = useState(false);
   const [rewardClaimed, setRewardClaimed] = useState(false);
 
@@ -109,7 +125,7 @@ export function EssentialReportPurchasePage({
       try {
         // 获取用户变体
         const variantResult = await abTestManager.getVariant({
-          experimentName: "theme_recommendation_v1",
+          experimentName: 'theme_recommendation_v1',
           userId: userId,
         });
 
@@ -118,36 +134,43 @@ export function EssentialReportPurchasePage({
 
           // 追踪查看推荐事件
           await abTestManager.trackEvent({
-            experimentName: "theme_recommendation_v1",
+            experimentName: 'theme_recommendation_v1',
             userId: userId,
-            eventType: "recommendation_view",
+            eventType: 'recommendation_view',
             eventData: { variant: variantResult.variantId },
           });
 
           // 如果是智能推荐组，且已填写必要信息
-          if (variantResult.variantId === "variant_a" && formData.birthDate && formData.gender) {
+          if (
+            variantResult.variantId === 'variant_a' &&
+            formData.birthDate &&
+            formData.gender
+          ) {
             try {
               // 计算八字五行
-              const elements = calculateBaziElements(formData.birthDate, formData.birthHour || "09");
-              
+              const elements = calculateBaziElements(
+                formData.birthDate,
+                formData.birthHour || '09'
+              );
+
               // 生成智能推荐
               const themes = recommendThemes({
                 birthDate: formData.birthDate,
                 gender: formData.gender,
                 elements,
               });
-              
+
               const explanation = explainRecommendation({
                 birthDate: formData.birthDate,
                 gender: formData.gender,
                 elements,
               });
-              
+
               setRecommendedThemes(themes);
               setRecommendationExplanation(explanation);
               setShowRecommendation(true);
             } catch (error) {
-              console.error("Failed to generate recommendations:", error);
+              console.error('Failed to generate recommendations:', error);
               // 降级到默认推荐
               setRecommendedThemes(getDefaultThemes());
               setShowRecommendation(false);
@@ -159,7 +182,7 @@ export function EssentialReportPurchasePage({
           }
         }
       } catch (error) {
-        console.error("Failed to load A/B test variant:", error);
+        console.error('Failed to load A/B test variant:', error);
       }
     }
 
@@ -180,13 +203,13 @@ export function EssentialReportPurchasePage({
     // 追踪采纳事件
     try {
       await abTestManager.trackEvent({
-        experimentName: "theme_recommendation_v1",
+        experimentName: 'theme_recommendation_v1',
         userId: userId,
-        eventType: "recommendation_adopted",
+        eventType: 'recommendation_adopted',
         eventData: { adoptedThemes: recommendedThemes },
       });
     } catch (error) {
-      console.error("Failed to track recommendation adoption:", error);
+      console.error('Failed to track recommendation adoption:', error);
     }
   }
 
@@ -194,30 +217,30 @@ export function EssentialReportPurchasePage({
   async function handleClaimReward() {
     try {
       const result = await claimABTestRewardAction({
-        experimentName: "theme_recommendation_v1",
+        experimentName: 'theme_recommendation_v1',
       });
 
       if (result.success) {
         setRewardClaimed(true);
         toast({
-          title: "奖励已发放！",
+          title: '奖励已发放！',
           description: `您获得了 ${result.creditsEarned} 积分`,
         });
         // 3 秒后隐藏通知
         setTimeout(() => setShowRewardNotification(false), 3000);
       } else {
         toast({
-          title: "领取失败",
+          title: '领取失败',
           description: result.error,
-          variant: "destructive",
+          variant: 'destructive',
         });
       }
     } catch (error) {
-      console.error("Failed to claim reward:", error);
+      console.error('Failed to claim reward:', error);
       toast({
-        title: "领取失败",
-        description: "系统错误，请稍后重试",
-        variant: "destructive",
+        title: '领取失败',
+        description: '系统错误，请稍后重试',
+        variant: 'destructive',
       });
     }
   }
@@ -225,27 +248,27 @@ export function EssentialReportPurchasePage({
   // 表单验证
   function validateForm(): boolean {
     if (!formData.birthDate) {
-      setValidationError("请输入出生日期");
+      setValidationError('请输入出生日期');
       return false;
     }
     if (!formData.birthHour) {
-      setValidationError("请选择出生时辰");
+      setValidationError('请选择出生时辰');
       return false;
     }
     if (!formData.gender) {
-      setValidationError("请选择性别");
+      setValidationError('请选择性别');
       return false;
     }
     if (!formData.location) {
-      setValidationError("请输入出生地");
+      setValidationError('请输入出生地');
       return false;
     }
     if (formData.selectedThemes.length !== 3) {
-      setValidationError("请选择 3 个主题");
+      setValidationError('请选择 3 个主题');
       return false;
     }
-    
-    setValidationError("");
+
+    setValidationError('');
     return true;
   }
 
@@ -254,7 +277,7 @@ export function EssentialReportPurchasePage({
     setFormData((prev) => {
       const currentThemes = prev.selectedThemes;
       const wasRecommended = recommendedThemes.includes(themeId as ThemeId);
-      
+
       if (currentThemes.includes(themeId)) {
         // 取消选择
         return {
@@ -264,26 +287,34 @@ export function EssentialReportPurchasePage({
       } else if (currentThemes.length < 3) {
         // 添加选择 (最多 3 个)
         const newThemes = [...currentThemes, themeId];
-        
+
         // 如果修改了推荐，追踪事件
-        if (showRecommendation && !arraysEqual(newThemes.slice().sort(), recommendedThemes.slice().sort())) {
-          abTestManager.trackEvent({
-            experimentName: "theme_recommendation_v1",
-            userId: userId,
-            eventType: "recommendation_modified",
-            eventData: {
-              recommendedThemes,
-              selectedThemes: newThemes,
-            },
-          }).catch(console.error);
+        if (
+          showRecommendation &&
+          !arraysEqual(
+            newThemes.slice().sort(),
+            recommendedThemes.slice().sort()
+          )
+        ) {
+          abTestManager
+            .trackEvent({
+              experimentName: 'theme_recommendation_v1',
+              userId: userId,
+              eventType: 'recommendation_modified',
+              eventData: {
+                recommendedThemes,
+                selectedThemes: newThemes,
+              },
+            })
+            .catch(console.error);
         }
-        
+
         return {
           ...prev,
           selectedThemes: newThemes,
         };
       }
-      
+
       return prev;
     });
   }
@@ -308,34 +339,34 @@ export function EssentialReportPurchasePage({
   // 执行购买
   async function handlePurchase() {
     setIsPurchasing(true);
-    
+
     try {
       const result = await purchaseReportWithCreditsAction({
-        reportType: "essential",
+        reportType: 'essential',
         input: {
           birthDate: formData.birthDate,
           birthHour: formData.birthHour,
-          gender: formData.gender as "male" | "female",
+          gender: formData.gender as 'male' | 'female',
           location: formData.location,
           themes: formData.selectedThemes,
         },
       });
 
       if (!result.success) {
-        if (result.errorCode === "INSUFFICIENT_CREDITS") {
+        if (result.errorCode === 'INSUFFICIENT_CREDITS') {
           toast({
-            title: "积分不足",
-            description: "您的积分余额不足，请先充值",
-            variant: "destructive",
+            title: '积分不足',
+            description: '您的积分余额不足，请先充值',
+            variant: 'destructive',
           });
-          router.push("/credits/buy");
+          router.push('/credits/buy');
           return;
         }
-        
+
         toast({
-          title: "购买失败",
-          description: result.error || "未知错误，请稍后重试",
-          variant: "destructive",
+          title: '购买失败',
+          description: result.error || '未知错误，请稍后重试',
+          variant: 'destructive',
         });
         return;
       }
@@ -343,9 +374,9 @@ export function EssentialReportPurchasePage({
       // 追踪转化事件
       try {
         await abTestManager.trackEvent({
-          experimentName: "theme_recommendation_v1",
+          experimentName: 'theme_recommendation_v1',
           userId: userId,
-          eventType: "purchase_completed",
+          eventType: 'purchase_completed',
           eventData: {
             reportId: result.data.reportId,
             selectedThemes: formData.selectedThemes,
@@ -353,22 +384,22 @@ export function EssentialReportPurchasePage({
           },
         });
       } catch (error) {
-        console.error("Failed to track conversion:", error);
+        console.error('Failed to track conversion:', error);
       }
 
       // 购买成功，跳转到报告详情页
       toast({
-        title: "购买成功！",
-        description: "报告已生成，正在为您跳转...",
+        title: '购买成功！',
+        description: '报告已生成，正在为您跳转...',
       });
-      
+
       router.push(`/reports/${result.data.reportId}`);
     } catch (error) {
-      console.error("Purchase error:", error);
+      console.error('Purchase error:', error);
       toast({
-        title: "系统错误",
-        description: "购买过程中发生错误，请联系客服",
-        variant: "destructive",
+        title: '系统错误',
+        description: '购买过程中发生错误，请联系客服',
+        variant: 'destructive',
       });
     } finally {
       setIsPurchasing(false);
@@ -386,13 +417,13 @@ export function EssentialReportPurchasePage({
         >
           ← 返回编辑
         </Button>
-        
+
         <PaywallOverlay
           reportType="essential"
           userCredits={userCredits}
           price={price}
           onPurchase={handlePurchase}
-          onRecharge={() => router.push("/credits/buy")}
+          onRecharge={() => router.push('/credits/buy')}
           isPurchasing={isPurchasing}
           className="min-h-[600px] rounded-lg"
         />
@@ -457,7 +488,7 @@ export function EssentialReportPurchasePage({
                 onChange={(e) =>
                   setFormData({ ...formData, birthDate: e.target.value })
                 }
-                max={new Date().toISOString().split("T")[0]}
+                max={new Date().toISOString().split('T')[0]}
               />
             </div>
 
@@ -494,7 +525,7 @@ export function EssentialReportPurchasePage({
               </Label>
               <Select
                 value={formData.gender}
-                onValueChange={(value: "male" | "female") =>
+                onValueChange={(value: 'male' | 'female') =>
                   setFormData({ ...formData, gender: value })
                 }
               >
@@ -531,7 +562,7 @@ export function EssentialReportPurchasePage({
               {showRecommendation && recommendedThemes.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
+                  animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -548,7 +579,9 @@ export function EssentialReportPurchasePage({
                     <CardContent className="space-y-3">
                       <div className="flex flex-wrap gap-2">
                         {recommendedThemes.map((themeId) => {
-                          const theme = THEME_OPTIONS.find((t) => t.id === themeId);
+                          const theme = THEME_OPTIONS.find(
+                            (t) => t.id === themeId
+                          );
                           return (
                             <Badge
                               key={themeId}
@@ -559,7 +592,7 @@ export function EssentialReportPurchasePage({
                           );
                         })}
                       </div>
-                      
+
                       {!hasAdoptedRecommendation && (
                         <Button
                           variant="outline"
@@ -570,7 +603,7 @@ export function EssentialReportPurchasePage({
                           采纳推荐 (奖励 10 积分)
                         </Button>
                       )}
-                      
+
                       {hasAdoptedRecommendation && (
                         <div className="flex items-center justify-center gap-2 text-green-700 font-medium">
                           <CheckCircle className="w-5 h-5" />
@@ -592,7 +625,9 @@ export function EssentialReportPurchasePage({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {THEME_OPTIONS.map((theme) => {
                   const isSelected = formData.selectedThemes.includes(theme.id);
-                  const isRecommended = showRecommendation && recommendedThemes.includes(theme.id as ThemeId);
+                  const isRecommended =
+                    showRecommendation &&
+                    recommendedThemes.includes(theme.id as ThemeId);
                   const isDisabled =
                     !isSelected && formData.selectedThemes.length >= 3;
 
@@ -601,20 +636,18 @@ export function EssentialReportPurchasePage({
                       key={theme.id}
                       className={`cursor-pointer transition-all relative ${
                         isSelected
-                          ? "border-purple-500 bg-purple-50"
+                          ? 'border-purple-500 bg-purple-50'
                           : isDisabled
-                            ? "opacity-50 cursor-not-allowed"
+                            ? 'opacity-50 cursor-not-allowed'
                             : isRecommended
-                              ? "border-blue-400 bg-blue-50 hover:border-blue-500"
-                              : "hover:border-purple-300"
+                              ? 'border-blue-400 bg-blue-50 hover:border-blue-500'
+                              : 'hover:border-purple-300'
                       }`}
                       onClick={() => !isDisabled && handleThemeToggle(theme.id)}
                     >
                       {isRecommended && !isSelected && (
                         <div className="absolute -top-2 -right-2">
-                          <Badge className="bg-blue-600 text-xs">
-                            推荐
-                          </Badge>
+                          <Badge className="bg-blue-600 text-xs">推荐</Badge>
                         </div>
                       )}
                       <CardContent className="p-4">

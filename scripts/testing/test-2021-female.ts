@@ -24,7 +24,8 @@ async function testCase() {
   let currentAge = now.getFullYear() - birthDate.getFullYear();
   if (
     now.getMonth() < birthDate.getMonth() ||
-    (now.getMonth() === birthDate.getMonth() && now.getDate() < birthDate.getDate())
+    (now.getMonth() === birthDate.getMonth() &&
+      now.getDate() < birthDate.getDate())
   ) {
     currentAge--;
   }
@@ -40,10 +41,26 @@ async function testCase() {
 
     if (result?.pillars) {
       console.log('四柱八字:');
-      console.log('  年柱:', result.pillars.year?.heavenlyStem, result.pillars.year?.earthlyBranch);
-      console.log('  月柱:', result.pillars.month?.heavenlyStem, result.pillars.month?.earthlyBranch);
-      console.log('  日柱:', result.pillars.day?.heavenlyStem, result.pillars.day?.earthlyBranch);
-      console.log('  时柱:', result.pillars.hour?.heavenlyStem, result.pillars.hour?.earthlyBranch);
+      console.log(
+        '  年柱:',
+        result.pillars.year?.heavenlyStem,
+        result.pillars.year?.earthlyBranch
+      );
+      console.log(
+        '  月柱:',
+        result.pillars.month?.heavenlyStem,
+        result.pillars.month?.earthlyBranch
+      );
+      console.log(
+        '  日柱:',
+        result.pillars.day?.heavenlyStem,
+        result.pillars.day?.earthlyBranch
+      );
+      console.log(
+        '  时柱:',
+        result.pillars.hour?.heavenlyStem,
+        result.pillars.hour?.earthlyBranch
+      );
       console.log('');
     }
 
@@ -64,15 +81,32 @@ async function testCase() {
     const currentLuckPillar = await calculator.getCurrentLuckPillar();
     console.log('====== 当前大运 ======');
     if (currentLuckPillar) {
-      console.log('干支:', currentLuckPillar.heavenlyStem + currentLuckPillar.earthlyBranch);
-      console.log('年龄范围:', currentLuckPillar.startAge, '-', currentLuckPillar.endAge, '岁');
+      console.log(
+        '干支:',
+        currentLuckPillar.heavenlyStem + currentLuckPillar.earthlyBranch
+      );
+      console.log(
+        '年龄范围:',
+        currentLuckPillar.startAge,
+        '-',
+        currentLuckPillar.endAge,
+        '岁'
+      );
       console.log('期数:', currentLuckPillar.period);
       console.log('');
-      
+
       // 检查是否为乙未
-      if (currentLuckPillar.heavenlyStem === '乙' && currentLuckPillar.earthlyBranch === '未') {
+      if (
+        currentLuckPillar.heavenlyStem === '乙' &&
+        currentLuckPillar.earthlyBranch === '未'
+      ) {
         console.log('⚠️ 当前大运确实是乙未');
-        console.log('⚠️ 但年龄范围显示:', currentLuckPillar.startAge, '-', currentLuckPillar.endAge);
+        console.log(
+          '⚠️ 但年龄范围显示:',
+          currentLuckPillar.startAge,
+          '-',
+          currentLuckPillar.endAge
+        );
         if (currentLuckPillar.startAge === 24) {
           console.log('❌ 错误！显示24-33岁，但实际年龄才', currentAge, '岁');
         }
@@ -80,7 +114,6 @@ async function testCase() {
     } else {
       console.log('❌ 未找到当前大运');
     }
-
   } catch (error) {
     console.error('❌ 错误:', error);
     if (error instanceof Error) {

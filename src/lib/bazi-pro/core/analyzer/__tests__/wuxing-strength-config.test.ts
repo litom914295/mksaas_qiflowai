@@ -3,13 +3,10 @@
  * 验证配置系统与分析器的集成
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
-import { WuxingStrengthAnalyzer } from '../wuxing-strength';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { type BaziConfig, baziConfigManager } from '../../../config';
 import type { FourPillars } from '../../calculator/four-pillars';
-import {
-  baziConfigManager,
-  type BaziConfig,
-} from '../../../config';
+import { WuxingStrengthAnalyzer } from '../wuxing-strength';
 
 describe('WuxingStrengthAnalyzer 配置集成', () => {
   // 测试用八字
