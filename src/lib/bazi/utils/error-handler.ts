@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 八字错误处理工具
  * 提供 try-catch 包装器和错误边界
  *
@@ -349,5 +349,7 @@ export function assertType<T>(
   typeGuard: (value: unknown) => value is T,
   message = '类型不匹配'
 ): asserts value is T {
-  assert(typeGuard(value), message, ValidationError);
+  if (!typeGuard(value)) {
+    throw new ValidationError(message, [message]);
+  }
 }
