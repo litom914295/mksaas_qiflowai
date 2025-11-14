@@ -3,8 +3,6 @@
 import { BaziAnalysisPage } from '@/components/bazi/analysis/bazi-analysis-page';
 import { Footer } from '@/components/layout/footer';
 import { Navbar } from '@/components/layout/navbar';
-import { AIChatWithContext } from '@/components/qiflow/ai-chat-with-context';
-import { EnhancedComprehensivePanel } from '@/components/qiflow/xuankong/enhanced-comprehensive-panel';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,7 +32,27 @@ import {
   Zap,
 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+
+// 动态导入玄空面板与AI聊天，避免首屏打包体积过大
+const EnhancedComprehensivePanel = dynamic(
+  () => import('@/components/qiflow/xuankong/enhanced-comprehensive-panel').then(m => ({ default: m.EnhancedComprehensivePanel })),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="p-6 space-y-4">
+        <div className="h-24 animate-pulse rounded-lg bg-muted" />
+        <div className="h-40 animate-pulse rounded-lg bg-muted" />
+      </div>
+    )
+  }
+);
+
+const AIChatWithContext = dynamic(
+  () => import('@/components/qiflow/ai-chat-with-context').then(m => ({ default: m.AIChatWithContext })),
+  { ssr: false }
+);
 import { toast } from 'sonner';
 
 // 五行与颜色/方位的对应关系
@@ -529,7 +547,9 @@ export default function ReportPage() {
 
       {/* 主内容区域 */}
       <div className="flex-1">
-        <AIChatWithContext />
+        <Suspense fallback={null}>
+          <AIChatWithContext />
+        </Suspense>
 
         <div className="container mx-auto px-4 py-8">
           {/* 顶部操作栏 */}
@@ -569,16 +589,49 @@ export default function ReportPage() {
                 </Badge>
               )}
 
-              {/* 导出PDF按钮 */}
+              {/* 生成并预览 v2.2 专业报告 */}
               {activeMainTab === 'integrated' && (
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={handleExportReport}
-                >
-                  <Download className="w-4 h-4 mr-1" />
-                  导出专业报告
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="default" 
+                    size="sm"
+                    onClick={async () => {
+                      try {
+                        const res = await fetch('/api/reports/v2.2/generate', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            personal: {
+                              name: formData?.personal?.name,
+                              gender: formData?.personal?.gender,
+                              birthDate: formData?.personal?.birthDate,
+                              birthTime: formData?.personal?.birthTime,
+                              birthCity: formData?.personal?.birthCity,
+                            },
+                            house: hasHouseInfo ? formData?.house : undefined,
+                            userContext: {},
+                          }),
+                        });
+                        const json = await res.json();
+                        if (json?.viewUrl) {
+                          window.open(json.viewUrl, '_blank');
+                        }
+                      } catch (e) {
+                        console.error(e);
+                      }
+                    }}
+                  >
+                    生成专业报告
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={handleExportReport}
+                  >
+                    <Download className="w-4 h-4 mr-1" />
+                    导出专业报告
+                  </Button>
+                </div>
               )}
 
               {/* 升级按钮 */}
@@ -664,21 +717,28 @@ export default function ReportPage() {
           </div>
 
           {/* 顶层：并列两个Tab（八字 / 玄空飞星增强版）*/}
-          {/* 如果没有房屋信息，隐藏 Tabs，直接显示八字分析 */}
           {!hasHouseInfo ? (
-            // 仅八字分析（无Tab）
             <div className="space-y-6">
               {personalData ? (
-                <BaziAnalysisPage
-                  birthData={{
-                    ...personalData,
-                    name: formData.personal.name,
-                    location: formData.personal.birthCity,
-                  }}
-                  onAnalysisComplete={handleBaziAnalysisComplete}
-                  isPremium={!!session?.user?.id}
-                  creditsAvailable={creditsAvailable}
-                />
+                <Suspense
+                  fallback={
+                    <div className="p-6 space-y-4">
+                      <div className="h-32 animate-pulse rounded-lg bg-muted" />
+                      <div className="h-48 animate-pulse rounded-lg bg-muted" />
+                    </div>
+                  }
+                >
+                  <BaziAnalysisPage
+                    birthData={{
+                      ...personalData,
+                      name: formData.personal.name,
+                      location: formData.personal.birthCity,
+                    }}
+                    onAnalysisComplete={handleBaziAnalysisComplete}
+                    isPremium={!!session?.user?.id}
+                    creditsAvailable={creditsAvailable}
+                  />
+                </Suspense>
               ) : (
                 <Card>
                   <CardContent className="p-8 text-center">
@@ -690,7 +750,6 @@ export default function ReportPage() {
               )}
             </div>
           ) : (
-            // 八字 + 风水组合分析（有Tab）
             <Tabs
               value={activeMainTab}
               onValueChange={(v) => setActiveMainTab(v as any)}
@@ -708,7 +767,13 @@ export default function ReportPage() {
               {/* 八字 Tab */}
               <TabsContent value="bazi" className="space-y-6">
                 {personalData ? (
-                  <BaziAnalysisPage
+                  <Suspense fallback={
+                    <div className="p-6 space-y-4">
+                      <div className="h-32 animate-pulse rounded-lg bg-muted" />
+                      <div className="h-48 animate-pulse rounded-lg bg-muted" />
+                    </div>
+                  }>
+                    <BaziAnalysisPage
                     birthData={{
                       ...personalData,
                       name: formData.personal.name,
@@ -718,6 +783,7 @@ export default function ReportPage() {
                     isPremium={!!session?.user?.id}
                     creditsAvailable={creditsAvailable}
                   />
+                  </Suspense>
                 ) : (
                   <Card>
                     <CardContent className="p-8 text-center">

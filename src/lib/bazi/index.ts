@@ -29,23 +29,19 @@ const debugWarn = (...args: any[]) => {
 };
 
 /**
- * 智能八字计算函数（推荐使用）
+ * 智能八字计算函数（默认走极速路径，保证首屏秒开）
+ *
+ * 历史上为追求精度，优先调用专业版计算器（integrate-pro），
+ * 但在开发/低配环境或网络不稳定时会显著拖慢首屏。
+ *
+ * 现在策略调整为：默认使用统一标准版（本地极速）以确保即时渲染；
+ * 如需启用专业版，可在后续流程中另行触发升级计算。
  */
 export async function computeBaziSmart(
   input: EnhancedBirthData
 ): Promise<EnhancedBaziResult | null> {
-  try {
-    // 优先使用专业版计算器
-    const { professionalBaziCalculator } = await import('./integrate-pro');
-    const result =
-      await professionalBaziCalculator.calculateProfessional(input);
-    debugLog('[Bazi Smart] 使用专业版计算器成功');
-    return result;
-  } catch (error) {
-    console.warn('[Bazi Smart] 专业版计算器失败，回退到标准版:', error);
-    // 回退到标准版
-    return await calculateBaziUnified(input);
-  }
+  // 极速路径：本地统一计算，稳定且快速
+  return await calculateBaziUnified(input);
 }
 
 /**

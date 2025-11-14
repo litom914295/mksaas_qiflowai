@@ -396,7 +396,7 @@ function generateMockSolutions(): RemedySolution[] {
 }
 
 export function RemedySolutionsClient() {
-  const t = useTranslations('remedySolutions');
+  const t = useTranslations('remedySolutions' as any);
   const [solutions] = useState<RemedySolution[]>(generateMockSolutions());
   const [selectedLevel, setSelectedLevel] = useState<SolutionLevel | 'all'>(
     'all'

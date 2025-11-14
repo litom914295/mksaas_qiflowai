@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
   const requestId = Math.random().toString(36).substring(7);
 
   // 1. Authentication check
-  const session = await auth();
+  const session = await auth.api.getSession({ headers: req.headers });
   if (!session?.user?.id) {
     console.error(
       `Unauthorized image generation attempt [requestId=${requestId}]`

@@ -194,22 +194,6 @@ export default function WaveChart({
             strokeWidth={3}
             fill="url(#strengthGradient)"
             name="运势强度"
-            dot={(props: any) => {
-              const { cx, cy, payload } = props;
-              if (payload.isKeyWindow) {
-                return (
-                  <circle
-                    cx={cx}
-                    cy={cy}
-                    r={6}
-                    fill="#3b82f6"
-                    stroke="#fff"
-                    strokeWidth={2}
-                  />
-                );
-              }
-              return null;
-            }}
           />
 
           {/* 关键决策窗口标注 */}

@@ -125,7 +125,7 @@ async function performAIAudit(report: EssentialReportOutput): Promise<{
   });
 
   if (!complianceCheck.compliant) {
-    issues.push(complianceCheck.reason || '内容不合规');
+    issues.push(complianceCheck.reasons?.[0] || '内容不合规');
     confidence -= 0.3;
   }
 

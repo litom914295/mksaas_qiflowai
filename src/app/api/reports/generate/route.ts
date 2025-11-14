@@ -59,10 +59,9 @@ export async function POST(req: NextRequest) {
     );
 
     const report = await generateEssentialReport({
-      userId,
       birthInfo: input.birthInfo,
-      houseInfo: input.houseInfo || null,
-      userInfo: input.userInfo,
+      fengshuiData: input.houseInfo || undefined,
+      selectedThemes: input.selectedThemes,
     });
 
     const generationTime = Date.now() - startTime;
@@ -133,10 +132,10 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error('[Report API] Generation error:', error);
 
-    // 追踪错误
-    track.reportGenerationFailed({
+    // 追踪错误 - 使用已存在的方法
+    track.reportGenerated('essential', {
       error: error.message,
-      stack: error.stack?.slice(0, 200),
+      success: false,
     });
 
     return NextResponse.json(

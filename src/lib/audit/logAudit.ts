@@ -208,19 +208,19 @@ export async function logAudit(params: LogAuditParams): Promise<void> {
     // 写入数据库(异步非阻塞)
     const db = await getDb();
     await db.insert(auditLogs).values({
-      userId,
-      userEmail: userEmail || null,
+      userId: userId || 'system',
+      userEmail: userEmail || 'system',
       action,
       resource,
-      resourceId: resourceId || null,
+      resourceId: resourceId || undefined,
       description,
-      changes: sanitizedChanges,
+      changes: sanitizedChanges || undefined,
       status,
-      errorMessage: errorMessage || null,
-      ipAddress: customIpAddress || requestMetadata.ipAddress,
-      userAgent: customUserAgent || requestMetadata.userAgent,
-      method: customMethod || requestMetadata.method,
-      path: customPath || requestMetadata.path,
+      errorMessage: errorMessage || undefined,
+      ipAddress: customIpAddress || requestMetadata.ipAddress || undefined,
+      userAgent: customUserAgent || requestMetadata.userAgent || undefined,
+      method: customMethod || requestMetadata.method || undefined,
+      path: customPath || requestMetadata.path || undefined,
     });
 
     console.log(
@@ -259,7 +259,13 @@ export async function logAuditBatch(logs: LogAuditParams[]): Promise<void> {
     });
 
     const db = await getDb();
-    await db.insert(auditLogs).values(sanitizedLogs);
+    await db.insert(auditLogs).values(
+      sanitizedLogs.map((l) => ({
+        ...l,
+        userId: l.userId || 'system',
+        userEmail: l.userEmail || 'system',
+      }))
+    );
 
     console.log(`[Audit] Batch logged ${logs.length} entries`);
   } catch (error) {

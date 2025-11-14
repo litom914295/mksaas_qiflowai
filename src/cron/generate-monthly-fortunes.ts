@@ -343,6 +343,11 @@ export async function generateFortuneForUser(params: {
         success: true,
         message: `Fortune generated successfully for ${userData.email}`,
       };
+    } else {
+      return {
+        success: false,
+        message: result.message || 'Failed to generate fortune',
+      };
     }
   } catch (error) {
     console.error('[Manual] Error generating fortune:', error);

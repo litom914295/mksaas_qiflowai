@@ -42,7 +42,19 @@ export interface EnhancedBaziResult extends BaziResult {
   interactions?: BaziInteraction[];
   dayMasterStrength?: DayMasterStrengthResult;
   favorableElements?: FavorableElementsResult;
+  // 新增：日主信息（用于 AI 综合分析）
+  dayMaster?: {
+    element?: string;
+    strength?: 'strong' | 'medium' | 'weak';
+  };
   // 兼容字段
+  birthInfo?: {
+    solarDate?: string;
+    lunarDate?: string;
+    birthTime?: string;
+    location?: string;
+    trueSolarTimeAdjusted?: boolean;
+  };
   birthData?: EnhancedBirthData;
   timestamp?: string;
   solarDateConverted?: string;

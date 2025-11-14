@@ -2,6 +2,7 @@ import { EssentialReportPurchasePage } from '@/components/qiflow/essential-repor
 import { getDb } from '@/db';
 import { user } from '@/db/schema';
 import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 import { eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
@@ -28,7 +29,7 @@ export default async function BuyEssentialReportPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const resolvedSearchParams = await searchParams;
-  const session = await auth();
+  const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user?.id) {
     redirect('/login?callbackUrl=/reports/essential/buy');

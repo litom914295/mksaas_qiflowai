@@ -363,10 +363,4 @@ export function calculateNPS(params: {
 }
 
 // ===== 导出所有类型和函数 =====
-export type {
-  ReportGeneratedEvent,
-  ChapterReadEvent,
-  ReportReadingSession,
-  ConversionEvent,
-  FeedbackEvent,
-};
+// 说明：为避免重复导出冲突，移除二次导出声明。请从本模块顶部或具体导出位置按需导入类型。

@@ -180,7 +180,7 @@ export async function generateFortuneWithAI(
       model: deepseek(MODEL),
       prompt,
       temperature: 0.7,
-      maxCompletionTokens: 2000,
+      maxOutputTokens: 2000,
     });
 
     // 解析 JSON 输出

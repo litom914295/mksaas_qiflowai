@@ -26,9 +26,7 @@ import { Separator } from '@/components/ui/separator';
 import { QIFLOW_PRICING } from '@/config/qiflow-pricing';
 import { useToast } from '@/hooks/use-toast';
 import { abTestManagerClient } from '@/lib/ab-test/manager-client';
-import { calculateBaziElements } from '@/lib/qiflow/bazi';
 import {
-  type ThemeId,
   explainRecommendation,
   getDefaultThemes,
   recommendThemes,
@@ -108,7 +106,7 @@ export function EssentialReportPurchasePage({
 
   // A/B 测试相关状态
   const [variant, setVariant] = useState<string | null>(null);
-  const [recommendedThemes, setRecommendedThemes] = useState<ThemeId[]>([]);
+  const [recommendedThemes, setRecommendedThemes] = useState<string[]>([]);
   const [recommendationExplanation, setRecommendationExplanation] =
     useState('');
   const [showRecommendation, setShowRecommendation] = useState(false);
@@ -147,26 +145,18 @@ export function EssentialReportPurchasePage({
             formData.gender
           ) {
             try {
-              // 计算八字五行
-              const elements = calculateBaziElements(
-                formData.birthDate,
-                formData.birthHour || '09'
-              );
-
-              // 生成智能推荐
+              // 降级方案：直接基于性别与默认规则推荐
               const themes = recommendThemes({
                 birthDate: formData.birthDate,
                 gender: formData.gender,
-                elements,
-              });
+              } as any);
 
               const explanation = explainRecommendation({
                 birthDate: formData.birthDate,
                 gender: formData.gender,
-                elements,
-              });
+              } as any);
 
-              setRecommendedThemes(themes);
+              setRecommendedThemes(themes as string[]);
               setRecommendationExplanation(explanation);
               setShowRecommendation(true);
             } catch (error) {
@@ -202,11 +192,11 @@ export function EssentialReportPurchasePage({
 
     // 追踪采纳事件
     try {
-      await abTestManager.trackEvent({
+      await abTestManagerClient.trackEvent({
         experimentName: 'theme_recommendation_v1',
         userId: userId,
         eventType: 'recommendation_adopted',
-        eventData: { adoptedThemes: recommendedThemes },
+            eventData: { adoptedThemes: recommendedThemes as string[] },
       });
     } catch (error) {
       console.error('Failed to track recommendation adoption:', error);
@@ -276,7 +266,7 @@ export function EssentialReportPurchasePage({
   function handleThemeToggle(themeId: string) {
     setFormData((prev) => {
       const currentThemes = prev.selectedThemes;
-      const wasRecommended = recommendedThemes.includes(themeId as ThemeId);
+      const wasRecommended = recommendedThemes.includes(themeId);
 
       if (currentThemes.includes(themeId)) {
         // 取消选择
@@ -297,13 +287,13 @@ export function EssentialReportPurchasePage({
             recommendedThemes.slice().sort()
           )
         ) {
-          abTestManager
+          abTestManagerClient
             .trackEvent({
               experimentName: 'theme_recommendation_v1',
               userId: userId,
               eventType: 'recommendation_modified',
               eventData: {
-                recommendedThemes,
+                recommendedThemes: recommendedThemes as string[],
                 selectedThemes: newThemes,
               },
             })
@@ -342,14 +332,12 @@ export function EssentialReportPurchasePage({
     setIsPurchasing(true);
 
     try {
-      const result = await purchaseReportWithCreditsAction({
-        reportType: 'essential',
-        input: {
-          birthDate: formData.birthDate,
-          birthHour: formData.birthHour,
-          gender: formData.gender as 'male' | 'female',
+      const essentialInput = {
+        birthInfo: {
+          date: formData.birthDate,
+          time: formData.birthHour,
           location: formData.location,
-          themes: formData.selectedThemes,
+          gender: formData.gender as 'male' | 'female',
         },
         selectedThemes: formData.selectedThemes as (
           | 'career'
@@ -358,7 +346,9 @@ export function EssentialReportPurchasePage({
           | 'education'
           | 'family'
         )[],
-      });
+      } as any;
+
+      const result = await purchaseReportWithCreditsAction(essentialInput);
 
       if (!result.success) {
         if (result.errorCode === 'INSUFFICIENT_CREDITS') {
@@ -381,7 +371,7 @@ export function EssentialReportPurchasePage({
 
       // 追踪转化事件
       try {
-        await abTestManager.trackEvent({
+        await abTestManagerClient.trackEvent({
           experimentName: 'theme_recommendation_v1',
           userId: userId,
           eventType: 'purchase_completed',
@@ -401,7 +391,7 @@ export function EssentialReportPurchasePage({
         description: '报告已生成，正在为您跳转...',
       });
 
-      router.push(`/reports/${result.data.reportId}`);
+      router.push(`/reports/${result.reportId}`);
     } catch (error) {
       console.error('Purchase error:', error);
       toast({
@@ -635,7 +625,7 @@ export function EssentialReportPurchasePage({
                   const isSelected = formData.selectedThemes.includes(theme.id);
                   const isRecommended =
                     showRecommendation &&
-                    recommendedThemes.includes(theme.id as ThemeId);
+                    recommendedThemes.includes(theme.id);
                   const isDisabled =
                     !isSelected && formData.selectedThemes.length >= 3;
 

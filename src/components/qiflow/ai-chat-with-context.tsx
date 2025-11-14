@@ -569,7 +569,7 @@ export function AIChatWithContext({
     try {
       const result = await getChatSessionStatusAction(sessionId);
       if (result.success && result.data) {
-        setSessionStatus(result.data.status);
+        setSessionStatus(result.data.status as 'active' | 'expired' | 'none');
         setRemainingMs(result.data.remainingMs);
       }
     } catch (error) {
@@ -1223,23 +1223,27 @@ export function AIChatWithContext({
           temperature: 0.7,
         });
 
-        if (!response.success || !response.answer) {
-          throw new Error(response.error || '生成失败');
+        // SafeActionResult 结构，数据在 data 属性中
+        const data = (response?.data || {}) as any;
+        if (!data?.success || !data?.answer) {
+          const serverMsg = (response as any)?.serverError?.message as string | undefined;
+          throw new Error(data?.error || serverMsg || '生成失败');
         }
 
         // 更新 AI 消息
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === aiMessageId
-              ? {
+              ? ({
                   ...msg,
-                  content: response.answer,
-                  references: response.references as any,
-                  ragEnabled: true,
+                  content: data.answer as string,
+                  // 附带 UI 所需的引用信息（类型外字段，仅用于渲染）
+                  references: data.references as any,
+                  ragEnabled: true as any,
                   isThinking: false,
-                }
+                } as Message)
               : msg
-          )
+          ) as Message[]
         );
       } else {
         // 原有流式聊天逻辑

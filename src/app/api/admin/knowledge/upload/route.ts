@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 import mammoth from 'mammoth';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
-import pdfParse from 'pdf-parse';
+import pdf from 'pdf-parse/lib/pdf-parse.js';
 
 function initSupabase() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -28,7 +28,7 @@ async function extractTextContent(file: File): Promise<string> {
   if (fileName.endsWith('.pdf')) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const data = await pdfParse(buffer);
+    const data = await pdf(buffer);
     return data.text;
   }
 

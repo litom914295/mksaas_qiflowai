@@ -15,10 +15,12 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
+import { toast } from 'sonner';
 import { getDirectionFromDegrees } from '@/lib/qiflow/xuankong/converters';
 import {
   type Mountain,
   TwentyFourMountainsAnalyzer,
+  MOUNTAIN_DEGREES,
 } from '@/lib/qiflow/xuankong/twenty-four-mountains';
 import {
   SIMPLE_TIME_PERIODS,
@@ -184,6 +186,7 @@ export function HeroWithForm() {
   const [compassOpen, setCompassOpen] = useState(false);
   const [autoFollowCompass, setAutoFollowCompass] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
   // 加载最近一次的表单数据
   useEffect(() => {
@@ -282,6 +285,89 @@ export function HeroWithForm() {
     formData.birthYear &&
     formData.birthMonth &&
     formData.birthDay;
+
+  // 生成专业报告
+  const handleGenerateReport = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    console.log('[生成报告] 开始生成报告', { formData, canSubmit });
+
+    if (!canSubmit) {
+      console.log('[生成报告] 验证失败，缺少必填项');
+      toast.error(t('alertFillRequired') || '请填写完整的必填信息');
+      return;
+    }
+
+    if (isGeneratingReport) {
+      console.log('[生成报告] 正在生成中，跳过');
+      return;
+    }
+
+    setIsGeneratingReport(true);
+    const toastId = toast.loading('正在生成专业报告...');
+
+    try {
+      // 转换为旧格式的日期和时间
+      const birthDate = `${formData.birthYear}-${String(formData.birthMonth).padStart(2, '0')}-${String(formData.birthDay).padStart(2, '0')}`;
+      let birthTime = '';
+
+      if (formData.timeOfDay === 'exact' && formData.exactTime) {
+        birthTime = formData.exactTime;
+      } else {
+        birthTime = getDefaultTimeForSimplePeriod(formData.timeOfDay);
+      }
+
+      // 准备房屋数据
+      const degreeNum = Number(houseInfo.directionDegree);
+      const persistedHouse = showHouseInfo
+        ? {
+            ...houseInfo,
+            direction:
+              houseInfo.direction || getCoarseDirectionLabel(degreeNum) || '',
+            directionDegree: Number.isNaN(degreeNum) ? undefined : degreeNum,
+            northRef: houseInfo.northRef,
+            declination: houseInfo.declination,
+            sittingMountain: houseInfo.sittingMountain,
+            facingMountain: houseInfo.facingMountain,
+            sittingFacingLabel: houseInfo.sittingFacingLabel,
+          }
+        : undefined;
+
+      // 调用生成报告API
+      const res = await fetch('/api/reports/v2.2/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          personal: {
+            name: formData.name,
+            gender: formData.gender,
+            birthDate,
+            birthTime,
+            birthCity: formData.birthCity || '',
+          },
+          house: persistedHouse,
+          userContext: {},
+        }),
+      });
+
+      const json = await res.json();
+      
+      if (json?.viewUrl) {
+        toast.success('专业报告已生成', { id: toastId });
+        // 在新窗口打开报告
+        window.open(json.viewUrl, '_blank');
+      } else {
+        throw new Error(json?.error || '生成报告失败');
+      }
+    } catch (error) {
+      console.error('[生成报告] 生成失败:', error);
+      toast.error(
+        error instanceof Error ? error.message : '生成报告失败，请稍后重试',
+        { id: toastId }
+      );
+    } finally {
+      setIsGeneratingReport(false);
+    }
+  };
 
   // 提交表单
   const handleSubmit = async (e: React.FormEvent) => {
@@ -737,130 +823,125 @@ export function HeroWithForm() {
                     </div>
                   </div>
 
-                  {/* 第二行: 出生日期 (年月日分开) + 阴阳历选择 */}
+                  {/* 第二行: 出生日期时间 (年月日+时间一行) */}
                   <div className="space-y-2">
-                    <div className="flex items-center gap-4">
-                      <Label className="text-sm font-medium flex items-center gap-1">
-                        <CalendarIcon className="w-3.5 h-3.5" />
-                        {tForm('birthDate')}{' '}
+                    {/* 标签行：日期+阴阳历 + 时间标签 */}
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <Label className="text-sm font-medium flex items-center gap-1">
+                          <CalendarIcon className="w-3.5 h-3.5" />
+                          {tForm('birthDate')}{' '}
+                          <span className="text-destructive">*</span>
+                        </Label>
+                        <RadioGroup
+                          value={formData.calendarType}
+                          onValueChange={(value: CalendarType) =>
+                            handleChange('calendarType', value)
+                          }
+                          className="flex gap-3"
+                        >
+                          <div className="flex items-center space-x-1.5">
+                            <RadioGroupItem value="solar" id="solar" />
+                            <Label
+                              htmlFor="solar"
+                              className="cursor-pointer font-normal text-xs"
+                            >
+                              {tForm('solar')}
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-1.5">
+                            <RadioGroupItem value="lunar" id="lunar" />
+                            <Label
+                              htmlFor="lunar"
+                              className="cursor-pointer font-normal text-xs"
+                            >
+                              {tForm('lunar')}
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                      <Label className="text-sm font-medium flex items-center gap-1 whitespace-nowrap">
+                        <Clock className="w-3.5 h-3.5" />
+                        {tForm('birthTime')}{' '}
                         <span className="text-destructive">*</span>
                       </Label>
-                      <RadioGroup
-                        value={formData.calendarType}
-                        onValueChange={(value: CalendarType) =>
-                          handleChange('calendarType', value)
-                        }
-                        className="flex gap-3"
-                      >
-                        <div className="flex items-center space-x-1.5">
-                          <RadioGroupItem value="solar" id="solar" />
-                          <Label
-                            htmlFor="solar"
-                            className="cursor-pointer font-normal text-xs"
-                          >
-                            {tForm('solar')}
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-1.5">
-                          <RadioGroupItem value="lunar" id="lunar" />
-                          <Label
-                            htmlFor="lunar"
-                            className="cursor-pointer font-normal text-xs"
-                          >
-                            {tForm('lunar')}
-                          </Label>
-                        </div>
-                      </RadioGroup>
                     </div>
-                    <div className="grid grid-cols-3 gap-2">
-                      <Select
-                        value={formData.birthYear}
-                        onValueChange={(value) =>
-                          handleChange('birthYear', value)
-                        }
-                      >
-                        <SelectTrigger className="h-8 text-sm">
-                          <SelectValue placeholder={tForm('yearPlaceholder')} />
-                        </SelectTrigger>
-                        <SelectContent className="max-h-[200px]">
-                          {years.map((year) => (
-                            <SelectItem key={year} value={year.toString()}>
-                              {year}
-                              {tForm('yearSuffix')}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Select
-                        value={formData.birthMonth}
-                        onValueChange={(value) =>
-                          handleChange('birthMonth', value)
-                        }
-                      >
-                        <SelectTrigger className="h-8 text-sm">
-                          <SelectValue
-                            placeholder={tForm('monthPlaceholder')}
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {months.map((month) => (
-                            <SelectItem key={month} value={month.toString()}>
-                              {month}
-                              {tForm('monthSuffix')}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Select
-                        value={formData.birthDay}
-                        onValueChange={(value) =>
-                          handleChange('birthDay', value)
-                        }
-                      >
-                        <SelectTrigger className="h-8 text-sm">
-                          <SelectValue placeholder={tForm('dayPlaceholder')} />
-                        </SelectTrigger>
-                        <SelectContent className="max-h-[200px]">
-                          {days.map((day) => (
-                            <SelectItem key={day} value={day.toString()}>
-                              {day}
-                              {tForm('daySuffix')}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    {formData.calendarType === 'lunar' && (
-                      <p className="text-xs text-muted-foreground flex items-center gap-1">
-                        <span>🌙</span>
-                        <span>{tForm('lunarNote')}</span>
-                      </p>
-                    )}
-                  </div>
-
-                  {/* 第三行: 出生时间 (时间选择+快捷按钮) */}
-                  <div className="space-y-2">
-                    <Label className="text-sm font-medium flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {tForm('birthTime')}{' '}
-                      <span className="text-destructive">*</span>
-                    </Label>
-
-                    <div className="flex gap-2">
-                      {/* 左侧：时间选择器 */}
+                    
+                    {/* 年月日+时间+快捷按钮 */}
+                    <div className="flex flex-wrap gap-2">
+                      {/* 年月日 */}
+                      <div className="flex gap-2 flex-1 min-w-0">
+                        <Select
+                          value={formData.birthYear}
+                          onValueChange={(value) =>
+                            handleChange('birthYear', value)
+                          }
+                        >
+                          <SelectTrigger className="h-8 text-sm flex-1">
+                            <SelectValue placeholder={tForm('yearPlaceholder')} />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-[200px]">
+                            {years.map((year) => (
+                              <SelectItem key={year} value={year.toString()}>
+                                {year}
+                                {tForm('yearSuffix')}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Select
+                          value={formData.birthMonth}
+                          onValueChange={(value) =>
+                            handleChange('birthMonth', value)
+                          }
+                        >
+                          <SelectTrigger className="h-8 text-sm flex-1">
+                            <SelectValue
+                              placeholder={tForm('monthPlaceholder')}
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {months.map((month) => (
+                              <SelectItem key={month} value={month.toString()}>
+                                {month}
+                                {tForm('monthSuffix')}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Select
+                          value={formData.birthDay}
+                          onValueChange={(value) =>
+                            handleChange('birthDay', value)
+                          }
+                        >
+                          <SelectTrigger className="h-8 text-sm flex-1">
+                            <SelectValue placeholder={tForm('dayPlaceholder')} />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-[200px]">
+                            {days.map((day) => (
+                              <SelectItem key={day} value={day.toString()}>
+                                {day}
+                                {tForm('daySuffix')}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      {/* 时间选择器 */}
                       <Input
                         type="time"
                         value={formData.exactTime}
                         onChange={(e) => {
                           handleChange('exactTime', e.target.value);
-                          // 用户手动输入时，自动切换到精确模式
                           handleChange('timeOfDay', 'exact');
                         }}
-                        className="h-8 text-sm flex-1"
+                        className="h-8 text-sm w-[110px]"
                         required
                       />
 
-                      {/* 右侧：3个快捷按钮 */}
+                      {/* 快捷按钮 */}
                       <div className="flex gap-1">
                         {SIMPLE_TIME_PERIODS.map((period) => (
                           <button
@@ -870,7 +951,7 @@ export function HeroWithForm() {
                               handleChange('timeOfDay', period.value);
                               handleChange('exactTime', period.defaultTime);
                             }}
-                            className={`px-3 py-2 text-xs rounded border-2 transition-all whitespace-nowrap ${
+                            className={`px-2.5 py-2 text-xs rounded border-2 transition-all whitespace-nowrap ${
                               formData.timeOfDay === period.value
                                 ? 'border-primary bg-primary/5 text-primary font-medium'
                                 : 'border-border hover:border-primary/50 hover:bg-accent'
@@ -886,6 +967,13 @@ export function HeroWithForm() {
                         ))}
                       </div>
                     </div>
+                    
+                    {formData.calendarType === 'lunar' && (
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <span>🌙</span>
+                        <span>{tForm('lunarNote')}</span>
+                      </p>
+                    )}
                   </div>
 
                   {/* 第四行: 风水信息折叠区 */}
@@ -914,44 +1002,101 @@ export function HeroWithForm() {
                         className="space-y-3 p-3 bg-muted/20 rounded-lg border border-border"
                       >
                         <div className="space-y-2">
-                          {/* 房屋朝向度数和罗盘 */}
+                          {/* 房屋朝向度数和罗盘 + 跟随开关 */}
                           <div className="space-y-1">
-                            <Label className="text-xs flex items-center gap-1.5 font-medium">
-                              <Compass className="w-3.5 h-3.5 text-primary" />
-                              {tForm('degree')}
-                            </Label>
-                            <div className="flex gap-1.5">
-                              <div className="relative flex-1">
-                                <Input
-                                  type="number"
-                                  placeholder="输入角度"
-                                  value={houseInfo.directionDegree || ''}
-                                  onChange={(e) =>
-                                    handleHouseChange(
-                                      'directionDegree',
-                                      e.target.value
-                                    )
-                                  }
-                                  onBlur={handleDegreeBlur}
-                                  min="0"
-                                  max="360"
-                                  className="h-9 text-sm px-3 pr-8 border-primary/30 focus:border-primary"
+                            <div className="flex items-center justify-between gap-2">
+                              <Label className="text-xs flex items-center gap-1.5 font-medium">
+                                <Compass className="w-3.5 h-3.5 text-primary" />
+                                二十四山
+                              </Label>
+                              {/* 跟随罗盘开关 - 紧凑版 */}
+                              <div className="flex items-center gap-1.5">
+                                <Label
+                                  htmlFor="auto-follow"
+                                  className="text-xs font-medium cursor-pointer text-muted-foreground"
+                                >
+                                  {tForm('followCompass')}
+                                </Label>
+                                <Switch
+                                  id="auto-follow"
+                                  checked={autoFollowCompass}
+                                  onCheckedChange={handleAutoFollowToggle}
+                                  className="data-[state=checked]:bg-primary scale-90"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
-                                  °
-                                </span>
                               </div>
+                            </div>
+                            <div className="flex gap-1.5">
+                              {/* 24山下拉，与度数联动 */}
+                              <Select
+                                value={
+                                  houseInfo.directionDegree
+                                    ? ((degreeToMountain(
+                                        Number(houseInfo.directionDegree)
+                                      ) || '') as any)
+                                    : ''
+                                }
+                                onValueChange={(value) => {
+                                  const m = value as Mountain;
+                                  const center = MOUNTAIN_DEGREES[m]?.center;
+                                  if (typeof center === 'number') {
+                                    applyDegreeFromCompass(center, undefined, autoFollowCompass);
+                                  }
+                                }}
+                              >
+                                <SelectTrigger className="h-8 text-sm w-[100px] px-2">
+                                  <SelectValue placeholder={houseInfo.sittingFacingLabel || '坐山向'} />
+                                </SelectTrigger>
+                                <SelectContent className="max-h-[260px]">
+                                  {TWENTY_FOUR_MOUNTAINS.map((m) => {
+                                    const center = MOUNTAIN_DEGREES[m]?.center;
+                                    const facing = typeof center === 'number' ? degreeToMountain(oppositeDeg(center)) : undefined;
+                                    const label = `${m}山${facing ?? ''}向`;
+                                    return (
+                                      <SelectItem key={m} value={m} className="text-sm">
+                                        {label}
+                                      </SelectItem>
+                                    );
+                                  })}
+                                </SelectContent>
+                              </Select>
+
+                              {/* 度数输入，与24山和罗盘联动 */}
+                              <div className="flex-1">
+                                <Label className="text-[11px] text-muted-foreground mb-1 block">{tForm('degree')}</Label>
+                                <div className="relative">
+                                  <Input
+                                    type="number"
+                                    placeholder="输入角度"
+                                    value={houseInfo.directionDegree || ''}
+                                    onChange={(e) =>
+                                      handleHouseChange(
+                                        'directionDegree',
+                                        e.target.value
+                                      )
+                                    }
+                                    onBlur={handleDegreeBlur}
+                                    min="0"
+                                    max="360"
+                                    className="h-8 text-sm px-3 pr-8 border-primary/30 focus:border-primary"
+                                  />
+                                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
+                                    °
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* 罗盘按钮（最右侧） */}
                               <Button
                                 type="button"
                                 variant="outline"
                                 size="sm"
                                 onClick={() => setCompassOpen(true)}
-                                className="h-9 px-3 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all group"
+                                className="h-8 px-2.5 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all group"
                                 title="打开罗盘定位"
                               >
                                 <Compass className="w-4 h-4 text-primary group-hover:rotate-45 transition-transform" />
-                                <span className="ml-1.5 text-xs font-medium">
-                                  罗盘
+                                <span className="ml-1 text-xs font-medium">
+                                  打开罗盘
                                 </span>
                               </Button>
                             </div>
@@ -961,86 +1106,62 @@ export function HeroWithForm() {
                             </p>
                           </div>
 
-                          {/* 坐山朝向显示和跟随开关 */}
-                          <div className="space-y-2">
-                            {/* Chips 区域 */}
-                            {(houseInfo.directionDegree ||
-                              houseInfo.sittingMountain ||
-                              houseInfo.facingMountain) && (
-                              <div className="p-2.5 bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-lg">
-                                <div className="flex flex-wrap gap-1.5">
-                                  {houseInfo.directionDegree && (
-                                    <Badge
-                                      variant="secondary"
-                                      className="h-6 px-2.5 text-xs font-medium bg-primary/10 text-primary border-primary/30"
-                                    >
-                                      <Compass className="w-3 h-3 mr-1" />
-                                      {houseInfo.directionDegree}°
-                                    </Badge>
-                                  )}
-                                  {houseInfo.sittingMountain && (
-                                    <Badge
-                                      variant="outline"
-                                      className="h-6 px-2.5 text-xs font-medium border-primary/30"
-                                    >
-                                      坐:{' '}
-                                      <span className="ml-0.5 font-bold text-primary">
-                                        {houseInfo.sittingMountain}
-                                      </span>
-                                    </Badge>
-                                  )}
-                                  {houseInfo.facingMountain && (
-                                    <Badge
-                                      variant="outline"
-                                      className="h-6 px-2.5 text-xs font-medium border-primary/30"
-                                    >
-                                      向:{' '}
-                                      <span className="ml-0.5 font-bold text-primary">
-                                        {houseInfo.facingMountain}
-                                      </span>
-                                    </Badge>
-                                  )}
-                                  {houseInfo.sittingFacingLabel && (
-                                    <Badge
-                                      variant="default"
-                                      className="h-6 px-2.5 text-xs font-semibold bg-gradient-to-r from-primary to-primary/80 shadow-sm"
-                                    >
-                                      {houseInfo.sittingFacingLabel}
-                                    </Badge>
-                                  )}
-                                </div>
+                          {/* 坐山朝向显示 */}
+                          {(houseInfo.directionDegree ||
+                            houseInfo.sittingMountain ||
+                            houseInfo.facingMountain) && (
+                            <div className="p-2.5 bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-lg">
+                              <div className="flex flex-wrap gap-1.5">
                                 {houseInfo.directionDegree && (
-                                  <p className="text-xs text-primary/70 mt-1.5 flex items-center gap-1">
-                                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
-                                    {getCoarseDirectionLabel(
-                                      Number(houseInfo.directionDegree)
-                                    )}
-                                  </p>
+                                  <Badge
+                                    variant="secondary"
+                                    className="h-6 px-2.5 text-xs font-medium bg-primary/10 text-primary border-primary/30"
+                                  >
+                                    <Compass className="w-3 h-3 mr-1" />
+                                    {houseInfo.directionDegree}°
+                                  </Badge>
+                                )}
+                                {houseInfo.sittingMountain && (
+                                  <Badge
+                                    variant="outline"
+                                    className="h-6 px-2.5 text-xs font-medium border-primary/30"
+                                  >
+                                    坐:{' '}
+                                    <span className="ml-0.5 font-bold text-primary">
+                                      {houseInfo.sittingMountain}
+                                    </span>
+                                  </Badge>
+                                )}
+                                {houseInfo.facingMountain && (
+                                  <Badge
+                                    variant="outline"
+                                    className="h-6 px-2.5 text-xs font-medium border-primary/30"
+                                  >
+                                    向:{' '}
+                                    <span className="ml-0.5 font-bold text-primary">
+                                      {houseInfo.facingMountain}
+                                    </span>
+                                  </Badge>
+                                )}
+                                {houseInfo.sittingFacingLabel && (
+                                  <Badge
+                                    variant="default"
+                                    className="h-6 px-2.5 text-xs font-semibold bg-gradient-to-r from-primary to-primary/80 shadow-sm"
+                                  >
+                                    {houseInfo.sittingFacingLabel}
+                                  </Badge>
                                 )}
                               </div>
-                            )}
-
-                            {/* 跟随罗盘开关 */}
-                            <div className="flex items-center justify-between p-2 bg-muted/30 rounded-md border border-border/50">
-                              <div className="flex items-center gap-2">
-                                <Label
-                                  htmlFor="auto-follow"
-                                  className="text-xs font-medium cursor-pointer"
-                                >
-                                  {tForm('followCompass')}
-                                </Label>
-                                <span className="text-xs text-muted-foreground">
-                                  {autoFollowCompass ? '已启用' : '已关闭'}
-                                </span>
-                              </div>
-                              <Switch
-                                id="auto-follow"
-                                checked={autoFollowCompass}
-                                onCheckedChange={handleAutoFollowToggle}
-                                className="data-[state=checked]:bg-primary"
-                              />
+                              {houseInfo.directionDegree && (
+                                <p className="text-xs text-primary/70 mt-1.5 flex items-center gap-1">
+                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
+                                  {getCoarseDirectionLabel(
+                                    Number(houseInfo.directionDegree)
+                                  )}
+                                </p>
+                              )}
                             </div>
-                          </div>
+                          )}
 
                           {/* 手动选择（关闭跟随时） */}
                           {!autoFollowCompass && (
@@ -1188,123 +1309,140 @@ export function HeroWithForm() {
                             </div>
                           )}
 
-                          {/* 房间数量 */}
-                          <div className="space-y-1.5">
-                            <Label className="text-xs">
-                              {tForm('roomCountLabel')}
-                            </Label>
-                            <Select
-                              value={houseInfo.roomCount}
-                              onValueChange={(value) =>
-                                handleHouseChange('roomCount', value)
-                              }
-                            >
-                              <SelectTrigger className="h-8 text-sm px-2">
-                                <SelectValue
-                                  placeholder={tForm('roomCountPlaceholder')}
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {[1, 2, 3, 4, 5, 6].map((num) => (
-                                  <SelectItem key={num} value={num.toString()}>
-                                    {num}
-                                    {tForm('roomSuffix')}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="space-y-1.5">
-                            <Label className="text-xs">
-                              {tForm('completionYear')}
-                            </Label>
-                            <Input
-                              placeholder={tForm('completionYearPlaceholder')}
-                              value={houseInfo.completionYear}
-                              onChange={(e) =>
-                                handleHouseChange(
-                                  'completionYear',
-                                  e.target.value
-                                )
-                              }
-                              className="h-8 text-sm px-2"
-                            />
-                          </div>
-                          <div className="space-y-1.5">
-                            <Label className="text-xs">
-                              {tForm('completionMonth')}
-                            </Label>
-                            <Select
-                              value={houseInfo.completionMonth}
-                              onValueChange={(value) =>
-                                handleHouseChange('completionMonth', value)
-                              }
-                            >
-                              <SelectTrigger className="h-8 text-sm px-2">
-                                <SelectValue
-                                  placeholder={tForm('monthPlaceholder')}
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {months.map((month) => (
-                                  <SelectItem
-                                    key={month}
-                                    value={month.toString()}
-                                  >
-                                    {month}
-                                    {tForm('monthSuffix')}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                          {/* 建成年份 + 房间数 */}
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="space-y-1.5">
+                              <Label className="text-xs">
+                                {tForm('completionYear')}
+                              </Label>
+                              <Input
+                                placeholder={tForm('completionYearPlaceholder')}
+                                value={houseInfo.completionYear}
+                                onChange={(e) =>
+                                  handleHouseChange(
+                                    'completionYear',
+                                    e.target.value
+                                  )
+                                }
+                                className="h-8 text-sm px-2"
+                              />
+                            </div>
+                            <div className="space-y-1.5">
+                              <Label className="text-xs">
+                                {tForm('roomCountLabel')}
+                              </Label>
+                              <Select
+                                value={houseInfo.roomCount}
+                                onValueChange={(value) =>
+                                  handleHouseChange('roomCount', value)
+                                }
+                              >
+                                <SelectTrigger className="h-8 text-sm px-2">
+                                  <SelectValue
+                                    placeholder={tForm('roomCountPlaceholder')}
+                                  />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {[1, 2, 3, 4, 5, 6].map((num) => (
+                                    <SelectItem key={num} value={num.toString()}>
+                                      {num}
+                                      {tForm('roomSuffix')}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </div>
                           </div>
                         </div>
                       </motion.div>
                     )}
                   </div>
 
-                  {/* 提交按钮 */}
-                  <Button
-                    type="submit"
-                    disabled={!canSubmit || isSubmitting}
-                    className="w-full h-11 text-base font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <motion.div
-                          className="absolute inset-0 bg-primary/20"
-                          animate={{
-                            x: ['-100%', '100%'],
-                          }}
-                          transition={{
-                            duration: 1,
-                            repeat: Number.POSITIVE_INFINITY,
-                            ease: 'linear',
-                          }}
-                        />
-                        <div className="relative flex items-center gap-2">
+                  {/* 提交按钮组 */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* 开始分析按钮 */}
+                    <Button
+                      type="submit"
+                      disabled={!canSubmit || isSubmitting}
+                      className="h-11 text-base font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                    >
+                      {isSubmitting ? (
+                        <>
                           <motion.div
-                            animate={{ rotate: 360 }}
+                            className="absolute inset-0 bg-primary/20"
+                            animate={{
+                              x: ['-100%', '100%'],
+                            }}
                             transition={{
                               duration: 1,
                               repeat: Number.POSITIVE_INFINITY,
                               ease: 'linear',
                             }}
-                          >
-                            <Sparkles className="w-4 h-4" />
-                          </motion.div>
-                          <span>正在分析...</span>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-4 h-4 mr-2" />
-                        {tForm('submitButton')}
-                      </>
-                    )}
-                  </Button>
+                          />
+                          <div className="relative flex items-center gap-2">
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{
+                                duration: 1,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: 'linear',
+                              }}
+                            >
+                              <Sparkles className="w-4 h-4" />
+                            </motion.div>
+                            <span>正在分析...</span>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4 mr-2" />
+                          {tForm('submitButton')}
+                        </>
+                      )}
+                    </Button>
+
+                    {/* 生成报告按钮 */}
+                    <Button
+                      type="button"
+                      onClick={handleGenerateReport}
+                      disabled={!canSubmit || isGeneratingReport}
+                      className="h-11 text-base font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                    >
+                      {isGeneratingReport ? (
+                        <>
+                          <motion.div
+                            className="absolute inset-0 bg-white/20"
+                            animate={{
+                              x: ['-100%', '100%'],
+                            }}
+                            transition={{
+                              duration: 1,
+                              repeat: Number.POSITIVE_INFINITY,
+                              ease: 'linear',
+                            }}
+                          />
+                          <div className="relative flex items-center gap-2">
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{
+                                duration: 1,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: 'linear',
+                              }}
+                            >
+                              <TrendingUp className="w-4 h-4" />
+                            </motion.div>
+                            <span>生成中...</span>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <TrendingUp className="w-4 h-4 mr-2" />
+                          生成报告
+                        </>
+                      )}
+                    </Button>
+                  </div>
 
                   {/* 提示文本 */}
                   <p className="text-xs text-center text-muted-foreground">

@@ -86,16 +86,20 @@ export async function logAudit(entry: AuditLogEntry): Promise<void> {
     const db = await getDb();
 
     await db.insert(auditLogs).values({
-      id: randomUUID(),
-      eventType: entry.eventType,
-      userId: entry.userId || null,
-      userName: entry.userName || null,
-      severity: entry.severity || AuditSeverity.INFO,
+      userId: entry.userId || 'system',
+      userEmail: (entry.userName || entry.userId || 'system') as string,
+      action: String(entry.eventType),
+      resource: 'system',
       description: entry.description,
-      metadata: entry.metadata ? JSON.stringify(entry.metadata) : null,
-      ipAddress: entry.ipAddress || null,
-      userAgent: entry.userAgent || null,
-      createdAt: new Date(),
+      // 按表结构，changes 为 { before?:..., after?:... }
+      changes: undefined,
+      status:
+        entry.severity === AuditSeverity.ERROR ||
+        entry.severity === AuditSeverity.CRITICAL
+          ? 'failed'
+          : 'success',
+      ipAddress: entry.ipAddress || undefined,
+      userAgent: entry.userAgent || undefined,
     });
 
     // Also log to console for immediate visibility

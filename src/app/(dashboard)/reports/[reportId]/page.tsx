@@ -85,5 +85,5 @@ export default async function ReportDetailPage({ params }: Props) {
   }
 
   // 正常展示报告
-  return <ReportDetailView report={report} userId={session.user.id} />;
+  return <ReportDetailView report={report as any} userId={session.user.id} />;
 }

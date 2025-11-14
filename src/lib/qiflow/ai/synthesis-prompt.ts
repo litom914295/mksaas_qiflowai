@@ -657,11 +657,11 @@ async function generateLayoutAdvice(
   try {
     const model = resolveModel('deepseek', 'deepseek-chat');
 
-    const result = await generateText({
+      const result = await generateText({
       model,
       prompt,
       temperature: 0.7,
-      maxTokens: 1500,
+      maxOutputTokens: 1500,
     });
 
     // 解析AI返回的JSON

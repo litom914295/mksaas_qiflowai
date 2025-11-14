@@ -6,7 +6,7 @@ const requestSchema = z.object({
   experimentName: z.string(),
   userId: z.string(),
   eventType: z.string(),
-  eventData: z.record(z.any()).optional(),
+  eventData: z.record(z.string(), z.any()).optional(),
 });
 
 export async function POST(request: NextRequest) {

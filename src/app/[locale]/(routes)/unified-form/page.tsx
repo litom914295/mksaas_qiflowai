@@ -387,7 +387,7 @@ export default function UnifiedFormPage() {
     console.log('📊 canSubmit:', canSubmit);
     console.log('📋 Personal data:', {
       name: formData.personal.name,
-      birthDate: formData.personal.birthDate,
+      birthDay: formData.personal.birthDay,
       birthTime: formData.personal.birthTime,
       gender: formData.personal.gender,
     });

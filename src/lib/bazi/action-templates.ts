@@ -461,8 +461,8 @@ export function convertToActionItem(template: ActionTemplate): ActionItem {
     reason: template.reason,
     expectedImpact: template.expectedImpact,
     expectedTimeframe: template.expectedTimeframe,
-    relatedElements: template.relatedElements,
-    relatedGods: template.relatedGods,
+    relatedElements: template.relatedElements as any,
+    relatedGods: template.relatedGods as any,
     checklist: template.checklist,
   };
 }

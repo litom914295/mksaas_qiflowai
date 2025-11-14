@@ -457,4 +457,4 @@ function generateDetailedForecasts(
 
 // ==================== 导出 ====================
 
-export type { MonthlyFortuneInput, MonthlyFortuneResult };
+// 注：移除重复导出，避免与上文导出冲突

@@ -16,7 +16,6 @@ import {
   type BaziAnalysisModel,
   normalizeBaziResult,
 } from '@/lib/bazi/normalize';
-import confetti from 'canvas-confetti';
 import {
   Activity,
   AlertCircle,
@@ -80,9 +79,12 @@ export function BaziAnalysisPage({
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [upgrading, setUpgrading] = useState(false); // 专业版升级状态
 
-  // 分析八字
+  // 分析八字 - 双层计算策略
   const analyzeBazi = useCallback(async () => {
+    let cancelled = false;
+
     try {
       setLoading(true);
       setError(null);
@@ -95,12 +97,14 @@ export function BaziAnalysisPage({
         preferredLocale: 'zh-CN',
       };
 
-      // 执行八字计算
-      const analysisResult = await computeBaziSmart(enhancedBirthData);
+      // 第一层：极速版计算 - 所有用户都立即获得
+      const fastResult = await computeBaziSmart(enhancedBirthData);
 
-      if (analysisResult) {
+      if (cancelled) return;
+
+      if (fastResult) {
         // 归一化数据
-        const normalizedData = normalizeBaziResult(analysisResult, {
+        const normalizedData = normalizeBaziResult(fastResult, {
           name: birthData.name,
           location: birthData.location,
           datetime: birthData.datetime,
@@ -109,26 +113,52 @@ export function BaziAnalysisPage({
 
         if (normalizedData) {
           setResult(normalizedData);
+          setLoading(false); // 快速显示首屏
+        }
 
-          // 触发庆祝动画
-          setTimeout(() => {
-            confetti({
-              particleCount: 100,
-              spread: 70,
-              origin: { y: 0.6 },
-              colors: ['#8B5CF6', '#EC4899', '#3B82F6'],
-            });
-          }, 500);
+        onAnalysisComplete?.(fastResult);
+
+        // 第二层：注册用户后台升级专业版
+        if (isPremium) {
+          setUpgrading(true);
+          try {
+            // 动态导入专业计算器
+            const { ProfessionalBaziCalculator } = await import('@/lib/bazi/integrate-pro');
+            const calculator = new ProfessionalBaziCalculator();
+            const proResult = await calculator.calculateProfessional(enhancedBirthData);
+
+            if (cancelled) return;
+
+            if (proResult) {
+              // 合并专业版增强数据
+              const enhancedData = normalizeBaziResult(proResult, {
+                name: birthData.name,
+                location: birthData.location,
+                datetime: birthData.datetime,
+                gender: birthData.gender,
+              });
+
+              if (enhancedData) {
+                setResult(enhancedData);
+              }
+            }
+          } catch (proErr) {
+            // 专业版失败不影响极速版展示
+            console.warn('专业版升级失败，使用极速版:', proErr);
+          } finally {
+            setUpgrading(false);
+          }
         }
       }
-
-      onAnalysisComplete?.(analysisResult);
     } catch (err) {
       setError(err instanceof Error ? err.message : '八字分析失败');
-    } finally {
       setLoading(false);
     }
-  }, [birthData, onAnalysisComplete]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [birthData, onAnalysisComplete, isPremium]);
 
   useEffect(() => {
     analyzeBazi();
@@ -175,6 +205,27 @@ export function BaziAnalysisPage({
 
   return (
     <div className="space-y-4">
+      {/* 升级状态提示条 */}
+      {upgrading && (
+        <div className="rounded-lg bg-blue-50 border border-blue-200 p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <LoadingSpinner size="sm" />
+            <div>
+              <p className="text-sm font-medium text-blue-900">
+                专业版计算升级中...
+              </p>
+              <p className="text-xs text-blue-700">
+                正在后台增强分析数据，页面可正常浏览
+              </p>
+            </div>
+          </div>
+          <Badge variant="outline" className="border-blue-400 text-blue-700">
+            <Crown className="w-3 h-3 mr-1" />
+            会员专享
+          </Badge>
+        </div>
+      )}
+
       {/* 主内容区 */}
       <div className="space-y-4">
         {/* 精简亮点卡片 */}
@@ -203,6 +254,11 @@ export function BaziAnalysisPage({
                 <Badge className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white text-lg px-6 py-2 shadow-lg">
                   {result.metrics.overall.level}
                 </Badge>
+                {isPremium && !upgrading && (
+                  <Badge className="bg-amber-600 text-white text-xs px-2 py-0.5">
+                    专业版
+                  </Badge>
+                )}
                 <div className="text-xs text-white/80">
                   {new Date(result.base.birth.datetime).toLocaleString('zh-CN')}
                 </div>

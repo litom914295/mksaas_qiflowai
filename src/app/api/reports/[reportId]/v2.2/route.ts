@@ -4,18 +4,22 @@ import { getSession } from '@/lib/auth/session';
 import { and, eq } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
-export async function GET(_req: NextRequest, { params }: { params: { reportId: string } }) {
+export async function GET(
+  _req: NextRequest,
+  ctx: { params: Promise<{ reportId: string }> }
+) {
   try {
     const session = await getSession();
     if (!session?.user?.id) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
+    const { reportId } = await ctx.params as { reportId: string };
     const db = await getDb();
     const [report] = await db
       .select()
       .from(qiflowReports)
-      .where(and(eq(qiflowReports.id, params.reportId), eq(qiflowReports.userId, session.user.id)))
+      .where(and(eq(qiflowReports.id, reportId), eq(qiflowReports.userId, session.user.id)))
       .limit(1);
 
     if (!report || report.status !== 'completed') {

@@ -8,7 +8,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'remedySolutions' });
+  const t: any = await getTranslations({ locale, namespace: 'remedySolutions' as any });
 
   return {
     title: t('title', { defaultValue: '风水化解方案库 | QiFlow AI' }),

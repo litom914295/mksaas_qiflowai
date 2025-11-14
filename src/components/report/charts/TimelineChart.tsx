@@ -206,22 +206,6 @@ export default function TimelineChart({
             dataKey="strength"
             stroke="#8b5cf6"
             strokeWidth={3}
-            dot={(props: any) => {
-              const { cx, cy, payload } = props;
-              if (payload.isKeyTurning) {
-                return (
-                  <circle
-                    cx={cx}
-                    cy={cy}
-                    r={6}
-                    fill="#f59e0b"
-                    stroke="#fff"
-                    strokeWidth={2}
-                  />
-                );
-              }
-              return null;
-            }}
             name="运势曲线"
           />
 

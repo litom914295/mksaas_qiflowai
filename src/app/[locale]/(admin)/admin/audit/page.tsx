@@ -96,6 +96,8 @@ const STATUS_OPTIONS = [
   { value: 'warning', label: '警告' },
 ];
 
+import { useToast } from '@/hooks/use-toast';
+
 export default function AuditLogsPage() {
   const [logs, setLogs] = useState<AuditLog[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
@@ -105,6 +107,7 @@ export default function AuditLogsPage() {
     totalPages: 0,
   });
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   // 筛选条件
   const [keyword, setKeyword] = useState('');
