@@ -12,7 +12,6 @@
  * 覆盖目标：100%
  */
 
-import { describe, test, expect } from '@jest/globals';
 
 // 导入测试目标函数（暂时从report-generator-v2.2.ts导出）
 // TODO: 待集成物品库后更新导入路径

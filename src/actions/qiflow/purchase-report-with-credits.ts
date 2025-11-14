@@ -14,7 +14,7 @@
 
 import { QIFLOW_PRICING } from '@/config/qiflow-pricing';
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { creditTransaction, qiflowReports } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
 import { CreditsManager } from '@/lib/credits/manager';
@@ -77,6 +77,7 @@ export async function purchaseReportWithCreditsAction(
     }
 
     // 3. 创建报告记录 (status: generating)
+    const db = await getDb();
     const [report] = await db
       .insert(qiflowReports)
       .values({

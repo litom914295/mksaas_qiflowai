@@ -65,6 +65,7 @@ export default function RadarChart({
       link.click();
     } catch (error) {
       console.error('导出图表失败:', error);
+      alert('导出图表失败，请稍后重试');
     }
   };
 

@@ -1,7 +1,8 @@
 import { ReportDetailView } from '@/components/qiflow/report-detail-view';
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { qiflowReports } from '@/db/schema';
 import { auth } from '@/lib/auth';
+import { getSession } from '@/lib/auth/session';
 import { and, eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';

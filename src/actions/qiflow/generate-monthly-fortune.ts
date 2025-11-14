@@ -1,4 +1,4 @@
-'use server';
+﻿'use server';
 
 /**
  * Phase 8: 生成月度运势 Server Action
@@ -12,7 +12,8 @@
  * 6. 失败自动回滚
  */
 
-import { db } from '@/db';
+import { getDb } from '@/db';
+import { getDb } from '@/db';
 import { monthlyFortunes, creditTransaction } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
 import type { BaziChart } from '@/lib/qiflow/bazi/types';
@@ -77,6 +78,7 @@ export async function generateMonthlyFortuneAction(
     }
 
     // 3. 检查是否已生成（防重复）
+    const db = await getDb();
     const existingList = await db
       .select()
       .from(monthlyFortunes)
@@ -234,9 +236,9 @@ export async function generateMonthlyFortuneAction(
  * 获取用户积分余额
  */
 async function getUserCredits(userId: string): Promise<number> {
-  
   const { user } = await import('@/db/schema');
-  const userList = await db
+  const database = await getDb();
+  const userList = await database
     .select({ credits: user.credits })
     .from(user)
     .where(eq(user.id, userId))
@@ -253,8 +255,8 @@ async function deductCredits(
   amount: number,
   fortuneId: string
 ): Promise<void> {
-  
-  await db.transaction(async (tx) => {
+  const database = await getDb();
+  await database.transaction(async (tx: any) => {
     // 1. 扣除用户积分
     await tx.execute(
       `UPDATE "user" SET credits = credits - ${amount} WHERE id = '${userId}'`
@@ -312,8 +314,8 @@ export async function getMyMonthlyFortunes(options?: {
     const userId = session.user.id;
     const { year, limit = 12 } = options || {};
 
-    
-    let query = db.select().from(monthlyFortunes);
+    const database = await getDb();
+    let query = database.select().from(monthlyFortunes);
 
     if (year) {
       query = query.where(
@@ -327,7 +329,7 @@ export async function getMyMonthlyFortunes(options?: {
 
     return {
       success: true,
-      data: fortunes.map((f) => ({
+      data: fortunes.map((f: any) => ({
         id: f.id,
         year: f.year,
         month: f.month,
@@ -366,8 +368,8 @@ export async function getMonthlyFortuneById(fortuneId: string): Promise<{
     };
   }
 
-  
-  const fortuneList = await db
+  const database = await getDb();
+  const fortuneList = await database
     .select()
     .from(monthlyFortunes)
     .where(

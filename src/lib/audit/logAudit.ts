@@ -1,4 +1,4 @@
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { auditLogs } from '@/db/schema';
 import type { NextRequest } from 'next/server';
 
@@ -206,6 +206,7 @@ export async function logAudit(params: LogAuditParams): Promise<void> {
     const sanitizedChanges = sanitizeChanges(changes);
 
     // 写入数据库(异步非阻塞)
+    const db = await getDb();
     await db.insert(auditLogs).values({
       userId,
       userEmail: userEmail || null,
@@ -257,6 +258,7 @@ export async function logAuditBatch(logs: LogAuditParams[]): Promise<void> {
       };
     });
 
+    const db = await getDb();
     await db.insert(auditLogs).values(sanitizedLogs);
 
     console.log(`[Audit] Batch logged ${logs.length} entries`);

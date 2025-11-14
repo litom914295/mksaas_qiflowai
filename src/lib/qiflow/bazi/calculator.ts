@@ -4,6 +4,8 @@
 
 import type { BaziChart } from './types';
 
+type Wuxing = '木' | '火' | '土' | '金' | '水';
+
 export interface BirthInfo {
   year: number;
   month: number;

@@ -1,10 +1,11 @@
-/**
+﻿/**
  * A/B 测试管理器
  * 用于实验管理、用户分组和事件追踪
  */
 
 import { createHash } from 'crypto';
 import { db } from '@/db';
+import { getDb } from '@/db';
 import {
   abTestAssignments,
   abTestEvents,
@@ -53,6 +54,8 @@ export class ABTestManager {
     variantId: string;
     variantConfig?: Record<string, any>;
   } | null> {
+    const db = await getDb();
+    
     // 1. 获取实验配置
     const experiment = await db.query.abTestExperiments.findFirst({
       where: and(

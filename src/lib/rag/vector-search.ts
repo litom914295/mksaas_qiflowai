@@ -1,10 +1,11 @@
-/**
+﻿/**
  * 向量搜索服务 - VectorSearchService
  *
  * 使用 PostgreSQL pgvector 进行语义相似度搜索
  */
 
 import { db } from '@/db';
+import { getDb } from '@/db';
 import { knowledgeDocuments } from '@/db/schema-knowledge';
 import { sql } from 'drizzle-orm';
 import { getSharedEmbeddingService } from './embedding-service';
@@ -168,7 +169,7 @@ export class VectorSearchService {
         .from(knowledgeDocuments)
         .where(sql`${knowledgeDocuments.id} = ANY(${ids})`);
 
-      return results.map((row) => ({
+      return results.map((row: any) => ({
         id: row.id,
         title: row.title,
         content: row.content,
@@ -201,7 +202,7 @@ export class VectorSearchService {
         .groupBy(knowledgeDocuments.category);
 
       const byCategory = results.reduce(
-        (acc, row) => {
+        (acc: any, row: any) => {
           acc[row.category as DocumentCategoryType] = Number(row.count);
           return acc;
         },

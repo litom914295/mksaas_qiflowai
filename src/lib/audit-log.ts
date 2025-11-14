@@ -6,7 +6,7 @@
 
 import { randomUUID } from 'crypto';
 import { getDb } from '@/db';
-import { auditLog } from '@/db/schema';
+import { auditLogs } from '@/db/schema';
 
 /**
  * Audit log event types
@@ -85,7 +85,7 @@ export async function logAudit(entry: AuditLogEntry): Promise<void> {
   try {
     const db = await getDb();
 
-    await db.insert(auditLog).values({
+    await db.insert(auditLogs).values({
       id: randomUUID(),
       eventType: entry.eventType,
       userId: entry.userId || null,

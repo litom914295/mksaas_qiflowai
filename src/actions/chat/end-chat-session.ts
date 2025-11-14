@@ -1,6 +1,6 @@
 'use server';
 
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { chatSessions } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
 import { eq } from 'drizzle-orm';
@@ -12,6 +12,7 @@ export async function endChatSessionAction(sessionId: string) {
   }
 
   try {
+    const db = await getDb();
     const [chatSession] = await db
       .select()
       .from(chatSessions)

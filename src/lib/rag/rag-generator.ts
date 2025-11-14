@@ -1,4 +1,4 @@
-/**
+﻿/**
  * RAG 生成器 - RAGGenerator
  *
  * 检索增强生成 (Retrieval-Augmented Generation)
@@ -6,6 +6,7 @@
  */
 
 import { db } from '@/db';
+import { getDb } from '@/db';
 import { ragRetrievalLogs } from '@/db/schema-knowledge';
 import OpenAI from 'openai';
 import { getSharedEmbeddingService } from './embedding-service';

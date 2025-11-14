@@ -1,6 +1,7 @@
 import { getDb } from '@/db';
 import { permissions } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth/verify';
+import { eq } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
 // 获取所有权限列表

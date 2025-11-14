@@ -12,7 +12,6 @@
  * - v2.1: 分级行动清单、决策时间窗口、风水Checklist
  */
 
-import { describe, test, expect, beforeAll } from '@jest/globals';
 import { generateFullReport_v2_2 } from '../report-generator-v2.2';
 import {
   generateLifeTheme,

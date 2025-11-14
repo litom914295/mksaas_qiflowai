@@ -23,15 +23,35 @@ import { useEffect, useState } from 'react';
  * ```
  */
 export function useCostMonitoring(updateInterval = 10000) {
-  const [usage, setUsage] = useState(() => globalCostGuard.getCurrentUsage());
+  const [usage, setUsage] = useState(() => {
+    const rawUsage = globalCostGuard.getCurrentUsage();
+    return {
+      daily: { used: rawUsage.daily, limit: rawUsage.limits.daily },
+      hourly: { used: rawUsage.hourly, limit: rawUsage.limits.hourly },
+      perRequest: { used: 0, limit: rawUsage.limits.perRequest || 0.5 },
+      perReport: { used: 0, limit: rawUsage.limits.perReport || 5 },
+    };
+  });
 
   useEffect(() => {
     // 初始化时立即获取一次
-    setUsage(globalCostGuard.getCurrentUsage());
+    const rawUsage = globalCostGuard.getCurrentUsage();
+    setUsage({
+      daily: { used: rawUsage.daily, limit: rawUsage.limits.daily },
+      hourly: { used: rawUsage.hourly, limit: rawUsage.limits.hourly },
+      perRequest: { used: 0, limit: rawUsage.limits.perRequest || 0.5 },
+      perReport: { used: 0, limit: rawUsage.limits.perReport || 5 },
+    });
 
     // 定时更新
     const timer = setInterval(() => {
-      setUsage(globalCostGuard.getCurrentUsage());
+      const rawUsage = globalCostGuard.getCurrentUsage();
+      setUsage({
+        daily: { used: rawUsage.daily, limit: rawUsage.limits.daily },
+        hourly: { used: rawUsage.hourly, limit: rawUsage.limits.hourly },
+        perRequest: { used: 0, limit: rawUsage.limits.perRequest || 0.5 },
+        perReport: { used: 0, limit: rawUsage.limits.perReport || 5 },
+      });
     }, updateInterval);
 
     return () => clearInterval(timer);

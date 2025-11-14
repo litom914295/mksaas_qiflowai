@@ -16,6 +16,17 @@ export interface EnhancedBaziResult extends BaziResult {
   };
   patterns?: string[];
   score?: number;
+  
+  // 增加缺失的属性
+  dayMaster?: string;
+  birthInfo?: {
+    year: number;
+    month: number;
+    day: number;
+    hour: number;
+    gender: 'male' | 'female';
+    timezone?: string;
+  };
 }
 
 // 智能八字计算函数

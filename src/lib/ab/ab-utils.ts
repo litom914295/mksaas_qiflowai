@@ -73,8 +73,8 @@ export async function getABVariant(userId?: string): Promise<ABVariant> {
   }
 
   // 3. 检查 cookie（用户已被分配）
-  const cookieStore = cookies();
-  const existingVariant = cookieStore.get(AB_COOKIE_NAME)?.value as ABVariant | undefined;
+  const cookieStore = await cookies();
+  const existingVariant = (await cookieStore.get(AB_COOKIE_NAME))?.value as ABVariant | undefined;
   if (existingVariant && experiment.variants.includes(existingVariant)) {
     return existingVariant;
   }
@@ -90,7 +90,7 @@ export async function getABVariant(userId?: string): Promise<ABVariant> {
   }
 
   // 6. 写入 cookie（持久化）
-  cookieStore.set(AB_COOKIE_NAME, variant, {
+  await cookieStore.set(AB_COOKIE_NAME, variant, {
     maxAge: AB_COOKIE_MAX_AGE,
     httpOnly: true,
     sameSite: 'lax',
@@ -121,9 +121,9 @@ function hashUserId(userId: string): number {
  * 
  * @param variant - 变体名称
  */
-export function setABVariant(variant: ABVariant): void {
-  const cookieStore = cookies();
-  cookieStore.set(AB_COOKIE_NAME, variant, {
+export async function setABVariant(variant: ABVariant): Promise<void> {
+  const cookieStore = await cookies();
+  await cookieStore.set(AB_COOKIE_NAME, variant, {
     maxAge: AB_COOKIE_MAX_AGE,
     httpOnly: true,
     sameSite: 'lax',
@@ -134,9 +134,9 @@ export function setABVariant(variant: ABVariant): void {
 /**
  * 清除用户变体（用于测试）
  */
-export function clearABVariant(): void {
-  const cookieStore = cookies();
-  cookieStore.delete(AB_COOKIE_NAME);
+export async function clearABVariant(): Promise<void> {
+  const cookieStore = await cookies();
+  await cookieStore.delete(AB_COOKIE_NAME);
 }
 
 // ===== 事件追踪 =====

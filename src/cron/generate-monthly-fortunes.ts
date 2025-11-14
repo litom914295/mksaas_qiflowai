@@ -13,8 +13,8 @@
  */
 
 import { generateMonthlyFortuneAction } from '@/actions/qiflow/generate-monthly-fortune';
-import { db } from '@/db';
-import { users } from '@/db/schema';
+import { getDb } from '@/db';
+import { user } from '@/db/schema';
 import type { BaziChart } from '@/lib/qiflow/bazi/types';
 import { eq } from 'drizzle-orm';
 

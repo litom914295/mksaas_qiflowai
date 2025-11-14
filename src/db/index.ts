@@ -119,7 +119,11 @@ export async function getDb(): Promise<DbType> {
   return globalForDb.connectionPromise;
 }
 
-export { globalForDb as db };
+/**
+ * 不再导出同步的 db 对象
+ * 所有代码必须使用: const db = await getDb();
+ * 这样可以确保类型安全和正确的异步处理
+ */
 
 export async function closeDb() {
   if (globalForDb.connectionClient) {

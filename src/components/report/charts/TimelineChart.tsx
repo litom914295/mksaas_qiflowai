@@ -15,8 +15,6 @@ import {
   ComposedChart,
   ReferenceDot,
 } from 'recharts';
-import html2canvas from 'html2canvas';
-
 /**
  * TimelineChart - 人生时间轴图表
  *
@@ -63,6 +61,7 @@ export default function TimelineChart({
     if (!chartRef.current) return;
 
     try {
+      const html2canvas = (await import('html2canvas')).default;
       const canvas = await html2canvas(chartRef.current, {
         backgroundColor: '#ffffff',
         scale: 2, // 提高清晰度
@@ -74,6 +73,7 @@ export default function TimelineChart({
       link.click();
     } catch (error) {
       console.error('导出图表失败:', error);
+      alert('导出图表失败，请稍后重试');
     }
   };
 

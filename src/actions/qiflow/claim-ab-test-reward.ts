@@ -1,7 +1,7 @@
 'use server';
 
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { creditTransaction, user } from '@/db/schema';
 import { abTestManager } from '@/lib/ab-test/manager';
 import { getSession } from '@/lib/auth/session';
@@ -46,6 +46,7 @@ export async function claimABTestRewardAction(params: {
     const rewardAmount = 10;
 
     // 4. 发放积分
+    const db = await getDb();
     await db
       .update(user)
       .set({

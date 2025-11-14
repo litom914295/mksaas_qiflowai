@@ -1851,8 +1851,13 @@ function calculateDecisionMatchScore(
     }
   }
 
-  // 5. 随机微调（避免完全相同）
-  score += Math.random() * 5 - 2.5; // ±2.5分
+  // 5. 基于方案名称的确定性微调（避免完全相同分数）
+  // 使用简单哈希确保相同输入产生相同输出
+  const nameHash = option.name.split('').reduce((acc: number, char: string) => {
+    return acc + char.charCodeAt(0);
+  }, 0);
+  const deterministicAdjustment = (nameHash % 50) / 10 - 2.5; // -2.5 到 +2.5
+  score += deterministicAdjustment;
 
   // 确保分数在0-100范围内
   return Math.max(0, Math.min(100, Math.round(score)));
@@ -2164,46 +2169,6 @@ function inferDecisionTopic(options: Array<{ name: string }>): string {
   }
 }
 
-// ============ 决策对比生成 ============
-
-export function generateDecisionComparison(
-  options: Array<{ name: string; description?: string }>,
-  patternAnalysis: any,
-  luckPillars: any[],
-  currentAge: number
-): DecisionComparison {
-  // TODO: 根据用户提供的决策选项，结合八字分析生成对比
-
-  const decisionOptions: DecisionOption[] = options.map((opt, index) => {
-    const id = String.fromCharCode(65 + index); // A, B, C, ...
-
-    return {
-      id,
-      name: `方案${id}：${opt.name}`,
-      matchScore: 75 + index * 5, // 占位
-      shortTermRisk: '短期压力较大',
-      longTermBenefit: '长期发展空间广阔',
-      bestTiming: '2027年春季',
-      rationale: '该方案与您的用神匹配度较高',
-    };
-  });
-
-  return {
-    topic: '事业路径选择',
-    options: decisionOptions,
-    recommendation: '方案A ≈ 方案C > 方案B',
-    recommendationRationale: '方案A与C的命理匹配度相近，方案B短期风险较高',
-    nonOptimalRemedies: {
-      option: '方案B',
-      remedies: [
-        '选择2027年春季启动，避开忌神期',
-        '增加贵人助力（多参与行业活动）',
-        '调整家居风水，增强财位',
-      ],
-      keyTiming: '2027年2-4月',
-    },
-  };
-}
 
 // ============ 完整报告组装 ============
 

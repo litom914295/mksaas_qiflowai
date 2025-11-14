@@ -28,7 +28,7 @@ exports[`ProfessionalFourPillarsCalculator > calculate > 应正确计算 测试�
     "zhi": "巳",
   },
   "monthOrder": "丑",
-  "realSolarTime": 1990-05-15T05:19:00.000Z,
+  "realSolarTime": 1990-05-15T05:18:00.000Z,
   "year": {
     "element": "金",
     "gan": "庚",
@@ -104,7 +104,7 @@ exports[`ProfessionalFourPillarsCalculator > calculate > 应正确计算 测试�
     "zhi": "寅",
   },
   "monthOrder": "丑",
-  "realSolarTime": 2000-02-04T15:20:00.000Z,
+  "realSolarTime": 2000-02-04T15:19:00.000Z,
   "year": {
     "element": "金",
     "gan": "庚",

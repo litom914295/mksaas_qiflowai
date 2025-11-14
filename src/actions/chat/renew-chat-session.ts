@@ -1,7 +1,7 @@
 'use server';
 
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { chatSessions } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
 import { creditsManager } from '@/lib/credits/manager';
@@ -17,7 +17,8 @@ export async function renewChatSessionAction(sessionId: string) {
   }
 
   try {
-    // 1. 获取会话
+    // 1. 查询会话
+    const db = await getDb();
     const [chatSession] = await db
       .select()
       .from(chatSessions)
