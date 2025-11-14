@@ -1,0 +1,290 @@
+{
+  "testCases": [
+    {
+      "id": "case-001",
+      "name": "案例1：30岁男性，食神生财格，职业困境期",
+      "profile": {
+        "name": "张伟",
+        "age": 30,
+        "gender": "male",
+        "occupation": "软件工程师",
+        "currentSituation": "工作5年遇瓶颈，收入增长缓慢，考虑跳槽或创业",
+        "concerns": ["职业发展", "财运", "决策时机"]
+      },
+      "baziInput": {
+        "name": "张伟",
+        "gender": "male",
+        "date": "1994-05-15",
+        "time": "10:30",
+        "city": "北京"
+      },
+      "fengshuiInput": {
+        "buildingDirection": "坐北朝南",
+        "birthYear": 1994,
+        "moveInDate": "2023-01-01",
+        "currentLayout": "两室一厅，客厅在南，卧室在北"
+      },
+      "userContext": {
+        "currentAge": 30,
+        "occupation": "软件工程师",
+        "concerns": ["职业发展", "财运"],
+        "decisionOptions": [
+          { "id": "A", "name": "跳槽到大厂（年薪+30%）" },
+          { "id": "B", "name": "留在当前公司升职" },
+          { "id": "C", "name": "创业（做技术咨询）" }
+        ]
+      },
+      "expectedResults": {
+        "actionPlan": {
+          "essential": "应包含1-3项必做行动（如晨跑补木火）",
+          "recommended": "应包含3-5项推荐行动",
+          "optional": "应包含5-10项加分行动"
+        },
+        "decisionWindows": {
+          "entrepreneurship": "应提供创业时间窗口（如2027年春季）",
+          "jobChange": "应提供跳槽时间窗口",
+          "confidence": "置信度应在65-95范围内"
+        },
+        "fengshuiChecklist": {
+          "waterTasks": "应有1-2项水位摆放任务（如鱼缸）",
+          "mountainTasks": "应有1-2项山位摆放任务（如植物/柜子）",
+          "costRange": "¥0-¥500"
+        }
+      },
+      "validationCriteria": {
+        "actionExecutability": "≥4星（比较可执行）",
+        "timeWindowAccuracy": "≥4星（比较准确）",
+        "fengshuiPracticality": "≥4星（比较实用）",
+        "knowWhatToDo": "≥4分（比较清楚）"
+      }
+    },
+    {
+      "id": "case-002",
+      "name": "案例2：45岁女性，从格，事业高峰但健康担忧",
+      "profile": {
+        "name": "李娜",
+        "age": 45,
+        "gender": "female",
+        "occupation": "企业高管",
+        "currentSituation": "事业成功但工作压力大，睡眠质量差，担心健康问题",
+        "concerns": ["健康", "家庭", "事业平衡"]
+      },
+      "baziInput": {
+        "name": "李娜",
+        "gender": "female",
+        "date": "1979-08-20",
+        "time": "14:15",
+        "city": "上海"
+      },
+      "fengshuiInput": {
+        "buildingDirection": "坐东朝西",
+        "birthYear": 1979,
+        "moveInDate": "2020-06-15",
+        "currentLayout": "三室两厅，主卧在东，书房在西"
+      },
+      "userContext": {
+        "currentAge": 45,
+        "occupation": "企业高管",
+        "concerns": ["健康", "家庭"]
+      },
+      "expectedResults": {
+        "actionPlan": {
+          "essential": "应包含健康相关行动（如作息调整）",
+          "healthFocus": "应有减压、改善睡眠的具体建议"
+        },
+        "decisionWindows": {
+          "healthAdjustment": "应提供调整健康的时间窗口",
+          "workLifeBalance": "应提供减少工作强度的建议时机"
+        },
+        "fengshuiChecklist": {
+          "focus": "应侧重健康相关风水（如卧室布局）",
+          "sleepQuality": "应有改善睡眠的具体建议"
+        }
+      },
+      "validationCriteria": {
+        "actionExecutability": "≥4星",
+        "healthRelevance": "健康建议应占50%以上",
+        "fengshuiPracticality": "≥4星",
+        "understandingFeeling": "≥4分（比较被理解）"
+      }
+    },
+    {
+      "id": "case-003",
+      "name": "案例3：25岁男性，格局破损，求学/求职双重压力",
+      "profile": {
+        "name": "王鹏",
+        "age": 25,
+        "gender": "male",
+        "occupation": "研究生在读",
+        "currentSituation": "即将毕业，找工作压力大，论文进展慢，感觉迷茫",
+        "concerns": ["学业", "求职", "未来方向"]
+      },
+      "baziInput": {
+        "name": "王鹏",
+        "gender": "male",
+        "date": "1999-11-10",
+        "time": "08:20",
+        "city": "深圳"
+      },
+      "fengshuiInput": {
+        "buildingDirection": "坐南朝北",
+        "birthYear": 1999,
+        "moveInDate": "2024-01-01",
+        "currentLayout": "租房单间，书桌在西"
+      },
+      "userContext": {
+        "currentAge": 25,
+        "occupation": "研究生",
+        "concerns": ["学业", "求职"]
+      },
+      "expectedResults": {
+        "actionPlan": {
+          "essential": "应包含学业相关行动（如调整学习时间）",
+          "careerGuidance": "应有求职方向的具体建议"
+        },
+        "decisionWindows": {
+          "graduation": "应提供毕业论文完成的最佳时间",
+          "jobHunting": "应提供求职的最佳时间窗口"
+        },
+        "fengshuiChecklist": {
+          "studyFocus": "应侧重学习相关风水（如书桌位置）",
+          "lowCost": "应考虑学生预算（零成本或低成本）"
+        }
+      },
+      "validationCriteria": {
+        "actionExecutability": "≥4星",
+        "youngPersonRelevance": "建议应符合年轻人生活方式",
+        "costAcceptability": "成本应≤¥300",
+        "hopeFeeling": "≥4分（比较有信心）"
+      }
+    },
+    {
+      "id": "case-004",
+      "name": "案例4：55岁女性，晚运上扬，准备退休但焦虑",
+      "profile": {
+        "name": "赵芳",
+        "age": 55,
+        "gender": "female",
+        "occupation": "中学教师",
+        "currentSituation": "临近退休，担心退休后生活无聊，养老金不够",
+        "concerns": ["健康", "养老", "退休生活规划"]
+      },
+      "baziInput": {
+        "name": "赵芳",
+        "gender": "female",
+        "date": "1969-03-25",
+        "time": "16:45",
+        "city": "广州"
+      },
+      "fengshuiInput": {
+        "buildingDirection": "坐西朝东",
+        "birthYear": 1969,
+        "moveInDate": "2018-09-01",
+        "currentLayout": "三室一厅，主卧在西，儿童房已空置"
+      },
+      "userContext": {
+        "currentAge": 55,
+        "occupation": "中学教师",
+        "concerns": ["健康", "养老"]
+      },
+      "expectedResults": {
+        "actionPlan": {
+          "essential": "应包含健康维护行动（如定期体检）",
+          "retirementPlanning": "应有退休后生活规划建议"
+        },
+        "decisionWindows": {
+          "retirement": "应提供最佳退休时间",
+          "healthMaintenance": "应提供健康维护的关键时期"
+        },
+        "fengshuiChecklist": {
+          "healthFocus": "应侧重健康长寿相关风水",
+          "familyHarmony": "应考虑家庭氛围（子女关系）"
+        }
+      },
+      "validationCriteria": {
+        "actionExecutability": "≥4星",
+        "ageAppropriate": "建议应符合中老年人需求",
+        "fengshuiPracticality": "≥4星",
+        "longTermHope": "长期希望应清晰（3-10年规划）"
+      }
+    },
+    {
+      "id": "case-005",
+      "name": "案例5：35岁男性，正官格，多重决策场景",
+      "profile": {
+        "name": "陈浩",
+        "age": 35,
+        "gender": "male",
+        "occupation": "产品经理",
+        "currentSituation": "面临多个重大决策：跳槽/创业/结婚/买房，不知如何选择",
+        "concerns": ["职业发展", "创业", "婚姻", "置业"]
+      },
+      "baziInput": {
+        "name": "陈浩",
+        "gender": "male",
+        "date": "1989-07-05",
+        "time": "11:30",
+        "city": "杭州"
+      },
+      "fengshuiInput": {
+        "buildingDirection": "坐东南朝西北",
+        "birthYear": 1989,
+        "moveInDate": "2022-03-15",
+        "currentLayout": "两室一厅，客厅在东南"
+      },
+      "userContext": {
+        "currentAge": 35,
+        "occupation": "产品经理",
+        "concerns": ["职业发展", "创业", "婚姻", "置业"],
+        "decisionOptions": [
+          { "id": "A", "name": "跳槽到大厂" },
+          { "id": "B", "name": "留在当前公司升职" },
+          { "id": "C", "name": "自主创业" }
+        ]
+      },
+      "expectedResults": {
+        "actionPlan": {
+          "essential": "应包含当下最紧迫的行动（如调研创业方向）",
+          "multiDomain": "应覆盖职业/婚姻/置业多个领域"
+        },
+        "decisionWindows": {
+          "entrepreneurship": "应提供创业时间窗口",
+          "marriage": "应提供结婚时间窗口",
+          "property": "应提供置业时间窗口",
+          "prioritization": "应给出决策优先级建议"
+        },
+        "decisionComparison": {
+          "expected": "应提供A/B/C方案对比（v2.2功能预留）",
+          "recommendation": "应给出倾向性建议"
+        }
+      },
+      "validationCriteria": {
+        "actionExecutability": "≥4星",
+        "timeWindowAccuracy": "≥4星",
+        "decisionClarity": "应明确哪个决策最紧迫",
+        "comprehensiveness": "应覆盖所有关心领域"
+      }
+    }
+  ],
+  "metadata": {
+    "version": "v2.1",
+    "created": "2025-01-14",
+    "purpose": "v2.1功能验证 - 真实用户案例测试",
+    "targetMetrics": {
+      "actionExecutability": "≥90% 用户≥4星",
+      "timeWindowAccuracy": "≥90% 用户≥4星",
+      "fengshuiPracticality": "≥90% 用户≥4星",
+      "knowWhatToDo": "≥90% 用户≥4分",
+      "overallSatisfaction": "≥90% 用户≥4星",
+      "nps": "≥70"
+    },
+    "testingProcess": [
+      "1. 为每个案例生成v2.1完整报告",
+      "2. 用户填写反馈问卷（用户反馈问卷_v2.1.md）",
+      "3. 测试人员记录执行情况（1周后跟进）",
+      "4. 收集1个月后的效果反馈",
+      "5. 运行数据分析脚本（analyze-feedback.js）",
+      "6. 生成验证报告（validation-report-generator.js）"
+    ]
+  }
+}

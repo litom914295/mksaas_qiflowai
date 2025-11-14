@@ -145,12 +145,81 @@ function generateCareerMatches(
 }
 
 /**
- * 生成决策时间窗口
+ * 五行相生相克关系
+ */
+const ELEMENT_RELATIONS = {
+  木: { generates: '火', controls: '土', generatedBy: '水', controlledBy: '金' },
+  火: { generates: '土', controls: '金', generatedBy: '木', controlledBy: '水' },
+  土: { generates: '金', controls: '水', generatedBy: '火', controlledBy: '木' },
+  金: { generates: '水', controls: '木', generatedBy: '土', controlledBy: '火' },
+  水: { generates: '木', controls: '火', generatedBy: '金', controlledBy: '土' },
+};
+
+/**
+ * 月令五行旺相休囚死
+ * - 春季（寅卯辰 2-4月）：木旺、火相、水休、金囚、土死
+ * - 夏季（巳午未 5-7月）：火旺、土相、木休、水囚、金死
+ * - 秋季（申酉戌 8-10月）：金旺、水相、土休、火囚、木死
+ * - 冬季（亥子丑 11-1月）：水旺、木相、金休、土囚、火死
+ */
+const MONTH_ELEMENT_STRENGTH = {
+  spring: { 木: 5, 火: 3, 水: 2, 金: 1, 土: 0 },
+  summer: { 火: 5, 土: 3, 木: 2, 水: 1, 金: 0 },
+  autumn: { 金: 5, 水: 3, 土: 2, 火: 1, 木: 0 },
+  winter: { 水: 5, 木: 3, 金: 2, 土: 1, 火: 0 },
+};
+
+/**
+ * 获取月份对应的季节
+ */
+function getSeason(month: number): 'spring' | 'summer' | 'autumn' | 'winter' {
+  if (month >= 2 && month <= 4) return 'spring';
+  if (month >= 5 && month <= 7) return 'summer';
+  if (month >= 8 && month <= 10) return 'autumn';
+  return 'winter'; // 11, 12, 1
+}
+
+/**
+ * 计算月令对用神的影响强度（0-5）
+ */
+function getMonthStrength(month: number, element: string): number {
+  const season = getSeason(month);
+  return MONTH_ELEMENT_STRENGTH[season][element] || 0;
+}
+
+/**
+ * 计算五行互动得分（生克制化）
+ * @param element1 - 五行1
+ * @param element2 - 五行2
+ * @returns 互动得分：相生+10，相克-10，其他0
+ */
+function calculateElementInteraction(
+  element1: string,
+  element2: string
+): number {
+  if (!element1 || !element2) return 0;
+
+  const relation = ELEMENT_RELATIONS[element1];
+  if (!relation) return 0;
+
+  if (relation.generates === element2) {
+    return 10; // element1 生 element2
+  } else if (relation.controls === element2) {
+    return -10; // element1 克 element2
+  }
+
+  return 0; // 无直接关系
+}
+
+/**
+ * 生成决策时间窗口（增强版）
  *
- * 功能：根据大运、流年计算关键决策的最佳时机
+ * 功能：根据大运、流年、月令计算关键决策的最佳时机
  * - 遍历未来10年的大运/流年
  * - 找用神得力 + 五行相合的时间段
- * - 计算置信度（基于格局强度、用神力量）
+ * - 分析月令对用神的影响（春夏秋冬五行强弱）
+ * - 计算五行互动（生克制化）
+ * - 计算置信度（基于格局强度、用神力量、月令、五行关系）
  * - 转换为ISO日期格式（solar calendar）
  *
  * @param luckPillars - 大运信息
@@ -195,7 +264,7 @@ function generateDecisionWindows(
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
 
-  // 遍历未来10年，找用神得力的时间段
+  // 遍历未来10年，找用神得力的时间段（分析每个月）
   const favorablePeriods: any[] = [];
 
   for (let yearOffset = 0; yearOffset < 10; yearOffset++) {
@@ -215,44 +284,121 @@ function generateDecisionWindows(
       currentLuckPillar?.earthlyBranch?.element === usefulElement;
 
     if (isLuckPillarFavorable) {
-      // 该年有利，记录春季（2-4月）作为行动窗口
-      // 春季通常是"一年之计在于春"，适合启动新项目
+      // 该年有利，分析每个季节找最佳时间窗口
+      // 遍历四个季节，找月令对用神最有利的季节
+      const seasons = [
+        { name: 'spring', start: 2, end: 4, label: '春季' },
+        { name: 'summer', start: 5, end: 7, label: '夏季' },
+        { name: 'autumn', start: 8, end: 10, label: '秋季' },
+        { name: 'winter', start: 11, end: 1, label: '冬季' },
+      ];
+
+      let bestSeason = seasons[0];
+      let bestMonthStrength = 0;
+
+      // 找到对用神最有利的季节
+      seasons.forEach((season) => {
+        const monthStrength = getMonthStrength(season.start, usefulElement);
+        if (monthStrength > bestMonthStrength) {
+          bestMonthStrength = monthStrength;
+          bestSeason = season;
+        }
+      });
 
       try {
         // 转换为ISO格式（公历）
-        // 立春作为起点（通常在2月3-5日）
-        const springStart = Solar.fromYmd(targetYear, 2, 4); // 立春
-        const springEnd = Solar.fromYmd(targetYear, 4, 30); // 春季结束
+        let periodStart: any;
+        let periodEnd: any;
+
+        if (bestSeason.name === 'winter') {
+          // 冬季跨年：11月-次年1月
+          periodStart = Solar.fromYmd(targetYear, 11, 1);
+          periodEnd = Solar.fromYmd(targetYear + 1, 1, 31);
+        } else {
+          periodStart = Solar.fromYmd(targetYear, bestSeason.start, 1);
+          periodEnd = Solar.fromYmd(
+            targetYear,
+            bestSeason.end,
+            bestSeason.end === 2 ? 28 : 30
+          );
+        }
 
         // 计算置信度（65-95范围）
-        let confidence = 75; // 基础置信度
+        let confidence = 70; // 基础置信度
 
-        // 如果天干地支都匹配用神，置信度提高
+        // 1. 大运匹配得分（最高+15分）
         if (
           currentLuckPillar?.heavenlyStem?.element === usefulElement &&
           currentLuckPillar?.earthlyBranch?.element === usefulElement
         ) {
-          confidence += 15; // 提升到90
-        } else {
-          confidence += 5; // 提升到80
+          confidence += 15; // 天干地支都匹配
+        } else if (
+          currentLuckPillar?.heavenlyStem?.element === usefulElement ||
+          currentLuckPillar?.earthlyBranch?.element === usefulElement
+        ) {
+          confidence += 8; // 天干或地支匹配
         }
 
-        // 根据距离现在的时间调整置信度（远期不确定性高）
+        // 2. 月令强度得分（最高+10分）
+        // bestMonthStrength范围0-5，映射为0-10分
+        confidence += bestMonthStrength * 2;
+
+        // 3. 五行互动得分（最高+5分）
+        // 检查大运天干/地支与用神的五行互动
+        const stemElement = currentLuckPillar?.heavenlyStem?.element;
+        const branchElement = currentLuckPillar?.earthlyBranch?.element;
+
+        let interactionBonus = 0;
+        if (stemElement) {
+          const stemInteraction = calculateElementInteraction(
+            stemElement,
+            usefulElement
+          );
+          if (stemInteraction > 0) {
+            interactionBonus += 3; // 天干生用神
+          }
+        }
+        if (branchElement) {
+          const branchInteraction = calculateElementInteraction(
+            branchElement,
+            usefulElement
+          );
+          if (branchInteraction > 0) {
+            interactionBonus += 2; // 地支生用神
+          }
+        }
+        confidence += Math.min(interactionBonus, 5);
+
+        // 4. 根据距离现在的时间调整置信度（远期不确定性高）
         if (yearOffset > 5) {
           confidence -= 5; // 远期降低5分
+        } else if (yearOffset > 3) {
+          confidence -= 3; // 中期降低3分
         }
 
         // 确保置信度在65-95范围内
         confidence = Math.max(65, Math.min(95, confidence));
 
+        // 生成详细说明
+        let detailedNote = `${targetYear}年${bestSeason.label}（${bestSeason.start}-${bestSeason.end}月）`;
+        detailedNote += `，大运支持，用神${usefulElement}得力`;
+        if (bestMonthStrength >= 4) {
+          detailedNote += `，该季节${usefulElement}旺相，时机极佳`;
+        } else if (bestMonthStrength >= 3) {
+          detailedNote += `，该季节${usefulElement}相气，时机良好`;
+        }
+        if (interactionBonus > 0) {
+          detailedNote += `，五行相生，助力明显`;
+        }
+
         favorablePeriods.push({
           year: targetYear,
-          from: springStart.toYmd(), // ISO格式：YYYY-MM-DD
-          to: springEnd.toYmd(),
+          from: periodStart.toYmd(), // ISO格式：YYYY-MM-DD
+          to: periodEnd.toYmd(),
           confidence,
-          note: isLuckPillarFavorable
-            ? `${targetYear}年大运支持，用神得力`
-            : `${targetYear}年流年有利`,
+          note: detailedNote,
+          season: bestSeason.label,
+          monthStrength: bestMonthStrength,
           luckPillar: currentLuckPillar,
         });
       } catch (error) {
@@ -736,37 +882,140 @@ function generateWaterActions(
   favorablePalaces: number[],
   unfavorablePalaces: number[]
 ): EnvironmentalTask[] {
-  // TODO: 根据零神宫位生成水位摆放任务
+  // 集成物品库：使用fengshui-items-templates.ts
+  const {
+    getItemsByPalaceAndType,
+    getPalaceLocation,
+    filterItemsByCost,
+  } = require('@/lib/qiflow/fengshui-items-templates');
 
-  return favorablePalaces.map((palace, index) => ({
-    id: `water-${palace}`,
-    palace: palace as any,
-    bagua: ['坎', '坤', '震', '巽', '中', '乾', '兑', '艮', '离'][palace - 1],
-    task: `在${palace}宫摆放鱼缸或流水摆件`,
-    rationale: '该宫位为零神，见水旺财',
-    severity: 'high' as const,
-    expectedImpact: '提升财运10-15%',
-    dueBy: '2025-02-15',
-    recurrence: 'quarterly' as const,
-  }));
+  const tasks: EnvironmentalTask[] = [];
+
+  favorablePalaces.forEach((palace, index) => {
+    // 获取该宫位的推荐水位物品（优先级：essential > recommended > optional）
+    let items = getItemsByPalaceAndType(palace, 'water', 'essential');
+    if (items.length === 0) {
+      items = getItemsByPalaceAndType(palace, 'water', 'recommended');
+    }
+    if (items.length === 0) {
+      items = getItemsByPalaceAndType(palace, 'water', 'optional');
+    }
+
+    // 如果没有匹配的物品，使用通用水位物品
+    if (items.length === 0) {
+      items = require('@/lib/qiflow/fengshui-items-templates').WATER_ITEMS.slice(
+        0,
+        1
+      );
+    }
+
+    // 取第一个物品作为主要建议
+    const item = items[0];
+    const location = getPalaceLocation(palace);
+
+    // 计算截止日期（根据优先级）
+    const dueDate = new Date();
+    if (item.priority === 'essential') {
+      dueDate.setMonth(dueDate.getMonth() + 1); // 1个月内完成
+    } else if (item.priority === 'recommended') {
+      dueDate.setMonth(dueDate.getMonth() + 2); // 2个月内完成
+    } else {
+      dueDate.setMonth(dueDate.getMonth() + 3); // 3个月内完成
+    }
+
+    const dueBy = dueDate.toISOString().split('T')[0]; // YYYY-MM-DD
+
+    // 映射优先级到severity
+    const severityMap: Record<string, 'high' | 'medium' | 'low'> = {
+      essential: 'high',
+      recommended: 'medium',
+      optional: 'low',
+    };
+
+    tasks.push({
+      id: `water-${palace}`,
+      palace: palace as any,
+      bagua: location.bagua,
+      task: `在${palace}宫（${location.bagua}位，${location.typical}）摆放${item.name}。${item.description}`,
+      rationale: `该宫位为零神，见水旺财。${item.placement}`,
+      severity: severityMap[item.priority] || 'medium',
+      expectedImpact: item.expectedImpact,
+      dueBy,
+      recurrence: 'quarterly' as const,
+    });
+  });
+
+  return tasks;
 }
 
 function generateMountainActions(
   favorablePalaces: number[],
   unfavorablePalaces: number[]
 ): EnvironmentalTask[] {
-  // TODO: 根据正神宫位生成山位摆放任务
+  // 集成物品库：使用fengshui-items-templates.ts
+  const {
+    getItemsByPalaceAndType,
+    getPalaceLocation,
+    filterItemsByCost,
+  } = require('@/lib/qiflow/fengshui-items-templates');
 
-  return favorablePalaces.map((palace, index) => ({
-    id: `mountain-${palace}`,
-    palace: palace as any,
-    bagua: ['坎', '坤', '震', '巽', '中', '乾', '兑', '艮', '离'][palace - 1],
-    task: `在${palace}宫摆放高大植物或柜子`,
-    rationale: '该宫位为正神，宜见山',
-    severity: 'high' as const,
-    expectedImpact: '增强健康/事业运',
-    dueBy: '2025-02-15',
-  }));
+  const tasks: EnvironmentalTask[] = [];
+
+  favorablePalaces.forEach((palace, index) => {
+    // 获取该宫位的推荐山位物品（优先级：essential > recommended > optional）
+    let items = getItemsByPalaceAndType(palace, 'mountain', 'essential');
+    if (items.length === 0) {
+      items = getItemsByPalaceAndType(palace, 'mountain', 'recommended');
+    }
+    if (items.length === 0) {
+      items = getItemsByPalaceAndType(palace, 'mountain', 'optional');
+    }
+
+    // 如果没有匹配的物品，使用通用山位物品
+    if (items.length === 0) {
+      items = require('@/lib/qiflow/fengshui-items-templates').MOUNTAIN_ITEMS.slice(
+        0,
+        1
+      );
+    }
+
+    // 取第一个物品作为主要建议
+    const item = items[0];
+    const location = getPalaceLocation(palace);
+
+    // 计算截止日期（根据优先级）
+    const dueDate = new Date();
+    if (item.priority === 'essential') {
+      dueDate.setMonth(dueDate.getMonth() + 1); // 1个月内完成
+    } else if (item.priority === 'recommended') {
+      dueDate.setMonth(dueDate.getMonth() + 2); // 2个月内完成
+    } else {
+      dueDate.setMonth(dueDate.getMonth() + 3); // 3个月内完成
+    }
+
+    const dueBy = dueDate.toISOString().split('T')[0]; // YYYY-MM-DD
+
+    // 映射优先级到severity
+    const severityMap: Record<string, 'high' | 'medium' | 'low'> = {
+      essential: 'high',
+      recommended: 'medium',
+      optional: 'low',
+    };
+
+    tasks.push({
+      id: `mountain-${palace}`,
+      palace: palace as any,
+      bagua: location.bagua,
+      task: `在${palace}宫（${location.bagua}位，${location.typical}）摆放${item.name}。${item.description}`,
+      rationale: `该宫位为正神，宜见山。${item.placement}`,
+      severity: severityMap[item.priority] || 'medium',
+      expectedImpact: item.expectedImpact,
+      dueBy,
+      recurrence: item.maintenance.includes('季度') ? ('quarterly' as const) : undefined,
+    });
+  });
+
+  return tasks;
 }
 
 // ============ 希望之光生成 ============
