@@ -48,7 +48,6 @@ export function Navbar({ scroll }: NavBarProps) {
   const scrolled = useScroll(50);
   const menuLinks = getNavbarLinks();
   const localePathname = useLocalePathname();
-  const [mounted, setMounted] = useState(false);
   const { data: session, isPending } = authClient.useSession();
   const currentUser = session?.user;
   const searchParams = useSearchParams();
@@ -66,10 +65,6 @@ export function Navbar({ scroll }: NavBarProps) {
   const ab = abParam ?? getAbFromClient();
   const variantB = ab === 'B';
   // console.log(`Navbar, user:`, user);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <section
@@ -234,7 +229,7 @@ export function Navbar({ scroll }: NavBarProps) {
 
           {/* navbar right show sign in or user */}
           <div className="flex items-center gap-x-4">
-            {!mounted || isPending ? (
+            {isPending ? (
               <Skeleton className="size-8 border rounded-full" />
             ) : currentUser ? (
               <>

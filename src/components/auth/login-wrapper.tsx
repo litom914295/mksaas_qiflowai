@@ -43,6 +43,11 @@ export const LoginWrapper = ({
     router.push(loginPath);
   };
 
+  const handleLoginSuccess = () => {
+    // 关闭模态框
+    setIsModalOpen(false);
+  };
+
   // this is to prevent the login wrapper from being rendered on the server side
   // and causing a hydration error
   if (!mounted) {
@@ -58,7 +63,11 @@ export const LoginWrapper = ({
             <DialogTitle>登录</DialogTitle>
             <DialogDescription>请输入您的登录凭据以继续</DialogDescription>
           </DialogHeader>
-          <LoginForm callbackUrl={callbackUrl} className="border-none" />
+          <LoginForm 
+            callbackUrl={callbackUrl} 
+            className="border-none"
+            onLoginSuccess={handleLoginSuccess}
+          />
         </DialogContent>
       </Dialog>
     );
