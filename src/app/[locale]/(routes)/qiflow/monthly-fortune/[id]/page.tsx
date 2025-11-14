@@ -13,7 +13,7 @@
 import { getMonthlyFortuneById } from '@/actions/qiflow/generate-monthly-fortune';
 import { MonthlyFortuneDetail } from '@/components/qiflow/monthly-fortune-detail';
 import { Button } from '@/components/ui/button';
-import { getCurrentUser } from '@/lib/auth/session';
+import { getSession } from '@/lib/auth/session';
 import { ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -22,9 +22,9 @@ import { notFound, redirect } from 'next/navigation';
 // ==================== 类型定义 ====================
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // ==================== Metadata ====================
@@ -32,7 +32,8 @@ interface PageProps {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const result = await getMonthlyFortuneById(params.id);
+  const resolvedParams = await params;
+  const result = await getMonthlyFortuneById(resolvedParams.id);
 
   if (!result.success || !result.data) {
     return {
@@ -51,12 +52,16 @@ export async function generateMetadata({
 // ==================== 主页面 ====================
 
 export default async function MonthlyFortuneDetailPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  
   // 获取当前用户
-  const user = await getCurrentUser();
+  const session = await getSession();
 
-  if (!user) {
-    redirect(`/auth/signin?callbackUrl=/qiflow/monthly-fortune/${params.id}`);
+  if (!session?.user) {
+    redirect(`/auth/signin?callbackUrl=/qiflow/monthly-fortune/${resolvedParams.id}`);
   }
+
+  const user = session.user;
 
   // 检查是否为 Pro 会员
   if ((user as any).subscriptionTier !== 'pro') {
@@ -64,7 +69,7 @@ export default async function MonthlyFortuneDetailPage({ params }: PageProps) {
   }
 
   // 获取运势详情
-  const result = await getMonthlyFortuneById(params.id);
+  const result = await getMonthlyFortuneById(resolvedParams.id);
 
   if (!result.success || !result.data) {
     notFound();

@@ -39,5 +39,6 @@ foreach ($file in $files) {
     }
 }
 
-Write-Host "`nPhase 1 complete: imports updated"
+Write-Host ''
+Write-Host 'Phase 1 complete: imports updated'
 Write-Host 'Next: manually add const db = await getDb(); at the start of each async function'

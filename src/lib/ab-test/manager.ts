@@ -4,7 +4,6 @@
  */
 
 import { createHash } from 'crypto';
-import { db } from '@/db';
 import { getDb } from '@/db';
 import {
   abTestAssignments,

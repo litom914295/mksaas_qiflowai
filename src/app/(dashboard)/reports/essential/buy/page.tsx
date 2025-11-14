@@ -25,8 +25,9 @@ async function getUserCredits(userId: string): Promise<number> {
 export default async function BuyEssentialReportPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const resolvedSearchParams = await searchParams;
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -37,10 +38,10 @@ export default async function BuyEssentialReportPage({
   const userCredits = await getUserCredits(session.user.id);
 
   // 从 URL 参数获取预填充的生日信息 (如果有)
-  const birthDate = searchParams.birthDate as string | undefined;
-  const birthHour = searchParams.birthHour as string | undefined;
-  const gender = searchParams.gender as string | undefined;
-  const location = searchParams.location as string | undefined;
+  const birthDate = resolvedSearchParams.birthDate as string | undefined;
+  const birthHour = resolvedSearchParams.birthHour as string | undefined;
+  const gender = resolvedSearchParams.gender as string | undefined;
+  const location = resolvedSearchParams.location as string | undefined;
 
   return (
     <EssentialReportPurchasePage

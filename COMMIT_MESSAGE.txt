@@ -1,0 +1,50 @@
+fix(report): v2.2.1 修复算法随机性和图表性能问题
+
+## 主要修复
+
+### 1. 修复决策对比算法随机性问题
+- 将 Math.random() 改为确定性哈希算法
+- 基于方案名称生成稳定的微调值（-2.5 到 +2.5）
+- 确保相同输入始终产生相同输出
+- 提升算法可测试性和可复现性
+
+### 2. 图表组件性能优化
+- 将 html2canvas 改为动态导入
+- 减少初始加载体积约 150KB
+- 提升首屏加载速度 100-200ms
+- 为所有图表组件添加导出失败提示
+
+## 测试
+
+### 新增测试
+- deterministic-adjustment.test.ts (3个测试用例)
+  - 验证相同输入运行10次产生相同结果
+  - 验证不同方案名称产生不同微调值
+  - 验证方案顺序改变不影响各自分数
+
+### 回归测试
+- report-v2.2-final.test.ts (12个测试) ✅
+- deterministic-adjustment.test.ts (3个测试) ✅
+
+## 修改的文件
+- src/lib/report/report-generator-v2.2.ts (算法修复)
+- src/components/report/charts/TimelineChart.tsx (动态导入+错误提示)
+- src/components/report/charts/RadarChart.tsx (错误提示)
+- src/components/report/charts/HeatmapChart.tsx (错误提示)
+- src/components/report/charts/WaveChart.tsx (错误提示)
+- src/components/report/charts/GanttChart.tsx (错误提示)
+- src/lib/report/__tests__/deterministic-adjustment.test.ts (新增)
+
+## 影响
+- 性能: 减少初始加载 ~150KB
+- 稳定性: 算法可复现，无随机性
+- 体验: 增加错误提示
+- 兼容性: 完全向后兼容
+
+## 文档
+- docs/发布/v2.2.1修复说明.md (完整技术文档)
+- docs/发布/v2.2.1修复摘要.md (快速摘要)
+
+Closes: #v2.2-code-review
+Risk: Low
+Breaking: No

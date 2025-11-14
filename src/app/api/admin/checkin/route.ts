@@ -1,7 +1,7 @@
 import { user } from '@/db/schema';
 import { checkInConfig, userCheckIns } from '@/db/schema-credit-config';
 import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { getDb } from '@/db';
 import { and, desc, eq, gte, lt, sql } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
+    const db = await getDb();
     const searchParams = req.nextUrl.searchParams;
     const userId = searchParams.get('userId');
     const page = Number.parseInt(searchParams.get('page') || '1');
@@ -98,6 +99,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
+    const db = await getDb();
     const body = await req.json();
     const {
       baseReward,

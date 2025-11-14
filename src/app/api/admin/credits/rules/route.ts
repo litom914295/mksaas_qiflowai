@@ -1,6 +1,6 @@
 import { creditRules } from '@/db/schema-credit-config';
 import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { getDb } from '@/db';
 import { eq } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -16,6 +16,7 @@ export async function GET() {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
+    const db = await getDb();
     const rules = await db
       .select()
       .from(creditRules)
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
+    const db = await getDb();
     const body = await req.json();
     const {
       ruleKey,
@@ -106,6 +108,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
+    const db = await getDb();
     const body = await req.json();
     const { id, ...updates } = body;
 

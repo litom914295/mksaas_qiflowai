@@ -6,7 +6,7 @@ import {
 } from '@/db/schema';
 import { auth } from '@/lib/auth';
 import { CacheKeys, DefaultTTL, cacheManager } from '@/lib/cache/cache-manager';
-import { db } from '@/lib/db';
+import { getDb } from '@/db';
 import { and, count, countDistinct, gte, lt, sql } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
+    const db = await getDb();
     const searchParams = req.nextUrl.searchParams;
     const period = searchParams.get('period') || '7d'; // 7d, 30d, 90d, all
     const useCache = searchParams.get('cache') !== 'false';

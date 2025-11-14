@@ -8,10 +8,11 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 type Props = {
-  params: { reportId: string };
+  params: Promise<{ reportId: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await params; // Await params in Next.js 15
   return {
     title: '报告详情 | QiFlow AI',
     description: '查看您的 AI 八字精华报告',
@@ -32,13 +33,14 @@ async function getReport(reportId: string, userId: string) {
 }
 
 export default async function ReportDetailPage({ params }: Props) {
+  const resolvedParams = await params;
   const session = await getSession();
 
   if (!session?.user?.id) {
-    redirect(`/login?callbackUrl=/reports/${params.reportId}`);
+    redirect(`/login?callbackUrl=/reports/${resolvedParams.reportId}`);
   }
 
-  const report = await getReport(params.reportId, session.user.id);
+  const report = await getReport(resolvedParams.reportId, session.user.id);
 
   if (!report) {
     notFound();

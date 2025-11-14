@@ -4,7 +4,6 @@
  * 使用 PostgreSQL pgvector 进行语义相似度搜索
  */
 
-import { db } from '@/db';
 import { getDb } from '@/db';
 import { knowledgeDocuments } from '@/db/schema-knowledge';
 import { sql } from 'drizzle-orm';

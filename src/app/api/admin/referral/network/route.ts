@@ -1,6 +1,6 @@
 import { referralRelationships, user } from '@/db/schema';
 import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { getDb } from '@/db';
 import { and, eq, inArray, or } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
+    const db = await getDb();
     const searchParams = req.nextUrl.searchParams;
     const userId = searchParams.get('userId');
     const maxNodes = Number.parseInt(searchParams.get('maxNodes') || '100');
