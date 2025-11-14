@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'sonner';
 
 // 五行与颜色/方位的对应关系
 const wuxingMapping = {
@@ -356,6 +357,57 @@ export default function ReportPage() {
     }
   }, [formData, analysisContext]);
 
+  // 导出v2.2专业报告（HTML下载）
+  const handleExportReport = useCallback(async () => {
+    const toastId = toast.loading('正在生成专业报告...');
+    try {
+      const payload = {
+        type: hasHouseInfo ? 'combined' as const : 'bazi' as const,
+        format: 'html' as const,
+        data: {
+          bazi: baziResult || null,
+          fengshui: xuankongResult || null,
+        },
+        options: {
+          template: 'professional',
+          includeCharts: true,
+          includeRecommendations: true,
+          language: 'zh-CN',
+          watermark: 'QiFlow Pro',
+        },
+      };
+
+      const res = await fetch('/api/report/export', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || '导出失败');
+      }
+
+      // 期望返回HTML内容
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${formData?.personal?.name || '报告'}_专业版_${new Date()
+        .toISOString()
+        .slice(0, 10)}.html`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+
+      toast.success('报告已生成并下载', { id: toastId });
+    } catch (e) {
+      console.error('导出失败:', e);
+      toast.error('导出失败，请稍后重试', { id: toastId });
+    }
+  }, [hasHouseInfo, baziResult, xuankongResult, formData]);
+
   // 确保客户端渲染
   useEffect(() => {
     setMounted(true);
@@ -510,13 +562,10 @@ export default function ReportPage() {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => {
-                    // 使用浏览器打印功能导出PDF
-                    window.print();
-                  }}
+                  onClick={handleExportReport}
                 >
                   <Download className="w-4 h-4 mr-1" />
-                  导出报告
+                  导出专业报告
                 </Button>
               )}
 
