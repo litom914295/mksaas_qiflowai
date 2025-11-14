@@ -11,15 +11,16 @@ import { z } from 'zod';
 
 // 请求验证Schema
 const ExportRequestSchema = z.object({
-  type: z.enum(['bazi', 'fengshui', 'combined']),
+  type: z.enum(['bazi', 'fengshui', 'combined']).optional(),
   format: z.enum(['html', 'pdf', 'json', 'preview']),
   data: z.object({
     bazi: z.any().optional(),
     fengshui: z.any().optional(),
-  }),
+  }).optional(),
+  inputs: z.any().optional(),
   options: z
     .object({
-      template: z.enum(['default', 'professional', 'simple']).optional(),
+      template: z.enum(['default', 'professional', 'simple', 'professional-v2.2']).optional(),
       includeCharts: z.boolean().optional(),
       includeRecommendations: z.boolean().optional(),
       watermark: z.string().optional(),
@@ -48,7 +49,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { type, format, data, options = {} } = validationResult.data;
+    const { type, format, data, inputs, options = {} } = validationResult.data as any;
+
+    // v2.2 专业模板：直接走 v2.2 生成 + 渲染
+    if (options?.template === 'professional-v2.2' && format === 'html') {
+      const { generateFullReport_v2_2 } = await import('@/lib/report/report-generator-v2.2');
+      const { renderReportHTML_v2_2 } = await import('@/lib/report/v2_2/html');
+
+      const baziInput = inputs?.baziInput || {
+        name: inputs?.name || '用户',
+        gender: inputs?.gender || 'male',
+        date: inputs?.birthDate || '2000-01-01',
+        time: inputs?.birthTime || '00:00',
+        city: inputs?.birthCity || '未知',
+      };
+      const fengshuiInput = inputs?.fengshuiInput || {};
+      const userContext = inputs?.userContext || {};
+
+      const report = await generateFullReport_v2_2(baziInput, fengshuiInput, userContext);
+      const html = renderReportHTML_v2_2(report);
+      return new NextResponse(html, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Content-Disposition': `attachment; filename="v2.2_${Date.now()}.html"`,
+        },
+      });
+    }
+
+    const exportType = type || (data?.bazi && data?.fengshui ? 'combined' : data?.bazi ? 'bazi' : 'fengshui');
 
     // 准备报告数据
     const reportData: ReportData = {

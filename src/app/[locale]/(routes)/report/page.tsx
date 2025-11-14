@@ -368,8 +368,20 @@ export default function ReportPage() {
           bazi: baziResult || null,
           fengshui: xuankongResult || null,
         },
+        inputs: {
+          name: formData?.personal?.name,
+          gender: formData?.personal?.gender,
+          birthDate: formData?.personal?.birthDate,
+          birthTime: formData?.personal?.birthTime || '00:00',
+          birthCity: formData?.personal?.birthCity || '',
+          fengshuiInput: {
+            facing: hasHouseInfo ? formData?.house?.direction || '' : '',
+            facingDeg: hasHouseInfo ? formData?.house?.directionDegree || 0 : 0,
+            period: 9,
+          },
+        },
         options: {
-          template: 'professional',
+          template: 'professional-v2.2',
           includeCharts: true,
           includeRecommendations: true,
           language: 'zh-CN',
