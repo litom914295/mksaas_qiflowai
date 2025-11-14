@@ -1,6 +1,6 @@
 import { getDb } from '@/db';
 import {
-  analysis,
+  baziCalculations,
   creditTransaction,
   referralRelationships,
   user,
@@ -59,13 +59,13 @@ export async function GET(
     // 获取分析历史 (最近10条)
     const analyses = await db
       .select({
-        id: analysis.id,
-        type: analysis.type,
-        createdAt: analysis.createdAt,
+        id: baziCalculations.id,
+        type: baziCalculations.type,
+        createdAt: baziCalculations.createdAt,
       })
-      .from(analysis)
-      .where(eq(analysis.userId, userId))
-      .orderBy(desc(analysis.createdAt))
+      .from(baziCalculations)
+      .where(eq(baziCalculations.userId, userId))
+      .orderBy(desc(baziCalculations.createdAt))
       .limit(10);
 
     // 获取推荐关系 (作为推荐人)

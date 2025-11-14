@@ -13,7 +13,6 @@
  */
 
 import { getDb } from '@/db';
-import { getDb } from '@/db';
 import { monthlyFortunes, creditTransaction } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
 import type { BaziChart } from '@/lib/qiflow/bazi/types';

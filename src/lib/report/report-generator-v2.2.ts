@@ -26,6 +26,69 @@ import type {
 // import { analyzePattern } from '@/lib/bazi/pattern-analysis';
 // import { analyzeLingzheng, generateLingzhengRecommendations, checkZeroPositiveReversed } from '@/lib/qiflow/xuankong/lingzheng';
 
+// ============ 常量定义 ============
+
+/**
+ * 评分阈值常量
+ */
+const SCORE_THRESHOLDS = {
+  EXCELLENT: 80,
+  GOOD: 70,
+  MEDIUM: 60,
+  LOW: 50,
+} as const;
+
+/**
+ * 改善幅度范围
+ */
+const IMPROVEMENT_RANGES = {
+  STRONG: '30-50%',
+  MEDIUM: '20-30%',
+  WEAK: '15-25%',
+} as const;
+
+/**
+ * 分数差异阈值（3分以内认为相近）
+ */
+const SCORE_DIFF_THRESHOLD = 3;
+
+/**
+ * 大运周期（年）
+ */
+const LUCK_PILLAR_CYCLE_YEARS = 10;
+
+/**
+ * 年龄分界点
+ */
+const AGE_BOUNDARIES = {
+  YOUNG: 35,
+  MIDDLE: 50,
+} as const;
+
+// ============ 工具函数 ============
+
+/**
+ * 从对象或字符串中提取五行元素
+ * @param obj - 可能是字符串或包含 element 属性的对象
+ * @returns 五行元素字符串
+ */
+function extractElement(obj: any): string {
+  if (typeof obj === 'string') return obj;
+  return obj?.element || '';
+}
+
+/**
+ * 从大运柱中提取天干地支的五行元素
+ * @param pillar - 大运柱对象
+ * @returns 天干和地支的五行元素
+ */
+function extractPillarElements(pillar: any): { stem: string; branch: string } {
+  return {
+    stem: extractElement(pillar?.heavenlyStem || pillar?.stem),
+    branch: extractElement(pillar?.earthlyBranch || pillar?.branch),
+  };
+}
+
 // ============ 八字 → 策略映射 ============
 
 export const mapBaziToStrategy: BaziToStrategyMapper = (
@@ -147,13 +210,41 @@ function generateCareerMatches(
 /**
  * 五行相生相克关系
  */
-const ELEMENT_RELATIONS = {
+const ELEMENT_RELATIONS: Record<string, any> = {
   木: { generates: '火', controls: '土', generatedBy: '水', controlledBy: '金' },
   火: { generates: '土', controls: '金', generatedBy: '木', controlledBy: '水' },
   土: { generates: '金', controls: '水', generatedBy: '火', controlledBy: '木' },
   金: { generates: '水', controls: '木', generatedBy: '土', controlledBy: '火' },
   水: { generates: '木', controls: '火', generatedBy: '金', controlledBy: '土' },
 };
+
+/**
+ * 五行互动缓存（预计算以提升性能）
+ */
+const ELEMENT_INTERACTION_CACHE = new Map<string, number>();
+
+/**
+ * 初始化五行互动缓存
+ */
+function initializeElementInteractionCache() {
+  const elements = ['木', '火', '土', '金', '水'];
+  for (const e1 of elements) {
+    for (const e2 of elements) {
+      const key = `${e1}-${e2}`;
+      const relation = ELEMENT_RELATIONS[e1];
+      let score = 0;
+      if (relation) {
+        if (relation.generates === e2) {
+          score = 10;
+        } else if (relation.controls === e2) {
+          score = -10;
+        }
+      }
+      ELEMENT_INTERACTION_CACHE.set(key, score);
+    }
+  }
+}
+initializeElementInteractionCache();
 
 /**
  * 月令五行旺相休囚死
@@ -198,17 +289,8 @@ function calculateElementInteraction(
   element2: string
 ): number {
   if (!element1 || !element2) return 0;
-
-  const relation = ELEMENT_RELATIONS[element1];
-  if (!relation) return 0;
-
-  if (relation.generates === element2) {
-    return 10; // element1 生 element2
-  } else if (relation.controls === element2) {
-    return -10; // element1 克 element2
-  }
-
-  return 0; // 无直接关系
+  const key = `${element1}-${element2}`;
+  return ELEMENT_INTERACTION_CACHE.get(key) || 0;
 }
 
 /**
@@ -744,15 +826,12 @@ function calculateAttribution(
 /**
  * 获取当前所处的大运
  */
-function getCurrentLuckPillar(
-  luckPillars: any[],
-  currentAge: number
-): any | null {
+function getCurrentLuckPillar(luckPillars: any[], currentAge: number): any | null {
   if (!luckPillars || luckPillars.length === 0) return null;
 
   for (const pillar of luckPillars) {
     const startAge = pillar.startAge || pillar.age || 0;
-    const endAge = startAge + 10; // 假设每个大运10年
+    const endAge = startAge + LUCK_PILLAR_CYCLE_YEARS;
 
     if (currentAge >= startAge && currentAge < endAge) {
       return pillar;
@@ -768,18 +847,10 @@ function getCurrentLuckPillar(
 function checkUsefulGodInLuckPillar(luckPillar: any, usefulGod: any): boolean {
   if (!luckPillar || !usefulGod) return false;
 
-  // 简化逻辑：检查大运天干/地支是否包含用神五行
-  const usefulElement = usefulGod.element || usefulGod; // 用神的五行
-  const pillarHeavenlyStem =
-    luckPillar.heavenlyStem?.element || luckPillar.stem?.element;
-  const pillarEarthlyBranch =
-    luckPillar.earthlyBranch?.element || luckPillar.branch?.element;
+  const usefulElement = extractElement(usefulGod);
+  const { stem, branch } = extractPillarElements(luckPillar);
 
-  // 如果大运天干或地支包含用神五行，则认为有利
-  return (
-    pillarHeavenlyStem === usefulElement ||
-    pillarEarthlyBranch === usefulElement
-  );
+  return stem === usefulElement || branch === usefulElement;
 }
 
 /**
@@ -792,21 +863,15 @@ function getNextFavorableLuckPillar(
 ): any | null {
   if (!luckPillars || luckPillars.length === 0 || !usefulGod) return null;
 
-  const usefulElement = usefulGod.element || usefulGod;
+  const usefulElement = extractElement(usefulGod);
 
   for (const pillar of luckPillars) {
     const startAge = pillar.startAge || pillar.age || 0;
 
     if (startAge > currentAge) {
-      const pillarHeavenlyStem =
-        pillar.heavenlyStem?.element || pillar.stem?.element;
-      const pillarEarthlyBranch =
-        pillar.earthlyBranch?.element || pillar.branch?.element;
+      const { stem, branch } = extractPillarElements(pillar);
 
-      if (
-        pillarHeavenlyStem === usefulElement ||
-        pillarEarthlyBranch === usefulElement
-      ) {
+      if (stem === usefulElement || branch === usefulElement) {
         return pillar;
       }
     }
@@ -1610,12 +1675,12 @@ function generateWhyYouWillImprove(
   }
 
   // 理由3：积累角度
-  if (currentAge < 35) {
+if (currentAge < AGE_BOUNDARIES.YOUNG) {
     reasons.push(
       '**年轻是最大资本**：您还年轻，当前的积累和磨练，' +
         '都会在未来3-5年转化为经验优势，届时爆发力更强。'
     );
-  } else if (currentAge >= 35 && currentAge < 50) {
+} else if (currentAge >= AGE_BOUNDARIES.YOUNG && currentAge < AGE_BOUNDARIES.MIDDLE) {
     reasons.push(
       '**中年经验优势**：您已积累了丰富的经验和资源，' +
         '一旦天时转好，这些积累将迅速转化为成果，进入收获期。'
@@ -1674,7 +1739,7 @@ export function generateDecisionComparison(
   const Solar = require('lunar-javascript').Solar;
   const currentYear = new Date().getFullYear();
   const currentLuckPillar = getCurrentLuckPillar(luckPillars, currentAge);
-  const usefulElement = usefulGod?.element || usefulGod;
+const usefulElement = extractElement(usefulGod);
 
   // ===== 1. 分析每个决策方案 =====
   const analyzedOptions: DecisionOption[] = decisionOptions.map((option) => {
@@ -1875,13 +1940,13 @@ function assessShortTermRisk(
   const { patternStrength, destructionFactors = [] } = patternAnalysis || {};
 
   // 根据匹配度和格局强度评估风险
-  if (matchScore >= 80 && patternStrength === 'strong') {
+if (matchScore >= SCORE_THRESHOLDS.EXCELLENT && patternStrength === 'strong') {
     return '短期风险较低，执行阻力小，1-2年内可见成效。';
-  } else if (matchScore >= 70) {
+} else if (matchScore >= SCORE_THRESHOLDS.GOOD) {
     return '短期有一定挑战（如适应期压力、资源投入），但可控，预计6-12个月后稳定。';
-  } else if (matchScore >= 60) {
+} else if (matchScore >= SCORE_THRESHOLDS.MEDIUM) {
     return '短期风险中等，需做好心理准备和资源储备，可能需要1-2年的磨合期。';
-  } else if (matchScore >= 50) {
+} else if (matchScore >= SCORE_THRESHOLDS.LOW) {
     return '短期风险较高，建议谨慎评估自身条件，或等待更好时机。若坚持，需2-3年调整期。';
   } else {
     return '短期风险很高，当前时机不利，建议延后或选择其他方案。若执行，需3年以上磨合期。';
@@ -1899,7 +1964,7 @@ function assessLongTermBenefit(
   matchScore: number
 ): string {
   const { patternStrength, usefulGod } = patternAnalysis || {};
-  const usefulElement = usefulGod?.element || usefulGod;
+const usefulElement = extractElement(usefulGod);
 
   // 查找未来5-10年的有利大运
   const futureFavorablePillars = luckPillars.filter((pillar: any) => {
@@ -1911,13 +1976,13 @@ function assessLongTermBenefit(
   });
 
   // 根据匹配度和未来大运评估长期收益
-  if (matchScore >= 80 && futureFavorablePillars.length >= 2) {
+if (matchScore >= SCORE_THRESHOLDS.EXCELLENT && futureFavorablePillars.length >= 2) {
     return '长期收益极佳，5-10年后有机会成为行业佼佼者，财富增长50-100%以上。';
-  } else if (matchScore >= 70 && futureFavorablePillars.length >= 1) {
+} else if (matchScore >= SCORE_THRESHOLDS.GOOD && futureFavorablePillars.length >= 1) {
     return '长期收益良好，5-8年后进入稳定期，收入提升30-50%，社会地位提高。';
-  } else if (matchScore >= 60) {
+} else if (matchScore >= SCORE_THRESHOLDS.MEDIUM) {
     return '长期收益中等，7-10年后可实现较稳定的发展，收入提升20-30%。';
-  } else if (matchScore >= 50) {
+} else if (matchScore >= SCORE_THRESHOLDS.LOW) {
     return '长期收益有限，虽能维持，但天花板较低，建议配合其他策略突破。';
   } else {
     return '长期收益不明朗，可能面临持续挑战，建议重新评估或选择其他方案。';
@@ -1944,7 +2009,7 @@ function calculateBestTiming(
     // 查找该年的大运
     const luckPillar = luckPillars.find((lp: any) => {
       const startAge = lp.startAge || lp.age || 0;
-      const endAge = startAge + 10;
+const endAge = startAge + LUCK_PILLAR_CYCLE_YEARS;
       return targetAge >= startAge && targetAge < endAge;
     });
 
@@ -1953,7 +2018,8 @@ function calculateBestTiming(
       try {
         const springStart = Solar.fromYmd(targetYear, 2, 4);
         return `${springStart.toYmd()}（${targetYear}年春季，用神得力）`;
-      } catch (error) {
+} catch (error) {
+        console.warn(`[calculateBestTiming] Solar.fromYmd failed for year=${targetYear}:`, error);
         return `${targetYear}年春季（推荐时机）`;
       }
     }
@@ -1979,11 +2045,11 @@ function generateDecisionRationale(
   const reasons: string[] = [];
 
   // 1. 匹配度说明
-  if (matchScore >= 80) {
+if (matchScore >= SCORE_THRESHOLDS.EXCELLENT) {
     reasons.push('命理匹配度极高（≥80分）');
-  } else if (matchScore >= 70) {
+} else if (matchScore >= SCORE_THRESHOLDS.GOOD) {
     reasons.push('命理匹配度良好（70-79分）');
-  } else if (matchScore >= 60) {
+} else if (matchScore >= SCORE_THRESHOLDS.MEDIUM) {
     reasons.push('命理匹配度中等（60-69分）');
   } else {
     reasons.push('命理匹配度偏低（<60分）');
@@ -2025,7 +2091,7 @@ function generateDecisionRationale(
 function generateRecommendationString(sortedOptions: DecisionOption[]): string {
   if (sortedOptions.length === 2) {
     const diff = sortedOptions[0].matchScore - sortedOptions[1].matchScore;
-    if (diff <= 3) {
+if (diff <= SCORE_DIFF_THRESHOLD) {
       return `${sortedOptions[0].id} ≈ ${sortedOptions[1].id}`;
     } else {
       return `${sortedOptions[0].id} > ${sortedOptions[1].id}`;
@@ -2036,13 +2102,13 @@ function generateRecommendationString(sortedOptions: DecisionOption[]): string {
 
     let result = sortedOptions[0].id;
 
-    if (diff1 <= 3) {
+if (diff1 <= SCORE_DIFF_THRESHOLD) {
       result += ` ≈ ${sortedOptions[1].id}`;
     } else {
       result += ` > ${sortedOptions[1].id}`;
     }
 
-    if (diff2 <= 3) {
+if (diff2 <= SCORE_DIFF_THRESHOLD) {
       result += ` ≈ ${sortedOptions[2].id}`;
     } else {
       result += ` > ${sortedOptions[2].id}`;

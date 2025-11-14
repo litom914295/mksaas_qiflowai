@@ -1,5 +1,5 @@
-import { getDb } from '@/db';
-import { analysis, user } from '@/db/schema';
+﻿import { getDb } from '@/db';
+import { fengshuiAnalysis, user } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth/verify';
 import { and, count, desc, eq, gte, inArray, like, or, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -43,60 +43,60 @@ export async function GET(request: NextRequest) {
       // 玄空风水总数
       const xuankongResult = await db
         .select({ count: count() })
-        .from(analysis)
-        .where(eq(analysis.type, 'xuankong'));
+        .from(fengshuiAnalysis)
+        .where(eq(fengshuiAnalysis.type, 'xuankong'));
 
       // 户型分析总数
       const floorplanResult = await db
         .select({ count: count() })
-        .from(analysis)
-        .where(eq(analysis.type, 'floorplan'));
+        .from(fengshuiAnalysis)
+        .where(eq(fengshuiAnalysis.type, 'floorplan'));
 
       // 今日风水分析数
       const todayResult = await db
         .select({ count: count() })
-        .from(analysis)
+        .from(fengshuiAnalysis)
         .where(
           and(
-            inArray(analysis.type, ['xuankong', 'floorplan']),
-            gte(analysis.createdAt, today)
+            inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']),
+            gte(fengshuiAnalysis.createdAt, today)
           )
         );
 
       // 本月风水分析数
       const thisMonthResult = await db
         .select({ count: count() })
-        .from(analysis)
+        .from(fengshuiAnalysis)
         .where(
           and(
-            inArray(analysis.type, ['xuankong', 'floorplan']),
-            gte(analysis.createdAt, thisMonth)
+            inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']),
+            gte(fengshuiAnalysis.createdAt, thisMonth)
           )
         );
 
       // 独立用户数
       const uniqueUsersResult = await db
-        .selectDistinct({ userId: analysis.userId })
-        .from(analysis)
-        .where(inArray(analysis.type, ['xuankong', 'floorplan']));
+        .selectDistinct({ userId: fengshuiAnalysis.userId })
+        .from(fengshuiAnalysis)
+        .where(inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']));
 
       // 最近7天趋势
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       const trendData = await db
         .select({
-          date: sql<string>`DATE(${analysis.createdAt})`,
-          xuankongCount: sql<number>`COUNT(CASE WHEN ${analysis.type} = 'xuankong' THEN 1 END)`,
-          floorplanCount: sql<number>`COUNT(CASE WHEN ${analysis.type} = 'floorplan' THEN 1 END)`,
+          date: sql<string>`DATE(${fengshuiAnalysis.createdAt})`,
+          xuankongCount: sql<number>`COUNT(CASE WHEN ${fengshuiAnalysis.type} = 'xuankong' THEN 1 END)`,
+          floorplanCount: sql<number>`COUNT(CASE WHEN ${fengshuiAnalysis.type} = 'floorplan' THEN 1 END)`,
         })
-        .from(analysis)
+        .from(fengshuiAnalysis)
         .where(
           and(
-            inArray(analysis.type, ['xuankong', 'floorplan']),
-            gte(analysis.createdAt, sevenDaysAgo)
+            inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']),
+            gte(fengshuiAnalysis.createdAt, sevenDaysAgo)
           )
         )
-        .groupBy(sql`DATE(${analysis.createdAt})`)
-        .orderBy(sql`DATE(${analysis.createdAt})`);
+        .groupBy(sql`DATE(${fengshuiAnalysis.createdAt})`)
+        .orderBy(sql`DATE(${fengshuiAnalysis.createdAt})`);
 
       const stats = {
         xuankongTotal: xuankongResult[0]?.count || 0,
@@ -132,9 +132,9 @@ export async function GET(request: NextRequest) {
 
       // 分析类型筛选
       if (params.analysisType && params.analysisType !== 'all') {
-        conditions.push(eq(analysis.type, params.analysisType));
+        conditions.push(eq(fengshuiAnalysis.type, params.analysisType));
       } else {
-        conditions.push(inArray(analysis.type, ['xuankong', 'floorplan']));
+        conditions.push(inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']));
       }
 
       // 搜索条件 (用户名或邮箱)
@@ -149,35 +149,35 @@ export async function GET(request: NextRequest) {
 
       // 日期范围筛选
       if (params.dateFrom) {
-        conditions.push(gte(analysis.createdAt, new Date(params.dateFrom)));
+        conditions.push(gte(fengshuiAnalysis.createdAt, new Date(params.dateFrom)));
       }
       if (params.dateTo) {
         const endDate = new Date(params.dateTo);
         endDate.setHours(23, 59, 59, 999);
-        conditions.push(gte(analysis.createdAt, endDate));
+        conditions.push(gte(fengshuiAnalysis.createdAt, endDate));
       }
 
       // 排序
       const orderByColumn =
-        params.sortBy === 'createdAt' ? analysis.createdAt : analysis.createdAt;
+        params.sortBy === 'createdAt' ? fengshuiAnalysis.createdAt : fengshuiAnalysis.createdAt;
       const orderByDirection =
         params.sortOrder === 'asc' ? orderByColumn : desc(orderByColumn);
 
       // 查询分析记录
       const records = await db
         .select({
-          id: analysis.id,
-          userId: analysis.userId,
-          type: analysis.type,
-          input: analysis.input,
-          result: analysis.result,
-          createdAt: analysis.createdAt,
+          id: fengshuiAnalysis.id,
+          userId: fengshuiAnalysis.userId,
+          type: fengshuiAnalysis.type,
+          input: fengshuiAnalysis.input,
+          result: fengshuiAnalysis.result,
+          createdAt: fengshuiAnalysis.createdAt,
           userName: user.name,
           userEmail: user.email,
           userCredits: user.credits,
         })
-        .from(analysis)
-        .leftJoin(user, eq(analysis.userId, user.id))
+        .from(fengshuiAnalysis)
+        .leftJoin(user, eq(fengshuiAnalysis.userId, user.id))
         .where(and(...conditions))
         .orderBy(orderByDirection)
         .limit(pageSize)
@@ -186,8 +186,8 @@ export async function GET(request: NextRequest) {
       // 获取总数
       const totalResult = await db
         .select({ count: count() })
-        .from(analysis)
-        .leftJoin(user, eq(analysis.userId, user.id))
+        .from(fengshuiAnalysis)
+        .leftJoin(user, eq(fengshuiAnalysis.userId, user.id))
         .where(and(...conditions));
 
       const total = Number(totalResult[0]?.count || 0);

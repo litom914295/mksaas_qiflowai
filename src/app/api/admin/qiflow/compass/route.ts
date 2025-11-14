@@ -1,5 +1,5 @@
 import { getDb } from '@/db';
-import { analysis } from '@/db/schema';
+import { baziCalculations, user } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth/verify';
 import { and, count, desc, eq, gte, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -27,39 +27,39 @@ export async function GET(request: NextRequest) {
       // 统计玄空风水中使用罗盘的记录
       const totalResult = await db
         .select({ count: count() })
-        .from(analysis)
-        .where(eq(analysis.type, 'xuankong'));
+        .from(baziCalculations)
+        .where(eq(baziCalculations.type, 'xuankong'));
 
       const todayResult = await db
         .select({ count: count() })
-        .from(analysis)
+        .from(baziCalculations)
         .where(
-          and(eq(analysis.type, 'xuankong'), gte(analysis.createdAt, today))
+          and(eq(baziCalculations.type, 'xuankong'), gte(baziCalculations.createdAt, today))
         );
 
       const thisMonthResult = await db
         .select({ count: count() })
-        .from(analysis)
+        .from(baziCalculations)
         .where(
-          and(eq(analysis.type, 'xuankong'), gte(analysis.createdAt, thisMonth))
+          and(eq(baziCalculations.type, 'xuankong'), gte(baziCalculations.createdAt, thisMonth))
         );
 
       // 最近7天趋势
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       const trendData = await db
         .select({
-          date: sql<string>`DATE(${analysis.createdAt})`,
+          date: sql<string>`DATE(${baziCalculations.createdAt})`,
           count: count(),
         })
-        .from(analysis)
+        .from(baziCalculations)
         .where(
           and(
-            eq(analysis.type, 'xuankong'),
-            gte(analysis.createdAt, sevenDaysAgo)
+            eq(baziCalculations.type, 'xuankong'),
+            gte(baziCalculations.createdAt, sevenDaysAgo)
           )
         )
-        .groupBy(sql`DATE(${analysis.createdAt})`)
-        .orderBy(sql`DATE(${analysis.createdAt})`);
+        .groupBy(sql`DATE(${baziCalculations.createdAt})`)
+        .orderBy(sql`DATE(${baziCalculations.createdAt})`);
 
       const stats = {
         total: totalResult[0]?.count || 0,

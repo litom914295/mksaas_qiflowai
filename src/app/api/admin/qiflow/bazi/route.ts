@@ -1,5 +1,5 @@
 import { getDb } from '@/db';
-import { analysis, user } from '@/db/schema';
+import { baziCalculations, user } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth/verify';
 import { and, count, desc, eq, gte, like, or, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -43,54 +43,54 @@ export async function GET(request: NextRequest) {
       // 总分析数
       const totalResult = await db
         .select({ count: count() })
-        .from(analysis)
-        .where(eq(analysis.type, 'bazi'));
+        .from(baziCalculations)
+        .where(eq(baziCalculations.type, 'bazi'));
 
       // 今日分析数
       const todayResult = await db
         .select({ count: count() })
-        .from(analysis)
-        .where(and(eq(analysis.type, 'bazi'), gte(analysis.createdAt, today)));
+        .from(baziCalculations)
+        .where(and(eq(baziCalculations.type, 'bazi'), gte(baziCalculations.createdAt, today)));
 
       // 本月分析数
       const thisMonthResult = await db
         .select({ count: count() })
-        .from(analysis)
+        .from(baziCalculations)
         .where(
-          and(eq(analysis.type, 'bazi'), gte(analysis.createdAt, thisMonth))
+          and(eq(baziCalculations.type, 'bazi'), gte(baziCalculations.createdAt, thisMonth))
         );
 
       // 上月分析数
       const lastMonthResult = await db
         .select({ count: count() })
-        .from(analysis)
+        .from(baziCalculations)
         .where(
           and(
-            eq(analysis.type, 'bazi'),
-            gte(analysis.createdAt, lastMonth),
-            gte(analysis.createdAt, thisMonth)
+            eq(baziCalculations.type, 'bazi'),
+            gte(baziCalculations.createdAt, lastMonth),
+            gte(baziCalculations.createdAt, thisMonth)
           )
         );
 
       // 独立用户数
       const uniqueUsersResult = await db
-        .selectDistinct({ userId: analysis.userId })
-        .from(analysis)
-        .where(eq(analysis.type, 'bazi'));
+        .selectDistinct({ userId: baziCalculations.userId })
+        .from(baziCalculations)
+        .where(eq(baziCalculations.type, 'bazi'));
 
       // 最近7天趋势
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       const trendData = await db
         .select({
-          date: sql<string>`DATE(${analysis.createdAt})`,
+          date: sql<string>`DATE(${baziCalculations.createdAt})`,
           count: count(),
         })
-        .from(analysis)
+        .from(baziCalculations)
         .where(
-          and(eq(analysis.type, 'bazi'), gte(analysis.createdAt, sevenDaysAgo))
+          and(eq(baziCalculations.type, 'bazi'), gte(baziCalculations.createdAt, sevenDaysAgo))
         )
-        .groupBy(sql`DATE(${analysis.createdAt})`)
-        .orderBy(sql`DATE(${analysis.createdAt})`);
+        .groupBy(sql`DATE(${baziCalculations.createdAt})`)
+        .orderBy(sql`DATE(${baziCalculations.createdAt})`);
 
       const stats = {
         total: totalResult[0]?.count || 0,
@@ -126,7 +126,7 @@ export async function GET(request: NextRequest) {
       const skip = (page - 1) * pageSize;
 
       // 构建查询条件
-      const conditions = [eq(analysis.type, 'bazi')];
+      const conditions = [eq(baziCalculations.type, 'bazi')];
 
       // 搜索条件 (用户名或邮箱)
       if (params.search) {
@@ -140,34 +140,34 @@ export async function GET(request: NextRequest) {
 
       // 日期范围筛选
       if (params.dateFrom) {
-        conditions.push(gte(analysis.createdAt, new Date(params.dateFrom)));
+        conditions.push(gte(baziCalculations.createdAt, new Date(params.dateFrom)));
       }
       if (params.dateTo) {
         const endDate = new Date(params.dateTo);
         endDate.setHours(23, 59, 59, 999);
-        conditions.push(gte(analysis.createdAt, endDate));
+        conditions.push(gte(baziCalculations.createdAt, endDate));
       }
 
       // 排序
       const orderByColumn =
-        params.sortBy === 'createdAt' ? analysis.createdAt : analysis.createdAt;
+        params.sortBy === 'createdAt' ? baziCalculations.createdAt : baziCalculations.createdAt;
       const orderByDirection =
         params.sortOrder === 'asc' ? orderByColumn : desc(orderByColumn);
 
       // 查询分析记录
       const records = await db
         .select({
-          id: analysis.id,
-          userId: analysis.userId,
-          input: analysis.input,
-          result: analysis.result,
-          createdAt: analysis.createdAt,
+          id: baziCalculations.id,
+          userId: baziCalculations.userId,
+          input: baziCalculations.input,
+          result: baziCalculations.result,
+          createdAt: baziCalculations.createdAt,
           userName: user.name,
           userEmail: user.email,
           userCredits: user.credits,
         })
-        .from(analysis)
-        .leftJoin(user, eq(analysis.userId, user.id))
+        .from(baziCalculations)
+        .leftJoin(user, eq(baziCalculations.userId, user.id))
         .where(and(...conditions))
         .orderBy(orderByDirection)
         .limit(pageSize)
@@ -176,8 +176,8 @@ export async function GET(request: NextRequest) {
       // 获取总数
       const totalResult = await db
         .select({ count: count() })
-        .from(analysis)
-        .leftJoin(user, eq(analysis.userId, user.id))
+        .from(baziCalculations)
+        .leftJoin(user, eq(baziCalculations.userId, user.id))
         .where(and(...conditions));
 
       const total = Number(totalResult[0]?.count || 0);

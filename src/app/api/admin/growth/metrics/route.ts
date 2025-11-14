@@ -1,6 +1,6 @@
 import { getDb } from '@/db';
 import {
-  analysis,
+  baziCalculations,
   creditTransaction,
   referralRelationships,
   shareRecords,
@@ -94,11 +94,11 @@ async function calculateKFactor(db: any) {
 async function calculateActivationRate(db: any) {
   const totalUsers = await db.select({ count: count() }).from(user);
   const usersWithAnalysis = await db
-    .selectDistinct({ userId: analysis.userId })
-    .from(analysis);
+    .selectDistinct({ userId: baziCalculations.userId })
+    .from(baziCalculations);
 
   const total = Number(totalUsers[0]?.count || 0);
-  const activated = usersWithAnalysis.length;
+  const activated = usersWithbaziCalculations.length;
   const activationRate = total > 0 ? activated / total : 0;
 
   return {
@@ -131,15 +131,15 @@ async function calculateRetentionRate(db: any) {
   const d1ActiveUsers =
     d1Users.length > 0
       ? await db
-          .selectDistinct({ userId: analysis.userId })
-          .from(analysis)
+          .selectDistinct({ userId: baziCalculations.userId })
+          .from(baziCalculations)
           .where(
             and(
-              sql`${analysis.userId} IN (${sql.join(
+              sql`${baziCalculations.userId} IN (${sql.join(
                 d1Users.map((u) => sql`${u.id}`),
                 sql`, `
               )})`,
-              gte(analysis.createdAt, oneDayAgo)
+              gte(baziCalculations.createdAt, oneDayAgo)
             )
           )
       : [];

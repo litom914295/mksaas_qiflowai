@@ -3,6 +3,20 @@
 import { globalCostGuard } from '@/lib/qiflow/monitoring/cost-guard';
 import { useEffect, useState } from 'react';
 
+// 类型定义
+export interface UsageMetrics {
+  daily: { used: number; limit: number };
+  hourly: { used: number; limit: number };
+  perRequest: { used: number; limit: number };
+  perReport: { used: number; limit: number };
+}
+
+export interface CostAlert {
+  level: 'info' | 'warning' | 'critical';
+  message: string;
+  timestamp: Date;
+}
+
 /**
  * 成本监控 React Hook
  *
@@ -22,7 +36,7 @@ import { useEffect, useState } from 'react';
  * }
  * ```
  */
-export function useCostMonitoring(updateInterval = 10000) {
+export function useCostMonitoring(updateInterval = 10000): UsageMetrics {
   const [usage, setUsage] = useState(() => {
     const rawUsage = globalCostGuard.getCurrentUsage();
     return {
@@ -65,15 +79,9 @@ export function useCostMonitoring(updateInterval = 10000) {
  *
  * 监控成本使用并在超过阈值时返回警告信息
  */
-export function useCostAlerts() {
+export function useCostAlerts(): { usage: UsageMetrics; alerts: CostAlert[] } {
   const usage = useCostMonitoring();
-  const [alerts, setAlerts] = useState<
-    Array<{
-      level: 'info' | 'warning' | 'critical';
-      message: string;
-      timestamp: Date;
-    }>
-  >([]);
+  const [alerts, setAlerts] = useState<CostAlert[]>([]);
 
   useEffect(() => {
     const newAlerts: typeof alerts = [];

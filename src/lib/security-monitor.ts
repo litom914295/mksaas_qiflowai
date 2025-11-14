@@ -1,11 +1,11 @@
-/**
+﻿/**
  * Security Monitoring and Alerting Module
  *
  * Monitors critical security events and triggers alerts when thresholds are exceeded
  */
 
 import { getDb } from '@/db';
-import { auditLog, creditTransaction } from '@/db/schema';
+import { auditLogs, creditTransaction } from '@/db/schema';
 import { and, eq, gte, sql } from 'drizzle-orm';
 import { AuditEventType, AuditSeverity } from './audit-log';
 
@@ -167,17 +167,17 @@ async function checkAuthFailures(
     // Count failed auth attempts
     const failedAttempts = await db
       .select({
-        userId: auditLog.userId,
+        userId: auditLogs.userId,
         count: sql<number>`COUNT(*)`,
       })
-      .from(auditLog)
+      .from(auditLogs)
       .where(
         and(
-          eq(auditLog.eventType, AuditEventType.USER_LOGIN_FAILED),
-          gte(auditLog.createdAt, windowStart)
+          eq(auditLogs.eventType, AuditEventType.USER_LOGIN_FAILED),
+          gte(auditLogs.createdAt, windowStart)
         )
       )
-      .groupBy(auditLog.userId)
+      .groupBy(auditLogss.userId)
       .having(sql`COUNT(*) >= ${config.threshold}`);
 
     if (failedAttempts.length > 0) {
@@ -222,10 +222,10 @@ async function checkErrorRate(
     const errorEvents = await db
       .select({
         total: sql<number>`COUNT(*)`,
-        errors: sql<number>`COUNT(CASE WHEN ${auditLog.severity} IN ('ERROR', 'CRITICAL') THEN 1 END)`,
+        errors: sql<number>`COUNT(CASE WHEN ${auditLogs.severity} IN ('ERROR', 'CRITICAL') THEN 1 END)`,
       })
-      .from(auditLog)
-      .where(gte(auditLog.createdAt, windowStart));
+      .from(auditLogs)
+      .where(gte(auditLogs.createdAt, windowStart));
 
     if (errorEvents.length > 0 && errorEvents[0]) {
       const total = errorEvents[0].total || 0;
@@ -273,17 +273,17 @@ async function checkRateLimitAbuse(
     // Count rate limit violations per user
     const violations = await db
       .select({
-        userId: auditLog.userId,
+        userId: auditLogs.userId,
         count: sql<number>`COUNT(*)`,
       })
-      .from(auditLog)
+      .from(auditLogs)
       .where(
         and(
-          eq(auditLog.eventType, AuditEventType.RATE_LIMIT_EXCEEDED),
-          gte(auditLog.createdAt, windowStart)
+          eq(auditLogs.eventType, AuditEventType.RATE_LIMIT_EXCEEDED),
+          gte(auditLogs.createdAt, windowStart)
         )
       )
-      .groupBy(auditLog.userId)
+      .groupBy(auditLogss.userId)
       .having(sql`COUNT(*) >= ${config.threshold}`);
 
     if (violations.length > 0) {
@@ -329,11 +329,11 @@ async function checkModerationSpike(
       .select({
         count: sql<number>`COUNT(*)`,
       })
-      .from(auditLog)
+      .from(auditLogs)
       .where(
         and(
-          eq(auditLog.eventType, AuditEventType.CONTENT_MODERATION_FLAGGED),
-          gte(auditLog.createdAt, windowStart)
+          eq(auditLogs.eventType, AuditEventType.CONTENT_MODERATION_FLAGGED),
+          gte(auditLogs.createdAt, windowStart)
         )
       );
 
