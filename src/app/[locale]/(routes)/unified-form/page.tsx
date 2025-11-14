@@ -58,7 +58,9 @@ type CalendarType = 'solar' | 'lunar';
 
 interface PersonalInfo {
   name: string;
-  birthDate: string;
+  birthYear: string;
+  birthMonth: string;
+  birthDay: string;
   birthTime: string;
   gender: 'male' | 'female' | '';
   birthCity: string;
@@ -103,7 +105,9 @@ export default function UnifiedFormPage() {
   const [formData, setFormData] = useState<FormData>({
     personal: {
       name: '',
-      birthDate: '',
+      birthYear: '',
+      birthMonth: '',
+      birthDay: '',
       birthTime: '',
       gender: 'female', // 自动设置为女性
       birthCity: '',
@@ -117,6 +121,12 @@ export default function UnifiedFormPage() {
     },
   });
 
+  // 生成年月日数组
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 1899 }, (_, i) => currentYear - i);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+
   const [showHouseInfo, setShowHouseInfo] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -129,7 +139,7 @@ export default function UnifiedFormPage() {
     const personalFields = Object.values(formData.personal).filter(
       (v) => v !== ''
     ).length;
-    const totalPersonalFields = 6; // 个人必填字段数
+    const totalPersonalFields = 8; // 个人必填字段数（name + birthYear + birthMonth + birthDay + birthTime + gender + birthCity + calendarType）
     const houseFields = showHouseInfo
       ? Object.values(formData.house).filter((v) => v !== '' && v !== null)
           .length
@@ -170,22 +180,22 @@ export default function UnifiedFormPage() {
 
     // 自动设置 AI-Chat 上下文
     if (analysisContext) {
-      const birthDate = data.personal.birthDate
-        ? new Date(data.personal.birthDate)
-        : null;
       const birthHour = data.personal.birthTime
         ? Number.parseInt(data.personal.birthTime.split(':')[0])
         : undefined;
+      const birthYear = data.personal.birthYear ? Number.parseInt(data.personal.birthYear) : undefined;
+      const birthMonth = data.personal.birthMonth ? Number.parseInt(data.personal.birthMonth) : undefined;
+      const birthDay = data.personal.birthDay ? Number.parseInt(data.personal.birthDay) : undefined;
 
       analysisContext.setUserInput({
         personal: {
           name: data.personal.name,
           gender: data.personal.gender === 'male' ? 'male' : 'female',
-          birthDate: data.personal.birthDate,
+          birthDate: `${data.personal.birthYear}-${data.personal.birthMonth.padStart(2, '0')}-${data.personal.birthDay.padStart(2, '0')}`,
           birthTime: data.personal.birthTime,
-          birthYear: birthDate?.getFullYear(),
-          birthMonth: birthDate ? birthDate.getMonth() + 1 : undefined,
-          birthDay: birthDate?.getDate(),
+          birthYear,
+          birthMonth,
+          birthDay,
           birthHour: Number.isNaN(birthHour as number) ? undefined : birthHour,
         },
         house:
@@ -237,7 +247,9 @@ export default function UnifiedFormPage() {
     // 1. 验证必填项
     if (
       !formData.personal.name ||
-      !formData.personal.birthDate ||
+      !formData.personal.birthYear ||
+      !formData.personal.birthMonth ||
+      !formData.personal.birthDay ||
       !formData.personal.birthTime ||
       !formData.personal.gender
     ) {
@@ -248,8 +260,18 @@ export default function UnifiedFormPage() {
     setIsSubmitting(true);
 
     try {
-      // 2. 保留数据到 localStorage
+      // 2. 格式化日期
+      const birthDate = `${formData.personal.birthYear}-${formData.personal.birthMonth.padStart(2, '0')}-${formData.personal.birthDay.padStart(2, '0')}`;
       console.log('💾 保留提交数据到 localStorage...');
+
+      // 构造用于保存和传递的数据格式（兼容旧格式）
+      const reportData = {
+        personal: {
+          ...formData.personal,
+          birthDate,
+        },
+        house: formData.house,
+      };
 
       // 保留到 formHistory（即为历史快捷填充）
       try {
@@ -277,15 +299,14 @@ export default function UnifiedFormPage() {
       // 3. 另写到 AnalysisContext
       if (analysisContext) {
         console.log('🔄 另写用户输入到 AnalysisContext...');
-        const birthDate = new Date(formData.personal.birthDate);
         const [birthHourStr] = formData.personal.birthTime.split(':');
         const birthHour = Number.parseInt(birthHourStr, 10);
 
         analysisContext.setUserInput({
           personal: {
-            birthYear: birthDate.getFullYear(),
-            birthMonth: birthDate.getMonth() + 1,
-            birthDay: birthDate.getDate(),
+            birthYear: Number.parseInt(formData.personal.birthYear),
+            birthMonth: Number.parseInt(formData.personal.birthMonth),
+            birthDay: Number.parseInt(formData.personal.birthDay),
             birthHour: Number.isNaN(birthHour) ? undefined : birthHour,
             gender: formData.personal.gender as 'male' | 'female',
           },
@@ -301,7 +322,7 @@ export default function UnifiedFormPage() {
 
       // 4. 保留到 sessionStorage 并跳转到报告页面
       console.log('🔗 跳转到报告页面...');
-      sessionStorage.setItem('analysisFormData', JSON.stringify(formData));
+      sessionStorage.setItem('analysisFormData', JSON.stringify(reportData));
       await new Promise((resolve) => setTimeout(resolve, 300)); // 确保数据保留完成
 
       // 跳转到报告页面（不带URL参数传数据）
@@ -343,7 +364,9 @@ export default function UnifiedFormPage() {
   // 判断是否可以关键
   const canSubmit =
     formData.personal.name &&
-    formData.personal.birthDate &&
+    formData.personal.birthYear &&
+    formData.personal.birthMonth &&
+    formData.personal.birthDay &&
     formData.personal.birthTime &&
     formData.personal.gender;
 
@@ -544,21 +567,52 @@ export default function UnifiedFormPage() {
 
                 {/* 出生日期 */}
                 <div>
-                  <Label
-                    htmlFor="birthDate"
-                    className="flex items-center gap-1"
-                  >
+                  <Label className="flex items-center gap-1 mb-2">
                     出生日期 <span className="text-red-500">*</span>
                   </Label>
-                  <Input
-                    id="birthDate"
-                    type="date"
-                    value={formData.personal.birthDate}
-                    onChange={(e) =>
-                      handlePersonalChange('birthDate', e.target.value)
-                    }
-                    className="mt-1"
-                  />
+                  <div className="grid grid-cols-3 gap-2">
+                    <Select 
+                      value={formData.personal.birthYear} 
+                      onValueChange={(v) => handlePersonalChange('birthYear', v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="年" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[200px]">
+                        {years.map(y => (
+                          <SelectItem key={y} value={String(y)}>{y}年</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    
+                    <Select 
+                      value={formData.personal.birthMonth} 
+                      onValueChange={(v) => handlePersonalChange('birthMonth', v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="月" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[200px]">
+                        {months.map(m => (
+                          <SelectItem key={m} value={String(m)}>{m}月</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    
+                    <Select 
+                      value={formData.personal.birthDay} 
+                      onValueChange={(v) => handlePersonalChange('birthDay', v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="日" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[200px]">
+                        {days.map(d => (
+                          <SelectItem key={d} value={String(d)}>{d}日</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 {/* 出生时辰 */}

@@ -1,7 +1,7 @@
-﻿import { getDb } from '@/db';
+import { getDb } from '@/db';
 import { fengshuiAnalysis, user } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth/verify';
-import { and, count, desc, eq, gte, inArray, like, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, gte, like, or, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -10,7 +10,6 @@ const querySchema = z.object({
   page: z.string().optional().default('1'),
   pageSize: z.string().optional().default('20'),
   search: z.string().optional(),
-  analysisType: z.string().optional(), // 'xuankong' | 'floorplan' | 'all'
   sortBy: z.string().optional().default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).optional().default('desc'),
   dateFrom: z.string().optional(),
@@ -40,7 +39,7 @@ export async function GET(request: NextRequest) {
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-      // 总分析数 (玄空 + 户型)
+      // 总分析数
       const totalAnalysisResult = await db
         .select({ count: count() })
         .from(fengshuiAnalysis);
@@ -49,61 +48,39 @@ export async function GET(request: NextRequest) {
       const todayResult = await db
         .select({ count: count() })
         .from(fengshuiAnalysis)
-        .where(
-          and(
-            inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']),
-            gte(fengshuiAnalysis.createdAt, today)
-          )
-        );
+        .where(gte(fengshuiAnalysis.createdAt, today));
 
       // 本月风水分析数
       const thisMonthResult = await db
         .select({ count: count() })
         .from(fengshuiAnalysis)
-        .where(
-          and(
-            inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']),
-            gte(fengshuiAnalysis.createdAt, thisMonth)
-          )
-        );
+        .where(gte(fengshuiAnalysis.createdAt, thisMonth));
 
       // 独立用户数
       const uniqueUsersResult = await db
         .selectDistinct({ userId: fengshuiAnalysis.userId })
-        .from(fengshuiAnalysis)
-        .where(inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']));
+        .from(fengshuiAnalysis);
 
       // 最近7天趋势
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       const trendData = await db
         .select({
           date: sql<string>`DATE(${fengshuiAnalysis.createdAt})`,
-          xuankongCount: sql<number>`COUNT(CASE WHEN ${fengshuiAnalysis.type} = 'xuankong' THEN 1 END)`,
-          floorplanCount: sql<number>`COUNT(CASE WHEN ${fengshuiAnalysis.type} = 'floorplan' THEN 1 END)`,
+          count: count(),
         })
         .from(fengshuiAnalysis)
-        .where(
-          and(
-            inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']),
-            gte(fengshuiAnalysis.createdAt, sevenDaysAgo)
-          )
-        )
+        .where(gte(fengshuiAnalysis.createdAt, sevenDaysAgo))
         .groupBy(sql`DATE(${fengshuiAnalysis.createdAt})`)
         .orderBy(sql`DATE(${fengshuiAnalysis.createdAt})`);
 
       const stats = {
-        xuankongTotal: xuankongResult[0]?.count || 0,
-        floorplanTotal: floorplanResult[0]?.count || 0,
-        total:
-          (xuankongResult[0]?.count || 0) + (floorplanResult[0]?.count || 0),
+        total: totalAnalysisResult[0]?.count || 0,
         today: todayResult[0]?.count || 0,
         thisMonth: thisMonthResult[0]?.count || 0,
         uniqueUsers: uniqueUsersResult.length,
         trend: trendData.map((item) => ({
           date: item.date,
-          xuankong: Number(item.xuankongCount),
-          floorplan: Number(item.floorplanCount),
-          total: Number(item.xuankongCount) + Number(item.floorplanCount),
+          count: item.count,
         })),
       };
 
@@ -121,14 +98,7 @@ export async function GET(request: NextRequest) {
       const skip = (page - 1) * pageSize;
 
       // 构建查询条件
-      const conditions = [];
-
-      // 分析类型筛选
-      if (params.analysisType && params.analysisType !== 'all') {
-        conditions.push(eq(fengshuiAnalysis.type, params.analysisType));
-      } else {
-        conditions.push(inArray(fengshuiAnalysis.type, ['xuankong', 'floorplan']));
-      }
+      const conditions: any[] = [];
 
       // 搜索条件 (用户名或邮箱)
       if (params.search) {
@@ -161,9 +131,10 @@ export async function GET(request: NextRequest) {
         .select({
           id: fengshuiAnalysis.id,
           userId: fengshuiAnalysis.userId,
-          type: fengshuiAnalysis.type,
           input: fengshuiAnalysis.input,
           result: fengshuiAnalysis.result,
+          confidence: fengshuiAnalysis.confidence,
+          creditsUsed: fengshuiAnalysis.creditsUsed,
           createdAt: fengshuiAnalysis.createdAt,
           userName: user.name,
           userEmail: user.email,
@@ -171,7 +142,7 @@ export async function GET(request: NextRequest) {
         })
         .from(fengshuiAnalysis)
         .leftJoin(user, eq(fengshuiAnalysis.userId, user.id))
-        .where(and(...conditions))
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
         .orderBy(orderByDirection)
         .limit(pageSize)
         .offset(skip);
@@ -181,7 +152,7 @@ export async function GET(request: NextRequest) {
         .select({ count: count() })
         .from(fengshuiAnalysis)
         .leftJoin(user, eq(fengshuiAnalysis.userId, user.id))
-        .where(and(...conditions));
+        .where(conditions.length > 0 ? and(...conditions) : undefined);
 
       const total = Number(totalResult[0]?.count || 0);
 

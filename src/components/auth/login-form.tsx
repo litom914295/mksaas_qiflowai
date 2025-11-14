@@ -33,11 +33,13 @@ import { SocialLoginButton } from './social-login-button';
 export interface LoginFormProps {
   className?: string;
   callbackUrl?: string;
+  onLoginSuccess?: () => void;
 }
 
 export const LoginForm = ({
   className,
   callbackUrl: propCallbackUrl,
+  onLoginSuccess,
 }: LoginFormProps) => {
   const t = useTranslations('AuthPage.login') as any;
   const searchParams = useSearchParams();
@@ -143,11 +145,24 @@ export const LoginForm = ({
         },
         onSuccess: (ctx: any) => {
           console.log('login, success:', ctx.data);
-          setSuccess('Login successful');
+          setSuccess(t('loginSuccess') || 'Login successful');
 
-          // 立即跳转到 dashboard，不延迟
-          console.log('Redirecting to:', callbackUrl);
-          window.location.href = callbackUrl;
+          // 如果提供了 onLoginSuccess 回调（模态框模式），则不跳转，只刷新页面
+          if (onLoginSuccess) {
+            // 关闭模态框
+            onLoginSuccess();
+            
+            // 刷新页面以更新用户状态，但不跳转
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
+          } else {
+            // 如果没有 onLoginSuccess 回调（独立页面模式），则跳转到 callbackUrl
+            setTimeout(() => {
+              console.log('Redirecting to:', callbackUrl);
+              window.location.href = callbackUrl;
+            }, 500);
+          }
         },
         onError: (ctx: any) => {
           console.error('=== LOGIN ERROR DEBUG ===');
