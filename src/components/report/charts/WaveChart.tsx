@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { toast } from 'sonner';
 import {
   AreaChart,
   Area,
@@ -49,10 +50,14 @@ export default function WaveChart({
   showExportButton = true,
 }: WaveChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
+  const [isExporting, setIsExporting] = useState(false);
 
   // 导出为 PNG
   const exportToPNG = async () => {
-    if (!chartRef.current) return;
+    if (!chartRef.current || isExporting) return;
+
+    setIsExporting(true);
+    const toastId = toast.loading('正在导出图表...');
 
     try {
       const html2canvas = (await import('html2canvas')).default;
@@ -65,9 +70,13 @@ export default function WaveChart({
       link.download = `${title}_${new Date().getTime()}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+
+      toast.success('图表导出成功', { id: toastId });
     } catch (error) {
       console.error('导出图表失败:', error);
-      alert('导出图表失败，请稍后重试');
+      toast.error('导出图表失败，请稍后重试', { id: toastId });
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -129,9 +138,10 @@ export default function WaveChart({
           <button
             type="button"
             onClick={exportToPNG}
-            className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            disabled={isExporting}
+            className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            导出 PNG
+            {isExporting ? '导出中...' : '导出 PNG'}
           </button>
         )}
       </div>

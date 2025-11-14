@@ -826,15 +826,29 @@ function calculateAttribution(
 /**
  * 获取当前所处的大运
  */
+/**
+ * 获取当前年龄对应的大运（使用二分查找优化）
+ * 时间复杂度：O(log n)
+ */
 function getCurrentLuckPillar(luckPillars: any[], currentAge: number): any | null {
   if (!luckPillars || luckPillars.length === 0) return null;
 
-  for (const pillar of luckPillars) {
+  // 二分查找（假设 luckPillars 按 startAge 排序）
+  let left = 0;
+  let right = luckPillars.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const pillar = luckPillars[mid];
     const startAge = pillar.startAge || pillar.age || 0;
     const endAge = startAge + LUCK_PILLAR_CYCLE_YEARS;
 
     if (currentAge >= startAge && currentAge < endAge) {
       return pillar;
+    } else if (currentAge < startAge) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
     }
   }
 

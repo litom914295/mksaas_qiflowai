@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 import mammoth from 'mammoth';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
-import pdfParse from 'pdf-parse';
+import * as pdfParse from 'pdf-parse';
 
 function initSupabase() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -138,11 +138,11 @@ export async function POST(request: NextRequest) {
 
         // 文本分块
         const chunker = new TextChunker({
-          chunkSize: 1000,
+          maxChunkSize: 1000,
           chunkOverlap: 200,
         });
 
-        const chunks = chunker.chunkText(content);
+        const chunks = chunker.chunk(content);
 
         // 生成向量嵌入
         if (!process.env.OPENAI_API_KEY) {
@@ -157,11 +157,11 @@ export async function POST(request: NextRequest) {
           }
         );
 
-        const texts = chunks.map((c) => c.content);
+        const texts = chunks.map((c: any) => c.content);
         const result = await embeddingService.embedBatch(texts);
 
         // 存储文本块和向量
-        const chunkRecords = chunks.map((chunk, index) => ({
+        const chunkRecords = chunks.map((chunk: any, index: number) => ({
           content: chunk.content,
           embedding: result.embeddings[index],
           metadata: {

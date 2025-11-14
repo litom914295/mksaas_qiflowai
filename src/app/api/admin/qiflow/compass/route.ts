@@ -1,5 +1,5 @@
 ﻿import { getDb } from '@/db';
-import { baziCalculations, user } from '@/db/schema';
+import { fengshuiAnalysis, user } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth/verify';
 import { and, count, desc, eq, gte, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -27,39 +27,29 @@ export async function GET(request: NextRequest) {
       // 统计玄空风水中使用罗盘的记录
       const totalResult = await db
         .select({ count: count() })
-        .from(baziCalculations)
-        .where(eq(baziCalculations.type, 'xuankong'));
+        .from(fengshuiAnalysis);
 
       const todayResult = await db
         .select({ count: count() })
-        .from(baziCalculations)
-        .where(
-          and(eq(baziCalculations.type, 'xuankong'), gte(baziCalculations.createdAt, today))
-        );
+        .from(fengshuiAnalysis)
+        .where(gte(fengshuiAnalysis.createdAt, today));
 
       const thisMonthResult = await db
         .select({ count: count() })
-        .from(baziCalculations)
-        .where(
-          and(eq(baziCalculations.type, 'xuankong'), gte(baziCalculations.createdAt, thisMonth))
-        );
+        .from(fengshuiAnalysis)
+        .where(gte(fengshuiAnalysis.createdAt, thisMonth));
 
       // 最近7天趋势
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       const trendData = await db
         .select({
-          date: sql<string>`DATE(${baziCalculations.createdAt})`,
+          date: sql<string>`DATE(${fengshuiAnalysis.createdAt})`,
           count: count(),
         })
-        .from(baziCalculations)
-        .where(
-          and(
-            eq(baziCalculations.type, 'xuankong'),
-            gte(baziCalculations.createdAt, sevenDaysAgo)
-          )
-        )
-        .groupBy(sql`DATE(${baziCalculations.createdAt})`)
-        .orderBy(sql`DATE(${baziCalculations.createdAt})`);
+        .from(fengshuiAnalysis)
+        .where(gte(fengshuiAnalysis.createdAt, sevenDaysAgo))
+        .groupBy(sql`DATE(${fengshuiAnalysis.createdAt})`)
+        .orderBy(sql`DATE(${fengshuiAnalysis.createdAt})`);
 
       const stats = {
         total: totalResult[0]?.count || 0,

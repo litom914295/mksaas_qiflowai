@@ -136,7 +136,7 @@ async function calculateRetentionRate(db: any) {
           .where(
             and(
               sql`${baziCalculations.userId} IN (${sql.join(
-                d1Users.map((u) => sql`${u.id}`),
+                d1Users.map((u: any) => sql`${u.id}`),
                 sql`, `
               )})`,
               gte(baziCalculations.createdAt, oneDayAgo)
@@ -280,14 +280,14 @@ async function calculateUserSegments(db: any) {
     })
     .from(userCredit);
 
-  const highValue = usersWithCredits.filter((u) => u.credits >= 1000).length;
+  const highValue = usersWithCredits.filter((u: any) => u.credits >= 1000).length;
   const active = usersWithCredits.filter(
-    (u) => u.credits >= 100 && u.credits < 1000
+    (u: any) => u.credits >= 100 && u.credits < 1000
   ).length;
   const normal = usersWithCredits.filter(
-    (u) => u.credits > 0 && u.credits < 100
+    (u: any) => u.credits > 0 && u.credits < 100
   ).length;
-  const dormant = usersWithCredits.filter((u) => u.credits === 0).length;
+  const dormant = usersWithCredits.filter((u: any) => u.credits === 0).length;
 
   return [
     { segment: '高价值用户', count: highValue, avgLTV: 1000 },
