@@ -98,7 +98,7 @@ async function calculateActivationRate(db: any) {
     .from(baziCalculations);
 
   const total = Number(totalUsers[0]?.count || 0);
-  const activated = usersWithbaziCalculations.length;
+  const activated = usersWithAnalysis.length;
   const activationRate = total > 0 ? activated / total : 0;
 
   return {

@@ -60,7 +60,6 @@ export async function GET(
     const analyses = await db
       .select({
         id: baziCalculations.id,
-        type: baziCalculations.type,
         createdAt: baziCalculations.createdAt,
       })
       .from(baziCalculations)
@@ -72,14 +71,14 @@ export async function GET(
     const referralsGiven = await db
       .select({
         id: referralRelationships.id,
-        referredId: referralRelationships.referredId,
+        refereeId: referralRelationships.refereeId,
         status: referralRelationships.status,
         createdAt: referralRelationships.createdAt,
-        referredName: user.name,
-        referredEmail: user.email,
+        refereeName: user.name,
+        refereeEmail: user.email,
       })
       .from(referralRelationships)
-      .leftJoin(user, eq(referralRelationships.referredId, user.id))
+      .leftJoin(user, eq(referralRelationships.refereeId, user.id))
       .where(eq(referralRelationships.referrerId, userId))
       .limit(10);
 
@@ -95,7 +94,7 @@ export async function GET(
       })
       .from(referralRelationships)
       .leftJoin(user, eq(referralRelationships.referrerId, user.id))
-      .where(eq(referralRelationships.referredId, userId))
+      .where(eq(referralRelationships.refereeId, userId))
       .limit(1);
 
     return NextResponse.json({

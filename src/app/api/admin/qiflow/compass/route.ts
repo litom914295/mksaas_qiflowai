@@ -1,4 +1,4 @@
-import { getDb } from '@/db';
+﻿import { getDb } from '@/db';
 import { baziCalculations, user } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth/verify';
 import { and, count, desc, eq, gte, sql } from 'drizzle-orm';

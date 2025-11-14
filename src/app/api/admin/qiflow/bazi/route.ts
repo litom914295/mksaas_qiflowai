@@ -43,22 +43,19 @@ export async function GET(request: NextRequest) {
       // 总分析数
       const totalResult = await db
         .select({ count: count() })
-        .from(baziCalculations)
-        .where(eq(baziCalculations.type, 'bazi'));
+        .from(baziCalculations);
 
       // 今日分析数
       const todayResult = await db
         .select({ count: count() })
         .from(baziCalculations)
-        .where(and(eq(baziCalculations.type, 'bazi'), gte(baziCalculations.createdAt, today)));
+        .where(gte(baziCalculations.createdAt, today));
 
       // 本月分析数
       const thisMonthResult = await db
         .select({ count: count() })
         .from(baziCalculations)
-        .where(
-          and(eq(baziCalculations.type, 'bazi'), gte(baziCalculations.createdAt, thisMonth))
-        );
+        .where(gte(baziCalculations.createdAt, thisMonth));
 
       // 上月分析数
       const lastMonthResult = await db
@@ -66,7 +63,6 @@ export async function GET(request: NextRequest) {
         .from(baziCalculations)
         .where(
           and(
-            eq(baziCalculations.type, 'bazi'),
             gte(baziCalculations.createdAt, lastMonth),
             gte(baziCalculations.createdAt, thisMonth)
           )
@@ -75,8 +71,7 @@ export async function GET(request: NextRequest) {
       // 独立用户数
       const uniqueUsersResult = await db
         .selectDistinct({ userId: baziCalculations.userId })
-        .from(baziCalculations)
-        .where(eq(baziCalculations.type, 'bazi'));
+        .from(baziCalculations);
 
       // 最近7天趋势
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -86,9 +81,7 @@ export async function GET(request: NextRequest) {
           count: count(),
         })
         .from(baziCalculations)
-        .where(
-          and(eq(baziCalculations.type, 'bazi'), gte(baziCalculations.createdAt, sevenDaysAgo))
-        )
+        .where(gte(baziCalculations.createdAt, sevenDaysAgo))
         .groupBy(sql`DATE(${baziCalculations.createdAt})`)
         .orderBy(sql`DATE(${baziCalculations.createdAt})`);
 
@@ -126,7 +119,7 @@ export async function GET(request: NextRequest) {
       const skip = (page - 1) * pageSize;
 
       // 构建查询条件
-      const conditions = [eq(baziCalculations.type, 'bazi')];
+      const conditions: any[] = [];
 
       // 搜索条件 (用户名或邮箱)
       if (params.search) {

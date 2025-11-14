@@ -3,6 +3,8 @@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
+  type UsageMetrics,
+  type CostAlert,
   useCostAlerts,
   useCostMonitoring,
 } from '@/lib/qiflow/hooks/useCostMonitoring';
@@ -17,7 +19,7 @@ import {
  * 4. 系统健康状态
  */
 export default function MonitoringPage() {
-  const { usage, alerts } = useCostAlerts();
+  const { usage, alerts }: { usage: UsageMetrics; alerts: CostAlert[] } = useCostAlerts();
 
   // 计算使用百分比
   const dailyPercent = (usage.daily.used / usage.daily.limit) * 100;

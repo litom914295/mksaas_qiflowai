@@ -177,7 +177,7 @@ async function checkAuthFailures(
           gte(auditLogs.createdAt, windowStart)
         )
       )
-      .groupBy(auditLogss.userId)
+      .groupBy(auditLogs.userId)
       .having(sql`COUNT(*) >= ${config.threshold}`);
 
     if (failedAttempts.length > 0) {
