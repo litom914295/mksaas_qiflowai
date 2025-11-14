@@ -33,6 +33,58 @@ export type Severity =
 export type PalaceIndex = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 export type ActionPriority = 'essential' | 'recommended' | 'optional';
 
+// ============ 五行与用神类型 ============
+
+/**
+ * 五行元素对象（可能是字符串或包含element属性的对象）
+ */
+export interface ElementObject {
+  element: FiveElement;
+}
+
+export type ElementOrObject = FiveElement | ElementObject | string;
+
+/**
+ * 用神定义
+ */
+export interface UsefulGod {
+  element?: FiveElement;
+  god?: TenGod;
+  strength?: number;
+}
+
+/**
+ * 大运柱定义
+ */
+export interface LuckPillar {
+  startAge?: number; // 起始年龄
+  age?: number; // 年龄（兼容旧格式）
+  heavenlyStem?: ElementOrObject; // 天干
+  stem?: ElementOrObject; // 天干（兼容旧格式）
+  earthlyBranch?: ElementOrObject; // 地支
+  branch?: ElementOrObject; // 地支（兼容旧格式）
+  isFavorable?: boolean; // 是否有利
+}
+
+/**
+ * 格局分析输入（来自pattern-analysis.ts）
+ */
+export interface PatternAnalysis {
+  pattern: string; // 格局名称
+  patternType?: PatternType;
+  patternStrength: PatternStrength;
+  patternPurity: PatternPurity;
+  patternConfidence?: number;
+  usefulGod: UsefulGod | ElementOrObject;
+  formationFactors?: string[];
+  destructionFactors?: string[];
+  seasonalAdjustment?: {
+    needed: boolean;
+    element: FiveElement;
+    reason: string;
+  };
+}
+
 // ============ 时间窗口 ============
 
 export interface TimeWindow {
@@ -300,18 +352,18 @@ export interface ReportOutput_v2_2 {
  * 从 analyzePattern 结果映射到 StrategyMapping
  */
 export type BaziToStrategyMapper = (
-  patternAnalysis: any, // PatternAnalysis from pattern-analysis.ts
-  luckPillars: any[],
+  patternAnalysis: PatternAnalysis,
+  luckPillars: LuckPillar[],
   currentAge: number,
-  userContext?: any
+  userContext?: Record<string, unknown>
 ) => StrategyMapping;
 
 /**
  * 从 analyzeLingzheng 结果映射到 FengshuiChecklist
  */
 export type FengshuiToChecklistMapper = (
-  lingzhengAnalysis: any, // LingzhengAnalysis from lingzheng.ts
-  recommendations: any,
-  reversedCheck: any,
-  timeChange?: any
+  lingzhengAnalysis: Record<string, unknown>,
+  recommendations: Record<string, unknown>,
+  reversedCheck: Record<string, unknown>,
+  timeChange?: Record<string, unknown>
 ) => FengshuiChecklist;

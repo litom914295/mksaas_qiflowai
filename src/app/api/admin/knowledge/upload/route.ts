@@ -28,7 +28,7 @@ async function extractTextContent(file: File): Promise<string> {
   if (fileName.endsWith('.pdf')) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const data = await pdfParse(buffer);
+    const data = await (pdfParse as any).default(buffer);
     return data.text;
   }
 
@@ -139,7 +139,6 @@ export async function POST(request: NextRequest) {
         // 文本分块
         const chunker = new TextChunker({
           maxChunkSize: 1000,
-          chunkOverlap: 200,
         });
 
         const chunks = chunker.chunk(content);

@@ -13,13 +13,17 @@ import type {
   BaziToStrategyMapper,
   DecisionComparison,
   DecisionOption,
+  ElementOrObject,
   EnvironmentalTask,
   FengshuiChecklist,
   FengshuiToChecklistMapper,
   HopeTimeline,
   LifeThemeStage,
+  LuckPillar,
+  PatternAnalysis,
   ReportOutput_v2_2,
   StrategyMapping,
+  UsefulGod,
 } from '@/types/report-v2.2';
 
 // 依赖现有模块（需要调整导入路径）
@@ -72,9 +76,9 @@ const AGE_BOUNDARIES = {
  * @param obj - 可能是字符串或包含 element 属性的对象
  * @returns 五行元素字符串
  */
-function extractElement(obj: any): string {
+function extractElement(obj: ElementOrObject | UsefulGod): string {
   if (typeof obj === 'string') return obj;
-  return obj?.element || '';
+  return (obj as { element?: string })?.element || '';
 }
 
 /**
@@ -82,10 +86,10 @@ function extractElement(obj: any): string {
  * @param pillar - 大运柱对象
  * @returns 天干和地支的五行元素
  */
-function extractPillarElements(pillar: any): { stem: string; branch: string } {
+function extractPillarElements(pillar: LuckPillar): { stem: string; branch: string } {
   return {
-    stem: extractElement(pillar?.heavenlyStem || pillar?.stem),
-    branch: extractElement(pillar?.earthlyBranch || pillar?.branch),
+    stem: extractElement(pillar?.heavenlyStem || pillar?.stem || ''),
+    branch: extractElement(pillar?.earthlyBranch || pillar?.branch || ''),
   };
 }
 
@@ -163,11 +167,11 @@ export const mapBaziToStrategy: BaziToStrategyMapper = (
 // ---- 辅助函数 ----
 
 function generateLifeTheme(
-  pattern: any,
-  usefulGod: any,
-  luckPillars: any[],
+  pattern: string,
+  usefulGod: UsefulGod | ElementOrObject,
+  luckPillars: LuckPillar[],
   currentAge: number,
-  userContext: any
+  userContext: Record<string, unknown>
 ): StrategyMapping['lifeTheme'] {
   // TODO: 根据格局类型、用神、大运生成人生主题
 
@@ -194,9 +198,9 @@ function generateLifeTheme(
 }
 
 function generateCareerMatches(
-  usefulGod: any,
-  pattern: any,
-  patternStrength: any
+  usefulGod: UsefulGod | ElementOrObject,
+  pattern: string,
+  patternStrength: string
 ) {
   // TODO: 基于用神、格局推荐职业
   // 如：正官+印→公务员、教师；伤官+财→创意、销售
@@ -210,7 +214,7 @@ function generateCareerMatches(
 /**
  * 五行相生相克关系
  */
-const ELEMENT_RELATIONS: Record<string, any> = {
+const ELEMENT_RELATIONS: Record<string, { generates: string; controls: string; generatedBy: string; controlledBy: string }> = {
   木: { generates: '火', controls: '土', generatedBy: '水', controlledBy: '金' },
   火: { generates: '土', controls: '金', generatedBy: '木', controlledBy: '水' },
   土: { generates: '金', controls: '水', generatedBy: '火', controlledBy: '木' },
@@ -830,7 +834,7 @@ function calculateAttribution(
  * 获取当前年龄对应的大运（使用二分查找优化）
  * 时间复杂度：O(log n)
  */
-function getCurrentLuckPillar(luckPillars: any[], currentAge: number): any | null {
+function getCurrentLuckPillar(luckPillars: LuckPillar[], currentAge: number): LuckPillar | null {
   if (!luckPillars || luckPillars.length === 0) return null;
 
   // 二分查找（假设 luckPillars 按 startAge 排序）
@@ -858,7 +862,7 @@ function getCurrentLuckPillar(luckPillars: any[], currentAge: number): any | nul
 /**
  * 检查当前大运是否有利用神
  */
-function checkUsefulGodInLuckPillar(luckPillar: any, usefulGod: any): boolean {
+function checkUsefulGodInLuckPillar(luckPillar: LuckPillar, usefulGod: UsefulGod | ElementOrObject): boolean {
   if (!luckPillar || !usefulGod) return false;
 
   const usefulElement = extractElement(usefulGod);
@@ -871,10 +875,10 @@ function checkUsefulGodInLuckPillar(luckPillar: any, usefulGod: any): boolean {
  * 获取下一个有利用神的大运
  */
 function getNextFavorableLuckPillar(
-  luckPillars: any[],
+  luckPillars: LuckPillar[],
   currentAge: number,
-  usefulGod: any
-): any | null {
+  usefulGod: UsefulGod | ElementOrObject
+): LuckPillar | null {
   if (!luckPillars || luckPillars.length === 0 || !usefulGod) return null;
 
   const usefulElement = extractElement(usefulGod);
@@ -894,7 +898,7 @@ function getNextFavorableLuckPillar(
   return null;
 }
 
-function generateRiskWarnings(destructionFactors: any, luckPillars: any[]) {
+function generateRiskWarnings(destructionFactors: string[] | undefined, luckPillars: LuckPillar[]) {
   // TODO: 根据破格因素、不利大运提示风险
 
   return ['未来3年忌神当令，需谨慎投资', '健康方面注意消化系统（土弱）'];

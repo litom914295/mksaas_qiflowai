@@ -40,17 +40,10 @@ export async function GET(request: NextRequest) {
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-      // 玄空风水总数
-      const xuankongResult = await db
+      // 总分析数 (玄空 + 户型)
+      const totalAnalysisResult = await db
         .select({ count: count() })
-        .from(fengshuiAnalysis)
-        .where(eq(fengshuiAnalysis.type, 'xuankong'));
-
-      // 户型分析总数
-      const floorplanResult = await db
-        .select({ count: count() })
-        .from(fengshuiAnalysis)
-        .where(eq(fengshuiAnalysis.type, 'floorplan'));
+        .from(fengshuiAnalysis);
 
       // 今日风水分析数
       const todayResult = await db
