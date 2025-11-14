@@ -29,6 +29,12 @@ export interface DualAuditResult {
   decision: 'approve' | 'reject' | 'manual_review';
   reason: string;
 
+  // 综合评分
+  overallScore: number;
+
+  // 问题列表
+  issues: Array<{ severity: string; message: string }>;
+
   // 元数据
   metadata: {
     auditedAt: Date;
@@ -75,12 +81,20 @@ export async function dualAudit(
 
   console.log(`[DualAudit] 完成 - ${decision.decision} (耗时: ${timeTaken}ms)`);
 
+  // 合并问题列表
+  const allIssues = [
+    ...ruleAudit.issues,
+    ...aiAudit.issues.map(msg => ({ severity: 'medium', message: msg }))
+  ];
+
   return {
     passed: decision.decision === 'approve',
     ruleAudit,
     aiAudit,
     decision: decision.decision,
     reason: decision.reason,
+    overallScore: ruleAudit.score,
+    issues: allIssues,
     metadata: {
       auditedAt: new Date(),
       timeTakenMs: timeTaken,

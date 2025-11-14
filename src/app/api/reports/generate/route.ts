@@ -163,16 +163,16 @@ export async function GET() {
     status: 'operational',
     costUsage: {
       daily: {
-        used: usage.daily.used,
-        limit: usage.daily.limit,
+        used: usage.daily,
+        limit: usage.limits.daily,
         percentage:
-          ((usage.daily.used / usage.daily.limit) * 100).toFixed(1) + '%',
+          ((usage.daily / usage.limits.daily) * 100).toFixed(1) + '%',
       },
       hourly: {
-        used: usage.hourly.used,
-        limit: usage.hourly.limit,
+        used: usage.hourly,
+        limit: usage.limits.hourly,
         percentage:
-          ((usage.hourly.used / usage.hourly.limit) * 100).toFixed(1) + '%',
+          ((usage.hourly / usage.limits.hourly) * 100).toFixed(1) + '%',
       },
     },
     canGenerate: {

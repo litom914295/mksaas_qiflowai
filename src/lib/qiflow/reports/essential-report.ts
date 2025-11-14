@@ -91,6 +91,9 @@ export interface ThemeContent {
  * 报告输出
  */
 export interface EssentialReportOutput {
+  // 报告 ID
+  reportId?: string;
+
   // 基础数据
   baziData: any;
   flyingStarData: any;
@@ -98,17 +101,24 @@ export interface EssentialReportOutput {
   // 主题内容
   themes: ThemeContent[];
 
+  // 章节内容（与 themes 类似）
+  sections?: ThemeContent[];
+
   // 人宅合一分析（核心卖点）
   synthesis?: SynthesisOutput;
 
   // 质量分数
   qualityScore: number; // 0-100
 
+  // 生成时间
+  generatedAt?: string;
+
   // 元数据
   metadata: {
     aiModel: string;
     generationTimeMs: number;
     aiCostUSD: number;
+    cost?: number; // 额外的 cost 属性
   };
 }
 
@@ -225,17 +235,22 @@ export async function generateEssentialReport(
   );
 
   const generationTimeMs = Date.now() - startTime;
+  const reportId = `RPT_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
   return {
+    reportId,
     baziData,
     flyingStarData,
     themes,
+    sections: themes, // sections 与 themes 相同
     synthesis: synthesisOutput,
     qualityScore: qualityScore.score,
+    generatedAt: new Date().toISOString(),
     metadata: {
       aiModel: 'deepseek-chat',
       generationTimeMs,
       aiCostUSD: totalCost,
+      cost: totalCost, // 额外的 cost 属性
     },
   };
 }
