@@ -51,10 +51,10 @@ export async function POST(request: NextRequest) {
 
     const { type, format, data, inputs, options = {} } = validationResult.data as any;
 
-    // v2.2 专业模板：直接走 v2.2 生成 + 渲染
+    // v2-2 专业模板：使用新的 v2-2 命名规范
     if (options?.template === 'professional-v2.2' && format === 'html') {
-      const { generateFullReport_v2_2 } = await import('@/lib/report/report-generator-v2.2');
-      const { renderReportHTML_v2_2 } = await import('@/lib/report/v2_2/html');
+      const { generateFullReportV22 } = await import('@/lib/report/report-generator-v2.2');
+      const { renderReportHtmlV22 } = await import('@/lib/report/v2-2');
 
       const baziInput = inputs?.baziInput || {
         name: inputs?.name || '用户',
@@ -66,13 +66,13 @@ export async function POST(request: NextRequest) {
       const fengshuiInput = inputs?.fengshuiInput || {};
       const userContext = inputs?.userContext || {};
 
-      const report = await generateFullReport_v2_2(baziInput, fengshuiInput, userContext);
-      const html = renderReportHTML_v2_2(report);
+      const report = await generateFullReportV22(baziInput, fengshuiInput, userContext);
+      const html = renderReportHtmlV22(report);
       return new NextResponse(html, {
         status: 200,
         headers: {
           'Content-Type': 'text/html; charset=utf-8',
-          'Content-Disposition': `attachment; filename="v2.2_${Date.now()}.html"`,
+          'Content-Disposition': `attachment; filename="v2-2_${Date.now()}.html"`,
         },
       });
     }

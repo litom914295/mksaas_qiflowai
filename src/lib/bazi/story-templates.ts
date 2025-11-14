@@ -5,7 +5,7 @@
  * 基于：4种核心人生主题类型
  */
 
-import type { PatternStrength, PatternType, TenGod } from '@/types/report-v2.2';
+import type { PatternStrength, PatternType, TenGod } from '@/types/report-v2-2';
 
 // ============ 人生主题类型 ============
 

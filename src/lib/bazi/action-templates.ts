@@ -13,7 +13,7 @@
  * 4. 成本友好（优先低成本/零成本方案）
  */
 
-import type { ActionItem } from '@/types/report-v2.2';
+import type { ActionItem } from '@/types/report-v2-2';
 
 // ===== 类型定义 =====
 

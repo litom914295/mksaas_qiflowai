@@ -2,8 +2,8 @@
  * v2.1集成测试 - 完整报告生成流程测试
  *
  * 测试范围：
- * 1. generateFullReport_v2_2()完整流程（v2.0+v2.1所有模块）
- * 2. JSON格式验证（符合ReportOutput_v2_2类型定义）
+ * 1. generateFullReportV22()完整流程（v2.0+v2.1所有模块）
+ * 2. JSON格式验证（符合ReportOutputV22类型定义）
  * 3. 性能测试（生成时间<5秒）
  * 4. 5个真实案例验证（不同格局/年龄/困境）
  *
@@ -12,7 +12,7 @@
  * - v2.1: 分级行动清单、决策时间窗口、风水Checklist
  */
 
-import { generateFullReport_v2_2 } from '../report-generator-v2.2';
+import { generateFullReportV22 } from '../report-generator-v2.2';
 import {
   generateLifeTheme,
   calculateAttribution,
@@ -23,7 +23,7 @@ import {
 } from '../report-generator-v2.2';
 
 describe('v2.1集成测试 - 完整报告生成', () => {
-  describe('generateFullReport_v2_2() - 完整流程测试', () => {
+  describe('generateFullReportV22() - 完整流程测试', () => {
     test('案例1: 30岁男性，食神生财格，当前困境期', async () => {
       const startTime = Date.now();
 
@@ -47,7 +47,7 @@ describe('v2.1集成测试 - 完整报告生成', () => {
         concerns: ['职业发展', '财运'],
       };
 
-      const report = await generateFullReport_v2_2(
+      const report = await generateFullReportV22(
         baziInput,
         fengshuiInput,
         userContext
@@ -165,7 +165,7 @@ describe('v2.1集成测试 - 完整报告生成', () => {
         concerns: ['健康', '家庭'],
       };
 
-      const report = await generateFullReport_v2_2(
+      const report = await generateFullReportV22(
         baziInput,
         fengshuiInput,
         userContext
@@ -212,7 +212,7 @@ describe('v2.1集成测试 - 完整报告生成', () => {
         concerns: ['学业', '求职'],
       };
 
-      const report = await generateFullReport_v2_2(
+      const report = await generateFullReportV22(
         baziInput,
         fengshuiInput,
         userContext
@@ -255,7 +255,7 @@ describe('v2.1集成测试 - 完整报告生成', () => {
         concerns: ['健康', '养老'],
       };
 
-      const report = await generateFullReport_v2_2(
+      const report = await generateFullReportV22(
         baziInput,
         fengshuiInput,
         userContext
@@ -303,7 +303,7 @@ describe('v2.1集成测试 - 完整报告生成', () => {
         ],
       };
 
-      const report = await generateFullReport_v2_2(
+      const report = await generateFullReportV22(
         baziInput,
         fengshuiInput,
         userContext
@@ -574,7 +574,7 @@ describe('v2.1集成测试 - 完整报告生成', () => {
         moveInDate: '2020-01-01',
       };
 
-      const report = await generateFullReport_v2_2(baziInput, fengshuiInput);
+      const report = await generateFullReportV22(baziInput, fengshuiInput);
 
       // 序列化
       const jsonString = JSON.stringify(report);
@@ -604,7 +604,7 @@ describe('v2.1集成测试 - 完整报告生成', () => {
         moveInDate: '2021-01-01',
       };
 
-      const report = await generateFullReport_v2_2(baziInput, fengshuiInput);
+      const report = await generateFullReportV22(baziInput, fengshuiInput);
 
       const jsonString = JSON.stringify(report);
 
@@ -630,7 +630,7 @@ describe('v2.1集成测试 - 完整报告生成', () => {
       const startTime = Date.now();
       const reports = await Promise.all(
         testCases.map((baziInput) =>
-          generateFullReport_v2_2(
+          generateFullReportV22(
             baziInput,
             { buildingDirection: '坐北朝南', birthYear: 1990, moveInDate: '2020-01-01' }
           )

@@ -1,7 +1,7 @@
 /**
  * 图表组件索引
  *
- * 导出所有 v2.2 报告可视化图表组件
+ * 导出所有 v2-2 报告可视化图表组件
  */
 
 export { default as TimelineChart } from './TimelineChart';

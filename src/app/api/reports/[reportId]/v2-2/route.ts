@@ -1,28 +1,20 @@
-/**
- * @deprecated 此文件使用旧的命名规范 (v2.2)，已弃用
- * 请使用 /api/reports/[reportId]/v2-2/route.ts
- * 此端点将在未来版本中移除
- */
-
 import { getDb } from '@/db';
 import { qiflowReports } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
 import { renderReportHtmlV22 } from '@/lib/report/v2-2';
 import type { ReportOutputV22 } from '@/types/report-v2-2';
 import { and, eq } from 'drizzle-orm';
-import { type NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(
-  _req: NextRequest,
-  ctx: { params: Promise<{ reportId: string }> }
-) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ reportId: string }> }) {
+  const { reportId } = await params;
+
   try {
     const session = await getSession();
     if (!session?.user?.id) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const { reportId } = await ctx.params as { reportId: string };
     const db = await getDb();
     const [report] = await db
       .select()
@@ -34,23 +26,22 @@ export async function GET(
       return new NextResponse('Report not found', { status: 404 });
     }
 
-    // Parse report data using new types
+    // Parse report data
     const reportData = (typeof report.output === 'string'
       ? JSON.parse(report.output)
       : report.output) as ReportOutputV22;
 
-    // Render using new function
+    // Render as HTML
     const html = renderReportHtmlV22(reportData);
 
     return new NextResponse(html, {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'private, max-age=3600',
-        'X-Deprecated': 'Please use /api/reports/[reportId]/v2-2 instead',
       },
     });
   } catch (error) {
-    console.error('Error retrieving report (deprecated endpoint):', error);
+    console.error('Error retrieving v2-2 report:', error);
     return new NextResponse('Internal server error', { status: 500 });
   }
 }

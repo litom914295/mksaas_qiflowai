@@ -139,7 +139,7 @@ export class UnifiedFengshuiEngine {
           location: issue.location,
           impact: issue.impact,
           consequences: issue.consequences,
-          recommendations: [], // 可以从 xuankong 的 smartRecommendations 中提取
+          recommendations: [] as string[], // 可以从xuankong 的 smartRecommendations 中提取
         }));
 
         const urgentCount = unifiedWarnings.filter(

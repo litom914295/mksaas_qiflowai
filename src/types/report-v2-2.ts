@@ -1,7 +1,5 @@
 /**
- * 专业报告 v2.2 类型定义
- * @deprecated 请使用 '@/types/report-v2-2' 中的新命名 (ReportOutputV22 等)
- * 此文件保留用于向后兼容，将在未来版本中移除
+ * 专业报告 v2-2 类型定义（新命名规范）
  *
  * 用于：报告生成引擎、八字→策略映射、飞星→Checklist映射
  * 基于：pattern-analysis.ts + lingzheng.ts 输出
@@ -122,7 +120,7 @@ export interface LifeThemeStage {
 export interface StrategyMapping {
   // 人生主题故事
   lifeTheme: {
-    title: string; // 如："先蓄力、后爆发"
+    title: string; // 如：\"先蓄力、后爆发\"
     summary: string; // 核心摘要
     stages: LifeThemeStage[];
   };
@@ -151,7 +149,7 @@ export interface StrategyMapping {
   // 风险提示
   riskWarnings: string[];
 
-  // 归因分解（用于"卸下自责"）
+  // 归因分解（用于\"卸下自责\"）
   attribution: {
     timeFactor: number; // 时间/大运/流年占比（%）
     endowmentFactor: number; // 先天禀赋/五行占比（%）
@@ -254,10 +252,7 @@ export interface HopeTimeline {
 
 // ============ 完整报告输出 ============
 
-/**
- * @deprecated 请使用 '@/types/report-v2-2' 中的 ReportOutputV22
- */
-export interface ReportOutput_v2_2 {
+export interface ReportOutputV22 {
   // 元信息
   meta: {
     name: string;
@@ -372,13 +367,3 @@ export type FengshuiToChecklistMapper = (
   reversedCheck: Record<string, unknown>,
   timeChange?: Record<string, unknown>
 ) => FengshuiChecklist;
-
-// ============ 向后兼容：重新导出新命名类型 ============
-
-import type { ReportOutputV22 as ReportOutputV22New } from './report-v2-2';
-
-/**
- * @deprecated 请使用 ReportOutputV22 from '@/types/report-v2-2'
- * 此别名保留用于向后兼容
- */
-export type { ReportOutputV22New as ReportOutputV22 };

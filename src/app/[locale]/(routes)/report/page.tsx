@@ -597,7 +597,7 @@ export default function ReportPage() {
                     size="sm"
                     onClick={async () => {
                       try {
-                        const res = await fetch('/api/reports/v2.2/generate', {
+                        const res = await fetch('/api/reports/v2-2/generate', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
                           body: JSON.stringify({

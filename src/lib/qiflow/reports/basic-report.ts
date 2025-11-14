@@ -15,6 +15,7 @@ import {
   checkAICompliance,
 } from '@/lib/ai-compliance';
 import type { EnhancedBaziResult } from '@/lib/bazi/adapter';
+import type { WuxingStrength } from '@/lib/bazi/types/core';
 import { resolveModel } from '@/server/ai/providers';
 import { generateText } from 'ai';
 
@@ -251,19 +252,19 @@ async function buildBaziDNAPage(
       'medium',
   };
 
-  // 五行
-  const elements = baziData.elements || {
-    wood: 0,
-    fire: 0,
-    earth: 0,
-    metal: 0,
-    water: 0,
+  // 五行 - 转换为WuxingStrength格式
+  const elements: WuxingStrength = {
+    wood: (baziData.elements as any)?.['木'] || (baziData.elements as any)?.wood || 0,
+    fire: (baziData.elements as any)?.['火'] || (baziData.elements as any)?.fire || 0,
+    earth: (baziData.elements as any)?.['土'] || (baziData.elements as any)?.earth || 0,
+    metal: (baziData.elements as any)?.['金'] || (baziData.elements as any)?.metal || 0,
+    water: (baziData.elements as any)?.['水'] || (baziData.elements as any)?.water || 0,
   };
 
   // AI性格速写（可选）
   let personalitySummary: string | undefined;
   if (config?.includePersonalitySummary !== false) {
-    const result = await generatePersonalitySummary(baziData);
+    const result = await generatePersonalitySummary(baziData as any);
     personalitySummary = result.summary;
     cost = result.cost;
   }
@@ -314,7 +315,7 @@ async function generatePersonalitySummary(
       model,
       prompt,
       temperature: 0.7,
-      maxTokens: 200, // 限制输出
+      maxOutputTokens: 200, // 限制输出
     });
 
     // 合规检查

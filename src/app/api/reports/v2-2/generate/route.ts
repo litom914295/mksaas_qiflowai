@@ -1,7 +1,3 @@
-/**
- * @deprecated 请使用 /api/reports/v2-2/generate
- * 此端点保留用于向后兼容，将在未来版本中移除
- */
 import { getDb } from '@/db';
 import { qiflowReports } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
@@ -36,10 +32,10 @@ export async function POST(req: NextRequest) {
     };
     const fengshuiInput = house || {};
 
-    // 1) 生成 v2-2 报告对象（使用新函数）
+    // 1) 生成 v2-2 报告对象
     const report = await generateFullReportV22(baziInput as any, fengshuiInput as any, userContext || {});
 
-    // 2) 渲染 HTML（使用新函数）
+    // 2) 渲染 HTML
     const html = renderReportHtmlV22(report);
 
     // 3) 写入历史记录（计费依赖是否包含风水信息）
@@ -62,7 +58,7 @@ export async function POST(req: NextRequest) {
           },
         },
         output: {
-          v2_2: true,
+          v2_2: true, // 保持向后兼容的标记
           version: 'v2-2', // 新版本标记
           html,
         } as any,
@@ -78,7 +74,7 @@ export async function POST(req: NextRequest) {
       })
       .returning();
 
-    // 返回新的 URL 路径（向前兼容）
+    // 使用新的 URL 路径
     const viewUrl = `/reports/${row.id}/v2-2`;
 
     return NextResponse.json({ success: true, reportId: row.id, viewUrl });

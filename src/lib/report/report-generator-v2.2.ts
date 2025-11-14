@@ -1,11 +1,12 @@
 /**
  * 专业报告 v2.2 生成引擎
+ * @deprecated 文件将重命名为 report-generator-v2-2.ts，请使用新命名
  *
  * 功能：
  * 1. 从 analyzePattern() 输出映射到 StrategyMapping
  * 2. 从 analyzeLingzheng() 输出映射到 FengshuiChecklist
  * 3. 生成 HopeTimeline、DecisionComparison
- * 4. 组装完整 ReportOutput_v2_2
+ * 4. 组装完整 ReportOutputV22
  */
 
 import type {
@@ -21,10 +22,10 @@ import type {
   LifeThemeStage,
   LuckPillar,
   PatternAnalysis,
-  ReportOutput_v2_2,
+  ReportOutputV22,
   StrategyMapping,
   UsefulGod,
-} from '@/types/report-v2.2';
+} from '@/types/report-v2-2';
 
 // 依赖现有模块（需要调整导入路径）
 // import { analyzePattern } from '@/lib/bazi/pattern-analysis';
@@ -279,7 +280,7 @@ function getSeason(month: number): 'spring' | 'summer' | 'autumn' | 'winter' {
  */
 function getMonthStrength(month: number, element: string): number {
   const season = getSeason(month);
-  return MONTH_ELEMENT_STRENGTH[season][element] || 0;
+  return (MONTH_ELEMENT_STRENGTH[season] as any)[element] || 0;
 }
 
 /**
@@ -698,7 +699,7 @@ function calculateAttribution(
       label: '不可控',
     });
 
-    if (nextFavorablePillar) {
+    if (nextFavorablePillar && nextFavorablePillar.startAge !== undefined) {
       const yearsUntilTurning = nextFavorablePillar.startAge - currentAge;
       notes.push(
         `时间因素（${timeFactor}%）：当前大运不利用神，暂时受限。` +
@@ -862,7 +863,7 @@ function getCurrentLuckPillar(luckPillars: LuckPillar[], currentAge: number): Lu
 /**
  * 检查当前大运是否有利用神
  */
-function checkUsefulGodInLuckPillar(luckPillar: LuckPillar, usefulGod: UsefulGod | ElementOrObject): boolean {
+function checkUsefulGodInLuckPillar(luckPillar: LuckPillar | null, usefulGod: UsefulGod | ElementOrObject): boolean {
   if (!luckPillar || !usefulGod) return false;
 
   const usefulElement = extractElement(usefulGod);
@@ -920,14 +921,14 @@ export const mapFengshuiToChecklist: FengshuiToChecklistMapper = (
   const waterPlacement = {
     favorablePalaces: zeroGodPalaces || [1, 4],
     unfavorablePalaces: positiveGodPalaces || [6, 8],
-    actions: generateWaterActions(zeroGodPalaces, positiveGodPalaces),
+    actions: generateWaterActions(zeroGodPalaces as number[], positiveGodPalaces as number[]),
   };
 
   // 2. 山位布置
   const mountainPlacement = {
     favorablePalaces: positiveGodPalaces || [6, 8],
     unfavorablePalaces: zeroGodPalaces || [1, 4],
-    actions: generateMountainActions(positiveGodPalaces, zeroGodPalaces),
+    actions: generateMountainActions(positiveGodPalaces as number[], zeroGodPalaces as number[]),
   };
 
   // 3. 综合任务清单
@@ -2256,11 +2257,25 @@ function inferDecisionTopic(options: Array<{ name: string }>): string {
 
 // ============ 完整报告组装 ============
 
+/**
+ * @deprecated 请使用 generateFullReportV22
+ */
 export async function generateFullReport_v2_2(
+  baziInput: any,
+  fengshuiInput: any,
+  userContext?: any
+): Promise<ReportOutputV22> {
+  return generateFullReportV22(baziInput, fengshuiInput, userContext);
+}
+
+/**
+ * 生成完整的 v2-2 专业报告（新命名规范）
+ */
+export async function generateFullReportV22(
   baziInput: any, // 八字输入（日期、时间、性别等）
   fengshuiInput: any, // 风水输入（房屋朝向、出生年份等）
   userContext?: any // 用户额外信息（职业、决策选项等）
-): Promise<ReportOutput_v2_2> {
+): Promise<ReportOutputV22> {
   // 1. 调用现有分析函数
   // const patternAnalysis = analyzePattern(baziInput);
   // const luckPillars = calculateLuckPillars(baziInput);
@@ -2305,7 +2320,7 @@ export async function generateFullReport_v2_2(
     : undefined;
 
   // 4. 组装完整报告
-  const report: ReportOutput_v2_2 = {
+  const report: ReportOutputV22 = {
     meta: {
       name: baziInput.name || '用户',
       genderTitle: baziInput.gender === 'male' ? '先生' : '女士',

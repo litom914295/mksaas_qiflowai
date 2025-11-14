@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
-import { toast } from 'sonner';
 import { getDirectionFromDegrees } from '@/lib/qiflow/xuankong/converters';
 import {
   type Mountain,
@@ -186,61 +185,74 @@ export function HeroWithForm() {
   const [compassOpen, setCompassOpen] = useState(false);
   const [autoFollowCompass, setAutoFollowCompass] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
   // 加载最近一次的表单数据
   useEffect(() => {
     setIsVisible(true);
 
-    // 从 sessionStorage 读取最近一次的表单数据
+    // 尝试从多个来源加载数据
     try {
-      const savedData = sessionStorage.getItem('analysisFormData');
-      console.log('[加载表单] sessionStorage 数据:', savedData);
+      let parsed = null;
 
-      if (savedData) {
-        const parsed = JSON.parse(savedData);
-        console.log('[加载表单] 解析后的数据:', parsed);
+      // 1. 优先从 sessionStorage 读取（当前会话数据）
+      const sessionData = sessionStorage.getItem('analysisFormData');
+      if (sessionData) {
+        parsed = JSON.parse(sessionData);
+        console.log('[加载表单] 从 sessionStorage 加载数据');
+      }
 
-        if (parsed.personal) {
-          // 解析日期，去掉前导零
-          const [year, month, day] = parsed.personal.birthDate.split('-');
-          console.log('[加载表单] 日期解析:', { year, month, day });
-
-          setFormData({
-            name: parsed.personal.name || '',
-            gender: parsed.personal.gender || 'female',
-            birthYear: year || '',
-            birthMonth: String(Number.parseInt(month, 10)) || '', // 去掉前导零
-            birthDay: String(Number.parseInt(day, 10)) || '', // 去掉前导零
-            timeOfDay: 'exact', // 自动设置为精确模式
-            timePeriod: 'chen',
-            exactTime: parsed.personal.birthTime || '08:00',
-            birthCity: parsed.personal.birthCity || '',
-            calendarType: parsed.personal.calendarType || 'solar',
-          });
-
-          console.log('[加载表单] 表单数据已加载');
-
-          // 如果有房屋信息，也加载
-          if (
-            parsed.house &&
-            (parsed.house.direction || parsed.house.directionDegree)
-          ) {
-            setHouseInfo({
-              direction: parsed.house.direction || '',
-              roomCount: parsed.house.roomCount || '',
-              completionYear: parsed.house.completionYear || '',
-              completionMonth: parsed.house.completionMonth || '',
-              directionDegree: parsed.house.directionDegree?.toString() || '',
-              northRef: parsed.house.northRef,
-              declination: parsed.house.declination,
-              sittingMountain: parsed.house.sittingMountain,
-              facingMountain: parsed.house.facingMountain,
-              sittingFacingLabel: parsed.house.sittingFacingLabel,
-            });
-            setShowHouseInfo(true);
-            console.log('[加载表单] 房屋信息已加载');
+      // 2. 如果 sessionStorage 没有，则从 localStorage 的历史记录读取最近一次
+      if (!parsed) {
+        const historyData = localStorage.getItem('formHistory');
+        if (historyData) {
+          const history = JSON.parse(historyData);
+          if (Array.isArray(history) && history.length > 0) {
+            parsed = history[0]; // 取最近一次的记录
+            console.log('[加载表单] 从 localStorage formHistory 加载数据');
           }
+        }
+      }
+
+      // 如果找到了数据，填充表单
+      if (parsed?.personal) {
+        // 解析日期，去掉前导零
+        const [year, month, day] = parsed.personal.birthDate.split('-');
+        console.log('[加载表单] 日期解析:', { year, month, day });
+
+        setFormData({
+          name: parsed.personal.name || '',
+          gender: parsed.personal.gender || 'female',
+          birthYear: year || '',
+          birthMonth: String(Number.parseInt(month, 10)) || '', // 去掉前导零
+          birthDay: String(Number.parseInt(day, 10)) || '', // 去掉前导零
+          timeOfDay: 'exact', // 自动设置为精确模式
+          timePeriod: 'chen',
+          exactTime: parsed.personal.birthTime || '08:00',
+          birthCity: parsed.personal.birthCity || '',
+          calendarType: parsed.personal.calendarType || 'solar',
+        });
+
+        console.log('[加载表单] ✅ 表单数据已加载');
+
+        // 如果有房屋信息，也加载
+        if (
+          parsed.house &&
+          (parsed.house.direction || parsed.house.directionDegree)
+        ) {
+          setHouseInfo({
+            direction: parsed.house.direction || '',
+            roomCount: parsed.house.roomCount || '',
+            completionYear: parsed.house.completionYear || '',
+            completionMonth: parsed.house.completionMonth || '',
+            directionDegree: parsed.house.directionDegree?.toString() || '',
+            northRef: parsed.house.northRef,
+            declination: parsed.house.declination,
+            sittingMountain: parsed.house.sittingMountain,
+            facingMountain: parsed.house.facingMountain,
+            sittingFacingLabel: parsed.house.sittingFacingLabel,
+          });
+          setShowHouseInfo(true);
+          console.log('[加载表单] ✅ 房屋信息已加载');
         }
       } else {
         console.log('[加载表单] 没有找到保存的数据');
@@ -285,89 +297,6 @@ export function HeroWithForm() {
     formData.birthYear &&
     formData.birthMonth &&
     formData.birthDay;
-
-  // 生成专业报告
-  const handleGenerateReport = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    console.log('[生成报告] 开始生成报告', { formData, canSubmit });
-
-    if (!canSubmit) {
-      console.log('[生成报告] 验证失败，缺少必填项');
-      toast.error(t('alertFillRequired') || '请填写完整的必填信息');
-      return;
-    }
-
-    if (isGeneratingReport) {
-      console.log('[生成报告] 正在生成中，跳过');
-      return;
-    }
-
-    setIsGeneratingReport(true);
-    const toastId = toast.loading('正在生成专业报告...');
-
-    try {
-      // 转换为旧格式的日期和时间
-      const birthDate = `${formData.birthYear}-${String(formData.birthMonth).padStart(2, '0')}-${String(formData.birthDay).padStart(2, '0')}`;
-      let birthTime = '';
-
-      if (formData.timeOfDay === 'exact' && formData.exactTime) {
-        birthTime = formData.exactTime;
-      } else {
-        birthTime = getDefaultTimeForSimplePeriod(formData.timeOfDay);
-      }
-
-      // 准备房屋数据
-      const degreeNum = Number(houseInfo.directionDegree);
-      const persistedHouse = showHouseInfo
-        ? {
-            ...houseInfo,
-            direction:
-              houseInfo.direction || getCoarseDirectionLabel(degreeNum) || '',
-            directionDegree: Number.isNaN(degreeNum) ? undefined : degreeNum,
-            northRef: houseInfo.northRef,
-            declination: houseInfo.declination,
-            sittingMountain: houseInfo.sittingMountain,
-            facingMountain: houseInfo.facingMountain,
-            sittingFacingLabel: houseInfo.sittingFacingLabel,
-          }
-        : undefined;
-
-      // 调用生成报告API
-      const res = await fetch('/api/reports/v2.2/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          personal: {
-            name: formData.name,
-            gender: formData.gender,
-            birthDate,
-            birthTime,
-            birthCity: formData.birthCity || '',
-          },
-          house: persistedHouse,
-          userContext: {},
-        }),
-      });
-
-      const json = await res.json();
-      
-      if (json?.viewUrl) {
-        toast.success('专业报告已生成', { id: toastId });
-        // 在新窗口打开报告
-        window.open(json.viewUrl, '_blank');
-      } else {
-        throw new Error(json?.error || '生成报告失败');
-      }
-    } catch (error) {
-      console.error('[生成报告] 生成失败:', error);
-      toast.error(
-        error instanceof Error ? error.message : '生成报告失败，请稍后重试',
-        { id: toastId }
-      );
-    } finally {
-      setIsGeneratingReport(false);
-    }
-  };
 
   // 提交表单
   const handleSubmit = async (e: React.FormEvent) => {
@@ -1358,91 +1287,46 @@ export function HeroWithForm() {
                     )}
                   </div>
 
-                  {/* 提交按钮组 */}
-                  <div className="grid grid-cols-2 gap-3">
-                    {/* 开始分析按钮 */}
-                    <Button
-                      type="submit"
-                      disabled={!canSubmit || isSubmitting}
-                      className="h-11 text-base font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
-                    >
-                      {isSubmitting ? (
-                        <>
+                  {/* 提交按钮 */}
+                  <Button
+                    type="submit"
+                    disabled={!canSubmit || isSubmitting}
+                    className="w-full h-11 text-base font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <motion.div
+                          className="absolute inset-0 bg-primary/20"
+                          animate={{
+                            x: ['-100%', '100%'],
+                          }}
+                          transition={{
+                            duration: 1,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: 'linear',
+                          }}
+                        />
+                        <div className="relative flex items-center gap-2">
                           <motion.div
-                            className="absolute inset-0 bg-primary/20"
-                            animate={{
-                              x: ['-100%', '100%'],
-                            }}
+                            animate={{ rotate: 360 }}
                             transition={{
                               duration: 1,
                               repeat: Number.POSITIVE_INFINITY,
                               ease: 'linear',
                             }}
-                          />
-                          <div className="relative flex items-center gap-2">
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{
-                                duration: 1,
-                                repeat: Number.POSITIVE_INFINITY,
-                                ease: 'linear',
-                              }}
-                            >
-                              <Sparkles className="w-4 h-4" />
-                            </motion.div>
-                            <span>正在分析...</span>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="w-4 h-4 mr-2" />
-                          {tForm('submitButton')}
-                        </>
-                      )}
-                    </Button>
-
-                    {/* 生成报告按钮 */}
-                    <Button
-                      type="button"
-                      onClick={handleGenerateReport}
-                      disabled={!canSubmit || isGeneratingReport}
-                      className="h-11 text-base font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
-                    >
-                      {isGeneratingReport ? (
-                        <>
-                          <motion.div
-                            className="absolute inset-0 bg-white/20"
-                            animate={{
-                              x: ['-100%', '100%'],
-                            }}
-                            transition={{
-                              duration: 1,
-                              repeat: Number.POSITIVE_INFINITY,
-                              ease: 'linear',
-                            }}
-                          />
-                          <div className="relative flex items-center gap-2">
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{
-                                duration: 1,
-                                repeat: Number.POSITIVE_INFINITY,
-                                ease: 'linear',
-                              }}
-                            >
-                              <TrendingUp className="w-4 h-4" />
-                            </motion.div>
-                            <span>生成中...</span>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <TrendingUp className="w-4 h-4 mr-2" />
-                          生成报告
-                        </>
-                      )}
-                    </Button>
-                  </div>
+                          >
+                            <Sparkles className="w-4 h-4" />
+                          </motion.div>
+                          <span>正在分析...</span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4 mr-2" />
+                        {tForm('submitButton')}
+                      </>
+                    )}
+                  </Button>
 
                   {/* 提示文本 */}
                   <p className="text-xs text-center text-muted-foreground">

@@ -476,7 +476,7 @@ function checkCompliance(
       severity: 'critical',
       category: 'compliance',
       message: 'AI合规检查未通过',
-      suggestion: aiComplianceCheck.reason || '检查内容合规性',
+suggestion: (aiComplianceCheck.reasons && aiComplianceCheck.reasons[0]) || '检查内容合规性',
     });
   } else {
     details.push('✓ AI合规检查通过');

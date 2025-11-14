@@ -310,16 +310,18 @@ function extractFavorableElements(baziData: EnhancedBaziResult): string[] {
 
   // 从用神系统提取
   if (baziData.yongshen?.primary) {
-    favorable.push(baziData.yongshen.primary);
+    const p: any = baziData.yongshen.primary as any;
+    Array.isArray(p) ? favorable.push(...p) : favorable.push(p);
   }
   if (baziData.yongshen?.secondary) {
-    favorable.push(baziData.yongshen.secondary);
+    const s: any = baziData.yongshen.secondary as any;
+    Array.isArray(s) ? favorable.push(...s) : favorable.push(s);
   }
 
   // 如果没有用神数据，根据日主强弱推断
   if (favorable.length === 0) {
-    const dayElement = baziData.dayMaster?.element || '';
-    const strength = baziData.dayMaster?.strength || 'medium';
+    const dayElement = (baziData.dayMaster as any)?.element || '';
+    const strength = (baziData.dayMaster as any)?.strength || 'medium';
 
     if (strength === 'strong') {
       // 日主强，需要泄和耗
@@ -346,8 +348,8 @@ function extractTabooElements(baziData: EnhancedBaziResult): string[] {
 
   // 如果没有忌神数据，根据日主强弱推断
   if (taboo.length === 0) {
-    const dayElement = baziData.dayMaster?.element || '';
-    const strength = baziData.dayMaster?.strength || 'medium';
+    const dayElement = (baziData.dayMaster as any)?.element || '';
+    const strength = (baziData.dayMaster as any)?.strength || 'medium';
 
     if (strength === 'strong') {
       // 日主强，忌生扶

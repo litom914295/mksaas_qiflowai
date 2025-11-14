@@ -125,10 +125,11 @@ export class VectorSearchService {
       `;
 
       const db = await getDb();
-      const results = await db.execute(query);
+      const results: any = await db.execute(query);
 
       // 转换为 SearchResult 格式
-      return (results.rows as any[])
+      const rows: any[] = (results as any).rows || Array.from(results as any);
+      return rows
         .filter((row) => row.similarity >= threshold)
         .map((row) => ({
           id: row.id,
@@ -200,16 +201,16 @@ export class VectorSearchService {
         .from(knowledgeDocuments)
         .groupBy(knowledgeDocuments.category);
 
-      const byCategory = results.reduce(
+      const byCategory = (results as any[]).reduce(
         (acc: any, row: any) => {
-          acc[row.category as DocumentCategoryType] = Number(row.count);
+          acc[row.category as DocumentCategoryType] = Number(row.count as any);
           return acc;
         },
         {} as Record<DocumentCategoryType, number>
       );
 
       const totalDocuments = Object.values(byCategory).reduce(
-        (sum, count) => sum + count,
+        (sum: number, count: number) => sum + count,
         0
       );
 
