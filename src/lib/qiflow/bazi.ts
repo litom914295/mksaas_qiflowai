@@ -18,14 +18,38 @@ export interface EnhancedBaziResult extends BaziResult {
   score?: number;
   
   // 增加缺失的属性
-  dayMaster?: string;
+  dayMaster?: {
+    stem?: string;
+    element?: string;
+    strength?: 'strong' | 'medium' | 'weak';
+  };
   birthInfo?: {
-    year: number;
-    month: number;
-    day: number;
-    hour: number;
-    gender: 'male' | 'female';
+    year?: number;
+    month?: number;
+    day?: number;
+    hour?: number;
+    gender?: 'male' | 'female';
     timezone?: string;
+    solarDate?: string;
+    lunarDate?: string;
+    birthTime?: string;
+    location?: string;
+    trueSolarTimeAdjusted?: boolean;
+  };
+  
+  // 用神系统
+  yongshen?: {
+    primary?: string;
+    secondary?: string;
+    avoid?: string[];
+  };
+  
+  // 四柱数据
+  pillars?: {
+    year?: { stem: string; branch: string };
+    month?: { stem: string; branch: string };
+    day?: { stem: string; branch: string };
+    hour?: { stem: string; branch: string };
   };
 }
 

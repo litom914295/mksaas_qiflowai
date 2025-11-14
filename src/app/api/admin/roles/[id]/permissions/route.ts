@@ -1,13 +1,13 @@
 import { getDb } from '@/db';
 import { permissions, rolePermissions, roles } from '@/db/schema';
 import { verifyAuth } from '@/lib/auth/verify';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
 // 获取角色的权限列表
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证权限
@@ -19,7 +19,7 @@ export async function GET(
       );
     }
 
-    const roleId = params.id;
+    const { id: roleId } = await params;
     const db = await getDb();
 
     // 检查角色是否存在
@@ -68,7 +68,7 @@ export async function GET(
 // 更新角色的权限 (完全替换)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证权限
@@ -80,7 +80,7 @@ export async function PUT(
       );
     }
 
-    const roleId = params.id;
+    const { id: roleId } = await params;
     const body = await request.json();
     const { permissionIds } = body;
 
@@ -156,7 +156,7 @@ export async function PUT(
 // 为角色添加单个权限
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证权限
@@ -168,7 +168,7 @@ export async function POST(
       );
     }
 
-    const roleId = params.id;
+    const { id: roleId } = await params;
     const body = await request.json();
     const { permissionId } = body;
 
@@ -206,8 +206,12 @@ export async function POST(
     const existing = await db
       .select()
       .from(rolePermissions)
-      .where(eq(rolePermissions.roleId, roleId))
-      .where(eq(rolePermissions.permissionId, permissionId))
+      .where(
+        and(
+          eq(rolePermissions.roleId, roleId),
+          eq(rolePermissions.permissionId, permissionId)
+        )
+      )
       .limit(1);
 
     if (existing.length > 0) {
@@ -239,7 +243,7 @@ export async function POST(
 // 从角色移除单个权限
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证权限
@@ -251,7 +255,7 @@ export async function DELETE(
       );
     }
 
-    const roleId = params.id;
+    const { id: roleId } = await params;
     const searchParams = request.nextUrl.searchParams;
     const permissionId = searchParams.get('permissionId');
 
@@ -288,8 +292,12 @@ export async function DELETE(
     // 移除权限
     await db
       .delete(rolePermissions)
-      .where(eq(rolePermissions.roleId, roleId))
-      .where(eq(rolePermissions.permissionId, permissionId));
+      .where(
+        and(
+          eq(rolePermissions.roleId, roleId),
+          eq(rolePermissions.permissionId, permissionId)
+        )
+      );
 
     return NextResponse.json({
       success: true,

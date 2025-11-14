@@ -507,7 +507,14 @@ export default function ReportPage() {
 
               {/* 导出PDF按钮 */}
               {activeMainTab === 'integrated' && (
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    // 使用浏览器打印功能导出PDF
+                    window.print();
+                  }}
+                >
                   <Download className="w-4 h-4 mr-1" />
                   导出报告
                 </Button>

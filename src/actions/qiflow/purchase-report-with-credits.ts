@@ -85,7 +85,7 @@ export async function purchaseReportWithCreditsAction(
         reportType: 'essential',
         status: 'generating',
         input: {
-          birthInfo: input.birthInfo,
+          birthInfo: input.birthInfo as Record<string, unknown>,
           selectedThemes: input.selectedThemes,
         },
         creditsUsed: price,

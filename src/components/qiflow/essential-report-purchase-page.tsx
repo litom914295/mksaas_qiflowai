@@ -25,7 +25,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { QIFLOW_PRICING } from '@/config/qiflow-pricing';
 import { useToast } from '@/hooks/use-toast';
-import { abTestManager } from '@/lib/ab-test/manager';
+import { abTestManagerClient } from '@/lib/ab-test/manager-client';
 import { calculateBaziElements } from '@/lib/qiflow/bazi';
 import {
   type ThemeId,
@@ -124,7 +124,7 @@ export function EssentialReportPurchasePage({
     async function loadVariantAndRecommendation() {
       try {
         // 获取用户变体
-        const variantResult = await abTestManager.getVariant({
+        const variantResult = await abTestManagerClient.getVariant({
           experimentName: 'theme_recommendation_v1',
           userId: userId,
         });
@@ -133,7 +133,7 @@ export function EssentialReportPurchasePage({
           setVariant(variantResult.variantId);
 
           // 追踪查看推荐事件
-          await abTestManager.trackEvent({
+          await abTestManagerClient.trackEvent({
             experimentName: 'theme_recommendation_v1',
             userId: userId,
             eventType: 'recommendation_view',

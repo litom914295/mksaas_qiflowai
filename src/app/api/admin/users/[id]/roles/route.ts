@@ -8,7 +8,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 // 获取用户的角色列表
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证权限
@@ -20,7 +20,7 @@ export async function GET(
       );
     }
 
-    const targetUserId = params.id;
+    const { id: targetUserId } = await params;
     const db = await getDb();
 
     // 检查用户是否存在
@@ -70,7 +70,7 @@ export async function GET(
 // 为用户分配角色
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证权限
@@ -82,7 +82,7 @@ export async function POST(
       );
     }
 
-    const targetUserId = params.id;
+    const { id: targetUserId } = await params;
     const body = await request.json();
     const { roleId } = body;
 
@@ -173,7 +173,7 @@ export async function POST(
 // 移除用户的角色
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证权限
@@ -185,7 +185,7 @@ export async function DELETE(
       );
     }
 
-    const targetUserId = params.id;
+    const { id: targetUserId } = await params;
     const searchParams = request.nextUrl.searchParams;
     const roleId = searchParams.get('roleId');
 

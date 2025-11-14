@@ -173,7 +173,7 @@ async function checkAuthFailures(
       .from(auditLogs)
       .where(
         and(
-          eq(auditLogs.eventType, AuditEventType.USER_LOGIN_FAILED),
+          eq(auditLogs.action, 'USER_LOGIN_FAILED'),
           gte(auditLogs.createdAt, windowStart)
         )
       )
@@ -222,7 +222,7 @@ async function checkErrorRate(
     const errorEvents = await db
       .select({
         total: sql<number>`COUNT(*)`,
-        errors: sql<number>`COUNT(CASE WHEN ${auditLogs.severity} IN ('ERROR', 'CRITICAL') THEN 1 END)`,
+        errors: sql<number>`COUNT(CASE WHEN ${auditLogs.status} = 'failed' THEN 1 END)`,
       })
       .from(auditLogs)
       .where(gte(auditLogs.createdAt, windowStart));
@@ -279,11 +279,11 @@ async function checkRateLimitAbuse(
       .from(auditLogs)
       .where(
         and(
-          eq(auditLogs.eventType, AuditEventType.RATE_LIMIT_EXCEEDED),
+          eq(auditLogs.action, 'RATE_LIMIT_EXCEEDED'),
           gte(auditLogs.createdAt, windowStart)
         )
       )
-      .groupBy(auditLogss.userId)
+      .groupBy(auditLogs.userId)
       .having(sql`COUNT(*) >= ${config.threshold}`);
 
     if (violations.length > 0) {
@@ -332,7 +332,7 @@ async function checkModerationSpike(
       .from(auditLogs)
       .where(
         and(
-          eq(auditLogs.eventType, AuditEventType.CONTENT_MODERATION_FLAGGED),
+          eq(auditLogs.action, 'CONTENT_MODERATION_FLAGGED'),
           gte(auditLogs.createdAt, windowStart)
         )
       );
