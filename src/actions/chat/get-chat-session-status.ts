@@ -11,8 +11,6 @@ export async function getChatSessionStatusAction(sessionId: string) {
     return { success: false, error: '请先登录' };
   }
 
-  const db = await getDb();
-
   try {
     const [chatSession] = await db
       .select()

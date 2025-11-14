@@ -2,10 +2,10 @@
 
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { db } from '@/db';
-import { creditTransaction, users } from '@/db/schema';
+import { creditTransaction, user } from '@/db/schema';
 import { abTestManager } from '@/lib/ab-test/manager';
-import { auth } from '@/lib/auth';
-import { eq } from 'drizzle-orm';
+import { getSession } from '@/lib/auth/session';
+import { eq, sql } from 'drizzle-orm';
 
 /**
  * 领取 A/B 测试参与奖励
@@ -13,8 +13,6 @@ import { eq } from 'drizzle-orm';
 export async function claimABTestRewardAction(params: {
   experimentName: string;
 }): Promise<{ success: boolean; error?: string; creditsEarned?: number }> {
-  const db = await getDb();
-
   try {
     // 1. 验证用户登录
     const session = await getSession();

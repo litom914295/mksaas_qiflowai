@@ -12,9 +12,8 @@
  * 6. 失败自动回滚
  */
 
-import { getDb } from '@/db';
-import { monthlyFortunes } from '@/db/schema';
-import { creditTransaction } from '@/db/schema';
+import { db } from '@/db';
+import { monthlyFortunes, creditTransaction } from '@/db/schema';
 import { getSession } from '@/lib/auth/session';
 import type { BaziChart } from '@/lib/qiflow/bazi/types';
 import { generateFortuneWithAI } from '@/lib/qiflow/monthly-fortune/ai-generator';
@@ -78,7 +77,6 @@ export async function generateMonthlyFortuneAction(
     }
 
     // 3. 检查是否已生成（防重复）
-    const db = await getDb();
     const existingList = await db
       .select()
       .from(monthlyFortunes)
@@ -236,7 +234,7 @@ export async function generateMonthlyFortuneAction(
  * 获取用户积分余额
  */
 async function getUserCredits(userId: string): Promise<number> {
-  const db = await getDb();
+  
   const { user } = await import('@/db/schema');
   const userList = await db
     .select({ credits: user.credits })
@@ -255,7 +253,7 @@ async function deductCredits(
   amount: number,
   fortuneId: string
 ): Promise<void> {
-  const db = await getDb();
+  
   await db.transaction(async (tx) => {
     // 1. 扣除用户积分
     await tx.execute(
@@ -314,7 +312,7 @@ export async function getMyMonthlyFortunes(options?: {
     const userId = session.user.id;
     const { year, limit = 12 } = options || {};
 
-    const db = await getDb();
+    
     let query = db.select().from(monthlyFortunes);
 
     if (year) {
@@ -368,7 +366,7 @@ export async function getMonthlyFortuneById(fortuneId: string): Promise<{
     };
   }
 
-  const db = await getDb();
+  
   const fortuneList = await db
     .select()
     .from(monthlyFortunes)
@@ -393,7 +391,3 @@ export async function getMonthlyFortuneById(fortuneId: string): Promise<{
     data: fortune,
   };
 }
-
-// ==================== 导出 ====================
-
-export type { GenerateMonthlyFortuneInput, GenerateMonthlyFortuneResult };

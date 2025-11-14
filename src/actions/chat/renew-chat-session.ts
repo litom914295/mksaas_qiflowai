@@ -16,8 +16,6 @@ export async function renewChatSessionAction(sessionId: string) {
     return { success: false, error: '请先登录' };
   }
 
-  const db = await getDb();
-
   try {
     // 1. 获取会话
     const [chatSession] = await db

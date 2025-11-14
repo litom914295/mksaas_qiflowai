@@ -860,12 +860,12 @@ export const mapFengshuiToChecklist: FengshuiToChecklistMapper = (
     riskDescription: timeChange?.description || '运转交替期，需尽快适配',
   };
 
-  // 5. 零正审计
-  const zeroPositiveAudit = {
-    isReversed: reversedCheck?.isReversed || false,
-    issues: reversedCheck?.issues || [],
-    severity: reversedCheck?.severity || ('none' as const),
-  };
+  // 5. 零正审计（增强版）
+  const zeroPositiveAudit = generateEnhancedZeroPositiveAudit(
+    reversedCheck,
+    lingzhengAnalysis,
+    recommendations
+  );
 
   return {
     waterPlacement,
@@ -877,6 +877,287 @@ export const mapFengshuiToChecklist: FengshuiToChecklistMapper = (
 };
 
 // ---- 辅助函数 ----
+
+/**
+ * 生成增强版零正审计（集成 checkZeroPositiveReversed 函数）
+ *
+ * 功能：
+ * - 检查零正颠倒（零神见山、正神见水）
+ * - 量化风险等级（critical/major/minor/none）
+ * - 提供具体整改建议
+ * - 评估影响程度（占环境因素的百分比）
+ *
+ * @param reversedCheck - checkZeroPositiveReversed 的输出结果
+ * @param lingzhengAnalysis - 零正分析结果
+ * @param recommendations - 风水布局建议
+ * @returns 增强版零正审计结果
+ */
+function generateEnhancedZeroPositiveAudit(
+  reversedCheck: any,
+  lingzhengAnalysis: any,
+  recommendations: any
+): FengshuiChecklist['zeroPositiveAudit'] {
+  // 如果没有审计结果，返回默认值
+  if (!reversedCheck) {
+    return {
+      isReversed: false,
+      issues: ['暂无环境信息，无法进行零正审计。建议提供家居平面图和环境照片。'],
+      severity: 'none',
+    };
+  }
+
+  const { isReversed, issues = [], severity = 'none' } = reversedCheck;
+
+  // 如果没有零正颠倒，返回良好状态
+  if (!isReversed || issues.length === 0) {
+    return {
+      isReversed: false,
+      issues: [
+        '✅ **零正布局良好**：当前家居布局未发现零正颠倒现象，水山配置基本合理。',
+        '建议继续保持当前布局，并参考本报告的其他风水优化建议。',
+      ],
+      severity: 'none',
+    };
+  }
+
+  // 增强版问题列表，添加更详细的信息
+  const enhancedIssues: string[] = [];
+
+  // 1. 添加总体说明
+  enhancedIssues.push(
+    `⚠️ **检测到零正颠倒**：当前布局存在${issues.length}处风水错位，影响程度为 **${getSeverityLabel(severity)}**。`
+  );
+
+  // 2. 添加具体问题描述
+  issues.forEach((issue: string, index: number) => {
+    enhancedIssues.push(`${index + 1}. ${issue}`);
+  });
+
+  // 3. 量化风险影响
+  const riskImpact = quantifyRiskImpact(severity, issues.length);
+  enhancedIssues.push(
+    `\n**风险评估**：${riskImpact.description}。` +
+      `根据命理学，该问题可能导致：` +
+      `\n- 财运损失：约 **${riskImpact.wealthLoss}%**` +
+      `\n- 健康影响：约 **${riskImpact.healthImpact}%**` +
+      `\n- 事业阻力：约 **${riskImpact.careerBlock}%**`
+  );
+
+  // 4. 添加整改建议
+  const remediationPlan = generateRemediationPlan(
+    issues,
+    severity,
+    lingzhengAnalysis,
+    recommendations
+  );
+  enhancedIssues.push(
+    `\n**整改建议**（按优先级排序）：`
+  );
+  remediationPlan.forEach((step, index) => {
+    enhancedIssues.push(
+      `${index + 1}. **${step.action}**：${step.description}` +
+        `\n   - 预期效果：${step.expectedBenefit}` +
+        `\n   - 建议时间：${step.timeline}`
+    );
+  });
+
+  // 5. 添加时间紧迫性
+  const urgency = calculateUrgency(severity);
+  enhancedIssues.push(
+    `\n**时间紧迫性**：${urgency.message}。` +
+      `建议在 **${urgency.deadline}** 前完成整改，否则风险可能加剧。`
+  );
+
+  return {
+    isReversed,
+    issues: enhancedIssues,
+    severity,
+  };
+}
+
+// ===== 零正审计辅助函数 =====
+
+/**
+ * 获取严重程度标签
+ */
+function getSeverityLabel(severity: string): string {
+  const labels: Record<string, string> = {
+    critical: '极高风险',
+    major: '高风险',
+    minor: '中等风险',
+    none: '无风险',
+  };
+  return labels[severity] || '未知风险';
+}
+
+/**
+ * 量化风险影响（百分比）
+ */
+function quantifyRiskImpact(
+  severity: string,
+  issueCount: number
+): {
+  description: string;
+  wealthLoss: number;
+  healthImpact: number;
+  careerBlock: number;
+} {
+  // 根据严重程度和问题数量计算影响
+  let baseImpact = 0;
+
+  if (severity === 'critical') {
+    baseImpact = 25; // 极高风险基础影响25%
+  } else if (severity === 'major') {
+    baseImpact = 15; // 高风险基础影响15%
+  } else if (severity === 'minor') {
+    baseImpact = 8; // 中等风险基础影响8%
+  }
+
+  // 问题数量额外加成（每个额外问题+3%）
+  const additionalImpact = Math.max(0, issueCount - 1) * 3;
+  const totalImpact = baseImpact + additionalImpact;
+
+  // 不同领域的影响分布
+  const wealthLoss = Math.min(40, totalImpact * 1.2); // 财运损失最高40%
+  const healthImpact = Math.min(30, totalImpact * 0.8); // 健康影响最高30%
+  const careerBlock = Math.min(35, totalImpact); // 事业阻力最高35%
+
+  let description = '';
+  if (severity === 'critical') {
+    description = '当前风水错位非常严重，已经开始对您的财运、健康和事业产生负面影响';
+  } else if (severity === 'major') {
+    description = '当前风水错位较为严重，需尽快整改以避免财运和健康损失';
+  } else if (severity === 'minor') {
+    description = '当前风水存在一定问题，建议逐步优化以提升运势';
+  }
+
+  return {
+    description,
+    wealthLoss: Math.round(wealthLoss),
+    healthImpact: Math.round(healthImpact),
+    careerBlock: Math.round(careerBlock),
+  };
+}
+
+/**
+ * 生成整改计划
+ */
+function generateRemediationPlan(
+  issues: string[],
+  severity: string,
+  lingzhengAnalysis: any,
+  recommendations: any
+): Array<{
+  action: string;
+  description: string;
+  expectedBenefit: string;
+  timeline: string;
+}> {
+  const plan: Array<{
+    action: string;
+    description: string;
+    expectedBenefit: string;
+    timeline: string;
+  }> = [];
+
+  // 分析问题类型
+  const hasZeroGodMountain = issues.some((issue) => issue.includes('零神见山'));
+  const hasPositiveGodWater = issues.some((issue) => issue.includes('正神见水'));
+
+  // 1. 处理零神见山（损财）
+  if (hasZeroGodMountain) {
+    plan.push({
+      action: '移除零神宫位的高大物体',
+      description:
+        '找出报告中标注的零神宫位（如坎、巳、坤等），移除该宫位的高大家具、书柜、植物等。改为摆放流动性物体（鱼缸、饮水机、流水摆件）',
+      expectedBenefit: '财运提升10-20%，减少意外破财风险',
+      timeline:
+        severity === 'critical'
+          ? '立即执行（1周内完成）'
+          : severity === 'major'
+            ? '2周内完成'
+            : '1个月内完成',
+    });
+  }
+
+  // 2. 处理正神见水（损健康/事业）
+  if (hasPositiveGodWater) {
+    plan.push({
+      action: '移除正神宫位的流动性物体',
+      description:
+        '找出报告中标注的正神宫位（如乾、兑、艮等），移除该宫位的鱼缸、饮水机、流水摆件等。改为摆放稳固性物体（书柜、高大植物、泰山石）',
+      expectedBenefit: '健康指数提升10-15%，事业发展更稳定',
+      timeline:
+        severity === 'critical'
+          ? '立即执行（1周内完成）'
+          : severity === 'major'
+            ? '2周内完成'
+            : '1个月内完成',
+    });
+  }
+
+  // 3. 添加风水优化
+  plan.push({
+    action: '参考本报告的风水Checklist重新布局',
+    description:
+        '按照报告中的「风水可执行Checklist」章节，逐项执行水位和山位的摆放建议，确保零神见水、正神见山',
+    expectedBenefit: '整体运势提升15-30%，财、健康、事业均有改善',
+    timeline: '1-2个月内逐步完成',
+  });
+
+  // 4. 如果问题严重，建议咨询专业风水师
+  if (severity === 'critical') {
+    plan.push({
+      action: '咨询专业风水师进行现场勘察',
+      description:
+        '由于问题较为严重，建议邀请专业风水师上门勘察，结合现场情况制定个性化整改方案',
+      expectedBenefit: '确保整改精准有效，避免二次错误',
+      timeline: '建议在1个月内安排',
+    });
+  }
+
+  return plan;
+}
+
+/**
+ * 计算时间紧迫性
+ */
+function calculateUrgency(
+  severity: string
+): { message: string; deadline: string } {
+  const currentDate = new Date();
+
+  if (severity === 'critical') {
+    const deadline = new Date(currentDate);
+    deadline.setDate(deadline.getDate() + 7); // 1周内
+    return {
+      message:
+        '❗ **极其紧迫**：问题已经开始产生负面影响，建议立即行动',
+      deadline: deadline.toISOString().split('T')[0] + '（约7天）',
+    };
+  } else if (severity === 'major') {
+    const deadline = new Date(currentDate);
+    deadline.setDate(deadline.getDate() + 14); // 2周内
+    return {
+      message:
+        '⚠️ **较为紧迫**：问题正在积累，需尽快处理以避免恶化',
+      deadline: deadline.toISOString().split('T')[0] + '（约14天）',
+    };
+  } else if (severity === 'minor') {
+    const deadline = new Date(currentDate);
+    deadline.setMonth(deadline.getMonth() + 1); // 1个月内
+    return {
+      message: '📅 **适度紧迫**：建议在1个月内逐步整改，提升运势',
+      deadline:
+        deadline.toISOString().split('T')[0] + '（约1个月）',
+    };
+  } else {
+    return {
+      message: '✅ **无紧迫性**：当前无明显问题',
+      deadline: '无需特别设置截止日期',
+    };
+  }
+}
 
 function generateWaterActions(
   favorablePalaces: number[],
@@ -1347,6 +1628,540 @@ function generateWhyYouWillImprove(
   }
 
   return reasons;
+}
+
+// ============ 决策对比生成 ============
+
+/**
+ * 生成决策对比（A/B/C方案对比）
+ *
+ * 功能：
+ * - 对用户提供的多个决策方案进行命理匹配度分析
+ * - 评估每个方案的短期风险和长期收益
+ * - 提供最佳时机建议
+ * - 给出倾向性推荐（如 "A ≈ C > B"）
+ * - 为非最优方案提供补救措施
+ *
+ * @param decisionOptions - 用户提供的决策方案数组（至少2个）
+ * @param patternAnalysis - 格局分析结果
+ * @param luckPillars - 大运数组
+ * @param currentAge - 当前年龄
+ * @returns 决策对比结果
+ */
+export function generateDecisionComparison(
+  decisionOptions: Array<{
+    id: string;
+    name: string;
+    description?: string;
+  }>,
+  patternAnalysis: any,
+  luckPillars: any[],
+  currentAge: number
+): DecisionComparison {
+  if (!decisionOptions || decisionOptions.length < 2) {
+    throw new Error('需要至少提供2个决策方案进行对比');
+  }
+
+  const {
+    pattern,
+    patternStrength,
+    patternPurity,
+    usefulGod,
+    formationFactors = [],
+    destructionFactors = [],
+  } = patternAnalysis || {};
+
+  const Solar = require('lunar-javascript').Solar;
+  const currentYear = new Date().getFullYear();
+  const currentLuckPillar = getCurrentLuckPillar(luckPillars, currentAge);
+  const usefulElement = usefulGod?.element || usefulGod;
+
+  // ===== 1. 分析每个决策方案 =====
+  const analyzedOptions: DecisionOption[] = decisionOptions.map((option) => {
+    // 1.1 计算匹配度（0-100）
+    const matchScore = calculateDecisionMatchScore(
+      option,
+      patternAnalysis,
+      currentLuckPillar,
+      usefulElement
+    );
+
+    // 1.2 评估短期风险（1-3年）
+    const shortTermRisk = assessShortTermRisk(
+      option,
+      patternAnalysis,
+      currentLuckPillar,
+      matchScore
+    );
+
+    // 1.3 评估长期收益（3-10年）
+    const longTermBenefit = assessLongTermBenefit(
+      option,
+      patternAnalysis,
+      luckPillars,
+      currentAge,
+      matchScore
+    );
+
+    // 1.4 计算最佳时机
+    const bestTiming = calculateBestTiming(
+      option,
+      luckPillars,
+      currentAge,
+      usefulElement,
+      currentYear
+    );
+
+    // 1.5 生成命理依据
+    const rationale = generateDecisionRationale(
+      option,
+      matchScore,
+      patternAnalysis,
+      currentLuckPillar,
+      usefulElement
+    );
+
+    return {
+      id: option.id,
+      name: option.name,
+      matchScore,
+      shortTermRisk,
+      longTermBenefit,
+      bestTiming,
+      rationale,
+    };
+  });
+
+  // ===== 2. 排序并生成推荐 =====
+  // 按匹配度排序（从高到低）
+  const sortedOptions = [...analyzedOptions].sort(
+    (a, b) => b.matchScore - a.matchScore
+  );
+
+  // 生成推荐倾向性（如 "A ≈ C > B"）
+  const recommendation = generateRecommendationString(sortedOptions);
+
+  // 生成推荐理由
+  const recommendationRationale = generateRecommendationRationale(
+    sortedOptions,
+    patternStrength
+  );
+
+  // ===== 3. 为非最优方案提供补救措施 =====
+  const nonOptimalOption = sortedOptions[sortedOptions.length - 1]; // 最低分方案
+  const nonOptimalRemedies = generateNonOptimalRemedies(
+    nonOptimalOption,
+    sortedOptions[0], // 最佳方案
+    luckPillars,
+    currentAge,
+    usefulElement,
+    currentYear
+  );
+
+  // ===== 4. 确定决策主题 =====
+  const topic = inferDecisionTopic(decisionOptions);
+
+  return {
+    topic,
+    options: analyzedOptions,
+    recommendation,
+    recommendationRationale,
+    nonOptimalRemedies,
+  };
+}
+
+// ===== 辅助函数 =====
+
+/**
+ * 计算决策方案的命理匹配度（0-100）
+ */
+function calculateDecisionMatchScore(
+  option: any,
+  patternAnalysis: any,
+  currentLuckPillar: any,
+  usefulElement: string
+): number {
+  let score = 50; // 基础分
+
+  const {
+    pattern,
+    patternStrength,
+    patternPurity,
+    formationFactors = [],
+  } = patternAnalysis || {};
+
+  // 1. 格局强度加分（最高+20）
+  if (patternStrength === 'strong') {
+    score += 15;
+  } else if (patternStrength === 'medium') {
+    score += 8;
+  }
+
+  // 2. 格局纯度加分（最高+10）
+  if (patternPurity === 'pure') {
+    score += 10;
+  } else if (patternPurity === 'mixed') {
+    score += 5;
+  }
+
+  // 3. 当前大运支持（最高+15）
+  const isLuckPillarFavorable = checkUsefulGodInLuckPillar(
+    currentLuckPillar,
+    usefulElement
+  );
+  if (isLuckPillarFavorable) {
+    score += 15;
+  } else {
+    score -= 5; // 大运不利，减分
+  }
+
+  // 4. 根据方案名称推断类型，匹配格局特征（最高+10）
+  const optionName = option.name.toLowerCase();
+
+  // 创业/跳槽 → 适合比劫+食伤格局
+  if (
+    optionName.includes('创业') ||
+    optionName.includes('跳槽') ||
+    optionName.includes('换工作')
+  ) {
+    if (formationFactors.some((f: any) => ['比肩', '劫财', '食神', '伤官'].includes(f))) {
+      score += 10;
+    }
+  }
+
+  // 结婚/生子 → 适合官星+印星格局
+  if (
+    optionName.includes('结婚') ||
+    optionName.includes('生子') ||
+    optionName.includes('婚姻')
+  ) {
+    if (formationFactors.some((f: any) => ['正官', '偏官', '正印', '偏印'].includes(f))) {
+      score += 10;
+    }
+  }
+
+  // 置业/投资 → 适合财星+印星格局
+  if (
+    optionName.includes('置业') ||
+    optionName.includes('投资') ||
+    optionName.includes('买房')
+  ) {
+    if (formationFactors.some((f: any) => ['正财', '偏财', '正印'].includes(f))) {
+      score += 10;
+    }
+  }
+
+  // 5. 随机微调（避免完全相同）
+  score += Math.random() * 5 - 2.5; // ±2.5分
+
+  // 确保分数在0-100范围内
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+/**
+ * 评估短期风险（1-3年）
+ */
+function assessShortTermRisk(
+  option: any,
+  patternAnalysis: any,
+  currentLuckPillar: any,
+  matchScore: number
+): string {
+  const { patternStrength, destructionFactors = [] } = patternAnalysis || {};
+
+  // 根据匹配度和格局强度评估风险
+  if (matchScore >= 80 && patternStrength === 'strong') {
+    return '短期风险较低，执行阻力小，1-2年内可见成效。';
+  } else if (matchScore >= 70) {
+    return '短期有一定挑战（如适应期压力、资源投入），但可控，预计6-12个月后稳定。';
+  } else if (matchScore >= 60) {
+    return '短期风险中等，需做好心理准备和资源储备，可能需要1-2年的磨合期。';
+  } else if (matchScore >= 50) {
+    return '短期风险较高，建议谨慎评估自身条件，或等待更好时机。若坚持，需2-3年调整期。';
+  } else {
+    return '短期风险很高，当前时机不利，建议延后或选择其他方案。若执行，需3年以上磨合期。';
+  }
+}
+
+/**
+ * 评估长期收益（3-10年）
+ */
+function assessLongTermBenefit(
+  option: any,
+  patternAnalysis: any,
+  luckPillars: any[],
+  currentAge: number,
+  matchScore: number
+): string {
+  const { patternStrength, usefulGod } = patternAnalysis || {};
+  const usefulElement = usefulGod?.element || usefulGod;
+
+  // 查找未来5-10年的有利大运
+  const futureFavorablePillars = luckPillars.filter((pillar: any) => {
+    const startAge = pillar.startAge || pillar.age || 0;
+    if (startAge > currentAge && startAge <= currentAge + 10) {
+      return checkUsefulGodInLuckPillar(pillar, usefulElement);
+    }
+    return false;
+  });
+
+  // 根据匹配度和未来大运评估长期收益
+  if (matchScore >= 80 && futureFavorablePillars.length >= 2) {
+    return '长期收益极佳，5-10年后有机会成为行业佼佼者，财富增长50-100%以上。';
+  } else if (matchScore >= 70 && futureFavorablePillars.length >= 1) {
+    return '长期收益良好，5-8年后进入稳定期，收入提升30-50%，社会地位提高。';
+  } else if (matchScore >= 60) {
+    return '长期收益中等，7-10年后可实现较稳定的发展，收入提升20-30%。';
+  } else if (matchScore >= 50) {
+    return '长期收益有限，虽能维持，但天花板较低，建议配合其他策略突破。';
+  } else {
+    return '长期收益不明朗，可能面临持续挑战，建议重新评估或选择其他方案。';
+  }
+}
+
+/**
+ * 计算最佳启动时机
+ */
+function calculateBestTiming(
+  option: any,
+  luckPillars: any[],
+  currentAge: number,
+  usefulElement: string,
+  currentYear: number
+): string {
+  const Solar = require('lunar-javascript').Solar;
+
+  // 查找未来3年内的有利时间段
+  for (let yearOffset = 0; yearOffset < 3; yearOffset++) {
+    const targetYear = currentYear + yearOffset;
+    const targetAge = currentAge + yearOffset;
+
+    // 查找该年的大运
+    const luckPillar = luckPillars.find((lp: any) => {
+      const startAge = lp.startAge || lp.age || 0;
+      const endAge = startAge + 10;
+      return targetAge >= startAge && targetAge < endAge;
+    });
+
+    // 如果大运有利，推荐该年春季
+    if (luckPillar && checkUsefulGodInLuckPillar(luckPillar, usefulElement)) {
+      try {
+        const springStart = Solar.fromYmd(targetYear, 2, 4);
+        return `${springStart.toYmd()}（${targetYear}年春季，用神得力）`;
+      } catch (error) {
+        return `${targetYear}年春季（推荐时机）`;
+      }
+    }
+  }
+
+  // 如果未来3年都不利，推荐等待
+  const futureYear = currentYear + 3;
+  return `${futureYear}年后（建议等待更好时机）`;
+}
+
+/**
+ * 生成决策方案的命理依据
+ */
+function generateDecisionRationale(
+  option: any,
+  matchScore: number,
+  patternAnalysis: any,
+  currentLuckPillar: any,
+  usefulElement: string
+): string {
+  const { pattern, patternStrength, formationFactors = [] } = patternAnalysis || {};
+
+  const reasons: string[] = [];
+
+  // 1. 匹配度说明
+  if (matchScore >= 80) {
+    reasons.push('命理匹配度极高（≥80分）');
+  } else if (matchScore >= 70) {
+    reasons.push('命理匹配度良好（70-79分）');
+  } else if (matchScore >= 60) {
+    reasons.push('命理匹配度中等（60-69分）');
+  } else {
+    reasons.push('命理匹配度偏低（<60分）');
+  }
+
+  // 2. 格局强度
+  if (patternStrength === 'strong') {
+    reasons.push('格局强劲，执行力强');
+  } else if (patternStrength === 'medium') {
+    reasons.push('格局中等，需配合策略');
+  } else {
+    reasons.push('格局偏弱，需谨慎评估');
+  }
+
+  // 3. 当前大运
+  const isLuckPillarFavorable = checkUsefulGodInLuckPillar(currentLuckPillar, usefulElement);
+  if (isLuckPillarFavorable) {
+    reasons.push(`当前大运支持用神${usefulElement}，天时有利`);
+  } else {
+    reasons.push(`当前大运不利用神${usefulElement}，需等待或借助策略`);
+  }
+
+  // 4. 特定格局建议
+  const optionName = option.name.toLowerCase();
+  if (optionName.includes('创业') && formationFactors.includes('食神')) {
+    reasons.push('食神格局适合创业，创意和执行力兼备');
+  } else if (optionName.includes('跳槽') && formationFactors.includes('正官')) {
+    reasons.push('正官格局适合进入大平台，求稳发展');
+  } else if (optionName.includes('结婚') && formationFactors.includes('正财')) {
+    reasons.push('正财格局婚姻稳定，适合成家');
+  }
+
+  return reasons.join('；');
+}
+
+/**
+ * 生成推荐倾向性字符串（如 "A ≈ C > B"）
+ */
+function generateRecommendationString(sortedOptions: DecisionOption[]): string {
+  if (sortedOptions.length === 2) {
+    const diff = sortedOptions[0].matchScore - sortedOptions[1].matchScore;
+    if (diff <= 3) {
+      return `${sortedOptions[0].id} ≈ ${sortedOptions[1].id}`;
+    } else {
+      return `${sortedOptions[0].id} > ${sortedOptions[1].id}`;
+    }
+  } else if (sortedOptions.length === 3) {
+    const diff1 = sortedOptions[0].matchScore - sortedOptions[1].matchScore;
+    const diff2 = sortedOptions[1].matchScore - sortedOptions[2].matchScore;
+
+    let result = sortedOptions[0].id;
+
+    if (diff1 <= 3) {
+      result += ` ≈ ${sortedOptions[1].id}`;
+    } else {
+      result += ` > ${sortedOptions[1].id}`;
+    }
+
+    if (diff2 <= 3) {
+      result += ` ≈ ${sortedOptions[2].id}`;
+    } else {
+      result += ` > ${sortedOptions[2].id}`;
+    }
+
+    return result;
+  } else {
+    // 超过3个方案，只显示前3个
+    return (
+      sortedOptions
+        .slice(0, 3)
+        .map((opt) => opt.id)
+        .join(' > ') + ' ...'
+    );
+  }
+}
+
+/**
+ * 生成推荐理由
+ */
+function generateRecommendationRationale(sortedOptions: DecisionOption[], patternStrength: string): string {
+  const best = sortedOptions[0];
+  const worst = sortedOptions[sortedOptions.length - 1];
+
+  const scoreDiff = best.matchScore - worst.matchScore;
+
+  let rationale = `方案${best.id}的命理匹配度最高（${best.matchScore}分），`;
+
+  if (scoreDiff >= 20) {
+    rationale += `与方案${worst.id}（${worst.matchScore}分）相差较大（${scoreDiff}分），**强烈推荐方案${best.id}**。`;
+  } else if (scoreDiff >= 10) {
+    rationale += `比方案${worst.id}（${worst.matchScore}分）略优（相差${scoreDiff}分），**建议优先考虑方案${best.id}**。`;
+  } else {
+    rationale += `与方案${worst.id}（${worst.matchScore}分）接近（相差${scoreDiff}分），**几个方案都可考虑，结合个人偏好选择**。`;
+  }
+
+  // 添加格局强度建议
+  if (patternStrength === 'strong') {
+    rationale += ' 您的格局强劲，执行力高，任何方案都能做好，关键在于方向选择。';
+  } else if (patternStrength === 'weak') {
+    rationale += ' 您的格局偏弱，建议选择风险较低、资源投入较小的方案，稳扎稳打。';
+  }
+
+  return rationale;
+}
+
+/**
+ * 为非最优方案提供补救措施
+ */
+function generateNonOptimalRemedies(
+  nonOptimalOption: DecisionOption,
+  bestOption: DecisionOption,
+  luckPillars: any[],
+  currentAge: number,
+  usefulElement: string,
+  currentYear: number
+): DecisionComparison['nonOptimalRemedies'] {
+  const remedies: string[] = [];
+
+  // 1. 时机调整
+  const bestTiming = calculateBestTiming(
+    nonOptimalOption,
+    luckPillars,
+    currentAge,
+    usefulElement,
+    currentYear
+  );
+  remedies.push(`**选择最佳时机启动**：${bestTiming}，避开忌神期。`);
+
+  // 2. 增强贵人助力
+  remedies.push(
+    '**增加贵人助力**：多参与行业活动、加入相关圈层、寻求导师指导，弥补命理不足。'
+  );
+
+  // 3. 风水优化
+  remedies.push(
+    '**调整家居/办公风水**：参考本报告的风水布局建议，增强财位、事业位，提升环境支持。'
+  );
+
+  // 4. 策略优化
+  if (nonOptimalOption.matchScore < 60) {
+    remedies.push(
+      '**降低风险**：采用小步试错、分阶段投入的策略，避免一次性重注。'
+    );
+  }
+
+  // 5. 心态调整
+  remedies.push(
+    '**保持耐心**：即使选择非最优方案，只要方法得当+时机合适，仍有成功可能。关键在于坚持和调整。'
+  );
+
+  // 提取关键时机
+  let keyTiming = '建议等待时机';
+  if (bestTiming.includes('年')) {
+    const yearMatch = bestTiming.match(/(\d{4})/);
+    if (yearMatch) {
+      keyTiming = `${yearMatch[1]}年春夏季`;
+    }
+  }
+
+  return {
+    option: nonOptimalOption.id,
+    remedies,
+    keyTiming,
+  };
+}
+
+/**
+ * 推断决策主题
+ */
+function inferDecisionTopic(options: Array<{ name: string }>): string {
+  const allNames = options.map((opt) => opt.name.toLowerCase()).join(' ');
+
+  if (allNames.includes('创业') || allNames.includes('跳槽') || allNames.includes('工作')) {
+    return '事业路径选择';
+  } else if (allNames.includes('结婚') || allNames.includes('生子') || allNames.includes('婚姻')) {
+    return '婚姻家庭决策';
+  } else if (allNames.includes('置业') || allNames.includes('投资') || allNames.includes('买房')) {
+    return '财务投资决策';
+  } else if (allNames.includes('学业') || allNames.includes('深造') || allNames.includes('考研')) {
+    return '学业发展规划';
+  } else {
+    return '人生重大决策';
+  }
 }
 
 // ============ 决策对比生成 ============

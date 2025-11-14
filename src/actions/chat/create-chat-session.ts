@@ -41,8 +41,7 @@ export async function createChatSessionAction() {
     const startedAt = new Date();
     const expiresAt = new Date(startedAt.getTime() + SESSION_DURATION_MS);
 
-    const dbInstance = await getDb();
-    const [chatSession] = await dbInstance
+    const [chatSession] = await db
       .insert(chatSessions)
       .values({
         userId: session.user.id,
