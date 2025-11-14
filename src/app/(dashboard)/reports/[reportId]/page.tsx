@@ -12,7 +12,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
-    title: `报告详情 | QiFlow AI`,
+    title: '报告详情 | QiFlow AI',
     description: '查看您的 AI 八字精华报告',
   };
 }
@@ -23,10 +23,7 @@ async function getReport(reportId: string, userId: string) {
     .select()
     .from(qiflowReports)
     .where(
-      and(
-        eq(qiflowReports.id, reportId),
-        eq(qiflowReports.userId, userId)
-      )
+      and(eq(qiflowReports.id, reportId), eq(qiflowReports.userId, userId))
     )
     .limit(1);
 

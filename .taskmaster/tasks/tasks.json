@@ -39,7 +39,9 @@
             "不遗留硬编码中文/英文字符串"
           ],
           "testStrategy": "手动切换语言验证，Playwright 断言关键文案存在",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "3",
@@ -72,7 +74,9 @@
             "i18n 支持"
           ],
           "testStrategy": "通过 ?state=empty|error|limited|timeout 参数测试各态",
-          "dependencies": ["2"]
+          "dependencies": [
+            "2"
+          ]
         },
         {
           "id": "5",
@@ -87,7 +91,9 @@
             "样式与品牌色调一致"
           ],
           "testStrategy": "在三个落地页中验证引导条显示",
-          "dependencies": ["3"]
+          "dependencies": [
+            "3"
+          ]
         },
         {
           "id": "6",
@@ -102,7 +108,10 @@
             "默认 ok 态显示 BaziAnalysisPage 组件"
           ],
           "testStrategy": "访问 /zh-CN/bazi-analysis?state=empty 等参数验证",
-          "dependencies": ["4", "5"]
+          "dependencies": [
+            "4",
+            "5"
+          ]
         },
         {
           "id": "7",
@@ -117,7 +126,10 @@
             "默认 ok 态显示 EnhancedChatInterface 组件"
           ],
           "testStrategy": "访问 /zh-CN/chat?state=limited 等参数验证",
-          "dependencies": ["4", "5"]
+          "dependencies": [
+            "4",
+            "5"
+          ]
         },
         {
           "id": "8",
@@ -132,7 +144,10 @@
             "默认 ok 态显示占位内容与跳转按钮"
           ],
           "testStrategy": "访问 /zh-CN/compass-analysis?state=error 等参数验证",
-          "dependencies": ["4", "5"]
+          "dependencies": [
+            "4",
+            "5"
+          ]
         },
         {
           "id": "9",
@@ -148,7 +163,10 @@
             "测试通过：功能卡片导航至 bazi-analysis"
           ],
           "testStrategy": "npx playwright test 命令执行",
-          "dependencies": ["1", "3"]
+          "dependencies": [
+            "1",
+            "3"
+          ]
         },
         {
           "id": "10",
@@ -164,7 +182,9 @@
             "Hover 交互保留"
           ],
           "testStrategy": "手动检查样式与交互，E2E 测试不回归",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "11",
@@ -179,7 +199,9 @@
             "主题切换按钮（如有）正常工作"
           ],
           "testStrategy": "手动切换系统主题验证",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "12",
@@ -194,7 +216,9 @@
             "切换流畅无闪烁"
           ],
           "testStrategy": "手动切换主题验证 Logo 显示",
-          "dependencies": ["11"]
+          "dependencies": [
+            "11"
+          ]
         },
         {
           "id": "13",
@@ -210,7 +234,9 @@
             "CTA 按钮在小屏幕竖向排列"
           ],
           "testStrategy": "Chrome DevTools 设备模拟，Playwright viewport 测试",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "14",
@@ -226,7 +252,9 @@
             "Lighthouse Performance 评分 > 90"
           ],
           "testStrategy": "Lighthouse CI 集成，PageSpeed Insights 验证",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "15",
@@ -242,7 +270,9 @@
             "robots.txt 允许索引"
           ],
           "testStrategy": "手动检查页面源码，Google Search Console 验证",
-          "dependencies": ["1"]
+          "dependencies": [
+            "1"
+          ]
         },
         {
           "id": "16",
@@ -258,7 +288,9 @@
             "三级降级策略正确执行"
           ],
           "testStrategy": "Mock 积分余额测试降级逻辑，集成测试完整流程",
-          "dependencies": ["4"]
+          "dependencies": [
+            "4"
+          ]
         },
         {
           "id": "17",
@@ -295,28 +327,160 @@
     },
     "cleanup-20251026": {
       "tasks": [
-        {"id": "1", "title": "创建清理分支 chore/cleanup-unused/20251026", "status": "done", "priority": "high", "description": "为清理工作建立独立分支，避免影响主线"},
-        {"id": "2", "title": "建立 .attic 与 artifacts 结构", "status": "done", "priority": "high", "description": "创建 .attic/{YYYY-MM-DD} 与 qiflowai/artifacts 目录，保证可回滚与审计"},
-        {"id": "3", "title": "基线构建/测试校验", "status": "done", "priority": "high", "description": "在任何移动前先确保 build 与 tests 能通过或记录现状"},
-        {"id": "4", "title": "运行 Knip 导出 JSON 报告", "status": "done", "priority": "medium", "description": "npx knip --reporter json -> qiflowai/knip-report.json"},
-        {"id": "5", "title": "修复 knip 报告 BOM/编码问题", "status": "done", "priority": "medium", "description": "确保 knip-report.json 可被脚本可靠解析"},
-        {"id": "6", "title": "生成候选列表 candidates.json", "status": "done", "priority": "high", "description": "汇总候选文件并去重"},
-        {"id": "7", "title": "应用白名单/黑名单并剔除不存在文件", "status": "done", "priority": "high", "description": "保护关键路径与配置文件，避免误删"},
-        {"id": "8", "title": "实现 PowerShell 批量移动脚本", "status": "done", "priority": "medium", "description": "qiflowai/scripts/gates/run-obvious-move.ps1"},
-        {"id": "9", "title": "修复 PS 脚本引号与编码兼容性", "status": "done", "priority": "medium", "description": "解决 Windows 下字符串/管道/CRLF 等问题"},
-        {"id": "10", "title": "实现 Node 批量移动脚本（含快速校验）", "status": "done", "priority": "high", "description": "qiflowai/scripts/gates/batch-move.js 与 simple-batch-move.js"},
-        {"id": "11", "title": "第一批移动与快速验证", "status": "done", "priority": "high", "description": "小批量尝试，验证流程与回滚能力"},
-        {"id": "12", "title": "修复缺失模块（icons/use-auth）", "status": "done", "priority": "high", "description": "恢复 '@/components/icons' 与 '@/components/auth/hooks/use-auth' 兼容导出"},
-        {"id": "13", "title": "恢复 MDX/Next 配置，确保 .source 加载", "status": "done", "priority": "high", "description": "启用 fumadocs-mdx 插件与 pageExtensions"},
-        {"id": "14", "title": "批量移动静态资源 public/*（多批）", "status": "done", "priority": "high", "description": "安全移动未引用的图片/图标到 .attic"},
-        {"id": "15", "title": "提交静态资源批次提交", "status": "done", "priority": "medium", "description": "记录变更与说明"},
-        {"id": "16", "title": "移动 animate-ui 与测试文件（不影响生产）", "status": "done", "priority": "medium", "description": "将开发/演示/测试文件迁入 .attic"},
-        {"id": "17", "title": "提交动画与测试文件批次提交", "status": "done", "priority": "medium", "description": "记录变更与说明"},
-        {"id": "18", "title": "生成清理总结报告", "status": "done", "priority": "low", "description": "qiflowai/cleanup-summary-2025-10-26.md"},
-        {"id": "19", "title": "Round2 候选复核（src/components/ui 等）", "status": "done", "priority": "medium", "description": "对 round2 候选执行引用检查与小批移动（已生成 round2.safe.json，实际移动81项至 .attic/2025-10-27）"},
-        {"id": "20", "title": "类型错误修复计划并启动", "status": "pending", "priority": "high", "description": "整理 TS 错误，分批修复，避免与清理相互影响"}
-        {"id": "21", "title": "全量构建 + 类型检查通过", "status": "in-progress", "priority": "high", "description": "构建与类型检查进行中；日志见 qiflowai/artifacts/cleanup/2025-10-27/"},
-        {"id": "22", "title": "发起 PR 与评审", "status": "pending", "priority": "medium", "description": "发起清理 PR，附带审计与回滚说明"}
+        {
+          "id": "1",
+          "title": "创建清理分支 chore/cleanup-unused/20251026",
+          "status": "done",
+          "priority": "high",
+          "description": "为清理工作建立独立分支，避免影响主线"
+        },
+        {
+          "id": "2",
+          "title": "建立 .attic 与 artifacts 结构",
+          "status": "done",
+          "priority": "high",
+          "description": "创建 .attic/{YYYY-MM-DD} 与 qiflowai/artifacts 目录，保证可回滚与审计"
+        },
+        {
+          "id": "3",
+          "title": "基线构建/测试校验",
+          "status": "done",
+          "priority": "high",
+          "description": "在任何移动前先确保 build 与 tests 能通过或记录现状"
+        },
+        {
+          "id": "4",
+          "title": "运行 Knip 导出 JSON 报告",
+          "status": "done",
+          "priority": "medium",
+          "description": "npx knip --reporter json -> qiflowai/knip-report.json"
+        },
+        {
+          "id": "5",
+          "title": "修复 knip 报告 BOM/编码问题",
+          "status": "done",
+          "priority": "medium",
+          "description": "确保 knip-report.json 可被脚本可靠解析"
+        },
+        {
+          "id": "6",
+          "title": "生成候选列表 candidates.json",
+          "status": "done",
+          "priority": "high",
+          "description": "汇总候选文件并去重"
+        },
+        {
+          "id": "7",
+          "title": "应用白名单/黑名单并剔除不存在文件",
+          "status": "done",
+          "priority": "high",
+          "description": "保护关键路径与配置文件，避免误删"
+        },
+        {
+          "id": "8",
+          "title": "实现 PowerShell 批量移动脚本",
+          "status": "done",
+          "priority": "medium",
+          "description": "qiflowai/scripts/gates/run-obvious-move.ps1"
+        },
+        {
+          "id": "9",
+          "title": "修复 PS 脚本引号与编码兼容性",
+          "status": "done",
+          "priority": "medium",
+          "description": "解决 Windows 下字符串/管道/CRLF 等问题"
+        },
+        {
+          "id": "10",
+          "title": "实现 Node 批量移动脚本（含快速校验）",
+          "status": "done",
+          "priority": "high",
+          "description": "qiflowai/scripts/gates/batch-move.js 与 simple-batch-move.js"
+        },
+        {
+          "id": "11",
+          "title": "第一批移动与快速验证",
+          "status": "done",
+          "priority": "high",
+          "description": "小批量尝试，验证流程与回滚能力"
+        },
+        {
+          "id": "12",
+          "title": "修复缺失模块（icons/use-auth）",
+          "status": "done",
+          "priority": "high",
+          "description": "恢复 '@/components/icons' 与 '@/components/auth/hooks/use-auth' 兼容导出"
+        },
+        {
+          "id": "13",
+          "title": "恢复 MDX/Next 配置，确保 .source 加载",
+          "status": "done",
+          "priority": "high",
+          "description": "启用 fumadocs-mdx 插件与 pageExtensions"
+        },
+        {
+          "id": "14",
+          "title": "批量移动静态资源 public/*（多批）",
+          "status": "done",
+          "priority": "high",
+          "description": "安全移动未引用的图片/图标到 .attic"
+        },
+        {
+          "id": "15",
+          "title": "提交静态资源批次提交",
+          "status": "done",
+          "priority": "medium",
+          "description": "记录变更与说明"
+        },
+        {
+          "id": "16",
+          "title": "移动 animate-ui 与测试文件（不影响生产）",
+          "status": "done",
+          "priority": "medium",
+          "description": "将开发/演示/测试文件迁入 .attic"
+        },
+        {
+          "id": "17",
+          "title": "提交动画与测试文件批次提交",
+          "status": "done",
+          "priority": "medium",
+          "description": "记录变更与说明"
+        },
+        {
+          "id": "18",
+          "title": "生成清理总结报告",
+          "status": "done",
+          "priority": "low",
+          "description": "qiflowai/cleanup-summary-2025-10-26.md"
+        },
+        {
+          "id": "19",
+          "title": "Round2 候选复核（src/components/ui 等）",
+          "status": "done",
+          "priority": "medium",
+          "description": "对 round2 候选执行引用检查与小批移动（已生成 round2.safe.json，实际移动81项至 .attic/2025-10-27）"
+        },
+        {
+          "id": "20",
+          "title": "类型错误修复计划并启动",
+          "status": "pending",
+          "priority": "high",
+          "description": "整理 TS 错误，分批修复，避免与清理相互影响"
+        },
+        {
+          "id": "21",
+          "title": "全量构建 + 类型检查通过",
+          "status": "in-progress",
+          "priority": "high",
+          "description": "构建与类型检查进行中；日志见 qiflowai/artifacts/cleanup/2025-10-27/"
+        },
+        {
+          "id": "22",
+          "title": "发起 PR 与评审",
+          "status": "pending",
+          "priority": "medium",
+          "description": "发起清理 PR，附带审计与回滚说明"
+        }
       ]
     }
   },
@@ -464,7 +628,9 @@
         "details": "包含子任务：\n1. 用户认证（登录/登出/会话管理）\n2. RBAC权限模型实现\n3. 路由保护中间件\n4. MFA多因素认证集成\n5. API Token服务间认证\n\n技术要求：\n- NextAuth.js认证\n- JWT + Session混合\n- RBAC权限矩阵\n- 中间件路由保护\n- TOTP/SMS多因素认证\n\n验收标准：\n- 登录功能完整可用\n- 权限控制生效\n- 未授权访问被拦截\n- MFA认证流程正常",
         "testStrategy": "认证流程集成测试和权限控制单元测试",
         "status": "done",
-        "dependencies": [1],
+        "dependencies": [
+          1
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -475,7 +641,9 @@
         "details": "包含子任务：\n1. 用户列表（查询、分页、筛选）\n2. 用户CRUD（创建、编辑、删除用户）\n3. 角色管理（角色创建与权限分配）\n4. 批量操作（用户批量导入导出）\n5. 登录日志（用户活动追踪记录）\n\n功能特性：\n- 用户信息管理\n- 角色权限分配\n- 批量用户操作\n- 用户行为审计\n- 数据导入导出\n\n验收标准：\n- 用户CRUD功能完整\n- 角色管理可用\n- 批量操作正常\n- 日志记录完整",
         "testStrategy": "用户管理流程E2E测试和权限分配单元测试",
         "status": "done",
-        "dependencies": [2],
+        "dependencies": [
+          2
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -486,7 +654,9 @@
         "details": "包含子任务：\n1. Markdown富文本编辑器\n2. 文章CRUD与状态管理\n3. 内容分类与标签系统\n4. 轻量审批工作流\n5. 文件上传与CDN集成\n6. 内容版本管理与回滚\n\n技术特性：\n- Markdown编辑器\n- 内容状态流转\n- 多级分类管理\n- 审核发布流程\n- 资源管理系统\n- 版本控制功能\n\n验收标准：\n- 编辑器功能完整\n- 内容发布流程畅通\n- 分类标签正常\n- 审核机制有效",
         "testStrategy": "内容发布流程E2E测试和编辑器功能测试",
         "status": "done",
-        "dependencies": [3],
+        "dependencies": [
+          3
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -497,7 +667,9 @@
         "details": "包含子任务：\n1. 订单管理（查询与状态管理）\n2. 退款处理（申请与审批流程）\n3. 促销活动配置管理\n4. 消息中心（站内信与通知模板）\n5. 客服工单流转管理\n\n业务功能：\n- 订单全生命周期管理\n- 退款审批与处理\n- 营销活动配置\n- 多渠道消息推送\n- 工单系统管理\n\n验收标准：\n- 订单流程完整\n- 退款机制正常\n- 活动配置可用\n- 消息推送正常\n- 工单处理有效",
         "testStrategy": "订单退款流程集成测试和活动配置功能测试",
         "status": "done",
-        "dependencies": [3],
+        "dependencies": [
+          3
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -508,7 +680,10 @@
         "details": "包含子任务：\n1. 核心指标实时展示看板\n2. 自定义报表设计器\n3. 异步导出服务\n4. 异常指标监控告警\n5. 数据API开放接口\n\n数据功能：\n- DAU/留存/营收指标\n- 可视化图表展示\n- 自定义报表生成\n- 大数据量异步导出\n- 实时监控告警\n- 开放数据API\n\n验收标准：\n- 核心指标准确展示\n- 报表生成正常\n- 导出功能完整\n- 监控告警有效\n- API接口可用",
         "testStrategy": "数据准确性测试和报表生成性能测试",
         "status": "done",
-        "dependencies": [4, 5],
+        "dependencies": [
+          4,
+          5
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -519,7 +694,9 @@
         "details": "包含子任务：\n1. 全局系统参数配置管理\n2. 敏感环境变量安全管理\n3. 操作日志查询导出\n4. 功能开关与灰度发布\n5. 第三方集成Webhook推送\n\n系统功能：\n- 系统参数配置\n- 环境变量管理\n- 审计日志系统\n- 特性开关控制\n- Webhook集成\n\n验收标准：\n- 配置管理完整\n- 环境变量安全\n- 审计日志可查\n- 开关控制有效\n- Webhook正常推送",
         "testStrategy": "系统配置功能测试和审计日志完整性测试",
         "status": "done",
-        "dependencies": [2],
+        "dependencies": [
+          2
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -530,7 +707,10 @@
         "details": "包含子任务：\n1. 核心业务逻辑单元测试\n2. API接口集成测试\n3. 端到端流程E2E测试\n4. 负载与压力性能测试\n5. 生产环境部署配置\n6. 用户手册与API文档完善\n\n测试部署：\n- 单元测试覆盖率>80%\n- 集成测试全覆盖\n- E2E测试核心流程\n- 性能压力测试\n- CI/CD自动部署\n- 完整技术文档\n\n验收标准：\n- 所有测试通过\n- 性能指标达标\n- 生产环境稳定\n- 文档完整可用",
         "testStrategy": "全面测试策略包含单元、集成、E2E和性能测试",
         "status": "done",
-        "dependencies": [6, 7],
+        "dependencies": [
+          6,
+          7
+        ],
         "priority": "medium",
         "subtasks": []
       }
@@ -614,7 +794,9 @@
         "details": "API实现要点：\n- Zod Schema验证（birthDate必填、birthTime可选）\n- calculateBaZi轻量级模式（只计算日柱+五行）\n- AI生成运势（Redis缓存24h，key: fortune:{dayPillar}:{date}）\n- 速率限制：IP级别每日5次\n- 异步记录到instant_previews表\n- 响应时间目标：< 2秒\n\n参考：@TECH_GUIDE API设计 > 即时体验API",
         "testStrategy": "单元测试 + 集成测试 + 速率限制测试",
         "status": "done",
-        "dependencies": [1],
+        "dependencies": [
+          1
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -625,7 +807,9 @@
         "details": "组件实现：\n1. InstantTrySection.tsx（表单+状态管理）\n2. InstantResultEnhanced.tsx（结果展示）\n3. WuxingRadarChart.tsx（Recharts雷达图）\n4. useInstantPreview Hook（React Query）\n\n关键功能：\n- React Hook Form + Zod验证\n- 速率限制友好提示\n- 模糊化完整报告预览\n- CTA强化（立即注册按钮）\n\n参考：@TECH_GUIDE 前端架构 > 即时体验组件",
         "testStrategy": "组件测试 + 集成测试",
         "status": "done",
-        "dependencies": [2],
+        "dependencies": [
+          2
+        ],
         "priority": "medium",
         "subtasks": []
       }
@@ -872,7 +1056,9 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [1],
+        "dependencies": [
+          1
+        ],
         "priority": "high",
         "subtasks": []
       },
@@ -883,7 +1069,9 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [2],
+        "dependencies": [
+          2
+        ],
         "priority": "high",
         "subtasks": []
       },
@@ -894,7 +1082,9 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [3],
+        "dependencies": [
+          3
+        ],
         "priority": "high",
         "subtasks": []
       },
@@ -905,7 +1095,9 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [4],
+        "dependencies": [
+          4
+        ],
         "priority": "high",
         "subtasks": []
       },
@@ -916,7 +1108,9 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [4],
+        "dependencies": [
+          4
+        ],
         "priority": "high",
         "subtasks": []
       },
@@ -927,7 +1121,10 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [5, 6],
+        "dependencies": [
+          5,
+          6
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -938,7 +1135,10 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [5, 6],
+        "dependencies": [
+          5,
+          6
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -949,7 +1149,10 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [7, 8],
+        "dependencies": [
+          7,
+          8
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -960,7 +1163,10 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [7, 8],
+        "dependencies": [
+          7,
+          8
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -971,7 +1177,10 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [7, 8],
+        "dependencies": [
+          7,
+          8
+        ],
         "priority": "medium",
         "subtasks": []
       },
@@ -982,7 +1191,11 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [9, 10, 11],
+        "dependencies": [
+          9,
+          10,
+          11
+        ],
         "priority": "high",
         "subtasks": []
       },
@@ -993,14 +1206,194 @@
         "details": "",
         "testStrategy": "",
         "status": "done",
-        "dependencies": [12],
+        "dependencies": [
+          12
+        ],
         "priority": "low",
         "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "专业报告v2.2升级：从数据展示到人生指引工具",
+        "description": "全面升级八字风水报告系统，实现转化率8%→12%，ARPU ¥120→¥168。包含13个核心模块：人生主题故事、归因分解、希望之光、分级行动清单、决策时间窗口、决策对比、职业推荐、可执行Checklist、零正审计、运转变更、5种图表、VIP包装、13章模板。分3阶段实施：v2.0核心价值（2周）、v2.1可执行性（2周）、v2.2高端体验（3周）。",
+        "details": "技术范围：\n- 类型定义：src/types/report-v2.2.ts\n- 生成引擎：src/lib/report/report-generator-v2.2.ts\n- AI Prompt：prompts/system/bazi_explainer.md + fengshui_consult.md\n- 可视化：src/components/report/charts/（Timeline/Radar/Heatmap/Wave/Gantt）\n- 模板库：src/lib/bazi/story-templates.ts + action-templates.ts\n\n已完成交付物（参考）：\n1. src/types/report-v2.2.ts（类型定义）\n2. src/lib/report/report-generator-v2.2.ts（生成引擎骨架）\n3. docs/报告模版/优化方案/v2.2/Prompt增强指南_v2.2.md\n4. docs/报告模版/优化方案/v2.2/实施路线图_v2.2.md\n\n成功标准：\n- 业务：转化率12%、ARPU ¥168、满意度92%、NPS 70+\n- 技术：生成<5秒、JSON解析>99%、测试覆盖>80%",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "【阶段1-v2.0】人生主题故事生成器开发",
+            "description": "开发generateLifeTheme()函数，根据格局/用神/大运生成统一生命叙事，分3-5阶段，含年龄范围/事件/意义/课题/能力/佐证",
+            "details": "技术实现：\n1. 在 report-generator-v2.2.ts 实现 generateLifeTheme()\n2. 创建 src/lib/bazi/story-templates.ts（格局→主题映射表）\n3. 输入：PatternAnalysis + LuckPillars + currentAge\n4. 输出：StrategyMapping.lifeTheme (title + summary + stages[])\n\n映射规则：\n- 从格 → \"顺势而为型\"\n- 用神受克 → \"先蓄力后爆发型\"\n- 大运前弱后强 → \"逆袭型\"\n- 格局纯粹 → \"专精型\"\n\n验收标准：\n- 用5个真实案例测试（不同格局类型）\n- 主题标题符合格局特征\n- 阶段划分合理（对应大运）\n- 用户反馈：\"感觉说中了我的经历\"\n\n预计工时：3天",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 14
+          },
+          {
+            "id": 2,
+            "title": "【阶段1-v2.0】归因分解算法实现",
+            "description": "开发calculateAttribution()函数，将当前困境/成就分解为4因素：时间40%+禀赋20%+环境20%+策略20%，标注可控性，核心话术\"这不是你不行，而是时机不利\"",
+            "details": "技术实现：\n1. 在 report-generator-v2.2.ts 实现 calculateAttribution()\n2. 输入：PatternAnalysis + LuckPillars + currentAge\n3. 输出：StrategyMapping.attribution (4个百分比 + notes[])\n\n算法逻辑：\n```typescript\nif (当前大运为忌神) {\n  timeFactor += 20; // 时间因素增加\n}\nif (格局破损严重) {\n  endowmentFactor += 15; // 禀赋因素增加\n}\n// 剩余分配给环境和策略，确保总和=100%\n```\n\n验收标准：\n- 用5个真实案例测试（不同困境类型）\n- 4因素百分比合理（总和=100%）\n- 每个因素标注\"可控\"或\"不可控\"\n- 用户反馈：\"感觉被理解了，不再自责\"\n\n预计工时：2天",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 14
+          },
+          {
+            "id": 3,
+            "title": "【阶段1-v2.0】希望之光时间线生成",
+            "description": "开发generateHopeTimeline()函数，生成短期（6-12月）/中期（1-3年）/长期（3-10年）改善预期，明确转折点时间（如\"2027年春季\"），量化改善（如\"收入提升30-50%\"），3个\"为什么会好\"的理由",
+            "details": "技术实现：\n1. 在 report-generator-v2.2.ts 实现 generateHopeTimeline()\n2. 输入：LuckPillars + currentAge + PatternAnalysis\n3. 输出：HopeTimeline (shortTerm + midTerm + longTerm + whyYouWillImprove)\n\n算法逻辑：\n- 找下一个用神得力的大运/流年\n- 计算距离现在的时间（如\"还有18个月\"）\n- 根据格局强度量化改善幅度（避免夸张）\n- 生成3个命理依据作为\"为什么会好\"的理由\n\n验收标准：\n- 用5个真实案例测试（不同年龄段）\n- 转折点时间准确（对应大运切换）\n- 改善幅度合理（不夸张）\n- 用户反馈：\"有盼头了\"\n\n预计工时：3天",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 14
+          },
+          {
+            "id": 4,
+            "title": "【阶段1-v2.0】AI Prompt增强（bazi_explainer.md）",
+            "description": "修改prompts/system/bazi_explainer.md，增加v2.0的3个新模块（人生主题故事/归因分解/希望之光），添加禁忌语言检查、通用话术库、VIP标记，要求输出JSON格式",
+            "details": "修改内容（参考Prompt增强指南_v2.2.md）：\n\n1. 增加\"人生主题故事\"模块\n   - 4种主题模板（顺势而为/先蓄力后爆发/逆袭/专精）\n   - 输出格式：title + summary + stages[]\n\n2. 增加\"归因分解\"模块\n   - 4因素分解规则（时间30-50% + 禀赋10-30% + 环境20-30% + 策略20-30%）\n   - 标注\"可控\" vs \"不可控\"\n   - 禁忌语言：避免\"你能力不足\"，替换为\"方法不匹配\"\n\n3. 增加\"希望之光\"模块\n   - 要求明确转折点时间（如\"2027年2月\"）\n   - 要求量化改善（如\"收入提升30-50%\"）\n   - 输出格式：shortTerm + midTerm + longTerm + whyYouWillImprove\n\n4. 通用优化\n   - 强制JSON格式输出（response_format: json_object）\n   - 添加数据可信度增强（引用来源、证据链、百分位）\n   - 添加VIP话术（\"专属分析48小时\"等）\n\n验收标准：\n- Prompt修改后，用3个测试案例验证输出格式\n- JSON解析成功率>99%\n- 输出包含v2.0所有新模块\n\n预计工时：2天",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 14
+          },
+          {
+            "id": 5,
+            "title": "【阶段1-v2.0】功能测试、数据埋点与上线v2.0",
+            "description": "对v2.0新功能进行完整测试，包括单元测试、集成测试、真实案例验证，添加数据埋点（报告生成次数/阅读时长/章节停留），收集用户反馈，确认转化率提升后上线v2.0",
+            "details": "测试内容：\n\n1. 单元测试（80%覆盖率）\n   - generateLifeTheme() 5个案例\n   - calculateAttribution() 5个案例\n   - generateHopeTimeline() 5个案例\n   - 边界条件测试（空数据、异常格局）\n\n2. 集成测试\n   - generateFullReport_v2_2() 完整流程\n   - JSON格式验证（Schema校验）\n   - 性能测试（生成时间<5秒）\n\n3. 真实案例验证\n   - 选择5个典型用户案例（不同年龄/格局/困境）\n   - 验证输出内容的准确性和共鸣度\n   - 收集用户反馈（5星评分 + 开放反馈）\n\n4. 数据埋点\n   - 报告生成次数\n   - 阅读时长（总时长 + 各章节停留）\n   - 付费转化率（免费→付费）\n\n5. A/B测试准备\n   - v1.0 vs v2.0 对比组（各50%流量）\n   - 监控指标：转化率、ARPU、满意度\n\n上线标准：\n- 所有测试通过\n- 转化率提升至9%（+1%）\n- 用户反馈≥4星\n- 无P0/P1 bug\n\n预计工时：3天",
+            "status": "done",
+            "dependencies": [
+              "14.1",
+              "14.2",
+              "14.3",
+              "14.4"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 6,
+            "title": "【阶段2-v2.1】分级行动清单生成器开发",
+            "description": "开发generateActionPlan()函数，生成三级行动方案（必做/推荐/加分），每项含标题/命理依据/预期影响/预期时效/子步骤，创建action-templates.ts用神→行动映射库",
+            "details": "技术实现：\n1. 在 report-generator-v2.2.ts 实现 generateActionPlan()\n2. 创建 src/lib/bazi/action-templates.ts（用神→行动映射表）\n3. 输入：UsefulGod + SeasonalAdjustment + PatternStrength\n4. 输出：StrategyMapping.actions (essential + recommended + optional)\n\n行动分级规则：\n- 必做项（1-2周见效）：1-3项，高影响+低成本\n- 推荐项（1-2月见效）：3-5项，中影响+中成本\n- 加分项（3-6月见效）：5-10项，长期收益\n\n行动模板示例：\n```typescript\n{\n  用神: '木',\n  actions: [\n    {\n      title: '每天早晨6-7点晨跑（补木火）',\n      reason: '您的用神为木、火，早晨运动助阳气',\n      expectedImpact: '1-2周内精力提升15-20%',\n      expectedTimeframe: '1-2周',\n      relatedElements: ['木', '火'],\n      relatedGods: ['食神'],\n      checklist: ['选公园/绿地', '穿运动服（红/绿）', '坚持打卡']\n    }\n  ]\n}\n```\n\n验收标准：\n- 用5个真实案例测试（不同用神）\n- 行动项具体可执行（非抽象建议）\n- 预期时效合理\n- 用户反馈：\"知道明天该干啥了\"\n\n预计工时：3天",
+            "status": "done",
+            "dependencies": [
+              "14.5"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 7,
+            "title": "【阶段2-v2.1】决策时间窗口算法开发",
+            "description": "开发generateDecisionWindows()函数，根据大运/流年计算创业/跳槽/结婚/置业等关键决策的最佳时机，精确到日期（ISO格式），包含置信度（0-100）和命理依据",
+            "details": "技术实现：\n1. 在 report-generator-v2.2.ts 实现 generateDecisionWindows()\n2. 输入：LuckPillars + currentAge + UsefulGod\n3. 输出：StrategyMapping.decisionWindows\n\n算法逻辑：\n- 遍历未来10年的大运/流年\n- 找用神得力 + 五行相合的时间段\n- 计算置信度（基于格局强度、用神力量）\n- 转换为ISO日期格式（solar calendar）\n\n决策主题覆盖：\n- 创业/跳槽\n- 结婚/生子\n- 置业/投资\n- 学业深造\n- 重大合同/合作\n\n输出示例：\n```json\n{\n  \"topic\": \"创业\",\n  \"window\": {\n    \"from\": \"2027-02-04\",\n    \"to\": \"2027-08-15\",\n    \"confidence\": 85,\n    \"note\": \"财星入库，大运支持\"\n  },\n  \"rationale\": \"该时段用神得力，财运上扬\"\n}\n```\n\n验收标准：\n- 用5个真实案例测试（不同决策主题）\n- 时间窗口准确（对应用神得力）\n- 置信度合理（65-95范围）\n- 日期格式标准（ISO 8601）\n\n预计工时：3天",
+            "status": "done",
+            "dependencies": [
+              "14.5"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 8,
+            "title": "【阶段2-v2.1】风水可执行Checklist转换",
+            "description": "开发generateWaterActions()和generateMountainActions()，将抽象风水建议（如\"东南宜水\"）转化为具体可执行任务（如\"在客厅东南角摆放鱼缸\"），含宫位/动作/物品/依据/优先级/预期影响/截止时间",
+            "details": "技术实现：\n1. 在 report-generator-v2.2.ts 实现 generateWaterActions() + generateMountainActions()\n2. 输入：LingzhengAnalysis + Recommendations\n3. 输出：FengshuiChecklist.environmentChecklist\n\n任务要素：\n- palace: 宫位（1-9）\n- bagua: 八卦方位（如\"巽\"、\"乾\"）\n- task: 动作（摆放/清理/移动/增亮/遮挡）\n- rationale: 命理依据（零正/飞星/用神）\n- severity: 优先级（critical/major/minor）\n- expectedImpact: 预期影响（如\"提升财运10-15%\"）\n- dueBy: 截止时间（如\"2025-02-15\"）\n- recurrence: 周期（weekly/monthly/quarterly）\n\n物品库：\n- 水位任务：鱼缸、饮水机、流水摆件、水培植物\n- 山位任务：高大植物、书柜、实心柜、泰山石\n- 飞星任务：铜葫芦、六帝钱、玉石\n\n输出示例：\n```json\n{\n  \"id\": \"water-1\",\n  \"palace\": 1,\n  \"bagua\": \"坎\",\n  \"task\": \"在1宫（客厅东北角）摆放鱼缸或流水摆件\",\n  \"rationale\": \"该宫位为零神，见水旺财\",\n  \"severity\": \"high\",\n  \"expectedImpact\": \"提升财运10-15%\",\n  \"dueBy\": \"2025-02-15\",\n  \"recurrence\": \"quarterly\"\n}\n```\n\n验收标准：\n- 用5个真实案例测试（不同户型）\n- 任务具体可执行（非抽象）\n- 用户反馈：\"照着做就行了\"\n\n预计工时：4天",
+            "status": "done",
+            "dependencies": [
+              "14.5"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 9,
+            "title": "【阶段2-v2.1】AI Prompt增强（fengshui_consult.md）",
+            "description": "修改prompts/system/fengshui_consult.md，增加v2.1的可执行Checklist输出要求（具体物品+位置+预期影响量化），强制JSON格式，添加零正审计和运转变更建议模块",
+            "details": "修改内容（参考Prompt增强指南_v2.2.md）：\n\n1. 增加\"可执行Checklist\"模块\n   - 要求具体物品（鱼缸/植物/柜子等）\n   - 要求具体位置（如\"客厅东南角\"）\n   - 要求预期影响量化（如\"提升财运10-15%\"）\n   - 输出格式：palace + bagua + task + rationale + severity + expectedImpact + dueBy + recurrence\n\n2. 增加\"零正审计\"模块（预留，v2.2实现）\n   - 检查\"正神见水\"（山位见水，损健康/事业）\n   - 检查\"零神见山\"（水位见山，损财运）\n   - 输出格式：isReversed + issues[] + severity\n\n3. 增加\"运转变更建议\"模块（预留，v2.2实现）\n   - 如8运→9运的调整方向\n   - 输出格式：transitionAdvice[] + riskLevel + riskDescription\n\n4. 通用优化\n   - 强制JSON格式输出\n   - 添加预期影响量化要求\n   - 添加截止时间和周期标记\n\n验收标准：\n- Prompt修改后，用3个测试案例验证输出格式\n- 输出包含具体可执行任务（非抽象建议）\n- JSON解析成功率>99%\n\n预计工时：2天",
+            "status": "done",
+            "dependencies": [
+              "14.5"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 10,
+            "title": "【阶段2-v2.1】集成测试、用户反馈与上线v2.1",
+            "description": "对v2.1新功能进行集成测试（基于v2.0），真实案例验证，基于v2.0数据对比分析转化率/满意度提升，收集用户反馈后上线v2.1",
+            "details": "测试内容：\n\n1. 单元测试（累计覆盖率>80%）\n   - generateActionPlan() 5个案例\n   - generateDecisionWindows() 5个案例\n   - generateWaterActions() + generateMountainActions() 5个案例\n\n2. 集成测试（v2.1完整流程）\n   - generateFullReport_v2_2() 包含v2.0+v2.1所有模块\n   - JSON格式验证\n   - 性能测试（生成时间<5秒）\n\n3. 真实案例验证\n   - 选择5个典型用户案例\n   - 验证行动清单的可执行性\n   - 验证决策时间窗口的准确性\n   - 验证风水Checklist的实用性\n   - 收集用户反馈（5星评分 + \"我知道该干什么了\"同意度）\n\n4. v2.0 vs v2.1 对比分析\n   - 转化率：9% → 10%（目标）\n   - ARPU：¥135 → ¥150（目标）\n   - 满意度：88% → 90%（目标）\n   - \"我知道接下来该干什么\"同意度：>90%\n\n5. A/B测试调整\n   - v2.0 vs v2.1 对比组（各50%流量）\n   - 监控7天数据后决定全量切换\n\n上线标准：\n- 所有测试通过\n- 转化率≥10%\n- 用户反馈≥4星\n- \"可执行性\"指标显著提升\n\n预计工时：3天",
+            "status": "done",
+            "dependencies": [
+              "14.6",
+              "14.7",
+              "14.8",
+              "14.9"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 11,
+            "title": "【阶段3-v2.2】决策对比工具开发",
+            "description": "开发generateDecisionComparison()函数，生成A/B/C方案对比（匹配度+短期风险+长期收益+最佳时机），推荐倾向性（如\"A ≈ C > B\"），提供非最优方案的补救措施",
+            "details": "技术实现：\n1. 在 report-generator-v2.2.ts 实现 generateDecisionComparison()\n2. 输入：DecisionOptions[] + PatternAnalysis + LuckPillars + currentAge\n3. 输出：DecisionComparison\n\n决策对比要素：\n- matchScore: 匹配度（0-100，基于用神/格局/大运）\n- shortTermRisk: 短期风险描述（1-3年）\n- longTermBenefit: 长期收益描述（3-10年）\n- bestTiming: 最佳启动时机（ISO日期）\n- rationale: 命理依据\n\n输出示例：\n```json\n{\n  \"topic\": \"事业路径选择\",\n  \"options\": [\n    {\n      \"id\": \"A\",\n      \"name\": \"方案A：跳槽到大厂\",\n      \"matchScore\": 85,\n      \"shortTermRisk\": \"短期压力较大，需适应新环境\",\n      \"longTermBenefit\": \"长期发展空间广阔，收入提升30-50%\",\n      \"bestTiming\": \"2027年春季\",\n      \"rationale\": \"正官+印星组合，适合大平台\"\n    },\n    ...\n  ],\n  \"recommendation\": \"方案A ≈ 方案C > 方案B\",\n  \"recommendationRationale\": \"方案A与C的命理匹配度相近（85 vs 83），方案B短期风险较高\",\n  \"nonOptimalRemedies\": {\n    \"option\": \"方案B\",\n    \"remedies\": [\n      \"选择2027年春季启动，避开忌神期\",\n      \"增加贵人助力（多参与行业活动）\",\n      \"调整家居风水，增强财位\"\n    ],\n    \"keyTiming\": \"2027年2-4月\"\n  }\n}\n```\n\n验收标准：\n- 用5个真实案例测试（不同决策场景）\n- 对比合理（非简单评分）\n- 补救措施可执行\n- 用户反馈：\"即使选错也有补救窗口\"\n\n预计工时：5天",
+            "status": "pending",
+            "dependencies": [
+              "14.10"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 12,
+            "title": "【阶段3-v2.2】零正审计功能集成",
+            "description": "集成现有checkZeroPositiveReversed()函数，检查当前布局是否\"零正颠倒\"（水山错位），量化风险等级（critical/major/minor/none），提供具体整改建议",
+            "details": "技术实现：\n1. 在 report-generator-v2.2.ts 集成 checkZeroPositiveReversed()\n2. 输入：LingzhengAnalysis\n3. 输出：FengshuiChecklist.zeroPositiveAudit\n\n审计内容：\n- 是否\"正神见水\"（山位见水，损健康/事业）\n- 是否\"零神见山\"（水位见山，损财运）\n- 错位的宫位数量\n- 风险等级（critical/major/minor/none）\n\n输出示例：\n```json\n{\n  \"isReversed\": true,\n  \"issues\": [\n    \"6宫（正神位）摆放了鱼缸，建议移除\",\n    \"1宫（零神位）堆放杂物，建议清理并摆水\"\n  ],\n  \"severity\": \"major\"\n}\n```\n\n话术示例：\n- \"您当前布局存在2处零正颠倒，可能导致财运受阻（占20%环境因素）\"\n- \"建议在2025年春节前调整，预计财运可提升10-15%\"\n\n验收标准：\n- 用5个真实案例测试（不同布局）\n- 审计准确（对比现有函数）\n- 风险等级合理\n- 整改建议具体可执行\n\n预计工时：3天",
+            "status": "pending",
+            "dependencies": [
+              "14.10"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 13,
+            "title": "【阶段3-v2.2】5种可视化图表组件开发",
+            "description": "开发5种可视化图表组件：Timeline（人生时间轴）、Radar（能力雷达）、Heatmap（风水热力）、Wave（运势波动）、Gantt（行动甘特图），使用Recharts/Chart.js，支持导出PNG",
+            "details": "技术实现：\n1. 创建 src/components/report/charts/ 目录\n2. 使用 Recharts / Chart.js / D3.js\n3. 输入：ReportOutput_v2_2\n4. 输出：5张图表组件 + 导出PNG功能\n\n图表需求：\n\n1. TimelineChart（人生时间轴图）\n   - X轴：年龄（0-80岁）\n   - Y轴：运势强度（0-100）\n   - 数据：大运/流年变化，标注关键转折点\n   - 颜色：用神得力期（绿色），忌神期（红色）\n\n2. RadarChart（能力雷达图）\n   - 维度：五行平衡（木火土金水）或十神强度\n   - 显示当前状态 vs 理想状态\n   - 标注短板（需补）和优势（可用）\n\n3. HeatmapChart（风水热力图）\n   - 9宫格布局\n   - 颜色：旺位（绿色）、平位（黄色）、衰位（红色）\n   - 标注：零神宫位、正神宫位\n\n4. WaveChart（运势波动图）\n   - X轴：月份（未来12个月）\n   - Y轴：运势强度（0-100）\n   - 数据：流年月令变化\n   - 标注：关键时间窗口（决策窗口）\n\n5. GanttChart（行动甘特图）\n   - Y轴：行动项（必做/推荐/加分）\n   - X轴：时间（未来6个月）\n   - 颜色：不同优先级\n   - 标注：预期见效时间\n\n通用要求：\n- 响应式（移动端适配）\n- 深浅色模式支持\n- 导出PNG功能（用于PDF报告）\n- 美观（符合高端报告审美）\n\n验收标准：\n- 5张图表可正常渲染\n- 数据准确（对比原始分析）\n- 美观（通过设计审核）\n- 性能良好（渲染<500ms）\n\n预计工时：7天",
+            "status": "pending",
+            "dependencies": [
+              "14.10"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 14,
+            "title": "【阶段3-v2.2】VIP包装与13章模板完善",
+            "description": "开发VIP元素包装（封面设计/VIP标记/稀缺性提示/附录），完善13章报告模板结构，集成所有v2.0/v2.1/v2.2模块，优化排版与用户体验",
+            "details": "技术实现：\n\n1. 封面设计组件（src/components/report/cover.tsx）\n   - 用户姓名 + 性别标题（先生/女士）\n   - 报告日期\n   - 分析耗时标记（如\"48小时专属分析\"）\n   - 图表数量标记（如\"含12张专属图表\"）\n   - 品牌Logo + 高端设计风格\n\n2. VIP标记组件（src/components/report/vip-badge.tsx）\n   - \"专属分析48小时\"\n   - \"180天跟踪服务\"\n   - \"您的格局仅占人群15%（稀缺）\"\n   - 醒目但不俗气\n\n3. 13章模板结构（基于专业报告模板_v2.2.md）\n   - 第1章：封面 & VIP说明\n   - 第2章：摘要 & 核心结论\n   - 第3章：人生主题故事（v2.0）\n   - 第4章：八字深度分析\n   - 第5章：六大领域详解\n   - 第6章：决策对比工具（v2.2）\n   - 第7章：风水定制方案（v2.1 Checklist）\n   - 第8章：温柔视角：重建信心（v2.0归因+希望）\n   - 第9章：可执行行动清单（v2.1）\n   - 第10章：对比与验证\n   - 第11章：数据可视化（v2.2图表）\n   - 第12章：附录（术语表/FAQ/客服联系方式）\n   - 第13章：结语\n\n4. 附录内容\n   - 术语表：【用神】八字中对命主有利的五行...\n   - FAQ：Q: 如何执行行动清单？A: 从必做项开始...\n   - 客服联系方式：微信/邮箱/电话\n\n5. 排版优化\n   - 页眉页脚（章节名/页码）\n   - 目录自动生成\n   - 图表居中/标题样式统一\n   - PDF导出优化（字体嵌入/压缩）\n\n验收标准：\n- 封面美观（参考高端咨询报告）\n- VIP元素醒目（但不俗气）\n- 13章结构完整\n- 用户反馈：\"感觉物有所值\"\n- PDF导出正常（<10MB）\n\n预计工时：5天",
+            "status": "pending",
+            "dependencies": [
+              "14.10"
+            ],
+            "parentTaskId": 14
+          },
+          {
+            "id": 15,
+            "title": "【阶段3-v2.2】最终测试、性能优化与正式上线v2.2",
+            "description": "对v2.2完整版进行最终测试（包含v2.0+v2.1+v2.2所有模块），性能优化（生成时间<5秒，JSON解析>99%），真实用户测试，确认所有业务指标达标后正式上线v2.2",
+            "details": "测试内容：\n\n1. 完整性测试\n   - 验证13章结构完整\n   - 验证所有13个核心模块正常工作\n   - 验证5种图表正常渲染\n   - 验证VIP元素正常显示\n\n2. 性能测试\n   - 报告生成时间<5秒（含AI调用）\n   - JSON解析成功率>99%（10000次测试）\n   - PDF导出时间<10秒\n   - 图表渲染时间<500ms\n   - 页面加载速度<3秒\n\n3. 测试覆盖率\n   - 单元测试覆盖率>80%\n   - 集成测试：10个完整流程案例\n   - 边界条件测试（空数据/异常输入/极端格局）\n\n4. 真实用户测试（Beta测试）\n   - 选择50个Beta用户\n   - 收集用户反馈（5星评分 + 4个维度满意度）\n   - 监控业务指标（转化率/ARPU/满意度/退款率）\n   - 收集问题与建议\n\n5. 业务指标验证\n   - 转化率≥12%（目标达成）\n   - ARPU≥¥168（目标达成）\n   - 满意度≥92%（目标达成）\n   - 退款率≤3%（目标达成）\n   - NPS≥70（优秀水平）\n   - \"这份报告值这个价\"同意度≥92%\n   - \"我知道接下来该干什么\"同意度≥90%\n   - \"我感觉被理解了\"同意度≥88%\n   - \"我对未来有信心\"同意度≥85%\n\n6. 性能优化（如需要）\n   - 代码优化（减少冗余计算）\n   - 缓存策略（相同八字不重复计算）\n   - 数据库查询优化\n   - CDN加速（图表/PDF）\n\n7. 文档完善\n   - API文档（所有公开函数）\n   - 开发者指南（如何添加新模块）\n   - 用户手册（如何解读报告）\n   - 运维手册（监控/告警/备份）\n\n上线标准（ALL必须达成）：\n- 所有测试通过（无P0/P1 bug）\n- 业务指标达标（转化率12%、ARPU ¥168、满意度92%、NPS 70+）\n- 性能指标达标（生成<5秒、解析>99%、覆盖>80%）\n- 用户反馈≥4.5星\n- 文档完整\n\n上线后监控（持续7天）：\n- 每日业务报表（转化率/ARPU/满意度）\n- 错误监控（JSON解析失败/生成超时）\n- 用户反馈跟踪\n- 性能监控（响应时间/成功率）\n\n预计工时：5天（测试3天 + 优化1天 + 上线监控1天）",
+            "status": "pending",
+            "dependencies": [
+              "14.11",
+              "14.12",
+              "14.13",
+              "14.14"
+            ],
+            "parentTaskId": 14
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-10-15T03:02:38.626Z",
-      "updated": "2025-10-16T01:05:56.440Z",
+      "updated": "2025-11-14T02:32:47.534Z",
       "description": "QiFlow AI个人后台优化项目 - 完整的13个阶段任务管理"
     }
   }

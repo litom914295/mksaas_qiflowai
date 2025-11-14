@@ -4,8 +4,8 @@
  * 测试知识库向量搜索功能
  */
 
-import { config as loadEnv } from 'dotenv';
 import path from 'path';
+import { config as loadEnv } from 'dotenv';
 import { VectorSearchService } from '../src/lib/rag/vector-search';
 
 loadEnv({ path: path.resolve(process.cwd(), '.env.local') });
@@ -22,11 +22,7 @@ async function testRagSearch() {
   const vectorSearch = new VectorSearchService();
 
   // 测试查询
-  const queries = [
-    '八字是什么？',
-    '如何计算生辰八字？',
-    '风水有什么作用？',
-  ];
+  const queries = ['八字是什么？', '如何计算生辰八字？', '风水有什么作用？'];
 
   for (const query of queries) {
     console.log(`\n${'='.repeat(80)}`);
@@ -49,7 +45,9 @@ async function testRagSearch() {
       log.success(`找到 ${results.length} 个相关文档:\n`);
 
       results.forEach((doc, idx) => {
-        console.log(`\x1b[36m[${idx + 1}]\x1b[0m 相似度: \x1b[33m${(doc.similarity * 100).toFixed(1)}%\x1b[0m`);
+        console.log(
+          `\x1b[36m[${idx + 1}]\x1b[0m 相似度: \x1b[33m${(doc.similarity * 100).toFixed(1)}%\x1b[0m`
+        );
         console.log(`    来源: ${doc.source}`);
         console.log(`    分类: ${doc.category}`);
         console.log(`    内容: ${doc.content.substring(0, 150)}...\n`);

@@ -157,7 +157,7 @@ export class ABTestManager {
     eventData?: Record<string, any>;
   }): Promise<void> {
     const db = await getDb();
-    
+
     try {
       // 1. 获取实验
       const [experiment] = await db
@@ -213,7 +213,7 @@ export class ABTestManager {
     userId: string;
   }): Promise<boolean> {
     const db = await getDb();
-    
+
     const [experiment] = await db
       .select()
       .from(abTestExperiments)

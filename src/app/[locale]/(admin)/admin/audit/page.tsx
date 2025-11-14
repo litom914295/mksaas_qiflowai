@@ -226,10 +226,16 @@ export default function AuditLogsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* 关键词搜索 */}
           <div>
-            <label className="text-sm font-medium mb-1 block">关键词搜索</label>
+            <label
+              htmlFor="keyword-search"
+              className="text-sm font-medium mb-1 block"
+            >
+              关键词搜索
+            </label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
+                id="keyword-search"
                 placeholder="邮箱或操作描述"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
@@ -240,7 +246,12 @@ export default function AuditLogsPage() {
 
           {/* 操作类型 */}
           <div>
-            <label className="text-sm font-medium mb-1 block">操作类型</label>
+            <label
+              htmlFor="action-select"
+              className="text-sm font-medium mb-1 block"
+            >
+              操作类型
+            </label>
             <Select value={action} onValueChange={setAction}>
               <SelectTrigger>
                 <SelectValue placeholder="全部操作" />
@@ -258,7 +269,12 @@ export default function AuditLogsPage() {
 
           {/* 资源类型 */}
           <div>
-            <label className="text-sm font-medium mb-1 block">资源类型</label>
+            <label
+              htmlFor="resource-select"
+              className="text-sm font-medium mb-1 block"
+            >
+              资源类型
+            </label>
             <Select value={resource} onValueChange={setResource}>
               <SelectTrigger>
                 <SelectValue placeholder="全部资源" />
@@ -276,7 +292,12 @@ export default function AuditLogsPage() {
 
           {/* 状态 */}
           <div>
-            <label className="text-sm font-medium mb-1 block">状态</label>
+            <label
+              htmlFor="status-select"
+              className="text-sm font-medium mb-1 block"
+            >
+              状态
+            </label>
             <Select value={status} onValueChange={setStatus}>
               <SelectTrigger>
                 <SelectValue placeholder="全部状态" />
@@ -294,8 +315,14 @@ export default function AuditLogsPage() {
 
           {/* 开始日期 */}
           <div>
-            <label className="text-sm font-medium mb-1 block">开始日期</label>
+            <label
+              htmlFor="start-date"
+              className="text-sm font-medium mb-1 block"
+            >
+              开始日期
+            </label>
             <Input
+              id="start-date"
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
@@ -304,8 +331,14 @@ export default function AuditLogsPage() {
 
           {/* 结束日期 */}
           <div>
-            <label className="text-sm font-medium mb-1 block">结束日期</label>
+            <label
+              htmlFor="end-date"
+              className="text-sm font-medium mb-1 block"
+            >
+              结束日期
+            </label>
             <Input
+              id="end-date"
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}

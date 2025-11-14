@@ -105,7 +105,7 @@ const zhTWTranslations: { [key: string]: string } = {
   Light: '淺色',
   System: '跟隨系統',
   'Get Started': '開始使用',
-  QiFlow AI: 'QiFlow AI',
+  'QiFlow AI': 'QiFlow AI',
   Bazi: '八字',
 };
 
@@ -198,7 +198,7 @@ const jaTranslations: { [key: string]: string } = {
   Light: 'ライト',
   System: 'システム',
   'Get Started': '始める',
-  QiFlow AI: 'QiFlow AI',
+  'QiFlow AI': 'QiFlow AI',
   Bazi: '八字',
 };
 
@@ -290,7 +290,7 @@ const koTranslations: { [key: string]: string } = {
   Light: '라이트',
   System: '시스템',
   'Get Started': '시작하기',
-  QiFlow AI: 'QiFlow AI',
+  'QiFlow AI': 'QiFlow AI',
   Bazi: '팔자',
 };
 
@@ -382,7 +382,7 @@ const msMyTranslations: { [key: string]: string } = {
   Light: 'Terang',
   System: 'Sistem',
   'Get Started': 'Mulakan',
-  QiFlow AI: 'QiFlow AI',
+  'QiFlow AI': 'QiFlow AI',
   Bazi: 'Bazi',
 };
 

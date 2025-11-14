@@ -72,7 +72,7 @@ describe('端到端测试：完整报告生成流程', () => {
       // 验证无人宅合一分析
       expect(report.synthesis).toBeUndefined();
 
-      console.log(`\n✅ 基础精华报告生成成功`);
+      console.log('\n✅ 基础精华报告生成成功');
       console.log(`   - 主题数: ${report.themes.length}`);
       console.log(`   - 质量分: ${report.qualityScore}/100`);
       console.log(`   - 成本: $${report.metadata.aiCostUSD.toFixed(4)}`);
@@ -117,7 +117,7 @@ describe('端到端测试：完整报告生成流程', () => {
         // 验证成本控制
         expect(report.synthesis.metadata.estimatedCost).toBeLessThan(0.3);
 
-        console.log(`\n✅ 完整精华报告（含人宅合一）生成成功`);
+        console.log('\n✅ 完整精华报告（含人宅合一）生成成功');
         console.log(
           `   - 超级吉位: ${report.synthesis.superLuckySpots.length} 个`
         );
@@ -169,7 +169,7 @@ describe('端到端测试：完整报告生成流程', () => {
       const pdfHeader = pdfBuffer.toString('utf8', 0, 5);
       expect(pdfHeader).toBe('%PDF-');
 
-      console.log(`\n✅ PDF生成成功`);
+      console.log('\n✅ PDF生成成功');
       console.log(`   - 文件大小: ${sizeKB.toFixed(2)}KB`);
     }, 30000);
   });
@@ -202,7 +202,7 @@ describe('端到端测试：完整报告生成流程', () => {
       );
       expect(criticalIssues.length).toBe(0);
 
-      console.log(`\n✅ 质量审核通过`);
+      console.log('\n✅ 质量审核通过');
       console.log(`   - 总分: ${auditResult.score}/100`);
       console.log(`   - 完整性: ${auditResult.details.completeness.score}/100`);
       console.log(`   - 质量: ${auditResult.details.quality.score}/100`);
@@ -229,7 +229,7 @@ describe('端到端测试：完整报告生成流程', () => {
       // 付费版必须有人宅合一分析
       expect(report.synthesis).toBeDefined();
 
-      console.log(`\n✅ 付费版质量审核通过`);
+      console.log('\n✅ 付费版质量审核通过');
       console.log(`   - 总分: ${auditResult.score}/100`);
     }, 60000);
   });
@@ -247,7 +247,7 @@ describe('端到端测试：完整报告生成流程', () => {
         });
       }).rejects.toThrow();
 
-      console.log(`\n✅ 无效数据错误处理正确`);
+      console.log('\n✅ 无效数据错误处理正确');
     });
 
     it('应该在缺少风水数据时跳过人宅合一分析', async () => {
@@ -260,7 +260,7 @@ describe('端到端测试：完整报告生成流程', () => {
       expect(report).toBeDefined();
       expect(report.synthesis).toBeUndefined();
 
-      console.log(`\n✅ 缺失风水数据降级处理正确`);
+      console.log('\n✅ 缺失风水数据降级处理正确');
     }, 60000);
   });
 
@@ -279,9 +279,9 @@ describe('端到端测试：完整报告生成流程', () => {
       // 期望在30秒内完成
       expect(timeTaken).toBeLessThan(30000);
 
-      console.log(`\n✅ 性能测试通过`);
+      console.log('\n✅ 性能测试通过');
       console.log(`   - 生成时间: ${timeTaken}ms`);
-      console.log(`   - 目标: < 30000ms`);
+      console.log('   - 目标: < 30000ms');
     }, 60000);
 
     it('PDF生成应在5秒内完成', async () => {
@@ -305,9 +305,9 @@ describe('端到端测试：完整报告生成流程', () => {
       // 期望在5秒内完成
       expect(timeTaken).toBeLessThan(5000);
 
-      console.log(`\n✅ PDF生成性能达标`);
+      console.log('\n✅ PDF生成性能达标');
       console.log(`   - 生成时间: ${timeTaken}ms`);
-      console.log(`   - 目标: < 5000ms`);
+      console.log('   - 目标: < 5000ms');
     }, 30000);
   });
 
@@ -321,9 +321,9 @@ describe('端到端测试：完整报告生成流程', () => {
       // 基础报告（3主题）：预算约 $0.10
       expect(report.metadata.aiCostUSD).toBeLessThan(0.15);
 
-      console.log(`\n✅ 基础报告成本控制达标`);
+      console.log('\n✅ 基础报告成本控制达标');
       console.log(`   - 实际成本: $${report.metadata.aiCostUSD.toFixed(4)}`);
-      console.log(`   - 预算: < $0.15`);
+      console.log('   - 预算: < $0.15');
     }, 60000);
 
     it('完整报告（含人宅合一）成本应在预算内', async () => {
@@ -336,18 +336,18 @@ describe('端到端测试：完整报告生成流程', () => {
       // 完整报告（3主题 + 人宅合一）：预算约 $0.50
       expect(report.metadata.aiCostUSD).toBeLessThan(0.5);
 
-      console.log(`\n✅ 完整报告成本控制达标`);
+      console.log('\n✅ 完整报告成本控制达标');
       console.log(`   - 实际成本: $${report.metadata.aiCostUSD.toFixed(4)}`);
-      console.log(`   - 预算: < $0.50`);
+      console.log('   - 预算: < $0.50');
     }, 60000);
   });
 
   describe('7. 集成测试：完整流程', () => {
     it('应该成功完成从生成到PDF导出的完整流程', async () => {
-      console.log(`\n🚀 开始完整流程测试...`);
+      console.log('\n🚀 开始完整流程测试...');
 
       // 1. 生成报告
-      console.log(`   [1/4] 生成精华报告...`);
+      console.log('   [1/4] 生成精华报告...');
       const report = await generateEssentialReport({
         birthInfo: mockBirthInfo,
         selectedThemes: ['career', 'relationship'],
@@ -355,16 +355,16 @@ describe('端到端测试：完整报告生成流程', () => {
       });
       expect(report).toBeDefined();
       expect(report.synthesis).toBeDefined();
-      console.log(`   ✓ 报告生成完成`);
+      console.log('   ✓ 报告生成完成');
 
       // 2. 质量审核
-      console.log(`   [2/4] 执行质量审核...`);
+      console.log('   [2/4] 执行质量审核...');
       const auditResult = await auditReport(report, { isPremium: true });
       expect(auditResult.passed).toBe(true);
       console.log(`   ✓ 质量审核通过 (${auditResult.score}/100)`);
 
       // 3. 生成PDF
-      console.log(`   [3/4] 生成PDF文件...`);
+      console.log('   [3/4] 生成PDF文件...');
       const pdfBuffer = await generateReportPDF({
         report,
         userInfo: {
@@ -382,14 +382,14 @@ describe('端到端测试：完整报告生成流程', () => {
       );
 
       // 4. 最终验证
-      console.log(`   [4/4] 最终验证...`);
+      console.log('   [4/4] 最终验证...');
       expect(report.metadata.aiCostUSD).toBeLessThan(0.5);
       expect(
         auditResult.issues.filter((i) => i.severity === 'critical').length
       ).toBe(0);
       expect(pdfBuffer.length / 1024).toBeLessThan(2048);
 
-      console.log(`\n🎉 完整流程测试成功！`);
+      console.log('\n🎉 完整流程测试成功！');
       console.log(`   - 报告质量: ${auditResult.score}/100`);
       console.log(`   - 总成本: $${report.metadata.aiCostUSD.toFixed(4)}`);
       console.log(`   - PDF大小: ${(pdfBuffer.length / 1024).toFixed(2)}KB`);
@@ -428,7 +428,7 @@ describe('压力测试', () => {
 
     expect(avgCost).toBeLessThan(0.1);
 
-    console.log(`\n✅ 压力测试完成`);
+    console.log('\n✅ 压力测试完成');
     console.log(`   - 生成数量: ${count}`);
     console.log(`   - 平均成本: $${avgCost.toFixed(4)}`);
     console.log(`   - 平均时间: ${avgTime.toFixed(0)}ms`);

@@ -70,10 +70,19 @@ export class ScoreCalculator {
   }> {
     // 临时实现：返回模拟评分
     const overall = 78;
-    
+
     return {
       overall,
-      level: overall >= 85 ? 'excellent' : overall >= 70 ? 'good' : overall >= 50 ? 'fair' : overall >= 30 ? 'poor' : 'critical',
+      level:
+        overall >= 85
+          ? 'excellent'
+          : overall >= 70
+            ? 'good'
+            : overall >= 50
+              ? 'fair'
+              : overall >= 30
+                ? 'poor'
+                : 'critical',
       details: [
         {
           dimension: '方位适配',

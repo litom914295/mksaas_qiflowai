@@ -406,8 +406,9 @@ describe('玄空风水API性能测试', () => {
   });
 });
 
-// ===== 性能基准导出 =====
-export const PERFORMANCE_BENCHMARKS = {
+// ===== 性能基准参考值 =====
+// Note: 仅供测试内部参考
+const PERFORMANCE_BENCHMARKS = {
   diagnose: {
     single: { target: 2000, acceptable: 3000 },
     concurrent: { target: 3000, acceptable: 5000 },

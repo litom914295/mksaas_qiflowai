@@ -30,7 +30,7 @@ function deepMerge(target, source) {
   const result = { ...target };
 
   for (const key in source) {
-    if (source.hasOwnProperty(key)) {
+    if (Object.hasOwn(source, key)) {
       if (
         typeof source[key] === 'object' &&
         source[key] !== null &&
@@ -38,7 +38,7 @@ function deepMerge(target, source) {
       ) {
         // 如果是对象，递归合并
         result[key] = deepMerge(result[key] || {}, source[key]);
-      } else if (!result.hasOwnProperty(key)) {
+      } else if (!Object.hasOwn(result, key)) {
         // 只添加当前项目中不存在的键
         result[key] = source[key];
       }
@@ -99,7 +99,7 @@ function createBackup(filePath) {
 function countKeys(obj) {
   let count = 0;
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (Object.hasOwn(obj, key)) {
       if (
         typeof obj[key] === 'object' &&
         obj[key] !== null &&

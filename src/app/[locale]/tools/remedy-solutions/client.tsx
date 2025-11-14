@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import { RemedySolutionCard, RemedySolution, SolutionLevel } from '@/components/qiflow/xuankong/remedy-solution-card';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  type RemedySolution,
+  RemedySolutionCard,
+  type SolutionLevel,
+} from '@/components/qiflow/xuankong/remedy-solution-card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -16,21 +18,23 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Search,
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  ArrowRight,
   Filter,
-  SlidersHorizontal,
+  Info,
   Package,
+  Search,
+  Shield,
+  SlidersHorizontal,
+  Sparkles,
   Star,
   Target,
-  Sparkles,
-  ArrowRight,
-  Info,
   TrendingUp,
-  Shield,
-  Zap
+  Zap,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useMemo, useState } from 'react';
 
 // 级别配置
 const LEVEL_CONFIG = {
@@ -106,10 +110,7 @@ function generateMockSolutions(): RemedySolution[] {
         '提升整体运势10-20%',
         '适合初学者入门',
       ],
-      warnings: [
-        '仅适用于轻微风水问题',
-        '需要定期调整物品位置',
-      ],
+      warnings: ['仅适用于轻微风水问题', '需要定期调整物品位置'],
     },
     // 标准方案
     {
@@ -200,7 +201,8 @@ function generateMockSolutions(): RemedySolution[] {
       id: '3',
       level: 'professional' as SolutionLevel,
       title: '玄空风水专业调理',
-      description: '运用玄空飞星、八宅、三合等多种流派综合调理，解决复杂风水问题',
+      description:
+        '运用玄空飞星、八宅、三合等多种流派综合调理，解决复杂风水问题',
       priceRange: { min: 2000, max: 10000, currency: 'CNY' },
       effectiveness: 88,
       timeRequired: '7-15天',
@@ -288,11 +290,7 @@ function generateMockSolutions(): RemedySolution[] {
         '包含个性化指导',
         '适合追求高品质生活的用户',
       ],
-      warnings: [
-        '需要专业人士指导',
-        '投入成本较高',
-        '实施周期较长',
-      ],
+      warnings: ['需要专业人士指导', '投入成本较高', '实施周期较长'],
     },
     // 终极方案
     {
@@ -400,25 +398,34 @@ function generateMockSolutions(): RemedySolution[] {
 export function RemedySolutionsClient() {
   const t = useTranslations('remedySolutions');
   const [solutions] = useState<RemedySolution[]>(generateMockSolutions());
-  const [selectedLevel, setSelectedLevel] = useState<SolutionLevel | 'all'>('all');
+  const [selectedLevel, setSelectedLevel] = useState<SolutionLevel | 'all'>(
+    'all'
+  );
   const [searchTerm, setSearchTerm] = useState('');
   const [priceRange, setPriceRange] = useState([0, 50000]);
-  const [selectedSolution, setSelectedSolution] = useState<RemedySolution | null>(null);
+  const [selectedSolution, setSelectedSolution] =
+    useState<RemedySolution | null>(null);
 
   // 筛选后的方案
   const filteredSolutions = useMemo(() => {
-    return solutions.filter(solution => {
+    return solutions.filter((solution) => {
       // 级别筛选
       if (selectedLevel !== 'all' && solution.level !== selectedLevel) {
         return false;
       }
       // 搜索筛选
-      if (searchTerm && !solution.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-          !solution.description.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (
+        searchTerm &&
+        !solution.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        !solution.description.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
         return false;
       }
       // 价格筛选
-      if (solution.priceRange.max < priceRange[0] || solution.priceRange.min > priceRange[1]) {
+      if (
+        solution.priceRange.max < priceRange[0] ||
+        solution.priceRange.min > priceRange[1]
+      ) {
         return false;
       }
       return true;
@@ -519,7 +526,12 @@ export function RemedySolutionsClient() {
             {/* 级别选择 */}
             <div className="space-y-2">
               <Label>方案级别</Label>
-              <Select value={selectedLevel} onValueChange={(value) => setSelectedLevel(value as SolutionLevel | 'all')}>
+              <Select
+                value={selectedLevel}
+                onValueChange={(value) =>
+                  setSelectedLevel(value as SolutionLevel | 'all')
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="选择级别" />
                 </SelectTrigger>
@@ -549,7 +561,9 @@ export function RemedySolutionsClient() {
 
             {/* 价格范围 */}
             <div className="space-y-2 md:col-span-2">
-              <Label>价格范围: ¥{priceRange[0]} - ¥{priceRange[1]}</Label>
+              <Label>
+                价格范围: ¥{priceRange[0]} - ¥{priceRange[1]}
+              </Label>
               <Slider
                 value={priceRange}
                 onValueChange={setPriceRange}
@@ -601,11 +615,16 @@ export function RemedySolutionsClient() {
               <thead>
                 <tr className="border-b">
                   <th className="text-left p-4">方案特性</th>
-                  {filteredSolutions.map(solution => (
-                    <th key={solution.id} className="text-center p-4 min-w-[200px]">
+                  {filteredSolutions.map((solution) => (
+                    <th
+                      key={solution.id}
+                      className="text-center p-4 min-w-[200px]"
+                    >
                       <div className="space-y-1">
                         <p className="font-bold">{solution.title}</p>
-                        <Badge variant="outline">{LEVEL_CONFIG[solution.level].label}</Badge>
+                        <Badge variant="outline">
+                          {LEVEL_CONFIG[solution.level].label}
+                        </Badge>
                       </div>
                     </th>
                   ))}
@@ -614,7 +633,7 @@ export function RemedySolutionsClient() {
               <tbody>
                 <tr className="border-b">
                   <td className="p-4 font-medium">价格范围</td>
-                  {filteredSolutions.map(solution => (
+                  {filteredSolutions.map((solution) => (
                     <td key={solution.id} className="text-center p-4">
                       ¥{solution.priceRange.min} - ¥{solution.priceRange.max}
                     </td>
@@ -622,9 +641,13 @@ export function RemedySolutionsClient() {
                 </tr>
                 <tr className="border-b">
                   <td className="p-4 font-medium">有效性</td>
-                  {filteredSolutions.map(solution => (
+                  {filteredSolutions.map((solution) => (
                     <td key={solution.id} className="text-center p-4">
-                      <Badge variant={solution.effectiveness >= 80 ? 'default' : 'secondary'}>
+                      <Badge
+                        variant={
+                          solution.effectiveness >= 80 ? 'default' : 'secondary'
+                        }
+                      >
                         {solution.effectiveness}%
                       </Badge>
                     </td>
@@ -632,7 +655,7 @@ export function RemedySolutionsClient() {
                 </tr>
                 <tr className="border-b">
                   <td className="p-4 font-medium">成功率</td>
-                  {filteredSolutions.map(solution => (
+                  {filteredSolutions.map((solution) => (
                     <td key={solution.id} className="text-center p-4">
                       {solution.successRate}%
                     </td>
@@ -640,7 +663,7 @@ export function RemedySolutionsClient() {
                 </tr>
                 <tr className="border-b">
                   <td className="p-4 font-medium">实施时间</td>
-                  {filteredSolutions.map(solution => (
+                  {filteredSolutions.map((solution) => (
                     <td key={solution.id} className="text-center p-4">
                       {solution.timeRequired}
                     </td>
@@ -648,19 +671,23 @@ export function RemedySolutionsClient() {
                 </tr>
                 <tr className="border-b">
                   <td className="p-4 font-medium">难度</td>
-                  {filteredSolutions.map(solution => (
+                  {filteredSolutions.map((solution) => (
                     <td key={solution.id} className="text-center p-4">
                       <Badge variant="outline">
-                        {solution.difficulty === 'easy' ? '简单' :
-                         solution.difficulty === 'medium' ? '中等' :
-                         solution.difficulty === 'hard' ? '困难' : '专家'}
+                        {solution.difficulty === 'easy'
+                          ? '简单'
+                          : solution.difficulty === 'medium'
+                            ? '中等'
+                            : solution.difficulty === 'hard'
+                              ? '困难'
+                              : '专家'}
                       </Badge>
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b">
                   <td className="p-4 font-medium">物品数量</td>
-                  {filteredSolutions.map(solution => (
+                  {filteredSolutions.map((solution) => (
                     <td key={solution.id} className="text-center p-4">
                       {solution.items.length} 件
                     </td>
@@ -668,7 +695,7 @@ export function RemedySolutionsClient() {
                 </tr>
                 <tr className="border-b">
                   <td className="p-4 font-medium">实施步骤</td>
-                  {filteredSolutions.map(solution => (
+                  {filteredSolutions.map((solution) => (
                     <td key={solution.id} className="text-center p-4">
                       {solution.steps.length} 步
                     </td>
@@ -676,7 +703,7 @@ export function RemedySolutionsClient() {
                 </tr>
                 <tr>
                   <td className="p-4 font-medium">操作</td>
-                  {filteredSolutions.map(solution => (
+                  {filteredSolutions.map((solution) => (
                     <td key={solution.id} className="text-center p-4">
                       <Button
                         size="sm"

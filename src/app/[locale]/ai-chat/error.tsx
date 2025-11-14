@@ -17,6 +17,7 @@ export default function Error({ error, reset }: ErrorProps) {
         </p>
         <div className="mt-4 flex gap-2">
           <button
+            type="button"
             className="rounded bg-primary px-3 py-1.5 text-primary-foreground"
             onClick={() => reset()}
           >

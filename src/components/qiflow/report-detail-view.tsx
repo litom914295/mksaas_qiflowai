@@ -1,5 +1,6 @@
 'use client';
 
+import { ReportPaywall } from '@/components/reports/ReportPaywall';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +13,11 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import {
+  PAYWALL_EXPERIMENT,
+  globalABTest,
+} from '@/lib/qiflow/ab-testing/ab-test';
+import { track } from '@/lib/qiflow/tracking/conversion-tracker';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Calendar,
@@ -22,10 +28,7 @@ import {
   Share2,
   Sparkles,
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { ReportPaywall } from '@/components/reports/ReportPaywall';
-import { globalABTest, PAYWALL_EXPERIMENT } from '@/lib/qiflow/ab-testing/ab-test';
-import { track } from '@/lib/qiflow/tracking/conversion-tracker';
+import { useEffect, useState } from 'react';
 
 type ReportOutput = {
   bazi: {
@@ -355,7 +358,11 @@ export function ReportDetailView({ report, userId }: Props) {
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                生成用时: {metadata ? (metadata.generationTimeMs / 1000).toFixed(1) : '0.0'}s
+                生成用时:{' '}
+                {metadata
+                  ? (metadata.generationTimeMs / 1000).toFixed(1)
+                  : '0.0'}
+                s
               </div>
             </div>
           </div>

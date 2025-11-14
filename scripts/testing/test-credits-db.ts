@@ -58,15 +58,15 @@ async function testDatabaseConnection() {
     console.log('步骤 5: 检查用户积分关联...');
     if (users.length > 0) {
       const testUserId = users[0].id;
-      const userCredit = await db
+      const userCreditRecord = await db
         .select()
         .from(userCredit)
         .where(eq(userCredit.userId, testUserId))
         .limit(1);
 
-      if (userCredit.length > 0) {
+      if (userCreditRecord.length > 0) {
         console.log(
-          `✅ 用户 ${users[0].email} 的积分: ${userCredit[0].currentCredits}`
+          `✅ 用户 ${users[0].email} 的积分: ${userCreditRecord[0].currentCredits}`
         );
       } else {
         console.warn(`⚠️  用户 ${users[0].email} 没有积分记录`);

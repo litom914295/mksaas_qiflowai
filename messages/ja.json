@@ -659,27 +659,6 @@
     "medium_accuracy": "Medium Accuracy",
     "low_accuracy": "Low Accuracy"
   },
-  "compass": {
-    "pickerTitle": "コンパス測定",
-    "pickerDesc": "端末を水平に置き、ゆっくり回転させるか、手動で微調整してください。完了したら「この方位を使う」を押してください。",
-    "reference": "参照基準",
-    "magnetic_north": "磁北",
-    "true_north": "真北",
-    "locating": "位置特定中…",
-    "get_declination": "磁偏角を取得",
-    "magnetic_declination": "磁偏角",
-    "bearingLabel": "方位",
-    "degreeLabel": "角度",
-    "accuracy": "精度",
-    "start_measurement": "測定開始",
-    "stop_measurement": "測定停止",
-    "manual": "手動",
-    "limitedTip": "端末が未対応、または権限が拒否されました。手動モードに切り替えました。",
-    "timeoutTip": "センサーの取得に失敗しました。再度許可するか、手動モードを利用してください。",
-    "errorTip": "センサーエラーが発生しました。再試行するか、手動モードを利用してください。",
-    "cancel": "キャンセル",
-    "use_this_bearing": "この方位を使う"
-  },
   "Compliance": {
     "ageVerification": {
       "title": "TODO: 18+ å¹´é¾„éªŒè¯",

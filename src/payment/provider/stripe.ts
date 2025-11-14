@@ -8,7 +8,7 @@ import {
 import { getCreditPackageById } from '@/credits/server';
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { getDb } from '@/db';
-import { payment, stripeWebhookEvents, user, qiflowReports } from '@/db/schema';
+import { payment, qiflowReports, stripeWebhookEvents, user } from '@/db/schema';
 import {
   findPlanByPlanId,
   findPlanByPriceId,
@@ -1101,7 +1101,9 @@ export class StripeProvider implements PaymentProvider {
       console.log(`<< Report unlocked: ${reportId}`);
 
       // 记录转化追踪
-      const { track } = await import('@/lib/qiflow/tracking/conversion-tracker');
+      const { track } = await import(
+        '@/lib/qiflow/tracking/conversion-tracker'
+      );
       const amount = session.amount_total ? session.amount_total / 100 : 0;
 
       track.paymentCompleted(paymentIntentId, amount, {
@@ -1119,7 +1121,6 @@ export class StripeProvider implements PaymentProvider {
 
       // TODO: 发送邮件通知
       // TODO: 生成PDF（异步处理）
-
     } catch (error) {
       console.error('onReportUnlock error for session:', session.id, error);
       throw error;
@@ -1178,7 +1179,9 @@ export class StripeProvider implements PaymentProvider {
       console.log(`<< Report unlocked via PaymentIntent: ${reportId}`);
 
       // 记录转化追踪
-      const { track } = await import('@/lib/qiflow/tracking/conversion-tracker');
+      const { track } = await import(
+        '@/lib/qiflow/tracking/conversion-tracker'
+      );
       const amount = paymentIntent.amount / 100;
 
       track.paymentCompleted(paymentIntent.id, amount, {
@@ -1192,7 +1195,6 @@ export class StripeProvider implements PaymentProvider {
         paymentId: paymentIntent.id,
         amount,
       });
-
     } catch (error) {
       console.error('onReportUnlockViaPaymentIntent error:', error);
       throw error;
@@ -1210,16 +1212,13 @@ export class StripeProvider implements PaymentProvider {
 
     const { track } = await import('@/lib/qiflow/tracking/conversion-tracker');
 
-    track.paymentFailed(
-      paymentIntent.last_payment_error?.code || 'unknown',
-      {
-        paymentIntentId: paymentIntent.id,
-        reportId: paymentIntent.metadata?.reportId,
-        userId: paymentIntent.metadata?.userId,
-        amount: paymentIntent.amount / 100,
-        errorMessage: paymentIntent.last_payment_error?.message,
-      }
-    );
+    track.paymentFailed(paymentIntent.last_payment_error?.code || 'unknown', {
+      paymentIntentId: paymentIntent.id,
+      reportId: paymentIntent.metadata?.reportId,
+      userId: paymentIntent.metadata?.userId,
+      amount: paymentIntent.amount / 100,
+      errorMessage: paymentIntent.last_payment_error?.message,
+    });
   }
 
   /**

@@ -290,7 +290,7 @@ function checkCompleteness(
         });
       }
 
-      details.push(`✓ 人宅合一分析完整`);
+      details.push('✓ 人宅合一分析完整');
     }
   }
 
@@ -442,7 +442,7 @@ function checkCompliance(
   });
 
   if (bannedWordCount === 0) {
-    details.push(`✓ 无禁用词汇`);
+    details.push('✓ 无禁用词汇');
   }
 
   // 检查敏感词汇（建议替换）
@@ -461,7 +461,7 @@ function checkCompliance(
   });
 
   if (sensitiveWordCount === 0) {
-    details.push(`✓ 无敏感词汇`);
+    details.push('✓ 无敏感词汇');
   }
 
   // 使用AI合规检查
@@ -479,7 +479,7 @@ function checkCompliance(
       suggestion: aiComplianceCheck.reason || '检查内容合规性',
     });
   } else {
-    details.push(`✓ AI合规检查通过`);
+    details.push('✓ AI合规检查通过');
   }
 
   return {

@@ -14,7 +14,7 @@ export async function claimABTestRewardAction(params: {
   experimentName: string;
 }): Promise<{ success: boolean; error?: string; creditsEarned?: number }> {
   const db = await getDb();
-  
+
   try {
     // 1. 验证用户登录
     const session = await getSession();

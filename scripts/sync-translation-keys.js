@@ -21,7 +21,7 @@ function getAllKeyPaths(obj, prefix = '') {
   const paths = [];
 
   for (const key in obj) {
-    if (!obj.hasOwnProperty(key)) continue;
+    if (!Object.hasOwn(obj, key)) continue;
 
     const fullPath = prefix ? `${prefix}.${key}` : key;
 
@@ -84,7 +84,7 @@ function deepMergeKeys(target, source) {
 
   function merge(targetObj, sourceObj, currentPath = '') {
     for (const key in sourceObj) {
-      if (!sourceObj.hasOwnProperty(key)) continue;
+      if (!Object.hasOwn(sourceObj, key)) continue;
 
       const fullPath = currentPath ? `${currentPath}.${key}` : key;
 
@@ -163,7 +163,7 @@ function countKeys(obj) {
 
   function traverse(o) {
     for (const key in o) {
-      if (!o.hasOwnProperty(key)) continue;
+      if (!Object.hasOwn(o, key)) continue;
 
       if (
         typeof o[key] === 'object' &&

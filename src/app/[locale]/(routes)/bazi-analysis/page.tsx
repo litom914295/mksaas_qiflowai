@@ -768,6 +768,7 @@ export default function BaziAnalysisPage() {
                       {historyRecords.slice(0, 3).map((record: any) => (
                         <button
                           key={record.id}
+                          type="button"
                           onClick={() => loadFromHistory(record)}
                           className="w-full text-left p-2 rounded hover:bg-gray-100 transition"
                         >

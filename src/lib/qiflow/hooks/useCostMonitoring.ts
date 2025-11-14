@@ -1,18 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { globalCostGuard } from '@/lib/qiflow/monitoring/cost-guard';
+import { useEffect, useState } from 'react';
 
 /**
  * 成本监控 React Hook
- * 
+ *
  * 用于在前端组件中实时监控成本使用情况
- * 
+ *
  * @example
  * ```tsx
  * function AdminPanel() {
  *   const usage = useCostMonitoring();
- *   
+ *
  *   return (
  *     <div>
  *       <p>今日成本: ${usage.daily.used.toFixed(2)} / ${usage.daily.limit}</p>
@@ -42,16 +42,18 @@ export function useCostMonitoring(updateInterval = 10000) {
 
 /**
  * 成本警告 Hook
- * 
+ *
  * 监控成本使用并在超过阈值时返回警告信息
  */
 export function useCostAlerts() {
   const usage = useCostMonitoring();
-  const [alerts, setAlerts] = useState<Array<{
-    level: 'info' | 'warning' | 'critical';
-    message: string;
-    timestamp: Date;
-  }>>([]);
+  const [alerts, setAlerts] = useState<
+    Array<{
+      level: 'info' | 'warning' | 'critical';
+      message: string;
+      timestamp: Date;
+    }>
+  >([]);
 
   useEffect(() => {
     const newAlerts: typeof alerts = [];

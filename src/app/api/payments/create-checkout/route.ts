@@ -3,7 +3,7 @@
  */
 
 import { auth } from '@/lib/auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -12,7 +12,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 /**
  * POST /api/payments/create-checkout
- * 
+ *
  * 创建Stripe Checkout Session
  */
 export async function POST(req: NextRequest) {
@@ -20,10 +20,7 @@ export async function POST(req: NextRequest) {
     // 验证用户登录
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const userId = session.user.id;
@@ -93,7 +90,6 @@ export async function POST(req: NextRequest) {
       sessionId: checkoutSession.id,
       sessionUrl: checkoutSession.url,
     });
-
   } catch (error: any) {
     console.error('[Create Checkout] Error:', error);
     return NextResponse.json(

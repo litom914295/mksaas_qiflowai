@@ -1,5 +1,6 @@
 import { getDb } from '@/db';
 import { shareRecords } from '@/db/schema';
+import { safeJsonLdReplacer } from '@/lib/security/json-ld';
 import { eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 
@@ -42,8 +43,11 @@ function renderTemplate(shareType?: string) {
 export default async function ShareLandingPage({
   params,
 }: { params: Promise<{ locale: string; id: string }> }) {
-  const { id } = await params;
-  if (!id) notFound();
+  const { id, locale } = await params;
+
+  // 严格的 ID 验证：只允许字母数字和短横线
+  const isValidId = /^[a-zA-Z0-9-]+$/.test(id);
+  if (!id || !isValidId) notFound();
 
   const db = await getDb();
   const [rec] = await db
@@ -54,9 +58,10 @@ export default async function ShareLandingPage({
   const tpl = renderTemplate(rec?.shareType);
 
   // 客户端统计（确保使用访客真实 IP 与浏览器信息）
+  // 注意：虽然 id 已经过验证，但为了防止未来代码修改导致风险，使用安全序列化
   const script = `
     (function(){
-      const id = ${JSON.stringify(id)};
+      const id = ${safeJsonLdReplacer(id)};
       function fpHash(s){ let h=0,i,chr; if(s.length===0) return h.toString(); for(i=0;i<s.length;i++){ chr=s.charCodeAt(i); h=((h<<5)-h)+chr; h|=0;} return h.toString(); }
       function getFp(){ try{ const nav = window.navigator || {}; const scr = window.screen || {}; const d = [nav.userAgent, nav.language, nav.platform, nav.hardwareConcurrency, (nav as any).deviceMemory, scr.colorDepth, scr.width+'x'+scr.height, new Date().getTimezoneOffset()].join('|'); return fpHash(d); } catch(e){ return ''; } }
       const fp = getFp();
@@ -71,7 +76,7 @@ export default async function ShareLandingPage({
   `;
 
   return (
-    <html>
+    <html lang={locale || 'zh-CN'}>
       <head>
         <title>{tpl.title}</title>
         <meta name="robots" content="noindex" />
@@ -96,6 +101,7 @@ export default async function ShareLandingPage({
             提示：停留几秒将帮助分享者获得奖励。
           </p>
         </div>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Safe - ID validated with strict regex + safeJsonLdReplacer */}
         <script dangerouslySetInnerHTML={{ __html: script }} />
       </body>
     </html>

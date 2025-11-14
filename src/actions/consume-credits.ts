@@ -2,7 +2,7 @@
 
 import { consumeCredits } from '@/credits/credits';
 import type { User } from '@/lib/auth-types';
-import { userActionClient } from '@/lib/safe-action';
+import { strictRateLimitedActionClient } from '@/lib/safe-action';
 import { z } from 'zod';
 
 // consume credits schema
@@ -13,8 +13,9 @@ const consumeSchema = z.object({
 
 /**
  * Consume credits
+ * Rate limited: 10 requests/minute (high-risk action)
  */
-export const consumeCreditsAction = userActionClient
+export const consumeCreditsAction = strictRateLimitedActionClient
   .schema(consumeSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { amount, description } = parsedInput;

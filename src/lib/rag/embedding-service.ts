@@ -44,20 +44,25 @@ export class EmbeddingService {
 
   constructor(apiKey?: string, options?: Partial<EmbeddingOptions>) {
     // 优先使用 EMBEDDING_* 环境变量（硅基流动免费），否则使用 OPENAI_* （兔子代理）
-    const key = apiKey || process.env.EMBEDDING_API_KEY || process.env.OPENAI_API_KEY;
+    const key =
+      apiKey || process.env.EMBEDDING_API_KEY || process.env.OPENAI_API_KEY;
 
     if (!key) {
       throw new Error('EMBEDDING_API_KEY or OPENAI_API_KEY is required');
     }
 
-    const baseURL = process.env.EMBEDDING_BASE_URL || process.env.OPENAI_BASE_URL || process.env.OPENAI_PROXY_URL || undefined;
-    
+    const baseURL =
+      process.env.EMBEDDING_BASE_URL ||
+      process.env.OPENAI_BASE_URL ||
+      process.env.OPENAI_PROXY_URL ||
+      undefined;
+
     // 优先使用 EMBEDDING_MODEL 环境变量
     const model = process.env.EMBEDDING_MODEL || DEFAULT_OPTIONS.model;
-    const dimensions = process.env.EMBEDDING_DIMENSIONS 
-      ? Number.parseInt(process.env.EMBEDDING_DIMENSIONS) 
+    const dimensions = process.env.EMBEDDING_DIMENSIONS
+      ? Number.parseInt(process.env.EMBEDDING_DIMENSIONS)
       : DEFAULT_OPTIONS.dimensions;
-    
+
     console.log('[EmbeddingService] 配置:', {
       provider: process.env.EMBEDDING_PROVIDER || 'openai',
       model,
@@ -65,11 +70,11 @@ export class EmbeddingService {
     });
 
     this.client = new OpenAI({ apiKey: key, baseURL });
-    this.options = { 
-      ...DEFAULT_OPTIONS, 
-      model, 
+    this.options = {
+      ...DEFAULT_OPTIONS,
+      model,
       dimensions,
-      ...options 
+      ...options,
     };
   }
 
@@ -154,21 +159,22 @@ export class EmbeddingService {
     input: string[],
     attempt = 1
   ): Promise<OpenAI.Embeddings.CreateEmbeddingResponse> {
-    const isSiliconFlow = process.env.EMBEDDING_PROVIDER === 'siliconflow' || 
-                          process.env.EMBEDDING_BASE_URL?.includes('siliconflow');
-    
+    const isSiliconFlow =
+      process.env.EMBEDDING_PROVIDER === 'siliconflow' ||
+      process.env.EMBEDDING_BASE_URL?.includes('siliconflow');
+
     // 硅基流动使用原生fetch（OpenAI SDK有认证问题）
     if (isSiliconFlow) {
       return this.makeSiliconFlowRequest(input, attempt);
     }
-    
+
     try {
       const params: any = {
         model: this.options.model,
         input,
         dimensions: this.options.dimensions,
       };
-      
+
       return await this.client.embeddings.create(params);
     } catch (error: any) {
       // Rate limit 或网络错误，重试
@@ -197,26 +203,28 @@ export class EmbeddingService {
     attempt = 1
   ): Promise<OpenAI.Embeddings.CreateEmbeddingResponse> {
     try {
-      const baseURL = process.env.EMBEDDING_BASE_URL || 'https://api.siliconflow.cn/v1';
-      const apiKey = process.env.EMBEDDING_API_KEY || process.env.OPENAI_API_KEY;
-      
+      const baseURL =
+        process.env.EMBEDDING_BASE_URL || 'https://api.siliconflow.cn/v1';
+      const apiKey =
+        process.env.EMBEDDING_API_KEY || process.env.OPENAI_API_KEY;
+
       const response = await fetch(`${baseURL}/embeddings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: this.options.model,
           input,
         }),
       });
-      
+
       if (!response.ok) {
         const text = await response.text();
         throw new Error(`SiliconFlow API error: ${response.status} ${text}`);
       }
-      
+
       return await response.json();
     } catch (error: any) {
       // 重试逻辑
@@ -242,11 +250,13 @@ export class EmbeddingService {
    */
   private calculateCost(tokens: number): number {
     // 如果使用硅基流动或配置了免费模型，成本为0
-    if (process.env.EMBEDDING_PROVIDER === 'siliconflow' || 
-        process.env.EMBEDDING_BASE_URL?.includes('siliconflow')) {
+    if (
+      process.env.EMBEDDING_PROVIDER === 'siliconflow' ||
+      process.env.EMBEDDING_BASE_URL?.includes('siliconflow')
+    ) {
       return 0;
     }
-    
+
     // OpenAI 官方或代理价格
     const COST_PER_1K_TOKENS = 0.00002;
     return (tokens / 1000) * COST_PER_1K_TOKENS;

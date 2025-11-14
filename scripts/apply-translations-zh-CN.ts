@@ -51,7 +51,7 @@ const translations: { [key: string]: string } = {
   'your@email.com': 'your@email.com',
 
   // HomePage
-  QiFlow AI: 'QiFlow AI',
+  'QiFlow AI': 'QiFlow AI',
 
   // I18nTest
   'Switch Language': '切换语言',

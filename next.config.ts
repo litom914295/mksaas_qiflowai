@@ -113,6 +113,51 @@ const nextConfig: NextConfig = {
 
   // 安全头部（提升 Best Practices 分数）
   async headers() {
+    // Content Security Policy (CSP) 配置
+    // 注意：由于使用了 inline scripts 和 inline styles，需要适当宽松的策略
+    const cspHeader = [
+      // 默认源：仅允许同源内容
+      "default-src 'self'",
+
+      // 脚本源：允许同源、inline scripts（用于 GA、追踪等）、eval（某些库需要）
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com",
+
+      // 样式源：允许同源、inline styles（用于动态样式）、Google Fonts
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+
+      // 字体源：允许同源、Google Fonts、data URI
+      "font-src 'self' https://fonts.gstatic.com data:",
+
+      // 图片源：允许同源、data URI、所有 HTTPS 源（用于用户头像、外部图片等）
+      "img-src 'self' data: https: blob:",
+
+      // 媒体源：允许同源、HTTPS 源
+      "media-src 'self' https:",
+
+      // 连接源：允许同源、API 服务、分析服务
+      "connect-src 'self' https://www.google-analytics.com https://api.stripe.com https://*.supabase.co wss://*.supabase.co",
+
+      // Frame 源：允许同源、Stripe、支付网关
+      "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://challenges.cloudflare.com",
+
+      // 对象源：不允许 <object>、<embed>、<applet>
+      "object-src 'none'",
+
+      // Base URI：限制为同源
+      "base-uri 'self'",
+
+      // Form action：允许同源和支付网关
+      "form-action 'self' https://js.stripe.com",
+
+      // Frame ancestors：防止被嵌入到其他网站（防止点击劫持）
+      "frame-ancestors 'self'",
+
+      // 升级不安全请求：将 HTTP 升级为 HTTPS（生产环境）
+      process.env.NODE_ENV === 'production' ? 'upgrade-insecure-requests' : '',
+    ]
+      .filter(Boolean) // 移除空字符串
+      .join('; ');
+
     return [
       {
         source: '/(.*)',
@@ -136,6 +181,15 @@ const nextConfig: NextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: cspHeader,
+          },
+          {
+            key: 'Permissions-Policy',
+            value:
+              'camera=(), microphone=(), geolocation=(self), interest-cohort=()',
           },
         ],
       },

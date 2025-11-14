@@ -71,7 +71,7 @@ export async function handleStreamChat(reqBody: unknown) {
   console.log('[handleStreamChat] 开始处理...');
 
   // 1. 验证请求体
-  let parsed;
+  let parsed: ChatRequest;
   try {
     parsed = ChatRequestSchema.parse(reqBody);
     console.log('[handleStreamChat] 请求验证成功');

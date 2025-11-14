@@ -1,22 +1,28 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { 
-  DollarSign, 
-  ShoppingCart, 
-  CheckCircle2, 
-  Star, 
-  AlertCircle,
-  Package,
-  Clock,
-  Target,
-  Sparkles
-} from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import {
+  AlertCircle,
+  CheckCircle2,
+  Clock,
+  DollarSign,
+  Package,
+  ShoppingCart,
+  Sparkles,
+  Star,
+  Target,
+} from 'lucide-react';
 
 // 方案级别类型
 export type SolutionLevel = 'basic' | 'standard' | 'professional' | 'ultimate';
@@ -129,7 +135,7 @@ export function RemedySolutionCard({
 
   // 计算总价格
   const totalPrice = solution.items
-    .filter(item => item.required)
+    .filter((item) => item.required)
     .reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   // 难度标签
@@ -148,7 +154,7 @@ export function RemedySolutionCard({
   }[solution.difficulty];
 
   return (
-    <Card 
+    <Card
       className={cn(
         'relative overflow-hidden transition-all duration-300 hover:shadow-lg',
         config.borderColor,
@@ -204,14 +210,18 @@ export function RemedySolutionCard({
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">有效性</span>
-                  <span className="text-sm font-medium">{solution.effectiveness}%</span>
+                  <span className="text-sm font-medium">
+                    {solution.effectiveness}%
+                  </span>
                 </div>
                 <Progress value={solution.effectiveness} className="h-2" />
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">成功率</span>
-                  <span className="text-sm font-medium">{solution.successRate}%</span>
+                  <span className="text-sm font-medium">
+                    {solution.successRate}%
+                  </span>
                 </div>
                 <Progress value={solution.successRate} className="h-2" />
               </div>
@@ -220,7 +230,9 @@ export function RemedySolutionCard({
             <div className="flex items-center justify-between py-3 border-t">
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm">所需时间: {solution.timeRequired}</span>
+                <span className="text-sm">
+                  所需时间: {solution.timeRequired}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -252,15 +264,17 @@ export function RemedySolutionCard({
           {/* 物品清单 Tab */}
           <TabsContent value="items" className="space-y-3">
             {solution.items.map((item, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="flex items-center justify-between p-3 rounded-lg border"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <span className="font-medium">{item.name}</span>
                     {item.required && (
-                      <Badge variant="secondary" className="text-xs">必需</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        必需
+                      </Badge>
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -269,7 +283,9 @@ export function RemedySolutionCard({
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium">¥{item.price}</p>
-                  <p className="text-xs text-muted-foreground">x{item.quantity}</p>
+                  <p className="text-xs text-muted-foreground">
+                    x{item.quantity}
+                  </p>
                 </div>
               </div>
             ))}
@@ -351,16 +367,14 @@ export function RemedySolutionCard({
 
         {/* 操作按钮 */}
         <div className="flex gap-2 mt-4">
-          <Button 
+          <Button
             className="flex-1"
             onClick={() => onSelectSolution?.(solution)}
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
             选择此方案
           </Button>
-          <Button variant="outline">
-            查看详情
-          </Button>
+          <Button variant="outline">查看详情</Button>
         </div>
       </CardContent>
     </Card>

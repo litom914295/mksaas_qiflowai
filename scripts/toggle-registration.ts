@@ -1,23 +1,25 @@
 #!/usr/bin/env node
 /**
  * 注册功能开关控制脚本
- * 
+ *
  * 使用方法：
  * - 开启注册: npx tsx scripts/toggle-registration.ts --enable
  * - 关闭注册: npx tsx scripts/toggle-registration.ts --disable
  * - 查看状态: npx tsx scripts/toggle-registration.ts --status
  */
 
+import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import { config as loadEnv } from 'dotenv';
-import path from 'path';
 
 // 加载环境变量
 loadEnv({ path: path.resolve(process.cwd(), '.env.local') });
 
 // 解析命令行参数
 const args = process.argv.slice(2);
-const action = args.find(arg => ['--enable', '--disable', '--status'].includes(arg));
+const action = args.find((arg) =>
+  ['--enable', '--disable', '--status'].includes(arg)
+);
 
 // 颜色输出
 const colors = {
@@ -30,7 +32,8 @@ const colors = {
 
 const log = {
   info: (msg: string) => console.log(`${colors.cyan}ℹ${colors.reset} ${msg}`),
-  success: (msg: string) => console.log(`${colors.green}✓${colors.reset} ${msg}`),
+  success: (msg: string) =>
+    console.log(`${colors.green}✓${colors.reset} ${msg}`),
   warn: (msg: string) => console.log(`${colors.yellow}⚠${colors.reset} ${msg}`),
   error: (msg: string) => console.log(`${colors.red}✗${colors.reset} ${msg}`),
 };
@@ -71,13 +74,11 @@ async function getStatus(supabase: any): Promise<boolean> {
 // 设置注册状态
 async function setStatus(supabase: any, enabled: boolean): Promise<void> {
   try {
-    const { error } = await supabase
-      .from('system_settings')
-      .upsert({
-        key: 'registration_enabled',
-        value: enabled.toString(),
-        updated_at: new Date().toISOString(),
-      });
+    const { error } = await supabase.from('system_settings').upsert({
+      key: 'registration_enabled',
+      value: enabled.toString(),
+      updated_at: new Date().toISOString(),
+    });
 
     if (error) throw error;
 
@@ -111,7 +112,9 @@ async function main() {
       case '--status': {
         const enabled = await getStatus(supabase);
         console.log('\n' + '='.repeat(40));
-        console.log(`注册功能状态: ${enabled ? `${colors.green}开启${colors.reset}` : `${colors.red}关闭${colors.reset}`}`);
+        console.log(
+          `注册功能状态: ${enabled ? `${colors.green}开启${colors.reset}` : `${colors.red}关闭${colors.reset}`}`
+        );
         console.log('='.repeat(40) + '\n');
         break;
       }

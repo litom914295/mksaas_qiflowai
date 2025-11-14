@@ -271,9 +271,9 @@ export class TrueSolarTimeCalculator {
 
     // 检查子时跨日情况
     if (hour === 23 && minute >= 0) {
-      warnings.push(`当前时间处于子时前半（23:00-24:00）,日柱应为当日`);
+      warnings.push('当前时间处于子时前半（23:00-24:00）,日柱应为当日');
     } else if (hour === 0 && minute < 60) {
-      warnings.push(`当前时间处于子时后半（00:00-01:00）,日柱应为前一日`);
+      warnings.push('当前时间处于子时后半（00:00-01:00）,日柱应为前一日');
     }
 
     return {

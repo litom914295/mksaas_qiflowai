@@ -3,7 +3,7 @@
 import { websiteConfig } from '@/config/website';
 import type { User } from '@/lib/auth-types';
 import { findPlanByPlanId } from '@/lib/price-plan';
-import { userActionClient } from '@/lib/safe-action';
+import { strictRateLimitedActionClient } from '@/lib/safe-action';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import { createCheckout } from '@/payment';
 import type { CreateCheckoutParams } from '@/payment/types';
@@ -23,8 +23,9 @@ const checkoutSchema = z.object({
 
 /**
  * Create a checkout session for a price plan
+ * Rate limited: 10 requests/minute (payment action)
  */
-export const createCheckoutAction = userActionClient
+export const createCheckoutAction = strictRateLimitedActionClient
   .schema(checkoutSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { planId, priceId, metadata } = parsedInput;

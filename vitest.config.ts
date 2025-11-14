@@ -19,8 +19,8 @@ export default defineConfig({
       '**/dist/**',
       '**/.next/**',
       // 排除需要数据库连接的测试 (无测试数据库时)
-      '**/tests/security/**', // 安全测试需要DB
       '**/tests/unit/credits/**', // 积分测试需要DB
+      '**/tests/security/vulnerabilities.test.ts', // 漏洞测试需要DB
       '**/__tests__/api/**', // API测试需要DB
       // 排除有导入错误的无效测试文件 (组件已删除/重命名)
       '**/compass/__tests__/feng-shui-compass.test.tsx', // feng-shui-compass组件不存在

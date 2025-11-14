@@ -114,10 +114,14 @@ export default function AuthDebugPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label
+                htmlFor="email-input"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
                 邮箱
               </label>
               <input
+                id="email-input"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -126,10 +130,14 @@ export default function AuthDebugPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label
+                htmlFor="password-input"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
                 密码
               </label>
               <input
+                id="password-input"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -140,6 +148,7 @@ export default function AuthDebugPage() {
 
           <div className="flex flex-wrap gap-3 mb-6">
             <button
+              type="button"
               onClick={testHealthCheck}
               disabled={loading}
               className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
@@ -148,6 +157,7 @@ export default function AuthDebugPage() {
             </button>
 
             <button
+              type="button"
               onClick={testDirectAPI}
               disabled={loading}
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
@@ -156,6 +166,7 @@ export default function AuthDebugPage() {
             </button>
 
             <button
+              type="button"
               onClick={testAuthClient}
               disabled={loading}
               className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50"
@@ -164,6 +175,7 @@ export default function AuthDebugPage() {
             </button>
 
             <button
+              type="button"
               onClick={clearLogs}
               className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
             >
@@ -203,6 +215,7 @@ export default function AuthDebugPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button
+              type="button"
               onClick={() => {
                 setEmail('test@example.com');
                 setPassword('password123');
@@ -214,6 +227,7 @@ export default function AuthDebugPage() {
             </button>
 
             <button
+              type="button"
               onClick={() => {
                 setEmail('demo@mksaas.com');
                 setPassword('demo123456');
@@ -225,6 +239,7 @@ export default function AuthDebugPage() {
             </button>
 
             <button
+              type="button"
               onClick={() => {
                 setEmail('admin@mksaas.com');
                 setPassword('admin123456');

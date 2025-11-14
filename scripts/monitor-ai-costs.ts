@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 /**
  * AI成本监控和自动告警脚本
- * 
+ *
  * 功能：
  * 1. 监控每日AI调用成本
  * 2. $50时发送警告邮件/通知
  * 3. $100时自动暂停新用户注册
  * 4. 生成成本报告
- * 
+ *
  * 使用方法：
  * - 一次性检查: npx tsx scripts/monitor-ai-costs.ts
  * - 定时任务（cron）: 0 * * * * npx tsx scripts/monitor-ai-costs.ts
  */
 
+import fs from 'fs';
+import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import { config as loadEnv } from 'dotenv';
-import path from 'path';
-import fs from 'fs';
 
 // 加载环境变量
 loadEnv({ path: path.resolve(process.cwd(), '.env.local') });
@@ -40,10 +40,12 @@ const colors = {
 
 const log = {
   info: (msg: string) => console.log(`${colors.cyan}ℹ${colors.reset} ${msg}`),
-  success: (msg: string) => console.log(`${colors.green}✓${colors.reset} ${msg}`),
+  success: (msg: string) =>
+    console.log(`${colors.green}✓${colors.reset} ${msg}`),
   warn: (msg: string) => console.log(`${colors.yellow}⚠${colors.reset} ${msg}`),
   error: (msg: string) => console.log(`${colors.red}✗${colors.reset} ${msg}`),
-  critical: (msg: string) => console.log(`${colors.red}${colors.bright}🚨 ${msg}${colors.reset}`),
+  critical: (msg: string) =>
+    console.log(`${colors.red}${colors.bright}🚨 ${msg}${colors.reset}`),
 };
 
 interface CostRecord {
@@ -59,7 +61,10 @@ interface DailyCostSummary {
   totalCost: number;
   totalRequests: number;
   totalTokens: number;
-  modelBreakdown: Record<string, { requests: number; cost: number; tokens: number }>;
+  modelBreakdown: Record<
+    string,
+    { requests: number; cost: number; tokens: number }
+  >;
 }
 
 // 初始化 Supabase
@@ -103,7 +108,10 @@ async function getTodayCost(supabase: any): Promise<DailyCostSummary> {
     const totalTokens = records.reduce((sum, r) => sum + (r.tokens || 0), 0);
 
     // 按模型分组统计
-    const modelBreakdown: Record<string, { requests: number; cost: number; tokens: number }> = {};
+    const modelBreakdown: Record<
+      string,
+      { requests: number; cost: number; tokens: number }
+    > = {};
     for (const record of records) {
       const model = record.model || 'unknown';
       if (!modelBreakdown[model]) {
@@ -149,15 +157,16 @@ async function getRegistrationStatus(supabase: any): Promise<boolean> {
 }
 
 // 设置注册开关
-async function setRegistrationStatus(supabase: any, enabled: boolean): Promise<void> {
+async function setRegistrationStatus(
+  supabase: any,
+  enabled: boolean
+): Promise<void> {
   try {
-    const { error } = await supabase
-      .from('system_settings')
-      .upsert({
-        key: 'registration_enabled',
-        value: enabled.toString(),
-        updated_at: new Date().toISOString(),
-      });
+    const { error } = await supabase.from('system_settings').upsert({
+      key: 'registration_enabled',
+      value: enabled.toString(),
+      updated_at: new Date().toISOString(),
+    });
 
     if (error) throw error;
 
@@ -169,24 +178,28 @@ async function setRegistrationStatus(supabase: any, enabled: boolean): Promise<v
 }
 
 // 发送告警通知
-async function sendAlert(level: 'warning' | 'critical', summary: DailyCostSummary): Promise<void> {
+async function sendAlert(
+  level: 'warning' | 'critical',
+  summary: DailyCostSummary
+): Promise<void> {
   const { totalCost, totalRequests, date } = summary;
 
   // 生成告警消息
-  const message = level === 'warning'
-    ? `⚠️  AI成本警告\n\n` +
-      `日期: ${date}\n` +
-      `当前成本: $${totalCost.toFixed(2)}\n` +
-      `请求次数: ${totalRequests}\n` +
-      `警告阈值: $${COST_THRESHOLDS.WARNING}\n\n` +
-      `请注意控制使用量，避免超出预算。`
-    : `🚨 AI成本严重超标！\n\n` +
-      `日期: ${date}\n` +
-      `当前成本: $${totalCost.toFixed(2)}\n` +
-      `请求次数: ${totalRequests}\n` +
-      `危险阈值: $${COST_THRESHOLDS.CRITICAL}\n\n` +
-      `系统已自动暂停新用户注册！\n` +
-      `请立即采取措施降低成本。`;
+  const message =
+    level === 'warning'
+      ? '⚠️  AI成本警告\n\n' +
+        `日期: ${date}\n` +
+        `当前成本: $${totalCost.toFixed(2)}\n` +
+        `请求次数: ${totalRequests}\n` +
+        `警告阈值: $${COST_THRESHOLDS.WARNING}\n\n` +
+        '请注意控制使用量，避免超出预算。'
+      : '🚨 AI成本严重超标！\n\n' +
+        `日期: ${date}\n` +
+        `当前成本: $${totalCost.toFixed(2)}\n` +
+        `请求次数: ${totalRequests}\n` +
+        `危险阈值: $${COST_THRESHOLDS.CRITICAL}\n\n` +
+        '系统已自动暂停新用户注册！\n' +
+        '请立即采取措施降低成本。';
 
   log.info('告警消息:');
   console.log('\n' + '='.repeat(60));
@@ -205,7 +218,7 @@ async function sendAlert(level: 'warning' | 'critical', summary: DailyCostSummar
     fs.mkdirSync(logDir, { recursive: true });
   }
 
-  const logFile = path.join(logDir, `ai-cost-alerts.log`);
+  const logFile = path.join(logDir, 'ai-cost-alerts.log');
   const logEntry = `[${new Date().toISOString()}] ${level.toUpperCase()}: Cost $${totalCost.toFixed(2)} | Requests ${totalRequests}\n`;
   fs.appendFileSync(logFile, logEntry);
 
@@ -214,36 +227,49 @@ async function sendAlert(level: 'warning' | 'critical', summary: DailyCostSummar
 
 // 生成成本报告
 function generateReport(summary: DailyCostSummary): void {
-  const { date, totalCost, totalRequests, totalTokens, modelBreakdown } = summary;
+  const { date, totalCost, totalRequests, totalTokens, modelBreakdown } =
+    summary;
 
   console.log('\n' + '='.repeat(60));
   console.log(`📊 AI成本日报 - ${date}`);
   console.log('='.repeat(60) + '\n');
 
-  console.log(`总成本: ${colors.bright}$${totalCost.toFixed(4)}${colors.reset}`);
+  console.log(
+    `总成本: ${colors.bright}$${totalCost.toFixed(4)}${colors.reset}`
+  );
   console.log(`总请求: ${totalRequests} 次`);
   console.log(`总Token: ${totalTokens.toLocaleString()}`);
 
   if (totalCost >= COST_THRESHOLDS.CRITICAL) {
-    console.log(`状态: ${colors.red}${colors.bright}🚨 危险 (已达 $${COST_THRESHOLDS.CRITICAL})${colors.reset}`);
+    console.log(
+      `状态: ${colors.red}${colors.bright}🚨 危险 (已达 $${COST_THRESHOLDS.CRITICAL})${colors.reset}`
+    );
   } else if (totalCost >= COST_THRESHOLDS.WARNING) {
-    console.log(`状态: ${colors.yellow}⚠️  警告 (已达 $${COST_THRESHOLDS.WARNING})${colors.reset}`);
+    console.log(
+      `状态: ${colors.yellow}⚠️  警告 (已达 $${COST_THRESHOLDS.WARNING})${colors.reset}`
+    );
   } else {
     console.log(`状态: ${colors.green}✓ 正常${colors.reset}`);
   }
 
   const percentage = (totalCost / COST_THRESHOLDS.CRITICAL) * 100;
-  console.log(`预算使用: ${percentage.toFixed(1)}% / $${COST_THRESHOLDS.CRITICAL}`);
+  console.log(
+    `预算使用: ${percentage.toFixed(1)}% / $${COST_THRESHOLDS.CRITICAL}`
+  );
 
   // 模型使用详情
   console.log('\n📦 模型使用详情:');
-  const sortedModels = Object.entries(modelBreakdown).sort((a, b) => b[1].cost - a[1].cost);
-  
+  const sortedModels = Object.entries(modelBreakdown).sort(
+    (a, b) => b[1].cost - a[1].cost
+  );
+
   for (const [model, stats] of sortedModels) {
     const modelPercentage = (stats.cost / totalCost) * 100;
     console.log(`  ${model}:`);
     console.log(`    - 请求: ${stats.requests} 次`);
-    console.log(`    - 成本: $${stats.cost.toFixed(4)} (${modelPercentage.toFixed(1)}%)`);
+    console.log(
+      `    - 成本: $${stats.cost.toFixed(4)} (${modelPercentage.toFixed(1)}%)`
+    );
     console.log(`    - Token: ${stats.tokens.toLocaleString()}`);
   }
 
@@ -261,7 +287,7 @@ async function monitorAICosts() {
     // 获取今日成本
     log.info('正在查询今日成本数据...');
     const summary = await getTodayCost(supabase);
-    
+
     // 生成报告
     generateReport(summary);
 
@@ -272,19 +298,17 @@ async function monitorAICosts() {
     if (totalCost >= COST_THRESHOLDS.CRITICAL) {
       // 达到危险阈值
       log.critical(`成本已达危险阈值 $${COST_THRESHOLDS.CRITICAL}！`);
-      
+
       if (registrationEnabled) {
         log.warn('正在关闭新用户注册...');
         await setRegistrationStatus(supabase, false);
       }
 
       await sendAlert('critical', summary);
-
     } else if (totalCost >= COST_THRESHOLDS.WARNING) {
       // 达到警告阈值
       log.warn(`成本已达警告阈值 $${COST_THRESHOLDS.WARNING}`);
       await sendAlert('warning', summary);
-
     } else {
       // 正常范围
       log.success('成本在正常范围内');
@@ -299,7 +323,6 @@ async function monitorAICosts() {
     }
 
     log.success('\n监控完成！');
-
   } catch (error) {
     log.error(`监控失败: ${error}`);
     console.error(error);

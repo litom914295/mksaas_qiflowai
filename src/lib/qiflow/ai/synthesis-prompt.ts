@@ -456,8 +456,8 @@ async function findSuperLuckySpots(
         },
         utilizationAdvice: [
           `将重要活动区域（如办公桌、沙发）布置在${location}`,
-          `每日在此区域停留至少1小时以上`,
-          `在此进行重要决策、洽谈、学习等活动`,
+          '每日在此区域停留至少1小时以上',
+          '在此进行重要决策、洽谈、学习等活动',
         ],
         expectedEffects: {
           aspects:
@@ -503,7 +503,7 @@ function findSecondaryLuckySpots(coreData: CoreData): LuckySpot[] {
         },
         utilizationAdvice: [
           `在${getPalaceLocation(palace)}布置绿植或流动水景`,
-          `保持此区域整洁明亮`,
+          '保持此区域整洁明亮',
         ],
         expectedEffects: {
           aspects: ['整体运势'],
@@ -595,7 +595,7 @@ function generateResolutionMethods(
     steps: [
       `在${getPalaceLocation(palace)}放置${exhaustElement}属性物品`,
       `例如：${getElementItems(exhaustElement)}`,
-      `保持区域通风、整洁`,
+      '保持区域通风、整洁',
     ],
     principle: `${element}生${exhaustElement}，通过泄耗削弱凶星力量`,
     estimatedCost: '约50-200元',
@@ -608,8 +608,8 @@ function generateResolutionMethods(
     method: '减少停留时间',
     steps: [
       `避免在${getPalaceLocation(palace)}长时间停留`,
-      `不要在此区域进行重要决策`,
-      `改至其他吉位活动`,
+      '不要在此区域进行重要决策',
+      '改至其他吉位活动',
     ],
     principle: '减少负能量接触，降低影响',
   });
@@ -818,7 +818,7 @@ function generateFallbackLayoutAdvice(
       actions: [
         `将主要活动区域移至${topSpot.location}`,
         `在此区域放置${topSpot.energyAnalysis.baziElement}属性物品`,
-        `每日在此停留1小时以上`,
+        '每日在此停留1小时以上',
       ],
       principle: `${topSpot.energyAnalysis.resonanceType}，能量相互增强`,
       expectedResults: {

@@ -240,7 +240,8 @@ export class WuxingStrengthAnalyzer {
     for (const [element, coefficient] of Object.entries(coefficients)) {
       const elementKey = this.getElementKey(element);
       const adjustment =
-        (strength as any)[elementKey] * coefficient - (strength as any)[elementKey];
+        (strength as any)[elementKey] * coefficient -
+        (strength as any)[elementKey];
       (strength as any)[elementKey] += adjustment;
       (strength.details.monthlyEffect as any)[element] = adjustment;
     }
@@ -368,7 +369,8 @@ export class WuxingStrengthAnalyzer {
 
       if ((strength as any)[controllerKey] > 0) {
         const penalty =
-          (strength as any)[controllerKey] * this.config.interactionCoefficients.control;
+          (strength as any)[controllerKey] *
+          this.config.interactionCoefficients.control;
         (strength as any)[elementKey] -= penalty;
         (strength.details.interactions as any)[element] -= penalty;
       }

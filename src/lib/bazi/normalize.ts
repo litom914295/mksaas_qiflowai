@@ -621,7 +621,7 @@ function extractLuckInfo(
     const period = pillar.period;
     const ageStart = pillar.startAge || 0;
     const ageRangeKey = `${ageStart}`;
-    
+
     // 过滤重复的period或重复的年龄范围
     if (!seenPeriods.has(period) && !seenAgeRanges.has(ageRangeKey)) {
       seenPeriods.add(period);
@@ -630,7 +630,13 @@ function extractLuckInfo(
     }
   }
 
-  console.log('[normalize] 过滤后大运数量:', uniquePillars.length, '(原始:', luckPillars.length, ')');
+  console.log(
+    '[normalize] 过滤后大运数量:',
+    uniquePillars.length,
+    '(原始:',
+    luckPillars.length,
+    ')'
+  );
 
   // 构建大运时间线
   const daYunTimeline: DaYunPeriod[] = uniquePillars.map(

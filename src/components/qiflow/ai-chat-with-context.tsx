@@ -173,16 +173,16 @@ export function AIChatWithContext({
 
           if (dayMaster) {
             const elementNames: Record<string, string> = {
-              '甲': '甲木',
-              '乙': '乙木',
-              '丙': '丙火',
-              '丁': '丁火',
-              '戊': '戊土',
-              '己': '己土',
-              '庚': '庚金',
-              '辛': '辛金',
-              '壬': '壬水',
-              '癸': '癸水',
+              甲: '甲木',
+              乙: '乙木',
+              丙: '丙火',
+              丁: '丁火',
+              戊: '戊土',
+              己: '己土',
+              庚: '庚金',
+              辛: '辛金',
+              壬: '壬水',
+              癸: '癸水',
             };
 
             const dayMasterName = elementNames[dayMaster] || dayMaster;
@@ -259,16 +259,16 @@ export function AIChatWithContext({
           if (result.pillars?.day?.stem) {
             const dayMaster = result.pillars.day.stem;
             const insightMap: Record<string, string> = {
-              '甲': '您天生具备领导气质，但需防止过于强势',
-              '乙': '您性情温和包容，但要注意增强决断力',
-              '丙': '您热情阳光，但需控制情绪波动',
-              '丁': '您心思细腻敏感，善于洞察人心',
-              '戊': '您稳重可靠，是天生的组织管理者',
-              '己': '您包容力强，但要避免过度牺牲自己',
-              '庚': '您意志坚定果断，但需平衡刚柔并济',
-              '辛': '您追求完美精致，具有很强的审美能力',
-              '壬': '您智慧如海，善于谋略但要防止多虑',
-              '癸': '您如甘露般滋润他人，直觉力极强但需增强自信',
+              甲: '您天生具备领导气质，但需防止过于强势',
+              乙: '您性情温和包容，但要注意增强决断力',
+              丙: '您热情阳光，但需控制情绪波动',
+              丁: '您心思细腻敏感，善于洞察人心',
+              戊: '您稳重可靠，是天生的组织管理者',
+              己: '您包容力强，但要避免过度牺牲自己',
+              庚: '您意志坚定果断，但需平衡刚柔并济',
+              辛: '您追求完美精致，具有很强的审美能力',
+              壬: '您智慧如海，善于谋略但要防止多虑',
+              癸: '您如甘露般滋润他人，直觉力极强但需增强自信',
             };
             coreInsight = insightMap[dayMaster] || '';
           }
@@ -955,7 +955,7 @@ export function AIChatWithContext({
             `宝宝的房间应该在哪个方位才能助长${yongshen ? yongshen + '运' : '运势'}？`,
             `${personal?.gender === 'male' ? '男宝' : '女宝'}的睡眠方位和房间布置有什么讲究？`,
             `如何为${dayMaster}日主的孩子选择幸运物和玩具？`,
-            `宝宝的天赋才能在哪些方面？应该怎么培养？`,
+            '宝宝的天赋才能在哪些方面？应该怎么培养？',
             strongestElement
               ? `宝宝${strongestElement}属性特别强，适合哪些颜色和玩具？`
               : null,
@@ -1092,7 +1092,7 @@ export function AIChatWithContext({
           const seniorQuestions = [
             `${dayMaster}日主的我，如何保持身心健康和长寿？`,
             `${age}岁${dayMaster}日主，晚年运势如何？需要注意什么？`,
-            `如何为子女布局，让家族运势更加兴旺？`,
+            '如何为子女布局，让家族运势更加兴旺？',
             yongshen
               ? `${yongshen}为用神，晚年如何通过风水调整提升健康？`
               : null,
@@ -1101,7 +1101,7 @@ export function AIChatWithContext({
               ? `${weakestElement}属性较弱，如何补救保持健康？`
               : null,
             weakestDimensions.find((d: string) => d === 'health')
-              ? `如何通过风水改善健康运势？`
+              ? '如何通过风水改善健康运势？'
               : null,
           ].filter((q): q is string => typeof q === 'string');
           if (hasFengshui) {

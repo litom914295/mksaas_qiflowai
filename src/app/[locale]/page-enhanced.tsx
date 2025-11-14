@@ -260,20 +260,30 @@ export default function EnhancedHomePage() {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="user-name"
+                        className="block text-sm font-medium mb-2"
+                      >
                         您的姓名
                       </label>
                       <input
+                        id="user-name"
                         type="text"
                         className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
                         placeholder="请输入真实姓名"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="user-gender"
+                        className="block text-sm font-medium mb-2"
+                      >
                         性别
                       </label>
-                      <select className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                      <select
+                        id="user-gender"
+                        className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
+                      >
                         <option value="">请选择</option>
                         <option value="male">男</option>
                         <option value="female">女</option>
@@ -283,19 +293,27 @@ export default function EnhancedHomePage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="birth-date"
+                        className="block text-sm font-medium mb-2"
+                      >
                         出生日期
                       </label>
                       <input
+                        id="birth-date"
                         type="date"
                         className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="birth-time"
+                        className="block text-sm font-medium mb-2"
+                      >
                         出生时辰（可选）
                       </label>
                       <input
+                        id="birth-time"
                         type="time"
                         className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
                       />
@@ -303,10 +321,14 @@ export default function EnhancedHomePage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">
+                    <label
+                      htmlFor="birth-place"
+                      className="block text-sm font-medium mb-2"
+                    >
                       出生地点
                     </label>
                     <input
+                      id="birth-place"
                       type="text"
                       className="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:outline-none"
                       placeholder="如：北京市朝阳区"

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
+import path from 'path';
 /**
  * 检查知识库状态
  */
 import { createClient } from '@supabase/supabase-js';
 import { config as loadEnv } from 'dotenv';
-import path from 'path';
 
 // 加载环境变量
 loadEnv({ path: path.resolve(process.cwd(), '.env.local') });
@@ -18,7 +18,9 @@ async function checkKnowledgeBase() {
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !serviceKey) {
-      console.error('❌ Supabase 凭证未找到！请设置 NEXT_PUBLIC_SUPABASE_URL 和 SUPABASE_SERVICE_ROLE_KEY');
+      console.error(
+        '❌ Supabase 凭证未找到！请设置 NEXT_PUBLIC_SUPABASE_URL 和 SUPABASE_SERVICE_ROLE_KEY'
+      );
       process.exit(1);
     }
 
@@ -37,8 +39,12 @@ async function checkKnowledgeBase() {
 
     if (!total || total === 0) {
       console.log('\n⚠️  知识库为空！');
-      console.log('📌 请运行: npx tsx scripts/ingest-knowledge-base.ts --source test-data --dry-run');
-      console.log('📌 正式导入: npx tsx scripts/ingest-knowledge-base.ts --source test-data');
+      console.log(
+        '📌 请运行: npx tsx scripts/ingest-knowledge-base.ts --source test-data --dry-run'
+      );
+      console.log(
+        '📌 正式导入: npx tsx scripts/ingest-knowledge-base.ts --source test-data'
+      );
       return;
     }
 

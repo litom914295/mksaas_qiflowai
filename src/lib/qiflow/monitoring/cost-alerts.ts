@@ -202,7 +202,7 @@ export class CostAlertSystem {
         try {
           return callback(alert);
         } catch (error) {
-          console.error(`[CostAlert] 回调执行失败:`, error);
+          console.error('[CostAlert] 回调执行失败:', error);
           return Promise.resolve();
         }
       })

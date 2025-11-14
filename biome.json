@@ -23,6 +23,8 @@
       "qiflow-ai/**",
       "qiflow-ui/**",
       "backup_*/**",
+      "code-review-output/**",
+      "**/*.css",
       "tailwind.config.ts",
       "src/components/ui/*.tsx",
       "src/components/magicui/*.tsx",

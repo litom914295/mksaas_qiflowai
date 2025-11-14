@@ -57,10 +57,14 @@ export default function TestLoginPage() {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="test-email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               邮箱
             </label>
             <input
+              id="test-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -69,10 +73,14 @@ export default function TestLoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="test-password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               密码
             </label>
             <input
+              id="test-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -81,6 +89,7 @@ export default function TestLoginPage() {
           </div>
 
           <button
+            type="button"
             onClick={handleLogin}
             disabled={loading}
             className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -117,6 +126,7 @@ export default function TestLoginPage() {
           <p className="font-semibold">可用测试账户:</p>
           <div className="mt-2 space-y-2">
             <button
+              type="button"
               onClick={() => {
                 setEmail('test@example.com');
                 setPassword('password123');
@@ -127,6 +137,7 @@ export default function TestLoginPage() {
               <div>密码: password123</div>
             </button>
             <button
+              type="button"
               onClick={() => {
                 setEmail('demo@mksaas.com');
                 setPassword('demo123456');
@@ -137,6 +148,7 @@ export default function TestLoginPage() {
               <div>密码: demo123456</div>
             </button>
             <button
+              type="button"
               onClick={() => {
                 setEmail('admin@mksaas.com');
                 setPassword('admin123456');

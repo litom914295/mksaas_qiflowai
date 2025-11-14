@@ -135,7 +135,9 @@ export function ChengmenjueAnalysisView({
 
   // 综合分析数据
   const analysis = {
-    overallAssessment: chengmenjueAnalysis.overallAssessment || '城门诀的应用需要结合实际户型和生活需求。',
+    overallAssessment:
+      chengmenjueAnalysis.overallAssessment ||
+      '城门诀的应用需要结合实际户型和生活需求。',
     keyPoints: chengmenjueAnalysis.keyPoints || [],
     priorities: chengmenjueAnalysis.priorities || [],
   };

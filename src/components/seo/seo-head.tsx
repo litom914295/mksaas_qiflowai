@@ -1,3 +1,4 @@
+import { safeJsonLdReplacer } from '@/lib/security/json-ld';
 import Head from 'next/head';
 
 interface SEOProps {
@@ -188,14 +189,14 @@ export function SEOHead({
       {/* 结构化数据 */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(finalSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdReplacer(finalSchema) }}
       />
 
       {/* 额外的业务相关结构化数据 */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLdReplacer({
             '@context': 'https://schema.org',
             '@type': 'Service',
             name: '八字风水分析服务',
@@ -243,7 +244,7 @@ export function SEOHead({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLdReplacer({
             '@context': 'https://schema.org',
             '@type': 'FAQPage',
             mainEntity: [
@@ -288,7 +289,7 @@ export function SEOHead({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLdReplacer({
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [

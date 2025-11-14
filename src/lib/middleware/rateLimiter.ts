@@ -74,7 +74,7 @@ export function createRateLimiter(options: RateLimitOptions) {
     request: NextRequest
   ): Promise<NextResponse | null> {
     // 检查是否跳过限流
-    if (skip && skip(request)) {
+    if (skip?.(request)) {
       return null;
     }
 

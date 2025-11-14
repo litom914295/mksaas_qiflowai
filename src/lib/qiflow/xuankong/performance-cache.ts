@@ -3,8 +3,11 @@
  * 用于缓存玄空风水计算结果，提升API响应速度
  */
 
-import { ComprehensiveAnalysisResult, ComprehensiveAnalysisOptions } from './comprehensive-engine';
 import { createHash } from 'crypto';
+import type {
+  ComprehensiveAnalysisOptions,
+  ComprehensiveAnalysisResult,
+} from './comprehensive-engine';
 
 // 缓存接口
 interface CacheEntry {
@@ -33,7 +36,8 @@ export class XuankongCache {
   private maxSize: number;
   private defaultTTL: number;
 
-  constructor(maxSize = 100, defaultTTL = 3600000) { // 默认1小时过期
+  constructor(maxSize = 100, defaultTTL = 3600000) {
+    // 默认1小时过期
     this.cache = new Map();
     this.maxSize = maxSize;
     this.defaultTTL = defaultTTL;
@@ -54,14 +58,19 @@ export class XuankongCache {
     const keyData = {
       facing: options.facing?.degrees || options.facing,
       location: options.location,
-      buildYear: options.observedAt ? new Date(options.observedAt).getFullYear() : null,
+      buildYear: options.observedAt
+        ? new Date(options.observedAt).getFullYear()
+        : null,
       includeQixingdajie: options.includeQixingdajie !== false,
       includeChengmenjue: options.includeChengmenjue !== false,
       includeLingzheng: options.includeLingzheng !== false,
-      environmentInfo: options.environmentInfo ? {
-        waterPositions: options.environmentInfo.waterPositions?.sort(),
-        mountainPositions: options.environmentInfo.mountainPositions?.sort(),
-      } : null,
+      environmentInfo: options.environmentInfo
+        ? {
+            waterPositions: options.environmentInfo.waterPositions?.sort(),
+            mountainPositions:
+              options.environmentInfo.mountainPositions?.sort(),
+          }
+        : null,
     };
 
     // 创建稳定的哈希值
@@ -72,7 +81,9 @@ export class XuankongCache {
   /**
    * 获取缓存结果
    */
-  get(options: ComprehensiveAnalysisOptions): ComprehensiveAnalysisResult | null {
+  get(
+    options: ComprehensiveAnalysisOptions
+  ): ComprehensiveAnalysisResult | null {
     const key = this.generateKey(options);
     const entry = this.cache.get(key);
 
@@ -137,8 +148,8 @@ export class XuankongCache {
    */
   private evictLRU(): void {
     let oldestKey: string | null = null;
-    let oldestTime = Date.now();
-    let leastHits = Infinity;
+    const oldestTime = Date.now();
+    let leastHits = Number.POSITIVE_INFINITY;
 
     // 找出最少使用且最老的项
     for (const [key, entry] of this.cache.entries()) {
@@ -208,13 +219,15 @@ export class XuankongCache {
    * 预先计算常见的配置组合
    */
   async warmup(
-    computeFn: (options: ComprehensiveAnalysisOptions) => Promise<ComprehensiveAnalysisResult>
+    computeFn: (
+      options: ComprehensiveAnalysisOptions
+    ) => Promise<ComprehensiveAnalysisResult>
   ): Promise<void> {
     // 常见的朝向
     const commonFacings = [0, 45, 90, 135, 180, 225, 270, 315];
     // 常见的建造年份
     const commonYears = [2020, 2021, 2022, 2023, 2024, 2025];
-    
+
     const warmupPromises: Promise<void>[] = [];
 
     for (const facing of commonFacings) {
@@ -228,11 +241,13 @@ export class XuankongCache {
         };
 
         warmupPromises.push(
-          computeFn(options).then(result => {
-            this.set(options, result, this.defaultTTL * 2); // 预热缓存时间加倍
-          }).catch(() => {
-            // 忽略预热错误
-          })
+          computeFn(options)
+            .then((result) => {
+              this.set(options, result, this.defaultTTL * 2); // 预热缓存时间加倍
+            })
+            .catch(() => {
+              // 忽略预热错误
+            })
         );
       }
     }
@@ -264,7 +279,7 @@ export class XuankongCache {
       const parsed = JSON.parse(data);
       this.cache = new Map(parsed.cache);
       this.stats = parsed.stats;
-      
+
       // 清理已过期的项
       this.cleanExpired();
     } catch (error) {
@@ -282,7 +297,7 @@ let cacheInstance: XuankongCache | null = null;
 export function getCache(): XuankongCache {
   if (!cacheInstance) {
     cacheInstance = new XuankongCache();
-    
+
     // 定期清理过期缓存
     setInterval(() => {
       cacheInstance?.cleanExpired();
@@ -300,7 +315,7 @@ export async function withCache<T>(
   ttl = 3600000
 ): Promise<T> {
   const cache = getCache();
-  
+
   // 尝试从缓存获取
   const cached = (cache as any).cache.get(key);
   if (cached && Date.now() - cached.timestamp < ttl) {
@@ -323,7 +338,11 @@ export async function withCache<T>(
 /**
  * 性能监控装饰器
  */
-export function measurePerformance(target: any, propertyName: string, descriptor: PropertyDescriptor) {
+export function measurePerformance(
+  target: any,
+  propertyName: string,
+  descriptor: PropertyDescriptor
+) {
   const originalMethod = descriptor.value;
 
   descriptor.value = async function (...args: any[]) {
@@ -331,19 +350,24 @@ export function measurePerformance(target: any, propertyName: string, descriptor
     try {
       const result = await originalMethod.apply(this, args);
       const duration = Date.now() - start;
-      
+
       // 记录性能指标
       console.log(`[Performance] ${propertyName} took ${duration}ms`);
-      
+
       // 如果执行时间过长，记录警告
       if (duration > 1000) {
-        console.warn(`[Performance Warning] ${propertyName} took ${duration}ms (> 1s)`);
+        console.warn(
+          `[Performance Warning] ${propertyName} took ${duration}ms (> 1s)`
+        );
       }
-      
+
       return result;
     } catch (error) {
       const duration = Date.now() - start;
-      console.error(`[Performance Error] ${propertyName} failed after ${duration}ms`, error);
+      console.error(
+        `[Performance Error] ${propertyName} failed after ${duration}ms`,
+        error
+      );
       throw error;
     }
   };
@@ -355,7 +379,11 @@ export function measurePerformance(target: any, propertyName: string, descriptor
  * 批量处理优化
  */
 export class BatchProcessor<T, R> {
-  private queue: Array<{ args: T; resolve: (value: R) => void; reject: (error: any) => void }> = [];
+  private queue: Array<{
+    args: T;
+    resolve: (value: R) => void;
+    reject: (error: any) => void;
+  }> = [];
   private processing = false;
   private batchSize: number;
   private batchDelay: number;
@@ -393,19 +421,19 @@ export class BatchProcessor<T, R> {
 
     // 取出一批待处理项
     const batch = this.queue.splice(0, this.batchSize);
-    const args = batch.map(item => item.args);
+    const args = batch.map((item) => item.args);
 
     try {
       // 批量处理
       const results = await this.processFn(args);
-      
+
       // 分发结果
       batch.forEach((item, index) => {
         item.resolve(results[index]);
       });
     } catch (error) {
       // 错误处理
-      batch.forEach(item => {
+      batch.forEach((item) => {
         item.reject(error);
       });
     }

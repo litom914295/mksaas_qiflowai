@@ -47,7 +47,7 @@ async function syncCreditsToUserCredit(options: SyncOptions = {}) {
     console.log('✅ 数据库连接成功\n');
 
     // 根据参数构建查询条件
-    let whereClause;
+    let whereClause: ReturnType<typeof eq> | undefined;
     if (options.userId) {
       whereClause = eq(user.id, options.userId);
       console.log(`🎯 指定用户ID: ${options.userId}`);

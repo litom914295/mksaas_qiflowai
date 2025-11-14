@@ -1,24 +1,35 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { 
-  AlertTriangle, 
-  AlertCircle, 
-  Info, 
-  CheckCircle2, 
+import { cn } from '@/lib/utils';
+import {
+  AlertCircle,
+  AlertTriangle,
+  ArrowRight,
+  CheckCircle2,
+  Info,
+  Shield,
   Sparkles,
   TrendingUp,
-  ArrowRight,
-  Shield
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 // 预警级别类型
-export type WarningLevel = 'danger' | 'warning' | 'caution' | 'good' | 'excellent';
+export type WarningLevel =
+  | 'danger'
+  | 'warning'
+  | 'caution'
+  | 'good'
+  | 'excellent';
 
 // 预警配置
 const WARNING_LEVELS = {
@@ -127,7 +138,13 @@ export function WarningLevelIndicator({
 
       <CardContent className="space-y-4">
         {/* 主评级卡片 */}
-        <div className={cn('p-6 rounded-lg border-2 transition-all', config.borderColor, config.bgColor)}>
+        <div
+          className={cn(
+            'p-6 rounded-lg border-2 transition-all',
+            config.borderColor,
+            config.bgColor
+          )}
+        >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className={cn('p-3 rounded-full', config.bgColor)}>
@@ -140,7 +157,7 @@ export function WarningLevelIndicator({
                 </p>
               </div>
             </div>
-            
+
             <div className="text-right">
               <p className="text-sm text-muted-foreground">总分</p>
               <p className={cn('text-3xl font-bold', config.color)}>
@@ -162,7 +179,10 @@ export function WarningLevelIndicator({
 
         {/* 详细说明 */}
         {showDetails && (
-          <Alert variant={config.alertVariant} className={cn('border-2', config.borderColor)}>
+          <Alert
+            variant={config.alertVariant}
+            className={cn('border-2', config.borderColor)}
+          >
             <Icon className="h-4 w-4" />
             <AlertTitle>{config.label}级别说明</AlertTitle>
             <AlertDescription>{config.description}</AlertDescription>
@@ -175,14 +195,18 @@ export function WarningLevelIndicator({
           {Object.entries(WARNING_LEVELS).map(([key, levelConfig]) => {
             const LevelIcon = levelConfig.icon;
             const isCurrentLevel = key === level;
-            
+
             return (
               <div
                 key={key}
                 className={cn(
                   'flex items-center justify-between p-3 rounded-lg border transition-all',
-                  isCurrentLevel 
-                    ? cn('border-2', levelConfig.borderColor, levelConfig.bgColor) 
+                  isCurrentLevel
+                    ? cn(
+                        'border-2',
+                        levelConfig.borderColor,
+                        levelConfig.bgColor
+                      )
                     : 'border-border bg-background opacity-50'
                 )}
               >
@@ -217,10 +241,14 @@ export function WarningLevelIndicator({
                   提升到下一级别
                 </p>
                 <p className="text-xs text-blue-800 dark:text-blue-200">
-                  {level === 'danger' && `还需提升 ${(21 - score).toFixed(1)} 分即可达到"警告"级别`}
-                  {level === 'warning' && `还需提升 ${(41 - score).toFixed(1)} 分即可达到"提示"级别`}
-                  {level === 'caution' && `还需提升 ${(61 - score).toFixed(1)} 分即可达到"良好"级别`}
-                  {level === 'good' && `还需提升 ${(81 - score).toFixed(1)} 分即可达到"优秀"级别`}
+                  {level === 'danger' &&
+                    `还需提升 ${(21 - score).toFixed(1)} 分即可达到"警告"级别`}
+                  {level === 'warning' &&
+                    `还需提升 ${(41 - score).toFixed(1)} 分即可达到"提示"级别`}
+                  {level === 'caution' &&
+                    `还需提升 ${(61 - score).toFixed(1)} 分即可达到"良好"级别`}
+                  {level === 'good' &&
+                    `还需提升 ${(81 - score).toFixed(1)} 分即可达到"优秀"级别`}
                 </p>
               </div>
             </div>
@@ -311,9 +339,13 @@ export function CompactWarningIndicator({
     <div className={cn('inline-flex items-center gap-2', className)}>
       <Icon className={cn(sizeClasses[size], config.color)} />
       {showLabel && (
-        <Badge 
-          variant="outline" 
-          className={cn(badgeSizeClasses[size], config.color, config.borderColor)}
+        <Badge
+          variant="outline"
+          className={cn(
+            badgeSizeClasses[size],
+            config.color,
+            config.borderColor
+          )}
         >
           {config.label} {score.toFixed(1)}
         </Badge>

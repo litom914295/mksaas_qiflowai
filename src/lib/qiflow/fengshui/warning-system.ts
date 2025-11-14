@@ -57,16 +57,18 @@ export class WarningSystem {
   /**
    * 识别风水问题
    */
-  static async identifyIssues(input: any): Promise<Array<{
-    id: string;
-    severity: 'critical' | 'high' | 'medium' | 'low';
-    urgency: number; // 1-5
-    title: string;
-    description: string;
-    location: string[];
-    impact: string[];
-    consequences: string[];
-  }>> {
+  static async identifyIssues(input: any): Promise<
+    Array<{
+      id: string;
+      severity: 'critical' | 'high' | 'medium' | 'low';
+      urgency: number; // 1-5
+      title: string;
+      description: string;
+      location: string[];
+      impact: string[];
+      consequences: string[];
+    }>
+  > {
     // 临时实现：返回模拟预警
     return [
       {

@@ -18,9 +18,9 @@ import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import { config as loadEnv } from 'dotenv';
+import { v4 as uuidv4 } from 'uuid';
 import { EmbeddingService } from '../src/lib/rag/embedding-service';
 import { TextChunker } from '../src/lib/rag/text-chunker';
-import { v4 as uuidv4 } from 'uuid';
 
 // 加载环境变量
 loadEnv({ path: path.resolve(process.cwd(), '.env.local') });
@@ -209,19 +209,22 @@ async function ingestKnowledgeBase() {
     console.log(
       `  预估 tokens: ~${(allChunks.reduce((sum, c) => sum + c.content.length, 0) / 3).toFixed(0)}`
     );
-    console.log(`  预估成本: ~$0.01 (text-embedding-3-small)`);
+    console.log('  预估成本: ~$0.01 (text-embedding-3-small)');
     log.success('\n🎉 Dry Run 完成！文本分块正常，可以执行实际摄取。');
     return;
   }
 
   const apiKey = process.env.EMBEDDING_API_KEY || process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error('EMBEDDING_API_KEY or OPENAI_API_KEY not found in environment variables');
+    throw new Error(
+      'EMBEDDING_API_KEY or OPENAI_API_KEY not found in environment variables'
+    );
   }
 
-  const embeddingModel = process.env.EMBEDDING_MODEL || 'text-embedding-3-small';
-  const embeddingDimensions = process.env.EMBEDDING_DIMENSIONS 
-    ? Number.parseInt(process.env.EMBEDDING_DIMENSIONS) 
+  const embeddingModel =
+    process.env.EMBEDDING_MODEL || 'text-embedding-3-small';
+  const embeddingDimensions = process.env.EMBEDDING_DIMENSIONS
+    ? Number.parseInt(process.env.EMBEDDING_DIMENSIONS)
     : 1536;
 
   const embeddingService = new EmbeddingService(apiKey, {
@@ -245,52 +248,57 @@ async function ingestKnowledgeBase() {
 
   // 实际生成嵌入
   let result: { embeddings: number[][]; totalTokens: number; costs: number };
-  
+
   // 硅基流动使用原生fetch（OpenAI SDK有兼容问题）
-  if (process.env.EMBEDDING_PROVIDER === 'siliconflow' || 
-      process.env.EMBEDDING_BASE_URL?.includes('siliconflow')) {
+  if (
+    process.env.EMBEDDING_PROVIDER === 'siliconflow' ||
+    process.env.EMBEDDING_BASE_URL?.includes('siliconflow')
+  ) {
     log.info('使用硅基流动API...');
-    
-    const baseURL = process.env.EMBEDDING_BASE_URL || 'https://api.siliconflow.cn/v1';
+
+    const baseURL =
+      process.env.EMBEDDING_BASE_URL || 'https://api.siliconflow.cn/v1';
     const embeddings: number[][] = [];
     let totalTokens = 0;
-    
+
     // 分批处理
     for (let i = 0; i < texts.length; i += 100) {
       const batch = texts.slice(i, i + 100);
-      
+
       const response = await fetch(`${baseURL}/embeddings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: embeddingModel,
           input: batch,
         }),
       });
-      
+
       if (!response.ok) {
         const text = await response.text();
         throw new Error(`Embedding API error: ${response.status} ${text}`);
       }
-      
+
       const data = await response.json();
       data.data.forEach((item: any) => {
         embeddings[i + item.index] = item.embedding;
       });
       totalTokens += data.usage?.total_tokens || 0;
-      
-      log.info(`  处理进度: ${Math.min(i + 100, texts.length)}/${texts.length}`);
+
+      log.info(
+        `  处理进度: ${Math.min(i + 100, texts.length)}/${texts.length}`
+      );
     }
-    
+
     result = { embeddings, totalTokens, costs: 0 }; // 硅基流动免费
   } else {
     // OpenAI或其他代理使用SDK
     result = await embeddingService.embedBatch(texts);
   }
-  
+
   log.success(
     `生成完成！实际使用 ${result.totalTokens.toLocaleString()} tokens, 成本 $${result.costs.toFixed(4)}\n`
   );

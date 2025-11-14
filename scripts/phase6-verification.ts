@@ -73,16 +73,6 @@ async function verifyDatabaseSchema() {
       });
 
       return true;
-    } else {
-      console.log(colors.red('❌ chatSessions 表不存在'));
-      console.log(colors.yellow('\n请执行以下命令创建表:'));
-      console.log(colors.yellow('  npx drizzle-kit push'));
-      console.log(
-        colors.yellow(
-          '  或手动执行: drizzle/0002_phase2_reports_and_sessions.sql'
-        )
-      );
-      return false;
     }
     console.log(colors.red('❌ chatSessions 表不存在'));
     console.log(colors.yellow('\n请执行以下命令创建表:'));

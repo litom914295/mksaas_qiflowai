@@ -688,19 +688,30 @@ const ReportsPage = () => {
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div>
-              <label className="text-sm font-medium">报表名称</label>
-              <Input placeholder="月度销售分析" className="mt-1" />
+              <label htmlFor="report-name" className="text-sm font-medium">
+                报表名称
+              </label>
+              <Input
+                id="report-name"
+                placeholder="月度销售分析"
+                className="mt-1"
+              />
             </div>
             <div>
-              <label className="text-sm font-medium">描述</label>
+              <label htmlFor="report-desc" className="text-sm font-medium">
+                描述
+              </label>
               <Textarea
+                id="report-desc"
                 placeholder="描述报表的用途..."
                 rows={3}
                 className="mt-1"
               />
             </div>
             <div>
-              <label className="text-sm font-medium">分类</label>
+              <label htmlFor="report-category" className="text-sm font-medium">
+                分类
+              </label>
               <Select defaultValue="business">
                 <SelectTrigger className="mt-1">
                   <SelectValue />

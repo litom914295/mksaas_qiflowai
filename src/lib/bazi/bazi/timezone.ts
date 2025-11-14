@@ -20,7 +20,7 @@ export function createTimezoneAwareDate(
   timezone: string
 ): TimezoneAwareDate {
   const date = typeof datetime === 'string' ? new Date(datetime) : datetime;
-  
+
   return {
     formatLocal(): string {
       return date.toLocaleString('zh-CN', { timeZone: timezone });
@@ -61,16 +61,18 @@ export function getRecommendedTimezone(location?: {
 
   // 根据经度推测时区
   const { longitude } = location;
-  
+
   // 简化处理：根据经度判断大致时区
   if (longitude >= 105 && longitude <= 135) {
     return 'Asia/Shanghai'; // 中国
-  } else if (longitude >= -125 && longitude <= -70) {
+  }
+  if (longitude >= -125 && longitude <= -70) {
     return 'America/New_York'; // 美国东部
-  } else if (longitude >= -10 && longitude <= 10) {
+  }
+  if (longitude >= -10 && longitude <= 10) {
     return 'Europe/London'; // 欧洲
   }
-  
+
   return 'Asia/Shanghai';
 }
 

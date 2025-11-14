@@ -153,7 +153,11 @@ function calculateMonthlyFlyingStar(year: number, month: number) {
 
     return {
       direction,
-      stars: [palace.mountainStar || 0, palace.facingStar || 0, palace.periodStar || 0],
+      stars: [
+        palace.mountainStar || 0,
+        palace.facingStar || 0,
+        palace.periodStar || 0,
+      ],
       meaning: getStarMeaning(palace.mountainStar, palace.facingStar),
       auspiciousness,
     };

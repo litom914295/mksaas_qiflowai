@@ -13,6 +13,7 @@ export enum CREDIT_TRANSACTION_TYPE {
   SHARE_REWARD = 'SHARE_REWARD',              // Credits earned by share conversion
   TASK_REWARD = 'TASK_REWARD',                // Credits earned by completing tasks (newbie missions, etc.)
   MANUAL_ADJUSTMENT = 'MANUAL_ADJUSTMENT',    // Credits manually adjusted by admin
+  REFUND = 'REFUND',                          // Credits refunded due to failed operations
   
   // 消耗积分
   USAGE = 'USAGE',                            // Credits spent by usage

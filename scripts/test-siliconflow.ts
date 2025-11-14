@@ -1,15 +1,17 @@
 #!/usr/bin/env node
+import path from 'path';
 /**
  * 测试硅基流动API连接
  */
 import { config as loadEnv } from 'dotenv';
-import path from 'path';
 
 loadEnv({ path: path.resolve(process.cwd(), '.env.local') });
 
 async function testSiliconFlow() {
-  const apiKey = process.env.SILICONFLOW_API_KEY || process.env.EMBEDDING_API_KEY;
-  const baseURL = process.env.SILICONFLOW_BASE_URL || process.env.EMBEDDING_BASE_URL;
+  const apiKey =
+    process.env.SILICONFLOW_API_KEY || process.env.EMBEDDING_API_KEY;
+  const baseURL =
+    process.env.SILICONFLOW_BASE_URL || process.env.EMBEDDING_BASE_URL;
   const model = process.env.EMBEDDING_MODEL || 'BAAI/bge-m3';
 
   console.log('🔍 测试硅基流动API配置:\n');
@@ -22,7 +24,7 @@ async function testSiliconFlow() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: model,

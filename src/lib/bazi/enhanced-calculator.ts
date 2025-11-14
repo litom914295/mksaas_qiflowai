@@ -376,7 +376,7 @@ export class EnhancedBaziCalculator {
         const period = pillar.number;
         const ageStart = pillar.ageStart || 0;
         const ageRangeKey = `${ageStart}`;
-        
+
         // 过滤重复的period或重复的年龄范围
         // 如果起运年龄为0，且已经有一个0-9岁的大运，则跳过后续的重复大运
         if (!seenPeriods.has(period) && !seenAgeRanges.has(ageRangeKey)) {

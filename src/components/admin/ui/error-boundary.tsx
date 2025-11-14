@@ -52,7 +52,9 @@ export default function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
           </Button>
           <Button
             variant="outline"
-            onClick={() => (window.location.href = '/')}
+            onClick={() => {
+              window.location.href = '/';
+            }}
             className="flex-1"
           >
             <Home className="mr-2 h-4 w-4" />
@@ -80,7 +82,9 @@ export function NotFound() {
         </CardContent>
         <CardFooter>
           <Button
-            onClick={() => (window.location.href = '/')}
+            onClick={() => {
+              window.location.href = '/';
+            }}
             className="w-full"
           >
             <Home className="mr-2 h-4 w-4" />

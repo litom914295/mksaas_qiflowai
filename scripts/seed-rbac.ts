@@ -345,7 +345,7 @@ async function seedRBAC() {
 
   if (adminUsers.length > 0) {
     const adminUser = adminUsers[0];
-    const superAdminRole = createdRoles['super_admin'];
+    const superAdminRole = createdRoles.super_admin;
 
     // 检查是否已分配
     const existing = await db

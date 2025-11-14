@@ -1,10 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Select,
   SelectContent,
@@ -12,31 +16,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
 import {
-  Coins,
-  BookOpen,
-  Heart,
   AlertTriangle,
-  Star,
-  Users,
+  BookOpen,
   Calendar,
+  Coins,
+  Heart,
   Info,
   MapPin,
   Sparkles,
+  Star,
+  Users,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 // 宫位类型
 export type Palace = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 // 关键位置类型
-export type KeyPositionType = 
-  | 'wealth'      // 财位
-  | 'wenchang'    // 文昌位
-  | 'peach'       // 桃花位
-  | 'illness'     // 病位
-  | 'wuhuang'     // 五黄位
-  | 'nobleman';   // 贵人位
+export type KeyPositionType =
+  | 'wealth' // 财位
+  | 'wenchang' // 文昌位
+  | 'peach' // 桃花位
+  | 'illness' // 病位
+  | 'wuhuang' // 五黄位
+  | 'nobleman'; // 贵人位
 
 // 时间维度
 export type TimeDimension = 'annual' | 'monthly' | 'personal';
@@ -147,13 +153,19 @@ export function PalaceGridVisualizer({
   onRemedyClick,
   className,
 }: PalaceGridVisualizerProps) {
-  const [selectedTimeDimension, setSelectedTimeDimension] = useState<TimeDimension>('annual');
-  const [selectedPositionType, setSelectedPositionType] = useState<KeyPositionType | 'all'>('all');
+  const [selectedTimeDimension, setSelectedTimeDimension] =
+    useState<TimeDimension>('annual');
+  const [selectedPositionType, setSelectedPositionType] = useState<
+    KeyPositionType | 'all'
+  >('all');
   const [selectedPalace, setSelectedPalace] = useState<Palace | null>(null);
 
   // 筛选关键位置
-  const filteredPositions = keyPositions.filter(pos => {
-    if (selectedTimeDimension !== 'personal' && pos.timeDimension !== selectedTimeDimension) {
+  const filteredPositions = keyPositions.filter((pos) => {
+    if (
+      selectedTimeDimension !== 'personal' &&
+      pos.timeDimension !== selectedTimeDimension
+    ) {
       return false;
     }
     if (selectedPositionType !== 'all' && pos.type !== selectedPositionType) {
@@ -165,7 +177,7 @@ export function PalaceGridVisualizer({
   // 获取宫位的关键位置
   const getPalacePositions = (palace: Palace): KeyPositionType[] => {
     const positions: KeyPositionType[] = [];
-    filteredPositions.forEach(pos => {
+    filteredPositions.forEach((pos) => {
       if (pos.palaces.includes(palace)) {
         positions.push(pos.type);
       }
@@ -175,7 +187,7 @@ export function PalaceGridVisualizer({
 
   // 获取宫位详情
   const getPalaceDetail = (palace: Palace): PalaceDetail | undefined => {
-    return palaceDetails.find(p => p.palace === palace);
+    return palaceDetails.find((p) => p.palace === palace);
   };
 
   // 渲染宫位单元格
@@ -199,7 +211,9 @@ export function PalaceGridVisualizer({
           'flex flex-col items-center justify-center gap-2',
           'min-h-[140px]',
           isSelected ? 'ring-2 ring-primary ring-offset-2' : '',
-          detail.isAuspicious ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
+          detail.isAuspicious
+            ? 'bg-green-50 border-green-200'
+            : 'bg-red-50 border-red-200'
         )}
       >
         {/* 宫位号和方位 */}
@@ -229,7 +243,7 @@ export function PalaceGridVisualizer({
         {/* 关键位置标记 */}
         {positions.length > 0 && (
           <div className="flex flex-wrap gap-1 justify-center">
-            {positions.map(posType => {
+            {positions.map((posType) => {
               const config = POSITION_CONFIG[posType];
               const Icon = config.icon;
               return (
@@ -247,7 +261,10 @@ export function PalaceGridVisualizer({
 
         {/* 评分 */}
         <div className="absolute top-2 right-2">
-          <Badge variant={detail.score >= 70 ? 'default' : 'secondary'} className="text-xs">
+          <Badge
+            variant={detail.score >= 70 ? 'default' : 'secondary'}
+            className="text-xs"
+          >
             {detail.score}
           </Badge>
         </div>
@@ -263,7 +280,9 @@ export function PalaceGridVisualizer({
   };
 
   // 选中宫位的详情
-  const selectedDetail = selectedPalace ? getPalaceDetail(selectedPalace) : null;
+  const selectedDetail = selectedPalace
+    ? getPalaceDetail(selectedPalace)
+    : null;
 
   return (
     <div className={cn('space-y-6', className)}>
@@ -275,9 +294,7 @@ export function PalaceGridVisualizer({
                 <MapPin className="h-5 w-5" />
                 九宫格位置标注
               </CardTitle>
-              <CardDescription>
-                可视化展示风水关键位置分布
-              </CardDescription>
+              <CardDescription>可视化展示风水关键位置分布</CardDescription>
             </div>
           </div>
 
@@ -286,7 +303,12 @@ export function PalaceGridVisualizer({
             {/* 时间维度 */}
             <div className="space-y-2">
               <label className="text-sm font-medium">时间维度</label>
-              <Select value={selectedTimeDimension} onValueChange={(v) => setSelectedTimeDimension(v as TimeDimension)}>
+              <Select
+                value={selectedTimeDimension}
+                onValueChange={(v) =>
+                  setSelectedTimeDimension(v as TimeDimension)
+                }
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -316,7 +338,12 @@ export function PalaceGridVisualizer({
             {/* 位置类型 */}
             <div className="space-y-2">
               <label className="text-sm font-medium">位置类型</label>
-              <Select value={selectedPositionType} onValueChange={(v) => setSelectedPositionType(v as KeyPositionType | 'all')}>
+              <Select
+                value={selectedPositionType}
+                onValueChange={(v) =>
+                  setSelectedPositionType(v as KeyPositionType | 'all')
+                }
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -341,7 +368,10 @@ export function PalaceGridVisualizer({
             <div className="space-y-2">
               <label className="text-sm font-medium">图例</label>
               <div className="flex flex-wrap gap-2">
-                <Badge variant="outline" className="bg-green-50 border-green-200">
+                <Badge
+                  variant="outline"
+                  className="bg-green-50 border-green-200"
+                >
                   吉位
                 </Badge>
                 <Badge variant="outline" className="bg-red-50 border-red-200">
@@ -356,17 +386,28 @@ export function PalaceGridVisualizer({
           {/* 九宫格 */}
           <div className="grid grid-cols-3 gap-3 mb-6">
             {/* 排列顺序: 4 9 2 / 3 5 7 / 8 1 6 (洛书顺序) */}
-            {[4, 9, 2, 3, 5, 7, 8, 1, 6].map(palace => renderPalaceCell(palace as Palace))}
+            {[4, 9, 2, 3, 5, 7, 8, 1, 6].map((palace) =>
+              renderPalaceCell(palace as Palace)
+            )}
           </div>
 
           {/* 关键位置统计 */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {Object.entries(POSITION_CONFIG).map(([key, config]) => {
               const Icon = config.icon;
-              const count = filteredPositions.filter(p => p.type === key).length;
-              
+              const count = filteredPositions.filter(
+                (p) => p.type === key
+              ).length;
+
               return (
-                <div key={key} className={cn('p-3 rounded-lg border', config.bgColor, config.borderColor)}>
+                <div
+                  key={key}
+                  className={cn(
+                    'p-3 rounded-lg border',
+                    config.bgColor,
+                    config.borderColor
+                  )}
+                >
                   <div className="flex items-center gap-2 mb-1">
                     <Icon className={cn('h-4 w-4', config.color)} />
                     <span className="text-sm font-medium">{config.label}</span>
@@ -400,13 +441,21 @@ export function PalaceGridVisualizer({
               <TabsContent value="info" className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">吉凶性质</p>
-                    <Badge variant={selectedDetail.isAuspicious ? 'default' : 'destructive'}>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      吉凶性质
+                    </p>
+                    <Badge
+                      variant={
+                        selectedDetail.isAuspicious ? 'default' : 'destructive'
+                      }
+                    >
                       {selectedDetail.isAuspicious ? '吉位' : '凶位'}
                     </Badge>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">综合评分</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      综合评分
+                    </p>
                     <p className="text-2xl font-bold">{selectedDetail.score}</p>
                   </div>
                 </div>
@@ -414,14 +463,18 @@ export function PalaceGridVisualizer({
                 {selectedDetail.mountainStar && (
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">山星</p>
-                    <Badge className="bg-blue-100 text-blue-800">{selectedDetail.mountainStar}</Badge>
+                    <Badge className="bg-blue-100 text-blue-800">
+                      {selectedDetail.mountainStar}
+                    </Badge>
                   </div>
                 )}
 
                 {selectedDetail.facingStar && (
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">向星</p>
-                    <Badge className="bg-purple-100 text-purple-800">{selectedDetail.facingStar}</Badge>
+                    <Badge className="bg-purple-100 text-purple-800">
+                      {selectedDetail.facingStar}
+                    </Badge>
                   </div>
                 )}
               </TabsContent>
@@ -429,23 +482,40 @@ export function PalaceGridVisualizer({
               {/* 关键位置 */}
               <TabsContent value="positions" className="space-y-3">
                 {selectedDetail.keyPositions.length > 0 ? (
-                  selectedDetail.keyPositions.map(posType => {
+                  selectedDetail.keyPositions.map((posType) => {
                     const config = POSITION_CONFIG[posType];
                     const Icon = config.icon;
-                    const position = filteredPositions.find(p => 
-                      p.type === posType && p.palaces.includes(selectedPalace!)
+                    const position = filteredPositions.find(
+                      (p) =>
+                        p.type === posType &&
+                        p.palaces.includes(selectedPalace!)
                     );
 
                     return (
-                      <div key={posType} className={cn('p-4 rounded-lg border', config.bgColor, config.borderColor)}>
+                      <div
+                        key={posType}
+                        className={cn(
+                          'p-4 rounded-lg border',
+                          config.bgColor,
+                          config.borderColor
+                        )}
+                      >
                         <div className="flex items-start gap-3">
-                          <Icon className={cn('h-5 w-5 mt-0.5', config.color)} />
+                          <Icon
+                            className={cn('h-5 w-5 mt-0.5', config.color)}
+                          />
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-2">
-                              <span className="font-medium">{config.label}</span>
+                              <span className="font-medium">
+                                {config.label}
+                              </span>
                               {position && (
                                 <Badge variant="outline" className="text-xs">
-                                  {position.strength === 'strong' ? '强' : position.strength === 'medium' ? '中' : '弱'}
+                                  {position.strength === 'strong'
+                                    ? '强'
+                                    : position.strength === 'medium'
+                                      ? '中'
+                                      : '弱'}
                                 </Badge>
                               )}
                             </div>
@@ -466,16 +536,22 @@ export function PalaceGridVisualizer({
 
               {/* 化解方案 */}
               <TabsContent value="remedy" className="space-y-3">
-                {selectedDetail.keyPositions.some(p => ['illness', 'wuhuang'].includes(p)) ? (
+                {selectedDetail.keyPositions.some((p) =>
+                  ['illness', 'wuhuang'].includes(p)
+                ) ? (
                   <div className="space-y-3">
                     {filteredPositions
-                      .filter(pos => 
-                        pos.palaces.includes(selectedPalace!) && 
-                        pos.remedySuggestions && 
-                        pos.remedySuggestions.length > 0
+                      .filter(
+                        (pos) =>
+                          pos.palaces.includes(selectedPalace!) &&
+                          pos.remedySuggestions &&
+                          pos.remedySuggestions.length > 0
                       )
                       .map((pos, index) => (
-                        <div key={index} className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <div
+                          key={index}
+                          className="p-4 bg-blue-50 rounded-lg border border-blue-200"
+                        >
                           <p className="font-medium text-sm mb-2 flex items-center gap-2">
                             <Sparkles className="h-4 w-4 text-blue-600" />
                             {POSITION_CONFIG[pos.type].label}化解建议
@@ -486,10 +562,9 @@ export function PalaceGridVisualizer({
                             ))}
                           </ul>
                         </div>
-                      ))
-                    }
-                    <Button 
-                      className="w-full" 
+                      ))}
+                    <Button
+                      className="w-full"
                       onClick={() => onRemedyClick?.(selectedPalace!)}
                     >
                       查看详细化解方案
