@@ -286,22 +286,27 @@ export function HeroWithForm() {
   // 提交表单
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('[表单提交] 开始提交', { formData, canSubmit, isSubmitting });
 
     if (!canSubmit) {
+      console.log('[表单提交] 验证失败，缺少必填项');
       alert(t('alertFillRequired'));
       return;
     }
 
     // 防止重复提交
     if (isSubmitting) {
+      console.log('[表单提交] 正在提交中，跳过');
       return;
     }
 
     setIsSubmitting(true);
+    console.log('[表单提交] 设置提交状态为true');
 
     try {
       // 转换为旧格式的日期和时间
-      const birthDate = `${formData.birthYear}-${formData.birthMonth.padStart(2, '0')}-${formData.birthDay.padStart(2, '0')}`;
+      const birthDate = `${formData.birthYear}-${String(formData.birthMonth).padStart(2, '0')}-${String(formData.birthDay).padStart(2, '0')}`;
+      console.log('[表单提交] 生成日期:', birthDate);
       let birthTime = '';
 
       if (formData.timeOfDay === 'exact' && formData.exactTime) {
@@ -345,8 +350,11 @@ export function HeroWithForm() {
         house: persistedHouse,
       };
 
+      console.log('[表单提交] 准备保存数据:', reportData);
+
       // 保存到 sessionStorage 和 localStorage
       sessionStorage.setItem('analysisFormData', JSON.stringify(reportData));
+      console.log('[表单提交] 数据已保存到sessionStorage');
 
       try {
         const existingHistory = localStorage.getItem('formHistory') || '[]';
@@ -361,10 +369,12 @@ export function HeroWithForm() {
       }
 
       // 跳转到报告页面（不在URL中传递数据，使用sessionStorage）
+      console.log('[表单提交] 准备跳转到/report');
       router.push('/report');
+      console.log('[表单提交] router.push已调用');
     } catch (error) {
       // 如果出错，重置提交状态
-      console.error('提交失败:', error);
+      console.error('[表单提交] 提交失败:', error);
       setIsSubmitting(false);
       alert(tForm('submitError') || '提交失败，请重试');
     }
