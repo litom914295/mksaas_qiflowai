@@ -21,6 +21,7 @@ import type {
   HopeTimeline,
   LifeThemeStage,
   LuckPillar,
+  PalaceIndex,
   PatternAnalysis,
   ReportOutputV22,
   StrategyMapping,
@@ -912,22 +913,22 @@ export const mapFengshuiToChecklist: FengshuiToChecklistMapper = (
   recommendations,
   reversedCheck,
   timeChange
-) => {
+): FengshuiChecklist => {
   // TODO: 实际实现需根据 lingzhengAnalysis 结构调整
 
   const { zeroGodPalaces, positiveGodPalaces } = lingzhengAnalysis;
 
   // 1. 水位布置
   const waterPlacement = {
-    favorablePalaces: zeroGodPalaces || [1, 4],
-    unfavorablePalaces: positiveGodPalaces || [6, 8],
+    favorablePalaces: (Array.isArray(zeroGodPalaces) ? zeroGodPalaces : [1, 4]) as PalaceIndex[],
+    unfavorablePalaces: (Array.isArray(positiveGodPalaces) ? positiveGodPalaces : [6, 8]) as PalaceIndex[],
     actions: generateWaterActions(zeroGodPalaces as number[], positiveGodPalaces as number[]),
   };
 
   // 2. 山位布置
   const mountainPlacement = {
-    favorablePalaces: positiveGodPalaces || [6, 8],
-    unfavorablePalaces: zeroGodPalaces || [1, 4],
+    favorablePalaces: (Array.isArray(positiveGodPalaces) ? positiveGodPalaces : [6, 8]) as PalaceIndex[],
+    unfavorablePalaces: (Array.isArray(zeroGodPalaces) ? zeroGodPalaces : [1, 4]) as PalaceIndex[],
     actions: generateMountainActions(positiveGodPalaces as number[], zeroGodPalaces as number[]),
   };
 
@@ -938,10 +939,13 @@ export const mapFengshuiToChecklist: FengshuiToChecklistMapper = (
   ];
 
   // 4. 运转变更建议
+  const riskLevelValue = typeof timeChange?.riskLevel === 'string' && ['high', 'medium', 'low'].includes(timeChange.riskLevel) 
+    ? timeChange.riskLevel 
+    : 'medium';
   const timeChangeAdvice = {
-    transitionAdvice: timeChange?.advice || ['2024年进入9运，需调整布局'],
-    riskLevel: timeChange?.riskLevel || ('medium' as const),
-    riskDescription: timeChange?.description || '运转交替期，需尽快适配',
+    transitionAdvice: Array.isArray(timeChange?.advice) ? timeChange.advice : ['2024年进入9运，需调整布局'],
+    riskLevel: riskLevelValue as 'high' | 'medium' | 'low',
+    riskDescription: (typeof timeChange?.description === 'string' ? timeChange.description : '运转交替期，需尽快适配'),
   };
 
   // 5. 零正审计（增强版）

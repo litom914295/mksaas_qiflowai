@@ -466,6 +466,69 @@ export function HeroWithForm() {
     }
   };
 
+  // 生成v2.2专业报告
+  const handleGenerateReport = async () => {
+    if (!canSubmit) {
+      alert(t('alertFillRequired'));
+      return;
+    }
+
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    try {
+      // 准备报告数据
+      const birthDate = `${formData.birthYear}-${String(formData.birthMonth).padStart(2, '0')}-${String(formData.birthDay).padStart(2, '0')}`;
+      let birthTime = '';
+
+      if (formData.timeOfDay === 'exact' && formData.exactTime) {
+        birthTime = formData.exactTime;
+      } else {
+        birthTime = getDefaultTimeForSimplePeriod(formData.timeOfDay);
+      }
+
+      const degreeNum = Number(houseInfo.directionDegree);
+      const requestBody = {
+        personal: {
+          name: formData.name,
+          gender: formData.gender,
+          birthDate,
+          birthTime,
+          birthCity: formData.birthCity || '',
+        },
+        house: showHouseInfo
+          ? {
+              direction: houseInfo.direction || getCoarseDirectionLabel(degreeNum) || '',
+              directionDegree: Number.isNaN(degreeNum) ? undefined : degreeNum,
+            }
+          : undefined,
+        userContext: {},
+      };
+
+      // 调用v2.2报告生成API
+      const response = await fetch('/api/reports/v2-2/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.viewUrl) {
+        // 在新窗口打开报告
+        window.open(result.viewUrl, '_blank');
+      } else {
+        throw new Error(result.error || '生成报告失败');
+      }
+    } catch (error) {
+      console.error('生成报告失败:', error);
+      alert('生成报告失败，请重试');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-muted/20 to-background">
       {/* 背景装饰 */}
@@ -1292,10 +1355,7 @@ export function HeroWithForm() {
                     <Button
                       type="button"
                       disabled={!canSubmit || isSubmitting}
-                      onClick={() => {
-                        // TODO: 实现生成报告逻辑
-                        console.log('生成报告');
-                      }}
+                      onClick={handleGenerateReport}
                       variant="outline"
                       className="h-11 text-base font-semibold border-2 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
