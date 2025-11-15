@@ -268,7 +268,6 @@ ${context}
         retrievalTimeMs: data.retrievalTimeMs,
         generationTimeMs: data.generationTimeMs,
         totalTokens: data.totalTokens,
-        totalTimeMs: data.retrievalTimeMs + data.generationTimeMs,
       });
     } catch (error) {
       // 日志记录失败不影响主流程

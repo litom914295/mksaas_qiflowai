@@ -35,6 +35,7 @@ import {
   ChevronDown,
   Clock,
   Compass,
+  FileText,
   Home as HomeIcon,
   MapPin,
   RotateCcw,
@@ -932,11 +933,11 @@ export function HeroWithForm() {
                       >
                         <div className="space-y-2">
                           {/* 房屋朝向度数和罗盘 + 跟随开关 */}
-                          <div className="space-y-1">
+                          <div className="space-y-2">
                             <div className="flex items-center justify-between gap-2">
                               <Label className="text-xs flex items-center gap-1.5 font-medium">
                                 <Compass className="w-3.5 h-3.5 text-primary" />
-                                二十四山
+                                房屋朝向
                               </Label>
                               {/* 跟随罗盘开关 - 紧凑版 */}
                               <div className="flex items-center gap-1.5">
@@ -954,8 +955,10 @@ export function HeroWithForm() {
                                 />
                               </div>
                             </div>
-                            <div className="flex gap-1.5">
-                              {/* 24山下拉，与度数联动 */}
+                            
+                            {/* 24山下拉、度数输入、罗盘按钮 - 同一行 */}
+                            <div className="flex items-center gap-2">
+                              {/* 24山下拉 */}
                               <Select
                                 value={
                                   houseInfo.directionDegree
@@ -972,8 +975,8 @@ export function HeroWithForm() {
                                   }
                                 }}
                               >
-                                <SelectTrigger className="h-8 text-sm w-[100px] px-2">
-                                  <SelectValue placeholder={houseInfo.sittingFacingLabel || '坐山向'} />
+                                <SelectTrigger className="h-9 text-sm w-[100px] px-2">
+                                  <SelectValue placeholder="选择坐山" />
                                 </SelectTrigger>
                                 <SelectContent className="max-h-[260px]">
                                   {TWENTY_FOUR_MOUNTAINS.map((m) => {
@@ -989,108 +992,63 @@ export function HeroWithForm() {
                                 </SelectContent>
                               </Select>
 
-                              {/* 度数输入，与24山和罗盘联动 */}
-                              <div className="flex-1">
-                                <Label className="text-[11px] text-muted-foreground mb-1 block">{tForm('degree')}</Label>
-                                <div className="relative">
-                                  <Input
-                                    type="number"
-                                    placeholder="输入角度"
-                                    value={houseInfo.directionDegree || ''}
-                                    onChange={(e) =>
-                                      handleHouseChange(
-                                        'directionDegree',
-                                        e.target.value
-                                      )
-                                    }
-                                    onBlur={handleDegreeBlur}
-                                    min="0"
-                                    max="360"
-                                    className="h-8 text-sm px-3 pr-8 border-primary/30 focus:border-primary"
-                                  />
-                                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
-                                    °
-                                  </span>
-                                </div>
+                              {/* 度数输入 */}
+                              <div className="relative flex-1">
+                                <Input
+                                  type="number"
+                                  placeholder="度数"
+                                  value={houseInfo.directionDegree || ''}
+                                  onChange={(e) =>
+                                    handleHouseChange(
+                                      'directionDegree',
+                                      e.target.value
+                                    )
+                                  }
+                                  onBlur={handleDegreeBlur}
+                                  min="0"
+                                  max="360"
+                                  className="h-9 text-sm px-3 pr-8 border-primary/30 focus:border-primary"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
+                                  °
+                                </span>
                               </div>
 
-                              {/* 罗盘按钮（最右侧） */}
+                              {/* 罗盘按钮 */}
                               <Button
                                 type="button"
                                 variant="outline"
                                 size="sm"
                                 onClick={() => setCompassOpen(true)}
-                                className="h-8 px-2.5 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all group"
+                                className="h-9 px-3 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all group"
                                 title="打开罗盘定位"
                               >
                                 <Compass className="w-4 h-4 text-primary group-hover:rotate-45 transition-transform" />
-                                <span className="ml-1 text-xs font-medium">
-                                  打开罗盘
+                                <span className="ml-1.5 text-xs font-medium">
+                                  罗盘
                                 </span>
                               </Button>
                             </div>
-                            <p className="text-xs text-muted-foreground flex items-center gap-1">
-                              <span className="inline-block w-1 h-1 rounded-full bg-primary/60" />
-                              0° 正北 | 90° 正东 | 180° 正南 | 270° 正西
-                            </p>
-                          </div>
 
-                          {/* 坐山朝向显示 */}
-                          {(houseInfo.directionDegree ||
-                            houseInfo.sittingMountain ||
-                            houseInfo.facingMountain) && (
-                            <div className="p-2.5 bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-lg">
-                              <div className="flex flex-wrap gap-1.5">
-                                {houseInfo.directionDegree && (
-                                  <Badge
-                                    variant="secondary"
-                                    className="h-6 px-2.5 text-xs font-medium bg-primary/10 text-primary border-primary/30"
-                                  >
-                                    <Compass className="w-3 h-3 mr-1" />
-                                    {houseInfo.directionDegree}°
-                                  </Badge>
-                                )}
-                                {houseInfo.sittingMountain && (
-                                  <Badge
-                                    variant="outline"
-                                    className="h-6 px-2.5 text-xs font-medium border-primary/30"
-                                  >
-                                    坐:{' '}
-                                    <span className="ml-0.5 font-bold text-primary">
-                                      {houseInfo.sittingMountain}
-                                    </span>
-                                  </Badge>
-                                )}
-                                {houseInfo.facingMountain && (
-                                  <Badge
-                                    variant="outline"
-                                    className="h-6 px-2.5 text-xs font-medium border-primary/30"
-                                  >
-                                    向:{' '}
-                                    <span className="ml-0.5 font-bold text-primary">
-                                      {houseInfo.facingMountain}
-                                    </span>
-                                  </Badge>
-                                )}
+                            {/* 合并后的信息显示 - 精简版 */}
+                            {houseInfo.directionDegree && (
+                              <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
+                                <span className="flex items-center gap-1">
+                                  <span className="inline-block w-1 h-1 rounded-full bg-primary/60" />
+                                  {houseInfo.directionDegree}° ({
+                                    getCoarseDirectionLabel(
+                                      Number(houseInfo.directionDegree)
+                                    )
+                                  }方向)
+                                </span>
                                 {houseInfo.sittingFacingLabel && (
-                                  <Badge
-                                    variant="default"
-                                    className="h-6 px-2.5 text-xs font-semibold bg-gradient-to-r from-primary to-primary/80 shadow-sm"
-                                  >
+                                  <span className="font-medium text-primary">
                                     {houseInfo.sittingFacingLabel}
-                                  </Badge>
+                                  </span>
                                 )}
                               </div>
-                              {houseInfo.directionDegree && (
-                                <p className="text-xs text-primary/70 mt-1.5 flex items-center gap-1">
-                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
-                                  {getCoarseDirectionLabel(
-                                    Number(houseInfo.directionDegree)
-                                  )}
-                                </p>
-                              )}
-                            </div>
-                          )}
+                            )}
+                          </div>
 
                           {/* 手动选择（关闭跟随时） */}
                           {!autoFollowCompass && (
@@ -1287,51 +1245,65 @@ export function HeroWithForm() {
                     )}
                   </div>
 
-                  {/* 提交按钮 */}
-                  <Button
-                    type="submit"
-                    disabled={!canSubmit || isSubmitting}
-                    className="w-full h-11 text-base font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <motion.div
-                          className="absolute inset-0 bg-primary/20"
-                          animate={{
-                            x: ['-100%', '100%'],
-                          }}
-                          transition={{
-                            duration: 1,
-                            repeat: Number.POSITIVE_INFINITY,
-                            ease: 'linear',
-                          }}
-                        />
-                        <div className="relative flex items-center gap-2">
+                  {/* 提交按钮区域 */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* 开始分析按钮 */}
+                    <Button
+                      type="submit"
+                      disabled={!canSubmit || isSubmitting}
+                      className="h-11 text-base font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                    >
+                      {isSubmitting ? (
+                        <>
                           <motion.div
-                            animate={{ rotate: 360 }}
+                            className="absolute inset-0 bg-primary/20"
+                            animate={{
+                              x: ['-100%', '100%'],
+                            }}
                             transition={{
                               duration: 1,
                               repeat: Number.POSITIVE_INFINITY,
                               ease: 'linear',
                             }}
-                          >
-                            <Sparkles className="w-4 h-4" />
-                          </motion.div>
-                          <span>正在分析...</span>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-4 h-4 mr-2" />
-                        {tForm('submitButton')}
-                      </>
-                    )}
-                  </Button>
+                          />
+                          <div className="relative flex items-center gap-2">
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{
+                                duration: 1,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: 'linear',
+                              }}
+                            >
+                              <Sparkles className="w-4 h-4" />
+                            </motion.div>
+                            <span>正在分析...</span>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4 mr-2" />
+                          {tForm('submitButton')}
+                        </>
+                      )}
+                    </Button>
 
-                  {/* 提示文本 */}
-                  <p className="text-xs text-center text-muted-foreground">
-                    {tForm('bottomHint')}
-                  </p>
+                    {/* 生成报告按钮 */}
+                    <Button
+                      type="button"
+                      disabled={!canSubmit || isSubmitting}
+                      onClick={() => {
+                        // TODO: 实现生成报告逻辑
+                        console.log('生成报告');
+                      }}
+                      variant="outline"
+                      className="h-11 text-base font-semibold border-2 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <FileText className="w-4 h-4 mr-2" />
+                      生成报告
+                    </Button>
+                  </div>
+
                 </form>
 
                 {/* 信任标记 - 移动端 */}

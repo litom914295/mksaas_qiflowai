@@ -209,7 +209,7 @@ export class VectorSearchService {
         {} as Record<DocumentCategoryType, number>
       );
 
-      const totalDocuments = Object.values(byCategory).reduce(
+      const totalDocuments = (Object.values(byCategory) as number[]).reduce(
         (sum: number, count: number) => sum + count,
         0
       );

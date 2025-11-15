@@ -136,7 +136,7 @@ export class UnifiedFengshuiEngine {
           urgency: issue.urgency,
           title: issue.title,
           description: issue.description,
-          location: issue.location,
+          location: Array.isArray(issue.location) ? issue.location.join(', ') : issue.location,
           impact: issue.impact,
           consequences: issue.consequences,
           recommendations: [] as string[], // 可以从xuankong 的 smartRecommendations 中提取
