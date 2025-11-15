@@ -468,14 +468,20 @@ export function HeroWithForm() {
 
   // 生成v2.2专业报告
   const handleGenerateReport = async () => {
-    if (!canSubmit) {
-      alert(t('alertFillRequired'));
+    // 优先检查是否正在提交，避免重复点击
+    if (isSubmitting) {
+      console.log('[Generate Report] 已在生成中，忽略重复点击');
       return;
     }
 
-    if (isSubmitting) return;
+    if (!canSubmit) {
+      alert(t('alertFillRequired') || '请填写所有必填项');
+      return;
+    }
 
+    // 立即设置提交状态，防止重复点击
     setIsSubmitting(true);
+    console.log('[Generate Report] 开始生成报告...');
 
     try {
       // 准备报告数据
@@ -506,24 +512,52 @@ export function HeroWithForm() {
         userContext: {},
       };
 
+      // 将数据保存到 sessionStorage，便于登录后继续
+      try {
+        sessionStorage.setItem('analysisFormData', JSON.stringify({ personal: requestBody.personal, house: requestBody.house }));
+      } catch {}
+
       // 调用v2.2报告生成API
+      console.log('[Generate Report] 发送请求:', requestBody);
       const response = await fetch('/api/reports/v2-2/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody),
       });
 
+      console.log('[Generate Report] 响应状态:', response.status);
+      if (response.status === 401) {
+        // 未登录：跳转到登录，回调返回当前页面
+        const callbackUrl = encodeURIComponent(window.location.pathname);
+        // 使用本地化路由器，确保语言前缀正确
+        router.push(`/login?callbackUrl=${callbackUrl}`);
+        return;
+      }
+
       const result = await response.json();
+      console.log('[Generate Report] 响应数据:', result);
 
       if (result.success && result.viewUrl) {
-        // 在新窗口打开报告
-        window.open(result.viewUrl, '_blank');
+        // 使用路由器导航到报告页面，避免浏览器阻止弹窗
+        console.log('[Generate Report] 报告生成成功，准备跳转到:', result.viewUrl);
+        console.log('[Generate Report] (next-intl router will add locale prefix automatically)');
+        router.push(result.viewUrl);
+        // 使用 router.push 自动处理locale
+        router.push(result.viewUrl);
       } else {
-        throw new Error(result.error || '生成报告失败');
+        // 安全地提取错误信息
+        const errorMsg = typeof result.error === 'string' 
+          ? result.error 
+          : result.error?.message || 'generate_failed';
+        throw new Error(errorMsg);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('生成报告失败:', error);
-      alert('生成报告失败，请重试');
+      // 安全地提取错误消息
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : (typeof error === 'string' ? error : '请重试');
+      alert(`生成报告失败：${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -757,6 +791,7 @@ export function HeroWithForm() {
                       </Label>
                       <Input
                         id="name"
+                        autoComplete="name"
                         placeholder={tForm('namePlaceholder')}
                         value={formData.name}
                         onChange={(e) => handleChange('name', e.target.value)}
@@ -806,6 +841,7 @@ export function HeroWithForm() {
                       </Label>
                       <Input
                         id="birthCity"
+                        autoComplete="address-level2"
                         placeholder={tForm('birthCityPlaceholder')}
                         value={formData.birthCity}
                         onChange={(e) =>
@@ -925,6 +961,7 @@ export function HeroWithForm() {
                       {/* 时间选择器 */}
                       <Input
                         type="time"
+                        autoComplete="off"
                         value={formData.exactTime}
                         onChange={(e) => {
                           handleChange('exactTime', e.target.value);
@@ -1059,6 +1096,7 @@ export function HeroWithForm() {
                               <div className="relative flex-1">
                                 <Input
                                   type="number"
+                                  autoComplete="off"
                                   placeholder="度数"
                                   value={houseInfo.directionDegree || ''}
                                   onChange={(e) =>
@@ -1266,6 +1304,7 @@ export function HeroWithForm() {
                                 {tForm('completionYear')}
                               </Label>
                               <Input
+                                autoComplete="off"
                                 placeholder={tForm('completionYearPlaceholder')}
                                 value={houseInfo.completionYear}
                                 onChange={(e) =>

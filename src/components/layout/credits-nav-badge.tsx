@@ -28,6 +28,12 @@ export function CreditsNavBadge() {
   const [credits, setCredits] = useState(0);
   const [isLow, setIsLow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // 确保组件已挂载，避免 hydration 不匹配
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // 获取积分余额
   useEffect(() => {
@@ -49,6 +55,11 @@ export function CreditsNavBadge() {
         });
     }
   }, [session, isPending]);
+
+  // 客户端未挂载时返回 null，避免 hydration 不匹配
+  if (!isMounted) {
+    return null;
+  }
 
   // 未登录不显示
   if (!session || isPending) {
@@ -141,6 +152,12 @@ export function CreditsNavBadgeCompact() {
   const { data: session, isPending } = authClient.useSession();
   const [credits, setCredits] = useState(0);
   const [isLow, setIsLow] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // 确保组件已挂载，避免 hydration 不匹配
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (session?.user && !isPending) {
@@ -157,6 +174,11 @@ export function CreditsNavBadgeCompact() {
         });
     }
   }, [session, isPending]);
+
+  // 客户端未挂载时返回 null，避免 hydration 不匹配
+  if (!isMounted) {
+    return null;
+  }
 
   if (!session || isPending) {
     return null;

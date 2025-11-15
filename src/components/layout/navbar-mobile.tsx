@@ -38,6 +38,12 @@ export function NavbarMobile({
   const localePathname = useLocalePathname();
   const { data: session, isPending } = authClient.useSession();
   const currentUser = session?.user;
+  
+  // 防止 hydration 不匹配
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleRouteChangeStart = () => {
@@ -81,7 +87,7 @@ export function NavbarMobile({
         {/* navbar right shows menu icon and user button */}
         <div className="flex items-center justify-end gap-4">
           {/* show user button if user is logged in */}
-          {isPending ? (
+          {!isMounted || isPending ? (
             <Skeleton className="size-8 border rounded-full" />
           ) : currentUser ? (
             <>

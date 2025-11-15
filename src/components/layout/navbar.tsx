@@ -52,6 +52,12 @@ export function Navbar({ scroll }: NavBarProps) {
   const currentUser = session?.user;
   const searchParams = useSearchParams();
   const abParam = searchParams?.get('ab');
+  
+  // 防止 hydration 不匹配：确保服务端和客户端初始渲染一致
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const getAbFromClient = () => {
     try {
       const m = document.cookie.match(/(?:^|; )ab_variant=([^;]+)/);
@@ -229,7 +235,7 @@ export function Navbar({ scroll }: NavBarProps) {
 
           {/* navbar right show sign in or user */}
           <div className="flex items-center gap-x-4">
-            {isPending ? (
+            {!isMounted || isPending ? (
               <Skeleton className="size-8 border rounded-full" />
             ) : currentUser ? (
               <>

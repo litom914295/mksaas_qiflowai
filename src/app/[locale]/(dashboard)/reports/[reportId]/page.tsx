@@ -7,6 +7,10 @@ import { and, eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
+// 确保这是一个动态路由
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 type Props = {
   params: Promise<{ reportId: string }>;
 };

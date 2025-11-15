@@ -37,36 +37,45 @@ export function PricingTable({
 
   // Get price plans with translations
   const pricePlans = usePricePlans();
-  const plans = Object.values(pricePlans);
+  const plans = Object.values(pricePlans || {});
 
   // Current plan ID for comparison
   const currentPlanId = currentPlan?.id || null;
 
+  // 安全检查：确保 plans 是数组
+  if (!Array.isArray(plans)) {
+    console.error('Plans is not an array:', plans);
+    return <div className="text-center p-4">Unable to load pricing plans</div>;
+  }
+
   // Filter plans into free, subscription and one-time plans
-  const freePlans = plans.filter((plan) => plan.isFree && !plan.disabled);
+  const freePlans = plans.filter((plan) => plan?.isFree && !plan?.disabled);
 
   const subscriptionPlans = plans.filter(
     (plan) =>
+      plan &&
       !plan.isFree &&
       !plan.disabled &&
-      plan.prices.some(
-        (price) => !price.disabled && price.type === PaymentTypes.SUBSCRIPTION
+      plan.prices?.some(
+        (price) => price && !price.disabled && price.type === PaymentTypes.SUBSCRIPTION
       )
   );
 
   const oneTimePlans = plans.filter(
     (plan) =>
+      plan &&
       !plan.isFree &&
       !plan.disabled &&
-      plan.prices.some(
-        (price) => !price.disabled && price.type === PaymentTypes.ONE_TIME
+      plan.prices?.some(
+        (price) => price && !price.disabled && price.type === PaymentTypes.ONE_TIME
       )
   );
 
   // Check if any plan has a monthly price option
   const hasMonthlyOption = subscriptionPlans.some((plan) =>
-    plan.prices.some(
+    plan?.prices?.some(
       (price) =>
+        price &&
         price.type === PaymentTypes.SUBSCRIPTION &&
         price.interval === PlanIntervals.MONTH
     )
@@ -74,8 +83,9 @@ export function PricingTable({
 
   // Check if any plan has a yearly price option
   const hasYearlyOption = subscriptionPlans.some((plan) =>
-    plan.prices.some(
+    plan?.prices?.some(
       (price) =>
+        price &&
         price.type === PaymentTypes.SUBSCRIPTION &&
         price.interval === PlanIntervals.YEAR
     )

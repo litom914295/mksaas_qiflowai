@@ -21,6 +21,12 @@ export function usePricePlans(): Record<string, PricePlan> {
   const priceConfig = websiteConfig.price;
   const plans: Record<string, PricePlan> = {};
 
+  // 安全检查：确保 priceConfig 和 plans 存在
+  if (!priceConfig || !priceConfig.plans) {
+    console.error('Price config or plans not found in websiteConfig');
+    return plans; // 返回空对象而不是 undefined
+  }
+
   // Add translated content to each plan
   if (priceConfig.plans.free) {
     plans.free = {
